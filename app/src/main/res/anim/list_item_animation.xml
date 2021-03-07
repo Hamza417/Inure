@@ -1,0 +1,22 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@android:integer/config_longAnimTime"
+    android:interpolator="@android:interpolator/decelerate_cubic"
+    android:shareInterpolator="true">
+
+    <translate
+        android:fromYDelta="250%"
+        android:toYDelta="0" />
+
+    <scale
+        android:fromXScale=".9"
+        android:fromYScale=".9"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1"
+        android:toYScale="1" />
+
+    <alpha
+        android:fromAlpha="0"
+        android:toAlpha="1" />
+
+</set>

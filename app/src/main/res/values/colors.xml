@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+      <color name="appAccent">#FF9800</color>
+      <color name="mainBackground">#ffffff</color>
+      <color name="edgeEffect">#f0f0f0</color>
+      <color name="statusBarColor">@color/mainBackground</color>
+      <color name="rippleColor">#E8E8E8</color>
+
+      <color name="textPrimary">#2B2B2B</color>
+      <color name="textSecondary">#5A5A5A</color>
+
+      <!-- App Icon -->
+      <color name="appIconColor">#CCCCCC</color>
+  </resources>

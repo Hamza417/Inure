@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="all_corner_radius">10dp</dimen>
+    <dimen name="button_size">40dp</dimen>
+</resources>
