@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@integer/animation_duration"
+    android:interpolator="@android:interpolator/decelerate_cubic"
+    android:shareInterpolator="true">
+
+    <scale
+        android:fromXScale="1"
+        android:fromYScale="1"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale=".9"
+        android:toYScale=".9" />
+
+    <alpha
+        android:fromAlpha="1"
+        android:toAlpha="0" />
+</set>

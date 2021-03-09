@@ -1,20 +1,26 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-  <!-- Base application theme. -->
-  <style name="Theme.Inure" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-      <!-- Primary brand color. -->
-      <item name="colorPrimary">@color/appAccent</item>
-      <item name="colorPrimaryVariant">@color/appAccent</item>
-      <item name="colorOnPrimary">@color/appAccent</item>
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.Inure" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/appAccent</item>
+        <item name="colorPrimaryVariant">@color/appAccent</item>
+        <item name="colorOnPrimary">@color/appAccent</item>
 
-      <!-- Status bar color. -->
-      <item name="android:statusBarColor">@color/statusBarColor</item>
-      <item name="android:navigationBarColor">@color/statusBarColor</item>
-      <item name="android:colorEdgeEffect">@color/appAccent</item>
-      <item name="android:windowLightStatusBar">true</item>
-      <item name="android:windowLightNavigationBar">true</item>
-      <!-- Customize your theme here. -->
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:navigationBarColor">@color/statusBarColor</item>
+        <item name="android:colorEdgeEffect">@color/appAccent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Customize your theme here. -->
 
-      <!-- Debug -->
-      <item name="android:keepScreenOn">true</item>
-  </style>
+        <!-- Debug -->
+        <item name="android:keepScreenOn">true</item>
+    </style>
+
+
+    <style name="PopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
 </resources>

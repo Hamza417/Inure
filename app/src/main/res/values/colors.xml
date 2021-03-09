@@ -8,6 +8,8 @@
 
       <color name="textPrimary">#2B2B2B</color>
       <color name="textSecondary">#5A5A5A</color>
+      <color name="textTertiary">#7A7A7A</color>
+      <color name="textBackground">#40FF9800</color>
 
       <!-- App Icon -->
       <color name="appIconColor">#CCCCCC</color>

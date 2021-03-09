@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@drawable/ripple"
+    android:background="@drawable/bg_ripple"
     android:orientation="horizontal"
     android:padding="5dp">
 
@@ -31,7 +31,7 @@
         android:textColor="@color/textPrimary"
         android:textSize="7pt"
         app:layout_constraintBottom_toTopOf="@+id/adapter_all_app_package_id"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/adapter_all_app_menu_button"
         app:layout_constraintStart_toEndOf="@id/adapter_all_app_icon"
         app:layout_constraintTop_toTopOf="@+id/adapter_all_app_icon"
         app:layout_constraintVertical_bias="0.0" />
@@ -48,15 +48,15 @@
         android:textColor="@color/textSecondary"
         android:textSize="5pt"
         app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/adapter_all_app_menu_button"
         app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_name" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/adapter_all_app_menu_button"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
-        android:background="@drawable/ripple_btn"
+        android:background="@drawable/bg_ripple_btn"
         android:layout_marginEnd="5dp"
         android:src="@drawable/ic_more_vert"
         app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_package_id"
