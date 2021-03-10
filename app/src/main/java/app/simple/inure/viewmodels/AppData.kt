@@ -11,24 +11,38 @@ import app.simple.inure.util.PackageUtils.getApplicationName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AppData(application: Application, private val savedStateHandle: SavedStateHandle) : AndroidViewModel(application) {
-    private val appData: MutableLiveData<MutableList<ApplicationInfo>> by lazy {
-        MutableLiveData<MutableList<ApplicationInfo>>().also {
+    private val appData: MutableLiveData<ArrayList<ApplicationInfo>> by lazy {
+        MutableLiveData<ArrayList<ApplicationInfo>>().also {
             loadAppData()
         }
     }
 
-    fun getAppData(): LiveData<MutableList<ApplicationInfo>> {
+    fun getAppData(): LiveData<ArrayList<ApplicationInfo>> {
         return appData
     }
 
     private fun loadAppData() {
         CoroutineScope(Dispatchers.Default).launch {
-            val apps = getApplication<Application>().applicationContext.packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-            apps.sortBy {
-                getApplicationName(getApplication<Application>().applicationContext, it)
+            val apps = getApplication<Application>().applicationContext.packageManager.getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
+
+            for(i in apps.indices) {
+                /**
+                 * [ApplicationInfo.name] is pretty useless anyway, so here
+                 * I am making it more meaningful and usable and this also
+                 * saves time from creating a new data model and refactoring whole
+                 * project
+                 */
+                apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
             }
+
+            apps.sortBy {
+                it.name.toUpperCase(Locale.ROOT)
+            }
+
             appData.postValue(apps)
         }
     }

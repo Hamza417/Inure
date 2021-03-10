@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Inure</string>
+    <string name="package_unknown">Unknown</string>
+    <string name="app_information">App Information</string>
+    <string name="launch">Launch</string>
+    <string name="kill">Kill</string>
+    <string name="warning_kill_system_app">Cannot kill a System app</string>
+    <string name="alert_app_killed">App has been killed</string>
+    <string name="uninstall">Uninstall</string>
 </resources>

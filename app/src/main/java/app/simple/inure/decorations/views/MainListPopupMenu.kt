@@ -1,12 +1,16 @@
 package app.simple.inure.decorations.views
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.content.pm.ApplicationInfo
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.PopupWindow
+import android.widget.TextView
 import app.simple.inure.R
+import app.simple.inure.interfaces.menu.PopupMenuCallback
 
 /**
  * A customised version of popup menu that uses [PopupWindow]
@@ -16,16 +20,29 @@ import app.simple.inure.R
  * window when appears. It is highly recommended to use this
  * and ditch popup menu entirely.
  */
-class CustomPopupWindow(contentView: View) : PopupWindow() {
+class MainListPopupMenu(contentView: View,
+        viewGroup: ViewGroup,
+        xOff: Float,
+        yOff: Float,
+        private val applicationInfo: ApplicationInfo,
+        private val icon: ImageView) : PopupWindow() {
+
+    lateinit var popupMenuCallback: PopupMenuCallback
 
     init {
         setContentView(contentView)
-        width = ViewGroup.LayoutParams.WRAP_CONTENT
-        height = ViewGroup.LayoutParams.WRAP_CONTENT
+        contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        width = contentView.measuredWidth
+        height = contentView.measuredHeight
         animationStyle = R.style.PopupAnimation
         isClippingEnabled = false
         isFocusable = true
         elevation = 100F
+
+        contentView.findViewById<TextView>(R.id.menu_launch).onClick()
+        contentView.findViewById<TextView>(R.id.menu_uninstall).onClick()
+        contentView.findViewById<TextView>(R.id.menu_kill).onClick()
+        contentView.findViewById<TextView>(R.id.menu_information).onClick()
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             overlapAnchor = false
@@ -35,6 +52,11 @@ class CustomPopupWindow(contentView: View) : PopupWindow() {
             setIsClippedToScreen(false)
             setIsLaidOutInScreen(true)
         }
+
+        //println("${xOff.toInt() - width / 2} & ${yOff.toInt() - height / 2}")
+
+        // TODO - fix vertical positioning issue when view is opened at the bottom of the screen
+        showAsDropDown(viewGroup, xOff.toInt() - width / 2, yOff.toInt() - height / 2, Gravity.NO_GRAVITY)
     }
 
     override fun showAsDropDown(anchor: View?, xoff: Int, yoff: Int, gravity: Int) {
@@ -42,20 +64,17 @@ class CustomPopupWindow(contentView: View) : PopupWindow() {
         dimBehind()
     }
 
-    override fun showAsDropDown(anchor: View?, xoff: Int, yoff: Int) {
-        super.showAsDropDown(anchor, xoff, yoff)
-        dimBehind()
-    }
-
-    override fun showAsDropDown(anchor: View?) {
-        super.showAsDropDown(anchor)
-        dimBehind()
+    private fun TextView.onClick() {
+        this.setOnClickListener {
+            popupMenuCallback.onMenuItemClicked(this.text.toString(), applicationInfo, icon)
+            dismiss()
+        }
     }
 
     /**
      * Dim the background when PopupWindow shows
      * Should be called from [showAsDropDown] function
-     * because this is when container parent is
+     * because this is when container's parent is
      * initialized
      */
     private fun dimBehind() {

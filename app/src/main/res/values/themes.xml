@@ -18,9 +18,34 @@
         <item name="android:keepScreenOn">true</item>
     </style>
 
-
     <style name="PopupAnimation">
         <item name="android:windowEnterAnimation">@anim/dialog_in</item>
         <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+
+    <style name="Widget.IndicatorFastScroll.FastScroller" parent="android:Widget">
+        <item name="fastScrollerIconSize">20dp</item>
+        <item name="fastScrollerIconColor">?android:textColorPrimary</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="fastScrollerTextPadding">@dimen/fast_scroller_default_text_padding</item>
+    </style>
+
+    <style name="Widget.IndicatorFastScroll.FastScrollerThumb" parent="android:Widget">
+        <item name="fastScrollerIconSize">24dp</item>
+        <item name="fastScrollerThumbColor">?colorPrimary</item>
+        <item name="fastScrollerIconColor">?android:textColorPrimaryInverse</item>
+        <item name="android:textAppearance">?android:textAppearance</item>
+        <item name="android:textColor">?android:textColorPrimaryInverse</item>
+    </style>
+
+    <style name="Widget.ShadowPlay" parent="@android:style/Widget" />
+
+    <style name="Widget.ShadowPlay.IconView">
+        <item name="constantShadowTranslationY">4dp</item>
+        <item name="variableShadowTranslationY">8dp</item>
+        <item name="scaleDown">0.85</item>
+        <item name="bigBlurRadius">25</item>
+        <item name="smallBlurRadius">8</item>
     </style>
 </resources>

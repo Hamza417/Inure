@@ -15,15 +15,18 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.util.PackageUtils.getApplicationName
+import app.simple.inure.util.FileUtils.humanReadableByteCountBinary
+import app.simple.inure.util.FileUtils.humanReadableByteCountSI
+import app.simple.inure.util.PackageUtils.getPackageSize
 
-class AppsAdapter(private val apps: ArrayList<ApplicationInfo>, private val appsAdapterCallbacks: AppsAdapterCallbacks) : RecyclerView.Adapter<AppsAdapter.Holder>() {
+class AppsAdapterSmall(private val apps: ArrayList<ApplicationInfo>, private val appsAdapterCallbacks: AppsAdapterCallbacks) : RecyclerView.Adapter<AppsAdapterSmall.Holder>() {
 
     private var xOff = 0f
     private var yOff = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_all_apps, parent, false))
+        return Holder(LayoutInflater.from(parent.context)
+                          .inflate(R.layout.adapter_all_apps_small_details, parent, false))
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -32,9 +35,10 @@ class AppsAdapter(private val apps: ArrayList<ApplicationInfo>, private val apps
         holder.icon.loadAppIcon(holder.itemView.context, apps[position].packageName)
         holder.name.text = apps[position].name
         holder.packageId.text = apps[position].packageName
+        holder.packageSize.text = apps[position].getPackageSize().humanReadableByteCountSI()
 
         holder.container.setOnClickListener {
-            appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
+            //appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
         }
 
         holder.container.setOnTouchListener { _, event ->
@@ -48,7 +52,7 @@ class AppsAdapter(private val apps: ArrayList<ApplicationInfo>, private val apps
         }
 
         holder.container.setOnLongClickListener {
-            appsAdapterCallbacks.onMenuClicked(apps[position], holder.container, xOff, yOff, holder.icon)
+            //appsAdapterCallbacks.onMenuClicked(apps[position], holder.container, xOff, yOff, holder.icon)
             true
         }
     }
@@ -66,6 +70,7 @@ class AppsAdapter(private val apps: ArrayList<ApplicationInfo>, private val apps
         val icon: ImageView = itemView.findViewById(R.id.adapter_all_app_icon)
         val name: TextView = itemView.findViewById(R.id.adapter_all_app_name)
         val packageId: TextView = itemView.findViewById(R.id.adapter_all_app_package_id)
+        val packageSize : TextView = itemView.findViewById(R.id.adapter_all_app_package_size)
         val container: ConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
     }
 }

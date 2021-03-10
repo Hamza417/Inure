@@ -1,5 +1,6 @@
 package app.simple.inure.ui
 
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,13 +27,13 @@ class AppInfo : ScopedFragment() {
 
         icon.transitionName = requireArguments().getString("transition_name")
         startPostponedEnterTransition()
-        icon.loadAppIcon(requireContext(), requireArguments().getString("package_name")!!)
+        icon.loadAppIcon(requireContext(), requireArguments().getParcelable<ApplicationInfo>("package_name")!!.packageName)
     }
 
     companion object {
-        fun newInstance(packageName: String, transitionName: String): AppInfo {
+        fun newInstance(packageName: ApplicationInfo, transitionName: String): AppInfo {
             val args = Bundle()
-            args.putString("package_name", packageName)
+            args.putParcelable("package_name", packageName)
             args.putString("transition_name", transitionName)
             val fragment = AppInfo()
             fragment.arguments = args

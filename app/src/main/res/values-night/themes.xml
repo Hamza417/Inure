@@ -12,6 +12,8 @@
         <item name="android:colorEdgeEffect">@color/appAccent</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <!-- Customize your theme here. -->
 
         <!-- Debug -->

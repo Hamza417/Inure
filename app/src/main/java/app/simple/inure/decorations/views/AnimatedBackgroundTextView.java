@@ -24,7 +24,7 @@ import app.simple.inure.decorations.corners.LayoutBackground;
 /**
  *
  */
-class AnimatedBackgroundTextView extends AppCompatTextView {
+public class AnimatedBackgroundTextView extends AppCompatTextView {
     public AnimatedBackgroundTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
@@ -37,17 +37,15 @@ class AnimatedBackgroundTextView extends AppCompatTextView {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 animateBackground(ContextCompat.getColor(getContext(), R.color.textBackground));
-                System.out.println("Down");
                 break;
             }
             case MotionEvent.ACTION_UP: {
-                System.out.println("Up");
                 animateBackground(Color.TRANSPARENT);
                 break;
             }
         }
         
-        return true;
+        return super.onTouchEvent(event);
     }
     
     private void animateBackground(int endColor) {
@@ -57,10 +55,7 @@ class AnimatedBackgroundTextView extends AppCompatTextView {
                 endColor);
         valueAnimator.setDuration(300L);
         valueAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
-        valueAnimator.addUpdateListener(animation -> {
-            System.out.println((int) animation.getAnimatedValue());
-            setBackgroundTintList(ColorStateList.valueOf((int) animation.getAnimatedValue()));
-        });
+        valueAnimator.addUpdateListener(animation -> setBackgroundTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
         valueAnimator.start();
     }
 }

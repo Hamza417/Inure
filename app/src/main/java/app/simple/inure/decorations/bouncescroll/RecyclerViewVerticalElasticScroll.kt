@@ -34,12 +34,10 @@ object RecyclerViewVerticalElasticScroll {
                         val translationYDelta = sign * recyclerView.width * deltaDistance * overScrollTranslationMagnitude
 
                         recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
-                            if (holder is T) {
-                                holder.rotation.cancel()
-                                holder.translationY.cancel()
-                                holder.itemView.rotation += rotationDelta
-                                holder.itemView.translationY += translationYDelta
-                            }
+                            holder.rotation.cancel()
+                            holder.translationY.cancel()
+                            holder.itemView.rotation += rotationDelta
+                            holder.itemView.translationY += translationYDelta
                         }
                     }
 
@@ -50,10 +48,8 @@ object RecyclerViewVerticalElasticScroll {
                          * the view property values back to their resting states.
                          */
                         recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
-                            if (holder is T) {
-                                holder.rotation.start()
-                                holder.translationY.start()
-                            }
+                            holder.rotation.start()
+                            holder.translationY.start()
                         }
                     }
 
@@ -63,11 +59,9 @@ object RecyclerViewVerticalElasticScroll {
                         // The list has reached the edge on fling.
                         val translationVelocity = sign * velocity * flingTranslationMagnitude
                         recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
-                            if (holder is T) {
-                                holder.translationY
-                                    .setStartVelocity(translationVelocity)
-                                    .start()
-                            }
+                            holder.translationY
+                                .setStartVelocity(translationVelocity)
+                                .start()
                         }
                     }
                 }

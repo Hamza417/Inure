@@ -1,11 +1,12 @@
 package app.simple.inure.interfaces.adapters;
 
-import android.widget.ImageButton;
+import android.content.pm.ApplicationInfo;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
 
 public interface AppsAdapterCallbacks {
-    void onAppClicked(@NotNull String packageName, @NotNull ImageView icon);
-    void onMenuClicked(@NotNull String packageName, ImageButton menu);
+    void onAppClicked(@NotNull ApplicationInfo applicationInfo, @NotNull ImageView icon);
+    void onMenuClicked(@NotNull ApplicationInfo applicationInfo, @NotNull ViewGroup viewGroup, float xOff, float yOff, ImageView icon);
 }
