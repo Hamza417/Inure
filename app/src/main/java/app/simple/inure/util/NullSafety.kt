@@ -1,5 +1,8 @@
 package app.simple.inure.util
 
+import android.content.Context
+import java.lang.NullPointerException
+
 object NullSafety {
     /**
      * Checks if the given object is not null
@@ -15,5 +18,16 @@ object NullSafety {
      */
     fun Any?.isNull(): Boolean {
         return this == null
+    }
+
+    /**
+     * Check if context is null then throw
+     * exception
+     *
+     * @throws NullPointerException
+     * @return self
+     */
+    fun Context?.isNull () : Context {
+        return this ?: throw NullPointerException("Initialize context first")
     }
 }

@@ -1,4 +1,4 @@
-package app.simple.felicit.glide.transformation
+package app.simple.inure.glide.transformation
 
 import android.content.Context
 import android.graphics.*
@@ -12,7 +12,6 @@ import java.nio.ByteBuffer
 import java.security.MessageDigest
 
 /**
- * Padding.java
  * This transformation adds padding intrinsically to the bitmap.
  * This is used to add a coloured border to the image, or create
  * transparent padding to prevent clipping when drawing shadows.

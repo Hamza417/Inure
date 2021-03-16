@@ -9,7 +9,7 @@ import app.simple.inure.decorations.bouncescroll.ScrollConstants.overScrollTrans
 
 object RecyclerViewVerticalElasticScroll {
 
-    inline fun <reified T : VerticalListViewHolder> RecyclerView.setupEdgeEffectFactory() {
+    fun RecyclerView.setupEdgeEffectFactory() {
         this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
             override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {
 

@@ -8,12 +8,15 @@ import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 /**
- * [ScopedFragment] is lifecycle aware [CoroutineScope] fragment
+ * [CoroutineScopedFragment] is lifecycle aware [CoroutineScope] fragment
  * used to bind independent coroutines with the lifecycle of
  * the given fragment. All [Fragment] classes must extend
- * this class instead
+ * this class instead.
+ *
+ * It is recommended to read this code before implementing to know
+ * its purpose and importance
  */
-open class ScopedFragment : Fragment(), CoroutineScope {
+open class CoroutineScopedFragment : Fragment(), CoroutineScope {
 
     /**
      * Get the job instance here, must be a final value
@@ -28,6 +31,10 @@ open class ScopedFragment : Fragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
+    /**
+     * [postponeEnterTransition] here and initialize all the
+     * views in [onCreateView] with proper transition names
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         postponeEnterTransition()
@@ -41,7 +48,7 @@ open class ScopedFragment : Fragment(), CoroutineScope {
      * lifecycle itself
      */
     override fun onDestroy() {
-        job.cancel()
         super.onDestroy()
+        job.cancel()
     }
 }

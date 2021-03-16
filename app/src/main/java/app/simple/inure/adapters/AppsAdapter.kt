@@ -1,7 +1,13 @@
 package app.simple.inure.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.content.res.ColorStateList
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.TextAppearanceSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -9,21 +15,25 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.util.PackageUtils.getApplicationName
+import java.util.*
 
-class AppsAdapter(private val apps: ArrayList<ApplicationInfo>, private val appsAdapterCallbacks: AppsAdapterCallbacks) : RecyclerView.Adapter<AppsAdapter.Holder>() {
+class AppsAdapter(private val appsAdapterCallbacks: AppsAdapterCallbacks) : RecyclerView.Adapter<AppsAdapter.Holder>() {
 
+    var apps = arrayListOf<ApplicationInfo>()
+    var searchKeyword: String = ""
     private var xOff = 0f
     private var yOff = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_all_apps, parent, false))
+        return Holder(LayoutInflater.from(parent.context)
+                          .inflate(R.layout.adapter_all_apps, parent, false))
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -32,6 +42,11 @@ class AppsAdapter(private val apps: ArrayList<ApplicationInfo>, private val apps
         holder.icon.loadAppIcon(holder.itemView.context, apps[position].packageName)
         holder.name.text = apps[position].name
         holder.packageId.text = apps[position].packageName
+
+        if(searchKeyword.isNotEmpty()) {
+            searchHighlighter(holder.name, holder.itemView.context)
+            searchHighlighter(holder.packageId, holder.itemView.context)
+        }
 
         holder.container.setOnClickListener {
             appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
@@ -60,6 +75,20 @@ class AppsAdapter(private val apps: ArrayList<ApplicationInfo>, private val apps
 
     override fun getItemCount(): Int {
         return apps.size
+    }
+
+    private fun searchHighlighter(textView: TextView, context: Context) {
+        val string = textView.text.toString()
+        val sb = SpannableStringBuilder(string)
+        val startPos = string.toLowerCase(Locale.getDefault()).indexOf(searchKeyword.toLowerCase(Locale.getDefault()))
+        val endPos = startPos + searchKeyword.length
+
+        if (startPos != -1) {
+            val colorKeyword = ColorStateList(arrayOf(intArrayOf()), intArrayOf(ContextCompat.getColor(context, R.color.appAccent)))
+            val highlightSpan = TextAppearanceSpan(null, Typeface.NORMAL, -1, colorKeyword, null)
+            sb.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        }
+        textView.text = sb
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

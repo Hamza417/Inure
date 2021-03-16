@@ -15,8 +15,8 @@
 
             <ImageView
                 android:id="@+id/fragment_app_info_icon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/app_icon_dimension"
+                android:layout_height="@dimen/app_icon_dimension"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -26,8 +26,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/medium"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/bold"
                 android:text="App Name"
                 android:textColor="@color/textPrimary"
                 android:textSize="8pt"
@@ -41,7 +41,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/regular"
                 android:text="App Name"
                 android:textColor="@color/textSecondary"

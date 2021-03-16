@@ -39,6 +39,7 @@
     </declare-styleable>
 
     <declare-styleable name="IconView">
+        <attr name="icon" format="reference" />
         <attr name="constantShadowTranslationY" format="dimension" />
         <attr name="variableShadowTranslationY" format="dimension" />
         <attr name="scaleDown" format="float" />

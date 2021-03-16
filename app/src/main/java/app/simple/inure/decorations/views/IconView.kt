@@ -14,12 +14,8 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import app.simple.inure.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlin.coroutines.CoroutineContext
 
-class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, @AttrRes defStyleAttr: Int = R.attr.iconViewStyle, @StyleRes defStyleRes: Int = R.style.Widget_ShadowPlay_IconView)
-    : View(context, attrs, defStyleAttr, defStyleRes), CoroutineScope {
+class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, @AttrRes defStyleAttr: Int = R.attr.iconViewStyle, @StyleRes defStyleRes: Int = R.style.Widget_ShadowPlay_IconView) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     var icon: Drawable? = null
         set(value) {
@@ -60,18 +56,22 @@ class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, 
     }
 
     init {
-        val a =
-            context.obtainStyledAttributes(attrs, R.styleable.IconView, defStyleAttr, defStyleRes)
-        constantShadowTranslationY =
-            a.getDimension(R.styleable.IconView_constantShadowTranslationY, constantShadowTranslationY)
-        variableShadowTranslationY =
-            a.getDimension(R.styleable.IconView_variableShadowTranslationY, variableShadowTranslationY)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.IconView, defStyleAttr, defStyleRes)
+
+        icon = a.getDrawable(R.styleable.IconView_icon)
+
+        constantShadowTranslationY = a.getDimension(R.styleable.IconView_constantShadowTranslationY, constantShadowTranslationY)
+        variableShadowTranslationY = a.getDimension(R.styleable.IconView_variableShadowTranslationY, variableShadowTranslationY)
+
         scaleDown = a.getFloat(R.styleable.IconView_scaleDown, scaleDown).coerceIn(0f, 1f)
-        bigBlurRadius =
-            a.getFloat(R.styleable.IconView_bigBlurRadius, bigBlurRadius).coerceIn(0f, 25f)
+
+        bigBlurRadius = a.getFloat(R.styleable.IconView_bigBlurRadius, bigBlurRadius)
+            .coerceIn(0f, 25f)
+        smallBlurRadius = a.getFloat(R.styleable.IconView_smallBlurRadius, smallBlurRadius)
+            .coerceIn(0f, 25f)
+
         padding = bigBlurRadius.toInt()
-        smallBlurRadius =
-            a.getFloat(R.styleable.IconView_smallBlurRadius, smallBlurRadius).coerceIn(0f, 25f)
+
         a.recycle()
     }
 
@@ -110,9 +110,9 @@ class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, 
             bigBlurShadow?.eraseColor(Color.TRANSPARENT)
         }
         if (smallBlurShadow == null) {
-            smallBlurShadow =
-                Bitmap.createBitmap(shadowBounds.width().toInt(), shadowBounds.height()
-                    .toInt(), ARGB_8888)
+            smallBlurShadow = Bitmap.createBitmap(shadowBounds.width()
+                                                      .toInt(), shadowBounds.height()
+                                                      .toInt(), ARGB_8888)
         } else {
             smallBlurShadow?.eraseColor(Color.TRANSPARENT)
         }
@@ -159,7 +159,4 @@ class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, 
             return blur!!
         }
     }
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main
 }

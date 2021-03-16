@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.os.Build
 import android.util.AttributeSet
 import android.view.*
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -14,9 +15,12 @@ import androidx.core.view.children
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.core.widget.TextViewCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import kotlin.math.abs
 import kotlin.math.min
+
 
 typealias ItemIndicatorWithPosition = Pair<FastScrollItemIndicator, Int>
 
@@ -119,16 +123,11 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
         context.theme.obtainStyledAttributes(attrs, R.styleable.FastScrollerView, defStyleAttr, defStyleRes)
             .use { attrsArray ->
                 throwIfMissingAttrs(styleRes = R.style.Widget_IndicatorFastScroll_FastScroller) {
-                    iconSize =
-                        attrsArray.getDimensionPixelSizeOrThrow(R.styleable.FastScrollerView_fastScrollerIconSize)
-                    iconColor =
-                        attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerView_fastScrollerIconColor)
-                    textAppearanceRes =
-                        attrsArray.getResourceIdOrThrow(R.styleable.FastScrollerView_android_textAppearance)
-                    textColor =
-                        attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerView_android_textColor)
-                    textPadding =
-                        attrsArray.getDimensionOrThrow(R.styleable.FastScrollerView_fastScrollerTextPadding)
+                    iconSize = attrsArray.getDimensionPixelSizeOrThrow(R.styleable.FastScrollerView_fastScrollerIconSize)
+                    iconColor = attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerView_fastScrollerIconColor)
+                    textAppearanceRes = attrsArray.getResourceIdOrThrow(R.styleable.FastScrollerView_android_textAppearance)
+                    textColor = attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerView_android_textColor)
+                    textPadding = attrsArray.getDimensionOrThrow(R.styleable.FastScrollerView_fastScrollerTextPadding)
                 }
             }
 
@@ -136,6 +135,7 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
         isClickable = true
         orientation = VERTICAL
         gravity = Gravity.CENTER
+        alpha = 0F
 
         if (isInEditMode) {
             itemIndicatorsWithPositions += listOf(ItemIndicatorWithPosition(FastScrollItemIndicator.Text("A"), 0), ItemIndicatorWithPosition(FastScrollItemIndicator.Text("B"), 1), ItemIndicatorWithPosition(FastScrollItemIndicator.Text("C"), 2), ItemIndicatorWithPosition(FastScrollItemIndicator.Text("D"), 3), ItemIndicatorWithPosition(FastScrollItemIndicator.Text("E"), 4))
@@ -241,8 +241,7 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
         itemIndicators.run {
             var index = 0
             while (index <= lastIndex) {
-                @Suppress("UNCHECKED_CAST") val textIndicatorsBatch =
-                    subList(index, size).takeWhile { it is FastScrollItemIndicator.Text } as List<FastScrollItemIndicator.Text>
+                @Suppress("UNCHECKED_CAST") val textIndicatorsBatch = subList(index, size).takeWhile { it is FastScrollItemIndicator.Text } as List<FastScrollItemIndicator.Text>
                 if (textIndicatorsBatch.isNotEmpty()) {
                     views.add(createTextView(textIndicatorsBatch))
                     index += textIndicatorsBatch.size
@@ -304,21 +303,41 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
     private fun scrollToPosition(position: Int) {
         recyclerView!!.apply {
             stopScroll()
-            scrollToPosition(position)
+
+            val layoutManager = this.layoutManager as LinearLayoutManager
+            layoutManager.scrollToPositionWithOffset(
+                position,
+                abs(
+                    layoutManager.findLastCompletelyVisibleItemPosition()
+                            - layoutManager.findFirstCompletelyVisibleItemPosition()))
+
             /**
              * [RecyclerView.smoothScrollToPosition] is not suitable
              * for long lists, it will take a long time to scroll
              * to positions
              */
             //smoothScrollToPosition(position)
+            //scrollToPosition(position)
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
+
+        clearAnimation()
+
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                animate().alpha(1F).setInterpolator(DecelerateInterpolator()).start()
+            }
+            MotionEvent.ACTION_UP -> {
+                animate().alpha(0F).setInterpolator(DecelerateInterpolator()).start()
+            }
+        }
+
         fun View.containsY(y: Int) = y in (top until bottom)
 
-        if (event.actionMasked in MOTIONEVENT_STOP_ACTIONS) {
+        if (event.actionMasked in MOTION_EVENT_STOP_ACTIONS) {
             isPressed = false
             clearSelectedItemIndicator()
             onItemIndicatorTouched?.invoke(false)
@@ -337,16 +356,13 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
                         consumed = true
                     }
                     is TextView -> {
-                        @Suppress("UNCHECKED_CAST") val possibleTouchedIndicators =
-                            view.tag as List<FastScrollItemIndicator.Text>
+                        @Suppress("UNCHECKED_CAST") val possibleTouchedIndicators = view.tag as List<FastScrollItemIndicator.Text>
                         val textIndicatorsTouchY = touchY - view.top
                         val textLineHeight = view.height / possibleTouchedIndicators.size
-                        val touchedIndicatorIndex =
-                            min(textIndicatorsTouchY / textLineHeight, possibleTouchedIndicators.lastIndex)
+                        val touchedIndicatorIndex = min(textIndicatorsTouchY / textLineHeight, possibleTouchedIndicators.lastIndex)
                         val touchedIndicator = possibleTouchedIndicators[touchedIndicatorIndex]
 
-                        val centerY =
-                            view.y.toInt() + (textLineHeight / 2) + (touchedIndicatorIndex * textLineHeight)
+                        val centerY = view.y.toInt() + (textLineHeight / 2) + (touchedIndicatorIndex * textLineHeight)
                         selectItemIndicator(touchedIndicator, centerY, view, textLine = touchedIndicatorIndex)
                         consumed = true
                     }
@@ -362,8 +378,7 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     companion object {
 
-        private val MOTIONEVENT_STOP_ACTIONS =
-            intArrayOf(MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL)
+        private val MOTION_EVENT_STOP_ACTIONS = intArrayOf(MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL)
 
         private fun FastScrollerView.createAdapterDataObserver(): RecyclerView.AdapterDataObserver {
             return object : RecyclerView.AdapterDataObserver() {

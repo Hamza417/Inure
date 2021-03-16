@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import app.simple.inure.util.PackageUtils.getApplicationName
+import app.simple.inure.util.Sort
+import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,9 +41,7 @@ class AppData(application: Application, private val savedStateHandle: SavedState
                 apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
             }
 
-            apps.sortBy {
-                it.name.toUpperCase(Locale.ROOT)
-            }
+            apps.getSortedList(Sort.ALPHABETICALLY, false)
 
             appData.postValue(apps)
         }

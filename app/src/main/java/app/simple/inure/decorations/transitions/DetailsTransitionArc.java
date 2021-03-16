@@ -1,9 +1,7 @@
 package app.simple.inure.decorations.transitions;
 
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 
@@ -33,14 +31,31 @@ public class DetailsTransitionArc extends TransitionSet {
     }
     
     private void init() {
+        /*
+         * Arc motion will set a curve on the objects's
+         * motion when the view is transitioning.
+         */
         ArcMotion arcMotion = new ArcMotion();
         arcMotion.setMaximumAngle(90);
         arcMotion.setMinimumHorizontalAngle(80);
         arcMotion.setMinimumVerticalAngle(15);
+        
+        /*
+         * Makes sure things go smoothly
+         */
         setOrdering(ORDERING_TOGETHER);
+    
+        /*
+         * Setting duration to 750L will force the
+         * transition to finish last and not interfere
+         * with the other transitions that are going on
+         * like RecyclerView's layout transition
+         * and AndroidX fragment transitions
+         */
         addTransition(new ChangeBounds())
                 .addTransition(new ChangeTransform())
-                .setDuration(500)
+                .addTransition(new ChangeImageTransform())
+                .setDuration(750)
                 .setInterpolator(new DecelerateInterpolator(1.5f))
                 .setPathMotion(arcMotion);
     }

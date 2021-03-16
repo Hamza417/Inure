@@ -53,10 +53,7 @@ class MainListPopupMenu(contentView: View,
             setIsLaidOutInScreen(true)
         }
 
-        //println("${xOff.toInt() - width / 2} & ${yOff.toInt() - height / 2}")
-
-        // TODO - fix vertical positioning issue when view is opened at the bottom of the screen
-        showAsDropDown(viewGroup, xOff.toInt() - width / 2, yOff.toInt() - height / 2, Gravity.NO_GRAVITY)
+        showAsDropDown(viewGroup, xOff.toInt() - width / 2, yOff.toInt() - height, Gravity.NO_GRAVITY)
     }
 
     override fun showAsDropDown(anchor: View?, xoff: Int, yoff: Int, gravity: Int) {

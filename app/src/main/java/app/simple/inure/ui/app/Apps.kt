@@ -1,4 +1,4 @@
-package app.simple.inure.ui
+package app.simple.inure.ui.app
 
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
@@ -6,33 +6,44 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
+import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.adapters.AppsAdapter
-import app.simple.inure.adapters.AppsAdapterSmall
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
+import app.simple.inure.decorations.searchview.SearchView
+import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.MainListPopupMenu
+import app.simple.inure.extension.fragments.CoroutineScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.interfaces.menu.PopupMenuCallback
 import app.simple.inure.util.PackageUtils.killThisApp
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
+import app.simple.inure.util.Sort
+import app.simple.inure.util.Sort.getSortedList
 import app.simple.inure.viewmodels.AppData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
-class Apps : Fragment(), AppsAdapterCallbacks, PopupMenuCallback {
+class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback {
 
     private lateinit var appsListRecyclerView: CustomRecyclerView
     private lateinit var fastScrollerView: FastScrollerView
     private lateinit var scrollerThumb: FastScrollerThumbView
+    private lateinit var searchView: SearchView
+    private lateinit var appsAdapter: AppsAdapter
+    private var allAppsList = arrayListOf<ApplicationInfo>()
 
     private val model: AppData by viewModels()
 
@@ -42,6 +53,7 @@ class Apps : Fragment(), AppsAdapterCallbacks, PopupMenuCallback {
         appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
         fastScrollerView = view.findViewById(R.id.all_apps_fast_scroller)
         scrollerThumb = view.findViewById(R.id.all_apps_thumb)
+        searchView = view.findViewById(R.id.all_apps_search_view)
 
         return view
     }
@@ -49,15 +61,65 @@ class Apps : Fragment(), AppsAdapterCallbacks, PopupMenuCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         model.getAppData().observe(requireActivity(), {
-            val appsAdapter = AppsAdapter(it, this)
-            appsAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+            postponeEnterTransition()
+            allAppsList = it
+
+            appsAdapter = AppsAdapter(this)
+            appsAdapter.apps = allAppsList
+
             appsListRecyclerView.adapter = appsAdapter
-            appsListRecyclerView.scheduleLayoutAnimation()
+
             fastScrollerView.setupWithRecyclerView(appsListRecyclerView, { position ->
-                val item = it[position]
-                FastScrollItemIndicator.Text(item.name.substring(0, 1).toUpperCase(Locale.ROOT))
+                FastScrollItemIndicator.Text(allAppsList[position].name.substring(0, 1)
+                                                 .toUpperCase(Locale.ROOT))
             })
+
             scrollerThumb.setupWithFastScroller(fastScrollerView)
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+        })
+
+        searchView.setSearchViewEventListener(object : SearchViewEventListener {
+            override fun onSearchMenuPressed(button: View) {
+                Toast.makeText(requireContext(), "Menu clicked", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onSearchTextChanged(keywords: String, count: Int) {
+                Toast.makeText(requireContext(), "Called again", Toast.LENGTH_SHORT).show()
+                launch {
+
+                    var filteredList = arrayListOf<ApplicationInfo>()
+
+                    withContext(Dispatchers.Default) {
+                        if (count > 0) {
+                            try {
+                                for (apps in allAppsList) {
+                                    if (
+                                        apps.packageName.toLowerCase(Locale.ROOT)
+                                            .contains(keywords.toLowerCase(Locale.ROOT))
+                                        || apps.name.toLowerCase(Locale.ROOT)
+                                            .contains(keywords.toLowerCase(Locale.ROOT))) {
+                                        filteredList.add(apps)
+                                    }
+                                }
+
+                                filteredList.getSortedList(Sort.ALPHABETICALLY, false)
+                            } catch (ignored: ConcurrentModificationException) {
+                            } catch (ignored: IndexOutOfBoundsException) {
+                            } catch (ignored: NullPointerException) {
+                            }
+                        } else {
+                            filteredList = allAppsList
+                        }
+                    }
+
+                    appsAdapter.searchKeyword = keywords
+                    appsAdapter.apps = filteredList
+                    appsAdapter.notifyDataSetChanged()
+                }
+            }
         })
 
         super.onViewCreated(view, savedInstanceState)
@@ -68,20 +130,9 @@ class Apps : Fragment(), AppsAdapterCallbacks, PopupMenuCallback {
     }
 
     override fun onMenuClicked(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView) {
-        val view =
-            layoutInflater.inflate(R.layout.menu_main_list, ConstraintLayout(requireContext()), true)
-        view.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        val popupMenu = MainListPopupMenu(view, viewGroup, xOff, yOff, applicationInfo, icon)
+        val popupMenu = MainListPopupMenu(layoutInflater.inflate(R.layout.menu_main_list, ConstraintLayout(requireContext()), true),
+                                          viewGroup, xOff, yOff, applicationInfo, icon)
         popupMenu.popupMenuCallback = this
-    }
-
-    companion object {
-        fun newInstance(): Apps {
-            val args = Bundle()
-            val fragment = Apps()
-            fragment.arguments = args
-            return fragment
-        }
     }
 
     override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
@@ -109,10 +160,19 @@ class Apps : Fragment(), AppsAdapterCallbacks, PopupMenuCallback {
         appInfo.sharedElementEnterTransition = DetailsTransitionArc()
         appInfo.enterTransition = Explode()
         appInfo.sharedElementReturnTransition = DetailsTransitionArc()
-        parentFragment?.postponeEnterTransition()
 
         requireActivity().supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
             .addSharedElement(icon, icon.transitionName)
             .replace(R.id.app_container, appInfo, "app_info").addToBackStack("app_info").commit()
+    }
+
+    companion object {
+        fun newInstance(): Apps {
+            val args = Bundle()
+            val fragment = Apps()
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

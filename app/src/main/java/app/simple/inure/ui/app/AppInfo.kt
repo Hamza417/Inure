@@ -1,4 +1,4 @@
-package app.simple.inure.ui
+package app.simple.inure.ui.app
 
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import app.simple.inure.R
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extension.fragments.CoroutineScopedFragment
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 
-class AppInfo : ScopedFragment() {
+class AppInfo : CoroutineScopedFragment() {
 
     private lateinit var icon: ImageView
 
@@ -26,8 +26,8 @@ class AppInfo : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         icon.transitionName = requireArguments().getString("transition_name")
-        startPostponedEnterTransition()
         icon.loadAppIcon(requireContext(), requireArguments().getParcelable<ApplicationInfo>("package_name")!!.packageName)
+        startPostponedEnterTransition()
     }
 
     companion object {

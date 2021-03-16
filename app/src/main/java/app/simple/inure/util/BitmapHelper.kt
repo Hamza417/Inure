@@ -7,6 +7,7 @@ import android.graphics.Matrix.ScaleToFit
 
 object BitmapHelper {
     private const val shadowColor = -4671304
+
     /**
      * Add drop shadow to the bitmap layer
      *
