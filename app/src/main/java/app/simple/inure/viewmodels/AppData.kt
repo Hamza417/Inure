@@ -7,13 +7,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import app.simple.inure.util.PackageUtils.getApplicationName
+import app.simple.inure.packagehelper.PackageUtils.getApplicationName
 import app.simple.inure.util.Sort
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.collections.ArrayList
 
 class AppData(application: Application, private val savedStateHandle: SavedStateHandle) : AndroidViewModel(application) {
@@ -27,7 +26,7 @@ class AppData(application: Application, private val savedStateHandle: SavedState
         return appData
     }
 
-    private fun loadAppData() {
+    fun loadAppData() {
         CoroutineScope(Dispatchers.Default).launch {
             val apps = getApplication<Application>().applicationContext.packageManager.getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
 

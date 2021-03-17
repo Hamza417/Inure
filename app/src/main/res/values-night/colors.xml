@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="appAccent">#FFC570</color>
+    <color name="mainBackground">#171717</color>
+    <color name="edgeEffect">#494949</color>
+    <color name="statusBarColor">@color/mainBackground</color>
+    <color name="rippleColor">@color/edgeEffect</color>
+    <color name="iconRegular">#F8F8F8</color>
+    <color name="iconSecondary">#E8E8E8</color>
+
+    <!-- Texts -->
+    <color name="textHeading">#F1F1F1</color>
+    <color name="textPrimary">#E4E4E4</color>
+    <color name="textSecondary">#C8C8C8</color>
+    <color name="textTertiary">#AAAAAA</color>
+    <color name="textBackground">#1AFF9800</color>
+</resources>

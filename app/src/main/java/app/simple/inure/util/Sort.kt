@@ -1,6 +1,8 @@
 package app.simple.inure.util
 
 import android.content.pm.ApplicationInfo
+import java.util.*
+import kotlin.collections.ArrayList
 
 object Sort {
 
@@ -33,6 +35,6 @@ object Sort {
      * sort application list alphabetically
      */
     private fun ArrayList<ApplicationInfo>.sortAlphabetically() {
-        return this.sortBy { it.name }
+        return this.sortBy { it.name.toUpperCase(Locale.getDefault()) }
     }
 }

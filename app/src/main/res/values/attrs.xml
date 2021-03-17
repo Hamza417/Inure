@@ -46,4 +46,25 @@
         <attr name="bigBlurRadius" format="float" />
         <attr name="smallBlurRadius" format="float" />
     </declare-styleable>
+
+    <!-- Type Face Text View -->
+    <declare-styleable name="TypeFaceTextView">
+        <attr name="appFontStyle" format="string">
+            <flag name="light" value="0" />
+            <flag name="regular" value="1" />
+            <flag name="bold" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <!-- Use <code>scale</code>as the root tag of the XML resource that
+         describes a {@link  com.transitionseverywhere.extra.Scale} transition.
+         The attributes of the {@link android.R.styleable#Transition Transition}
+         resource are available in addition to the specific attributes of Scale
+         described here. -->
+    <declare-styleable name="Scale">
+        <!--Value of scale on start of appearing or in finish of disappearing.
+         Default value is 0. Can be useful for mixing some Visibility transitions,
+         for example Scale and Fade. -->
+        <attr name="disappearedScale" format="float" />
+    </declare-styleable>
 </resources>

@@ -11,8 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Information"
-        android:textColorHighlight="@color/textBackground"
+        android:text="Memory"
         android:textColor="@color/textHeading"
         android:textSize="12pt"
         app:appFontStyle="bold"
@@ -24,13 +23,13 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version"
+        android:text="APK (Base Package)"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_version"
+        android:id="@+id/sub_memory_base_package_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/info_text_large_margin_top"
@@ -42,13 +41,13 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version Code"
+        android:text="Split Packages"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_version_code"
+        android:id="@+id/sub_memory_split_packages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/info_text_large_margin_top"
@@ -60,13 +59,13 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Install Location"
+        android:text="Cache"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_install_location"
+        android:id="@+id/sub_memory_cache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/info_text_large_margin_top"
@@ -78,85 +77,13 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Minimum SDK"
+        android:text="Data"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_min_sdk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
-
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Target SDK"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
-
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_target_sdk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
-
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UID"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
-
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_uid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
-
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Install Date"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
-
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_install_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
-
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update Date"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
-
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_update_date"
+        android:id="@+id/sub_memory_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/info_text_large_margin_top"

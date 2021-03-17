@@ -1,17 +1,18 @@
 package app.simple.inure.ui.app
 
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
-import androidx.transition.Explode
-import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.adapters.AppsAdapter
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
@@ -20,14 +21,15 @@ import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
+import app.simple.inure.decorations.transitions.TransitionManager
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.MainListPopupMenu
 import app.simple.inure.extension.fragments.CoroutineScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.interfaces.menu.PopupMenuCallback
-import app.simple.inure.util.PackageUtils.killThisApp
-import app.simple.inure.util.PackageUtils.launchThisPackage
-import app.simple.inure.util.PackageUtils.uninstallThisPackage
+import app.simple.inure.packagehelper.PackageUtils.killThisApp
+import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
+import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
 import app.simple.inure.util.Sort
 import app.simple.inure.util.Sort.getSortedList
 import app.simple.inure.viewmodels.AppData
@@ -36,13 +38,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
+
 class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback {
 
     private lateinit var appsListRecyclerView: CustomRecyclerView
     private lateinit var fastScrollerView: FastScrollerView
     private lateinit var scrollerThumb: FastScrollerThumbView
     private lateinit var searchView: SearchView
+
     private lateinit var appsAdapter: AppsAdapter
+    private lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
     private var allAppsList = arrayListOf<ApplicationInfo>()
 
     private val model: AppData by viewModels()
@@ -71,7 +76,7 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
 
             fastScrollerView.setupWithRecyclerView(appsListRecyclerView, { position ->
                 FastScrollItemIndicator.Text(allAppsList[position].name.substring(0, 1)
-                                                 .toUpperCase(Locale.ROOT))
+                                                     .toUpperCase(Locale.ROOT))
             })
 
             scrollerThumb.setupWithFastScroller(fastScrollerView)
@@ -83,11 +88,10 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
 
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
             override fun onSearchMenuPressed(button: View) {
-                Toast.makeText(requireContext(), "Menu clicked", Toast.LENGTH_SHORT).show()
+
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
-                Toast.makeText(requireContext(), "Called again", Toast.LENGTH_SHORT).show()
                 launch {
 
                     var filteredList = arrayListOf<ApplicationInfo>()
@@ -98,9 +102,9 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
                                 for (apps in allAppsList) {
                                     if (
                                         apps.packageName.toLowerCase(Locale.ROOT)
-                                            .contains(keywords.toLowerCase(Locale.ROOT))
+                                                .contains(keywords.toLowerCase(Locale.ROOT))
                                         || apps.name.toLowerCase(Locale.ROOT)
-                                            .contains(keywords.toLowerCase(Locale.ROOT))) {
+                                                .contains(keywords.toLowerCase(Locale.ROOT))) {
                                         filteredList.add(apps)
                                     }
                                 }
@@ -121,6 +125,22 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
                 }
             }
         })
+
+        appUninstallObserver = registerForActivityResult(
+            StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                /**
+                 * Refresh the viewModel to re-fetch the updated list
+                 */
+                model.loadAppData()
+                println("App Uninstalled")
+            } else {
+                println("Failed")
+            }
+
+            println("${result.data} : ${result.resultCode}")
+        }
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -156,15 +176,15 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
         val appInfo = requireActivity().supportFragmentManager.findFragmentByTag("app_info")
             ?: AppInfo.newInstance(applicationInfo, icon.transitionName)
 
-        exitTransition = Explode()
-        appInfo.sharedElementEnterTransition = DetailsTransitionArc()
-        appInfo.enterTransition = Explode()
-        appInfo.sharedElementReturnTransition = DetailsTransitionArc()
+        exitTransition = TransitionManager.getEnterTransitions(TransitionManager.FADE)
+        appInfo.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
+        appInfo.enterTransition = TransitionManager.getExitTransition(TransitionManager.FADE)
+        appInfo.sharedElementReturnTransition = DetailsTransitionArc(1.2F)
 
         requireActivity().supportFragmentManager.beginTransaction()
-            .setReorderingAllowed(true)
-            .addSharedElement(icon, icon.transitionName)
-            .replace(R.id.app_container, appInfo, "app_info").addToBackStack("app_info").commit()
+                .setReorderingAllowed(true)
+                .addSharedElement(icon, icon.transitionName)
+                .replace(R.id.app_container, appInfo, "app_info").addToBackStack("app_info").commit()
     }
 
     companion object {

@@ -15,9 +15,7 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.util.FileUtils.humanReadableByteCountBinary
-import app.simple.inure.util.FileUtils.humanReadableByteCountSI
-import app.simple.inure.util.PackageUtils.getPackageSize
+import app.simple.inure.packagehelper.PackageUtils.getPackageSize
 
 class AppsAdapterSmall(private val apps: ArrayList<ApplicationInfo>, private val appsAdapterCallbacks: AppsAdapterCallbacks) : RecyclerView.Adapter<AppsAdapterSmall.Holder>() {
 
@@ -35,7 +33,7 @@ class AppsAdapterSmall(private val apps: ArrayList<ApplicationInfo>, private val
         holder.icon.loadAppIcon(holder.itemView.context, apps[position].packageName)
         holder.name.text = apps[position].name
         holder.packageId.text = apps[position].packageName
-        holder.packageSize.text = apps[position].getPackageSize().humanReadableByteCountSI()
+        //holder.packageSize.text = apps[position].getPackageSize(holder.itemView.context)[0].humanReadableByteCountSI()
 
         holder.container.setOnClickListener {
             //appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)

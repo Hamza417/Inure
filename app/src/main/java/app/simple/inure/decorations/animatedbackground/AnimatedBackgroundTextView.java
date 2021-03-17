@@ -1,18 +1,11 @@
-package app.simple.inure.decorations.views;
+package app.simple.inure.decorations.animatedbackground;
 
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.animation.DecelerateInterpolator;
-
-import com.google.android.material.animation.ArgbEvaluatorCompat;
-import com.google.android.material.shape.CornerFamily;
-import com.google.android.material.shape.MaterialShapeDrawable;
-import com.google.android.material.shape.ShapeAppearanceModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +13,8 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.decorations.corners.LayoutBackground;
+
+import static app.simple.inure.decorations.animatedbackground.Utils.animateBackground;
 
 /**
  *
@@ -36,26 +31,15 @@ public class AnimatedBackgroundTextView extends AppCompatTextView {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                animateBackground(ContextCompat.getColor(getContext(), R.color.textBackground));
+                animateBackground(ContextCompat.getColor(getContext(), R.color.textBackground), this);
                 break;
             }
             case MotionEvent.ACTION_UP: {
-                animateBackground(Color.TRANSPARENT);
+                animateBackground(Color.TRANSPARENT, this);
                 break;
             }
         }
         
         return super.onTouchEvent(event);
-    }
-    
-    private void animateBackground(int endColor) {
-        clearAnimation();
-        ValueAnimator valueAnimator = ValueAnimator.ofObject(new ArgbEvaluatorCompat(),
-                getBackgroundTintList().getDefaultColor(),
-                endColor);
-        valueAnimator.setDuration(300L);
-        valueAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
-        valueAnimator.addUpdateListener(animation -> setBackgroundTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
-        valueAnimator.start();
     }
 }

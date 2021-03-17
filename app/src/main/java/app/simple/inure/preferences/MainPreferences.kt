@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import org.jetbrains.annotations.NotNull
 
+/**
+ * All app preferences
+ */
 object MainPreferences {
 
     private const val launchCount = "launch_count"
@@ -16,6 +19,8 @@ object MainPreferences {
     private const val screenOn = "keep_the_screen_on"
     private const val appLanguage = "current_language_locale"
     private const val appCornerRadius = "corner_radius"
+    private const val appFont = "type_face"
+    private const val sizeType = "size_type"
 
     fun setLaunchCount(value: Int) {
         getSharedPreferences().edit().putInt(launchCount, value).apply()
@@ -87,5 +92,21 @@ object MainPreferences {
 
     fun getCornerRadius(): Int {
         return getSharedPreferences().getInt(appCornerRadius, 30)
+    }
+
+    fun setAppFont(@NonNull font: String) {
+        getSharedPreferences().edit().putString(appFont, font).apply()
+    }
+
+    fun getAppFont(): String {
+        return getSharedPreferences().getString(appFont, "lato")!!
+    }
+
+    fun setSizeType(@NonNull font: String) {
+        getSharedPreferences().edit().putString(sizeType, font).apply()
+    }
+
+    fun getSizeType(): String {
+        return getSharedPreferences().getString(sizeType, "SI")!!
     }
 }

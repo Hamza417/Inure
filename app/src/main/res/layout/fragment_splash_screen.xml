@@ -9,16 +9,16 @@
         android:layout_width="160dp"
         android:layout_height="160dp"
         app:icon="@drawable/ic_app_icon"
-        app:layout_constraintBottom_toTopOf="@id/fragment_app_name"
+        app:layout_constraintBottom_toTopOf="@id/launcher_app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/fragment_app_name"
+        android:id="@+id/launcher_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/light"
+        android:fontFamily="@font/lato_light"
         android:text="@string/app_name"
         android:textColor="@color/textSecondary"
         android:textSize="12pt"

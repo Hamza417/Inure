@@ -1,12 +1,26 @@
 package app.simple.inure.util
 
+import android.content.Context
 import android.graphics.*
 import android.graphics.BlurMaskFilter.Blur
 import android.graphics.Matrix.ScaleToFit
+import androidx.core.content.ContextCompat
 
 
 object BitmapHelper {
     private const val shadowColor = -4671304
+
+    /**
+     * Converts drawable to bitmap
+     */
+    fun Int.toBitmap(context: Context, size: Int): Bitmap {
+        val drawable = ContextCompat.getDrawable(context, this)
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        drawable?.setBounds(0, 0, canvas.width, canvas.height)
+        drawable?.draw(canvas)
+        return bitmap
+    }
 
     /**
      * Add drop shadow to the bitmap layer

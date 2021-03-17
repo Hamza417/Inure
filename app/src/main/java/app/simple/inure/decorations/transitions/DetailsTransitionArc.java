@@ -18,7 +18,26 @@ import androidx.transition.TransitionSet;
  * @author bherbst
  */
 public class DetailsTransitionArc extends TransitionSet {
+    
+    private float decelerateFactor = 1.5F;
+    
     public DetailsTransitionArc() {
+        init();
+    }
+    
+    /**
+     * Set decelerate factor for shared element animation.
+     * <p>
+     * It is recommended to use lower values for return transition
+     * and greater values for enter transition to avoid a quick
+     * start of transition and not break the animation
+     * patterns
+     *
+     * @param decelerateFactor should be in range of 0.5F to
+     *                         2.0F
+     */
+    public DetailsTransitionArc(float decelerateFactor) {
+        this.decelerateFactor = decelerateFactor;
         init();
     }
     
@@ -44,7 +63,7 @@ public class DetailsTransitionArc extends TransitionSet {
          * Makes sure things go smoothly
          */
         setOrdering(ORDERING_TOGETHER);
-    
+        
         /*
          * Setting duration to 750L will force the
          * transition to finish last and not interfere
@@ -55,8 +74,8 @@ public class DetailsTransitionArc extends TransitionSet {
         addTransition(new ChangeBounds())
                 .addTransition(new ChangeTransform())
                 .addTransition(new ChangeImageTransform())
-                .setDuration(750)
-                .setInterpolator(new DecelerateInterpolator(1.5f))
+                .setDuration(750L)
+                .setInterpolator(new DecelerateInterpolator(decelerateFactor))
                 .setPathMotion(arcMotion);
     }
 }

@@ -3,12 +3,13 @@ package app.simple.inure.decorations.searchview;
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -52,23 +53,12 @@ public class SearchView extends LinearLayout {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // TODO - find a method to fix the text watcher getting called every time view's instance is restored
-                //searchViewEventListener.onSearchTextChanged(s.toString(), count);
+                searchViewEventListener.onSearchTextChanged(s.toString(), count);
             }
             
             @Override
             public void afterTextChanged(Editable s) {
                 /* no-op */
-            }
-        });
-        
-        editText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                imageButton.animate().scaleX(0F).scaleY(0F).setInterpolator(new DecelerateInterpolator()).start();
-                imageButton.setVisibility(View.GONE);
-            }
-            else {
-                imageButton.animate().scaleX(1F).scaleY(1F).setInterpolator(new DecelerateInterpolator()).start();
-                imageButton.setVisibility(View.VISIBLE);
             }
         });
         
@@ -80,6 +70,11 @@ public class SearchView extends LinearLayout {
         super.onDetachedFromWindow();
         editText.clearAnimation();
         imageButton.clearAnimation();
+    }
+    
+    @Override
+    public void saveHierarchyState(SparseArray <Parcelable> container) {
+        super.saveHierarchyState(container);
     }
     
     public void setSearchViewEventListener(SearchViewEventListener searchViewEventListener) {
