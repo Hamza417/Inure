@@ -69,6 +69,7 @@ class AppInfo : CoroutineScopedFragment() {
         dataDir = view.findViewById(R.id.sub_directory_data)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
+
         return view
     }
 
