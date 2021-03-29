@@ -12,8 +12,7 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
  * Custom recycler view with nice layout animation and
  * smooth overscroll effect
  */
-class CustomRecyclerView(context: Context, attrs: AttributeSet?) :
-    RecyclerView(context, attrs) {
+class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
 
     init {
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -72,8 +71,8 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) :
                         val translationVelocity = sign * velocity * ScrollConstants.flingTranslationMagnitude
                         recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
                             holder.translationY
-                                .setStartVelocity(translationVelocity)
-                                .start()
+                                    .setStartVelocity(translationVelocity)
+                                    .start()
                         }
                     }
                 }

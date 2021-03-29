@@ -8,12 +8,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import app.simple.inure.packagehelper.PackageUtils.getApplicationName
-import app.simple.inure.util.Sort
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.collections.ArrayList
 
 class AppData(application: Application, private val savedStateHandle: SavedStateHandle) : AndroidViewModel(application) {
     private val appData: MutableLiveData<ArrayList<ApplicationInfo>> by lazy {
@@ -30,7 +29,7 @@ class AppData(application: Application, private val savedStateHandle: SavedState
         CoroutineScope(Dispatchers.Default).launch {
             val apps = getApplication<Application>().applicationContext.packageManager.getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
 
-            for(i in apps.indices) {
+            for (i in apps.indices) {
                 /**
                  * [ApplicationInfo.name] is pretty useless anyway, so here
                  * I am making it more meaningful and usable and this also
@@ -40,7 +39,7 @@ class AppData(application: Application, private val savedStateHandle: SavedState
                 apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
             }
 
-            apps.getSortedList(Sort.ALPHABETICALLY, false)
+            apps.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)
 
             appData.postValue(apps)
         }
@@ -56,13 +55,13 @@ class AppData(application: Application, private val savedStateHandle: SavedState
     }
 
     @Deprecated("Use adapter state restoration policy")
-    /**
-     * Set current scroll position of recycler view
-     * right before a view is deemed destroyed
-     *
-     * use [getScrollPosition] to fetch [LiveData]
-     * containing scroll position
-     */
+            /**
+             * Set current scroll position of recycler view
+             * right before a view is deemed destroyed
+             *
+             * use [getScrollPosition] to fetch [LiveData]
+             * containing scroll position
+             */
     fun setScrollPosition(position: Int) {
         savedStateHandle.set("scroll_position", position)
     }

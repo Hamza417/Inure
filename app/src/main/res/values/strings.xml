@@ -9,4 +9,10 @@
     <string name="alert_app_killed">App has been killed</string>
     <string name="uninstall">Uninstall</string>
     <string name="search">Search</string>
+    <string name="name">Name</string>
+    <string name="package_name">Package Name</string>
+    <string name="app_size">App Size</string>
+    <string name="install_date">Install Date</string>
+    <string name="reverse">Reverse</string>
+    <string name="apps_category">Apps Category</string>
 </resources>

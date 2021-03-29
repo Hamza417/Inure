@@ -12,4 +12,7 @@
     <dimen name="info_text_large">6pt</dimen>
     <dimen name="info_text_large_margin_top">3dp</dimen>
     <dimen name="info_text_large_margin_bottom">15dp</dimen>
+    <dimen name="dialog_padding">15dp</dimen>
+    <dimen name="dialog_elevation">10dp</dimen>
+    <dimen name="popup_padding">10dp</dimen>
 </resources>

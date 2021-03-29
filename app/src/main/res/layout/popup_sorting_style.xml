@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/mainBackground"
+    android:clipChildren="true"
+    android:clipToPadding="true"
+    android:elevation="20dp"
+    android:orientation="vertical"
+    android:padding="@dimen/popup_padding">
+
+    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+        android:id="@+id/sort_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/name"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+        android:id="@+id/sort_package_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_ripple_btn"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/package_name"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+        android:id="@+id/sort_app_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_ripple_btn"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/app_size"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+        android:id="@+id/sort_install_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_ripple_btn"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/install_date"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginVertical="3dp"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+            android:id="@+id/sort_reversed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_ripple_btn"
+            android:fontFamily="@font/lato_bold"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="20dp"
+            android:text="@string/reverse"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/popup_text_size"
+            app:appFontStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/sort_reversed_checkbox"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="10dp"
+            android:buttonTint="@color/appAccent" />
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

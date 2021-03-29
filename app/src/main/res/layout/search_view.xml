@@ -32,7 +32,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginHorizontal="5dp"
         android:background="@drawable/bg_ripple_btn"
-        android:src="@drawable/ic_menu" />
+        android:src="@drawable/ic_tune" />
 
 </LinearLayout>
-

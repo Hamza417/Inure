@@ -11,6 +11,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.CoroutineScopedFragment
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.packagehelper.PackageUtils
+import app.simple.inure.packagehelper.PackageUtils.getApplicationInstallTime
 import app.simple.inure.packagehelper.PackageUtils.getPackageSize
 import app.simple.inure.util.FileSizeHelper.getDirectorySize
 import app.simple.inure.util.FileSizeHelper.getFileSize
@@ -110,7 +111,7 @@ class AppInfo : CoroutineScopedFragment() {
                 versionCode = PackageUtils.getApplicationVersionCode(requireContext(), applicationInfo)
                 installLocation = applicationInfo.publicSourceDir
                 uid = applicationInfo.uid.toString()
-                installDate = PackageUtils.getApplicationInstallTime(requireContext(), applicationInfo)
+                installDate = applicationInfo.getApplicationInstallTime(requireContext())
                 updateDate = PackageUtils.getApplicationLastUpdateTime(requireContext(), applicationInfo)
                 apkSize = packageSize.codeSize.getFileSize()
                 splitsSize = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && applicationInfo.splitSourceDirs.isNotNull()) {

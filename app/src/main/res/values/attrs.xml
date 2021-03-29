@@ -52,7 +52,8 @@
         <attr name="appFontStyle" format="string">
             <flag name="light" value="0" />
             <flag name="regular" value="1" />
-            <flag name="bold" value="2" />
+            <flag name="medium" value="2" />
+            <flag name="bold" value="3" />
         </attr>
     </declare-styleable>
 

@@ -24,8 +24,9 @@ import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import java.util.*
 
-class AppsAdapter(private val appsAdapterCallbacks: AppsAdapterCallbacks) : RecyclerView.Adapter<AppsAdapter.Holder>() {
+class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
 
+    private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     var apps = arrayListOf<ApplicationInfo>()
     var searchKeyword: String = ""
     private var xOff = 0f
@@ -89,6 +90,10 @@ class AppsAdapter(private val appsAdapterCallbacks: AppsAdapterCallbacks) : Recy
             sb.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
         textView.text = sb
+    }
+
+    fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
+        this.appsAdapterCallbacks = appsAdapterCallbacks
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

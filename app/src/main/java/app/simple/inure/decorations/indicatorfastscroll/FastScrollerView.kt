@@ -72,7 +72,7 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     internal var onItemIndicatorTouched: ((Boolean) -> Unit)? = null
 
-    private val isSetup: Boolean get() = (recyclerView != null)
+    val isSetup: Boolean get() = (recyclerView != null)
     private var recyclerView: RecyclerView? = null
     private var adapter: RecyclerView.Adapter<*>? = null
         set(value) {

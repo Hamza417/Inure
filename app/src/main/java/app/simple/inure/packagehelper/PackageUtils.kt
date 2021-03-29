@@ -78,9 +78,9 @@ object PackageUtils {
      *        information
      * @return app's install date as [String]
      */
-    fun getApplicationInstallTime(context: Context, applicationInfo: ApplicationInfo): String {
+    fun ApplicationInfo.getApplicationInstallTime(context: Context): String {
         return try {
-            DateUtils.formatDate(context.packageManager.getPackageInfo(applicationInfo.packageName, 0).firstInstallTime)
+            DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).firstInstallTime)
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
         }

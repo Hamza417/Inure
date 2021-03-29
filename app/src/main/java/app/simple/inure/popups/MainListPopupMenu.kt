@@ -1,16 +1,15 @@
-package app.simple.inure.decorations.views
+package app.simple.inure.popups
 
-import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import app.simple.inure.R
-import app.simple.inure.interfaces.menu.PopupMenuCallback
+import app.simple.inure.decorations.popup.PopupMenuCallback
+import app.simple.inure.decorations.popup.PopupUtils.dimBehind
 
 /**
  * A customised version of popup menu that uses [PopupWindow]
@@ -20,12 +19,14 @@ import app.simple.inure.interfaces.menu.PopupMenuCallback
  * window when appears. It is highly recommended to use this
  * and ditch popup menu entirely.
  */
-class MainListPopupMenu(contentView: View,
+class MainListPopupMenu(
+        contentView: View,
         viewGroup: ViewGroup,
         xOff: Float,
         yOff: Float,
         private val applicationInfo: ApplicationInfo,
-        private val icon: ImageView) : PopupWindow() {
+        private val icon: ImageView,
+) : PopupWindow() {
 
     lateinit var popupMenuCallback: PopupMenuCallback
 
@@ -42,7 +43,7 @@ class MainListPopupMenu(contentView: View,
         contentView.findViewById<TextView>(R.id.menu_launch).onClick()
         contentView.findViewById<TextView>(R.id.menu_uninstall).onClick()
         contentView.findViewById<TextView>(R.id.menu_kill).onClick()
-        contentView.findViewById<TextView>(R.id.menu_information).onClick()
+        contentView.findViewById<TextView>(R.id.menu_sort_name).onClick()
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             overlapAnchor = false
@@ -58,7 +59,7 @@ class MainListPopupMenu(contentView: View,
 
     override fun showAsDropDown(anchor: View?, xoff: Int, yoff: Int, gravity: Int) {
         super.showAsDropDown(anchor, xoff, yoff, gravity)
-        dimBehind()
+        dimBehind(contentView)
     }
 
     private fun TextView.onClick() {
@@ -68,18 +69,7 @@ class MainListPopupMenu(contentView: View,
         }
     }
 
-    /**
-     * Dim the background when PopupWindow shows
-     * Should be called from [showAsDropDown] function
-     * because this is when container's parent is
-     * initialized
-     */
-    private fun dimBehind() {
-        val container = contentView.rootView
-        val windowManager = contentView.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val layoutParams = container.layoutParams as WindowManager.LayoutParams
-        layoutParams.flags = layoutParams.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
-        layoutParams.dimAmount = 0.3f
-        windowManager.updateViewLayout(container, layoutParams)
+    fun setOnMenuItemClickListener(popupMenuCallback: PopupMenuCallback) {
+        this.popupMenuCallback = popupMenuCallback
     }
 }

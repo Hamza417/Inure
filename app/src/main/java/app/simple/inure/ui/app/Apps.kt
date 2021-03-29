@@ -2,6 +2,7 @@ package app.simple.inure.ui.app
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,27 +11,31 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.AppsAdapter
+import app.simple.inure.adapters.AppsAdapterSmall
+import app.simple.inure.decorations.corners.DynamicCornerConstraintLayout
+import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
+import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.transitions.TransitionManager
 import app.simple.inure.decorations.views.CustomRecyclerView
-import app.simple.inure.decorations.views.MainListPopupMenu
+import app.simple.inure.dialogs.AppsListConfiguration
 import app.simple.inure.extension.fragments.CoroutineScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.interfaces.menu.PopupMenuCallback
 import app.simple.inure.packagehelper.PackageUtils.killThisApp
 import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
 import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
-import app.simple.inure.util.Sort
+import app.simple.inure.popups.MainListPopupMenu
+import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort.getSortedList
 import app.simple.inure.viewmodels.AppData
 import kotlinx.coroutines.Dispatchers
@@ -39,14 +44,14 @@ import kotlinx.coroutines.withContext
 import java.util.*
 
 
-class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback {
+class Apps : CoroutineScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var appsListRecyclerView: CustomRecyclerView
     private lateinit var fastScrollerView: FastScrollerView
     private lateinit var scrollerThumb: FastScrollerThumbView
     private lateinit var searchView: SearchView
 
-    private lateinit var appsAdapter: AppsAdapter
+    private lateinit var appsAdapter: AppsAdapterSmall
     private lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
     private var allAppsList = arrayListOf<ApplicationInfo>()
 
@@ -69,26 +74,59 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
             postponeEnterTransition()
             allAppsList = it
 
-            appsAdapter = AppsAdapter(this)
+            appsAdapter = AppsAdapterSmall()
             appsAdapter.apps = allAppsList
 
             appsListRecyclerView.adapter = appsAdapter
 
-            fastScrollerView.setupWithRecyclerView(appsListRecyclerView, { position ->
-                FastScrollItemIndicator.Text(allAppsList[position].name.substring(0, 1)
-                                                     .toUpperCase(Locale.ROOT))
-            })
+            if (!fastScrollerView.isSetup) {
+                fastScrollerView.setupWithRecyclerView(appsListRecyclerView, { position ->
+                    FastScrollItemIndicator.Text(allAppsList[position].name.substring(0, 1)
+                                                         .toUpperCase(Locale.ROOT))
+                })
 
-            scrollerThumb.setupWithFastScroller(fastScrollerView)
+                scrollerThumb.setupWithFastScroller(fastScrollerView)
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
+
+            appsAdapter.setOnItemClickListener(object : AppsAdapterCallbacks {
+                override fun onAppClicked(applicationInfo: ApplicationInfo, icon: ImageView) {
+                    openAppInfo(applicationInfo, icon)
+                }
+
+                override fun onMenuClicked(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView) {
+                    val popupMenu = MainListPopupMenu(layoutInflater.inflate(R.layout.popup_main_list, DynamicCornerLinearLayout(requireContext(), null, 0), true),
+                                                      viewGroup, xOff, yOff, applicationInfo, icon)
+                    popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
+                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                            when (source) {
+                                getString(R.string.app_information) -> {
+                                    openAppInfo(applicationInfo, icon)
+                                }
+                                getString(R.string.launch) -> {
+                                    applicationInfo.launchThisPackage(requireActivity())
+                                }
+                                getString(R.string.kill) -> {
+                                    applicationInfo.killThisApp(requireActivity())
+                                }
+                                getString(R.string.uninstall) -> {
+                                    applicationInfo.uninstallThisPackage(requireActivity())
+                                }
+                            }
+                        }
+                    })
+                }
+
+            })
         })
 
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
             override fun onSearchMenuPressed(button: View) {
-
+                AppsListConfiguration.newInstance()
+                        .show(childFragmentManager, "apps_list_configuration")
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
@@ -109,7 +147,7 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
                                     }
                                 }
 
-                                filteredList.getSortedList(Sort.ALPHABETICALLY, false)
+                                filteredList.getSortedList(MainPreferences.getSortStyle(), context!!)
                             } catch (ignored: ConcurrentModificationException) {
                             } catch (ignored: IndexOutOfBoundsException) {
                             } catch (ignored: NullPointerException) {
@@ -119,16 +157,14 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
                         }
                     }
 
-                    appsAdapter.searchKeyword = keywords
+                    //appsAdapter.searchKeyword = keywords
                     appsAdapter.apps = filteredList
                     appsAdapter.notifyDataSetChanged()
                 }
             }
         })
 
-        appUninstallObserver = registerForActivityResult(
-            StartActivityForResult()
-        ) { result ->
+        appUninstallObserver = registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 /**
                  * Refresh the viewModel to re-fetch the updated list
@@ -145,31 +181,14 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onAppClicked(applicationInfo: ApplicationInfo, icon: ImageView) {
-        openAppInfo(applicationInfo, icon)
+    override fun onResume() {
+        super.onResume()
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onMenuClicked(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView) {
-        val popupMenu = MainListPopupMenu(layoutInflater.inflate(R.layout.menu_main_list, ConstraintLayout(requireContext()), true),
-                                          viewGroup, xOff, yOff, applicationInfo, icon)
-        popupMenu.popupMenuCallback = this
-    }
-
-    override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
-        when (source) {
-            getString(R.string.app_information) -> {
-                openAppInfo(applicationInfo, icon)
-            }
-            getString(R.string.launch) -> {
-                applicationInfo.launchThisPackage(requireActivity())
-            }
-            getString(R.string.kill) -> {
-                applicationInfo.killThisApp(requireActivity())
-            }
-            getString(R.string.uninstall) -> {
-                applicationInfo.uninstallThisPackage(requireActivity())
-            }
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 
     private fun openAppInfo(applicationInfo: ApplicationInfo, icon: ImageView) {
@@ -193,6 +212,14 @@ class Apps : CoroutineScopedFragment(), AppsAdapterCallbacks, PopupMenuCallback 
             val fragment = Apps()
             fragment.arguments = args
             return fragment
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            MainPreferences.sortStyle, MainPreferences.isSortingReversed -> {
+                model.loadAppData()
+            }
         }
     }
 }

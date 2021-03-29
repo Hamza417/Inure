@@ -13,7 +13,7 @@ import androidx.transition.TransitionSet;
 
 /**
  * Transition that performs almost exactly like {@link android.transition.AutoTransition}, but has an
- * added {@link ChangeImageTransform} to support properly scaling up our gorgeous kittens.
+ * added {@link ChangeImageTransform} to support properly scaling up our gorgeous kittens {@link android.widget.ImageView}.
  *
  * @author bherbst
  */
@@ -55,9 +55,9 @@ public class DetailsTransitionArc extends TransitionSet {
          * motion when the view is transitioning.
          */
         ArcMotion arcMotion = new ArcMotion();
-        arcMotion.setMaximumAngle(90);
-        arcMotion.setMinimumHorizontalAngle(80);
-        arcMotion.setMinimumVerticalAngle(15);
+        arcMotion.setMaximumAngle(90F);
+        arcMotion.setMinimumHorizontalAngle(20F);
+        arcMotion.setMinimumVerticalAngle(80F);
         
         /*
          * Makes sure things go smoothly

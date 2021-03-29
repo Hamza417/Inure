@@ -13,6 +13,11 @@ import app.simple.inure.preferences.MainPreferences;
 
 public class TypeFaceTextView extends AppCompatTextView {
     
+    public static final String PLUS_JAKARTA = "plus_jakarta";
+    public static final String LATO = "lato";
+    public static final String MULISH = "mulish";
+    public static final String JOST = "jost";
+    
     private final TypedArray typedArray;
     
     public TypeFaceTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -32,10 +37,10 @@ public class TypeFaceTextView extends AppCompatTextView {
         setSelected(true);
     }
     
-    private void setTypeFace(String appFont, int string) {
+    private void setTypeFace(String appFont, int style) {
         switch (appFont) {
             case "lato": {
-                switch (string) {
+                switch (style) {
                     case 0: {
                         setTypeface(ResourcesCompat.getFont(getContext(), R.font.lato_light));
                         break;
@@ -45,7 +50,71 @@ public class TypeFaceTextView extends AppCompatTextView {
                         break;
                     }
                     case 2: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.lato_medium));
+                        break;
+                    }
+                    case 3: {
                         setTypeface(ResourcesCompat.getFont(getContext(), R.font.lato_bold));
+                        break;
+                    }
+                }
+            }
+            case "plus_jakarta": {
+                switch (style) {
+                    case 0: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_light));
+                        break;
+                    }
+                    case 1: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_regular));
+                        break;
+                    }
+                    case 2: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_medium));
+                        break;
+                    }
+                    case 3: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_bold));
+                        break;
+                    }
+                }
+            }
+            case "mulish": {
+                switch (style) {
+                    case 0: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.mulish_light));
+                        break;
+                    }
+                    case 1: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.mulish_regular));
+                        break;
+                    }
+                    case 2: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.mulish_medium));
+                        break;
+                    }
+                    case 3: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.mulish_bold));
+                        break;
+                    }
+                }
+            }
+            case "jost": {
+                switch (style) {
+                    case 0: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.jost_light));
+                        break;
+                    }
+                    case 1: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.jost_regular));
+                        break;
+                    }
+                    case 2: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.jost_medium));
+                        break;
+                    }
+                    case 3: {
+                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.jost_bold));
                         break;
                     }
                 }

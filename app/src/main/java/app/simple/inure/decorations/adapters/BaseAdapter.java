@@ -4,8 +4,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks;
 
-public class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BaseAdapter extends RecyclerView.Adapter <RecyclerView.ViewHolder> {
+    
+    private AppsAdapterCallbacks appsAdapterCallbacks;
     
     @NonNull
     @Override
@@ -23,8 +26,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return 0;
     }
     
-    @Override
-    public void setStateRestorationPolicy(@NonNull StateRestorationPolicy strategy) {
-        super.setStateRestorationPolicy(StateRestorationPolicy.PREVENT_WHEN_EMPTY);
+    public void setOnItemClickListener(AppsAdapterCallbacks appsAdapterCallbacks) {
+        this.appsAdapterCallbacks = appsAdapterCallbacks;
     }
 }
