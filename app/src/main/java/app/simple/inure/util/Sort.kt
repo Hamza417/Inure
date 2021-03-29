@@ -2,9 +2,8 @@ package app.simple.inure.util
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
-import app.simple.inure.packagehelper.PackageUtils.getApplicationInstallTime
-import app.simple.inure.packagehelper.PackageUtils.getPackageSize
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import java.util.*
 
 object Sort {
@@ -83,11 +82,11 @@ object Sort {
     private fun ArrayList<ApplicationInfo>.sortBySize(context: Context) {
         return if (MainPreferences.isReverseSorting()) {
             this.sortByDescending {
-                it.getPackageSize(context).dataSize
+                it.sourceDir.getDirectoryLength()
             }
         } else {
             this.sortBy {
-                it.getPackageSize(context).dataSize
+                it.sourceDir.getDirectoryLength()
             }
         }
     }
@@ -113,11 +112,11 @@ object Sort {
     private fun ArrayList<ApplicationInfo>.sortByInstallDate(context: Context) {
         return if (MainPreferences.isReverseSorting()) {
             this.sortByDescending {
-                it.getApplicationInstallTime(context)
+                context.packageManager.getPackageInfo(it.packageName, 0).firstInstallTime
             }
         } else {
             this.sortBy {
-                it.getApplicationInstallTime(context)
+                context.packageManager.getPackageInfo(it.packageName, 0).firstInstallTime
             }
         }
     }

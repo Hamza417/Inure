@@ -21,8 +21,15 @@ import static app.simple.inure.decorations.animatedbackground.Utils.animateBackg
  * background
  */
 public class AnimatedBackgroundTextView extends TypeFaceTextView {
+    
     public AnimatedBackgroundTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+        LayoutBackground.setBackground(context, this, attrs);
+    }
+    
+    public AnimatedBackgroundTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
         LayoutBackground.setBackground(context, this, attrs);
     }

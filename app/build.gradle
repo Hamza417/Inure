@@ -12,8 +12,8 @@ android {
         applicationId "app.simple.inure"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0_alpha"
+        versionCode 2
+        versionName "1.1_alpha"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 21
         renderscriptSupportModeEnabled true

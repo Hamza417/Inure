@@ -15,4 +15,12 @@
     <string name="install_date">Install Date</string>
     <string name="reverse">Reverse</string>
     <string name="apps_category">Apps Category</string>
+    <string name="system">System</string>
+    <string name="user">User</string>
+    <string name="both">Both</string>
+    <string name="typeface_icon">Typeface Icon</string>
+    <string name="app_typeface">App Typeface</string>
+    <string name="select_the_application_s_typeface">Whole application\'s typeface/font.\n\nSelecting any typeface will instantly restart the app and the whole application\'s font will be changed.</string>
+    <string name="appearances">Appearances</string>
+    <string name="appearance_icon">Appearance Icon</string>
 </resources>

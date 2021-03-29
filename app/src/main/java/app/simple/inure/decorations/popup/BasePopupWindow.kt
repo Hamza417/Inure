@@ -19,6 +19,7 @@ open class BasePopupWindow : PopupWindow() {
 
     fun init(contentView: View, viewGroup: ViewGroup, xOff: Float, yOff: Float) {
         setContentView(contentView)
+        init()
         showAsDropDown(viewGroup, xOff.toInt() - width, yOff.toInt() - height, Gravity.START)
     }
 
@@ -35,7 +36,7 @@ open class BasePopupWindow : PopupWindow() {
         animationStyle = R.style.PopupAnimation
         isClippingEnabled = false
         isFocusable = true
-        elevation = 100F
+        elevation = 25F
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             overlapAnchor = false

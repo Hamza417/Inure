@@ -14,9 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.adapters.AppsAdapter
 import app.simple.inure.adapters.AppsAdapterSmall
-import app.simple.inure.decorations.corners.DynamicCornerConstraintLayout
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
@@ -157,7 +155,7 @@ class Apps : CoroutineScopedFragment(), SharedPreferences.OnSharedPreferenceChan
                         }
                     }
 
-                    //appsAdapter.searchKeyword = keywords
+                    appsAdapter.searchKeyword = keywords
                     appsAdapter.apps = filteredList
                     appsAdapter.notifyDataSetChanged()
                 }
@@ -217,7 +215,10 @@ class Apps : CoroutineScopedFragment(), SharedPreferences.OnSharedPreferenceChan
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            MainPreferences.sortStyle, MainPreferences.isSortingReversed -> {
+            MainPreferences.sortStyle,
+            MainPreferences.isSortingReversed,
+            MainPreferences.listAppsCategory,
+            -> {
                 model.loadAppData()
             }
         }

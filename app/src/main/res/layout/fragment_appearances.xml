@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/appearance_icon"
+            android:src="@drawable/ic_palette"
+            android:transitionName="appearance_icon"
+            app:tint="@color/iconRegular" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingHorizontal="20dp"
+            android:text="@string/appearances"
+            android:textColor="@color/textPrimary"
+            android:textSize="22sp"
+            app:appFontStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundConstraintLayout
+        android:id="@+id/appearance_app_typeface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/typeface_icon"
+            android:src="@drawable/ic_text_fields"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/iconSecondary" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/typeFaceTextView01"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/app_typeface"
+            android:textColor="@color/textPrimary"
+            android:textSize="14sp"
+            app:appFontStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/typeFaceTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/select_the_application_s_typeface"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/textTertiary"
+            android:textSize="12sp"
+            app:appFontStyle="regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@id/typeFaceTextView01"
+            tools:layout_editor_absoluteY="15dp" />
+
+    </app.simple.inure.decorations.animatedbackground.AnimatedBackgroundConstraintLayout>
+
+</LinearLayout>

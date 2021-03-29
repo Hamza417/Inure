@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import app.simple.inure.packagehelper.PackageUtils.getApplicationName
+import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.CoroutineScope
@@ -28,6 +29,7 @@ class AppData(application: Application, private val savedStateHandle: SavedState
     fun loadAppData() {
         CoroutineScope(Dispatchers.Default).launch {
             val apps = getApplication<Application>().applicationContext.packageManager.getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
+            val filtered = arrayListOf<ApplicationInfo>()
 
             for (i in apps.indices) {
                 /**
@@ -37,11 +39,27 @@ class AppData(application: Application, private val savedStateHandle: SavedState
                  * project
                  */
                 apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
+
+                when (MainPreferences.getListAppCategory()) {
+                    AppCategoryPopup.SYSTEM -> {
+                        if ((apps[i].flags and ApplicationInfo.FLAG_SYSTEM) != 0) {
+                            filtered.add(apps[i])
+                        }
+                    }
+                    AppCategoryPopup.USER -> {
+                        if ((apps[i].flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+                            filtered.add(apps[i])
+                        }
+                    }
+                    else -> {
+                        filtered.add(apps[i])
+                    }
+                }
             }
 
-            apps.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)
+            filtered.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)
 
-            appData.postValue(apps)
+            appData.postValue(filtered)
         }
     }
 

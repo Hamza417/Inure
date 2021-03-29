@@ -48,6 +48,8 @@ object PackageUtils {
             context.packageManager.getPackageInfo(applicationInfo.packageName, 0).versionName
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
+        } catch (e: NullPointerException) {
+            context.getString(R.string.unknown)
         }
     }
 
@@ -74,8 +76,6 @@ object PackageUtils {
     /**
      * Fetches the app's install date from the package id of the application
      * @param context of the given environment
-     * @param applicationInfo is [ApplicationInfo] object containing app's
-     *        information
      * @return app's install date as [String]
      */
     fun ApplicationInfo.getApplicationInstallTime(context: Context): String {

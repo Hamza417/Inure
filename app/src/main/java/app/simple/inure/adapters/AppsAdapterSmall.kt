@@ -15,12 +15,13 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.packagehelper.PackageUtils.getPackageSize
+import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.FileSizeHelper.getFileSize
 
 class AppsAdapterSmall : RecyclerView.Adapter<AppsAdapterSmall.Holder>() {
 
     var apps = arrayListOf<ApplicationInfo>()
+    var searchKeyword = ""
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     private var xOff = 0f
     private var yOff = 0f
@@ -37,14 +38,21 @@ class AppsAdapterSmall : RecyclerView.Adapter<AppsAdapterSmall.Holder>() {
         holder.name.text = apps[position].name
         holder.packageId.text = apps[position].packageName
         holder.packageType.text = if ((apps[position].flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+            holder.packageType.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, 0, 0)
             "User"
         } else {
+            holder.packageType.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_android, 0, 0, 0)
             "System"
         }
-        holder.packageSize.text = apps[position].getPackageSize(holder.itemView.context).dataSize.getFileSize()
+        holder.packageSize.text = apps[position].sourceDir.getFileSize()
 
         holder.container.setOnClickListener {
             appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
+        }
+
+        if(searchKeyword.isNotEmpty()) {
+            AdapterUtils.searchHighlighter(holder.name, holder.itemView.context, searchKeyword)
+            AdapterUtils.searchHighlighter(holder.packageId, holder.itemView.context, searchKeyword)
         }
 
         holder.container.setOnTouchListener { _, event ->
@@ -58,7 +66,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<AppsAdapterSmall.Holder>() {
         }
 
         holder.container.setOnLongClickListener {
-            //appsAdapterCallbacks.onMenuClicked(apps[position], holder.container, xOff, yOff, holder.icon)
+            appsAdapterCallbacks.onMenuClicked(apps[position], holder.container, xOff, yOff, holder.icon)
             true
         }
     }

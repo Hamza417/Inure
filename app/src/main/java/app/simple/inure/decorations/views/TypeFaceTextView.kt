@@ -1,129 +1,106 @@
-package app.simple.inure.decorations.views;
+package app.simple.inure.decorations.views
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.util.AttributeSet;
+import android.content.Context
+import android.content.res.TypedArray
+import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.res.ResourcesCompat
+import app.simple.inure.R
+import app.simple.inure.preferences.MainPreferences.getAppFont
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.res.ResourcesCompat;
-import app.simple.inure.R;
-import app.simple.inure.preferences.MainPreferences;
+open class TypeFaceTextView : AppCompatTextView {
+    private val typedArray: TypedArray
 
-public class TypeFaceTextView extends AppCompatTextView {
-    
-    public static final String PLUS_JAKARTA = "plus_jakarta";
-    public static final String LATO = "lato";
-    public static final String MULISH = "mulish";
-    public static final String JOST = "jost";
-    
-    private final TypedArray typedArray;
-    
-    public TypeFaceTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.TypeFaceTextView, 0, 0);
-        init();
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TypeFaceTextView, 0, 0)
+        init()
     }
-    
-    public TypeFaceTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.TypeFaceTextView, defStyleAttr, 0);
-        init();
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TypeFaceTextView, defStyleAttr, 0)
+        init()
     }
-    
-    private void init() {
-        setTypeFace(MainPreferences.INSTANCE.getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, 0));
-        setSelected(true);
+
+    private fun init() {
+        setTypeFace(getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, 0))
+        isSelected = true
     }
-    
-    private void setTypeFace(String appFont, int style) {
-        switch (appFont) {
-            case "lato": {
-                switch (style) {
-                    case 0: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.lato_light));
-                        break;
+
+    private fun setTypeFace(appFont: String, style: Int) {
+        when (appFont) {
+            LATO -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.lato_light)
                     }
-                    case 1: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.lato_regular));
-                        break;
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.lato_regular)
                     }
-                    case 2: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.lato_medium));
-                        break;
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.lato_medium)
                     }
-                    case 3: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.lato_bold));
-                        break;
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.lato_bold)
                     }
                 }
             }
-            case "plus_jakarta": {
-                switch (style) {
-                    case 0: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_light));
-                        break;
+            PLUS_JAKARTA -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.plus_jakarta_light)
                     }
-                    case 1: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_regular));
-                        break;
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.plus_jakarta_regular)
                     }
-                    case 2: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_medium));
-                        break;
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.plus_jakarta_medium)
                     }
-                    case 3: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.plus_jakarta_bold));
-                        break;
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.plus_jakarta_bold)
                     }
                 }
             }
-            case "mulish": {
-                switch (style) {
-                    case 0: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.mulish_light));
-                        break;
+            MULISH -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.mulish_light)
                     }
-                    case 1: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.mulish_regular));
-                        break;
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.mulish_regular)
                     }
-                    case 2: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.mulish_medium));
-                        break;
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.mulish_medium)
                     }
-                    case 3: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.mulish_bold));
-                        break;
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.mulish_bold)
                     }
                 }
             }
-            case "jost": {
-                switch (style) {
-                    case 0: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.jost_light));
-                        break;
+            JOST -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.jost_light)
                     }
-                    case 1: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.jost_regular));
-                        break;
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.jost_regular)
                     }
-                    case 2: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.jost_medium));
-                        break;
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.jost_medium)
                     }
-                    case 3: {
-                        setTypeface(ResourcesCompat.getFont(getContext(), R.font.jost_bold));
-                        break;
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.jost_bold)
                     }
                 }
             }
-            case "roboto": {
-                /*
-                 * no op
-                 */
+            "roboto" -> {
             }
         }
+    }
+
+    companion object {
+        const val PLUS_JAKARTA = "plus_jakarta"
+        const val LATO = "lato"
+        const val MULISH = "mulish"
+        const val JOST = "jost"
     }
 }

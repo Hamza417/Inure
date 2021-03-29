@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.bouncescroll.BouncyNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_app_info_container"
     android:layout_width="match_parent"
@@ -7,9 +7,9 @@
     android:clipToPadding="false"
     android:padding="20dp"
     app:damping_ratio="DAMPING_RATIO_NO_BOUNCY"
-    app:stiffness="STIFFNESS_LOW"
     app:fling_animation_size="0.75"
-    app:overscroll_animation_size="0.75">
+    app:overscroll_animation_size="0.75"
+    app:stiffness="STIFFNESS_LOW">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,5 +72,5 @@
         <include layout="@layout/sub_app_directories" />
     </LinearLayout>
 
-</app.simple.inure.decorations.bouncescroll.BouncyNestedScrollView>
+</androidx.core.widget.NestedScrollView>
 

@@ -2,14 +2,21 @@ package app.simple.inure.util
 
 import app.simple.inure.preferences.MainPreferences
 import java.io.File
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
 import kotlin.math.abs
 
 object FileSizeHelper {
 
-    fun String.getDirectorySize(): String {
+    fun String.getFileSize(): String {
         return File(this).length().getFileSize()
+    }
+
+    fun String.getDirectoryLength(): Long {
+        return File(this).length()
     }
 
     fun Array<String>.getDirectorySize(): String {
@@ -20,6 +27,18 @@ object FileSizeHelper {
         }
 
         return total.getFileSize()
+    }
+
+    fun String.getDirectorySize(): String {
+        return try {
+            Files.walk(Paths.get(this))
+                    .filter { p -> p.toFile().isFile }
+                    .mapToLong { p -> p.toFile().length() }
+                    .sum().getFileSize()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            0L.getFileSize()
+        }
     }
 
     fun String.getNumberOfFile(): Int {

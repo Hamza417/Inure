@@ -55,9 +55,9 @@ public class DetailsTransitionArc extends TransitionSet {
          * motion when the view is transitioning.
          */
         ArcMotion arcMotion = new ArcMotion();
-        arcMotion.setMaximumAngle(90F);
-        arcMotion.setMinimumHorizontalAngle(20F);
-        arcMotion.setMinimumVerticalAngle(80F);
+        arcMotion.setMaximumAngle(90);
+        arcMotion.setMinimumHorizontalAngle(80);
+        arcMotion.setMinimumVerticalAngle(15);
         
         /*
          * Makes sure things go smoothly

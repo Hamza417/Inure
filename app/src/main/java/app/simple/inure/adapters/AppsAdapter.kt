@@ -22,6 +22,7 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.util.AdapterUtils.searchHighlighter
 import java.util.*
 
 class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
@@ -45,8 +46,8 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
         holder.packageId.text = apps[position].packageName
 
         if(searchKeyword.isNotEmpty()) {
-            searchHighlighter(holder.name, holder.itemView.context)
-            searchHighlighter(holder.packageId, holder.itemView.context)
+            searchHighlighter(holder.name, holder.itemView.context, searchKeyword)
+            searchHighlighter(holder.packageId, holder.itemView.context, searchKeyword)
         }
 
         holder.container.setOnClickListener {
@@ -76,20 +77,6 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
 
     override fun getItemCount(): Int {
         return apps.size
-    }
-
-    private fun searchHighlighter(textView: TextView, context: Context) {
-        val string = textView.text.toString()
-        val sb = SpannableStringBuilder(string)
-        val startPos = string.toLowerCase(Locale.getDefault()).indexOf(searchKeyword.toLowerCase(Locale.getDefault()))
-        val endPos = startPos + searchKeyword.length
-
-        if (startPos != -1) {
-            val colorKeyword = ColorStateList(arrayOf(intArrayOf()), intArrayOf(ContextCompat.getColor(context, R.color.appAccent)))
-            val highlightSpan = TextAppearanceSpan(null, Typeface.NORMAL, -1, colorKeyword, null)
-            sb.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        }
-        textView.text = sb
     }
 
     fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {

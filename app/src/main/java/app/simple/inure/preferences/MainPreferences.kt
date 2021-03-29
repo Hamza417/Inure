@@ -4,6 +4,7 @@ import androidx.annotation.IntRange
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort
 import org.jetbrains.annotations.NotNull
@@ -18,10 +19,11 @@ object MainPreferences {
     private const val theme = "current_theme"
     private const val appLanguage = "current_language_locale"
     private const val appCornerRadius = "corner_radius"
-    private const val appFont = "type_face"
+    const val appFont = "type_face"
     private const val sizeType = "size_type"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
+    const val listAppsCategory = "list_apps_category"
 
     fun setLaunchCount(value: Int) {
         getSharedPreferences().edit().putInt(launchCount, value).apply()
@@ -101,5 +103,13 @@ object MainPreferences {
 
     fun isReverseSorting(): Boolean {
         return getSharedPreferences().getBoolean(isSortingReversed, false)
+    }
+
+    fun setListAppCategory(@NonNull category: String) {
+        getSharedPreferences().edit().putString(listAppsCategory, category).apply()
+    }
+
+    fun getListAppCategory(): String {
+        return getSharedPreferences().getString(listAppsCategory, AppCategoryPopup.BOTH)!!
     }
 }

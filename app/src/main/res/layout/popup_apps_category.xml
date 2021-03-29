@@ -5,57 +5,45 @@
     android:layout_height="wrap_content"
     android:backgroundTint="@color/mainBackground"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
-        android:id="@+id/menu_sort_name"
+        android:id="@+id/popup_category_system"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/app_information"
+        android:text="@string/system"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
-        android:id="@+id/menu_launch"
+        android:id="@+id/popup_category_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_ripple_btn"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/launch"
+        android:text="@string/user"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
-        android:id="@+id/menu_uninstall"
+        android:id="@+id/popup_category_both"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_ripple_btn"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/uninstall"
-        android:textColor="@color/textPrimary"
-        android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
-
-    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
-        android:id="@+id/menu_kill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_ripple_btn"
-        android:fontFamily="@font/lato_bold"
-        android:paddingHorizontal="30dp"
-        android:paddingVertical="20dp"
-        android:text="@string/kill"
+        android:text="@string/both"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />

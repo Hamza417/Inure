@@ -3,11 +3,14 @@ package app.simple.inure.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.ui.app.Apps
 import app.simple.inure.util.NullSafety.isNull
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,8 +26,8 @@ class MainActivity : AppCompatActivity() {
             allApps = supportFragmentManager.findFragmentByTag("all_apps") ?: Apps.newInstance()
 
             supportFragmentManager.beginTransaction()
-                .replace(R.id.app_container, allApps, "all_apps")
-                .commit()
+                    .replace(R.id.app_container, allApps, "all_apps")
+                    .commit()
         }
     }
 }

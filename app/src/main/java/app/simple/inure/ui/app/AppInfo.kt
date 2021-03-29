@@ -113,7 +113,7 @@ class AppInfo : CoroutineScopedFragment() {
                 uid = applicationInfo.uid.toString()
                 installDate = applicationInfo.getApplicationInstallTime(requireContext())
                 updateDate = PackageUtils.getApplicationLastUpdateTime(requireContext(), applicationInfo)
-                apkSize = packageSize.codeSize.getFileSize()
+                apkSize = applicationInfo.sourceDir.getFileSize()
                 splitsSize = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && applicationInfo.splitSourceDirs.isNotNull()) {
                     "${applicationInfo.splitSourceDirs.getDirectorySize()} (${applicationInfo.splitNames.size} Files)"
                 } else getString(R.string.not_available)
@@ -137,10 +137,6 @@ class AppInfo : CoroutineScopedFragment() {
             this@AppInfo.dataSize.text = dataSize
             this@AppInfo.apkDir.text = apkDir
             this@AppInfo.dataDir.text = dataDir
-
-            this@AppInfo.installLocation.makeLinks(Pair(installLocation, View.OnClickListener {
-                FolderHelper.openFolder(requireContext(), installLocation)
-            }))
         }
     }
 
