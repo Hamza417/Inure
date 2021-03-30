@@ -9,26 +9,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="@dimen/header_padding">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="@string/appearance_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
             android:src="@drawable/ic_palette"
             android:transitionName="appearance_icon"
-            app:tint="@color/iconRegular" />
+            app:tint="@color/iconRegular"
+            tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingHorizontal="20dp"
-            android:text="@string/appearances"
-            android:textColor="@color/textPrimary"
-            android:textSize="22sp"
+            android:text="@string/appearance"
+            android:textColor="@color/textHeading"
+            android:textSize="36sp"
             app:appFontStyle="bold" />
 
     </LinearLayout>

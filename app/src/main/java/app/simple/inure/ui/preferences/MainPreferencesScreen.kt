@@ -32,12 +32,12 @@ class MainPreferencesScreen : Fragment() {
             exitTransition = TransitionManager.getEnterTransitions(TransitionManager.FADE)
             fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
             fragment.enterTransition = TransitionManager.getExitTransition(TransitionManager.FADE)
-            fragment.sharedElementReturnTransition = DetailsTransitionArc(1.2F)
+            fragment.sharedElementReturnTransition = DetailsTransitionArc(1.5F)
 
             requireActivity().supportFragmentManager.beginTransaction()
                     .addSharedElement(view.findViewById(R.id.appearance_icon), "appearance_icon")
                     .replace(R.id.app_container, fragment, "appearance_preferences_screen")
-                    .addToBackStack(tag)
+                    .addToBackStack(fragment.tag)
                     .commit()
         }
     }

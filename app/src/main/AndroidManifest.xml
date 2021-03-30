@@ -22,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:windowSoftInputMode="adjustResize"
-        android:theme="@style/Theme.Inure"
+        android:theme="@style/Inure"
         tools:ignore="AllowBackup">
         <activity
             android:name=".activities.MainActivity"

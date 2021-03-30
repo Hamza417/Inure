@@ -21,11 +21,15 @@
     <string name="typeface_icon">Typeface Icon</string>
     <string name="app_typeface">App Typeface</string>
     <string name="select_the_application_s_typeface">Whole application\'s typeface/font.\n\nSelecting any typeface will instantly restart the app and the whole application\'s font will be changed.</string>
-    <string name="appearances">Appearances</string>
+    <string name="appearance">Appearance</string>
     <string name="appearance_icon">Appearance Icon</string>
     <string name="apps">%1$s Apps</string>
     <string name="configuration_button">Configuration Button</string>
     <string name="search_button">Search Button</string>
     <string name="sorting_style">Sorting Style</string>
-    <string name="open_application_settings">Open Application Settings...</string>
+    <string name="open_application_settings">Open Application Settings…</string>
+    <string name="directories">Directories</string>
+    <string name="preferences">Preferences</string>
+    <string name="about">About</string>
+    <string name="app_icon">App Icon</string>
 </resources>

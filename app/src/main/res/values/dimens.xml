@@ -15,4 +15,6 @@
     <dimen name="dialog_padding">15dp</dimen>
     <dimen name="dialog_elevation">10dp</dimen>
     <dimen name="popup_padding">10dp</dimen>
+    <dimen name="header_padding">15dp</dimen>
+    <dimen name="preference_icon_size">30dp</dimen>
 </resources>

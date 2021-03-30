@@ -3,6 +3,8 @@ package app.simple.inure.adapters
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -20,13 +22,11 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.FileSizeHelper.getFileSize
 
 class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     var apps = arrayListOf<ApplicationInfo>()
-    var searchKeyword = ""
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     private var xOff = 0f
     private var yOff = 0f
@@ -70,11 +70,6 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
                 appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
             }
 
-            if (searchKeyword.isNotEmpty()) {
-                AdapterUtils.searchHighlighter(holder.name, holder.itemView.context, searchKeyword)
-                AdapterUtils.searchHighlighter(holder.packageId, holder.itemView.context, searchKeyword)
-            }
-
             holder.container.setOnTouchListener { _, event ->
                 when (event!!.action) {
                     MotionEvent.ACTION_DOWN -> {
@@ -100,9 +95,9 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
                 appsAdapterCallbacks.onSettingsPressed()
             }
 
-            holder.total.text = String.format(holder.itemView.context.getString(R.string.apps), apps.size)
-
-            (holder.appIcon.drawable as AnimatedVectorDrawable).start()
+            holder.prefs.setOnClickListener {
+                appsAdapterCallbacks.onPrefsIconPressed(it)
+            }
         }
     }
 
@@ -110,6 +105,9 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
         super.onViewRecycled(holder)
         if (holder is Holder) {
             GlideApp.with(holder.icon).clear(holder.icon)
+        }
+        if (holder is Header) {
+            Handler(Looper.getMainLooper()).removeCallbacksAndMessages(null)
         }
     }
 
@@ -137,9 +135,15 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
-        val appIcon: ImageView = itemView.findViewById(R.id.imageView3)
-        val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+        private val appIcon: ImageView = itemView.findViewById(R.id.imageView3)
+        private val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val search: ImageButton = itemView.findViewById(R.id.adapter_header_search_button)
         val settings: ImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
+        val prefs: ImageButton = itemView.findViewById(R.id.adapter_header_pref_button)
+
+        init {
+            Handler(Looper.getMainLooper()).postDelayed({ (appIcon.drawable as AnimatedVectorDrawable).start() }, 1000L)
+            total.text = String.format(itemView.context.getString(R.string.apps), apps.size)
+        }
     }
 }

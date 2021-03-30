@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.adapters.AppsAdapterSmall
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
@@ -32,6 +33,8 @@ import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
 import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
 import app.simple.inure.popups.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.ui.preferences.AppearanceScreen
+import app.simple.inure.ui.preferences.MainPreferencesScreen
 import app.simple.inure.viewmodels.AppData
 import java.util.*
 
@@ -127,6 +130,22 @@ class Apps : ScopedFragment() {
                 override fun onSettingsPressed() {
                     AppsListConfiguration.newInstance().show(childFragmentManager, "apps_list_config")
                 }
+
+                override fun onPrefsIconPressed(view: View) {
+                    val fragment = requireActivity().supportFragmentManager.findFragmentByTag("preferences_screen")
+                        ?: MainPreferencesScreen.newInstance()
+
+                    exitTransition = TransitionManager.getEnterTransitions(TransitionManager.FADE)
+                    fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
+                    fragment.enterTransition = TransitionManager.getExitTransition(TransitionManager.FADE)
+                    fragment.sharedElementReturnTransition = DetailsTransitionArc(1.2F)
+
+                    requireActivity().supportFragmentManager.beginTransaction()
+                            .addSharedElement(view, view.transitionName)
+                            .replace(R.id.app_container, fragment, "preferences_screen")
+                            .addToBackStack(fragment.tag)
+                            .commit()
+                }
             })
         })
 
@@ -151,10 +170,10 @@ class Apps : ScopedFragment() {
         val appInfo = requireActivity().supportFragmentManager.findFragmentByTag("app_info")
             ?: AppInfo.newInstance(applicationInfo, icon.transitionName)
 
-        exitTransition = TransitionManager.getEnterTransitions(TransitionManager.FADE)
+        exitTransition = Fade()
         appInfo.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
-        appInfo.enterTransition = TransitionManager.getExitTransition(TransitionManager.FADE)
-        appInfo.sharedElementReturnTransition = DetailsTransitionArc(1.2F)
+        appInfo.enterTransition = Fade()
+        appInfo.sharedElementReturnTransition = DetailsTransitionArc(1.5F)
 
         requireActivity().supportFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)

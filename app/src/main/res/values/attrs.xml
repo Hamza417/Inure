@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <attr name="colorAppAccent" format="color" />
+
     <declare-styleable name="DynamicCornerLayout">
         <!-- At least one of them needs to be true else roundness will be applies to all corners
                 default is false for both of them -->
@@ -70,8 +73,8 @@
     </declare-styleable>
 
     <declare-styleable name="BouncyNestedScrollView">
-        <attr name="overscroll_animation_size" format="float"/>
-        <attr name="fling_animation_size" format="float"/>
+        <attr name="overscroll_animation_size" format="float" />
+        <attr name="fling_animation_size" format="float" />
 
         <attr name="damping_ratio" format="integer">
             <enum name="DAMPING_RATIO_NO_BOUNCY" value="0" />

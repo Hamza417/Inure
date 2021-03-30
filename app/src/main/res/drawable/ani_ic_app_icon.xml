@@ -89,10 +89,9 @@
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:duration="2000"
-                android:startOffset="603"
+                android:startOffset="1000"
                 android:interpolator="@android:anim/accelerate_decelerate_interpolator"
                 android:propertyName="pathData"
-                android:repeatCount="infinite"
                 android:valueFrom="M 389.876 273.074 Q 549.446 316.026 432.633 433.374 Q 315.82 550.722 273.063 390.421 Q 230.307 230.121 389.876 273.074 Z"
                 android:valueTo="M 273.448 390.213 Q 230.153 230.736 390.373 272.515 Q 550.593 314.295 433.667 431.993 Q 316.741 549.69 273.448 390.213 Z"
                 android:valueType="pathType" />

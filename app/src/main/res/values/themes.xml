@@ -1,10 +1,11 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Inure" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Inure" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/appAccent</item>
         <item name="colorPrimaryVariant">@color/appAccent</item>
         <item name="colorOnPrimary">@color/appAccent</item>
+        <item name="colorAppAccent">#FF9800</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/statusBarColor</item>

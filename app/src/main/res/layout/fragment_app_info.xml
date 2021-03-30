@@ -28,7 +28,8 @@
                 android:layout_height="@dimen/app_icon_dimension"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/app_icon" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
                 android:id="@+id/fragment_app_name"
@@ -36,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="16dp"
-                android:text="App Name"
                 android:textColor="@color/textPrimary"
                 android:textSize="8pt"
                 app:appFontStyle="bold"
@@ -55,7 +55,6 @@
                 android:fontFamily="@font/lato_regular"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:text="App Name"
                 android:textColor="@color/textSecondary"
                 android:textSize="6pt"
                 app:appFontStyle="regular"
@@ -65,11 +64,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/fragment_app_name" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include layout="@layout/sub_app_information" />
-
-        <include layout="@layout/sub_app_memory" />
-
-        <include layout="@layout/sub_app_directories" />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
