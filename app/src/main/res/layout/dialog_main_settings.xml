@@ -32,7 +32,7 @@
                 android:textSize="6pt"
                 app:appFontStyle="bold" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
                 android:id="@+id/dialog_apps_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
-                android:text="Sorting Style"
+                android:text="@string/sorting_style"
                 android:textColor="@color/textPrimary"
                 android:textSize="6pt"
                 app:appFontStyle="bold" />
@@ -96,7 +96,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:padding="@dimen/dialog_padding"
-            android:text="Open Application Settings..."
+            android:text="@string/open_application_settings"
             android:textColor="@color/textPrimary"
             android:textSize="6pt"
             app:appFontStyle="bold" />

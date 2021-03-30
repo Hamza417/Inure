@@ -1,7 +1,5 @@
 package app.simple.inure.ui.app
 
-import android.app.Activity
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
@@ -9,20 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.adapters.AppsAdapterSmall
+import app.simple.inure.adapters.SearchAdapter
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
-import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
-import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
-import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
 import app.simple.inure.decorations.popup.PopupMenuCallback
+import app.simple.inure.decorations.searchview.SearchView
+import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.transitions.TransitionManager
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.dialogs.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -32,61 +26,39 @@ import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
 import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
 import app.simple.inure.popups.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.viewmodels.AppData
-import java.util.*
+import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.viewmodels.SearchData
 
+class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-class Apps : ScopedFragment() {
+    private lateinit var searchView: SearchView
+    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var appsAdapterSmall: SearchAdapter
 
-    private lateinit var appsListRecyclerView: CustomRecyclerView
-    private lateinit var fastScrollerView: FastScrollerView
-    private lateinit var scrollerThumb: FastScrollerThumbView
-
-    private lateinit var appsAdapter: AppsAdapterSmall
-    private lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
-    private var allAppsList = arrayListOf<ApplicationInfo>()
-
-    private val model: AppData by viewModels()
+    private val searchData: SearchData by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
+        val view = layoutInflater.inflate(R.layout.fragment_search, container, false)
 
-        appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
-        fastScrollerView = view.findViewById(R.id.all_apps_fast_scroller)
-        scrollerThumb = view.findViewById(R.id.all_apps_thumb)
+        searchView = view.findViewById(R.id.search_view)
+        recyclerView = view.findViewById(R.id.search_recycler_view)
+        appsAdapterSmall = SearchAdapter()
 
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        model.getAppData().observe(requireActivity(), {
+        searchData.getSearchData().observe(requireActivity(), {
             postponeEnterTransition()
-            allAppsList = it
 
-            appsAdapter = AppsAdapterSmall()
-            appsAdapter.apps = allAppsList
+            appsAdapterSmall.apps = it
+            appsAdapterSmall.searchKeyword = searchData.getSearchKeywords().value!!
 
-            appsListRecyclerView.adapter = appsAdapter
+            recyclerView.adapter = appsAdapterSmall
 
-            if (!fastScrollerView.isSetup) {
-                fastScrollerView.setupWithRecyclerView(appsListRecyclerView, { position ->
-                    if (position == VerticalListViewHolder.TYPE_HEADER) {
-                        FastScrollItemIndicator.Icon(R.drawable.ic_header_icon)
-                    } else {
-                        FastScrollItemIndicator.Text(allAppsList[position - 1].name.substring(0, 1)
-                                                             .toUpperCase(Locale.ROOT))
-                    }
-                })
-
-                scrollerThumb.setupWithFastScroller(fastScrollerView)
-            }
-
-            (view.parent as? ViewGroup)?.doOnPreDraw {
-                startPostponedEnterTransition()
-            }
-
-            appsAdapter.setOnItemClickListener(object : AppsAdapterCallbacks {
+            appsAdapterSmall.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(applicationInfo: ApplicationInfo, icon: ImageView) {
                     openAppInfo(applicationInfo, icon)
                 }
@@ -113,38 +85,24 @@ class Apps : ScopedFragment() {
                         }
                     })
                 }
-
-                override fun onSearchPressed(view: View) {
-                    val fragment = requireActivity().supportFragmentManager.findFragmentByTag("search_panel")
-                        ?: SearchPanel.newInstance()
-
-                    requireActivity().supportFragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
-                            .replace(R.id.app_container, fragment, "search_panel")
-                            .addToBackStack("search_panel").commit()
-                }
-
-                override fun onSettingsPressed() {
-                    AppsListConfiguration.newInstance().show(childFragmentManager, "apps_list_config")
-                }
             })
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
         })
 
-        appUninstallObserver = registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                /**
-                 * Refresh the viewModel to re-fetch the updated list
-                 */
-                model.loadAppData()
-                println("App Uninstalled")
-            } else {
-                println("Failed")
+        searchView.setSearchViewEventListener(object : SearchViewEventListener {
+            override fun onSearchMenuPressed(button: View) {
+                AppsListConfiguration.newInstance()
+                        .show(childFragmentManager, "apps_list_config")
             }
 
-            println("${result.data} : ${result.resultCode}")
-        }
-
-        super.onViewCreated(view, savedInstanceState)
+            override fun onSearchTextChanged(keywords: String, count: Int) {
+                searchData.setSearchKeywords(keywords)
+                searchData.loadSearchData()
+            }
+        })
     }
 
     private fun openAppInfo(applicationInfo: ApplicationInfo, icon: ImageView) {
@@ -163,9 +121,9 @@ class Apps : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): Apps {
+        fun newInstance(): SearchPanel {
             val args = Bundle()
-            val fragment = Apps()
+            val fragment = SearchPanel()
             fragment.arguments = args
             return fragment
         }
@@ -177,7 +135,7 @@ class Apps : ScopedFragment() {
             MainPreferences.isSortingReversed,
             MainPreferences.listAppsCategory,
             -> {
-                model.loadAppData()
+                searchData.loadSearchData()
             }
         }
     }

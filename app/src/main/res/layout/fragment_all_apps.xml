@@ -10,8 +10,7 @@
         android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:layoutAnimation="@anim/list_animation_controller"
-        android:paddingTop="70dp" />
+        android:layoutAnimation="@anim/list_animation_controller" />
 
     <app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
         android:id="@+id/all_apps_fast_scroller"
@@ -26,11 +25,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:layout_marginEnd="75dp" />
-
-    <app.simple.inure.decorations.searchview.SearchView
-        android:id="@+id/all_apps_search_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="15dp"/>
 
 </FrameLayout>

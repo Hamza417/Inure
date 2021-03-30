@@ -1,14 +1,16 @@
 package app.simple.inure.extension.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 /**
- * [CoroutineScopedFragment] is lifecycle aware [CoroutineScope] fragment
+ * [ScopedFragment] is lifecycle aware [CoroutineScope] fragment
  * used to bind independent coroutines with the lifecycle of
  * the given fragment. All [Fragment] classes must extend
  * this class instead.
@@ -16,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
  * It is recommended to read this code before implementing to know
  * its purpose and importance
  */
-open class CoroutineScopedFragment : Fragment(), CoroutineScope {
+abstract class ScopedFragment : Fragment(), CoroutineScope, SharedPreferences.OnSharedPreferenceChangeListener {
 
     /**
      * Get the job instance here, must be a final value
@@ -40,6 +42,11 @@ open class CoroutineScopedFragment : Fragment(), CoroutineScope {
         postponeEnterTransition()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+    }
+
     /**
      * Cancel the job instance here, since
      * we have attached the [Job] with [Dispatchers.Main]
@@ -49,6 +56,17 @@ open class CoroutineScopedFragment : Fragment(), CoroutineScope {
      */
     override fun onDestroy() {
         super.onDestroy()
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
         job.cancel()
     }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        onPreferenceChanged(sharedPreferences, key)
+    }
+
+
+    /**
+     * Called when any preferences is changed using [getSharedPreferences]
+     */
+    abstract fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?)
 }

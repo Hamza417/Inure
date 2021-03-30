@@ -1,32 +1,25 @@
 package app.simple.inure.dialogs
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import app.simple.inure.R
-import app.simple.inure.activities.PreferenceActivity
 import app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
-import app.simple.inure.decorations.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.decorations.popup.PopupMenuCallback
-import app.simple.inure.decorations.transitions.DetailsTransitionArc
-import app.simple.inure.decorations.transitions.TransitionManager
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.popups.dialogs.SortingStylePopup
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.ui.preferences.MainPreferencesScreen
 import app.simple.inure.util.Sort
 
-class AppsListConfiguration : ScopedBottomSheetFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class AppsListConfiguration : ScopedBottomSheetFragment() {
 
-    private lateinit var appsCategory: TypeFaceTextView
-    private lateinit var sortingStyle: TypeFaceTextView
+    private lateinit var appsCategory: AnimatedBackgroundTextView
+    private lateinit var sortingStyle: AnimatedBackgroundTextView
     private lateinit var openAppsSettings: AnimatedBackgroundTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -77,7 +70,8 @@ class AppsListConfiguration : ScopedBottomSheetFragment(), SharedPreferences.OnS
         }
 
         openAppsSettings.setOnClickListener {
-            val fragment = requireActivity().supportFragmentManager.findFragmentByTag("main_preferences_screen") ?: MainPreferencesScreen.newInstance()
+            val fragment = requireActivity().supportFragmentManager.findFragmentByTag("main_preferences_screen")
+                ?: MainPreferencesScreen.newInstance()
 
             requireActivity().supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
@@ -87,16 +81,6 @@ class AppsListConfiguration : ScopedBottomSheetFragment(), SharedPreferences.OnS
         }
 
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 
     private fun setSortingStyle() {
@@ -118,19 +102,19 @@ class AppsListConfiguration : ScopedBottomSheetFragment(), SharedPreferences.OnS
         }
     }
 
+    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            MainPreferences.sortStyle -> setSortingStyle()
+            MainPreferences.listAppsCategory -> setListCategory()
+        }
+    }
+
     companion object {
         fun newInstance(): AppsListConfiguration {
             val args = Bundle()
             val fragment = AppsListConfiguration()
             fragment.arguments = args
             return fragment
-        }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            MainPreferences.sortStyle -> setSortingStyle()
-            MainPreferences.listAppsCategory -> setListCategory()
         }
     }
 }

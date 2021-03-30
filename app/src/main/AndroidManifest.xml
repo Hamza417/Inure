@@ -15,12 +15,13 @@
 
     <application
         android:allowBackup="true"
-        android:configChanges="keyboardHidden|orientation|screenSize|locale"
+
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:windowSoftInputMode="adjustResize"
         android:theme="@style/Theme.Inure"
         tools:ignore="AllowBackup">
         <activity

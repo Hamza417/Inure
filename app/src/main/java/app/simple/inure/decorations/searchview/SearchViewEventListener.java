@@ -2,6 +2,8 @@ package app.simple.inure.decorations.searchview;
 
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface SearchViewEventListener {
     /**
      * Pressed events for search view menu button,
@@ -12,7 +14,7 @@ public interface SearchViewEventListener {
      *               anchor or any use that requires
      *               view reference
      */
-    void onSearchMenuPressed(View button);
+    void onSearchMenuPressed(@NotNull View button);
     
     /**
      * Search keywords entered in the text box
@@ -24,5 +26,5 @@ public interface SearchViewEventListener {
      *                 update it manually
      * @param count    is the total characters count of the keywords
      */
-    void onSearchTextChanged(String keywords, int count);
+    void onSearchTextChanged(@NotNull String keywords, @NotNull int count);
 }

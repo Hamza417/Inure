@@ -1,5 +1,6 @@
 package app.simple.inure.ui.app
 
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,22 +9,20 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.extension.fragments.CoroutineScopedFragment
+import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.packagehelper.PackageUtils
 import app.simple.inure.packagehelper.PackageUtils.getApplicationInstallTime
 import app.simple.inure.packagehelper.PackageUtils.getPackageSize
 import app.simple.inure.util.FileSizeHelper.getDirectorySize
 import app.simple.inure.util.FileSizeHelper.getFileSize
-import app.simple.inure.util.FolderHelper
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.SDKHelper
-import app.simple.inure.util.TextViewUtils.makeLinks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AppInfo : CoroutineScopedFragment() {
+class AppInfo : ScopedFragment() {
 
     private lateinit var icon: ImageView
 
@@ -138,6 +137,10 @@ class AppInfo : CoroutineScopedFragment() {
             this@AppInfo.apkDir.text = apkDir
             this@AppInfo.dataDir.text = dataDir
         }
+    }
+
+    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        /* no-op */
     }
 
     companion object {

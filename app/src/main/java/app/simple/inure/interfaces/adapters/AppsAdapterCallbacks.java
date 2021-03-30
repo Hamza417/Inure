@@ -1,12 +1,26 @@
 package app.simple.inure.interfaces.adapters;
 
 import android.content.pm.ApplicationInfo;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
 
 public interface AppsAdapterCallbacks {
-    void onAppClicked(@NotNull ApplicationInfo applicationInfo, @NotNull ImageView icon);
-    void onMenuClicked(@NotNull ApplicationInfo applicationInfo, @NotNull ViewGroup viewGroup, float xOff, float yOff, ImageView icon);
+    default void onAppClicked(@NotNull ApplicationInfo applicationInfo, @NotNull ImageView icon) {
+    
+    }
+    
+    default void onAppLongPress(@NotNull ApplicationInfo applicationInfo, @NotNull ViewGroup viewGroup, float xOff, float yOff, ImageView icon) {
+    
+    }
+    
+    default void onSearchPressed(@NotNull View view) {
+    
+    }
+    
+    default void onSettingsPressed() {
+    
+    }
 }

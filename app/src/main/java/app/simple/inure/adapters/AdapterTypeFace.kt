@@ -18,6 +18,9 @@ class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
     private lateinit var adapterTypeFaceCallbacks: AdapterTypeFaceCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        list.sortBy {
+            it.typefaceName
+        }
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_type_face, parent, false))
     }
 
@@ -54,6 +57,8 @@ class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
             TypeFaceList("Plus Jakarta Sans", R.font.plus_jakarta_bold, TypeFaceTextView.PLUS_JAKARTA),
             TypeFaceList("Mulish", R.font.mulish_bold, TypeFaceTextView.MULISH),
             TypeFaceList("Jost", R.font.jost_bold, TypeFaceTextView.JOST),
+            TypeFaceList("Epilogue", R.font.epilogue_bold, TypeFaceTextView.EPILOGUE),
+            TypeFaceList("Ubuntu", R.font.ubuntu_bold, TypeFaceTextView.UBUNTU)
         )
 
         class TypeFaceList(val typefaceName: String, val typeFaceResId: Int, val name: String)

@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.AdapterTypeFace
-import app.simple.inure.decorations.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 
-class AppearanceTypeFace : ScopedBottomSheetFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class AppearanceTypeFace : ScopedBottomSheetFragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapterTypeFace: AdapterTypeFace
@@ -38,17 +37,7 @@ class AppearanceTypeFace : ScopedBottomSheetFragment(), SharedPreferences.OnShar
         recyclerView.adapter = adapterTypeFace
     }
 
-    override fun onResume() {
-        super.onResume()
-        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == MainPreferences.appFont) {
             requireActivity().recreate()
         }

@@ -92,6 +92,38 @@ open class TypeFaceTextView : AppCompatTextView {
                     }
                 }
             }
+            EPILOGUE -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.epilogue_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.epilogue_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.epilogue_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.epilogue_bold)
+                    }
+                }
+            }
+            UBUNTU -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.ubuntu_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.ubuntu_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.ubuntu_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.ubuntu_bold)
+                    }
+                }
+            }
             "roboto" -> {
             }
         }
@@ -102,5 +134,7 @@ open class TypeFaceTextView : AppCompatTextView {
         const val LATO = "lato"
         const val MULISH = "mulish"
         const val JOST = "jost"
+        const val EPILOGUE = "epilogue"
+        const val UBUNTU = "ubuntu"
     }
 }

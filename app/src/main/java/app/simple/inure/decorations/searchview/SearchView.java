@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
+import app.simple.inure.preferences.SearchPreferences;
 
 public class SearchView extends LinearLayout {
     
@@ -44,6 +45,8 @@ public class SearchView extends LinearLayout {
         editText = view.findViewById(R.id.search_view_text_input_layout);
         imageButton = view.findViewById(R.id.search_view_menu_button);
         
+        editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
+        
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -52,8 +55,9 @@ public class SearchView extends LinearLayout {
             
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO - find a method to fix the text watcher getting called every time view's instance is restored
-                searchViewEventListener.onSearchTextChanged(s.toString(), count);
+                if(editText.isFocused()) {
+                    searchViewEventListener.onSearchTextChanged(s.toString(), count);
+                }
             }
             
             @Override
