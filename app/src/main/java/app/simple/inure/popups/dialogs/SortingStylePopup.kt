@@ -5,9 +5,11 @@ import android.widget.CheckBox
 import android.widget.TextView
 import app.simple.inure.R
 import app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.Sort
 
 class SortingStylePopup(contentView: View, view: View)
@@ -18,6 +20,13 @@ class SortingStylePopup(contentView: View, view: View)
     init {
 
         init(contentView, view)
+
+        val container: DynamicCornerLinearLayout = contentView.findViewById(R.id.popup_sorting_style_container)
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            container.outlineSpotShadowColor = contentView.context.resolveAttrColor(R.attr.colorAppAccent)
+            container.outlineAmbientShadowColor = contentView.context.resolveAttrColor(R.attr.colorAppAccent)
+        }
 
         val name = contentView.findViewById<AnimatedBackgroundTextView>(R.id.sort_name)
         val packageName = contentView.findViewById<AnimatedBackgroundTextView>(R.id.sort_package_name)

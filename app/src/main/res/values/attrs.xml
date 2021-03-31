@@ -2,6 +2,7 @@
 <resources>
 
     <attr name="colorAppAccent" format="color" />
+    <attr name="colorAppAccentLight" format="color" />
 
     <declare-styleable name="DynamicCornerLayout">
         <!-- At least one of them needs to be true else roundness will be applies to all corners

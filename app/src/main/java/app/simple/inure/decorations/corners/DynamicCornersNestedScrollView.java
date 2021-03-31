@@ -6,16 +6,21 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
-import app.simple.inure.decorations.corners.LayoutBackground;
+import app.simple.inure.util.ViewUtils;
 
 public class DynamicCornersNestedScrollView extends NestedScrollView {
     public DynamicCornersNestedScrollView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        LayoutBackground.setBackground(context, this, attrs);
+        init(attrs);
     }
     
     public DynamicCornersNestedScrollView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        LayoutBackground.setBackground(context, this, attrs);
+        init(attrs);
+    }
+    
+    private void init(AttributeSet attributeSet) {
+        LayoutBackground.setBackground(getContext(), this, attributeSet);
+        ViewUtils.INSTANCE.addShadow(this);
     }
 }

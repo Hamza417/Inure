@@ -18,12 +18,11 @@ object MainPreferences {
     private const val dayNightMode = "is_day_night_mode"
     private const val theme = "current_theme"
     private const val appLanguage = "current_language_locale"
-    private const val appCornerRadius = "corner_radius"
-    const val appFont = "type_face"
     private const val sizeType = "size_type"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
+
 
     fun setLaunchCount(value: Int) {
         getSharedPreferences().edit().putInt(launchCount, value).apply()
@@ -63,22 +62,6 @@ object MainPreferences {
 
     fun getAppLanguage(): String? {
         return getSharedPreferences().getString(appLanguage, "default")
-    }
-
-    fun setCornerRadius(@IntRange(from = 25, to = 400) radius: Int) {
-        getSharedPreferences().edit().putInt(appCornerRadius, radius / 5).apply()
-    }
-
-    fun getCornerRadius(): Int {
-        return getSharedPreferences().getInt(appCornerRadius, 60)
-    }
-
-    fun setAppFont(@NonNull font: String) {
-        getSharedPreferences().edit().putString(appFont, font).apply()
-    }
-
-    fun getAppFont(): String {
-        return getSharedPreferences().getString(appFont, TypeFaceTextView.JOST)!!
     }
 
     fun setSizeType(@NonNull font: String) {

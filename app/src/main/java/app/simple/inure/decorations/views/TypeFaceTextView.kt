@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import app.simple.inure.R
-import app.simple.inure.preferences.MainPreferences.getAppFont
+import app.simple.inure.preferences.AppearancePreferences.getAppFont
 
 open class TypeFaceTextView : AppCompatTextView {
     private val typedArray: TypedArray

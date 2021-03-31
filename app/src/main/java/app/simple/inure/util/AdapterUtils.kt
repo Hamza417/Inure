@@ -9,6 +9,7 @@ import android.text.style.TextAppearanceSpan
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import app.simple.inure.R
+import app.simple.inure.util.ColorUtils.resolveAttrColor
 import java.util.*
 
 object AdapterUtils {
@@ -19,7 +20,7 @@ object AdapterUtils {
         val endPos = startPos + searchKeyword.length
 
         if (startPos != -1) {
-            val colorKeyword = ColorStateList(arrayOf(intArrayOf()), intArrayOf(ContextCompat.getColor(context, R.color.appAccent)))
+            val colorKeyword = ColorStateList(arrayOf(intArrayOf()), intArrayOf(context.resolveAttrColor(R.attr.colorAppAccent)))
             val highlightSpan = TextAppearanceSpan(null, Typeface.NORMAL, -1, colorKeyword, null)
             sb.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }

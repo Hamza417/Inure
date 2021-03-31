@@ -9,7 +9,8 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupMenuCallback
-import app.simple.inure.decorations.popup.PopupUtils.dimBehind
+import app.simple.inure.util.ViewUtils
+import app.simple.inure.util.ViewUtils.dimBehind
 
 /**
  * A customised version of popup menu that uses [PopupWindow]
@@ -39,6 +40,7 @@ class MainListPopupMenu(
         isClippingEnabled = false
         isFocusable = true
         elevation = 100F
+        ViewUtils.addShadow(contentView)
 
         contentView.findViewById<TextView>(R.id.menu_launch).onClick()
         contentView.findViewById<TextView>(R.id.menu_uninstall).onClick()

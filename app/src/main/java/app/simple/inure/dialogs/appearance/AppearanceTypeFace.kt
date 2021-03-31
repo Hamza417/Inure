@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs
+package app.simple.inure.dialogs.appearance
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.AdapterTypeFace
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.MainPreferences
 
 class AppearanceTypeFace : ScopedBottomSheetFragment() {
@@ -30,7 +31,7 @@ class AppearanceTypeFace : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapterTypeFace.setOnTypeFaceClickListener {
-            MainPreferences.setAppFont(it)
+            AppearancePreferences.setAppFont(it)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -38,7 +39,7 @@ class AppearanceTypeFace : ScopedBottomSheetFragment() {
     }
 
     override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == MainPreferences.appFont) {
+        if (key == AppearancePreferences.appFont) {
             requireActivity().recreate()
         }
     }

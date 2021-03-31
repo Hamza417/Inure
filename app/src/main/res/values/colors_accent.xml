@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Accent Colors -->
+    <color name="inure">#FF9800</color>
+    <color name="blue">#2980B9</color>
+    <color name="blueGrey">#2C3E50</color>
+    <color name="red">#C0392B</color>
+    <color name="green">#16A085</color>
+    <color name="orange">#D35400</color>
+    <color name="purple">#6C3483</color>
+
+    <color name="inure_light">#FFffbf65</color>
+    <color name="blue_light">#85C1E9</color>
+    <color name="blueGrey_light">#34495E</color>
+    <color name="red_light">#E74C3C</color>
+    <color name="green_light">#1ABC9C</color>
+    <color name="orange_light">#E67E22</color>
+    <color name="purple_light">#A569BD</color>
+</resources>

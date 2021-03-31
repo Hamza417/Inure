@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs
+package app.simple.inure.dialogs.app
 
 import android.content.SharedPreferences
 import android.os.Bundle

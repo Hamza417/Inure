@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:id="@+id/app_corner_dialog_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_padding"
+        android:backgroundTint="@color/dialogBackground"
+        android:elevation="40dp"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/app_corner_radius_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/px"
+            android:textSize="36sp"
+            android:textColor="@color/textPrimary"
+            app:appFontStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/app_corner_radius_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="20dp"
+            android:elevation="10dp"
+            android:maxHeight="4dp"
+            android:progressDrawable="@drawable/seek_bar"
+            android:progressTint="?attr/colorAppAccent"
+            android:splitTrack="true"
+            android:thumb="@drawable/seekbar_thumb"
+            android:translationZ="8dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/app_corner_radius_cancel"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_ripple_btn"
+                android:text="@string/cancel"
+                android:textColor="@color/textSecondary" />
+
+            <Button
+                android:id="@+id/app_corner_radius_set"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_ripple_btn"
+                android:text="@string/set"
+                android:textColor="@color/textSecondary" />
+
+        </LinearLayout>
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

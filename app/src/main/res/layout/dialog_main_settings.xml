@@ -10,7 +10,7 @@
     <app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/mainBackground"
+        android:backgroundTint="@color/dialogBackground"
         android:elevation="@dimen/dialog_elevation"
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
@@ -44,7 +44,7 @@
                 android:textColor="@color/textTertiary"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
-                app:drawableTint="@color/textTertiary"
+                app:drawableTint="?attr/colorAppAccent"
                 app:drawableTintMode="src_in" />
 
 
@@ -71,14 +71,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:drawableEnd="@drawable/ani_ic_unfold_popup"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
                 android:textColor="@color/textTertiary"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
-                app:drawableRightCompat="@drawable/ani_ic_unfold_popup"
-                app:drawableTint="@color/textTertiary" />
+                app:drawableTint="?attr/colorAppAccent" />
 
         </LinearLayout>
 

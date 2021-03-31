@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="Information"
-        android:textColorHighlight="@color/textBackground"
         android:textColor="@color/textHeading"
         android:textSize="12pt"
         app:appFontStyle="bold"

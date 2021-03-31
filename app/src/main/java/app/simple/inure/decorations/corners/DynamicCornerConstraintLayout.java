@@ -6,21 +6,23 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import app.simple.inure.util.StatusBarHeight;
+import app.simple.inure.util.ViewUtils;
 
 public class DynamicCornerConstraintLayout extends ConstraintLayout {
     
     public DynamicCornerConstraintLayout(@NonNull Context context) {
         super(context);
-        LayoutBackground.setBackground(context, this, null);
+        init(null);
     }
     
     public DynamicCornerConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        LayoutBackground.setBackground(context, this, attrs);
+        init(attrs);
     }
     
-    public DynamicCornerConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        LayoutBackground.setBackground(context, this, attrs);
+    private void init(AttributeSet attributeSet) {
+        LayoutBackground.setBackground(getContext(), this, attributeSet);
+        ViewUtils.INSTANCE.addShadow(this);
     }
 }

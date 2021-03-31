@@ -23,6 +23,7 @@ public class StatusBarHeight {
     
     /**
      * Get status bar height using system framework resources
+     *
      * @param resources of the android system package
      * @return int
      */
@@ -37,34 +38,56 @@ public class StatusBarHeight {
     
     /**
      * Get navigation bar height using system framework resources
+     *
      * @param resources of the android system package
      * @return int
      */
     public static int getNavigationBarHeight(Resources resources) {
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
-            return resources.getDimensionPixelSize(resourceId);
+            if (isEdgeToEdgeEnabled(resources) == 2) {
+                return 0;
+            }
+            else {
+                resources.getDimensionPixelSize(resourceId);
+            }
         }
         return 0;
     }
     
     /**
      * Get tool bar height using context resources
-     * @param resources of the android system package
-     * @return int
      *
+     * @return int
+     * <p>
      * Marked deprecated because this app does not plan
      * on using app bar any day
      */
     @Deprecated
-    public static int getToolBarHeight(Context context, Resources resources) {
+    public static int getToolBarHeight(Context context) {
         // Calculate ActionBar height
         int i = 0;
         TypedValue tv = new TypedValue();
         if (context.getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
-            i = TypedValue.complexToDimensionPixelSize(tv.data, resources.getDisplayMetrics());
+            i = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
         }
         
         return i;
+    }
+    
+    /**
+     * Checks if the current device has gesture mode turned on
+     *
+     * @param resources of the current context environment
+     * @return 0 : Navigation is displaying with 3 buttons
+     * 1 : Navigation is displaying with 2 button(Android P navigation mode)
+     * 2 : Full screen gesture(Gesture on android Q)
+     */
+    public static int isEdgeToEdgeEnabled(Resources resources) {
+        int resourceId = resources.getIdentifier("config_navBarInteractionMode", "integer", "android");
+        if (resourceId > 0) {
+            return resources.getInteger(resourceId);
+        }
+        return 0;
     }
 }

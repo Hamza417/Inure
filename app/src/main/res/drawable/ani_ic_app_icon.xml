@@ -18,10 +18,10 @@
                         android:startY="30"
                         android:type="linear">
                         <item
-                            android:color="#FFffbf65"
+                            android:color="?attr/colorAppAccentLight"
                             android:offset="0" />
                         <item
-                            android:color="#FFff8a68"
+                            android:color="?attr/colorAppAccent"
                             android:offset="1" />
                     </gradient>
                 </aapt:attr>
@@ -37,10 +37,10 @@
                         android:startY="30"
                         android:type="linear">
                         <item
-                            android:color="#FFffbf65"
+                            android:color="?attr/colorAppAccentLight"
                             android:offset="0" />
                         <item
-                            android:color="#FFff8a68"
+                            android:color="?attr/colorAppAccent"
                             android:offset="1" />
                     </gradient>
                 </aapt:attr>
@@ -56,10 +56,10 @@
                         android:startY="30"
                         android:type="linear">
                         <item
-                            android:color="#FFffbf65"
+                            android:color="?attr/colorAppAccentLight"
                             android:offset="0" />
                         <item
-                            android:color="#FFff8a68"
+                            android:color="?attr/colorAppAccent"
                             android:offset="1" />
                     </gradient>
                 </aapt:attr>
@@ -75,10 +75,10 @@
                         android:startY="30"
                         android:type="linear">
                         <item
-                            android:color="#FFffbf65"
+                            android:color="?attr/colorAppAccentLight"
                             android:offset="0" />
                         <item
-                            android:color="#FFff8a68"
+                            android:color="?attr/colorAppAccent"
                             android:offset="1" />
                     </gradient>
                 </aapt:attr>

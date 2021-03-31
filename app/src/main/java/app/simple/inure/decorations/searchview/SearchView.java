@@ -10,14 +10,17 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
+import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.preferences.SearchPreferences;
+import app.simple.inure.util.StatusBarHeight;
+import app.simple.inure.util.ViewUtils;
 
 public class SearchView extends LinearLayout {
     
@@ -28,18 +31,20 @@ public class SearchView extends LinearLayout {
     public SearchView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initViews();
-        setProperties();
+        setProperties(attrs);
     }
     
-    private void setProperties() {
+    private void setProperties(AttributeSet attrs) {
         setElevation(getResources().getDimensionPixelSize(R.dimen.app_views_elevation));
+        ViewUtils.INSTANCE.addShadow(this);
         setOrientation(LinearLayout.HORIZONTAL);
-        setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_popup));
+        LayoutBackground.setBackground(getContext(), this, attrs);
         setLayoutTransition(new LayoutTransition());
     }
     
     @SuppressLint ("ClickableViewAccessibility")
     private void initViews() {
+        
         View view = LayoutInflater.from(getContext()).inflate(R.layout.search_view, this, true);
         
         editText = view.findViewById(R.id.search_view_text_input_layout);
@@ -55,7 +60,7 @@ public class SearchView extends LinearLayout {
             
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(editText.isFocused()) {
+                if (editText.isFocused()) {
                     searchViewEventListener.onSearchTextChanged(s.toString(), count);
                 }
             }

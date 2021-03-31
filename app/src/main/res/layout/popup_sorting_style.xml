@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popup_sorting_style_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/mainBackground"
+    android:backgroundTint="@color/dialogBackground"
     android:orientation="vertical"
     android:padding="@dimen/popup_padding">
 
@@ -92,7 +93,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="10dp"
-            android:buttonTint="@color/appAccent" />
+            android:buttonTint="?attr/colorAppAccent" />
 
     </LinearLayout>
 

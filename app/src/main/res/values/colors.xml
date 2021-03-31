@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-      <color name="appAccent">#FF9800</color>
-      <color name="mainBackground">#ffffff</color>
-      <color name="edgeEffect">#f0f0f0</color>
-      <color name="divider">#DDDDDD</color>
-      <color name="statusBarColor">@color/mainBackground</color>
-      <color name="rippleColor">#E8E8E8</color>
-      <color name="iconRegular">#2E2E2E</color>
-      <color name="iconSecondary">#B1B1B1</color>
+    <color name="mainBackground">#ffffff</color>
+    <color name="dialogBackground">@color/mainBackground</color>
+    <color name="edgeEffect">#f0f0f0</color>
+    <color name="divider">#DDDDDD</color>
+    <color name="statusBarColor">@color/mainBackground</color>
+    <color name="rippleColor">#E8E8E8</color>
+    <color name="iconRegular">#2E2E2E</color>
+    <color name="iconSecondary">#B1B1B1</color>
 
-      <color name="textHeading">#121212</color>
-      <color name="textPrimary">#2B2B2B</color>
-      <color name="textSecondary">#5A5A5A</color>
-      <color name="textTertiary">#7A7A7A</color>
-      <color name="textBackground">#1AFF9800</color>
-
-      <!-- App Icon -->
-      <color name="appIconColor">#CCCCCC</color>
-  </resources>
+    <color name="textHeading">#121212</color>
+    <color name="textPrimary">#2B2B2B</color>
+    <color name="textSecondary">#5A5A5A</color>
+    <color name="textTertiary">#7A7A7A</color>
+</resources>

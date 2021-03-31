@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.MainPreferences
 
 class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
@@ -28,7 +29,7 @@ class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
         holder.textView.typeface = ResourcesCompat.getFont(holder.itemView.context, list[position].typeFaceResId)
         holder.textView.text = list[position].typefaceName
 
-        if (MainPreferences.getAppFont() == list[position].name) {
+        if (AppearancePreferences.getAppFont() == list[position].name) {
             holder.icon.visibility = View.VISIBLE
         }
 

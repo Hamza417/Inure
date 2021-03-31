@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.corners.DynamicCornerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/dialogBackground"
+        android:clipToPadding="false"
+        android:clipChildren="true"
+        android:elevation="@dimen/dialog_elevation">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:padding="@dimen/dialog_padding"
+            android:id="@+id/accent_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:layoutAnimation="@anim/grid_list_animation_controller"/>
+
+
+    </app.simple.inure.decorations.corners.DynamicCornerFrameLayout>
+
+</FrameLayout>

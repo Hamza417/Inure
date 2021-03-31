@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
@@ -18,7 +19,7 @@ import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.transitions.TransitionManager
 import app.simple.inure.decorations.views.CustomRecyclerView
-import app.simple.inure.dialogs.AppsListConfiguration
+import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.packagehelper.PackageUtils.killThisApp
@@ -26,7 +27,7 @@ import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
 import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
 import app.simple.inure.popups.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.SearchData
 
 class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -43,6 +44,17 @@ class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChange
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.search_recycler_view)
         appsAdapterSmall = SearchAdapter()
+
+        val params = searchView.layoutParams as MarginLayoutParams
+        params.setMargins(params.leftMargin,
+                          StatusBarHeight.getStatusBarHeight(resources) + params.topMargin,
+                          params.rightMargin,
+                          params.bottomMargin)
+
+        recyclerView.setPadding(recyclerView.paddingLeft,
+                                recyclerView.paddingTop + params.topMargin + params.height + params.bottomMargin,
+                                recyclerView.paddingRight,
+                                recyclerView.paddingBottom)
 
         return view
     }

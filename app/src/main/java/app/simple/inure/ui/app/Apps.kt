@@ -25,7 +25,7 @@ import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.transitions.TransitionManager
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.CustomRecyclerView
-import app.simple.inure.dialogs.AppsListConfiguration
+import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.packagehelper.PackageUtils.killThisApp
@@ -33,7 +33,6 @@ import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
 import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
 import app.simple.inure.popups.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.ui.preferences.AppearanceScreen
 import app.simple.inure.ui.preferences.MainPreferencesScreen
 import app.simple.inure.viewmodels.AppData
 import java.util.*

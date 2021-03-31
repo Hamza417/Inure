@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import app.simple.inure.R
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.CoroutineScope
@@ -24,8 +25,14 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(), Coroutin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         dialog?.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
-        dialog?.window?.setDimAmount(0.3f)
+
+        if (AppearancePreferences.isDimmingOn()) {
+            dialog?.window?.setDimAmount(0.6f)
+        } else {
+            dialog?.window?.setDimAmount(0f)
+        }
     }
 
     override fun onResume() {

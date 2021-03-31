@@ -20,7 +20,7 @@
     <string name="both">Both</string>
     <string name="typeface_icon">Typeface Icon</string>
     <string name="app_typeface">App Typeface</string>
-    <string name="select_the_application_s_typeface">Whole application\'s typeface/font.\n\nSelecting any typeface will instantly restart the app and the whole application\'s font will be changed.</string>
+    <string name="select_the_application_s_typeface">Change application\'s font style.</string>
     <string name="appearance">Appearance</string>
     <string name="appearance_icon">Appearance Icon</string>
     <string name="apps">%1$s Apps</string>
@@ -32,4 +32,18 @@
     <string name="preferences">Preferences</string>
     <string name="about">About</string>
     <string name="app_icon">App Icon</string>
+    <string name="corner_radius_desc">Rounded corner radius of the various elements of the app.</string>
+    <string name="corner_radius">Corner Radius</string>
+    <string name="layouts">Layouts</string>
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
+    <string name="px">%1$s px</string>
+    <string name="color">Color</string>
+    <string name="accent_color">Accent Color</string>
+    <string name="accent_color_desc">Secondary color that appears along with various elements of the such as icon or touch effects.</string>
+    <string name="behaviour">Behaviour</string>
+    <string name="dim_windows_desc">Dim underlying windows when a popup appears on the screen.\n\nTurning it off can help elevation shadows to standout more but reduces the contrast and vice-versa.</string>
+    <string name="dim_windows">Dim Windows</string>
+    <string name="shadows_desc">Adds the nice looking accent colored ambient shadows to various elevated views of the app</string>
+    <string name="show_colored_shadows">Show Colored Shadows</string>
 </resources>

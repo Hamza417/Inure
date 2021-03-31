@@ -5,7 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import app.simple.inure.R
-import app.simple.inure.decorations.popup.PopupUtils.dimBehind
+import app.simple.inure.util.ViewUtils
+import app.simple.inure.util.ViewUtils.dimBehind
 
 /**
  * A customised version of popup menu that uses [PopupWindow]
@@ -31,12 +32,15 @@ open class BasePopupWindow : PopupWindow() {
 
     private fun init() {
         contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        contentView.clipToOutline = false
         width = contentView.measuredWidth
         height = contentView.measuredHeight
         animationStyle = R.style.PopupAnimation
         isClippingEnabled = false
         isFocusable = true
-        elevation = 25F
+        elevation = 50F
+
+        ViewUtils.addShadow(contentView)
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             overlapAnchor = false

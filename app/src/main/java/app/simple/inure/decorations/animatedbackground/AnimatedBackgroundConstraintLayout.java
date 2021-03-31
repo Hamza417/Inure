@@ -11,9 +11,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.decorations.corners.LayoutBackground;
+import app.simple.inure.util.ColorUtils;
 
 import static app.simple.inure.decorations.animatedbackground.Utils.animateBackground;
 
@@ -25,14 +25,23 @@ public class AnimatedBackgroundConstraintLayout extends ConstraintLayout {
         LayoutBackground.setBackground(context, this, attrs);
     }
     
+    public AnimatedBackgroundConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+        LayoutBackground.setBackground(context, this, attrs);
+    }
+    
     @SuppressLint ("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                animateBackground(ContextCompat.getColor(getContext(), R.color.textBackground), this);
+                animateBackground(
+                        ColorUtils.INSTANCE.changeAlpha(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent), Utils.alpha),
+                        this);
                 break;
             }
+            case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_UP: {
                 animateBackground(Color.TRANSPARENT, this);
                 break;

@@ -3,10 +3,12 @@ package app.simple.inure.decorations.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.EdgeEffect
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.decorations.bouncescroll.ScrollConstants
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
+import app.simple.inure.util.StatusBarHeight
 
 /**
  * Custom recycler view with nice layout animation and
@@ -17,6 +19,7 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
     init {
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         setHasFixedSize(true)
+        setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources), paddingRight, StatusBarHeight.getNavigationBarHeight(resources))
 
         this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
             override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {

@@ -11,20 +11,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.AppOpsManagerCompat.MODE_ALLOWED
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
+import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.util.NullSafety.isNull
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var fragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        SharedPreferences.init(applicationContext)
 
         if (!checkForPermission()) {
             startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))

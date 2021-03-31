@@ -9,6 +9,9 @@ import android.view.animation.DecelerateInterpolator;
 import com.google.android.material.animation.ArgbEvaluatorCompat;
 
 public class Utils {
+    
+    static final int alpha = 25;
+    
     static void animateBackground(int endColor, View view) {
         view.clearAnimation();
         ValueAnimator valueAnimator = ValueAnimator.ofObject(new ArgbEvaluatorCompat(),

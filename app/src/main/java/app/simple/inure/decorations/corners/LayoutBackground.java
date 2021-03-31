@@ -11,7 +11,7 @@ import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
 
 import app.simple.inure.R;
-import app.simple.inure.preferences.MainPreferences;
+import app.simple.inure.preferences.AppearancePreferences;
 
 public class LayoutBackground {
     public static void setBackground(Context context, ViewGroup viewGroup, AttributeSet attrs) {
@@ -25,27 +25,27 @@ public class LayoutBackground {
         if (roundBottomCorners && roundTopCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
-                    .setAllCorners(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
+                    .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
         else if (roundTopCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
-                    .setTopLeftCorner(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
-                    .setTopRightCorner(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
+                    .setTopLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
+                    .setTopRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
         else if (roundBottomCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
-                    .setBottomLeftCorner(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
-                    .setBottomRightCorner(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
+                    .setBottomLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
+                    .setBottomRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
         else {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
-                    .setAllCorners(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
+                    .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
         
@@ -63,27 +63,27 @@ public class LayoutBackground {
         if (roundBottomCorners && roundTopCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
-                    .setAllCorners(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
+                    .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
         else if (roundTopCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
-                    .setTopLeftCorner(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
-                    .setTopRightCorner(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
+                    .setTopLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
+                    .setTopRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
         else if (roundBottomCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
-                    .setBottomLeftCorner(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
-                    .setBottomRightCorner(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
+                    .setBottomLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
+                    .setBottomRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
         else {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
-                    .setAllCorners(CornerFamily.ROUNDED, MainPreferences.INSTANCE.getCornerRadius())
+                    .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
         
