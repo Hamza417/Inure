@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.animatedbackground.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/adapter_all_app_container"
@@ -88,4 +88,4 @@
         app:layout_constraintStart_toEndOf="@+id/adapter_all_app_package_size"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_package_id" />
 
-</app.simple.inure.decorations.animatedbackground.DynamicRippleConstraintLayout>
+</app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

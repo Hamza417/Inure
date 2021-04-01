@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="@dimen/popup_padding">
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/app_info_information_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text="@string/usage"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/app_info_options_text_size"
+        app:appFontStyle="bold" />
+
+</LinearLayout>

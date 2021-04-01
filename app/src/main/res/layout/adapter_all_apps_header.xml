@@ -35,7 +35,7 @@
             android:textSize="18sp"
             app:appFontStyle="bold" />
 
-        <app.simple.inure.decorations.animatedbackground.DynamicRippleImageButton
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_search_button"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
@@ -46,17 +46,17 @@
             android:tint="@color/iconRegular"
             android:transitionName="adapter_search_icon" />
 
-        <app.simple.inure.decorations.animatedbackground.DynamicRippleImageButton
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_configuration_button"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/configuration_button"
-            android:src="@drawable/ic_tune"
+            android:src="@drawable/ic_filter"
             android:tint="@color/iconRegular" />
 
-        <app.simple.inure.decorations.animatedbackground.DynamicRippleImageButton
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_pref_button"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"

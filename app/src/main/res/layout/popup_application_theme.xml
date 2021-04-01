@@ -5,54 +5,43 @@
     android:layout_height="wrap_content"
     android:backgroundTint="@color/dialogBackground"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/menu_sort_name"
+        android:id="@+id/popup_theme_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/app_information"
+        android:text="@string/light"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/menu_launch"
+        android:id="@+id/popup_theme_dark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/launch"
+        android:text="@string/dark"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/menu_uninstall"
+        android:id="@+id/popup_theme_follow_system"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/uninstall"
-        android:textColor="@color/textPrimary"
-        android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
-
-    <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/menu_kill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/lato_bold"
-        android:paddingHorizontal="30dp"
-        android:paddingVertical="20dp"
-        android:text="@string/kill"
+        android:text="@string/follow_system"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />

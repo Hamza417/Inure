@@ -3,7 +3,6 @@ package app.simple.inure.decorations.switch
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -12,7 +11,7 @@ import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import app.simple.inure.R
-import app.simple.inure.decorations.animatedbackground.Utils
+import app.simple.inure.decorations.ripple.Utils
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils
 
@@ -28,10 +27,6 @@ class SwitchView @JvmOverloads constructor(
     private var isChecked: Boolean = false
 
     init {
-
-        clipChildren = false
-        clipToOutline = false
-
         val view = LayoutInflater.from(context).inflate(R.layout.switch_view, this, true)
 
         thumb = view.findViewById(R.id.switch_thumb)
@@ -56,7 +51,7 @@ class SwitchView @JvmOverloads constructor(
                 thumb.animate()
                         .scaleY(1.5F)
                         .scaleX(1.5F)
-                        .setInterpolator(OvershootInterpolator(1.5F))
+                        .setInterpolator(DecelerateInterpolator(1.5F))
                         .setDuration(500L)
                         .start()
             }

@@ -4,7 +4,6 @@
     <color name="dialogBackground">#292929</color>
     <color name="edgeEffect">#494949</color>
     <color name="statusBarColor">@color/mainBackground</color>
-    <color name="rippleColor">@color/edgeEffect</color>
     <color name="iconRegular">#F8F8F8</color>
     <color name="iconSecondary">#E8E8E8</color>
 
@@ -14,12 +13,5 @@
     <color name="textSecondary">#C8C8C8</color>
     <color name="textTertiary">#AAAAAA</color>
 
-    <!-- Accent Colors -->
-    <color name="inure">#FF9800</color>
-    <color name="blue">#2980B9</color>
-    <color name="blueGrey">#2C3E50</color>
-    <color name="red">#C0392B</color>
-    <color name="green">#16A085</color>
-    <color name="orange">#D35400</color>
-    <color name="purple">#8E44AD</color>
+    <color name="switchTrackOff">#2E2E2E</color>
 </resources>

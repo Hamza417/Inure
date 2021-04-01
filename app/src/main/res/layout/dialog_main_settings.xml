@@ -32,7 +32,7 @@
                 android:textSize="6pt"
                 app:appFontStyle="bold" />
 
-            <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/dialog_apps_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                 android:textSize="6pt"
                 app:appFontStyle="bold" />
 
-            <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/dialog_apps_sorting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
             android:layout_marginVertical="@dimen/dialog_padding"
             android:background="@color/divider" />
 
-        <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/dialog_open_apps_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,9 +1,10 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -50,7 +51,75 @@
             android:textColor="?attr/colorAppAccent"
             app:appFontStyle="medium" />
 
-        <app.simple.inure.decorations.animatedbackground.DynamicRippleRelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/appearance_app_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="@dimen/preference_icon_size"
+                android:layout_height="@dimen/preference_icon_size"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/typeface_icon"
+                android:src="@drawable/ic_dark_mode"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/iconSecondary" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/typeFaceTextView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="@string/application_theme"
+                android:textColor="@color/textPrimary"
+                android:textSize="14sp"
+                app:appFontStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/typeFaceTextView12"
+                app:layout_constraintEnd_toStartOf="@+id/popup_application_theme"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/typeFaceTextView12"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/theme_desc"
+                android:textColor="@color/textTertiary"
+                android:textSize="12sp"
+                app:appFontStyle="regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/popup_application_theme"
+                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                app:layout_constraintTop_toBottomOf="@id/typeFaceTextView11" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/popup_application_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ani_ic_unfold_popup"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dialog_padding"
+                android:textColor="@color/textTertiary"
+                android:textSize="5pt"
+                app:appFontStyle="regular"
+                app:drawableTint="?attr/colorAppAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
             android:id="@+id/appearance_accent_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,7 +160,7 @@
                 android:textSize="12sp"
                 app:appFontStyle="regular" />
 
-        </app.simple.inure.decorations.animatedbackground.DynamicRippleRelativeLayout>
+        </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:layout_width="wrap_content"
@@ -103,7 +172,7 @@
             android:textColor="?attr/colorAppAccent"
             app:appFontStyle="medium" />
 
-        <app.simple.inure.decorations.animatedbackground.DynamicRippleRelativeLayout
+        <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
             android:id="@+id/appearance_app_typeface"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,9 +212,9 @@
                 android:textSize="12sp"
                 app:appFontStyle="regular" />
 
-        </app.simple.inure.decorations.animatedbackground.DynamicRippleRelativeLayout>
+        </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
-        <app.simple.inure.decorations.animatedbackground.DynamicRippleRelativeLayout
+        <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
             android:id="@+id/appearance_corner_radius"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -187,7 +256,7 @@
                 android:textSize="12sp"
                 app:appFontStyle="regular" />
 
-        </app.simple.inure.decorations.animatedbackground.DynamicRippleRelativeLayout>
+        </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:layout_width="wrap_content"
@@ -268,9 +337,9 @@
             android:id="@+id/appearance_ambient_shadow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:layout_marginHorizontal="10dp"
             android:padding="15dp">
 
             <ImageView

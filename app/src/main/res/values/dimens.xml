@@ -20,4 +20,5 @@
     <dimen name="switch_width">50dp</dimen>
     <dimen name="switch_padding">5dp</dimen>
     <dimen name="switch_thumb_dimensions">20dp</dimen>
+    <dimen name="app_info_options_text_size">20sp</dimen>
 </resources>

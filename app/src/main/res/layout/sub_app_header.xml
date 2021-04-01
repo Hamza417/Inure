@@ -1,0 +1,46 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/fragment_app_info_icon"
+        android:layout_width="@dimen/app_icon_dimension"
+        android:layout_height="@dimen/app_icon_dimension"
+        android:contentDescription="@string/app_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/fragment_app_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/textPrimary"
+        android:textSize="8pt"
+        app:appFontStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/fragment_app_package_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_app_info_icon"
+        app:layout_constraintTop_toTopOf="@+id/fragment_app_info_icon" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/fragment_app_package_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="16dp"
+        android:ellipsize="marquee"
+        android:fontFamily="@font/lato_regular"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textColor="@color/textSecondary"
+        android:textSize="6pt"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_app_info_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_app_info_icon"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_app_name" />
+</androidx.constraintlayout.widget.ConstraintLayout>

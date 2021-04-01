@@ -6,12 +6,14 @@ import androidx.core.content.ContextCompat
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.SharedPreferences
+import app.simple.inure.util.ThemeSetter
 
 open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SharedPreferences.init(applicationContext)
         setTheme()
+        ThemeSetter.setAppTheme(AppearancePreferences.getAppTheme())
     }
 
     private fun setTheme() {

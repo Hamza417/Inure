@@ -2,6 +2,7 @@ package app.simple.inure.preferences
 
 import androidx.annotation.IntRange
 import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 
@@ -13,6 +14,7 @@ object AppearancePreferences {
 
     const val accentColor = "app_accent_color"
     const val appFont = "type_face"
+    const val appTheme = "app_theme"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -62,5 +64,15 @@ object AppearancePreferences {
 
     fun areShadowsOn(): Boolean {
         return getSharedPreferences().getBoolean(shadows, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setAppTheme(@NonNull theme: Int) {
+        getSharedPreferences().edit().putInt(appTheme, theme).apply()
+    }
+
+    fun getAppTheme(): Int {
+        return getSharedPreferences().getInt(appTheme, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 }

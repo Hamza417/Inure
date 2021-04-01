@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginVertical="10dp"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/dialogBackground"
+    android:elevation="@dimen/dialog_elevation"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:padding="30dp">
 
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Information"
+        android:text="@string/app_information"
         android:textColor="@color/textHeading"
         android:textSize="12pt"
         app:appFontStyle="bold"
@@ -23,7 +24,7 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version"
+        android:text="@string/version"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
@@ -41,7 +42,7 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version Code"
+        android:text="@string/version_code"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
@@ -59,7 +60,7 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Install Location"
+        android:text="@string/install_location"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
@@ -77,7 +78,7 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Minimum SDK"
+        android:text="@string/minimum_sdk"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
@@ -95,7 +96,7 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Target SDK"
+        android:text="@string/target_sdk"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
@@ -113,7 +114,7 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="UID"
+        android:text="@string/uid"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
@@ -131,7 +132,7 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Install Date"
+        android:text="@string/install_date"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
@@ -149,7 +150,7 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update Date"
+        android:text="@string/update_date"
         android:textColor="@color/textTertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
@@ -159,9 +160,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
         android:textColor="@color/textHeading"
         android:textSize="@dimen/info_text_large"
         app:appFontStyle="regular" />
 
-</LinearLayout>
+</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.animatedbackground;
+package app.simple.inure.decorations.ripple;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.animatedbackground;
+package app.simple.inure.decorations.ripple;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import com.google.android.material.animation.ArgbEvaluatorCompat;
-import com.google.android.material.ripple.RippleUtils;
 
 import java.util.Arrays;
 

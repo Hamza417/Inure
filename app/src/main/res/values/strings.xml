@@ -12,7 +12,6 @@
     <string name="name">Name</string>
     <string name="package_name">Package Name</string>
     <string name="app_size">App Size</string>
-    <string name="install_date">Install Date</string>
     <string name="reverse">Reverse</string>
     <string name="apps_category">Apps Category</string>
     <string name="system">System</string>
@@ -28,7 +27,6 @@
     <string name="search_button">Search Button</string>
     <string name="sorting_style">Sorting Style</string>
     <string name="open_application_settings">Open Application Settings…</string>
-    <string name="directories">Directories</string>
     <string name="preferences">Preferences</string>
     <string name="about">About</string>
     <string name="app_icon">App Icon</string>
@@ -46,4 +44,26 @@
     <string name="dim_windows">Dim Windows</string>
     <string name="shadows_desc">Adds the nice looking accent colored ambient shadows to various elevated views of the app.\n\nOnly available in API 28 or above.</string>
     <string name="show_colored_shadows">Show Colored Shadows</string>
+    <string name="configuration">Configuration</string>
+    <string name="theme_desc">Change whether the application uses dark or light mode.</string>
+    <string name="application_theme">Application Theme</string>
+    <string name="follow_system">Follow System</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
+    <string name="storage">Storage</string>
+    <string name="apk_base_package">APK (Base Package)</string>
+    <string name="split_packages">Split Packages</string>
+    <string name="cache">Cache</string>
+    <string name="data">Data</string>
+    <string name="directories">Directories</string>
+    <string name="usage">Usage</string>
+    <string name="version">Version</string>
+    <string name="version_code">Version Code</string>
+    <string name="install_location">Install Location</string>
+    <string name="minimum_sdk">Minimum SDK</string>
+    <string name="target_sdk">Target SDK</string>
+    <string name="uid">UID</string>
+    <string name="install_date">Install Date</string>
+    <string name="update_date">Update Date</string>
+    <string name="permissions">Permissions</string>
 </resources>

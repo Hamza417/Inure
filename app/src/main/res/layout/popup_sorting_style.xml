@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:padding="@dimen/popup_padding">
 
-    <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/sort_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-    <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/sort_package_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-    <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/sort_app_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-    <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/sort_install_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,12 +70,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/sort_reversed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/bg_ripple_btn"
             android:fontFamily="@font/lato_bold"
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"

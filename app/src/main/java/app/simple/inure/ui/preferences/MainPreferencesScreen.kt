@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
-import app.simple.inure.decorations.animatedbackground.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.transitions.TransitionManager
 

@@ -8,14 +8,8 @@
         <item name="android:statusBarColor">@color/statusBarColor</item>
         <item name="android:navigationBarColor">@color/statusBarColor</item>
         <item name="android:colorEdgeEffect">?attr/colorAppAccent</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <!-- Customize your theme here. -->
-
-        <!-- Debug -->
-        <item name="android:keepScreenOn">true</item>
     </style>
 
     <style name="Blue" parent="Inure">

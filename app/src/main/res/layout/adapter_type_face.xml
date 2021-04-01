@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/adapter_typeface_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_ripple_btn"
     android:orientation="horizontal"
     android:padding="10dp">
 
     <TextView
-        android:layout_marginStart="10dp"
         android:id="@+id/adapter_typeface_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="10dp"
         android:layout_weight="1"
         android:textColor="@color/textPrimary"
         android:textSize="16sp" />
@@ -31,4 +30,4 @@
         app:tint="?attr/colorAppAccent"
         tools:ignore="ContentDescription" />
 
-</LinearLayout>
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

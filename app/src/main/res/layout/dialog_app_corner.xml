@@ -24,8 +24,8 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/px"
-            android:textSize="36sp"
             android:textColor="@color/textPrimary"
+            android:textSize="36sp"
             app:appFontStyle="bold" />
 
         <SeekBar
@@ -48,21 +48,19 @@
             android:layout_gravity="end"
             android:orientation="horizontal">
 
-            <Button
+            <app.simple.inure.decorations.ripple.DynamicRippleButton
                 android:id="@+id/app_corner_radius_cancel"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:background="@drawable/bg_ripple_btn"
                 android:text="@string/cancel"
                 android:textColor="@color/textSecondary" />
 
-            <Button
+            <app.simple.inure.decorations.ripple.DynamicRippleButton
                 android:id="@+id/app_corner_radius_set"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:background="@drawable/bg_ripple_btn"
                 android:text="@string/set"
                 android:textColor="@color/textSecondary" />
 

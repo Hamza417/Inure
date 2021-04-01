@@ -9,14 +9,12 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.animatedbackground.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.animatedbackground.DynamicRippleImageButton
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder.Companion.TYPE_HEADER
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder.Companion.TYPE_ITEM

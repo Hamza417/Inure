@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
-import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleButton
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.SpannableStringBuilder.buildSpannableString
@@ -24,8 +24,8 @@ class RoundedCorner : ScopedBottomSheetFragment() {
 
     private lateinit var radiusValue: TextView
     private lateinit var radiusSeekBar: SeekBar
-    private lateinit var cancel: Button
-    private lateinit var set: Button
+    private lateinit var cancel: DynamicRippleButton
+    private lateinit var set: DynamicRippleButton
     private lateinit var cornerFrameLayout: DynamicCornerLinearLayout
 
     private var objectAnimator: ObjectAnimator? = null

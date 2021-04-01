@@ -30,6 +30,13 @@ open class BasePopupWindow : PopupWindow() {
         showAsDropDown(view, (width / 1.2F * -1).toInt(), height / 4, Gravity.NO_GRAVITY)
     }
 
+    fun init(contentView: View, view: View, gravity: Int) {
+        setContentView(contentView)
+        init()
+        showAsDropDown(view, (width / 2F * -1).toInt(), 0, gravity)
+    }
+
+
     private fun init() {
         contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         contentView.clipToOutline = false
