@@ -16,7 +16,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun setTheme() {
         when (AppearancePreferences.getAccentColor()) {
-            0, ContextCompat.getColor(baseContext, R.color.inure) -> {
+            ContextCompat.getColor(baseContext, R.color.inure) -> {
                 setTheme(R.style.Inure)
             }
             ContextCompat.getColor(baseContext, R.color.blue) -> {
@@ -24,6 +24,9 @@ open class BaseActivity : AppCompatActivity() {
             }
             ContextCompat.getColor(baseContext, R.color.blueGrey) -> {
                 setTheme(R.style.BlueGrey)
+            }
+            ContextCompat.getColor(baseContext, R.color.darkBlue) -> {
+                setTheme(R.style.DarkBlue)
             }
             ContextCompat.getColor(baseContext, R.color.red) -> {
                 setTheme(R.style.Red)
@@ -36,6 +39,22 @@ open class BaseActivity : AppCompatActivity() {
             }
             ContextCompat.getColor(baseContext, R.color.purple) -> {
                 setTheme(R.style.Purple)
+            }
+            ContextCompat.getColor(baseContext, R.color.brown) -> {
+                setTheme(R.style.Brown)
+            }
+            ContextCompat.getColor(baseContext, R.color.caribbeanGreen) -> {
+                setTheme(R.style.CaribbeanGreen)
+            }
+            ContextCompat.getColor(baseContext, R.color.persianGreen) -> {
+                setTheme(R.style.PersianGreen)
+            }
+            ContextCompat.getColor(baseContext, R.color.amaranth) -> {
+                setTheme(R.style.Amaranth)
+            }
+            else -> {
+                setTheme(R.style.Inure)
+                AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))
             }
         }
     }

@@ -29,7 +29,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(), Coroutin
         dialog?.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
 
         if (AppearancePreferences.isDimmingOn()) {
-            dialog?.window?.setDimAmount(0.6f)
+            dialog?.window?.setDimAmount(0.3f)
         } else {
             dialog?.window?.setDimAmount(0f)
         }

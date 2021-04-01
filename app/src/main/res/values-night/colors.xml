@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="mainBackground">#171717</color>
-    <color name="dialogBackground">#424242</color>
+    <color name="dialogBackground">#292929</color>
     <color name="edgeEffect">#494949</color>
     <color name="statusBarColor">@color/mainBackground</color>
     <color name="rippleColor">@color/edgeEffect</color>

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+    <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
         android:id="@+id/menu_sort_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,11 +21,10 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+    <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
         android:id="@+id/menu_launch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_ripple_btn"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
@@ -34,11 +33,10 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+    <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
         android:id="@+id/menu_uninstall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_ripple_btn"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
@@ -47,11 +45,10 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+    <app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
         android:id="@+id/menu_kill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_ripple_btn"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"

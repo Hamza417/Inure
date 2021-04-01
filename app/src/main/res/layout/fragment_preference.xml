@@ -38,7 +38,7 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundLinearLayout
+    <app.simple.inure.decorations.animatedbackground.DynamicRippleLinearLayout
         android:id="@+id/frag_pref_appearances"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,9 +66,9 @@
             android:textSize="20sp"
             app:appFontStyle="medium" />
 
-    </app.simple.inure.decorations.animatedbackground.AnimatedBackgroundLinearLayout>
+    </app.simple.inure.decorations.animatedbackground.DynamicRippleLinearLayout>
 
-    <app.simple.inure.decorations.animatedbackground.AnimatedBackgroundLinearLayout
+    <app.simple.inure.decorations.animatedbackground.DynamicRippleLinearLayout
         android:id="@+id/frag_pref_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,6 +96,6 @@
             android:textSize="20sp"
             app:appFontStyle="medium" />
 
-    </app.simple.inure.decorations.animatedbackground.AnimatedBackgroundLinearLayout>
+    </app.simple.inure.decorations.animatedbackground.DynamicRippleLinearLayout>
 
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

@@ -25,7 +25,7 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.packagehelper.PackageUtils.killThisApp
 import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
 import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
-import app.simple.inure.popups.MainListPopupMenu
+import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.SearchData

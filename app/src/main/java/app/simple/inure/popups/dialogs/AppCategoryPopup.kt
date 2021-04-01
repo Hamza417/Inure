@@ -3,7 +3,7 @@ package app.simple.inure.popups.dialogs
 import android.view.View
 import android.widget.TextView
 import app.simple.inure.R
-import app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+import app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
 import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.popup.PopupMenuCallback
 
@@ -15,9 +15,9 @@ class AppCategoryPopup(contentView: View, view: View) : BasePopupWindow() {
 
         init(contentView, view)
 
-        contentView.findViewById<AnimatedBackgroundTextView>(R.id.popup_category_system).onClick(SYSTEM)
-        contentView.findViewById<AnimatedBackgroundTextView>(R.id.popup_category_user).onClick(USER)
-        contentView.findViewById<AnimatedBackgroundTextView>(R.id.popup_category_both).onClick(BOTH)
+        contentView.findViewById<DynamicRippleTextView>(R.id.popup_category_system).onClick(SYSTEM)
+        contentView.findViewById<DynamicRippleTextView>(R.id.popup_category_user).onClick(USER)
+        contentView.findViewById<DynamicRippleTextView>(R.id.popup_category_both).onClick(BOTH)
     }
 
     override fun dismiss() {

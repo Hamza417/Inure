@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.animatedbackground.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/adapter_all_app_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@drawable/bg_ripple"
-    android:orientation="horizontal"
     android:padding="5dp">
 
     <ImageView
@@ -90,4 +88,4 @@
         app:layout_constraintStart_toEndOf="@+id/adapter_all_app_package_size"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_package_id" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</app.simple.inure.decorations.animatedbackground.DynamicRippleConstraintLayout>

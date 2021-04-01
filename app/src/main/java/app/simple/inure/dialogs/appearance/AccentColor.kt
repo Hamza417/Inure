@@ -8,16 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.adapters.PaletteAdapter
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.adapters.AccentColorAdapter
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.MainPreferences
 
 class AccentColor : ScopedBottomSheetFragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var paletteAdapter: PaletteAdapter
+    private lateinit var accentColorAdapter: AccentColorAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.dialog_color_accent, container, false)
@@ -26,8 +24,8 @@ class AccentColor : ScopedBottomSheetFragment() {
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
         recyclerView.setHasFixedSize(true)
 
-        paletteAdapter = PaletteAdapter()
-        recyclerView.adapter = paletteAdapter
+        accentColorAdapter = AccentColorAdapter()
+        recyclerView.adapter = accentColorAdapter
 
         return view
     }
@@ -35,7 +33,7 @@ class AccentColor : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        paletteAdapter.setOnPaletteChangeListener(object : PaletteAdapter.Companion.PalettesAdapterCallbacks {
+        accentColorAdapter.setOnPaletteChangeListener(object : AccentColorAdapter.Companion.PalettesAdapterCallbacks {
             override fun onColorPressed(source: Int) {
                 AppearancePreferences.setAccentColor(source)
             }

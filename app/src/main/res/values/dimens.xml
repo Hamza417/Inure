@@ -13,8 +13,11 @@
     <dimen name="info_text_large_margin_top">3dp</dimen>
     <dimen name="info_text_large_margin_bottom">15dp</dimen>
     <dimen name="dialog_padding">15dp</dimen>
-    <dimen name="dialog_elevation">20dp</dimen>
+    <dimen name="dialog_elevation">30dp</dimen>
     <dimen name="popup_padding">10dp</dimen>
     <dimen name="header_padding">15dp</dimen>
     <dimen name="preference_icon_size">30dp</dimen>
+    <dimen name="switch_width">50dp</dimen>
+    <dimen name="switch_padding">5dp</dimen>
+    <dimen name="switch_thumb_dimensions">20dp</dimen>
 </resources>

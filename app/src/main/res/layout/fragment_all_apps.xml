@@ -24,6 +24,7 @@
         android:layout_width="@dimen/fast_scroller_thumb_size"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:layout_marginEnd="75dp" />
+        android:layout_marginEnd="75dp"
+        app:fastScrollerThumbColor="?attr/colorAppAccent" />
 
 </FrameLayout>

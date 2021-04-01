@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
-import app.simple.inure.decorations.animatedbackground.AnimatedBackgroundLinearLayout
+import app.simple.inure.decorations.animatedbackground.DynamicRippleLinearLayout
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.transitions.TransitionManager
 
 class MainPreferencesScreen : Fragment() {
 
-    private lateinit var appearance: AnimatedBackgroundLinearLayout
+    private lateinit var appearance: DynamicRippleLinearLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_preference, container, false)

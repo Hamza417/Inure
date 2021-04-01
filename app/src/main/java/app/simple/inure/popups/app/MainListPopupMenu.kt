@@ -1,4 +1,4 @@
-package app.simple.inure.popups
+package app.simple.inure.popups.app
 
 import android.content.pm.ApplicationInfo
 import android.view.Gravity
@@ -39,7 +39,7 @@ class MainListPopupMenu(
         animationStyle = R.style.PopupAnimation
         isClippingEnabled = false
         isFocusable = true
-        elevation = 100F
+        elevation = 50F
         ViewUtils.addShadow(contentView)
 
         contentView.findViewById<TextView>(R.id.menu_launch).onClick()

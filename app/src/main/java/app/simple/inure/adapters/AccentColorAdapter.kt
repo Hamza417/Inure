@@ -11,10 +11,9 @@ import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerFrameLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.MainPreferences
 import org.jetbrains.annotations.NotNull
 
-class PaletteAdapter : RecyclerView.Adapter<PaletteAdapter.Holder>() {
+class AccentColorAdapter : RecyclerView.Adapter<AccentColorAdapter.Holder>() {
 
     private var list = arrayListOf<Int>()
     private lateinit var palettesAdapterCallbacks: PalettesAdapterCallbacks
@@ -25,10 +24,15 @@ class PaletteAdapter : RecyclerView.Adapter<PaletteAdapter.Holder>() {
             ContextCompat.getColor(parent.context, R.color.inure),
             ContextCompat.getColor(parent.context, R.color.blue),
             ContextCompat.getColor(parent.context, R.color.blueGrey),
+            ContextCompat.getColor(parent.context, R.color.darkBlue),
             ContextCompat.getColor(parent.context, R.color.red),
             ContextCompat.getColor(parent.context, R.color.green),
             ContextCompat.getColor(parent.context, R.color.orange),
-            ContextCompat.getColor(parent.context, R.color.purple)
+            ContextCompat.getColor(parent.context, R.color.purple),
+            ContextCompat.getColor(parent.context, R.color.brown),
+            ContextCompat.getColor(parent.context, R.color.caribbeanGreen),
+            ContextCompat.getColor(parent.context, R.color.persianGreen),
+            ContextCompat.getColor(parent.context, R.color.amaranth)
         )
 
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_color_pallete, parent, false))
@@ -54,7 +58,7 @@ class PaletteAdapter : RecyclerView.Adapter<PaletteAdapter.Holder>() {
     }
 
     override fun getItemCount(): Int {
-        return 7
+        return 12
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

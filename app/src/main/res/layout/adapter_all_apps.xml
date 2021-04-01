@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.animatedbackground.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/adapter_all_app_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="@drawable/bg_ripple"
-    android:orientation="horizontal"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/adapter_all_app_icon"
@@ -27,10 +26,10 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="16dp"
         android:ellipsize="end"
-        app:appFontStyle="bold"
         android:maxLines="1"
         android:textColor="@color/textPrimary"
         android:textSize="7pt"
+        app:appFontStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/adapter_all_app_package_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/adapter_all_app_icon"
@@ -54,4 +53,4 @@
         app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_name" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</app.simple.inure.decorations.animatedbackground.DynamicRippleConstraintLayout>

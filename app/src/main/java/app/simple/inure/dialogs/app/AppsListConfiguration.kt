@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+import app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.decorations.popup.PopupMenuCallback
@@ -18,9 +18,9 @@ import app.simple.inure.util.Sort
 
 class AppsListConfiguration : ScopedBottomSheetFragment() {
 
-    private lateinit var appsCategory: AnimatedBackgroundTextView
-    private lateinit var sortingStyle: AnimatedBackgroundTextView
-    private lateinit var openAppsSettings: AnimatedBackgroundTextView
+    private lateinit var appsCategory: DynamicRippleTextView
+    private lateinit var sortingStyle: DynamicRippleTextView
+    private lateinit var openAppsSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_main_settings, container, false)

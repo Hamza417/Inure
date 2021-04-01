@@ -3,6 +3,7 @@
 
     <attr name="colorAppAccent" format="color" />
     <attr name="colorAppAccentLight" format="color" />
+    <attr name="colorAccentRipple" format="color" />
 
     <declare-styleable name="DynamicCornerLayout">
         <!-- At least one of them needs to be true else roundness will be applies to all corners
@@ -89,5 +90,10 @@
             <enum name="STIFFNESS_MEDIUM" value="2" />
             <enum name="STIFFNESS_HIGH" value="3" />
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SwitchView">
+        <attr name="switchWidth" format="dimension" />
+        <attr name="switchPadding" format="dimension" />
     </declare-styleable>
 </resources>

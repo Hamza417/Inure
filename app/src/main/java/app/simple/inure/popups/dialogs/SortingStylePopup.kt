@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import app.simple.inure.R
-import app.simple.inure.decorations.animatedbackground.AnimatedBackgroundTextView
+import app.simple.inure.decorations.animatedbackground.DynamicRippleTextView
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.popup.PopupMenuCallback
@@ -28,10 +28,10 @@ class SortingStylePopup(contentView: View, view: View)
             container.outlineAmbientShadowColor = contentView.context.resolveAttrColor(R.attr.colorAppAccent)
         }
 
-        val name = contentView.findViewById<AnimatedBackgroundTextView>(R.id.sort_name)
-        val packageName = contentView.findViewById<AnimatedBackgroundTextView>(R.id.sort_package_name)
-        val size = contentView.findViewById<AnimatedBackgroundTextView>(R.id.sort_app_size)
-        val installDate = contentView.findViewById<AnimatedBackgroundTextView>(R.id.sort_install_date)
+        val name = contentView.findViewById<DynamicRippleTextView>(R.id.sort_name)
+        val packageName = contentView.findViewById<DynamicRippleTextView>(R.id.sort_package_name)
+        val size = contentView.findViewById<DynamicRippleTextView>(R.id.sort_app_size)
+        val installDate = contentView.findViewById<DynamicRippleTextView>(R.id.sort_install_date)
         val reversedCheckBox = contentView.findViewById<CheckBox>(R.id.sort_reversed_checkbox)
 
         name.onClick(Sort.NAME)
@@ -41,7 +41,7 @@ class SortingStylePopup(contentView: View, view: View)
 
         reversedCheckBox.isChecked = MainPreferences.isReverseSorting()
 
-        contentView.findViewById<AnimatedBackgroundTextView>(R.id.sort_reversed).setOnClickListener {
+        contentView.findViewById<DynamicRippleTextView>(R.id.sort_reversed).setOnClickListener {
             reversedCheckBox.isChecked = !reversedCheckBox.isChecked
         }
 

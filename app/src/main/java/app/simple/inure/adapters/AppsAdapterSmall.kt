@@ -15,6 +15,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.animatedbackground.DynamicRippleConstraintLayout
+import app.simple.inure.decorations.animatedbackground.DynamicRippleImageButton
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder.Companion.TYPE_HEADER
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder.Companion.TYPE_ITEM
@@ -131,15 +133,15 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
         val packageId: TextView = itemView.findViewById(R.id.adapter_all_app_package_id)
         val packageSize: TextView = itemView.findViewById(R.id.adapter_all_app_package_size)
         val packageType: TextView = itemView.findViewById(R.id.adapter_all_app_type)
-        val container: ConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         private val appIcon: ImageView = itemView.findViewById(R.id.imageView3)
         private val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
-        val search: ImageButton = itemView.findViewById(R.id.adapter_header_search_button)
-        val settings: ImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
-        val prefs: ImageButton = itemView.findViewById(R.id.adapter_header_pref_button)
+        val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
+        val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
+        val prefs: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_pref_button)
 
         init {
             Handler(Looper.getMainLooper()).postDelayed({ (appIcon.drawable as AnimatedVectorDrawable).start() }, 1000L)

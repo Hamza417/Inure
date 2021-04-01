@@ -48,4 +48,28 @@
         <item name="colorAppAccentLight">@color/purple_light</item>
     </style>
 
+    <style name="DarkBlue" parent="Inure">
+        <item name="colorAppAccent">@color/darkBlue</item>
+        <item name="colorAppAccentLight">@color/darkBlue_light</item>
+    </style>
+
+    <style name="Brown" parent="Inure">
+        <item name="colorAppAccent">@color/brown</item>
+        <item name="colorAppAccentLight">@color/brown_light</item>
+    </style>
+
+    <style name="CaribbeanGreen" parent="Inure">
+        <item name="colorAppAccent">@color/caribbeanGreen</item>
+        <item name="colorAppAccentLight">@color/caribbeanGreenLight</item>
+    </style>
+
+    <style name="PersianGreen" parent="Inure">
+        <item name="colorAppAccent">@color/persianGreen</item>
+        <item name="colorAppAccentLight">@color/persianGreen_light</item>
+    </style>
+
+    <style name="Amaranth" parent="Inure">
+        <item name="colorAppAccent">@color/amaranth</item>
+        <item name="colorAppAccentLight">@color/amaranth_light</item>
+    </style>
 </resources>

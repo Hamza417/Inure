@@ -31,10 +31,11 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.packagehelper.PackageUtils.killThisApp
 import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
 import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
-import app.simple.inure.popups.MainListPopupMenu
+import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.MainPreferencesScreen
 import app.simple.inure.viewmodels.AppData
+import com.google.android.material.card.MaterialCardView
 import java.util.*
 
 
@@ -47,6 +48,8 @@ class Apps : ScopedFragment() {
     private lateinit var appsAdapter: AppsAdapterSmall
     private lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
     private var allAppsList = arrayListOf<ApplicationInfo>()
+
+    private lateinit var materialCardView: MaterialCardView
 
     private val model: AppData by viewModels()
 
