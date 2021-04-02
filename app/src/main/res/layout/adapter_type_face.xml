@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="@dimen/dialog_padding">
 
     <TextView
         android:id="@+id/adapter_typeface_textview"
@@ -20,13 +20,12 @@
 
     <ImageView
         android:id="@+id/adapter_typeface_check_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_gravity="center_vertical"
         android:layout_marginHorizontal="10dp"
-        android:padding="10dp"
         android:src="@drawable/ic_check"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:tint="?attr/colorAppAccent"
         tools:ignore="ContentDescription" />
 

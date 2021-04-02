@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -19,7 +18,6 @@ import androidx.annotation.Nullable;
 import app.simple.inure.R;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.preferences.SearchPreferences;
-import app.simple.inure.util.StatusBarHeight;
 import app.simple.inure.util.ViewUtils;
 
 public class SearchView extends LinearLayout {

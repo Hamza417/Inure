@@ -18,7 +18,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/typeface_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="@dimen/type_face_dialog_size"
+            android:fadingEdge="vertical"
+            android:fadingEdgeLength="20dp"
+            android:requiresFadingEdge="vertical" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 </FrameLayout>

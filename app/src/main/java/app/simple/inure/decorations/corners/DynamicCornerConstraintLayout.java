@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import app.simple.inure.util.StatusBarHeight;
 import app.simple.inure.util.ViewUtils;
 
 public class DynamicCornerConstraintLayout extends ConstraintLayout {

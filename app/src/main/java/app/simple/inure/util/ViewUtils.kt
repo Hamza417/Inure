@@ -39,4 +39,18 @@ object ViewUtils {
             contentView.outlineSpotShadowColor = contentView.context.resolveAttrColor(R.attr.colorAppAccent)
         }
     }
+
+    /**
+     * Makes the view go away
+     */
+    fun View.makeGoAway() {
+        this.visibility = View.GONE
+    }
+
+    /**
+     * Makes the view come back
+     */
+    fun View.makeVisible() {
+        this.visibility = View.VISIBLE
+    }
 }

@@ -22,6 +22,6 @@ public class PaddingAwareLinearLayout extends LinearLayout {
         setPadding(getPaddingLeft(),
                 StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
                 getPaddingRight(),
-                StatusBarHeight.getNavigationBarHeight(getResources()) + getPaddingBottom());
+                getPaddingBottom());
     }
 }

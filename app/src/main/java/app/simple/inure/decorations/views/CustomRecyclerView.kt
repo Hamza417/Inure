@@ -3,7 +3,6 @@ package app.simple.inure.decorations.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.EdgeEffect
-import androidx.core.view.setPadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.decorations.bouncescroll.ScrollConstants
@@ -19,7 +18,7 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
     init {
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         setHasFixedSize(true)
-        setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources), paddingRight, StatusBarHeight.getNavigationBarHeight(resources))
+        setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources), paddingRight, paddingBottom)
 
         this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
             override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {

@@ -6,8 +6,6 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import app.simple.inure.decorations.corners.LayoutBackground;
-import app.simple.inure.util.StatusBarHeight;
 import app.simple.inure.util.ViewUtils;
 
 public class DynamicCornerFrameLayout extends FrameLayout {
