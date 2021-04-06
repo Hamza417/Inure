@@ -8,19 +8,36 @@
     android:layout_margin="5dp"
     android:padding="5dp">
 
-    <ImageView
-        android:id="@+id/adapter_all_app_icon"
-        android:layout_width="@dimen/app_icon_dimension"
-        android:layout_height="@dimen/app_icon_dimension"
+    <FrameLayout
+        android:id="@+id/adapter_all_app_icon_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/adapter_all_app_icon"
+            android:layout_width="@dimen/app_icon_dimension"
+            android:layout_height="@dimen/app_icon_dimension"
+            android:clickable="false"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/adapter_all_app_selection_indicator"
+            android:layout_width="@dimen/app_icon_dimension"
+            android:padding="10dp"
+            android:clickable="false"
+            android:layout_height="@dimen/app_icon_dimension"
+            android:src="@drawable/ic_selection"
+            app:tint="?attr/colorAppAccent"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
 
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:id="@+id/adapter_all_app_name"
         android:layout_width="0dp"
-        app:appFontStyle="bold"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="8dp"
@@ -28,10 +45,11 @@
         android:maxLines="1"
         android:textColor="@color/textPrimary"
         android:textSize="7pt"
+        app:appFontStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/adapter_all_app_package_id"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/adapter_all_app_icon"
-        app:layout_constraintTop_toTopOf="@+id/adapter_all_app_icon"
+        app:layout_constraintStart_toEndOf="@id/adapter_all_app_icon_container"
+        app:layout_constraintTop_toTopOf="@+id/adapter_all_app_icon_container"
         app:layout_constraintVertical_bias="0.0" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
@@ -40,13 +58,13 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:ellipsize="end"
-        app:appFontStyle="regular"
         android:maxLines="1"
         android:textColor="@color/textSecondary"
         android:textSize="5pt"
+        app:appFontStyle="regular"
         app:layout_constraintBottom_toTopOf="@+id/adapter_all_app_package_size"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
+        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon_container"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_name" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
@@ -57,16 +75,16 @@
         android:layout_marginBottom="8dp"
         android:drawablePadding="10dp"
         android:ellipsize="end"
-        app:appFontStyle="regular"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:textColor="@color/textSecondary"
         android:textSize="5pt"
+        app:appFontStyle="regular"
         app:drawableStartCompat="@drawable/ic_sd"
         app:drawableTint="@color/iconSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon_container"
         app:layout_constraintEnd_toStartOf="@id/adapter_all_app_type"
-        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
+        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon_container"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_package_id" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
@@ -77,13 +95,13 @@
         android:layout_marginBottom="8dp"
         android:drawablePadding="10dp"
         android:ellipsize="end"
-        app:appFontStyle="regular"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:textColor="@color/textSecondary"
         android:textSize="5pt"
+        app:appFontStyle="regular"
         app:drawableTint="@color/iconSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/adapter_all_app_package_size"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_package_id" />

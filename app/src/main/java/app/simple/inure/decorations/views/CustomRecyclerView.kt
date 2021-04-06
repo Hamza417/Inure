@@ -2,11 +2,16 @@ package app.simple.inure.decorations.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.widget.EdgeEffect
+import androidx.recyclerview.selection.ItemDetailsLookup
+import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import app.simple.inure.adapters.AppsAdapterSmall
 import app.simple.inure.decorations.bouncescroll.ScrollConstants
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
 
 /**
@@ -84,13 +89,38 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
 
     override fun setAdapter(adapter: Adapter<*>?) {
         super.setAdapter(adapter)
-        adapter!!.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
+        adapter?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
         scheduleLayoutAnimation()
     }
 
     private inline fun <reified T : VerticalListViewHolder> RecyclerView.forEachVisibleHolder(action: (T) -> Unit) {
         for (i in 0 until childCount) {
             action(getChildViewHolder(getChildAt(i)) as T)
+        }
+    }
+
+    class AppsLookup(private val recyclerView: CustomRecyclerView) : ItemDetailsLookup<Long>() {
+        override fun getItemDetails(e: MotionEvent): ItemDetails<Long>? {
+            val view = recyclerView.findChildViewUnder(e.x, e.y)
+            if (view.isNotNull()) {
+                return (recyclerView.getChildViewHolder(view!!) as AppsAdapterSmall.Holder).getItemDetails()
+            }
+
+            return null
+        }
+    }
+
+
+    class KeyProvider(private val recyclerView: RecyclerView) :
+        ItemKeyProvider<Long>(SCOPE_MAPPED) {
+
+        override fun getKey(position: Int): Long? {
+            return recyclerView.adapter?.getItemId(position)
+        }
+
+        override fun getPosition(key: Long): Int {
+            return recyclerView.findViewHolderForItemId(key)?.layoutPosition
+                ?: NO_POSITION
         }
     }
 }

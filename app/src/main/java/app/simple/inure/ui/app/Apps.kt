@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.selection.*
 import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.adapters.AppsAdapterSmall
@@ -35,7 +36,6 @@ import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.MainPreferencesScreen
 import app.simple.inure.viewmodels.AppData
-import com.google.android.material.card.MaterialCardView
 import java.util.*
 
 
@@ -48,8 +48,7 @@ class Apps : ScopedFragment() {
     private lateinit var appsAdapter: AppsAdapterSmall
     private lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
     private var allAppsList = arrayListOf<ApplicationInfo>()
-
-    private lateinit var materialCardView: MaterialCardView
+    private var tracker: SelectionTracker<Long>? = null
 
     private val model: AppData by viewModels()
 
@@ -148,8 +147,35 @@ class Apps : ScopedFragment() {
                             .addToBackStack(fragment.tag)
                             .commit()
                 }
+
+                override fun onItemSelected() {
+                    super.onItemSelected()
+                    tracker = SelectionTracker.Builder(
+                        "selection",
+                        appsListRecyclerView,
+                        CustomRecyclerView.KeyProvider(appsListRecyclerView),
+                        CustomRecyclerView.AppsLookup(appsListRecyclerView),
+                        StorageStrategy.createLongStorage()
+                    )
+                            .withSelectionPredicate(SelectionPredicates.createSelectAnything())
+                            .build()
+
+                    appsAdapter.tracker = tracker
+                    appsAdapter.notifyDataSetChanged()
+                }
             })
         })
+
+        tracker?.addObserver(
+            object : SelectionTracker.SelectionObserver<Long>() {
+                override fun onSelectionChanged() {
+                    super.onSelectionChanged()
+                    val items = tracker?.selection!!.size()
+                    if (items == 2) {
+                        launchSum(tracker?.selection!!)
+                    }
+                }
+            })
 
         appUninstallObserver = registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -181,6 +207,12 @@ class Apps : ScopedFragment() {
                 .setReorderingAllowed(true)
                 .addSharedElement(icon, icon.transitionName)
                 .replace(R.id.app_container, appInfo, "app_info").addToBackStack("app_info").commit()
+    }
+
+    private fun launchSum(selection: Selection<Long>) {
+        val list = selection.map {
+            appsAdapter.apps[it.toInt()]
+        }.toList()
     }
 
     companion object {

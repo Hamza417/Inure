@@ -9,8 +9,11 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.selection.ItemDetailsLookup
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -23,6 +26,7 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.FileSizeHelper.getFileSize
+import app.simple.inure.util.ViewUtils.makeVisible
 
 class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -30,6 +34,8 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     private var xOff = 0f
     private var yOff = 0f
+
+    var tracker: SelectionTracker<Long>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -51,6 +57,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
         val position = position_ - 1
         if (holder is Holder) {
+
             holder.icon.transitionName = "app_$position"
             holder.icon.loadAppIcon(holder.itemView.context, apps[position].packageName)
             holder.name.text = apps[position].name
@@ -84,6 +91,15 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
                 appsAdapterCallbacks.onAppLongPress(apps[position], holder.container, xOff, yOff, holder.icon)
                 true
             }
+
+            holder.iconContainer.setOnClickListener {
+                holder.selection.isActivated = true
+                appsAdapterCallbacks.onItemSelected()
+            }
+
+            tracker?.let {
+                holder.bind(it.isSelected(position.toLong()))
+            }
         }
 
         if (holder is Header) {
@@ -115,6 +131,10 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
         return apps.size + 1
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
             TYPE_HEADER
@@ -126,12 +146,25 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+        val selection: ImageView = itemView.findViewById(R.id.adapter_all_app_selection_indicator)
+        val iconContainer: FrameLayout = itemView.findViewById(R.id.adapter_all_app_icon_container)
         val icon: ImageView = itemView.findViewById(R.id.adapter_all_app_icon)
         val name: TextView = itemView.findViewById(R.id.adapter_all_app_name)
         val packageId: TextView = itemView.findViewById(R.id.adapter_all_app_package_id)
         val packageSize: TextView = itemView.findViewById(R.id.adapter_all_app_package_size)
         val packageType: TextView = itemView.findViewById(R.id.adapter_all_app_type)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
+
+        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
+            object : ItemDetailsLookup.ItemDetails<Long>() {
+                override fun getPosition(): Int = absoluteAdapterPosition - 1
+                override fun getSelectionKey(): Long = absoluteAdapterPosition.toLong() - 1
+            }
+
+        fun bind(selected: Boolean) {
+            selection.isActivated = selected
+            if(selected) icon.alpha = 0.5F
+        }
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
