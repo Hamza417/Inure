@@ -1,0 +1,110 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_gravity="bottom">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/app_icon_margin_horizontal"
+            android:drawableTop="@drawable/ic_permission"
+            android:drawablePadding="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/permissions"
+            app:appFontStyle="medium" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/app_icon_margin_horizontal"
+            android:drawableTop="@drawable/ic_activities"
+            android:drawablePadding="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/activities"
+            app:appFontStyle="medium" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/app_icon_margin_horizontal"
+            android:drawableTop="@drawable/ic_services"
+            android:drawablePadding="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/services"
+            app:appFontStyle="medium" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/app_icon_margin_horizontal"
+            android:drawableTop="@drawable/ic_certificate"
+            android:drawablePadding="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/certificate"
+            app:appFontStyle="medium" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/app_icon_margin_horizontal"
+            android:drawableTop="@drawable/ic_resources"
+            android:drawablePadding="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/resources"
+            app:appFontStyle="medium" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/app_icon_margin_horizontal"
+            android:drawableTop="@drawable/ic_broadcast"
+            android:drawablePadding="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/broadcasts"
+            app:appFontStyle="medium" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/app_icon_margin_horizontal"
+            android:drawableTop="@drawable/ic_provider"
+            android:drawablePadding="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/providers"
+            app:appFontStyle="medium" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/app_icon_margin_horizontal"
+            android:drawableTop="@drawable/ic_xml"
+            android:drawablePadding="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/manifest"
+            app:appFontStyle="medium" />
+    </LinearLayout>
+
+</HorizontalScrollView>

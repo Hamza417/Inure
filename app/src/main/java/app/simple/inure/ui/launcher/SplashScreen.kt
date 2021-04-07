@@ -17,8 +17,6 @@ import app.simple.inure.viewmodels.AppData
 
 class SplashScreen : ScopedFragment() {
 
-    private val handler = Handler(Looper.getMainLooper())
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
     }

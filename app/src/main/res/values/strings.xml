@@ -66,4 +66,12 @@
     <string name="install_date">Install Date</string>
     <string name="update_date">Update Date</string>
     <string name="permissions">Permissions</string>
+    <string name="permissions">Permissions</string>
+    <string name="activities">Activities</string>
+    <string name="services">Services</string>
+    <string name="certificate">Certificate</string>
+    <string name="resources">Resources</string>
+    <string name="broadcasts">Broadcasts</string>
+    <string name="manifest">Manifest</string>
+    <string name="providers">Providers</string>
 </resources>

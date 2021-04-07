@@ -6,16 +6,24 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import app.simple.inure.packagehelper.PackageUtils.getApplicationName
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class AppData(application: Application, private val savedStateHandle: SavedStateHandle) : AndroidViewModel(application) {
+class AppData(application: Application)
+    : AndroidViewModel(application), CoroutineScope {
+
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Default
+
     private val appData: MutableLiveData<ArrayList<ApplicationInfo>> by lazy {
         MutableLiveData<ArrayList<ApplicationInfo>>().also {
             loadAppData()
@@ -27,8 +35,11 @@ class AppData(application: Application, private val savedStateHandle: SavedState
     }
 
     fun loadAppData() {
-        CoroutineScope(Dispatchers.Default).launch {
-            val apps = getApplication<Application>().applicationContext.packageManager.getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
+        launch {
+            val apps = getApplication<Application>()
+                    .applicationContext.packageManager
+                    .getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
+
             val filtered = arrayListOf<ApplicationInfo>()
 
             for (i in apps.indices) {
@@ -63,24 +74,8 @@ class AppData(application: Application, private val savedStateHandle: SavedState
         }
     }
 
-    /**
-     * Scroll position of the recycler view before the view
-     * is destroyed during configuration change
-     * @return [LiveData] int type can be null/negative
-     */
-    private fun getScrollPosition(): LiveData<Int> {
-        return savedStateHandle.getLiveData("scroll_position")
-    }
-
-    @Deprecated("Use adapter state restoration policy")
-            /**
-             * Set current scroll position of recycler view
-             * right before a view is deemed destroyed
-             *
-             * use [getScrollPosition] to fetch [LiveData]
-             * containing scroll position
-             */
-    fun setScrollPosition(position: Int) {
-        savedStateHandle.set("scroll_position", position)
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
     }
 }

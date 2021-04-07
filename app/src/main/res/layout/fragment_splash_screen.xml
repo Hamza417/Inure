@@ -22,6 +22,7 @@
         android:id="@+id/launcher_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/app_name"
         android:textColor="@color/textSecondary"
         android:textSize="24sp"

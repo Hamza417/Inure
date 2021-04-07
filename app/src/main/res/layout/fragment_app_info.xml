@@ -1,30 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fragment_app_info_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:padding="20dp"
-    app:damping_ratio="DAMPING_RATIO_NO_BOUNCY"
-    app:fling_animation_size="0.75"
-    app:overscroll_animation_size="0.75"
-    app:stiffness="STIFFNESS_LOW">
+    android:layout_height="match_parent">
 
-    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/fragment_app_info_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:orientation="vertical">
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="100dp"
+        app:damping_ratio="DAMPING_RATIO_NO_BOUNCY"
+        app:fling_animation_size="0.75"
+        app:overscroll_animation_size="0.75"
+        app:stiffness="STIFFNESS_LOW">
 
-        <include layout="@layout/sub_app_header" />
+        <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
 
-        <include layout="@layout/sub_app_options" />
+            <include layout="@layout/sub_app_header" />
 
-        <include layout="@layout/sub_graph_view" />
+            <include layout="@layout/sub_app_options" />
 
-    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+            <include layout="@layout/sub_graph_view" />
 
-</androidx.core.widget.NestedScrollView>
+        </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/bottom_options_app_menu" />
+
+</FrameLayout>
 
