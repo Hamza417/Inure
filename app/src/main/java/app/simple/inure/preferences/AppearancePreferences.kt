@@ -5,6 +5,7 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.TypeFace
 
 object AppearancePreferences {
 
@@ -33,7 +34,7 @@ object AppearancePreferences {
     }
 
     fun getAppFont(): String {
-        return getSharedPreferences().getString(appFont, TypeFaceTextView.JOST)!!
+        return getSharedPreferences().getString(appFont, TypeFace.JOST)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
