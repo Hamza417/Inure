@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/header_padding">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:src="@drawable/ic_activities"
+            android:transitionName="@string/activities"
+            app:tint="?attr/colorAppAccent"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/activities"
+            android:textColor="?attr/colorAppAccent"
+            android:textSize="36sp"
+            app:appFontStyle="bold" />
+
+    </LinearLayout>
+
+    <app.simple.inure.decorations.views.CustomRecyclerView
+        android:id="@+id/activities_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/list_animation_controller"
+        android:padding="@dimen/header_padding" />
+
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

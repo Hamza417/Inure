@@ -7,21 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterAppInfoMenu
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.views.Pie
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.app.Information
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.packagehelper.PackageUtils
+import app.simple.inure.ui.viewers.Activities
 import app.simple.inure.ui.viewers.Services
 import app.simple.inure.ui.viewers.XMLViewerWebView
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
@@ -85,10 +83,7 @@ class AppInfo : ScopedFragment() {
 
         icon.transitionName = requireArguments().getString("transition_name")
         icon.loadAppIcon(requireContext(), applicationInfo.packageName)
-
-        (view.parent as? ViewGroup)?.doOnPreDraw {
-            startPostponedEnterTransition()
-        }
+        startPostponedEnterTransition()
 
         name.text = applicationInfo.name
         packageId.text = PackageUtils.getApplicationVersion(requireContext(), applicationInfo)
@@ -109,21 +104,17 @@ class AppInfo : ScopedFragment() {
                     getString(R.string.manifest) -> {
                         openFragment(requireActivity().supportFragmentManager,
                                      XMLViewerWebView.newInstance(applicationInfo),
-                                     icon, "manifest")
+                                     icon, "services")
                     }
                     getString(R.string.services) -> {
-                        val appInfo = requireActivity().supportFragmentManager.findFragmentByTag("Services")
-                            ?: Services.newInstance(applicationInfo)
-
-                        exitTransition = Fade()
-                        appInfo.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
-                        appInfo.enterTransition = Fade()
-                        appInfo.sharedElementReturnTransition = DetailsTransitionArc(1.5F)
-
-                        requireActivity().supportFragmentManager.beginTransaction()
-                                .setReorderingAllowed(true)
-                                .addSharedElement(icon, icon.transitionName)
-                                .replace(R.id.app_container, appInfo, "Services").addToBackStack("Services").commit()
+                        openFragment(requireActivity().supportFragmentManager,
+                                     Services.newInstance(applicationInfo),
+                                     icon, "services")
+                    }
+                    getString(R.string.activities) -> {
+                        openFragment(requireActivity().supportFragmentManager,
+                                     Activities.newInstance(applicationInfo),
+                                     icon, "activities")
                     }
                 }
             }
