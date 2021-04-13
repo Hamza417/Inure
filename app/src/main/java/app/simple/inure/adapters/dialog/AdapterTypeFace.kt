@@ -1,4 +1,4 @@
-package app.simple.inure.adapters
+package app.simple.inure.adapters.dialog
 
 import android.content.res.Resources
 import android.graphics.Typeface
@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.TypeFace

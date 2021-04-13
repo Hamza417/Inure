@@ -1,4 +1,4 @@
-package app.simple.inure.adapters
+package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
@@ -26,7 +26,6 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.FileSizeHelper.getFileSize
-import app.simple.inure.util.ViewUtils.makeVisible
 
 class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
 

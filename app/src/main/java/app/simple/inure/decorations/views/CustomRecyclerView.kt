@@ -8,7 +8,7 @@ import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import app.simple.inure.adapters.AppsAdapterSmall
+import app.simple.inure.adapters.ui.AppsAdapterSmall
 import app.simple.inure.decorations.bouncescroll.ScrollConstants
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.util.NullSafety.isNotNull

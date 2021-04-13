@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.adapters.AdapterTypeFace
+import app.simple.inure.adapters.dialog.AdapterTypeFace
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.MainPreferences
 
 class AppearanceTypeFace : ScopedBottomSheetFragment() {
 

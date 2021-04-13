@@ -11,7 +11,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.adapters.SearchAdapter
+import app.simple.inure.adapters.ui.SearchAdapter
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.searchview.SearchView

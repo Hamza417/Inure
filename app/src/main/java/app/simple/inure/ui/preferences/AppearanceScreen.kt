@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.R
+import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.switch.SwitchCallbacks
 import app.simple.inure.decorations.switch.SwitchView
 import app.simple.inure.dialogs.appearance.AccentColor

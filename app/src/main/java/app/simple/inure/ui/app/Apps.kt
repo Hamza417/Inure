@@ -16,7 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.selection.*
 import androidx.transition.Fade
 import app.simple.inure.R
-import app.simple.inure.adapters.AppsAdapterSmall
+import app.simple.inure.adapters.ui.AppsAdapterSmall
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView

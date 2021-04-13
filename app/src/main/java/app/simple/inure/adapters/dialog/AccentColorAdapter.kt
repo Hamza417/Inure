@@ -1,4 +1,4 @@
-package app.simple.inure.adapters
+package app.simple.inure.adapters.dialog
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater

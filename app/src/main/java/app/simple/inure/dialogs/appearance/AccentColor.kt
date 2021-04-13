@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.adapters.AccentColorAdapter
+import app.simple.inure.adapters.dialog.AccentColorAdapter
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AppearancePreferences
 
