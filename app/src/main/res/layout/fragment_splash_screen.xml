@@ -12,21 +12,19 @@
         android:padding="20dp"
         android:src="@drawable/ani_ic_app_icon"
         android:transitionName="main_app_icon"
-        app:layout_constraintBottom_toTopOf="@id/launcher_app_name"
+        app:layout_constraintBottom_toTopOf="@id/determinateBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/launcher_app_name"
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:id="@+id/determinateBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/textSecondary"
-        android:textSize="24sp"
-        app:appFontStyle="light"
+        android:indeterminateTint="?attr/colorAppAccent"
+        android:indeterminateOnly="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

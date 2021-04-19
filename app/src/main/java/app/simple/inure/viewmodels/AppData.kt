@@ -36,6 +36,7 @@ class AppData(application: Application)
 
     fun loadAppData() {
         launch {
+
             val apps = getApplication<Application>()
                     .applicationContext.packageManager
                     .getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
