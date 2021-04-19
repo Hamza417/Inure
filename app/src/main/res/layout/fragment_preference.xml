@@ -82,7 +82,7 @@
             android:layout_width="@dimen/preference_icon_size"
             android:layout_height="@dimen/preference_icon_size"
             android:src="@drawable/ic_app_settings"
-            android:transitionName="about_icon"
+            android:transitionName="configuration_icon"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 

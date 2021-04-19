@@ -1,17 +1,35 @@
 package app.simple.inure.extension.activities
 
+import android.content.Context
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.util.ThemeSetter
 
 open class BaseActivity : AppCompatActivity() {
+
+    override fun attachBaseContext(newBase: Context) {
+
+        SharedPreferences.init(newBase)
+
+        super.attachBaseContext(newBase)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        SharedPreferences.init(applicationContext)
+
+        /**
+         * Sets window flags for keeping the screen on
+         */
+        if (MainPreferences.isKeepScreenOn()) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+
         setTheme()
         ThemeSetter.setAppTheme(AppearancePreferences.getAppTheme())
     }

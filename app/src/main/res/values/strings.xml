@@ -73,4 +73,7 @@
     <string name="broadcasts">Broadcasts</string>
     <string name="manifest">Manifest</string>
     <string name="providers">Providers</string>
+    <string name="screen">Screen</string>
+    <string name="keep_screen_on">Keep Screen On</string>
+    <string name="keep_screen_on_desc">Prevents device from sleeping while the app is visible.</string>
 </resources>

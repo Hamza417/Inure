@@ -19,6 +19,7 @@ object MainPreferences {
     private const val theme = "current_theme"
     private const val appLanguage = "current_language_locale"
     private const val sizeType = "size_type"
+    private const val keepScreenOn = "keep_screen_on"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
@@ -94,5 +95,13 @@ object MainPreferences {
 
     fun getListAppCategory(): String {
         return getSharedPreferences().getString(listAppsCategory, AppCategoryPopup.BOTH)!!
+    }
+
+    fun setKeepScreenOn(@NotNull value: Boolean) {
+        getSharedPreferences().edit().putBoolean(keepScreenOn, value).apply()
+    }
+
+    fun isKeepScreenOn(): Boolean {
+        return getSharedPreferences().getBoolean(keepScreenOn, false)
     }
 }

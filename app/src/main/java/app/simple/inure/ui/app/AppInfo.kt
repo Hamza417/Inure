@@ -20,6 +20,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.packagehelper.PackageUtils
 import app.simple.inure.ui.viewers.Activities
+import app.simple.inure.ui.viewers.Providers
 import app.simple.inure.ui.viewers.Services
 import app.simple.inure.ui.viewers.XMLViewerWebView
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
@@ -115,6 +116,11 @@ class AppInfo : ScopedFragment() {
                         openFragment(requireActivity().supportFragmentManager,
                                      Activities.newInstance(applicationInfo),
                                      icon, "activities")
+                    }
+                    getString(R.string.providers) -> {
+                        openFragment(requireActivity().supportFragmentManager,
+                                     Providers.newInstance(applicationInfo),
+                                     icon, "providers")
                     }
                 }
             }
