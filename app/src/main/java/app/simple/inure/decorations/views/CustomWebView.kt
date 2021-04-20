@@ -63,6 +63,8 @@ class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView(cont
         this.settings.allowFileAccess = true
         this.settings.javaScriptEnabled = true
         this.settings.defaultTextEncodingName = "UTF-8"
+        this.settings.builtInZoomControls = true
+        this.settings.displayZoomControls = false
 
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
             if (context.resources.configuration.uiMode and

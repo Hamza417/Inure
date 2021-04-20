@@ -22,6 +22,19 @@ object FragmentHelper {
                 .commit()
     }
 
+    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, tag: String) {
+        fragment.exitTransition = Fade()
+        fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
+        fragment.enterTransition = Fade()
+        fragment.sharedElementReturnTransition = DetailsTransitionArc(1.5F)
+
+        fragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.app_container, fragment, tag)
+                .addToBackStack(tag)
+                .commit()
+    }
+
     fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, icon: ImageView) {
         fragment.exitTransition = Fade()
         fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)

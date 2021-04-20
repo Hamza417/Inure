@@ -19,6 +19,7 @@ import app.simple.inure.dialogs.app.Information
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.packagehelper.PackageUtils
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FragmentHelper.openFragment
@@ -66,7 +67,6 @@ class AppInfo : ScopedFragment() {
             adapterAppInfoMenu = AdapterAppInfoMenu(it)
             adapterAppInfoMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
             menu.layoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
-            menu.setHasFixedSize(true)
             menu.adapter = adapterAppInfoMenu
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
@@ -77,9 +77,15 @@ class AppInfo : ScopedFragment() {
                 override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
                     when (source) {
                         getString(R.string.manifest) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         XMLViewerWebView.newInstance(applicationInfo),
-                                         icon, "services")
+                            if (ConfigurationPreferences.isXmlViewerTextView()) {
+                                openFragment(requireActivity().supportFragmentManager,
+                                                 XMLViewerTextView.newInstance(applicationInfo, true, null),
+                                                 icon, "manifest")
+                            } else {
+                                openFragment(requireActivity().supportFragmentManager,
+                                             XMLViewerWebView.newInstance(applicationInfo, true, null),
+                                             icon, "manifest")
+                            }
                         }
                         getString(R.string.services) -> {
                             openFragment(requireActivity().supportFragmentManager,
@@ -110,6 +116,11 @@ class AppInfo : ScopedFragment() {
                             openFragment(requireActivity().supportFragmentManager,
                                          Broadcasts.newInstance(applicationInfo),
                                          icon, "broadcasts")
+                        }
+                        getString(R.string.resources) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Resources.newInstance(applicationInfo),
+                                         icon, "resources")
                         }
                     }
                 }

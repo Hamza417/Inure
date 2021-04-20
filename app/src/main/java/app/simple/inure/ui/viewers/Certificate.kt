@@ -39,27 +39,29 @@ class Certificate : ScopedFragment() {
         startPostponedEnterTransition()
 
         launch {
-            val algorithm: String
-            val oid: String
-            val base64md5: String
-            val md5: String
-            val validity: String
+            runCatching {
+                val algorithm: String
+                val oid: String
+                val base64md5: String
+                val md5: String
+                val validity: String
 
-            withContext(Dispatchers.Default) {
-                val cert = requireArguments().getParcelable<ApplicationInfo>("application_info")?.getCertificates()!!
+                withContext(Dispatchers.Default) {
+                    val cert = requireArguments().getParcelable<ApplicationInfo>("application_info")?.getCertificates()!!
 
-                algorithm = cert.signAlgorithm
-                oid = cert.signAlgorithmOID
-                base64md5 = cert.certBase64Md5
-                md5 = cert.certMd5
-                validity = "${cert.startDate} - ${cert.endDate}"
+                    algorithm = cert.signAlgorithm
+                    oid = cert.signAlgorithmOID
+                    base64md5 = cert.certBase64Md5
+                    md5 = cert.certMd5
+                    validity = "${cert.startDate} - ${cert.endDate}"
+                }
+
+                this@Certificate.algorithm.text = algorithm
+                this@Certificate.oid.text = oid
+                this@Certificate.base64md5.text = base64md5
+                this@Certificate.md5.text = md5
+                this@Certificate.validity.text = validity
             }
-
-            this@Certificate.algorithm.text = algorithm
-            this@Certificate.oid.text = oid
-            this@Certificate.base64md5.text = base64md5
-            this@Certificate.md5.text = md5
-            this@Certificate.validity.text = validity
         }
     }
 

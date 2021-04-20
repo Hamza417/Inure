@@ -52,7 +52,9 @@ ol.linenums {
 }
 
 .prettyprint {
-	background: #000
+	background: transparent;
+	width: 100%;
+    box-sizing: border-box;
 }
 
 li.L0,

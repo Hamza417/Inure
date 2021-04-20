@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.PermissionUtils.getPermissionInfo
 import app.simple.inure.util.PermissionUtils.protectionToString
@@ -16,7 +17,7 @@ import app.simple.inure.util.PermissionUtils.protectionToString
 class AdapterPermissions(private val permissions: MutableList<String>, private val applicationInfo: ApplicationInfo) : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
     private lateinit var permissionInfo: PermissionInfo
-    private val permissionLabelMode = MainPreferences.getPermissionLabelMode()
+    private val permissionLabelMode = ConfigurationPreferences.getPermissionLabelMode()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_permissions, parent, false))

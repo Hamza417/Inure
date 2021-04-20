@@ -88,4 +88,11 @@
     <string name="certificate_md5">Certificate MD5</string>
     <string name="sign_algorithm_oid">Sign Algorithm OID</string>
     <string name="information">Information</string>
+    <string name="us_xml_viewer_desc">Use TextView based Xml Viewer instead of using WebView to view Xml resource files.</string>
+    <string name="use_textview_xml_viewer">Use TextView Xml Viewer</string>
+    <string name="save">Save</string>
+    <string name="copy">Copy</string>
+    <string name="saved_successfully">Saved Successfully</string>
+    <string name="failed">Failed!</string>
+    <string name="app_info">App Info</string>
 </resources>

@@ -1,11 +1,14 @@
 /* GitHub Theme */
 
 .prettyprint {
-	background: white;
+position:absolute;
+	background: transparent;
 	font-family: Menlo, 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Consolas, monospace;
 	font-size: 12px;
 	line-height: 1.5;
 	border: 0px solid #ccc;
+	width: 100%;
+    box-sizing: border-box;
 }
 
 .pln {

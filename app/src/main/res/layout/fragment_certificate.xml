@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:appFontStyle="regular"
-                android:text="@string/sign_algorithm"
+                android:text="@string/not_available"
                 android:textColor="@color/textTertiary"
                 android:textSize="12sp" />
 
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:appFontStyle="regular"
-                android:text="@string/sign_algorithm"
+                android:text="@string/not_available"
                 android:textColor="@color/textTertiary"
                 android:textSize="12sp" />
 
@@ -101,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:appFontStyle="regular"
-                android:text="@string/sign_algorithm"
+                android:text="@string/not_available"
                 android:textColor="@color/textTertiary"
                 android:textSize="12sp" />
 
@@ -120,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:appFontStyle="regular"
+                android:text="@string/not_available"
                 android:textColor="@color/textSecondary"
                 android:textSize="12sp" />
 
@@ -138,6 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:appFontStyle="regular"
+                android:text="@string/not_available"
                 android:textColor="@color/textSecondary"
                 android:textSize="12sp" />
 

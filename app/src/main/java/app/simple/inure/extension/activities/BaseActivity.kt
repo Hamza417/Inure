@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.util.ThemeSetter
@@ -26,7 +27,7 @@ open class BaseActivity : AppCompatActivity() {
         /**
          * Sets window flags for keeping the screen on
          */
-        if (MainPreferences.isKeepScreenOn()) {
+        if (ConfigurationPreferences.isKeepScreenOn()) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 

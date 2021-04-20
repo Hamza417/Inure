@@ -2,6 +2,8 @@
   <dictionary name="Hamzu">
     <words>
       <w>alignof</w>
+      <w>apkm</w>
+      <w>apks</w>
       <w>appop</w>
       <w>approver</w>
       <w>attrib</w>
@@ -17,6 +19,7 @@
       <w>comfortaa</w>
       <w>consolas</w>
       <w>decltype</w>
+      <w>deja</w>
       <w>doctype</w>
       <w>documenter</w>
       <w>elif</w>
@@ -62,6 +65,7 @@
       <w>vert</w>
       <w>wantarray</w>
       <w>wellbeing</w>
+      <w>xapk</w>
       <w>yessica</w>
     </words>
   </dictionary>
