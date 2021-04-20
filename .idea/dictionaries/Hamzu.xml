@@ -2,6 +2,8 @@
   <dictionary name="Hamzu">
     <words>
       <w>alignof</w>
+      <w>appop</w>
+      <w>approver</w>
       <w>attrib</w>
       <w>autorun</w>
       <w>bdsw</w>
@@ -16,6 +18,7 @@
       <w>consolas</w>
       <w>decltype</w>
       <w>doctype</w>
+      <w>documenter</w>
       <w>elif</w>
       <w>esac</w>
       <w>extern</w>
@@ -38,6 +41,7 @@
       <w>onreadystatechange</w>
       <w>orderby</w>
       <w>overscroll</w>
+      <w>preinstalled</w>
       <w>prettyprint</w>
       <w>prettyprinted</w>
       <w>priv</w>
@@ -57,6 +61,7 @@
       <w>ushort</w>
       <w>vert</w>
       <w>wantarray</w>
+      <w>wellbeing</w>
       <w>yessica</w>
     </words>
   </dictionary>

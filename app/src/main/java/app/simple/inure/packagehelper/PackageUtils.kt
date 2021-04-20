@@ -17,7 +17,7 @@ import app.simple.inure.util.DateUtils
 import java.lang.reflect.Method
 
 
-object PackageUtils {
+object  PackageUtils {
 
     const val UNINSTALL_REQUEST_CODE = 6452
 

@@ -28,7 +28,12 @@
 
             <include layout="@layout/sub_app_options" />
 
-            <include layout="@layout/sub_graph_view" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/divider" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/app_info_menu"
@@ -36,6 +41,15 @@
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"
                 android:scrollbars="none" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/divider" />
+
+            <include layout="@layout/sub_graph_view" />
 
         </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 

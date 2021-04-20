@@ -52,7 +52,6 @@
             app:appFontStyle="medium" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/appearance_dim_window"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -66,7 +65,7 @@
                 android:layout_height="@dimen/preference_icon_size"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/typeface_icon"
-                android:src="@drawable/ic_light"
+                android:src="@drawable/ic_keep_screen_on"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -105,6 +104,81 @@
 
             <app.simple.inure.decorations.switch.SwitchView
                 android:id="@+id/configuration_switch_keep_screen_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/information"
+            android:textColor="?attr/colorAppAccent"
+            app:appFontStyle="medium" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/appearance_dim_window"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="@dimen/preference_icon_size"
+                android:layout_height="@dimen/preference_icon_size"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_label"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/iconSecondary"
+                tools:ignore="ContentDescription" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/typeFaceTextView011"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="@string/show_permission_label"
+                android:textColor="@color/textPrimary"
+                android:textSize="14sp"
+                app:appFontStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView012"
+                app:layout_constraintEnd_toStartOf="@+id/configuration_show_permission_label"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/typeFaceTextView012"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:text="@string/show_permission_label_desc"
+                android:textColor="@color/textTertiary"
+                android:textSize="12sp"
+                app:appFontStyle="regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/configuration_show_permission_label"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@id/typeFaceTextView011" />
+
+            <app.simple.inure.decorations.switch.SwitchView
+                android:id="@+id/configuration_show_permission_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

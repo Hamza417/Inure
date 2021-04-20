@@ -1,6 +1,5 @@
 package app.simple.inure.ui.app
 
-import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,10 +19,7 @@ import app.simple.inure.dialogs.app.Information
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
 import app.simple.inure.packagehelper.PackageUtils
-import app.simple.inure.ui.viewers.Activities
-import app.simple.inure.ui.viewers.Providers
-import app.simple.inure.ui.viewers.Services
-import app.simple.inure.ui.viewers.XMLViewerWebView
+import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.viewmodels.AppInfoMenuData
@@ -69,7 +65,7 @@ class AppInfo : ScopedFragment() {
 
             adapterAppInfoMenu = AdapterAppInfoMenu(it)
             adapterAppInfoMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-            menu.layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
+            menu.layoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
             menu.setHasFixedSize(true)
             menu.adapter = adapterAppInfoMenu
 
@@ -101,7 +97,19 @@ class AppInfo : ScopedFragment() {
                                          icon, "providers")
                         }
                         getString(R.string.permissions) -> {
-
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Permissions.newInstance(applicationInfo),
+                                         icon, "permissions")
+                        }
+                        getString(R.string.certificate) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Certificate.newInstance(applicationInfo),
+                                         icon, "certificate")
+                        }
+                        getString(R.string.broadcasts) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Broadcasts.newInstance(applicationInfo),
+                                         icon, "broadcasts")
                         }
                     }
                 }

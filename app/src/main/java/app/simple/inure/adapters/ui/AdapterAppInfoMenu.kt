@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.views.TypeFaceTextView
 
 class AdapterAppInfoMenu(private val list: List<Pair<Int, String>>) : RecyclerView.Adapter<AdapterAppInfoMenu.Holder>() {
@@ -33,7 +33,7 @@ class AdapterAppInfoMenu(private val list: List<Pair<Int, String>>) : RecyclerVi
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_app_info_menu_icon)
         val text: TypeFaceTextView = itemView.findViewById(R.id.adapter_app_info_menu_text)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_app_info_menu_container)
+        val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.adapter_app_info_menu_container)
 
         init {
             text.isSelected = true

@@ -33,6 +33,11 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
     <app.simple.inure.decorations.views.CustomRecyclerView
         android:id="@+id/providers_recycler_view"
         android:layout_width="match_parent"

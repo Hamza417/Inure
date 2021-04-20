@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     android:orientation="vertical">
 
     <LinearLayout
@@ -17,9 +18,8 @@
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            android:padding="5dp"
-            android:src="@drawable/ic_activities"
-            android:transitionName="@string/activities"
+            android:src="@drawable/ic_permission"
+            android:transitionName="@string/permissions"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
@@ -27,20 +27,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/activities"
+            android:text="@string/permissions"
             android:textColor="?attr/colorAppAccent"
             android:textSize="36sp"
             app:appFontStyle="bold" />
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider" />
-
     <app.simple.inure.decorations.views.CustomRecyclerView
-        android:id="@+id/activities_recycler_view"
+        android:id="@+id/permissions_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"

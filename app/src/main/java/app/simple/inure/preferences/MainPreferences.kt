@@ -20,6 +20,7 @@ object MainPreferences {
     private const val appLanguage = "current_language_locale"
     private const val sizeType = "size_type"
     private const val keepScreenOn = "keep_screen_on"
+    private const val showPermissionLabel = "is_permission_label_on"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
@@ -103,5 +104,13 @@ object MainPreferences {
 
     fun isKeepScreenOn(): Boolean {
         return getSharedPreferences().getBoolean(keepScreenOn, false)
+    }
+
+    fun setPermissionLabelMode(@NotNull value: Boolean) {
+        getSharedPreferences().edit().putBoolean(showPermissionLabel, value).apply()
+    }
+
+    fun getPermissionLabelMode(): Boolean {
+        return getSharedPreferences().getBoolean(showPermissionLabel, false)
     }
 }

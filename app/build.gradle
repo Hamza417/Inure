@@ -69,4 +69,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.jaredrummler:apk-parser:1.0.2'
+    implementation 'com.github.hsiafan:apk-parser:v2.6.10'
 }

@@ -45,9 +45,24 @@ object APKParser {
     /**
      * Fetch the list of permissions from an APK file
      */
-    fun ApplicationInfo.getPermissions(): MutableList<String>? {
+    fun ApplicationInfo.getPermissions(): MutableList<String> {
         ApkParser.create(this).use {
             return it.androidManifest.apkMeta.usesPermissions
+        }
+    }
+
+    /**
+     * Fetch the certificate data from an APK file
+     */
+    fun ApplicationInfo.getCertificates(): CertificateMeta {
+        ApkParser.create(this).use {
+            return it.certificateMeta
+        }
+    }
+
+    fun ApplicationInfo.getBroadcasts(): MutableList<AndroidComponent>? {
+        ApkParser.create(this).use {
+            return it.androidManifest.receivers
         }
     }
 }

@@ -76,4 +76,16 @@
     <string name="screen">Screen</string>
     <string name="keep_screen_on">Keep Screen On</string>
     <string name="keep_screen_on_desc">Prevents device from sleeping while the app is visible.</string>
+    <string name="show_permission_label_desc">Show labels instead of raw permission string in Permission info panel.</string>
+    <string name="show_permission_label">Show Permission Label</string>
+    <string name="signature_or_system">SignatureOrSystem</string>
+    <string name="signature">Signature</string>
+    <string name="normal">Normal</string>
+    <string name="dangerous">Dangerous</string>
+    <string name="sign_algorithm">Sign Algorithm</string>
+    <string name="validity">Validity</string>
+    <string name="certificate_base64_md5">Certificate Base64 MD5</string>
+    <string name="certificate_md5">Certificate MD5</string>
+    <string name="sign_algorithm_oid">Sign Algorithm OID</string>
+    <string name="information">Information</string>
 </resources>

@@ -13,13 +13,13 @@
         android:padding="@dimen/header_padding">
 
         <ImageView
+            android:id="@+id/broadcast_header_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            android:padding="5dp"
-            android:src="@drawable/ic_activities"
-            android:transitionName="@string/activities"
+            android:src="@drawable/ic_broadcast"
+            android:transitionName="@string/broadcasts"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/activities"
+            android:text="@string/broadcasts"
             android:textColor="?attr/colorAppAccent"
             android:textSize="36sp"
             app:appFontStyle="bold" />
@@ -40,7 +40,7 @@
         android:background="@color/divider" />
 
     <app.simple.inure.decorations.views.CustomRecyclerView
-        android:id="@+id/activities_recycler_view"
+        android:id="@+id/broadcast_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
