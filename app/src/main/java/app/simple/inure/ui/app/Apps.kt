@@ -13,7 +13,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.selection.*
+import androidx.recyclerview.selection.Selection
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
@@ -35,6 +38,7 @@ import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
 import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.MainPreferencesScreen
+import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.viewmodels.AppData
 import java.util.*
 
@@ -133,19 +137,10 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onPrefsIconPressed(view: View) {
-                    val fragment = requireActivity().supportFragmentManager.findFragmentByTag("preferences_screen")
-                        ?: MainPreferencesScreen.newInstance()
-
-                    exitTransition = TransitionManager.getEnterTransitions(TransitionManager.FADE)
-                    fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
-                    fragment.enterTransition = TransitionManager.getExitTransition(TransitionManager.FADE)
-                    fragment.sharedElementReturnTransition = DetailsTransitionArc(1.2F)
-
-                    requireActivity().supportFragmentManager.beginTransaction()
-                            .addSharedElement(view, view.transitionName)
-                            .replace(R.id.app_container, fragment, "preferences_screen")
-                            .addToBackStack(fragment.tag)
-                            .commit()
+                    openFragment(requireActivity().supportFragmentManager,
+                                 MainPreferencesScreen.newInstance(),
+                                 view as ImageView,
+                                 "preferences_screen")
                 }
 
                 override fun onItemSelected() {
@@ -224,7 +219,7 @@ class Apps : ScopedFragment() {
         }
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             MainPreferences.sortStyle,
             MainPreferences.isSortingReversed,

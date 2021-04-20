@@ -32,7 +32,7 @@ class SplashScreen : ScopedFragment() {
         })
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
         /* no-op */
     }
 

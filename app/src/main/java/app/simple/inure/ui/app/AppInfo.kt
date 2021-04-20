@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,8 +26,8 @@ import app.simple.inure.ui.viewers.Services
 import app.simple.inure.ui.viewers.XMLViewerWebView
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FragmentHelper.openFragment
+import app.simple.inure.viewmodels.AppInfoMenuData
 import app.simple.inure.viewmodels.AppSize
-import java.util.jar.Manifest
 
 
 class AppInfo : ScopedFragment() {
@@ -43,6 +44,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var applicationInfo: ApplicationInfo
     private lateinit var adapterAppInfoMenu: AdapterAppInfoMenu
     private val model: AppSize by viewModels()
+    private val options: AppInfoMenuData by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_app_info, container, false)
@@ -55,27 +57,54 @@ class AppInfo : ScopedFragment() {
         menu = view.findViewById(R.id.app_info_menu)
         pie = view.findViewById(R.id.pie)
 
-        val list = listOf(
-            Pair(R.drawable.ic_permission, requireContext().getString(R.string.permissions)),
-            Pair(R.drawable.ic_activities, requireContext().getString(R.string.activities)),
-            Pair(R.drawable.ic_services, requireContext().getString(R.string.services)),
-            Pair(R.drawable.ic_certificate, requireContext().getString(R.string.certificate)),
-            Pair(R.drawable.ic_resources, requireContext().getString(R.string.resources)),
-            Pair(R.drawable.ic_broadcast, requireContext().getString(R.string.broadcasts)),
-            Pair(R.drawable.ic_provider, requireContext().getString(R.string.providers)),
-            Pair(R.drawable.ic_xml, requireContext().getString(R.string.manifest))
-        )
-
         applicationInfo = requireArguments().getParcelable("application_info")!!
-        adapterAppInfoMenu = AdapterAppInfoMenu(list)
-        menu.layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
-        menu.adapter = adapterAppInfoMenu
 
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        options.getMenuOptions().observe(requireActivity(), {
+            postponeEnterTransition()
+
+            adapterAppInfoMenu = AdapterAppInfoMenu(it)
+            adapterAppInfoMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+            menu.layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
+            menu.setHasFixedSize(true)
+            menu.adapter = adapterAppInfoMenu
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+
+            adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterAppInfoMenu.AppInfoMenuCallbacks {
+                override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
+                    when (source) {
+                        getString(R.string.manifest) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         XMLViewerWebView.newInstance(applicationInfo),
+                                         icon, "services")
+                        }
+                        getString(R.string.services) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Services.newInstance(applicationInfo),
+                                         icon, "services")
+                        }
+                        getString(R.string.activities) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Activities.newInstance(applicationInfo),
+                                         icon, "activities")
+                        }
+                        getString(R.string.providers) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Providers.newInstance(applicationInfo),
+                                         icon, "providers")
+                        }
+                    }
+                }
+            })
+        })
 
         model.getTotalAppSize().observe(requireActivity(), {
             val x = applicationInfo.sourceDir.getDirectoryLength().toDouble() / it.toDouble() * 100.0
@@ -84,7 +113,6 @@ class AppInfo : ScopedFragment() {
 
         icon.transitionName = requireArguments().getString("transition_name")
         icon.loadAppIcon(requireContext(), applicationInfo.packageName)
-        startPostponedEnterTransition()
 
         name.text = applicationInfo.name
         packageId.text = PackageUtils.getApplicationVersion(requireContext(), applicationInfo)
@@ -98,36 +126,9 @@ class AppInfo : ScopedFragment() {
             Storage.newInstance(applicationInfo)
                     .show(childFragmentManager, "storage")
         }
-
-        adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterAppInfoMenu.AppInfoMenuCallbacks {
-            override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
-                when (source) {
-                    getString(R.string.manifest) -> {
-                        openFragment(requireActivity().supportFragmentManager,
-                                     XMLViewerWebView.newInstance(applicationInfo),
-                                     icon, "services")
-                    }
-                    getString(R.string.services) -> {
-                        openFragment(requireActivity().supportFragmentManager,
-                                     Services.newInstance(applicationInfo),
-                                     icon, "services")
-                    }
-                    getString(R.string.activities) -> {
-                        openFragment(requireActivity().supportFragmentManager,
-                                     Activities.newInstance(applicationInfo),
-                                     icon, "activities")
-                    }
-                    getString(R.string.providers) -> {
-                        openFragment(requireActivity().supportFragmentManager,
-                                     Providers.newInstance(applicationInfo),
-                                     icon, "providers")
-                    }
-                }
-            }
-        })
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
         /* no-op */
     }
 

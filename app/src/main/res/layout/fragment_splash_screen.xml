@@ -20,11 +20,12 @@
 
     <ProgressBar
         android:id="@+id/determinateBar"
-        style="?android:attr/progressBarStyleHorizontal"
+        style="?android:attr/progressBarStyleSmall"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:indeterminateTint="?attr/colorAppAccent"
         android:indeterminateOnly="true"
+        android:indeterminateDuration="@integer/animation_duration"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

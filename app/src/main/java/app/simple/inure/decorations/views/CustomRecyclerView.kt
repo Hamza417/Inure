@@ -16,7 +16,7 @@ import app.simple.inure.util.StatusBarHeight
 
 /**
  * Custom recycler view with nice layout animation and
- * smooth overscroll effect
+ * smooth overscroll effect and various states retention
  */
 class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
 

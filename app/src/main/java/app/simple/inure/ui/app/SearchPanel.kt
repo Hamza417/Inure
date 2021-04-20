@@ -141,7 +141,7 @@ class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChange
         }
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             MainPreferences.sortStyle,
             MainPreferences.isSortingReversed,

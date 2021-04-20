@@ -35,11 +35,10 @@ class Services : ScopedFragment() {
         startPostponedEnterTransition()
 
         launch {
-
+            delay(500)
             var list: List<AndroidComponent>
 
             withContext(Dispatchers.Default) {
-                delay(500)
                 list = requireArguments().getParcelable<ApplicationInfo>("application_info")?.getServices()!!
 
                 list.sortedBy {
@@ -51,7 +50,7 @@ class Services : ScopedFragment() {
         }
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
 
     }
 

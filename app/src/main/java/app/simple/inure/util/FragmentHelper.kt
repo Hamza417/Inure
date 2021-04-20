@@ -17,7 +17,9 @@ object FragmentHelper {
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .addSharedElement(icon, icon.transitionName)
-                .replace(R.id.app_container, fragment, tag).addToBackStack(tag).commit()
+                .replace(R.id.app_container, fragment, tag)
+                .addToBackStack(tag)
+                .commit()
     }
 
     fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, icon: ImageView) {
@@ -29,6 +31,7 @@ object FragmentHelper {
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .addSharedElement(icon, icon.transitionName)
-                .replace(R.id.app_container, fragment, null).commit()
+                .replace(R.id.app_container, fragment, null)
+                .commit()
     }
 }

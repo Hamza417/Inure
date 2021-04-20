@@ -56,7 +56,7 @@ class XMLViewerWebView : ScopedFragment() {
         manifest.loadDataWithBaseURL("file:///android_asset/", data, "text/html", "UTF-8", null)
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
 
     }
 

@@ -34,7 +34,9 @@
                 android:id="@+id/app_info_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:overScrollMode="never"
                 android:scrollbars="none" />
+
         </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     </androidx.core.widget.NestedScrollView>

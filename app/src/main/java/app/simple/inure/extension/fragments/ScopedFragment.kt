@@ -61,12 +61,12 @@ abstract class ScopedFragment : Fragment(), CoroutineScope, SharedPreferences.On
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        onPreferenceChanged(sharedPreferences, key)
+        onPreferencesChanged(sharedPreferences, key)
     }
 
 
     /**
      * Called when any preferences is changed using [getSharedPreferences]
      */
-    abstract fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?)
+    abstract fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?)
 }
