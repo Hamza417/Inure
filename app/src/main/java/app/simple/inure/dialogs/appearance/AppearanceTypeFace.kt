@@ -37,7 +37,7 @@ class AppearanceTypeFace : ScopedBottomSheetFragment() {
         recyclerView.adapter = adapterTypeFace
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == AppearancePreferences.appFont) {
             requireActivity().recreate()
         }

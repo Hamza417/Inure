@@ -29,7 +29,6 @@ import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.viewmodels.AppInfoMenuData
 import app.simple.inure.viewmodels.AppSize
 
-
 class AppInfo : ScopedFragment() {
 
     private lateinit var icon: ImageView
@@ -101,6 +100,9 @@ class AppInfo : ScopedFragment() {
                                          Providers.newInstance(applicationInfo),
                                          icon, "providers")
                         }
+                        getString(R.string.permissions) -> {
+
+                        }
                     }
                 }
             })
@@ -126,10 +128,6 @@ class AppInfo : ScopedFragment() {
             Storage.newInstance(applicationInfo)
                     .show(childFragmentManager, "storage")
         }
-    }
-
-    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        /* no-op */
     }
 
     companion object {

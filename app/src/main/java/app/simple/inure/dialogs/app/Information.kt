@@ -80,10 +80,6 @@ class Information : ScopedBottomSheetFragment() {
         }
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        /* no-op */
-    }
-
     companion object {
         fun newInstance(applicationInfo: ApplicationInfo): Information {
             val args = Bundle()

@@ -102,7 +102,7 @@ class AppsListConfiguration : ScopedBottomSheetFragment() {
         }
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             MainPreferences.sortStyle -> setSortingStyle()
             MainPreferences.listAppsCategory -> setListCategory()

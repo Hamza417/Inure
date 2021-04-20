@@ -46,12 +46,11 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(), Coroutin
         job.cancel()
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        onPreferenceChanged(sharedPreferences, key)
-    }
-
     /**
      * Called when any preferences is changed using [getSharedPreferences]
+     *
+     * Override this to get any preferences change events inside
+     * the fragment
      */
-    abstract fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?)
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {}
 }

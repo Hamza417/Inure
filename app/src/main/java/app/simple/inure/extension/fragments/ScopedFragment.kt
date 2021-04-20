@@ -7,6 +7,7 @@ import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -60,13 +61,11 @@ abstract class ScopedFragment : Fragment(), CoroutineScope, SharedPreferences.On
         job.cancel()
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        onPreferencesChanged(sharedPreferences, key)
-    }
-
-
     /**
      * Called when any preferences is changed using [getSharedPreferences]
+     *
+     * Override this to get any preferences change events inside
+     * the fragment
      */
-    abstract fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?)
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {}
 }

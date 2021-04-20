@@ -86,10 +86,6 @@ class RoundedCorner : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-
-    }
-
     override fun onDismiss(dialog: DialogInterface) {
         if (isValueSet) {
             requireActivity().recreate()

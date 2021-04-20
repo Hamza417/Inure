@@ -51,10 +51,6 @@ class Activities : ScopedFragment() {
         }
     }
 
-    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
-
-    }
-
     companion object {
         fun newInstance(applicationInfo: ApplicationInfo): Activities {
             val args = Bundle()

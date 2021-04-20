@@ -53,10 +53,6 @@ class Providers : ScopedFragment() {
         }
     }
 
-    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
-
-    }
-
     companion object {
         fun newInstance(applicationInfo: ApplicationInfo): Providers {
             val args = Bundle()

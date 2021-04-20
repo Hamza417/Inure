@@ -40,7 +40,7 @@ class AccentColor : ScopedBottomSheetFragment() {
         })
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == AppearancePreferences.accentColor) {
             requireActivity().recreate()
         }

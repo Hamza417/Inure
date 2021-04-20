@@ -57,10 +57,6 @@ class XMLViewerTextView : ScopedFragment() {
         }
     }
 
-    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
-
-    }
-
     companion object {
         fun newInstance(applicationInfo: ApplicationInfo): XMLViewerTextView {
             val args = Bundle()

@@ -1,12 +1,9 @@
 package app.simple.inure.ui.launcher
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
-import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -30,14 +27,6 @@ class SplashScreen : ScopedFragment() {
                 requireActivity().supportFragmentManager,
                 Apps.newInstance(), view.findViewById(R.id.imageView))
         })
-    }
-
-    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        /* no-op */
-    }
-
-    private fun openAllAppsFragment() {
-
     }
 
     companion object {

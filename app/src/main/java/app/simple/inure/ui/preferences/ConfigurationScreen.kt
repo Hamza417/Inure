@@ -41,10 +41,6 @@ class ConfigurationScreen : ScopedFragment() {
         })
     }
 
-    override fun onPreferencesChanged(sharedPreferences: SharedPreferences?, key: String?) {
-
-    }
-
     companion object {
         fun newInstance(): ConfigurationScreen {
             val args = Bundle()

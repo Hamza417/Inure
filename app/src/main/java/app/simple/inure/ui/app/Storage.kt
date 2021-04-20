@@ -77,10 +77,6 @@ class Storage : ScopedBottomSheetFragment() {
         }
     }
 
-    override fun onPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        /* no-op */
-    }
-
     companion object {
         fun newInstance(applicationInfo: ApplicationInfo): Storage {
             val args = Bundle()
