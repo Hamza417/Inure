@@ -36,16 +36,21 @@ import java.util.regex.Pattern
 class XMLViewerTextView : ScopedFragment() {
 
     private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
-    private val manifestTags: Pattern = Pattern.compile("(</?(manifest|application|compatible-screens|instrumentation|permission" +
-                                                                "(-group|-tree)?|supports-(gl-texture|screens)|uses-(configuration|" +
-                                                                "feature|permission(-sdk-23)?|sdk)|activity(-alias)?|meta-data|service|" +
-                                                                "receiver|provider|uses-library|intent-filter|layout|eat-comment|" +
-                                                                "grant-uri-permissions|path-permission|action|category|data|protected-" +
-                                                                "broadcast|overlay|library|original-package|restrict-update|" +
-                                                                "adopt-permissions|feature-group|key-sets|package|package-verifier|" +
-                                                                "attribution|queries|supports-input|uses-permission-sdk-m|uses-split|" +
-                                                                "profileable)\\b|/?>)",
-                                                        Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
+
+    private val tags = Pattern.compile(
+        "\\B<\\w+\\b(?![.])(?<!:NULL)" + // <xml.yml.zml
+                "|\\B\\<\\/\\w+(?=\\S*['-])([a-zA-Z'-]+>)" + // </xml-yml>
+                "|\\B\\<\\/\\w+(?=\\S*['-])([a-zA-Z'-]+)" + // </xml-yml
+                "|\\B</\\w+>" + // </xml>
+                "|\\B</\\w+" + // </xml
+                "|\\B<\\w+\\/>" + // <xml/>
+                "|\\B<\\w+>" +  // <xml>
+                "|\\B<\\w+" +  // <xml
+                "|\\B\\?\\w+" + // ?xml
+                "|\\?\\>" + // ?>
+                "|\\>" + // >
+                "|\\/>", // />
+        Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
 
     private val exportManifest = registerForActivityResult(CreateDocument()) { uri: Uri? ->
         if (uri == null) {
@@ -91,34 +96,38 @@ class XMLViewerTextView : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         launch {
-            val name: String
+            runCatching {
+                val name: String
 
-            withContext(Dispatchers.Default) {
-                delay(500)
-                code = if (requireArguments().getBoolean("is_manifest")) {
-                    name = "AndroidManifest.xml"
-                    applicationInfo.extractManifest()!!
-                } else {
-                    name = requireArguments().getString("path_to_xml")!!
-                    applicationInfo.getTransBinaryXml(requireArguments().getString("path_to_xml")!!)
+                withContext(Dispatchers.Default) {
+                    delay(500)
+                    code = if (requireArguments().getBoolean("is_manifest")) {
+                        name = "AndroidManifest.xml"
+                        applicationInfo.extractManifest()!!
+                    } else {
+                        name = requireArguments().getString("path_to_xml")!!
+                        applicationInfo.getTransBinaryXml(requireArguments().getString("path_to_xml")!!)
+                    }
+
+                    formattedContent = SpannableString(code)
+                    val matcher: Matcher = tags.matcher(code)
+                    while (matcher.find()) {
+                        formattedContent!!.setSpan(ForegroundColorSpan(Color.parseColor("#2980B9")), matcher.start(),
+                                                   matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
+                    matcher.usePattern(quotations)
+                    while (matcher.find()) {
+                        formattedContent!!.setSpan(ForegroundColorSpan(requireContext().resolveAttrColor(R.attr.colorAppAccent)),
+                                                   matcher.start(), matcher.end(),
+                                                   Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
                 }
 
-                formattedContent = SpannableString(code)
-                val matcher: Matcher = manifestTags.matcher(code)
-                while (matcher.find()) {
-                    formattedContent!!.setSpan(ForegroundColorSpan(Color.parseColor("#2980B9")), matcher.start(),
-                                               matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
-                matcher.usePattern(quotations)
-                while (matcher.find()) {
-                    formattedContent!!.setSpan(ForegroundColorSpan(requireContext().resolveAttrColor(R.attr.colorAppAccent)),
-                                               matcher.start(), matcher.end(),
-                                               Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
+                this@XMLViewerTextView.text.text = formattedContent
+                this@XMLViewerTextView.name.text = name
+            }.getOrElse {
+                Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
             }
-
-            this@XMLViewerTextView.text.text = formattedContent
-            this@XMLViewerTextView.name.text = name
         }
 
         options.setOnClickListener {

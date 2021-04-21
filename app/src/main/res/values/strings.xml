@@ -97,4 +97,5 @@
     <string name="app_info">App Info</string>
     <string name="user_feature">Uses Features</string>
     <string name="gles_version">GLES Version</string>
+    <string name="error">Error reading xml file</string>
 </resources>
