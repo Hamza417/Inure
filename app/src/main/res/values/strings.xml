@@ -95,7 +95,15 @@
     <string name="saved_successfully">Saved Successfully</string>
     <string name="failed">Failed!</string>
     <string name="app_info">App Info</string>
-    <string name="user_feature">Uses Features</string>
+    <string name="uses_feature">Uses Features</string>
     <string name="gles_version">GLES Version</string>
-    <string name="error">Error reading xml file</string>
+    <string name="error">Error encountered!</string>
+    <string name="required">Required</string>
+    <string name="not_required">Not Required</string>
+    <string name="bounce_scrolling">Bounce Scrolling</string>
+    <string name="high">High</string>
+    <string name="medium">Medium</string>
+    <string name="low">Low</string>
+    <string name="none">None</string>
+    <string name="bouncy_desc">Value for how much the list should bounce to and fro before settling after the list ends.</string>
 </resources>

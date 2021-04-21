@@ -1,6 +1,7 @@
 package app.simple.inure.dialogs.appearance
 
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +17,19 @@ class AccentColor : ScopedBottomSheetFragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var accentColorAdapter: AccentColorAdapter
+    private var spanCount = 4
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.dialog_color_accent, container, false)
 
+        spanCount = if (this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            4
+        } else {
+            7
+        }
+
         recyclerView = view.findViewById(R.id.accent_recycler_view)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
         recyclerView.setHasFixedSize(true)
 
         accentColorAdapter = AccentColorAdapter()

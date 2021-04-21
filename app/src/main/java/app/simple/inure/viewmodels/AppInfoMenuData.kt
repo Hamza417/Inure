@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import app.simple.inure.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.DisposableHandle
 import kotlinx.coroutines.launch
 
 class AppInfoMenuData(application: Application) : AndroidViewModel(application) {
@@ -34,7 +33,7 @@ class AppInfoMenuData(application: Application) : AndroidViewModel(application) 
                 Pair(R.drawable.ic_broadcast, context.getString(R.string.broadcasts)),
                 Pair(R.drawable.ic_provider, context.getString(R.string.providers)),
                 Pair(R.drawable.ic_xml, context.getString(R.string.manifest)),
-                Pair(R.drawable.ic_anchor, context.getString(R.string.user_feature))
+                Pair(R.drawable.ic_anchor, context.getString(R.string.uses_feature))
             )
 
             menuOptions.postValue(list)

@@ -1,6 +1,7 @@
 package app.simple.inure.ui.app
 
 import android.content.pm.ApplicationInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +43,8 @@ class AppInfo : ScopedFragment() {
     private val model: AppSize by viewModels()
     private val options: AppInfoMenuData by viewModels()
 
+    private var spanCount = 3
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_app_info, container, false)
 
@@ -64,10 +67,17 @@ class AppInfo : ScopedFragment() {
         options.getMenuOptions().observe(requireActivity(), {
             postponeEnterTransition()
 
+            spanCount = if (this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                3
+            } else {
+                6
+            }
+
             adapterAppInfoMenu = AdapterAppInfoMenu(it)
             adapterAppInfoMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-            menu.layoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+            menu.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
             menu.adapter = adapterAppInfoMenu
+            menu.scheduleLayoutAnimation()
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -79,8 +89,8 @@ class AppInfo : ScopedFragment() {
                         getString(R.string.manifest) -> {
                             if (ConfigurationPreferences.isXmlViewerTextView()) {
                                 openFragment(requireActivity().supportFragmentManager,
-                                                 XMLViewerTextView.newInstance(applicationInfo, true, null),
-                                                 icon, "manifest")
+                                             XMLViewerTextView.newInstance(applicationInfo, true, null),
+                                             icon, "manifest")
                             } else {
                                 openFragment(requireActivity().supportFragmentManager,
                                              XMLViewerWebView.newInstance(applicationInfo, true, null),
@@ -121,6 +131,11 @@ class AppInfo : ScopedFragment() {
                             openFragment(requireActivity().supportFragmentManager,
                                          Resources.newInstance(applicationInfo),
                                          icon, "resources")
+                        }
+                        getString(R.string.uses_feature) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Features.newInstance(applicationInfo),
+                                         icon, "uses_feature")
                         }
                     }
                 }

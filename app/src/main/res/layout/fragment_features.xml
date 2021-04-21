@@ -14,12 +14,13 @@
         android:padding="@dimen/header_padding">
 
         <ImageView
+            android:id="@+id/services_header_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            android:src="@drawable/ic_provider"
-            android:transitionName="@string/providers"
+            android:src="@drawable/ic_anchor"
+            android:transitionName="@string/uses_feature"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
@@ -27,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/providers"
+            android:text="@string/uses_feature"
             android:textColor="?attr/colorAppAccent"
             android:textSize="36sp"
             app:appFontStyle="bold" />
@@ -40,7 +41,7 @@
         android:background="@color/divider" />
 
     <app.simple.inure.decorations.views.CustomRecyclerView
-        android:id="@+id/providers_recycler_view"
+        android:id="@+id/features_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"

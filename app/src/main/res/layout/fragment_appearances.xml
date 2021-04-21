@@ -3,11 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/mainBackground"
+    android:paddingBottom="50dp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:layout_height="match_parent">
 
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/panel_padding_horizontal"
         android:orientation="vertical">
 
         <LinearLayout
@@ -57,7 +61,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:padding="15dp">
+            android:paddingVertical="15dp"
+            android:paddingStart="15dp"
+            tools:ignore="RtlSymmetry">
 
             <ImageView
                 android:id="@+id/imageView7"
@@ -318,6 +324,7 @@
                 app:appFontStyle="regular"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/appearance_switch_dim_windows"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView5"
                 app:layout_constraintTop_toBottomOf="@id/typeFaceTextView07" />
 
@@ -376,7 +383,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="24dp"
                 android:text="@string/shadows_desc"
                 android:textColor="@color/textTertiary"
                 android:textSize="12sp"
@@ -396,6 +403,76 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/appearance_bouncy_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:paddingVertical="15dp"
+            android:paddingStart="15dp"
+            tools:ignore="RtlSymmetry">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="@dimen/preference_icon_size"
+                android:layout_height="@dimen/preference_icon_size"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/typeface_icon"
+                android:src="@drawable/ic_bouncy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/iconSecondary" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/typeFaceTextView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="@string/bounce_scrolling"
+                android:textColor="@color/textPrimary"
+                android:textSize="14sp"
+                app:appFontStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/typeFaceTextView14"
+                app:layout_constraintEnd_toStartOf="@+id/popup_bouncy_value"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/typeFaceTextView15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/bouncy_desc"
+                android:textColor="@color/textTertiary"
+                android:textSize="12sp"
+                app:appFontStyle="regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/popup_bouncy_value"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
+                app:layout_constraintTop_toBottomOf="@id/typeFaceTextView14" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/popup_bouncy_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ani_ic_unfold_popup"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dialog_padding"
+                android:textColor="@color/textTertiary"
+                android:textSize="5pt"
+                app:appFontStyle="regular"
+                app:drawableTint="?attr/colorAppAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

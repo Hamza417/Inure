@@ -7,6 +7,7 @@
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/panel_padding_horizontal"
         android:orientation="vertical">
 
         <LinearLayout

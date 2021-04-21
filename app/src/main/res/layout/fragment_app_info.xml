@@ -40,7 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:layoutAnimation="@anim/grid_list_animation_controller"/>
 
             <View
                 android:layout_width="match_parent"

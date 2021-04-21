@@ -126,8 +126,6 @@ class XMLViewerTextView : ScopedFragment() {
 
                 this@XMLViewerTextView.text.text = formattedContent
                 this@XMLViewerTextView.name.text = name
-            }.getOrElse {
-                Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
             }
         }
 

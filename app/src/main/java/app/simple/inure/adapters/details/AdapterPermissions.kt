@@ -10,7 +10,6 @@ import app.simple.inure.R
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.PermissionUtils.getPermissionInfo
 import app.simple.inure.util.PermissionUtils.protectionToString
 
@@ -24,25 +23,31 @@ class AdapterPermissions(private val permissions: MutableList<String>, private v
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        permissionInfo = permissions[position].getPermissionInfo(holder.itemView.context)!!
+        try {
+            permissionInfo = permissions[position].getPermissionInfo(holder.itemView.context)!!
 
-        holder.name.text = if (permissionLabelMode) {
-            permissionInfo.loadLabel(holder.itemView.context.packageManager)
-        } else {
-            permissions[position]
-        }
+            holder.name.text = if (permissionLabelMode) {
+                permissionInfo.loadLabel(holder.itemView.context.packageManager)
+            } else {
+                permissions[position]
+            }
 
-        holder.desc.text = try {
-            permissionInfo.loadDescription(holder.itemView.context.packageManager)
+            holder.desc.text = try {
+                permissionInfo.loadDescription(holder.itemView.context.packageManager)
+            } catch (e: NullPointerException) {
+                holder.itemView.context.getString(R.string.not_available)
+            }
+
+            @Suppress("deprecation")
+            holder.status.text = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                protectionToString(permissionInfo.protection, holder.itemView.context)
+            } else {
+                protectionToString(permissionInfo.protectionLevel, holder.itemView.context)
+            }
         } catch (e: NullPointerException) {
-            holder.itemView.context.getString(R.string.not_available)
-        }
-
-        @Suppress("deprecation")
-        holder.status.text = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-            protectionToString(permissionInfo.protection, holder.itemView.context)
-        } else {
-            protectionToString(permissionInfo.protectionLevel, holder.itemView.context)
+            holder.name.text = holder.itemView.context.getString(R.string.error)
+            holder.status.text = holder.itemView.context.getString(R.string.error)
+            holder.desc.text = ""
         }
     }
 

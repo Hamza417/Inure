@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.corners.DynamicCornerAccentColor
 import app.simple.inure.decorations.corners.DynamicCornerFrameLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.preferences.AppearancePreferences
@@ -62,7 +63,7 @@ class AccentColorAdapter : RecyclerView.Adapter<AccentColorAdapter.Holder>() {
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val color: DynamicCornerFrameLayout = itemView.findViewById(R.id.adapter_palette_color)
+        val color: DynamicCornerAccentColor = itemView.findViewById(R.id.adapter_palette_color)
         val tick: ImageView = itemView.findViewById(R.id.adapter_palette_tick)
     }
 

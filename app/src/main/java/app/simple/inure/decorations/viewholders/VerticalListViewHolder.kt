@@ -4,6 +4,7 @@ import android.view.View
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.RecyclerView
+import app.simple.inure.preferences.AppearancePreferences
 
 open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var currentVelocity = 0f
@@ -18,7 +19,7 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
         .setSpring(
             SpringForce()
                 .setFinalPosition(0f)
-                .setDampingRatio(bouncyValue)
+                .setDampingRatio(AppearancePreferences.getScrollBounce())
                 .setStiffness(stiffnessValue)
         )
         .addUpdateListener { _, _, velocity ->
@@ -33,12 +34,12 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
         .setSpring(
             SpringForce()
                 .setFinalPosition(0f)
-                .setDampingRatio(bouncyValue)
+                .setDampingRatio(AppearancePreferences.getScrollBounce())
                 .setStiffness(stiffnessValue)
         )
 
     companion object {
-        const val bouncyValue = SpringForce.DAMPING_RATIO_NO_BOUNCY
+        val bouncyValue = AppearancePreferences.getScrollBounce()
         const val stiffnessValue = SpringForce.STIFFNESS_LOW
         const val TYPE_HEADER = 0
         const val TYPE_ITEM = 1
