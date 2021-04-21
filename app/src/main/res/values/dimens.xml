@@ -25,4 +25,5 @@
     <dimen name="app_info_icon_size">60dp</dimen>
     <dimen name="app_icon_margin_horizontal">10dp</dimen>
     <dimen name="pie_dimens">300dp</dimen>
+    <dimen name="dialog_height">500dp</dimen>
 </resources>

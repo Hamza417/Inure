@@ -1,9 +1,12 @@
 package app.simple.inure.util
 
 import android.content.pm.ApplicationInfo
+import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import com.jaredrummler.apkparser.ApkParser
 import com.jaredrummler.apkparser.model.AndroidComponent
 import com.jaredrummler.apkparser.model.CertificateMeta
+import com.jaredrummler.apkparser.model.GlEsVersion
+import com.jaredrummler.apkparser.model.UseFeature
 import java.io.IOException
 import java.util.*
 import java.util.zip.ZipEntry
@@ -53,6 +56,35 @@ object APKParser {
     fun ApplicationInfo.getPermissions(): MutableList<String> {
         ApkParser.create(this).use {
             return it.androidManifest.apkMeta.usesPermissions
+        }
+    }
+
+    /**
+     * Fetch the list of features from an APK file
+     */
+    fun ApplicationInfo.getFeatures(): MutableList<UseFeature>? {
+        ApkParser.create(this).use {
+            return it.androidManifest.apkMeta.usesFeatures
+        }
+    }
+
+    /**
+     * Fetch the install location of an APK file
+     */
+    fun ApplicationInfo.getInstallLocation(): String {
+        ApkParser.create(this).use {
+            return it.androidManifest.apkMeta
+                    .installLocation.capitalizeFirstLetter()
+        }
+    }
+
+    /**
+     * Fetch the install location of an APK file
+     */
+    fun ApplicationInfo.getGlEsVersion(): GlEsVersion? {
+        ApkParser.create(this).use {
+            return it.androidManifest.apkMeta
+                    .glEsVersion
         }
     }
 

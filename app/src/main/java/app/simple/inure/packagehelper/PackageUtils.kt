@@ -89,13 +89,12 @@ object  PackageUtils {
     /**
      * Fetches the app's last update from the package id of the application
      * @param context of the given environment
-     * @param applicationInfo is [ApplicationInfo] object containing app's
-     *        information
+     *
      * @return app's last update date as [String]
      */
-    fun getApplicationLastUpdateTime(context: Context, applicationInfo: ApplicationInfo): String {
+    fun ApplicationInfo.getApplicationLastUpdateTime(context: Context): String {
         return try {
-            DateUtils.formatDate(context.packageManager.getPackageInfo(applicationInfo.packageName, 0).lastUpdateTime)
+            DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).lastUpdateTime)
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
         }

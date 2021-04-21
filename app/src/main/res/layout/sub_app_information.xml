@@ -1,167 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/dialogBackground"
-    android:elevation="@dimen/dialog_elevation"
-    android:orientation="vertical"
-    android:padding="30dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="@string/app_information"
-        android:textColor="@color/textHeading"
-        android:textSize="12pt"
-        app:appFontStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <app.simple.inure.decorations.corners.DynamicCornersNestedScrollView
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/dialogBackground"
+        android:elevation="@dimen/dialog_elevation"
+        android:layout_height="@dimen/dialog_height">
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/version"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="30dp">
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/app_information"
+                android:textColor="?attr/colorAppAccent"
+                android:textSize="12pt"
+                app:appFontStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/version_code"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/version"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_version_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_text_large_margin_top"
+                android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
+                android:textColor="@color/textHeading"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/install_location"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/version_code"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_install_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_version_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_text_large_margin_top"
+                android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
+                android:textColor="@color/textHeading"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/minimum_sdk"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/install_location"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_min_sdk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_install_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_text_large_margin_top"
+                android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
+                android:textColor="@color/textHeading"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/target_sdk"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/minimum_sdk"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_target_sdk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_min_sdk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_text_large_margin_top"
+                android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
+                android:textColor="@color/textHeading"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/uid"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/target_sdk"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_uid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_target_sdk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_text_large_margin_top"
+                android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
+                android:textColor="@color/textHeading"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/install_date"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gles_version"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_install_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_gles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_text_large_margin_top"
+                android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
+                android:textColor="@color/textHeading"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/update_date"
-        android:textColor="@color/textTertiary"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/uid"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/sub_information_update_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_text_large_margin_top"
-        android:textColor="@color/textHeading"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="regular" />
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_uid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_text_large_margin_top"
+                android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
+                android:textColor="@color/textHeading"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="regular" />
 
-</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/install_date"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_install_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_text_large_margin_top"
+                android:layout_marginBottom="@dimen/info_text_large_margin_bottom"
+                android:textColor="@color/textHeading"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/update_date"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_update_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/info_text_large_margin_top"
+                android:textColor="@color/textHeading"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="regular" />
+
+        </LinearLayout>
+    </app.simple.inure.decorations.corners.DynamicCornersNestedScrollView>
+</FrameLayout>

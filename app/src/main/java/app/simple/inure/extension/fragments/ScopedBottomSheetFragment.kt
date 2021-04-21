@@ -1,18 +1,24 @@
 package app.simple.inure.extension.fragments
 
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(), CoroutineScope, SharedPreferences.OnSharedPreferenceChangeListener {
+
+abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
+                                           CoroutineScope, SharedPreferences.OnSharedPreferenceChangeListener {
     private val job = Job()
 
     override val coroutineContext: CoroutineContext
@@ -32,6 +38,19 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(), Coroutin
             dialog?.window?.setDimAmount(0.3f)
         } else {
             dialog?.window?.setDimAmount(0f)
+        }
+
+        dialog?.setOnShowListener { dialog ->
+            // In a previous life I used this method to get handles to the positive and negative buttons
+            // of a dialog in order to change their Typeface. Good ol' days.
+            val d = dialog as BottomSheetDialog
+
+            // This is gotten directly from the source of BottomSheetDialog
+            // in the wrapInBottomSheet() method
+            val bottomSheet = d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+
+            // Right here!
+            BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 

@@ -12,8 +12,8 @@ android {
         applicationId "app.simple.inure"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 2
-        versionName "1.1_alpha"
+        versionCode 3
+        versionName "1.2_alpha"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 21
         renderscriptSupportModeEnabled true
@@ -69,4 +69,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.jaredrummler:apk-parser:1.0.2'
+    implementation 'com.github.OKatrych:RightSheetBehavior:1.0'
 }

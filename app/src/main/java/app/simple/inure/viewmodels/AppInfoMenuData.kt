@@ -33,7 +33,8 @@ class AppInfoMenuData(application: Application) : AndroidViewModel(application) 
                 Pair(R.drawable.ic_resources, context.getString(R.string.resources)),
                 Pair(R.drawable.ic_broadcast, context.getString(R.string.broadcasts)),
                 Pair(R.drawable.ic_provider, context.getString(R.string.providers)),
-                Pair(R.drawable.ic_xml, context.getString(R.string.manifest))
+                Pair(R.drawable.ic_xml, context.getString(R.string.manifest)),
+                Pair(R.drawable.ic_anchor, context.getString(R.string.user_feature))
             )
 
             menuOptions.postValue(list)
