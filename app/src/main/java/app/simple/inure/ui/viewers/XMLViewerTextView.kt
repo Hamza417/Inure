@@ -49,6 +49,7 @@ class XMLViewerTextView : ScopedFragment() {
                 "|\\B\\?\\w+" + // ?xml
                 "|\\?\\>" + // ?>
                 "|\\>" + // >
+                "|\\B<" + // <
                 "|\\/>", // />
         Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
 
