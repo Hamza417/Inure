@@ -16,7 +16,6 @@ object AppearancePreferences {
     const val accentColor = "app_accent_color"
     const val appFont = "type_face"
     const val appTheme = "app_theme"
-    const val bounce = "scroll_bounce_value"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -76,15 +75,5 @@ object AppearancePreferences {
 
     fun getAppTheme(): Int {
         return getSharedPreferences().getInt(appTheme, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setScrollBounce(@NonNull value: Float) {
-        getSharedPreferences().edit().putFloat(bounce, value).apply()
-    }
-
-    fun getScrollBounce(): Float {
-        return getSharedPreferences().getFloat(bounce, SpringForce.DAMPING_RATIO_NO_BOUNCY)
     }
 }

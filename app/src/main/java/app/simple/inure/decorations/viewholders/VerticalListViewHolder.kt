@@ -19,7 +19,7 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
         .setSpring(
             SpringForce()
                 .setFinalPosition(0f)
-                .setDampingRatio(AppearancePreferences.getScrollBounce())
+                .setDampingRatio(bouncyValue)
                 .setStiffness(stiffnessValue)
         )
         .addUpdateListener { _, _, velocity ->
@@ -34,12 +34,12 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
         .setSpring(
             SpringForce()
                 .setFinalPosition(0f)
-                .setDampingRatio(AppearancePreferences.getScrollBounce())
+                .setDampingRatio(bouncyValue)
                 .setStiffness(stiffnessValue)
         )
 
     companion object {
-        val bouncyValue = AppearancePreferences.getScrollBounce()
+        const val bouncyValue = SpringForce.DAMPING_RATIO_NO_BOUNCY
         const val stiffnessValue = SpringForce.STIFFNESS_LOW
         const val TYPE_HEADER = 0
         const val TYPE_ITEM = 1

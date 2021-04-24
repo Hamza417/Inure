@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.dynamicanimation.animation.SpringForce
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
@@ -18,7 +17,6 @@ import app.simple.inure.dialogs.appearance.AppearanceTypeFace
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAppTheme
-import app.simple.inure.popups.app.PopupBounce
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ThemeSetter
 
@@ -29,7 +27,6 @@ class AppearanceScreen : ScopedFragment() {
     private lateinit var roundedCorner: DynamicRippleRelativeLayout
 
     private lateinit var appTheme: DynamicRippleTextView
-    private lateinit var scrollBounce: DynamicRippleTextView
 
     private lateinit var dimWindows: SwitchView
     private lateinit var shadows: SwitchView
@@ -42,7 +39,6 @@ class AppearanceScreen : ScopedFragment() {
         roundedCorner = view.findViewById(R.id.appearance_corner_radius)
 
         appTheme = view.findViewById(R.id.popup_application_theme)
-        scrollBounce = view.findViewById(R.id.popup_bouncy_value)
 
         dimWindows = view.findViewById(R.id.appearance_switch_dim_windows)
         shadows = view.findViewById(R.id.appearance_switch_shadows)
@@ -58,7 +54,6 @@ class AppearanceScreen : ScopedFragment() {
         dimWindows.setChecked(AppearancePreferences.isDimmingOn())
         shadows.setChecked(AppearancePreferences.areShadowsOn())
         setAppThemeText()
-        onSharedPreferenceChanged(null, AppearancePreferences.bounce)
 
         appTheme.setOnClickListener {
             PopupAppTheme(layoutInflater.inflate(R.layout.popup_application_theme,
@@ -90,12 +85,6 @@ class AppearanceScreen : ScopedFragment() {
                 AppearancePreferences.setShadows(isChecked)
             }
         })
-
-        scrollBounce.setOnClickListener {
-            PopupBounce(layoutInflater.inflate(R.layout.popup_bounce,
-                                               DynamicCornerLinearLayout(requireContext(), null),
-                                               true), it)
-        }
     }
 
     private fun setAppThemeText() {
@@ -120,15 +109,6 @@ class AppearanceScreen : ScopedFragment() {
             AppearancePreferences.appTheme -> {
                 setAppThemeText()
                 ThemeSetter.setAppTheme(AppearancePreferences.getAppTheme())
-            }
-            AppearancePreferences.bounce -> {
-                scrollBounce.text = when (AppearancePreferences.getScrollBounce()) {
-                    SpringForce.DAMPING_RATIO_NO_BOUNCY -> getString(R.string.none)
-                    SpringForce.DAMPING_RATIO_LOW_BOUNCY -> getString(R.string.low)
-                    SpringForce.DAMPING_RATIO_MEDIUM_BOUNCY -> getString(R.string.medium)
-                    0.4F -> getString(R.string.high)
-                    else -> getString(R.string.unknown)
-                }
             }
         }
     }
