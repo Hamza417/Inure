@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.switch.SwitchFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.switchview.SwitchFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/switch_track"
     android:layout_width="@dimen/switch_width"
@@ -18,7 +18,7 @@
         android:src="@drawable/switch_thumb"
         tools:ignore="ContentDescription" />
 
-</app.simple.inure.decorations.switch.SwitchFrameLayout>
+</app.simple.inure.decorations.switchview.SwitchFrameLayout>
 
 
 

@@ -10,8 +10,8 @@ import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switch.SwitchCallbacks
-import app.simple.inure.decorations.switch.SwitchView
+import app.simple.inure.decorations.switchview.SwitchCallbacks
+import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.dialogs.appearance.AccentColor
 import app.simple.inure.dialogs.appearance.AppearanceTypeFace
 import app.simple.inure.dialogs.appearance.RoundedCorner

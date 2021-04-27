@@ -7,8 +7,8 @@
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/panel_padding_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView5"
                 app:layout_constraintTop_toBottomOf="@id/typeFaceTextView07" />
 
-            <app.simple.inure.decorations.switch.SwitchView
+            <app.simple.inure.decorations.switchview.SwitchView
                 android:id="@+id/configuration_switch_keep_screen_on"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -116,7 +116,9 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include layout="@layout/configuration_information"/>
+        <include layout="@layout/configuration_information" />
+
+        <include layout="@layout/configuration_root" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 

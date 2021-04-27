@@ -1,9 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
 
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="wrap_content"
@@ -67,7 +68,7 @@
             app:layout_constraintStart_toEndOf="@+id/imageView6"
             app:layout_constraintTop_toBottomOf="@id/typeFaceTextView011" />
 
-        <app.simple.inure.decorations.switch.SwitchView
+        <app.simple.inure.decorations.switchview.SwitchView
             android:id="@+id/configuration_show_permission_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -132,7 +133,7 @@
             app:layout_constraintStart_toEndOf="@+id/imageView9"
             app:layout_constraintTop_toBottomOf="@id/typeFaceTextView013" />
 
-        <app.simple.inure.decorations.switch.SwitchView
+        <app.simple.inure.decorations.switchview.SwitchView
             android:id="@+id/configuration_use_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -145,4 +146,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</merge>

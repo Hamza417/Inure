@@ -1,13 +1,11 @@
-package app.simple.inure.decorations.switch
+package app.simple.inure.decorations.switchview
 
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import app.simple.inure.preferences.AppearancePreferences.getCornerRadius
 import com.google.android.material.shape.CornerFamily
-import com.google.android.material.shape.EdgeTreatment
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 

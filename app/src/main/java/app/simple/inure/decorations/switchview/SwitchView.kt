@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.switch
+package app.simple.inure.decorations.switchview
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint

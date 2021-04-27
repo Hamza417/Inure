@@ -327,7 +327,7 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView5"
                 app:layout_constraintTop_toBottomOf="@id/typeFaceTextView07" />
 
-            <app.simple.inure.decorations.switch.SwitchView
+            <app.simple.inure.decorations.switchview.SwitchView
                 android:id="@+id/appearance_switch_dim_windows"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -392,7 +392,7 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView6"
                 app:layout_constraintTop_toBottomOf="@id/typeFaceTextView09" />
 
-            <app.simple.inure.decorations.switch.SwitchView
+            <app.simple.inure.decorations.switchview.SwitchView
                 android:id="@+id/appearance_switch_shadows"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

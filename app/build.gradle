@@ -55,7 +55,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.fragment:fragment-ktx:1.3.2'
+    implementation 'androidx.fragment:fragment-ktx:1.3.3'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.webkit:webkit:1.4.0'
@@ -70,4 +70,10 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.jaredrummler:apk-parser:1.0.2'
     implementation 'com.github.OKatrych:RightSheetBehavior:1.0'
+
+    // root
+    def libsuVersion = '3.1.2'
+    implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
+    implementation "com.github.topjohnwu.libsu:service:${libsuVersion}"
+    implementation "com.github.topjohnwu.libsu:io:${libsuVersion}"
 }

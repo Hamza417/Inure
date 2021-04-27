@@ -7,6 +7,7 @@ object ConfigurationPreferences {
     private const val keepScreenOn = "keep_screen_on"
     private const val showPermissionLabel = "is_permission_label_on"
     private const val isXmlViewerTextView = "is_xml_viewer_text_view"
+    const val isUsingRoot = "is_using_root"
 
     fun setKeepScreenOn(@NotNull value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(keepScreenOn, value).apply()
@@ -34,5 +35,15 @@ object ConfigurationPreferences {
 
     fun isXmlViewerTextView(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(isXmlViewerTextView, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setUsingRoot(@NotNull value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(isUsingRoot, value).apply()
+    }
+
+    fun isUsingRoot(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(isUsingRoot, false)
     }
 }
