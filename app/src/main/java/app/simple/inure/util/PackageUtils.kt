@@ -1,4 +1,4 @@
-package app.simple.inure.packagehelper
+package app.simple.inure.util
 
 import android.app.Activity
 import android.app.ActivityManager
@@ -12,8 +12,9 @@ import android.content.pm.PackageStats
 import android.net.Uri
 import android.os.RemoteException
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
-import app.simple.inure.util.DateUtils
+import app.simple.inure.model.PackageSizes
 import java.lang.reflect.Method
 
 
@@ -133,17 +134,14 @@ object  PackageUtils {
      * observe the results later on in the activity and update the list
      * accordingly using [Activity.onActivityResult] listener
      *
-     * @param activity reference of the current activity
+     * @param appUninstallObserver reference of the current [ActivityResultLauncher]
      */
-    fun ApplicationInfo.uninstallThisPackage(activity: Activity) {
+    @Suppress("deprecation")
+    fun ApplicationInfo.uninstallThisPackage(appUninstallObserver: ActivityResultLauncher<Intent>) {
         val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
         intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
         intent.data = Uri.parse("package:${this.packageName}")
-        activity.startActivityForResult(intent, UNINSTALL_REQUEST_CODE)
-
-        // val intent = Intent(activity, activity.javaClass)
-        // val sender = PendingIntent.getActivity(activity, UNINSTALL_REQUEST_CODE, intent, 0)
-        // activity.packageManager.packageInstaller.uninstall(this.packageName, sender.intentSender)
+        appUninstallObserver.launch(intent)
     }
 
     /**

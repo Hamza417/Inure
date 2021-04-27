@@ -1,5 +1,7 @@
 package app.simple.inure.ui.app
 
+import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
@@ -8,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
@@ -22,11 +26,11 @@ import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.packagehelper.PackageUtils.killThisApp
-import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
-import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
 import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.PackageUtils.killThisApp
+import app.simple.inure.util.PackageUtils.launchThisPackage
+import app.simple.inure.util.PackageUtils.uninstallThisPackage
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.SearchData
 
@@ -35,6 +39,7 @@ class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChange
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: CustomRecyclerView
     private lateinit var appsAdapterSmall: SearchAdapter
+    private lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
 
     private val searchData: SearchData by viewModels()
 
@@ -91,7 +96,7 @@ class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChange
                                     applicationInfo.killThisApp(requireActivity())
                                 }
                                 getString(R.string.uninstall) -> {
-                                    applicationInfo.uninstallThisPackage(requireActivity())
+                                    applicationInfo.uninstallThisPackage(appUninstallObserver)
                                 }
                             }
                         }
@@ -103,6 +108,21 @@ class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChange
                 startPostponedEnterTransition()
             }
         })
+
+        appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    /**
+                     * App uninstalled,
+                     * Tell the viewModel to re-fetch the updated list
+                     */
+                    searchData.loadSearchData()
+                }
+                Activity.RESULT_CANCELED -> {
+                    /* no-op */
+                }
+            }
+        }
 
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
             override fun onSearchMenuPressed(button: View) {

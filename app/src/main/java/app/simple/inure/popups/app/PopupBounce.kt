@@ -21,7 +21,6 @@ class PopupBounce(contentView: View, view: View) : BasePopupWindow() {
 
     private fun DynamicRippleTextView.onClick(bouncyValue: Float) {
         this.setOnClickListener {
-            AppearancePreferences.setScrollBounce(bouncyValue)
             dismiss()
         }
     }

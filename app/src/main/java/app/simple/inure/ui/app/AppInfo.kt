@@ -19,7 +19,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.app.Information
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
-import app.simple.inure.packagehelper.PackageUtils
+import app.simple.inure.util.PackageUtils
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength

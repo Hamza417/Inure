@@ -26,15 +26,14 @@ import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
-import app.simple.inure.decorations.transitions.TransitionManager
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.packagehelper.PackageUtils.killThisApp
-import app.simple.inure.packagehelper.PackageUtils.launchThisPackage
-import app.simple.inure.packagehelper.PackageUtils.uninstallThisPackage
+import app.simple.inure.util.PackageUtils.killThisApp
+import app.simple.inure.util.PackageUtils.launchThisPackage
+import app.simple.inure.util.PackageUtils.uninstallThisPackage
 import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.MainPreferencesScreen
@@ -115,7 +114,7 @@ class Apps : ScopedFragment() {
                                     applicationInfo.killThisApp(requireActivity())
                                 }
                                 getString(R.string.uninstall) -> {
-                                    applicationInfo.uninstallThisPackage(requireActivity())
+                                    applicationInfo.uninstallThisPackage(appUninstallObserver)
                                 }
                             }
                         }
@@ -173,17 +172,18 @@ class Apps : ScopedFragment() {
             })
 
         appUninstallObserver = registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                /**
-                 * Refresh the viewModel to re-fetch the updated list
-                 */
-                model.loadAppData()
-                println("App Uninstalled")
-            } else {
-                println("Failed")
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    /**
+                     * App uninstalled,
+                     * Tell the viewModel to re-fetch the updated list
+                     */
+                    model.loadAppData()
+                }
+                Activity.RESULT_CANCELED -> {
+                    /* no-op */
+                }
             }
-
-            println("${result.data} : ${result.resultCode}")
         }
 
         super.onViewCreated(view, savedInstanceState)

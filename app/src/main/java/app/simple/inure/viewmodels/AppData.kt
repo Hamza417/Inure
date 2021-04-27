@@ -6,7 +6,7 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import app.simple.inure.packagehelper.PackageUtils.getApplicationName
+import app.simple.inure.util.PackageUtils.getApplicationName
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList

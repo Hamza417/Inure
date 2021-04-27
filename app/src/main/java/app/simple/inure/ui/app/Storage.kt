@@ -1,6 +1,5 @@
 package app.simple.inure.ui.app
 
-import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +8,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
-import app.simple.inure.packagehelper.PackageUtils.getPackageSize
+import app.simple.inure.util.PackageUtils.getPackageSize
 import app.simple.inure.util.FileSizeHelper.getDirectorySize
 import app.simple.inure.util.FileSizeHelper.getFileSize
 import app.simple.inure.util.NullSafety.isNotNull

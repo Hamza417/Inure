@@ -1,4 +1,4 @@
-package app.simple.inure.packagehelper
+package app.simple.inure.model
 
 open class PackageSizes {
 

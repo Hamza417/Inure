@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
-import app.simple.inure.packagehelper.PackageUtils
-import app.simple.inure.packagehelper.PackageUtils.getApplicationInstallTime
-import app.simple.inure.packagehelper.PackageUtils.getApplicationLastUpdateTime
+import app.simple.inure.util.PackageUtils
+import app.simple.inure.util.PackageUtils.getApplicationInstallTime
+import app.simple.inure.util.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.util.APKParser.getGlEsVersion
 import app.simple.inure.util.APKParser.getInstallLocation
 import app.simple.inure.util.NullSafety.isNull
