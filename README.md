@@ -2,6 +2,9 @@
 
 An elegant Android app manager, currently in development
 
+<br/>
+<br/>
+
 ## Screenshots
 
 <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/01.jpg" width="40%">
