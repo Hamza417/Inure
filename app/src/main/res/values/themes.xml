@@ -11,4 +11,16 @@
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <style name="InfoTextSmall" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/info_text_small</item>
+        <item name="android:textColor">@color/textTertiary</item>
+    </style>
+
+    <style name="InfoTextLarge" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/info_text_large</item>
+        <item name="android:textColor">@color/textHeading</item>
+        <item name="android:layout_marginTop">@dimen/info_text_large_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/info_text_large_margin_bottom</item>
+    </style>
 </resources>

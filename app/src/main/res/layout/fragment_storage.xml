@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,24 +11,26 @@
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
-        <ImageView
-            android:id="@+id/certificate_header_icon"
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/app_info_back_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            android:src="@drawable/ic_certificate"
-            android:transitionName="@string/certificate"
-            app:tint="?attr/colorAppAccent"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="@string/back_button"
+            android:scaleType="center"
+            android:src="@drawable/ic_arrow_back"
+            android:transitionName="@string/services"
+            app:tint="?attr/colorAppAccent" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/certificate"
+            android:text="@string/storage"
             android:textColor="?attr/colorAppAccent"
             android:textSize="36sp"
+            android:transitionName="@string/storage"
             app:appFontStyle="bold" />
 
     </LinearLayout>
@@ -41,7 +42,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,79 +55,61 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="@string/sign_algorithm"
+                android:text="@string/apk_base_package"
                 app:appFontStyle="bold" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_algorithm"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
+                android:id="@+id/sub_memory_base_package_size"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_available"
+                style="@style/InfoTextSmall"
                 app:appFontStyle="regular" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
                 style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_algorithm_oid"
+                android:text="@string/split_packages"
                 app:appFontStyle="bold" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_algorithm_oid"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
+                android:id="@+id/sub_memory_split_packages"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_available"
+                style="@style/InfoTextSmall"
                 app:appFontStyle="regular" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
                 style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/certificate_base64_md5"
+                android:text="@string/cache"
                 app:appFontStyle="bold" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_base64_md5"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
+                android:id="@+id/sub_memory_cache"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_available"
+                style="@style/InfoTextSmall"
                 app:appFontStyle="regular" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
                 style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/certificate_md5"
+                android:text="@string/data"
                 app:appFontStyle="bold" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_md5"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/not_available"
-                app:appFontStyle="regular" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                style="@style/InfoTextLarge"
+                android:id="@+id/sub_memory_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/validity"
-                app:appFontStyle="bold" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_validity"
                 style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/not_available"
                 app:appFontStyle="regular" />
+
+            <include layout="@layout/sub_graph_view" />
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

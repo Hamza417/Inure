@@ -8,10 +8,10 @@
     <dimen name="fast_scroller_default_text_padding">4dp</dimen>
     <dimen name="app_icon_dimension">90dp</dimen>
     <dimen name="app_views_elevation">10dp</dimen>
-    <dimen name="info_text_small">5pt</dimen>
-    <dimen name="info_text_large">6pt</dimen>
-    <dimen name="info_text_large_margin_top">3dp</dimen>
-    <dimen name="info_text_large_margin_bottom">15dp</dimen>
+    <dimen name="info_text_small">14sp</dimen>
+    <dimen name="info_text_large">18sp</dimen>
+    <dimen name="info_text_large_margin_top">20dp</dimen>
+    <dimen name="info_text_large_margin_bottom">10dp</dimen>
     <dimen name="dialog_padding">15dp</dimen>
     <dimen name="dialog_elevation">30dp</dimen>
     <dimen name="popup_padding">10dp</dimen>

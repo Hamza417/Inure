@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/header_padding">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/app_info_back_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:contentDescription="@string/back_button"
+            android:scaleType="center"
+            android:src="@drawable/ic_arrow_back"
+            android:transitionName="@string/services"
+            app:tint="?attr/colorAppAccent" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/directories"
+            android:textColor="?attr/colorAppAccent"
+            android:textSize="36sp"
+            android:transitionName="@string/directories"
+            app:appFontStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="30dp">
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                style="@style/InfoTextLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="@string/apk_base_package"
+                app:appFontStyle="bold" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_directory_base_package"
+                style="@style/InfoTextSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                style="@style/InfoTextLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/data"
+                app:appFontStyle="bold" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_directory_data"
+                style="@style/InfoTextSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:appFontStyle="regular" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

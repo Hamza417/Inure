@@ -6,21 +6,21 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
-    android:padding="@dimen/popup_padding">
+    android:paddingVertical="@dimen/popup_padding">
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/app_info_information_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"
-        android:padding="10dp"
+        android:paddingVertical="10dp"
         android:text="@string/usage"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/app_info_options_text_size"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.views.Pie
-        android:id="@+id/pie"
+        android:id="@+id/storage_apk_size_pie"
         android:layout_width="@dimen/pie_dimens"
         android:layout_height="@dimen/pie_dimens"
         android:layout_gravity="center_horizontal"

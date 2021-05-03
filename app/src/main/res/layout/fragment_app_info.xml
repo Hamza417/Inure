@@ -50,8 +50,6 @@
                 android:layout_marginHorizontal="10dp"
                 android:background="@color/divider" />
 
-            <include layout="@layout/sub_graph_view" />
-
         </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     </androidx.core.widget.NestedScrollView>

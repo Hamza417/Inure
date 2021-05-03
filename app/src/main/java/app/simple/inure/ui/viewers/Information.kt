@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.app
+package app.simple.inure.ui.viewers
 
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.PackageUtils
 import app.simple.inure.util.PackageUtils.getApplicationInstallTime
 import app.simple.inure.util.PackageUtils.getApplicationLastUpdateTime
@@ -19,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Information : ScopedBottomSheetFragment() {
+class Information : ScopedFragment() {
 
     private lateinit var version: TypeFaceTextView
     private lateinit var versionCode: TypeFaceTextView
@@ -30,11 +31,12 @@ class Information : ScopedBottomSheetFragment() {
     private lateinit var uid: TypeFaceTextView
     private lateinit var installDate: TypeFaceTextView
     private lateinit var updateDate: TypeFaceTextView
+    private lateinit var back: DynamicRippleImageButton
 
     private lateinit var applicationInfo: ApplicationInfo
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = layoutInflater.inflate(R.layout.dialog_information, container, false)
+        val view = layoutInflater.inflate(R.layout.fragment_information, container, false)
 
         version = view.findViewById(R.id.sub_information_version)
         versionCode = view.findViewById(R.id.sub_information_version_code)
@@ -45,6 +47,7 @@ class Information : ScopedBottomSheetFragment() {
         uid = view.findViewById(R.id.sub_information_uid)
         installDate = view.findViewById(R.id.sub_information_install_date)
         updateDate = view.findViewById(R.id.sub_information_update_date)
+        back = view.findViewById(R.id.app_info_back_button)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
@@ -53,6 +56,8 @@ class Information : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        startPostponedEnterTransition()
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             "${applicationInfo.minSdkVersion}, ${SDKHelper.getSdkTitle(applicationInfo.minSdkVersion)}".also { minSdk.text = it }
@@ -89,6 +94,10 @@ class Information : ScopedBottomSheetFragment() {
             this@Information.uid.text = uid
             this@Information.installDate.text = installDate
             this@Information.updateDate.text = updateDate
+        }
+
+        back.setOnClickListener {
+            activity?.onBackPressed()
         }
     }
 

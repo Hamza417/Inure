@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@integer/animation_duration"
+    android:interpolator="@android:interpolator/overshoot"
+    android:shareInterpolator="true">
+    <translate
+        android:fromXDelta="0%p"
+        android:fromYDelta="0%"
+        android:toXDelta="100%"
+        android:toYDelta="0%" />
+
+    <alpha
+        android:fromAlpha="1"
+        android:toAlpha="0" />
+</set>

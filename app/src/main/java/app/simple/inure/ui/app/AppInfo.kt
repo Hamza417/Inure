@@ -14,18 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterAppInfoMenu
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.views.Pie
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.dialogs.app.Information
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
-import app.simple.inure.util.PackageUtils
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
-import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FragmentHelper.openFragment
+import app.simple.inure.util.PackageUtils
 import app.simple.inure.viewmodels.AppInfoMenuData
-import app.simple.inure.viewmodels.AppSize
 
 class AppInfo : ScopedFragment() {
 
@@ -35,12 +31,11 @@ class AppInfo : ScopedFragment() {
     private lateinit var packageId: TypeFaceTextView
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var storage: DynamicRippleTextView
+    private lateinit var directories: DynamicRippleTextView
     private lateinit var menu: RecyclerView
-    private lateinit var pie: Pie
 
     private lateinit var applicationInfo: ApplicationInfo
     private lateinit var adapterAppInfoMenu: AdapterAppInfoMenu
-    private val model: AppSize by viewModels()
     private val options: AppInfoMenuData by viewModels()
 
     private var spanCount = 3
@@ -53,8 +48,8 @@ class AppInfo : ScopedFragment() {
         packageId = view.findViewById(R.id.fragment_app_package_id)
         appInformation = view.findViewById(R.id.app_info_information_tv)
         storage = view.findViewById(R.id.app_info_storage_tv)
+        directories = view.findViewById(R.id.app_info_directories_tv)
         menu = view.findViewById(R.id.app_info_menu)
-        pie = view.findViewById(R.id.pie)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
@@ -142,11 +137,6 @@ class AppInfo : ScopedFragment() {
             })
         })
 
-        model.getTotalAppSize().observe(requireActivity(), {
-            val x = applicationInfo.sourceDir.getDirectoryLength().toDouble() / it.toDouble() * 100.0
-            pie.value = (x * (360.0 / 100.0)).toFloat()
-        })
-
         icon.transitionName = requireArguments().getString("transition_name")
         icon.loadAppIcon(requireContext(), applicationInfo.packageName)
 
@@ -154,13 +144,21 @@ class AppInfo : ScopedFragment() {
         packageId.text = PackageUtils.getApplicationVersion(requireContext(), applicationInfo)
 
         appInformation.setOnClickListener {
-            Information.newInstance(applicationInfo)
-                    .show(childFragmentManager, "information")
+            openFragment(requireActivity().supportFragmentManager,
+                         Information.newInstance(applicationInfo),
+                         "information")
         }
 
         storage.setOnClickListener {
-            Storage.newInstance(applicationInfo)
-                    .show(childFragmentManager, "storage")
+            openFragment(requireActivity().supportFragmentManager,
+                         Storage.newInstance(applicationInfo),
+                         getString(R.string.storage))
+        }
+
+        directories.setOnClickListener {
+            openFragment(requireActivity().supportFragmentManager,
+                         Directories.newInstance(applicationInfo),
+                         getString(R.string.directories))
         }
     }
 

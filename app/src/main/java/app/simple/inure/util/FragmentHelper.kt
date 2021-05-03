@@ -1,5 +1,6 @@
 package app.simple.inure.util
 
+import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -8,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 
 object FragmentHelper {
-    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, icon: ImageView, tag: String) {
+    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, icon: View, tag: String) {
         fragment.exitTransition = Fade()
         fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
         fragment.enterTransition = Fade()
@@ -23,13 +24,9 @@ object FragmentHelper {
     }
 
     fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, tag: String) {
-        fragment.exitTransition = Fade()
-        fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
-        fragment.enterTransition = Fade()
-        fragment.sharedElementReturnTransition = DetailsTransitionArc(1.5F)
-
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                 .replace(R.id.app_container, fragment, tag)
                 .addToBackStack(tag)
                 .commit()

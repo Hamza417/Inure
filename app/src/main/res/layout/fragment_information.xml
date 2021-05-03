@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,14 +13,15 @@
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
-        <ImageView
-            android:id="@+id/certificate_header_icon"
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/app_info_back_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            android:src="@drawable/ic_certificate"
-            android:transitionName="@string/certificate"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_arrow_back"
+            android:transitionName="@string/app_information"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
@@ -27,9 +29,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/certificate"
+            android:text="@string/app_information"
             android:textColor="?attr/colorAppAccent"
             android:textSize="36sp"
+            android:transitionName="@string/app_information"
             app:appFontStyle="bold" />
 
     </LinearLayout>
@@ -54,79 +57,128 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="@string/sign_algorithm"
+                android:text="@string/version"
                 app:appFontStyle="bold" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_algorithm"
+                android:id="@+id/sub_information_version"
                 style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_available"
                 app:appFontStyle="regular" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
                 style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_algorithm_oid"
+                android:text="@string/version_code"
                 app:appFontStyle="bold" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_algorithm_oid"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
+                android:id="@+id/sub_information_version_code"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_available"
+                style="@style/InfoTextSmall"
                 app:appFontStyle="regular" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
                 style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/certificate_base64_md5"
+                android:text="@string/install_location"
                 app:appFontStyle="bold" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_base64_md5"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
+                android:id="@+id/sub_information_install_location"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_available"
+                style="@style/InfoTextSmall"
                 app:appFontStyle="regular" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
                 style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/certificate_md5"
+                android:text="@string/minimum_sdk"
                 app:appFontStyle="bold" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_md5"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
+                android:id="@+id/sub_information_min_sdk"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_available"
+                style="@style/InfoTextSmall"
                 app:appFontStyle="regular" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
                 style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/validity"
+                android:text="@string/target_sdk"
                 app:appFontStyle="bold" />
 
             <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_validity"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
+                android:id="@+id/sub_information_target_sdk"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_available"
+                style="@style/InfoTextSmall"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                style="@style/InfoTextLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gles_version"
+                app:appFontStyle="bold" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_gles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/InfoTextSmall"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                style="@style/InfoTextLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/uid"
+                app:appFontStyle="bold" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_uid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/InfoTextSmall"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                style="@style/InfoTextLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/install_date"
+                app:appFontStyle="bold" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_install_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/InfoTextSmall"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                style="@style/InfoTextLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/update_date"
+                app:appFontStyle="bold" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_update_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/InfoTextSmall"
                 app:appFontStyle="regular" />
 
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
-
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
