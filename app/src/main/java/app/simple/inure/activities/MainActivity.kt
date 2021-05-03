@@ -7,10 +7,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Process
 import android.provider.Settings
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.AppOpsManagerCompat.MODE_ALLOWED
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
+import app.simple.inure.dialogs.app.HtmlViewer
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.ui.launcher.SplashScreen
@@ -27,6 +29,7 @@ class MainActivity : BaseActivity() {
 
         if (!checkForPermission()) {
             startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+            Toast.makeText(applicationContext, "Grant Usage Access Permission", Toast.LENGTH_LONG).show()
         }
 
         if (savedInstanceState.isNull()) {

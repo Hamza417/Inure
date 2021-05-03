@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:clipChildren="true"
+    android:clipToPadding="true">
+
+    <app.simple.inure.decorations.corners.DynamicCornerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_height"
+        android:layout_margin="@dimen/dialog_padding"
+        android:backgroundTint="@color/mainBackground"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        android:elevation="40dp">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="true"
+            android:clipToPadding="true"
+            android:fadingEdge="vertical"
+            android:fadingEdgeLength="25dp"
+            android:requiresFadingEdge="vertical">
+
+            <app.simple.inure.decorations.views.CustomWebView
+                android:id="@+id/web_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.core.widget.NestedScrollView>
+    </app.simple.inure.decorations.corners.DynamicCornerFrameLayout>
+</FrameLayout>

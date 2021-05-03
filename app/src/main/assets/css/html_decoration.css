@@ -1,0 +1,50 @@
+@font-face {
+	font-family: main_font;
+	src: url(file:///android_asset/fonts/candara.ttf);
+}
+
+:root {
+    --main_heading_color: rgb(14, 102, 85);
+}
+
+body {
+	font-family: 'main_font', Helvetica, Arial, sans-serif;
+	padding: 2em;
+	text-align: justify;
+	text-justify: values;
+	color: rgb(32, 32, 32);
+}
+
+h1 {
+	color: var(--main_heading_color);
+	font-family: 'main_font';
+	text-align: left;
+}
+
+h2 {
+	color: var(--main_heading_color);
+	font-family: 'main_font';
+}
+
+h3 {
+	color: rgb(16, 16, 16);
+}
+
+h4 {
+	color: rgb(16, 16, 16);
+}
+
+li::marker {
+	color: var(--main_heading_color);
+}
+
+li {
+	color: rgb(32, 32, 32);
+	text-align: left;
+}
+
+a:link {
+	color: rgb(52, 152, 219);
+	text-decoration: none;
+	background-color: transparent;
+}
