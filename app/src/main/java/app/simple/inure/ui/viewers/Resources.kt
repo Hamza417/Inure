@@ -49,11 +49,11 @@ class Resources : ScopedFragment() {
                     if (ConfigurationPreferences.isXmlViewerTextView()) {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     XMLViewerTextView.newInstance(applicationInfo, false, path),
-                                                     "manifest")
+                                                     "tv_xml")
                     } else {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     XMLViewerWebView.newInstance(applicationInfo, false, path),
-                                                     "manifest")
+                                                     "wv_xml")
                     }
                 }
             })

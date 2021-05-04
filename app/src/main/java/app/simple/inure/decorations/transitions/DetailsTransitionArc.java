@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import androidx.transition.ArcMotion;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
@@ -18,8 +19,6 @@ import androidx.transition.TransitionSet;
  * @author bherbst
  */
 public class DetailsTransitionArc extends TransitionSet {
-    
-    private float decelerateFactor = 1.5F;
     
     public DetailsTransitionArc() {
         init();
@@ -37,7 +36,6 @@ public class DetailsTransitionArc extends TransitionSet {
      *                         2.0F
      */
     public DetailsTransitionArc(float decelerateFactor) {
-        this.decelerateFactor = decelerateFactor;
         init();
     }
     
@@ -74,8 +72,8 @@ public class DetailsTransitionArc extends TransitionSet {
         addTransition(new ChangeBounds())
                 .addTransition(new ChangeTransform())
                 .addTransition(new ChangeImageTransform())
-                .setDuration(750L)
-                .setInterpolator(new DecelerateInterpolator(decelerateFactor))
+                .setDuration(500L)
+                .setInterpolator(new LinearOutSlowInInterpolator())
                 .setPathMotion(arcMotion);
     }
 }

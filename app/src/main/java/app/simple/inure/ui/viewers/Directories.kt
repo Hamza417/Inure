@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 
@@ -13,6 +14,7 @@ class Directories : ScopedFragment() {
 
     private lateinit var apkDir: TypeFaceTextView
     private lateinit var dataDir: TypeFaceTextView
+    private lateinit var back: DynamicRippleImageButton
 
     private lateinit var applicationInfo: ApplicationInfo
 
@@ -21,6 +23,7 @@ class Directories : ScopedFragment() {
 
         apkDir = view.findViewById(R.id.sub_directory_base_package)
         dataDir = view.findViewById(R.id.sub_directory_data)
+        back = view.findViewById(R.id.app_info_back_button)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
@@ -34,6 +37,10 @@ class Directories : ScopedFragment() {
 
         apkDir.text = applicationInfo.sourceDir
         dataDir.text = applicationInfo.dataDir
+
+        back.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
     companion object {

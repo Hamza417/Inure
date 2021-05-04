@@ -8,6 +8,7 @@ import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
 import app.simple.inure.decorations.bouncescroll.ScrollConstants
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
@@ -21,9 +22,19 @@ import app.simple.inure.util.StatusBarHeight
 class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
 
     init {
+
+        context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
+            try {
+                if(getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {
+                    setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources), paddingRight, paddingBottom)
+                }
+            } finally {
+                recycle()
+            }
+        }
+
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         setHasFixedSize(true)
-        setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources), paddingRight, paddingBottom)
 
         this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
             override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {

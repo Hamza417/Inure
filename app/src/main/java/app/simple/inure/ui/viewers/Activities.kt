@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.adapters.details.AdapterActivities
 import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -39,7 +40,6 @@ class Activities : ScopedFragment() {
             var list: List<AndroidComponent>
 
             withContext(Dispatchers.Default) {
-                delay(500)
                 list = requireArguments().getParcelable<ApplicationInfo>("application_info")?.getActivities()!!
 
                 list.sortedBy {
@@ -47,7 +47,13 @@ class Activities : ScopedFragment() {
                 }
             }
 
-            recyclerView.adapter = AdapterServices(list)
+            recyclerView.adapter = AdapterActivities(list)
+
+            (recyclerView.adapter as AdapterActivities).setOnActivitiesCallbacks(object : AdapterActivities.ActivitiesCallbacks{
+                override fun onActivityClicked(androidComponent: AndroidComponent) {
+
+                }
+            })
         }
     }
 

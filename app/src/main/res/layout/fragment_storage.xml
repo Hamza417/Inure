@@ -13,12 +13,12 @@
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/app_info_back_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
             android:contentDescription="@string/back_button"
-            android:scaleType="center"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back"
             android:transitionName="@string/services"
             app:tint="?attr/colorAppAccent" />
@@ -29,7 +29,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/storage"
             android:textColor="?attr/colorAppAccent"
-            android:textSize="36sp"
+            android:textSize="@dimen/header_font_size"
             android:transitionName="@string/storage"
             app:appFontStyle="bold" />
 

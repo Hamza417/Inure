@@ -96,4 +96,8 @@
         <attr name="switchWidth" format="dimension" />
         <attr name="switchPadding" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="CustomRecyclerView">
+        <attr name="statusBarPaddingRequired" format="boolean"/>
+    </declare-styleable>
 </resources>

@@ -23,6 +23,9 @@ class Permissions : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_permissions, container, false)
 
         recyclerView = view.findViewById(R.id.permissions_recycler_view)
+        recyclerView.setHasFixedSize(true)
+
+        startPostponedEnterTransition()
 
         return view
     }
@@ -30,11 +33,7 @@ class Permissions : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        startPostponedEnterTransition()
-
         launch {
-            delay(500)
-
             val adapterPermissions: AdapterPermissions
 
             withContext(Dispatchers.Default) {

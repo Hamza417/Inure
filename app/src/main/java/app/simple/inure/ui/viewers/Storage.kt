@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.Pie
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -26,6 +27,7 @@ class Storage : ScopedFragment() {
     private lateinit var splitsSize: TypeFaceTextView
     private lateinit var cacheSize: TypeFaceTextView
     private lateinit var dataSize: TypeFaceTextView
+    private lateinit var back: DynamicRippleImageButton
     private lateinit var pie: Pie
 
     private lateinit var applicationInfo: ApplicationInfo
@@ -38,6 +40,7 @@ class Storage : ScopedFragment() {
         splitsSize = view.findViewById(R.id.sub_memory_split_packages)
         cacheSize = view.findViewById(R.id.sub_memory_cache)
         dataSize = view.findViewById(R.id.sub_memory_data)
+        back = view.findViewById(R.id.app_info_back_button)
         pie = view.findViewById(R.id.storage_apk_size_pie)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
@@ -77,6 +80,11 @@ class Storage : ScopedFragment() {
             this@Storage.splitsSize.text = splitsSize
             this@Storage.cacheSize.text = cacheSize
             this@Storage.dataSize.text = dataSize
+        }
+
+
+        back.setOnClickListener {
+            activity?.onBackPressed()
         }
     }
 

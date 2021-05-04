@@ -34,7 +34,6 @@ class Features : ScopedFragment() {
         startPostponedEnterTransition()
 
         launch {
-            delay(500)
             var list: List<UseFeature>
 
             withContext(Dispatchers.Default) {

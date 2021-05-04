@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/services_header_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
             android:src="@drawable/ic_services"
@@ -30,7 +30,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/services"
             android:textColor="?attr/colorAppAccent"
-            android:textSize="36sp"
+            android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 
     </LinearLayout>
@@ -46,6 +46,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
-        android:padding="@dimen/header_padding" />
+        android:padding="@dimen/header_padding"
+        app:statusBarPaddingRequired="false" />
 
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

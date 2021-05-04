@@ -82,8 +82,6 @@ class XMLViewerTextView : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_text_viewer, container, false)
 
-        startPostponedEnterTransition()
-
         text = view.findViewById(R.id.text_viewer)
         name = view.findViewById(R.id.xml_name)
         options = view.findViewById(R.id.xml_viewer_options)
@@ -95,6 +93,8 @@ class XMLViewerTextView : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        startPostponedEnterTransition()
 
         launch {
             runCatching {

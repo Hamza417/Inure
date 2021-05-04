@@ -111,4 +111,7 @@
     <string name="root_desc">Use root methods instead of using native Android APIs and Libs to perform some functions.\n\nThis option is recommened as it can make the user experience more streamlined.</string>
     <string name="back_button">Back Button</string>
     <string name="files">Files</string>
+    <string name="method_count">Method Count</string>
+    <string name="multi_dex">Multi Dex, %1$s</string>
+    <string name="single_dex">Single Dex, %1$s</string>
 </resources>

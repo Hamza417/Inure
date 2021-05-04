@@ -15,8 +15,8 @@
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/app_info_back_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
             android:scaleType="centerCrop"
@@ -31,7 +31,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/app_information"
             android:textColor="?attr/colorAppAccent"
-            android:textSize="36sp"
+            android:textSize="@dimen/header_font_size"
             android:transitionName="@string/app_information"
             app:appFontStyle="bold" />
 
@@ -174,6 +174,20 @@
 
             <app.simple.inure.decorations.views.TypeFaceTextView
                 android:id="@+id/sub_information_update_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/InfoTextSmall"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                style="@style/InfoTextLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/method_count"
+                app:appFontStyle="bold" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/sub_information_method_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/InfoTextSmall"

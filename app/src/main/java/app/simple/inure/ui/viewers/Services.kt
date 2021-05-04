@@ -34,7 +34,6 @@ class Services : ScopedFragment() {
         startPostponedEnterTransition()
 
         launch {
-            delay(500)
             var list: List<AndroidComponent>
 
             withContext(Dispatchers.Default) {

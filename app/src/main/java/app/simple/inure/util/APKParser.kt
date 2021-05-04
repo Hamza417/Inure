@@ -3,10 +3,7 @@ package app.simple.inure.util
 import android.content.pm.ApplicationInfo
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import com.jaredrummler.apkparser.ApkParser
-import com.jaredrummler.apkparser.model.AndroidComponent
-import com.jaredrummler.apkparser.model.CertificateMeta
-import com.jaredrummler.apkparser.model.GlEsVersion
-import com.jaredrummler.apkparser.model.UseFeature
+import com.jaredrummler.apkparser.model.*
 import java.io.IOException
 import java.util.*
 import java.util.zip.ZipEntry
@@ -114,6 +111,15 @@ object APKParser {
     fun ApplicationInfo.getTransBinaryXml(path: String): String {
         ApkParser.create(this).use {
             return it.transBinaryXml(path)
+        }
+    }
+
+    /**
+     *
+     */
+    fun ApplicationInfo.getDexData(): MutableList<DexInfo>? {
+        ApkParser.create(this).use {
+            return it.dexInfos
         }
     }
 

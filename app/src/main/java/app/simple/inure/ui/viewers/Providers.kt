@@ -41,7 +41,6 @@ class Providers : ScopedFragment() {
             var list: List<AndroidComponent>
 
             withContext(Dispatchers.Default) {
-                delay(500)
                 list = requireArguments().getParcelable<ApplicationInfo>("application_info")?.getProviders()!!
 
                 list.sortedBy {
