@@ -31,13 +31,15 @@ import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.util.PackageUtils.killThisApp
-import app.simple.inure.util.PackageUtils.launchThisPackage
-import app.simple.inure.util.PackageUtils.uninstallThisPackage
 import app.simple.inure.popups.app.MainListPopupMenu
+import app.simple.inure.popups.app.PopupMainMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper.openFragment
+import app.simple.inure.util.FragmentHelper.openFragmentLinear
+import app.simple.inure.util.PackageUtils.killThisApp
+import app.simple.inure.util.PackageUtils.launchThisPackage
+import app.simple.inure.util.PackageUtils.uninstallThisPackage
 import app.simple.inure.viewmodels.AppData
 import java.util.*
 
@@ -132,14 +134,32 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSettingsPressed() {
+
                     AppsListConfiguration.newInstance().show(childFragmentManager, "apps_list_config")
                 }
 
-                override fun onPrefsIconPressed(view: View) {
-                    openFragment(requireActivity().supportFragmentManager,
-                                 MainPreferencesScreen.newInstance(),
-                                 view as ImageView,
-                                 "preferences_screen")
+                override fun onPrefsIconPressed(view: View, view1: View) {
+                    val v = PopupMainMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_main_menu,
+                                                                                        DynamicCornerLinearLayout(requireContext(), null)), view1)
+
+                    v.setOnMenuClickListener(object : PopupMainMenu.PopupMainMenuCallbacks {
+                        override fun onMenuClicked(string: String) {
+                            when(string) {
+                                getString(R.string.terminal) -> {
+                                    openFragmentLinear(requireActivity().supportFragmentManager,
+                                                       Terminal.newInstance(),
+                                                       view,
+                                                       "terminal_screen")
+                                }
+                                getString(R.string.preferences) -> {
+                                    openFragmentLinear(requireActivity().supportFragmentManager,
+                                                 MainPreferencesScreen.newInstance(),
+                                                 view,
+                                                 "preferences_screen")
+                                }
+                            }
+                        }
+                    })
                 }
 
                 override fun onItemSelected() {
@@ -194,9 +214,9 @@ class Apps : ScopedFragment() {
             ?: AppInfo.newInstance(applicationInfo, icon.transitionName)
 
         exitTransition = Fade()
-        appInfo.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
+        appInfo.sharedElementEnterTransition = DetailsTransitionArc()
         appInfo.enterTransition = Fade()
-        appInfo.sharedElementReturnTransition = DetailsTransitionArc(1.5F)
+        appInfo.sharedElementReturnTransition = DetailsTransitionArc()
 
         requireActivity().supportFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)

@@ -24,7 +24,7 @@ public interface AppsAdapterCallbacks {
     
     }
     
-    default void onPrefsIconPressed(@NotNull View view) {
+    default void onPrefsIconPressed(@NotNull View view, @NotNull View view1) {
     
     }
     

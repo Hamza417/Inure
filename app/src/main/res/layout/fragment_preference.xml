@@ -14,13 +14,14 @@
         android:padding="@dimen/header_padding">
 
         <ImageView
+            android:id="@+id/preferences_header_icon"
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            android:src="@drawable/ic_settings"
-            android:transitionName="prefs_icon"
-            app:tint="@color/iconRegular"
+            android:src="@drawable/ani_ic_app_icon"
+            android:padding="10dp"
+            android:transitionName="main_app_icon"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView

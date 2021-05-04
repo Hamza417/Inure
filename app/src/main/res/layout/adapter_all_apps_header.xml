@@ -64,8 +64,7 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_settings"
-            android:tint="@color/iconRegular"
-            android:transitionName="prefs_icon" />
+            android:tint="@color/iconRegular" />
 
     </LinearLayout>
 

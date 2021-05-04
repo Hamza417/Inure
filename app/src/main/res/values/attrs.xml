@@ -100,4 +100,16 @@
     <declare-styleable name="CustomRecyclerView">
         <attr name="statusBarPaddingRequired" format="boolean"/>
     </declare-styleable>
+
+    <!-- These are the standard attributes that make up a complete theme. -->
+    <declare-styleable name="Theme">
+        <!-- ============== -->
+        <!-- Generic styles -->
+        <!-- ============== -->
+        <eat-comment />
+
+        <!-- Default ListView style. -->
+        <attr name="listViewStyle" format="reference" />
+
+    </declare-styleable>
 </resources>

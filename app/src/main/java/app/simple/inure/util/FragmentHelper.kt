@@ -6,14 +6,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.transition.Fade
 import app.simple.inure.R
+import app.simple.inure.decorations.transitions.DetailsTransition
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 
 object FragmentHelper {
+    /**
+     * Open fragment using arc animation for shared element
+     *
+     * @param fragmentManager [FragmentManager]
+     * @param fragment [Fragment]
+     * @param icon [View] that needs to be animated
+     * @param tag back stack tag for fragment
+     */
     fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, icon: View, tag: String) {
         fragment.exitTransition = Fade()
-        fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
+        fragment.sharedElementEnterTransition = DetailsTransitionArc()
         fragment.enterTransition = Fade()
-        fragment.sharedElementReturnTransition = DetailsTransitionArc(1.5F)
+        fragment.sharedElementReturnTransition = DetailsTransitionArc()
 
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
@@ -23,6 +32,35 @@ object FragmentHelper {
                 .commit()
     }
 
+    /**
+     * Open fragment using linear animation for shared element
+     *
+     * @param fragmentManager [FragmentManager]
+     * @param fragment [Fragment]
+     * @param icon [View] that needs to be animated
+     * @param tag back stack tag for fragment
+     */
+    fun openFragmentLinear(fragmentManager: FragmentManager, fragment: Fragment, icon: View, tag: String) {
+        fragment.exitTransition = Fade()
+        fragment.sharedElementEnterTransition = DetailsTransition()
+        fragment.enterTransition = Fade()
+        fragment.sharedElementReturnTransition = DetailsTransition()
+
+        fragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .addSharedElement(icon, icon.transitionName)
+                .replace(R.id.app_container, fragment, tag)
+                .addToBackStack(tag)
+                .commit()
+    }
+
+    /**
+     * Open fragment using slide animation
+     *
+     * @param fragmentManager [FragmentManager]
+     * @param fragment [Fragment]
+     * @param tag back stack tag for fragment
+     */
     fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, tag: String) {
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
@@ -32,11 +70,21 @@ object FragmentHelper {
                 .commit()
     }
 
+    /**
+     * Open fragment using arc animation for shared element.
+     * Used for fragment that don't need to be saved in back stack
+     *
+     * for fragment that needs to be saved in back stack @see [FragmentHelper.openFragment]
+     *
+     * @param fragmentManager [FragmentManager]
+     * @param fragment [Fragment]
+     * @param icon [View] that needs to be animated
+     */
     fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, icon: ImageView) {
         fragment.exitTransition = Fade()
-        fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
+        fragment.sharedElementEnterTransition = DetailsTransitionArc()
         fragment.enterTransition = Fade()
-        fragment.sharedElementReturnTransition = DetailsTransitionArc(1.5F)
+        fragment.sharedElementReturnTransition = DetailsTransitionArc()
 
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)

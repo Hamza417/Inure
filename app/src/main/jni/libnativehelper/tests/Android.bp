@@ -1,0 +1,60 @@
+// Build the unit tests.
+
+cc_test {
+    name: "JniInvocation_test",
+    test_suites: ["device-tests"],
+    host_supported: true,
+    srcs: ["JniInvocation_test.cpp"],
+    cflags: ["-Wall", "-Werror"],
+    shared_libs: ["libnativehelper"],
+}
+
+cc_test {
+  name: "JniSafeRegisterNativeMethods_test",
+  host_supported: true,
+  srcs: ["JniSafeRegisterNativeMethods_test.cpp"],
+
+  cflags: [
+      // Base set of cflags used by all things ART.
+      "-fno-rtti",
+      "-ggdb3",
+      "-Wall",
+      "-Werror",
+      "-Wextra",
+      "-Wstrict-aliasing",
+      "-fstrict-aliasing",
+      "-Wunreachable-code",
+      "-Wredundant-decls",
+      "-Wshadow",
+      "-Wunused",
+      "-fvisibility=protected",
+
+      // Warn about thread safety violations with clang.
+      "-Wthread-safety",
+      "-Wthread-safety-negative",
+
+      // Warn if switch fallthroughs aren't annotated.
+      "-Wimplicit-fallthrough",
+
+      // Enable float equality warnings.
+      "-Wfloat-equal",
+
+      // Enable warning of converting ints to void*.
+      "-Wint-to-void-pointer-cast",
+
+      // Enable warning of wrong unused annotations.
+      "-Wused-but-marked-unused",
+
+      // Enable warning for deprecated language features.
+      "-Wdeprecated",
+
+      // Enable warning for unreachable break & return.
+      "-Wunreachable-code-break",
+      "-Wunreachable-code-return",
+
+      // Enable thread annotations for std::mutex, etc.
+      "-D_LIBCPP_ENABLE_THREAD_SAFETY_ANNOTATIONS",
+  ],
+
+  shared_libs: ["libnativehelper"],
+}

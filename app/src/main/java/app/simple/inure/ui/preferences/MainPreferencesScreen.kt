@@ -1,9 +1,11 @@
 package app.simple.inure.ui.preferences
 
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
@@ -22,6 +24,8 @@ class MainPreferencesScreen : Fragment() {
         appearance = view.findViewById(R.id.frag_pref_appearances)
         configuration = view.findViewById(R.id.frag_pref_config)
 
+        (view.findViewById<ImageView>(R.id.preferences_header_icon).drawable as AnimatedVectorDrawable).start()
+
         return view
     }
 
@@ -33,9 +37,9 @@ class MainPreferencesScreen : Fragment() {
                 ?: AppearanceScreen.newInstance()
 
             exitTransition = TransitionManager.getEnterTransitions(TransitionManager.FADE)
-            fragment.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
+            fragment.sharedElementEnterTransition = DetailsTransitionArc()
             fragment.enterTransition = TransitionManager.getExitTransition(TransitionManager.FADE)
-            fragment.sharedElementReturnTransition = DetailsTransitionArc(1.5F)
+            fragment.sharedElementReturnTransition = DetailsTransitionArc()
 
             requireActivity().supportFragmentManager.beginTransaction()
                     .addSharedElement(view.findViewById(R.id.appearance_icon), "appearance_icon")

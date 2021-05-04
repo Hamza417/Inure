@@ -3,7 +3,6 @@ package app.simple.inure.decorations.transitions;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.animation.DecelerateInterpolator;
 
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import androidx.transition.ArcMotion;
@@ -21,21 +20,6 @@ import androidx.transition.TransitionSet;
 public class DetailsTransitionArc extends TransitionSet {
     
     public DetailsTransitionArc() {
-        init();
-    }
-    
-    /**
-     * Set decelerate factor for shared element animation.
-     * <p>
-     * It is recommended to use lower values for return transition
-     * and greater values for enter transition to avoid a quick
-     * start of transition and not break the animation
-     * patterns
-     *
-     * @param decelerateFactor should be in range of 0.5F to
-     *                         2.0F
-     */
-    public DetailsTransitionArc(float decelerateFactor) {
         init();
     }
     

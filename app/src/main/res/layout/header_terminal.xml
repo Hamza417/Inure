@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/mainBackground"
+    android:elevation="5dp"
+    android:padding="@dimen/header_padding">
+
+    <ImageView
+        android:id="@+id/terminal_header_icon"
+        android:layout_width="@dimen/header_icon_size"
+        android:layout_height="@dimen/header_icon_size"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/header_padding"
+        android:src="@drawable/ani_ic_terminal"
+        android:transitionName="main_app_icon"
+        android:padding="10dp"
+        app:tint="?attr/colorAppAccent"
+        tools:ignore="ContentDescription" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/xml_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="@string/terminal"
+        android:textColor="?attr/colorAppAccent"
+        android:textSize="18sp"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/xml_viewer_options"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/ic_more_vert"
+        android:tint="?attr/colorAppAccent" />
+
+</LinearLayout>

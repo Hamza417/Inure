@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/xml_viewer_header" />
+    <include layout="@layout/header_xml_viewer" />
 
     <View
         android:layout_width="match_parent"

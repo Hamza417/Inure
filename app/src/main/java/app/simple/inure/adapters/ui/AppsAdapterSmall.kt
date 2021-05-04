@@ -111,7 +111,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
 
             holder.prefs.setOnClickListener {
-                appsAdapterCallbacks.onPrefsIconPressed(it)
+                appsAdapterCallbacks.onPrefsIconPressed(holder.appIcon, it)
             }
         }
     }
@@ -167,7 +167,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
-        private val appIcon: ImageView = itemView.findViewById(R.id.imageView3)
+        internal val appIcon: ImageView = itemView.findViewById(R.id.imageView3)
         private val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)

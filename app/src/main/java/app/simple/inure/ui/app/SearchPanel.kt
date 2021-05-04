@@ -142,9 +142,9 @@ class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChange
             ?: AppInfo.newInstance(applicationInfo, icon.transitionName)
 
         exitTransition = TransitionManager.getEnterTransitions(TransitionManager.FADE)
-        appInfo.sharedElementEnterTransition = DetailsTransitionArc(1.5F)
+        appInfo.sharedElementEnterTransition = DetailsTransitionArc()
         appInfo.enterTransition = TransitionManager.getExitTransition(TransitionManager.FADE)
-        appInfo.sharedElementReturnTransition = DetailsTransitionArc(1.2F)
+        appInfo.sharedElementReturnTransition = DetailsTransitionArc()
 
         requireActivity().supportFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
