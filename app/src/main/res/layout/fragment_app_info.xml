@@ -1,58 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView android:clipToPadding="false"
+    android:id="@+id/fragment_app_info_container"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:paddingHorizontal="20dp"
+    android:paddingTop="20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/fragment_app_info_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+        android:clipChildren="false"
         android:clipToPadding="false"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="100dp"
-        app:damping_ratio="DAMPING_RATIO_NO_BOUNCY"
-        app:fling_animation_size="0.75"
-        app:overscroll_animation_size="0.75"
-        app:stiffness="STIFFNESS_LOW">
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
 
-        <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
-            android:layout_width="match_parent"
+        <include layout="@layout/sub_app_header" />
+
+        <include layout="@layout/sub_app_options" />
+
+        <View
+            android:background="@color/divider"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/app_info_menu"
+            android:layoutAnimation="@anim/grid_list_animation_controller"
             android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
 
-            <include layout="@layout/sub_app_header" />
+        <View
+            android:background="@color/divider"
+            android:layout_height="1px"
+            android:layout_marginBottom="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent" />
 
-            <include layout="@layout/sub_app_options" />
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@color/divider" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/app_info_menu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                android:layoutAnimation="@anim/grid_list_animation_controller"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginBottom="10dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@color/divider" />
-
-        </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-</FrameLayout>
+</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
 

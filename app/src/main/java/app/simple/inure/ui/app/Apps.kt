@@ -35,14 +35,12 @@ import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.popups.app.PopupMainMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.MainPreferencesScreen
-import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.FragmentHelper.openFragmentLinear
 import app.simple.inure.util.PackageUtils.killThisApp
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
 import app.simple.inure.viewmodels.AppData
 import java.util.*
-
 
 class Apps : ScopedFragment() {
 
@@ -144,7 +142,7 @@ class Apps : ScopedFragment() {
 
                     v.setOnMenuClickListener(object : PopupMainMenu.PopupMainMenuCallbacks {
                         override fun onMenuClicked(string: String) {
-                            when(string) {
+                            when (string) {
                                 getString(R.string.terminal) -> {
                                     openFragmentLinear(requireActivity().supportFragmentManager,
                                                        Terminal.newInstance(),
@@ -153,9 +151,15 @@ class Apps : ScopedFragment() {
                                 }
                                 getString(R.string.preferences) -> {
                                     openFragmentLinear(requireActivity().supportFragmentManager,
-                                                 MainPreferencesScreen.newInstance(),
-                                                 view,
-                                                 "preferences_screen")
+                                                       MainPreferencesScreen.newInstance(),
+                                                       view,
+                                                       "preferences_screen")
+                                }
+                                getString(R.string.device_analytics) -> {
+                                    openFragmentLinear(requireActivity().supportFragmentManager,
+                                                       Analytics.newInstance(),
+                                                       view,
+                                                       "analytics")
                                 }
                             }
                         }

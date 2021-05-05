@@ -23,4 +23,5 @@
         <item name="android:layout_marginTop">@dimen/info_text_large_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/info_text_large_margin_bottom</item>
     </style>
+
 </resources>

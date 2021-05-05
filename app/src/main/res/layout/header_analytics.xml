@@ -4,35 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@color/mainBackground"
-    android:elevation="5dp"
     android:paddingVertical="10dp"
     android:paddingHorizontal="@dimen/header_padding">
 
     <ImageView
-        android:id="@+id/terminal_header_icon"
-        android:layout_width="@dimen/header_icon_size"
-        android:layout_height="@dimen/header_icon_size"
+        android:id="@+id/analytics_header_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/header_padding"
-        android:src="@drawable/ani_ic_terminal"
+        android:src="@drawable/ic_analytics"
         android:transitionName="main_app_icon"
         android:padding="10dp"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/xml_name"
+        android:id="@+id/header_name"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="@string/terminal"
+        android:text="@string/analytics"
         android:textColor="?attr/colorAppAccent"
         android:textSize="18sp"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-        android:id="@+id/terminal_options_button"
+        android:id="@+id/analytics_options_button"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"

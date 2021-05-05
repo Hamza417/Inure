@@ -88,6 +88,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.jaredrummler:apk-parser:1.0.2'
     implementation 'com.github.OKatrych:RightSheetBehavior:1.0'
+    implementation 'com.scottyab:rootbeer-lib:0.0.9'
 
     // root
     def libsuVersion = '3.1.2'

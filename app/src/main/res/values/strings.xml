@@ -119,4 +119,15 @@
     <string name="usage_statistics">Usage Statistics</string>
     <string name="close">Close</string>
     <string name="kill_terminal">Kill Terminal</string>
+    <string name="analytics">Analytics</string>
+    <string name="device">Device</string>
+    <string name="os_version">OS Version</string>
+    <string name="security_update">Security Update</string>
+    <string name="busybox">Busybox</string>
+    <string name="ram">RAM</string>
+    <string name="total_available">Total Available</string>
+    <string name="total_used">Total Used</string>
+    <string name="apps_heading">Apps</string>
+    <string name="total_user_apps">Total User Apps</string>
+    <string name="total_system_apps">Total System Apps</string>
 </resources>

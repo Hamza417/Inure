@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:paddingTop="@dimen/analytics_item_padding"
+        android:paddingBottom="@dimen/analytics_info_heading_text_margin_top"
+        android:text="@string/device"
+        android:textColor="@color/textHeading"
+        android:textSize="@dimen/analytics_main_heading_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:text="@string/os_version"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/info_text_large"
+        app:appFontStyle="medium" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/analytics_os_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:textColor="@color/textSecondary"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="medium" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/analytics_info_heading_text_margin_top"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:text="@string/security_update"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/info_text_large"
+        app:appFontStyle="medium" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/analytics_security_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/analytics_small_text_margin_top"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:textColor="@color/textSecondary"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="medium" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/analytics_info_heading_text_margin_top"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:text="@string/root"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/info_text_large"
+        app:appFontStyle="medium" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/analytics_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/analytics_small_text_margin_top"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:textColor="@color/textSecondary"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="medium" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/analytics_info_heading_text_margin_top"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:text="@string/busybox"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/info_text_large"
+        app:appFontStyle="medium" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/analytics_busybox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/analytics_small_text_margin_top"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:textColor="@color/textSecondary"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="medium" />
+
+</merge>

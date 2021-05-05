@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:paddingTop="@dimen/analytics_item_padding"
+        android:paddingBottom="@dimen/analytics_info_heading_text_margin_top"
+        android:text="@string/apps_heading"
+        android:textColor="@color/textHeading"
+        android:textSize="@dimen/analytics_main_heading_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:text="@string/total_user_apps"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/info_text_large"
+        app:appFontStyle="medium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/analytics_small_text_margin_top"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/analytics_item_padding">
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/analytics_total_user_apps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="medium" />
+
+        <ProgressBar
+            android:id="@+id/analytics_user_apps_progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="@dimen/analytics_progress_bar_padding_start"
+            android:progressDrawable="@drawable/progress_bar"
+            tools:ignore="RtlSymmetry" />
+
+    </LinearLayout>
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/analytics_info_heading_text_margin_top"
+        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:text="@string/total_system_apps"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/info_text_large"
+        app:appFontStyle="medium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/analytics_small_text_margin_top"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/analytics_item_padding">
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/analytics_total_system_apps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="medium" />
+
+        <ProgressBar
+            android:id="@+id/analytics_system_apps_progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="@dimen/analytics_progress_bar_padding_start"
+            android:progressDrawable="@drawable/progress_bar"
+            tools:ignore="RtlSymmetry" />
+
+    </LinearLayout>
+
+</merge>
