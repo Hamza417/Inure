@@ -30,13 +30,13 @@ import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import app.simple.inure.R;
 import app.simple.inure.decorations.terminal.Terminal.CellRun;
 import app.simple.inure.decorations.terminal.Terminal.TerminalClient;
+import app.simple.inure.util.ColorUtils;
 
 import static app.simple.inure.decorations.terminal.Terminal.TAG;
 
@@ -114,6 +114,10 @@ public class TerminalView extends ListView {
                 pos[(i * 2) + 1] = -charTop;
             }
         }
+        
+        public void setTypeFace(Typeface typeFace) {
+            textPaint.setTypeface(typeFace);
+        }
     }
     
     private final OnItemClickListener mClickListener = (parent, v, pos, id) -> {
@@ -123,13 +127,10 @@ public class TerminalView extends ListView {
         }
     };
     
-    private final Runnable mDamageRunnable = new Runnable() {
-        @Override
-        public void run() {
-            invalidateViews();
-            if (SCROLL_ON_DAMAGE) {
-                scrollToBottom(true);
-            }
+    private final Runnable mDamageRunnable = () -> {
+        invalidateViews();
+        if (SCROLL_ON_DAMAGE) {
+            scrollToBottom(true);
         }
     };
     
@@ -225,15 +226,12 @@ public class TerminalView extends ListView {
         return pos - mScrollRows;
     }
     
-    private OnKeyListener mKeyListener = new OnKeyListener() {
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            final boolean res = mTermKeys.onKey(v, keyCode, event);
-            if (res && SCROLL_ON_INPUT) {
-                scrollToBottom(true);
-            }
-            return res;
+    private OnKeyListener mKeyListener = (v, keyCode, event) -> {
+        final boolean res = mTermKeys.onKey(v, keyCode, event);
+        if (res && SCROLL_ON_INPUT) {
+            scrollToBottom(true);
         }
+        return res;
     };
     
     @Override
@@ -258,7 +256,7 @@ public class TerminalView extends ListView {
         final int cols = w / mMetrics.charWidth;
         final int scrollRows = mScrollRows;
         
-        final boolean sizeChanged = (rows != mRows || cols != mCols || scrollRows != mScrollRows);
+        final boolean sizeChanged = rows != mRows || cols != mCols;
         if (mTerm != null && sizeChanged) {
             mTerm.resize(rows, cols, scrollRows);
             
@@ -287,7 +285,7 @@ public class TerminalView extends ListView {
             term.setClient(mClient);
             mTermKeys.setTerminal(term);
             
-            mMetrics.cursorPaint.setColor(0xfff0f0f0);
+            mMetrics.cursorPaint.setColor(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent));
             
             // Populate any current settings
             mRows = mTerm.getRows();
@@ -305,6 +303,11 @@ public class TerminalView extends ListView {
         mMetrics.setTextSize(textSize);
         
         // Layout will kick off terminal resize when needed
+        requestLayout();
+    }
+    
+    public void setTypeFace(Typeface typeFace) {
+        mMetrics.setTypeFace(typeFace);
         requestLayout();
     }
     

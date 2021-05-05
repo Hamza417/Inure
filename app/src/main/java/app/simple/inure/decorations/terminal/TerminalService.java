@@ -22,6 +22,8 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.SparseArray;
 
+import androidx.dynamicanimation.animation.SpringForce;
+
 /**
  * Background service that keeps {@link Terminal} instances running and warm
  * when UI isn't present.
@@ -60,6 +62,8 @@ public class TerminalService extends Service {
         final Terminal term = mTerminals.get(key);
         term.destroy();
         mTerminals.delete(key);
+    
+        System.out.println("Destroyed");
 
         // If our last terminal, tear down long-lived service
         if (mTerminals.size() == 0) {

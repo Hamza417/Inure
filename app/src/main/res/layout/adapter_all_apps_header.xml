@@ -63,7 +63,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/configuration_button"
-            android:src="@drawable/ic_settings"
+            android:src="@drawable/ani_ic_settings"
             android:tint="@color/iconRegular" />
 
     </LinearLayout>

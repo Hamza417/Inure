@@ -5,63 +5,43 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.os.*
-import android.util.SparseArray
+import android.os.Bundle
+import android.os.IBinder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import app.simple.inure.R
+import app.simple.inure.decorations.popup.PopupMenuCallback
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.terminal.TerminalService
 import app.simple.inure.decorations.terminal.TerminalService.ServiceBinder
 import app.simple.inure.decorations.terminal.TerminalView
 import app.simple.inure.extension.fragments.ScopedFragment
-
+import app.simple.inure.popups.app.PopupTerminal
+import app.simple.inure.util.TypeFace
 
 class Terminal : ScopedFragment() {
 
     private lateinit var icon: ImageView
+    private lateinit var terminalOptions: DynamicRippleImageButton
     private lateinit var terminal: TerminalView
-    private lateinit var animatedVectorDrawable: AnimatedVectorDrawable
 
     private lateinit var terminalService: TerminalService
     private lateinit var serviceConnection: ServiceConnection
-    private val handler = Handler(Looper.getMainLooper())
+    private var isKilled = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_terminal, container, false)
 
         icon = view.findViewById(R.id.terminal_header_icon)
         terminal = view.findViewById(R.id.terminal_view)
-        animatedVectorDrawable = icon.drawable as AnimatedVectorDrawable
-        //handler.post(animatorRunnable)
+        terminalOptions = view.findViewById(R.id.terminal_options_button)
+        (icon.drawable as AnimatedVectorDrawable).start()
 
         startPostponedEnterTransition()
-
-        println("Created")
-
-        serviceConnection = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                terminalService = (service as ServiceBinder).service
-                terminalService.createTerminal()
-
-                if(terminalService.terminals.size() > 0) {
-                    println("Size ${terminalService.terminals.size()}")
-                    terminal.terminal = terminalService.terminals.valueAt(0)
-                }
-
-                terminal.requestFocus()
-//                container?.addView(terminal)
-                println("Service connected")
-            }
-
-            override fun onServiceDisconnected(name: ComponentName?) {
-
-            }
-        }
-
-        requireActivity().bindService(
-            Intent(requireContext(), TerminalService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
 
         return view
     }
@@ -69,18 +49,61 @@ class Terminal : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        serviceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                terminalService = (service as ServiceBinder).service
+                terminalService.createTerminal()
+
+                if (terminalService.terminals.size() > 0) {
+                    terminal.terminal = terminalService.terminals.valueAt(0)
+                } else {
+                    Log.d(requireContext().packageName, "Could not create terminal")
+                }
+
+                terminal.requestFocus()
+                terminal.scrollToBottom(false)
+
+                /**
+                 * Uncomment this line if you want the terminal to use the default
+                 * [TypeFace] app is using. It can create certain problems that is
+                 * fonts used in this app have very limited charset and there whitespaces
+                 * can make the information shown in the terminal window inconsistent
+                 */
+                // terminal.setTypeFace(TypeFace.getTypeFace(AppearancePreferences.getAppFont(), 1, requireContext()))
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+            }
+        }
+
+        requireActivity().bindService(
+            Intent(requireContext(), TerminalService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
+
+        terminalOptions.setOnClickListener {
+            val popup = PopupTerminal(layoutInflater.inflate(R.layout.popup_terminal_menu, DynamicRippleLinearLayout(requireContext(), null), true), it)
+
+            popup.setOnMenuClickListener(object : PopupMenuCallback {
+                override fun onMenuItemClicked(source: String) {
+                    when (source) {
+                        getString(R.string.kill) -> {
+                            isKilled = true
+                            requireActivity().onBackPressed()
+                        }
+                        getString(R.string.close) -> {
+                            requireActivity().onBackPressed()
+                        }
+                    }
+                }
+            })
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        requireActivity().unbindService(serviceConnection)
-    }
-
-    private val animatorRunnable = object : Runnable {
-        override fun run() {
-           animatedVectorDrawable.start()
-            handler.postDelayed(this, 1000L)
+        if(isKilled) {
+            terminalService.destroyTerminal(terminal.terminal.key)
         }
+        requireActivity().unbindService(serviceConnection)
     }
 
     companion object {

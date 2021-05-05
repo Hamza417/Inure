@@ -111,6 +111,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
 
             holder.prefs.setOnClickListener {
+                (holder.prefs.drawable as AnimatedVectorDrawable).start()
                 appsAdapterCallbacks.onPrefsIconPressed(holder.appIcon, it)
             }
         }

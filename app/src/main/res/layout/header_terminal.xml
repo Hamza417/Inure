@@ -6,7 +6,8 @@
     android:orientation="horizontal"
     android:background="@color/mainBackground"
     android:elevation="5dp"
-    android:padding="@dimen/header_padding">
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="@dimen/header_padding">
 
     <ImageView
         android:id="@+id/terminal_header_icon"
@@ -32,7 +33,7 @@
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-        android:id="@+id/xml_viewer_options"
+        android:id="@+id/terminal_options_button"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"

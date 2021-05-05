@@ -24,7 +24,7 @@ class MainPreferencesScreen : Fragment() {
         appearance = view.findViewById(R.id.frag_pref_appearances)
         configuration = view.findViewById(R.id.frag_pref_config)
 
-        (view.findViewById<ImageView>(R.id.preferences_header_icon).drawable as AnimatedVectorDrawable).start()
+        // (view.findViewById<ImageView>(R.id.preferences_header_icon).drawable as AnimatedVectorDrawable).start()
 
         return view
     }

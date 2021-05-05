@@ -61,6 +61,7 @@
       <w>seekbar</w>
       <w>setclock</w>
       <w>stackalloc</w>
+      <w>termprop</w>
       <w>textview</w>
       <w>textviews</w>
       <w>timedlock</w>

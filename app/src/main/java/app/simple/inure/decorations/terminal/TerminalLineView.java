@@ -16,6 +16,7 @@
 
 package app.simple.inure.decorations.terminal;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,10 +26,12 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.decorations.terminal.TerminalView.TerminalMetrics;
+import kotlin.Suppress;
 
 /**
  * Rendered contents of a single line of a {@link Terminal} session.
  */
+@SuppressLint ("ViewConstructor")
 public class TerminalLineView extends View {
     private static final String TAG = "TAG";
     public int pos;
@@ -49,7 +52,7 @@ public class TerminalLineView extends View {
         setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
                 getDefaultSize(mMetrics.charHeight, heightMeasureSpec));
     }
-
+    
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -76,6 +79,7 @@ public class TerminalLineView extends View {
             canvas.clipRect(0, 0, m.run.colSize * m.charWidth, m.charHeight);
 
             canvas.drawPaint(m.bgPaint);
+            
             canvas.drawPosText(m.run.data, 0, m.run.dataSize, m.pos, m.textPaint);
 
             canvas.restore();

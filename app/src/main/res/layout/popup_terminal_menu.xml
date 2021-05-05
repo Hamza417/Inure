@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/dialogBackground"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/terminal_menu_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/close"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/terminal_menu_kill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/kill_terminal"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
