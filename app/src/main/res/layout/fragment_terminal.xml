@@ -11,10 +11,9 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-
     <app.simple.inure.decorations.terminal.TerminalView
         android:id="@+id/terminal_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

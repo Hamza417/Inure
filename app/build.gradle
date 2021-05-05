@@ -10,7 +10,10 @@ android {
 
     defaultConfig {
         applicationId "app.simple.inure"
-        minSdkVersion 21
+
+        // minSdkVersion 21 is needed for pthread_mutex_timedlock and pthread_condattr_setclock
+        // minSdkVersion 23 is needed for forkpty
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 3
         versionName "1.2_alpha"
@@ -18,6 +21,8 @@ android {
         renderscriptTargetApi 21
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndkVersion '22.1.7171670'
 
         externalNativeBuild {
             cmake {

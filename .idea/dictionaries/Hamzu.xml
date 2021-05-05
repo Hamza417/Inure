@@ -18,6 +18,7 @@
       <w>bprettyprinted</w>
       <w>changelogs</w>
       <w>comfortaa</w>
+      <w>condattr</w>
       <w>consolas</w>
       <w>decltype</w>
       <w>deja</w>
@@ -26,6 +27,7 @@
       <w>elif</w>
       <w>esac</w>
       <w>extern</w>
+      <w>forkpty</w>
       <w>gles</w>
       <w>instanceof</w>
       <w>isnt</w>
@@ -52,13 +54,16 @@
       <w>prettyprinted</w>
       <w>priv</w>
       <w>propname</w>
+      <w>pthread</w>
       <w>readystatechange</w>
       <w>reforma</w>
       <w>sbyte</w>
       <w>seekbar</w>
+      <w>setclock</w>
       <w>stackalloc</w>
       <w>textview</w>
       <w>textviews</w>
+      <w>timedlock</w>
       <w>typeid</w>
       <w>uage</w>
       <w>uint</w>

@@ -91,7 +91,7 @@ public class TerminalView extends ListView {
             // Positions of each possible cell
             // TODO: make sure this works with surrogate pairs
             pos = new float[MAX_RUN_LENGTH * 2];
-            setTextSize(20);
+            setTextSize(30);
         }
         
         public void setTextSize(float textSize) {
@@ -116,13 +116,10 @@ public class TerminalView extends ListView {
         }
     }
     
-    private final OnItemClickListener mClickListener = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView <?> parent, View v, int pos, long id) {
-            if (parent.requestFocus()) {
-                InputMethodManager imm = (InputMethodManager) parent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(parent, InputMethodManager.SHOW_IMPLICIT);
-            }
+    private final OnItemClickListener mClickListener = (parent, v, pos, id) -> {
+        if (parent.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) parent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(parent, InputMethodManager.SHOW_IMPLICIT);
         }
     };
     

@@ -5,10 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.os.Bundle
-import android.os.Handler
-import android.os.IBinder
-import android.os.Looper
+import android.os.*
+import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +16,6 @@ import app.simple.inure.decorations.terminal.TerminalService
 import app.simple.inure.decorations.terminal.TerminalService.ServiceBinder
 import app.simple.inure.decorations.terminal.TerminalView
 import app.simple.inure.extension.fragments.ScopedFragment
-import java.io.DataOutputStream
 
 
 class Terminal : ScopedFragment() {
@@ -27,8 +24,6 @@ class Terminal : ScopedFragment() {
     private lateinit var terminal: TerminalView
     private lateinit var animatedVectorDrawable: AnimatedVectorDrawable
 
-    private lateinit var suProcess: Process
-    private lateinit var outputStream: DataOutputStream
     private lateinit var terminalService: TerminalService
     private lateinit var serviceConnection: ServiceConnection
     private val handler = Handler(Looper.getMainLooper())
@@ -49,9 +44,14 @@ class Terminal : ScopedFragment() {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 terminalService = (service as ServiceBinder).service
                 terminalService.createTerminal()
-                terminal.terminal = terminalService.terminals.valueAt(0)
+
+                if(terminalService.terminals.size() > 0) {
+                    println("Size ${terminalService.terminals.size()}")
+                    terminal.terminal = terminalService.terminals.valueAt(0)
+                }
+
                 terminal.requestFocus()
-                container?.addView(terminal)
+//                container?.addView(terminal)
                 println("Service connected")
             }
 
@@ -71,10 +71,9 @@ class Terminal : ScopedFragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        println("Start")
-
+    override fun onDestroy() {
+        super.onDestroy()
+        requireActivity().unbindService(serviceConnection)
     }
 
     private val animatorRunnable = object : Runnable {

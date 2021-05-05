@@ -19,7 +19,6 @@
 //#include "../../../../jni.h"
 //#include "../../../../../../../../../../Android_SDK/ndk/20.0.5471264/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/jni.h"
 //#include "../../../../libnativehelper/include/nativehelper/JNIHelp.h"
-#include "../../../../system/core/libutils/include/utils/Log.h"
 #include "../../../../system/core/libutils/include/utils/Mutex.h"
 #include "../../../../android_runtime/AndroidRuntime.h"
 #include <jni.h>
@@ -28,12 +27,12 @@
 
 #include <fcntl.h>
 #include <pty.h>
-#include <stdio.h>
+#include <cstdio>
 #include <termios.h>
 #include <unistd.h>
 
 #include "../../../../external/libvterm/include/vterm.h"
-#include <string.h>
+#include <cstring>
 
 #define USE_TEST_SHELL 0
 #define DEBUG_CALLBACKS 0
@@ -215,7 +214,6 @@ static int term_settermprop(VTermProp prop, VTermValue *val, void *user) {
         return env->CallIntMethod(term->getCallbacks(), setTermPropIntMethod, prop, val->color.red,
                 val->color.green, val->color.blue);
     default:
-        ALOGE("unknown callback type");
         return 0;
     }
 }
@@ -328,10 +326,11 @@ status_t Terminal::run() {
 
     int stderr_save_fd = dup(2);
     if (stderr_save_fd < 0) {
-        ALOGE("failed to dup stderr - %s", strerror(errno));
+
     }
 
-    mChildPid = forkpty(&mMasterFd, NULL, &termios, &size);
+    mChildPid = forkpty(&mMasterFd, nullptr, &termios, &size);
+
     if (mChildPid == 0) {
         /* Restore the ISIG signals back to defaults */
         signal(SIGINT, SIG_DFL);
@@ -342,7 +341,6 @@ status_t Terminal::run() {
         FILE *stderr_save = fdopen(stderr_save_fd, "a");
 
         if (!stderr_save) {
-            ALOGE("failed to open stderr - %s", strerror(errno));
         }
 
         // We know execvp(2) won't actually try to modify this.
@@ -358,7 +356,6 @@ status_t Terminal::run() {
         _exit(1);
     }
 
-    ALOGD("entering read() loop");
     while (1) {
         char buffer[4096];
         ssize_t bytes = ::read(mMasterFd, buffer, sizeof buffer);
@@ -367,15 +364,12 @@ status_t Terminal::run() {
 #endif
 
         if (mKilled) {
-            ALOGD("kill() requested");
             break;
         }
         if (bytes == 0) {
-            ALOGD("read() found EOF");
             break;
         }
         if (bytes == -1) {
-            ALOGE("read() failed: %s", strerror(errno));
             return 1;
         }
 
@@ -417,8 +411,6 @@ bool Terminal::flushInput() {
 
 status_t Terminal::resize(dimen_t rows, dimen_t cols, dimen_t scrollRows) {
     Mutex::Autolock lock(mLock);
-
-    ALOGD("resize(%d, %d, %d)", rows, cols, scrollRows);
 
     mRows = rows;
     mCols = cols;
@@ -684,15 +676,12 @@ int jniRegisterNativeMethods(JNIEnv *env, const char *className,
                              const JNINativeMethod *gMethods, int numMethods) {
     jclass klass;
 
-    ALOGD("Registering %s natives\n", className);
     klass = env->FindClass(className);
     if(klass == NULL){
-        ALOGE("Native registration unable to find class %s\n", className);
         return -1;
     }
 
     if(env->RegisterNatives(klass, gMethods, numMethods) < 0){
-        ALOGE("RegisterNatives failed ofr %s\n", className);
         return -1;
     }
 
@@ -700,11 +689,11 @@ int jniRegisterNativeMethods(JNIEnv *env, const char *className,
 }
 
 static JNINativeMethod gMethods[] = {
-    { "nativeInit", "(La/o/s/p/terminal/TerminalCallbacks;)J", (void*)com_android_terminal_Terminal_nativeInit },
+    { "nativeInit", "(Lapp/simple/inure/decorations/terminal/TerminalCallbacks;)J", (void*)com_android_terminal_Terminal_nativeInit },
     { "nativeDestroy", "(J)I", (void*)com_android_terminal_Terminal_nativeDestroy },
     { "nativeRun", "(J)I", (void*)com_android_terminal_Terminal_nativeRun },
     { "nativeResize", "(JIII)I", (void*)com_android_terminal_Terminal_nativeResize },
-    { "nativeGetCellRun", "(JIILa/o/s/p/terminal/Terminal$CellRun;)I", (void*)com_android_terminal_Terminal_nativeGetCellRun },
+    { "nativeGetCellRun", "(JIILapp/simple/inure/decorations/terminal/Terminal$CellRun;)I", (void*)com_android_terminal_Terminal_nativeGetCellRun },
     { "nativeGetRows", "(J)I", (void*)com_android_terminal_Terminal_nativeGetRows },
     { "nativeGetCols", "(J)I", (void*)com_android_terminal_Terminal_nativeGetCols },
     { "nativeGetScrollRows", "(J)I", (void*)com_android_terminal_Terminal_nativeGetScrollRows },
@@ -715,7 +704,7 @@ static JNINativeMethod gMethods[] = {
 int register_com_android_terminal_Terminal() {
     JNIEnv* env = JVM::GetEnv();
     ScopedLocalRef<jclass> localClass(env,
-            env->FindClass((const char *) "a/o/s/p/terminal/TerminalCallbacks"));
+            env->FindClass((const char *) "app/simple/inure/decorations/terminal/TerminalCallbacks"));
 
     android::terminalCallbacksClass = reinterpret_cast<jclass>(env->NewGlobalRef(localClass.get()));
 
@@ -734,7 +723,7 @@ int register_com_android_terminal_Terminal() {
     android::bellMethod = env->GetMethodID(terminalCallbacksClass, "bell", "()I");
 
     ScopedLocalRef<jclass> cellRunLocal(env,
-            env->FindClass((const char *) "a/o/s/p/terminal/Terminal$CellRun"));
+            env->FindClass((const char *) "app/simple/inure/decorations/terminal/Terminal$CellRun"));
     cellRunClass = reinterpret_cast<jclass>(env->NewGlobalRef(cellRunLocal.get()));
     cellRunDataField = env->GetFieldID(cellRunClass, "data", "[C");
     cellRunDataSizeField = env->GetFieldID(cellRunClass, "dataSize", "I");
@@ -742,7 +731,7 @@ int register_com_android_terminal_Terminal() {
     cellRunFgField = env->GetFieldID(cellRunClass, "fg", "I");
     cellRunBgField = env->GetFieldID(cellRunClass, "bg", "I");
 
-    return jniRegisterNativeMethods(env, "a/o/s/p/terminal/Terminal",
+    return jniRegisterNativeMethods(env, "app/simple/inure/decorations/terminal/Terminal",
             gMethods, NELEM(gMethods));
 }
 

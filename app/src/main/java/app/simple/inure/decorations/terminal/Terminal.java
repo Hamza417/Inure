@@ -49,7 +49,7 @@ public class Terminal {
         int font;
         
         int fg = Color.CYAN;
-        int bg = Color.DKGRAY;
+        int bg = Color.TRANSPARENT;
     }
     
     // NOTE: clients must not call back into terminal while handling a callback,
