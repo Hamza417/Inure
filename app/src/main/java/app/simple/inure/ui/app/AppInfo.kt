@@ -1,5 +1,7 @@
 package app.simple.inure.ui.app
 
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
 import android.os.Bundle
@@ -7,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,6 +25,9 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PackageUtils
+import app.simple.inure.util.PackageUtils.launchThisPackage
+import app.simple.inure.util.PackageUtils.uninstallThisPackage
+import app.simple.inure.viewmodels.AppData
 import app.simple.inure.viewmodels.AppInfoMenuData
 
 class AppInfo : ScopedFragment() {
@@ -33,10 +40,12 @@ class AppInfo : ScopedFragment() {
     private lateinit var storage: DynamicRippleTextView
     private lateinit var directories: DynamicRippleTextView
     private lateinit var menu: RecyclerView
+    private lateinit var options: RecyclerView
 
     private lateinit var applicationInfo: ApplicationInfo
     private lateinit var adapterAppInfoMenu: AdapterAppInfoMenu
-    private val options: AppInfoMenuData by viewModels()
+    private val model: AppInfoMenuData by viewModels()
+    private lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
 
     private var spanCount = 3
 
@@ -50,8 +59,15 @@ class AppInfo : ScopedFragment() {
         storage = view.findViewById(R.id.app_info_storage_tv)
         directories = view.findViewById(R.id.app_info_directories_tv)
         menu = view.findViewById(R.id.app_info_menu)
+        options = view.findViewById(R.id.app_info_options)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
+
+        spanCount = if (this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            3
+        } else {
+            6
+        }
 
         return view
     }
@@ -59,14 +75,8 @@ class AppInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        options.getMenuOptions().observe(requireActivity(), {
+        model.getMenuItems().observe(requireActivity(), {
             postponeEnterTransition()
-
-            spanCount = if (this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                3
-            } else {
-                6
-            }
 
             adapterAppInfoMenu = AdapterAppInfoMenu(it)
             adapterAppInfoMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
@@ -141,6 +151,42 @@ class AppInfo : ScopedFragment() {
                 }
             })
         })
+
+        model.getMenuOptions().observe(requireActivity(), {
+            val adapterAppInfoMenu = AdapterAppInfoMenu(it)
+            options.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
+            options.adapter = adapterAppInfoMenu
+            options.scheduleLayoutAnimation()
+
+            adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterAppInfoMenu.AppInfoMenuCallbacks {
+                override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
+                    when (source) {
+                        getString(R.string.launch) -> {
+                            applicationInfo.launchThisPackage(requireActivity())
+                        }
+                        getString(R.string.uninstall) -> {
+                            applicationInfo.uninstallThisPackage(appUninstallObserver)
+                        }
+                    }
+                }
+            })
+        })
+
+        appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    val model: AppData by viewModels()
+                    model.loadAppData()
+                    model.getAppData().observe(requireActivity(), {
+                        requireActivity().supportFragmentManager
+                                .popBackStack()
+                    })
+                }
+                Activity.RESULT_CANCELED -> {
+                    /* no-op */
+                }
+            }
+        }
 
         icon.transitionName = requireArguments().getString("transition_name")
         icon.loadAppIcon(requireContext(), applicationInfo.packageName)

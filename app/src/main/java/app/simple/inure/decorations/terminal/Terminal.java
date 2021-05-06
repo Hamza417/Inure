@@ -29,7 +29,7 @@ public class Terminal {
     private static int sNumber = 0;
     
     static {
-        System.loadLibrary("jni_terminal");
+        System.loadLibrary("_inure_terminal");
     }
     
     /**

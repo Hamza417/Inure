@@ -131,4 +131,5 @@
     <string name="total_user_apps">Total User Apps</string>
     <string name="total_system_apps">Total System Apps</string>
     <string name="graphics">Graphics</string>
+    <string name="send">Send</string>
 </resources>

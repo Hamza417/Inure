@@ -5,7 +5,10 @@ import android.app.ActivityManager
 import android.app.usage.StorageStatsManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.*
+import android.content.pm.ApplicationInfo
+import android.content.pm.IPackageStatsObserver
+import android.content.pm.PackageManager
+import android.content.pm.PackageStats
 import android.net.Uri
 import android.os.RemoteException
 import android.widget.Toast
@@ -122,6 +125,15 @@ object  PackageUtils {
             mActivityManager.killBackgroundProcesses(this.packageName)
             Toast.makeText(activity.baseContext, activity.baseContext.getString(R.string.alert_app_killed), Toast.LENGTH_SHORT)
                     .show()
+        }
+    }
+
+    fun ApplicationInfo.isPackageInstalled(packageManager: PackageManager): Boolean {
+        return try {
+            packageManager.getPackageInfo(packageName, 0)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
         }
     }
 

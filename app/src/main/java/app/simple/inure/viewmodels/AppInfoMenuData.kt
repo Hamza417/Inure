@@ -10,17 +10,41 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AppInfoMenuData(application: Application) : AndroidViewModel(application) {
+    private val menuItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
+        MutableLiveData<List<Pair<Int, String>>>().also {
+            loadItems()
+        }
+    }
+
     private val menuOptions: MutableLiveData<List<Pair<Int, String>>> by lazy {
         MutableLiveData<List<Pair<Int, String>>>().also {
             loadOptions()
         }
     }
 
-    fun getMenuOptions() : LiveData<List<Pair<Int, String>>> {
+    fun getMenuItems(): LiveData<List<Pair<Int, String>>> {
+        return menuItems
+    }
+
+    fun getMenuOptions(): LiveData<List<Pair<Int, String>>> {
         return menuOptions
     }
 
     private fun loadOptions() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val context = getApplication<Application>().applicationContext
+
+            val list = listOf(
+                Pair(R.drawable.ic_launch, context.getString(R.string.launch)),
+                Pair(R.drawable.ic_send, context.getString(R.string.send)),
+                Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)),
+            )
+
+            menuOptions.postValue(list)
+        }
+    }
+
+    private fun loadItems() {
         CoroutineScope(Dispatchers.Default).launch {
             val context = getApplication<Application>().applicationContext
 
@@ -37,7 +61,7 @@ class AppInfoMenuData(application: Application) : AndroidViewModel(application) 
                 Pair(R.drawable.ic_graphics, context.getString(R.string.graphics))
             )
 
-            menuOptions.postValue(list)
+            menuItems.postValue(list)
         }
     }
 }

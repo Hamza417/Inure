@@ -1,4 +1,4 @@
-    package app.simple.inure.ui.app
+package app.simple.inure.ui.app
 
 import android.app.Activity
 import android.content.Intent
@@ -36,6 +36,7 @@ import app.simple.inure.popups.app.PopupMainMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper.openFragmentLinear
+import app.simple.inure.util.PackageUtils.isPackageInstalled
 import app.simple.inure.util.PackageUtils.killThisApp
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
@@ -70,6 +71,13 @@ class Apps : ScopedFragment() {
         model.getAppData().observe(requireActivity(), {
             postponeEnterTransition()
             allAppsList = it
+
+            for (i in allAppsList.indices) {
+                if (!allAppsList[i].isPackageInstalled(requireActivity().packageManager)) {
+                    model.loadAppData()
+                    return@observe
+                }
+            }
 
             appsAdapter = AppsAdapterSmall()
             appsAdapter.apps = allAppsList

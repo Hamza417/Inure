@@ -3,15 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/popup_image_viewer_dimension"
-    android:minWidth="@dimen/popup_image_viewer_dimension"
     android:backgroundTint="@color/mainBackground"
+    android:minWidth="@dimen/popup_image_viewer_dimension"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:minHeight="@dimen/popup_image_viewer_dimension"
     android:padding="20dp">
 
     <ImageView
         android:id="@+id/popup_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:maxWidth="@dimen/popup_image_viewer_dimension"
         android:maxHeight="@dimen/popup_image_viewer_dimension"

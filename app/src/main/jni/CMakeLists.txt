@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.4.1)
 # Gradle automatically packages shared libraries with your APK.
 
 add_library( # Sets the name of the library.
-        jni_terminal
+        _inure_terminal
 
         # Sets the library as a shared library.
         SHARED
@@ -48,7 +48,7 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-        jni_terminal
+        _inure_terminal
 
         # Links the target library to the log library
         # included in the NDK.
