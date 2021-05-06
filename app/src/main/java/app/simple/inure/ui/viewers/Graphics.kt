@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterGraphics
-import app.simple.inure.decorations.corners.DynamicCornerFrameLayout
+import app.simple.inure.decorations.popup.PopupFrameLayout
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupImageViewer
@@ -48,16 +48,26 @@ class Graphics : ScopedFragment() {
 
             adapterGraphics.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
                 override fun onGraphicsClicked(path: String, filePath: String, view: ViewGroup, xOff: Float, yOff: Float) {
-                    PopupImageViewer(layoutInflater.inflate(R.layout.popup_image_viewer, DynamicCornerFrameLayout(requireContext(), null)),
-                                     view, path, filePath, xOff, yOff)
+
+                    val f = PopupFrameLayout(requireContext())
+
+                    f.apply {
+                        minimumWidth = resources.getDimensionPixelSize(R.dimen.popup_image_viewer_dimension)
+                        minimumHeight = minimumWidth
+                    }
+
+                    PopupImageViewer(layoutInflater.inflate(R.layout.popup_image_viewer, f),
+                                                            view, path, filePath, xOff, yOff)
                 }
 
                 override fun onGraphicsLongPressed(filePath: String) {
                     if (ConfigurationPreferences.isXmlViewerTextView()) {
+                        exitTransition = null
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     XMLViewerTextView.newInstance(applicationInfo, false, filePath),
                                                     "tv_xml")
                     } else {
+                        exitTransition = null
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     XMLViewerWebView.newInstance(applicationInfo, false, filePath),
                                                     "wv_xml")

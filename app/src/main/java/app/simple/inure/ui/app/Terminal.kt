@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import app.simple.inure.R
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
@@ -80,7 +81,7 @@ class Terminal : ScopedFragment() {
             Intent(requireContext(), TerminalService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
 
         terminalOptions.setOnClickListener {
-            val popup = PopupTerminal(layoutInflater.inflate(R.layout.popup_terminal_menu, DynamicRippleLinearLayout(requireContext(), null), true), it)
+            val popup = PopupTerminal(layoutInflater.inflate(R.layout.popup_terminal_menu, PopupLinearLayout(requireContext()), true), it)
 
             popup.setOnMenuClickListener(object : PopupMenuCallback {
                 override fun onMenuItemClicked(source: String) {

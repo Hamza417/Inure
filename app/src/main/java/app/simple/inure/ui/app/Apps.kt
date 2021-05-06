@@ -20,10 +20,10 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
@@ -35,6 +35,7 @@ import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.popups.app.PopupMainMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.MainPreferencesScreen
+import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.FragmentHelper.openFragmentLinear
 import app.simple.inure.util.PackageUtils.isPackageInstalled
 import app.simple.inure.util.PackageUtils.killThisApp
@@ -107,7 +108,7 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onAppLongPress(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView) {
-                    val popupMenu = MainListPopupMenu(layoutInflater.inflate(R.layout.popup_main_list, DynamicCornerLinearLayout(requireContext(), null, 0), true),
+                    val popupMenu = MainListPopupMenu(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
                                                       viewGroup, xOff, yOff, applicationInfo, icon)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
@@ -130,6 +131,7 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSearchPressed(view: View) {
+                    exitTransition = null
                     val fragment = requireActivity().supportFragmentManager.findFragmentByTag("search_panel")
                         ?: SearchPanel.newInstance()
 
@@ -146,7 +148,7 @@ class Apps : ScopedFragment() {
 
                 override fun onPrefsIconPressed(view: View, view1: View) {
                     val v = PopupMainMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_main_menu,
-                                                                                        DynamicCornerLinearLayout(requireContext(), null)), view1)
+                                                                                        PopupLinearLayout(requireContext())), view1)
 
                     v.setOnMenuClickListener(object : PopupMainMenu.PopupMainMenuCallbacks {
                         override fun onMenuClicked(string: String) {

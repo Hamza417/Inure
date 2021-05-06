@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import app.simple.inure.R
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomWebView
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -82,7 +82,7 @@ class XMLViewerWebView : ScopedFragment() {
                 } else {
                     name = requireArguments().getString("path_to_xml")!!
                     requireArguments().getParcelable<ApplicationInfo>("application_info")!!
-                                            .getTransBinaryXml(requireArguments().getString("path_to_xml")!!)
+                            .getTransBinaryXml(requireArguments().getString("path_to_xml")!!)
                 }
 
                 text = Html.escapeHtml(code)
@@ -95,7 +95,7 @@ class XMLViewerWebView : ScopedFragment() {
         options.setOnClickListener {
             val p = PopupXmlViewer(LayoutInflater.from(requireContext())
                                            .inflate(R.layout.popup_xml_options,
-                                                    DynamicCornerLinearLayout(requireContext(), null),
+                                                    PopupLinearLayout(requireContext()),
                                                     false), it)
 
             p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {

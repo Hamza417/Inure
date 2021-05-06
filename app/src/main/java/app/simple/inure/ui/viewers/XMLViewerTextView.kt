@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -132,8 +133,8 @@ class XMLViewerTextView : ScopedFragment() {
         options.setOnClickListener {
             val p = PopupXmlViewer(LayoutInflater.from(requireContext())
                                            .inflate(R.layout.popup_xml_options,
-                                                    DynamicCornerLinearLayout(requireContext(), null),
-                                                    false), it)
+                                                    PopupLinearLayout(requireContext()),
+                                                    true), it)
 
             p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {

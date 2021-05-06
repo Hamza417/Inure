@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.popups.dialogs.AppCategoryPopup
@@ -39,7 +40,7 @@ class AppsListConfiguration : ScopedBottomSheetFragment() {
 
         sortingStyle.setOnClickListener {
             val popup = SortingStylePopup(
-                layoutInflater.inflate(R.layout.popup_sorting_style, DynamicCornerLinearLayout(requireContext(), null), true),
+                layoutInflater.inflate(R.layout.popup_sorting_style, PopupLinearLayout(requireContext()), true),
                 sortingStyle)
 
             popup.setOnMenuItemClickListener(object : PopupMenuCallback {
@@ -55,7 +56,7 @@ class AppsListConfiguration : ScopedBottomSheetFragment() {
 
         appsCategory.setOnClickListener {
             val popup = AppCategoryPopup(
-                layoutInflater.inflate(R.layout.popup_apps_category, DynamicCornerLinearLayout(requireContext(), null), true),
+                layoutInflater.inflate(R.layout.popup_apps_category, PopupLinearLayout(requireContext()), true),
                 appsCategory)
 
             popup.setOnMenuItemClickListener(object : PopupMenuCallback {

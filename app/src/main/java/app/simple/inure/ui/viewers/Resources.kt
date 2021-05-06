@@ -47,10 +47,12 @@ class Resources : ScopedFragment() {
             adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
                 override fun onResourceClicked(path: String) {
                     if (ConfigurationPreferences.isXmlViewerTextView()) {
+                        exitTransition = null
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     XMLViewerTextView.newInstance(applicationInfo, false, path),
                                                      "tv_xml")
                     } else {
+                        exitTransition = null
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     XMLViewerWebView.newInstance(applicationInfo, false, path),
                                                      "wv_xml")

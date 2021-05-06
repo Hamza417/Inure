@@ -6,14 +6,15 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import app.simple.inure.util.PackageUtils.getApplicationName
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.util.PackageUtils.getApplicationName
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.stream.Collectors
 
 class SearchData(application: Application) : AndroidViewModel(application) {
 
@@ -30,7 +31,7 @@ class SearchData(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getSearchKeywords() : LiveData<String> {
+    fun getSearchKeywords(): LiveData<String> {
         return searchKeywords
     }
 
@@ -47,33 +48,32 @@ class SearchData(application: Application) : AndroidViewModel(application) {
         CoroutineScope(Dispatchers.Default).launch {
 
             val apps = getApplication<Application>().applicationContext.packageManager.getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
-            val filtered = arrayListOf<ApplicationInfo>()
+
+            if (searchKeywords.value.isNullOrEmpty()) {
+                appData.postValue(arrayListOf())
+                return@launch
+            }
 
             for (i in apps.indices) {
-
-                if (searchKeywords.value.isNullOrEmpty()) {
-                    appData.postValue(filtered)
-                    return@launch
-                }
-
                 apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
+            }
 
-                if (apps[i].name.contains(searchKeywords.value!!, true) || apps[i].packageName.contains(searchKeywords.value!!, true)) {
-                    when (MainPreferences.getListAppCategory()) {
-                        AppCategoryPopup.SYSTEM -> {
-                            if ((apps[i].flags and ApplicationInfo.FLAG_SYSTEM) != 0) {
-                                filtered.add(apps[i])
-                            }
-                        }
-                        AppCategoryPopup.USER -> {
-                            if ((apps[i].flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
-                                filtered.add(apps[i])
-                            }
-                        }
-                        else -> {
-                            filtered.add(apps[i])
-                        }
-                    }
+            var filtered: ArrayList<ApplicationInfo> =
+                apps.stream().filter { p ->
+                    p.name.contains(searchKeywords.value!!, true)
+                            || p.packageName.contains(searchKeywords.value!!, true)
+                }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
+
+            when (MainPreferences.getListAppCategory()) {
+                AppCategoryPopup.SYSTEM -> {
+                    filtered = filtered.stream().filter { p ->
+                        p.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
+                }
+                AppCategoryPopup.USER -> {
+                    filtered = filtered.stream().filter { p ->
+                        p.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
                 }
             }
 

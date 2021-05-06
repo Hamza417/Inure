@@ -20,7 +20,7 @@ import java.lang.reflect.Method
 
 object  PackageUtils {
 
-    const val UNINSTALL_REQUEST_CODE = 6452
+    private const val UNINSTALL_REQUEST_CODE = 6452
 
     /**
      * Fetches the app's name from the package id of the same application

@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.stream.Collectors
 import kotlin.coroutines.CoroutineContext
 
 class AppData(application: Application)
@@ -37,41 +38,30 @@ class AppData(application: Application)
     fun loadAppData() {
         launch {
 
-            val apps = getApplication<Application>()
+            var apps = getApplication<Application>()
                     .applicationContext.packageManager
                     .getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
 
-            val filtered = arrayListOf<ApplicationInfo>()
-
             for (i in apps.indices) {
-                /**
-                 * [ApplicationInfo.name] is pretty useless anyway, so here
-                 * I am making it more meaningful and usable and this also
-                 * saves time from creating a new data model and refactoring whole
-                 * project
-                 */
                 apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
+            }
 
-                when (MainPreferences.getListAppCategory()) {
-                    AppCategoryPopup.SYSTEM -> {
-                        if ((apps[i].flags and ApplicationInfo.FLAG_SYSTEM) != 0) {
-                            filtered.add(apps[i])
-                        }
-                    }
-                    AppCategoryPopup.USER -> {
-                        if ((apps[i].flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
-                            filtered.add(apps[i])
-                        }
-                    }
-                    else -> {
-                        filtered.add(apps[i])
-                    }
+            when (MainPreferences.getListAppCategory()) {
+                AppCategoryPopup.SYSTEM -> {
+                    apps = apps.stream().filter { p ->
+                        p.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
+                }
+                AppCategoryPopup.USER -> {
+                    apps = apps.stream().filter { p ->
+                        p.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
                 }
             }
 
-            filtered.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)
+            apps.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)
 
-            appData.postValue(filtered)
+            appData.postValue(apps)
         }
     }
 

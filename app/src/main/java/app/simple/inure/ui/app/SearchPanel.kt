@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.WindowManager
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,7 +18,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.SearchAdapter
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
@@ -28,6 +30,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.PackageUtils.killThisApp
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
@@ -81,7 +84,7 @@ class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChange
                 }
 
                 override fun onAppLongPress(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView) {
-                    val popupMenu = MainListPopupMenu(layoutInflater.inflate(R.layout.popup_main_list, DynamicCornerLinearLayout(requireContext(), null, 0), true),
+                    val popupMenu = MainListPopupMenu(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
                                                       viewGroup, xOff, yOff, applicationInfo, icon)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
@@ -138,18 +141,9 @@ class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChange
     }
 
     private fun openAppInfo(applicationInfo: ApplicationInfo, icon: ImageView) {
-        val appInfo = requireActivity().supportFragmentManager.findFragmentByTag("app_info")
-            ?: AppInfo.newInstance(applicationInfo, icon.transitionName)
-
-        exitTransition = TransitionManager.getEnterTransitions(TransitionManager.FADE)
-        appInfo.sharedElementEnterTransition = DetailsTransitionArc()
-        appInfo.enterTransition = TransitionManager.getExitTransition(TransitionManager.FADE)
-        appInfo.sharedElementReturnTransition = DetailsTransitionArc()
-
-        requireActivity().supportFragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .addSharedElement(icon, icon.transitionName)
-                .replace(R.id.app_container, appInfo, "app_info").addToBackStack("app_info").commit()
+        FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                          AppInfo.newInstance(applicationInfo, icon.transitionName),
+                                          icon, "app_info")
     }
 
     companion object {

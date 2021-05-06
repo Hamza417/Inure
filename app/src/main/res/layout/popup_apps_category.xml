@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/dialogBackground"
     android:orientation="vertical"
-    android:padding="@dimen/popup_padding">
+    android:padding="@dimen/popup_padding"
+    tools:parentTag="android.widget.LinearLayout">
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_category_system"
@@ -46,4 +48,4 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+</merge>

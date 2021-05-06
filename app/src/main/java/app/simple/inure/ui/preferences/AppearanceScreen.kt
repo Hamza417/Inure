@@ -1,13 +1,18 @@
 package app.simple.inure.ui.preferences
 
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.view.setPadding
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchCallbacks
@@ -57,9 +62,8 @@ class AppearanceScreen : ScopedFragment() {
 
         appTheme.setOnClickListener {
             PopupAppTheme(layoutInflater.inflate(R.layout.popup_application_theme,
-                                                 DynamicCornerLinearLayout(requireContext(), null),
-                                                 true),
-                          it)
+                                                 PopupLinearLayout(requireContext()),
+                                                 true), it)
         }
 
         accent.setOnClickListener {
@@ -74,17 +78,9 @@ class AppearanceScreen : ScopedFragment() {
             RoundedCorner.newInstance().show(childFragmentManager, "rounded_corner")
         }
 
-        dimWindows.setOnSwitchCheckedChangeListener(object : SwitchCallbacks {
-            override fun onCheckedChanged(isChecked: Boolean) {
-                AppearancePreferences.setDimWindows(isChecked)
-            }
-        })
+        dimWindows.setOnSwitchCheckedChangeListener { isChecked -> AppearancePreferences.setDimWindows(isChecked) }
 
-        shadows.setOnSwitchCheckedChangeListener(object : SwitchCallbacks {
-            override fun onCheckedChanged(isChecked: Boolean) {
-                AppearancePreferences.setShadows(isChecked)
-            }
-        })
+        shadows.setOnSwitchCheckedChangeListener { isChecked -> AppearancePreferences.setShadows(isChecked) }
     }
 
     private fun setAppThemeText() {

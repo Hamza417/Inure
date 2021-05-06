@@ -21,7 +21,7 @@ open class BasePopupWindow : PopupWindow() {
     fun init(contentView: View, viewGroup: ViewGroup, xOff: Float, yOff: Float) {
         setContentView(contentView)
         init()
-        showAsDropDown(viewGroup, xOff.toInt() - width, yOff.toInt() - height, Gravity.START)
+        showAsDropDown(viewGroup, xOff.toInt() - width / 2, yOff.toInt() - height, Gravity.START)
     }
 
     fun init(contentView: View, view: View) {

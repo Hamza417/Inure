@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.corners.DynamicCornerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/mainBackground"
-    android:minWidth="@dimen/popup_image_viewer_dimension"
-    android:clipToPadding="false"
     android:clipChildren="false"
+    android:clipToPadding="false"
+    android:minWidth="@dimen/popup_image_viewer_dimension"
     android:minHeight="@dimen/popup_image_viewer_dimension"
-    android:padding="20dp">
+    android:padding="20dp"
+    tools:parentTag="android.widget.FrameLayout">
 
     <ImageView
         android:id="@+id/popup_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/popup_image_viewer_dimension"
+        android:layout_height="@dimen/popup_image_viewer_dimension"
         android:layout_gravity="center"
-        android:adjustViewBounds="true"
         android:maxWidth="@dimen/popup_image_viewer_dimension"
         android:maxHeight="@dimen/popup_image_viewer_dimension"
         tools:ignore="ContentDescription" />
 
-</app.simple.inure.decorations.corners.DynamicCornerFrameLayout>
+</merge>

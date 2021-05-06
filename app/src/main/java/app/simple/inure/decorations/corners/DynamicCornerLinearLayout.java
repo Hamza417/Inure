@@ -8,6 +8,11 @@ import androidx.annotation.Nullable;
 import app.simple.inure.util.ViewUtils;
 
 public class DynamicCornerLinearLayout extends LinearLayout {
+    public DynamicCornerLinearLayout(Context context) {
+        super(context);
+        init(null);
+    }
+    
     public DynamicCornerLinearLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(attrs);

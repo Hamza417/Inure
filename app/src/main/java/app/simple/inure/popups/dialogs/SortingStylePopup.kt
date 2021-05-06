@@ -21,13 +21,6 @@ class SortingStylePopup(contentView: View, view: View)
 
         init(contentView, view)
 
-        val container: DynamicCornerLinearLayout = contentView.findViewById(R.id.popup_sorting_style_container)
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-            container.outlineSpotShadowColor = contentView.context.resolveAttrColor(R.attr.colorAppAccent)
-            container.outlineAmbientShadowColor = contentView.context.resolveAttrColor(R.attr.colorAppAccent)
-        }
-
         val name = contentView.findViewById<DynamicRippleTextView>(R.id.sort_name)
         val packageName = contentView.findViewById<DynamicRippleTextView>(R.id.sort_package_name)
         val size = contentView.findViewById<DynamicRippleTextView>(R.id.sort_app_size)
