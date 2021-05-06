@@ -195,7 +195,7 @@ public class TerminalView extends ListView {
         }
     };
     
-    private TerminalClient mClient = new TerminalClient() {
+    private final TerminalClient mClient = new TerminalClient() {
         @Override
         public void onDamage(final int startRow, final int endRow, int startCol, int endCol) {
             post(mDamageRunnable);
@@ -249,8 +249,8 @@ public class TerminalView extends ListView {
     }
     
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged(int w, int h, int oldWidth, int oldHeight) {
+        super.onSizeChanged(w, h, oldWidth, oldHeight);
         
         final int rows = h / mMetrics.charHeight;
         final int cols = w / mMetrics.charWidth;
@@ -269,7 +269,7 @@ public class TerminalView extends ListView {
     }
     
     public void scrollToBottom(boolean animate) {
-        final int dur = animate ? 250 : 0;
+        final int dur = animate ? 1024 : 0;
         smoothScrollToPositionFromTop(getCount(), 0, dur);
         mScrolled = true;
     }

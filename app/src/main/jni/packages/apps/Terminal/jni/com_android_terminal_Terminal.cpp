@@ -268,7 +268,7 @@ static VTermScreenCallbacks cb = {
 
 Terminal::Terminal(jobject callbacks) :
         mCallbacks(callbacks), mRows(25), mCols(80), mKilled(false),
-        mScrollCur(0), mScrollSize(100) {
+        mScrollCur(0), mScrollSize(1024) {
     JNIEnv* env = JVM::GetEnv();
     mCallbacks = env->NewGlobalRef(callbacks);
 

@@ -50,6 +50,8 @@
       <w>onreadystatechange</w>
       <w>orderby</w>
       <w>overscroll</w>
+      <w>pagedown</w>
+      <w>pageup</w>
       <w>preinstalled</w>
       <w>prettyprint</w>
       <w>prettyprinted</w>
@@ -61,6 +63,7 @@
       <w>sbyte</w>
       <w>seekbar</w>
       <w>setclock</w>
+      <w>sigsev</w>
       <w>stackalloc</w>
       <w>termprop</w>
       <w>textview</w>
@@ -73,6 +76,7 @@
       <w>urbanist</w>
       <w>ushort</w>
       <w>vert</w>
+      <w>vterm</w>
       <w>wantarray</w>
       <w>wellbeing</w>
       <w>xapk</w>
