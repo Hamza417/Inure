@@ -1,4 +1,4 @@
-package app.simple.inure.ui.app
+    package app.simple.inure.ui.app
 
 import android.app.Activity
 import android.content.Intent

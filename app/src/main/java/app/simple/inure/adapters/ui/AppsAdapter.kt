@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
-import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
+import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.AdapterUtils.searchHighlighter
 

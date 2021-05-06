@@ -9,6 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.APKParser.getCertificates
+import app.simple.inure.util.PackageUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,6 +22,8 @@ class Certificate : ScopedFragment() {
     private lateinit var md5: TypeFaceTextView
     private lateinit var validity: TypeFaceTextView
 
+    private lateinit var applicationInfo: ApplicationInfo
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_certificate, container, false)
 
@@ -29,6 +32,8 @@ class Certificate : ScopedFragment() {
         base64md5 = view.findViewById(R.id.certificate_base64_md5)
         md5 = view.findViewById(R.id.certificate_md5)
         validity = view.findViewById(R.id.certificate_validity)
+
+        applicationInfo = requireArguments().getParcelable<ApplicationInfo>("application_info")!!
 
         return view
     }
@@ -47,7 +52,7 @@ class Certificate : ScopedFragment() {
                 val validity: String
 
                 withContext(Dispatchers.Default) {
-                    val cert = requireArguments().getParcelable<ApplicationInfo>("application_info")?.getCertificates()!!
+                    val cert = applicationInfo.getCertificates()
 
                     algorithm = cert.signAlgorithm
                     oid = cert.signAlgorithmOID

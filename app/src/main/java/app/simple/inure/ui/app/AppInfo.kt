@@ -16,7 +16,7 @@ import app.simple.inure.adapters.ui.AdapterAppInfoMenu
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
+import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
@@ -131,6 +131,11 @@ class AppInfo : ScopedFragment() {
                             openFragment(requireActivity().supportFragmentManager,
                                          Features.newInstance(applicationInfo),
                                          icon, "uses_feature")
+                        }
+                        getString(R.string.graphics) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Graphics.newInstance(applicationInfo),
+                                         icon, "graphics")
                         }
                     }
                 }

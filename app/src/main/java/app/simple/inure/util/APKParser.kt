@@ -108,6 +108,17 @@ object APKParser {
      * Fetch the list of broadcast receivers from
      * an APK file
      */
+    fun ApplicationInfo.getApkMeta(): ApkMeta {
+        ApkParser.create(this).use {
+            return it.androidManifest.apkMeta
+        }
+    }
+
+
+    /**
+     * Fetch the list of broadcast receivers from
+     * an APK file
+     */
     fun ApplicationInfo.getTransBinaryXml(path: String): String {
         ApkParser.create(this).use {
             return it.transBinaryXml(path)
@@ -151,5 +162,40 @@ object APKParser {
         }
         xmlFiles.sort()
         return xmlFiles
+    }
+
+    /**
+     * Get list of all raster image files within an APK file
+     */
+    fun getGraphicsFiles(path: String?): MutableList<String> {
+        val graphicsFiles: MutableList<String> = ArrayList()
+        var zipFile: ZipFile? = null
+        try {
+            zipFile = ZipFile(path)
+            val entries: Enumeration<out ZipEntry?> = zipFile.entries()
+            while (entries.hasMoreElements()) {
+                val entry: ZipEntry? = entries.nextElement()
+                val name: String = entry!!.name
+                if (name.endsWith(".png")
+                    || name.endsWith(".jpg")
+                    || name.endsWith(".jpeg")
+                    || name.endsWith(".gif")
+                    || name.endsWith(".webp")
+                    || name.endsWith(".svg")) {
+                    graphicsFiles.add(name)
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            if (zipFile != null) {
+                try {
+                    zipFile.close()
+                } catch (ignored: IOException) {
+                }
+            }
+        }
+        graphicsFiles.sort()
+        return graphicsFiles
     }
 }

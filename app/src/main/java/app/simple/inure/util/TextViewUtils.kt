@@ -13,10 +13,15 @@ object TextViewUtils {
         for (link in links) {
             val clickableSpan = object : ClickableSpan() {
                 override fun updateDrawState(textPaint: TextPaint) {
-                    // use this to change the link color
+                    /**
+                     * use this to change the link color
+                     */
                     textPaint.color = this@makeLinks.currentTextColor
-                    // toggle below value to enable/disable
-                    // the underline shown below the clickable text
+
+                    /**
+                     * Toggle below value to enable/disable
+                     * the underline shown below the clickable text
+                     */
                     textPaint.isUnderlineText = true
                 }
 
@@ -27,7 +32,7 @@ object TextViewUtils {
                 }
             }
             startIndexOfLink = this.text.toString().indexOf(link.first, startIndexOfLink + 1)
-            //      if(startIndexOfLink == -1) continue // todo if you want to verify your texts contains links text
+            // if(startIndexOfLink == -1) continue // if you want to verify your texts contains links text
             spannableString.setSpan(
                 clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

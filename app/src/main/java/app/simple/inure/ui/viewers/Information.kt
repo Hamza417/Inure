@@ -9,6 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.util.APKParser.getApkMeta
 import app.simple.inure.util.APKParser.getDexData
 import app.simple.inure.util.APKParser.getGlEsVersion
 import app.simple.inure.util.APKParser.getInstallLocation
@@ -63,11 +64,6 @@ class Information : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            "${applicationInfo.minSdkVersion}, ${SDKHelper.getSdkTitle(applicationInfo.minSdkVersion)}".also { minSdk.text = it }
-        }
-        "${applicationInfo.targetSdkVersion}, ${SDKHelper.getSdkTitle(applicationInfo.targetSdkVersion)}".also { targetSdk.text = it }
-
         launch {
             var version: String
             var versionCode: String
@@ -77,6 +73,8 @@ class Information : ScopedFragment() {
             var installDate: String
             var updateDate: String
             var methodCount: Int = -1
+            val minSdk: String
+            val targetSdk: String
             var isMultiDex: Boolean
 
             withContext(Dispatchers.Default) {
@@ -99,6 +97,10 @@ class Information : ScopedFragment() {
                 }
 
                 isMultiDex = v.size > 1
+
+                val i = applicationInfo.getApkMeta()
+                minSdk =  "${i.minSdkVersion}, ${SDKHelper.getSdkTitle(i.minSdkVersion)}"
+                targetSdk = "${i.targetSdkVersion}, ${SDKHelper.getSdkTitle(i.targetSdkVersion)}"
             }
 
             this@Information.version.text = version
@@ -108,6 +110,8 @@ class Information : ScopedFragment() {
             this@Information.uid.text = uid
             this@Information.installDate.text = installDate
             this@Information.updateDate.text = updateDate
+            this@Information.minSdk.text = minSdk
+            this@Information.targetSdk.text = targetSdk
             this@Information.methodCount.text = if (isMultiDex) {
                 String.format(getString(R.string.multi_dex), NumberFormat.getNumberInstance().format(methodCount))
             } else {

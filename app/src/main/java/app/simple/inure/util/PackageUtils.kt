@@ -5,10 +5,7 @@ import android.app.ActivityManager
 import android.app.usage.StorageStatsManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ApplicationInfo
-import android.content.pm.IPackageStatsObserver
-import android.content.pm.PackageManager
-import android.content.pm.PackageStats
+import android.content.pm.*
 import android.net.Uri
 import android.os.RemoteException
 import android.widget.Toast
@@ -46,7 +43,7 @@ object  PackageUtils {
      */
     fun getApplicationVersion(context: Context, applicationInfo: ApplicationInfo): String {
         return try {
-            context.packageManager.getPackageInfo(applicationInfo.packageName, 0).versionName
+            context.packageManager.getPackageInfo(applicationInfo.packageName, PackageManager.GET_META_DATA).versionName
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
         } catch (e: NullPointerException) {

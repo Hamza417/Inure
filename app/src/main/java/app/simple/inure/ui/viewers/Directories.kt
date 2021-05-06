@@ -9,6 +9,8 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.util.FileProvider
+import app.simple.inure.util.TextViewUtils.makeLinks
 
 class Directories : ScopedFragment() {
 
@@ -37,6 +39,14 @@ class Directories : ScopedFragment() {
 
         apkDir.text = applicationInfo.sourceDir
         dataDir.text = applicationInfo.dataDir
+
+        dataDir.makeLinks(Pair(dataDir.text.toString(), View.OnClickListener {
+            kotlin.runCatching {
+                FileProvider.openFolder(requireContext(), dataDir.text.toString())
+            }.getOrElse {
+                it.printStackTrace()
+            }
+        }))
 
         back.setOnClickListener {
             activity?.onBackPressed()

@@ -23,7 +23,7 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder.Companion
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder.Companion.TYPE_ITEM
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
-import app.simple.inure.glide.util.AppIconExtensions.loadAppIcon
+import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.FileSizeHelper.getFileSize
 

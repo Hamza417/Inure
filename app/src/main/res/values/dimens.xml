@@ -34,4 +34,5 @@
     <dimen name="analytics_small_text_margin_top">5dp</dimen>
     <dimen name="analytics_main_heading_text_size">36sp</dimen>
     <dimen name="analytics_progress_bar_padding_start">75dp</dimen>
+    <dimen name="popup_image_viewer_dimension">200dp</dimen>
 </resources>

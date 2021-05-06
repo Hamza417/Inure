@@ -3,6 +3,8 @@ package app.simple.inure.glide.modules
 import android.content.Context
 import android.graphics.Bitmap
 import app.simple.inure.R
+import app.simple.inure.glide.graphics.AppGraphicsLoader
+import app.simple.inure.glide.graphics.AppGraphicsModel
 import app.simple.inure.glide.icon.AppIcon
 import app.simple.inure.glide.icon.AppIconLoader
 import app.simple.inure.glide.transformation.Padding
@@ -16,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import java.io.InputStream
 
 @GlideModule
 class AppIconModule : AppGlideModule() {
@@ -36,5 +39,6 @@ class AppIconModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         registry.append(AppIcon::class.java, Bitmap::class.java, AppIconLoader.Factory())
+        //registry.append(AppGraphicsModel::class.java, InputStream::class.java, AppGraphicsLoader.Factory())
     }
 }
