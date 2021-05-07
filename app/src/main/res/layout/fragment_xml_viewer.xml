@@ -5,7 +5,7 @@
     android:background="@color/mainBackground"
     android:orientation="vertical">
 
-    <include layout="@layout/header_text_viewer" />
+    <include layout="@layout/header_xml_viewer" />
 
     <View
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:background="@color/divider" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
+        android:id="@+id/xml_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
@@ -25,9 +25,8 @@
             android:id="@+id/text_viewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textPrimary"
             android:textIsSelectable="true"
-            android:textSize="@dimen/info_text_small"
+            android:textSize="14sp"
             app:appFontStyle="regular" />
 
     </androidx.core.widget.NestedScrollView>

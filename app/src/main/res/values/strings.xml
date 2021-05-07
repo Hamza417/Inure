@@ -132,4 +132,7 @@
     <string name="total_system_apps">Total System Apps</string>
     <string name="graphics">Graphics</string>
     <string name="send">Send</string>
+    <string name="inure_xml_viewer">Inure Xml Viewer</string>
+    <string name="inure_text_viewer">Inure Text Viewer</string>
+    <string name="extras">Extras</string>
 </resources>

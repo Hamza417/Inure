@@ -1,4 +1,4 @@
-package app.simple.inure.activities
+package app.simple.inure.activities.association
 
 import android.content.Intent
 import android.net.Uri
@@ -47,6 +47,7 @@ class AppDetailsActivity : BaseActivity() {
         return copiedFile.parent!!
     }
 
+    @Suppress("deprecation")
     private fun handleContentUri(beamUri: Uri?): String? {
         // Position of the filename in the query Cursor
         val filenameIndex: Int

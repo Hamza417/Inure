@@ -1,0 +1,72 @@
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainBackground"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/mainBackground"
+        android:elevation="5dp"
+        android:padding="@dimen/header_padding">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/close"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="?attr/colorAppAccent" />
+
+        <ImageView
+            android:id="@+id/txt_header_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:src="@drawable/ic_txt"
+            android:transitionName="@string/manifest"
+            app:tint="?attr/colorAppAccent"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/txt_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="?attr/colorAppAccent"
+            android:textSize="18sp"
+            app:appFontStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:padding="10dp"
+        android:scrollbars="vertical">
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/text_viewer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textPrimary"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="regular" />
+
+    </androidx.core.widget.NestedScrollView>
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

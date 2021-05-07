@@ -1,19 +1,15 @@
 package app.simple.inure.extension.activities
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import app.simple.inure.BuildConfig
 import app.simple.inure.R
-import app.simple.inure.activities.MainActivity
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.util.ThemeSetter
-import com.topjohnwu.superuser.Shell
 
 
 open class BaseActivity : AppCompatActivity() {

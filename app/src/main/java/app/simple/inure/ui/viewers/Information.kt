@@ -37,8 +37,6 @@ class Information : ScopedFragment() {
     private lateinit var methodCount: TypeFaceTextView
     private lateinit var back: DynamicRippleImageButton
 
-    private lateinit var applicationInfo: ApplicationInfo
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.fragment_information, container, false)
 

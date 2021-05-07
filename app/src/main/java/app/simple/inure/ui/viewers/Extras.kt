@@ -16,14 +16,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Resources : ScopedFragment() {
+class Extras : ScopedFragment() {
 
     private lateinit var recyclerView: CustomRecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_resources, container, false)
+        val view = inflater.inflate(R.layout.fragment_extras, container, false)
 
-        recyclerView = view.findViewById(R.id.resources_recycler_view)
+        recyclerView = view.findViewById(R.id.extras_recycler_view)
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
         return view
@@ -38,34 +38,27 @@ class Resources : ScopedFragment() {
             val adapterResources: AdapterResources
 
             withContext(Dispatchers.IO) {
-                adapterResources = AdapterResources(APKParser.getXmlFiles(applicationInfo.sourceDir))
+                adapterResources = AdapterResources(APKParser.getExtraFiles(applicationInfo.sourceDir))
             }
 
             recyclerView.adapter = adapterResources
 
             adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
                 override fun onResourceClicked(path: String) {
-                    if (ConfigurationPreferences.isXmlViewerTextView()) {
-                        exitTransition = null
-                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    XMLViewerTextView.newInstance(applicationInfo, false, path),
-                                                     "tv_xml")
-                    } else {
-                        exitTransition = null
-                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    XMLViewerWebView.newInstance(applicationInfo, false, path),
-                                                     "wv_xml")
-                    }
+                    exitTransition = null
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                TextViewer.newInstance(applicationInfo, path),
+                                                "text_viewer")
                 }
             })
         }
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Resources {
+        fun newInstance(applicationInfo: ApplicationInfo): Extras {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
-            val fragment = Resources()
+            val fragment = Extras()
             fragment.arguments = args
             return fragment
         }

@@ -2,12 +2,14 @@ package app.simple.inure.util
 
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.decorations.transitions.DetailsTransition
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
+import org.jetbrains.annotations.NotNull
 
 object FragmentHelper {
     /**
@@ -61,7 +63,7 @@ object FragmentHelper {
      * @param fragment [Fragment]
      * @param tag back stack tag for fragment
      */
-    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, tag: String) {
+    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, @Nullable tag: String) {
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
@@ -80,7 +82,7 @@ object FragmentHelper {
      * @param fragment [Fragment]
      * @param icon [View] that needs to be animated
      */
-    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, icon: ImageView) {
+    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, @NotNull icon: ImageView) {
         fragment.exitTransition = Fade()
         fragment.sharedElementEnterTransition = DetailsTransitionArc()
         fragment.enterTransition = Fade()

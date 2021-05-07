@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/panel_padding_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/header_padding">
+
+        <ImageView
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:src="@drawable/ic_folder"
+            android:transitionName="@string/extras"
+            app:tint="?attr/colorAppAccent"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/extras"
+            android:textColor="?attr/colorAppAccent"
+            android:textSize="@dimen/header_font_size"
+            app:appFontStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <app.simple.inure.decorations.views.CustomRecyclerView
+        android:id="@+id/extras_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/list_animation_controller"
+        android:padding="@dimen/header_padding"
+        app:statusBarPaddingRequired="false" />
+
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

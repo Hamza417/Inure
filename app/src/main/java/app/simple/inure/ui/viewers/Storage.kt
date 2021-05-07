@@ -30,7 +30,6 @@ class Storage : ScopedFragment() {
     private lateinit var back: DynamicRippleImageButton
     private lateinit var pie: Pie
 
-    private lateinit var applicationInfo: ApplicationInfo
     private val model: AppSize by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

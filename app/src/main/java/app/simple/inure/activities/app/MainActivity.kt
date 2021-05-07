@@ -1,4 +1,4 @@
-package app.simple.inure.activities
+package app.simple.inure.activities.app
 
 import android.app.AppOpsManager
 import android.app.AppOpsManager.OPSTR_GET_USAGE_STATS
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.AppOpsManagerCompat.MODE_ALLOWED
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
+import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.app.HtmlViewer
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.preferences.SharedPreferences
@@ -20,8 +21,6 @@ import app.simple.inure.util.NullSafety.isNull
 
 
 class MainActivity : BaseActivity() {
-
-    private lateinit var fragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +32,8 @@ class MainActivity : BaseActivity() {
         }
 
         if (savedInstanceState.isNull()) {
-            fragment = supportFragmentManager.findFragmentByTag("splash_screen") ?: SplashScreen.newInstance()
-
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.app_container, fragment, "splash_screen")
+                    .replace(R.id.app_container, SplashScreen.newInstance(), "splash_screen")
                     .commit()
         }
     }

@@ -1,7 +1,5 @@
 package app.simple.inure.ui.app
 
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
 import android.os.Bundle
@@ -9,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -27,7 +23,6 @@ import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PackageUtils
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
-import app.simple.inure.viewmodels.AppData
 import app.simple.inure.viewmodels.AppInfoMenuData
 
 class AppInfo : ScopedFragment() {
@@ -42,10 +37,8 @@ class AppInfo : ScopedFragment() {
     private lateinit var menu: RecyclerView
     private lateinit var options: RecyclerView
 
-    private lateinit var applicationInfo: ApplicationInfo
     private lateinit var adapterAppInfoMenu: AdapterAppInfoMenu
     private val model: AppInfoMenuData by viewModels()
-    private lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
 
     private var spanCount = 3
 
@@ -147,6 +140,11 @@ class AppInfo : ScopedFragment() {
                                          Graphics.newInstance(applicationInfo),
                                          icon, "graphics")
                         }
+                        getString(R.string.extras) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Extras.newInstance(applicationInfo),
+                                         icon, "extras")
+                        }
                     }
                 }
             })
@@ -172,22 +170,6 @@ class AppInfo : ScopedFragment() {
             })
         })
 
-        appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-                    val model: AppData by viewModels()
-                    model.loadAppData()
-                    model.getAppData().observe(requireActivity(), {
-                        requireActivity().supportFragmentManager
-                                .popBackStack()
-                    })
-                }
-                Activity.RESULT_CANCELED -> {
-                    /* no-op */
-                }
-            }
-        }
-
         icon.transitionName = requireArguments().getString("transition_name")
         icon.loadAppIcon(requireContext(), applicationInfo.packageName)
 
@@ -211,6 +193,20 @@ class AppInfo : ScopedFragment() {
                          Directories.newInstance(applicationInfo),
                          getString(R.string.directories))
         }
+    }
+
+    override fun onAppUninstalled(result: Boolean) {
+        if (result) {
+            handler.postDelayed({
+                                    requireActivity().supportFragmentManager
+                                            .popBackStack()
+                                }, 500)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
     }
 
     companion object {

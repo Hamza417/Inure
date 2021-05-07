@@ -30,7 +30,7 @@
         android:windowSoftInputMode="adjustPan"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.app.MainActivity"
             android:documentLaunchMode="intoExisting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-            android:name=".activities.AppDetailsActivity"
+            android:name=".activities.association.AppDetailsActivity"
             android:exported="true"
             android:label="@string/app_info">
             <intent-filter>
@@ -73,6 +73,49 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apk" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apk" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.association.XmlAssociationActivity"
+            android:exported="true"
+            android:label="@string/inure_xml_viewer">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="text/xml" />
+                <data android:pathPattern=".*\\.xml" />
+                <data android:pathPattern=".*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xml" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.association.TextAssociationActivity"
+            android:exported="true"
+            android:label="@string/inure_text_viewer">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
 

@@ -198,4 +198,43 @@ object APKParser {
         graphicsFiles.sort()
         return graphicsFiles
     }
+
+    /**
+     * Get list of all raster image files within an APK file
+     */
+    fun getExtraFiles(path: String?): MutableList<String> {
+        val graphicsFiles: MutableList<String> = ArrayList()
+        var zipFile: ZipFile? = null
+        try {
+            zipFile = ZipFile(path)
+            val entries: Enumeration<out ZipEntry?> = zipFile.entries()
+            while (entries.hasMoreElements()) {
+                val entry: ZipEntry? = entries.nextElement()
+                val name: String = entry!!.name
+                if (name.endsWith(".json")
+                    || name.endsWith(".css")
+                    || name.endsWith(".html")
+                    || name.endsWith(".properties")
+                    || name.endsWith(".js")
+                    || name.endsWith(".tsv")
+                    || name.endsWith(".txt")
+                    || name.endsWith(".proto")
+                    || name.endsWith(".java")
+                    || name.endsWith(".bin")) {
+                    graphicsFiles.add(name)
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            if (zipFile != null) {
+                try {
+                    zipFile.close()
+                } catch (ignored: IOException) {
+                }
+            }
+        }
+        graphicsFiles.sort()
+        return graphicsFiles
+    }
 }

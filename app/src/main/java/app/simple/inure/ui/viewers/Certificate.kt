@@ -22,8 +22,6 @@ class Certificate : ScopedFragment() {
     private lateinit var md5: TypeFaceTextView
     private lateinit var validity: TypeFaceTextView
 
-    private lateinit var applicationInfo: ApplicationInfo
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_certificate, container, false)
 

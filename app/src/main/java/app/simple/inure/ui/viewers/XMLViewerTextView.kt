@@ -16,7 +16,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import app.simple.inure.R
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -77,11 +76,10 @@ class XMLViewerTextView : ScopedFragment() {
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
 
-    private lateinit var applicationInfo: ApplicationInfo
     var code: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_text_viewer, container, false)
+        val view = inflater.inflate(R.layout.fragment_xml_viewer, container, false)
 
         text = view.findViewById(R.id.text_viewer)
         name = view.findViewById(R.id.xml_name)

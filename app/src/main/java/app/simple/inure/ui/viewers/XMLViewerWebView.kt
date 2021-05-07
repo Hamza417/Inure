@@ -33,7 +33,6 @@ class XMLViewerWebView : ScopedFragment() {
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
 
-    private lateinit var applicationInfo: ApplicationInfo
     private var code = ""
 
     private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
