@@ -66,7 +66,7 @@ class Apps : ScopedFragment() {
 
             for (i in it.indices) {
                 if (!it[i].isPackageInstalled(requireActivity().packageManager)) {
-                    it.removeAt(i)
+                    model.loadAppData()
                     return@observe
                 }
             }
@@ -81,8 +81,7 @@ class Apps : ScopedFragment() {
                     if (position == VerticalListViewHolder.TYPE_HEADER) {
                         FastScrollItemIndicator.Icon(R.drawable.ic_header_icon)
                     } else {
-                        FastScrollItemIndicator.Text(it[position - 1].name.substring(0, 1)
-                                                             .toUpperCase(Locale.ROOT))
+                        FastScrollItemIndicator.Text(it[position - 1].name.substring(0, 1).toUpperCase(Locale.ROOT))
                     }
                 })
 

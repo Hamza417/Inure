@@ -6,9 +6,9 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import app.simple.inure.util.PackageUtils.getApplicationName
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.PackageUtils.getApplicationName
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,14 +37,9 @@ class AppData(application: Application)
 
     fun loadAppData() {
         launch {
-
             var apps = getApplication<Application>()
                     .applicationContext.packageManager
                     .getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
-
-            for (i in apps.indices) {
-                apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
-            }
 
             when (MainPreferences.getListAppCategory()) {
                 AppCategoryPopup.SYSTEM -> {
@@ -57,6 +52,10 @@ class AppData(application: Application)
                         p.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
                 }
+            }
+
+            for (i in apps.indices) {
+                apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
             }
 
             apps.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)

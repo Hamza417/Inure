@@ -114,7 +114,6 @@ object APKParser {
         }
     }
 
-
     /**
      * Fetch the list of broadcast receivers from
      * an APK file

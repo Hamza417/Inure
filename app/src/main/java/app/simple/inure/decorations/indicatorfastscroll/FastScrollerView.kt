@@ -18,6 +18,8 @@ import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.layoutmanager.stack.StackLayoutManager
+import app.simple.inure.decorations.layoutmanager.vega.VegaLayoutManager
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -121,15 +123,15 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.FastScrollerView, defStyleAttr, defStyleRes)
-            .use { attrsArray ->
-                throwIfMissingAttrs(styleRes = R.style.Widget_IndicatorFastScroll_FastScroller) {
-                    iconSize = attrsArray.getDimensionPixelSizeOrThrow(R.styleable.FastScrollerView_fastScrollerIconSize)
-                    iconColor = attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerView_fastScrollerIconColor)
-                    textAppearanceRes = attrsArray.getResourceIdOrThrow(R.styleable.FastScrollerView_android_textAppearance)
-                    textColor = attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerView_android_textColor)
-                    textPadding = attrsArray.getDimensionOrThrow(R.styleable.FastScrollerView_fastScrollerTextPadding)
+                .use { attrsArray ->
+                    throwIfMissingAttrs(styleRes = R.style.Widget_IndicatorFastScroll_FastScroller) {
+                        iconSize = attrsArray.getDimensionPixelSizeOrThrow(R.styleable.FastScrollerView_fastScrollerIconSize)
+                        iconColor = attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerView_fastScrollerIconColor)
+                        textAppearanceRes = attrsArray.getResourceIdOrThrow(R.styleable.FastScrollerView_android_textAppearance)
+                        textColor = attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerView_android_textColor)
+                        textPadding = attrsArray.getDimensionOrThrow(R.styleable.FastScrollerView_fastScrollerTextPadding)
+                    }
                 }
-            }
 
         isFocusableInTouchMode = true
         isClickable = true
@@ -201,7 +203,7 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
     private fun updateItemIndicators() {
         itemIndicatorsWithPositions.clear()
         itemIndicatorsBuilder.buildItemIndicators(recyclerView!!, getItemIndicator, showIndicator)
-            .toCollection(itemIndicatorsWithPositions)
+                .toCollection(itemIndicatorsWithPositions)
 
         bindItemIndicatorViews()
     }
@@ -215,7 +217,7 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         fun createIconView(iconIndicator: FastScrollItemIndicator.Icon): ImageView =
             (LayoutInflater.from(context)
-                .inflate(R.layout.fast_scroller_indicator_icon, this, false) as ImageView).apply {
+                    .inflate(R.layout.fast_scroller_indicator_icon, this, false) as ImageView).apply {
                 updateLayoutParams {
                     width = iconSize
                     height = iconSize
@@ -227,7 +229,7 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         fun createTextView(textIndicators: List<FastScrollItemIndicator.Text>): TextView =
             (LayoutInflater.from(context)
-                .inflate(R.layout.fast_scroller_indicator_text, this, false) as TextView).apply {
+                    .inflate(R.layout.fast_scroller_indicator_text, this, false) as TextView).apply {
                 TextViewCompat.setTextAppearance(this, textAppearanceRes)
                 textColor?.let(::setTextColor)
                 updatePadding(top = textPadding.toInt(), bottom = textPadding.toInt())
@@ -263,7 +265,7 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     private fun selectItemIndicator(indicator: FastScrollItemIndicator, indicatorCenterY: Int, touchedView: View, textLine: Int?) {
         val position = itemIndicatorsWithPositions.first { it.first == indicator }
-            .let(ItemIndicatorWithPosition::second)
+                .let(ItemIndicatorWithPosition::second)
         if (position != lastSelectedPosition) {
             clearSelectedItemIndicator()
             lastSelectedPosition = position
@@ -304,12 +306,22 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
         recyclerView!!.apply {
             stopScroll()
 
-            val layoutManager = this.layoutManager as LinearLayoutManager
-            layoutManager.scrollToPositionWithOffset(
-                position,
-                abs(
-                    layoutManager.findLastCompletelyVisibleItemPosition()
-                            - layoutManager.findFirstCompletelyVisibleItemPosition()))
+            when (this.layoutManager) {
+                is StackLayoutManager -> {
+                    (layoutManager as StackLayoutManager).scrollToPosition(position)
+                }
+                is LinearLayoutManager -> {
+                    val layoutManager = this.layoutManager as LinearLayoutManager
+                    layoutManager.scrollToPositionWithOffset(
+                        position,
+                        abs(
+                            layoutManager.findLastCompletelyVisibleItemPosition()
+                                    - layoutManager.findFirstCompletelyVisibleItemPosition()))
+                }
+                is VegaLayoutManager -> {
+                    (layoutManager as VegaLayoutManager).scrollToPosition(position)
+                }
+            }
 
             /**
              * [RecyclerView.smoothScrollToPosition] is not suitable
