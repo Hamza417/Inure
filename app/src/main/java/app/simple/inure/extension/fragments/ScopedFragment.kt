@@ -7,10 +7,12 @@ import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.transition.Fade
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
+import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,9 +22,8 @@ import kotlin.coroutines.CoroutineContext
 /**
  * [ScopedFragment] is lifecycle aware [CoroutineScope] fragment
  * used to bind independent coroutines with the lifecycle of
- * the given fragment. All [Fragment] classes must extend
- * this class instead.
- *
+ * the given fragment. All [Fragment] extension classes must extend
+ * this class instead. *
  * It is recommended to read this code before implementing to know
  * its purpose and importance
  */
@@ -116,4 +117,24 @@ abstract class ScopedFragment :
      *               or failed
      */
     open fun onAppUninstalled(@NonNull result: Boolean) {}
+
+    /**
+     * clears the [setExitTransition] for the current fragment in support
+     * for making the custom animations work for the fragments that needs
+     * to originate from the current fragment
+     */
+    open fun clearExitTransition() {
+        exitTransition = null
+    }
+
+    open fun setExitTransition() {
+        exitTransition = Fade()
+    }
+
+    open fun setTransitions() {
+        exitTransition = Fade()
+        enterTransition = Fade()
+        sharedElementEnterTransition = DetailsTransitionArc()
+        sharedElementReturnTransition = DetailsTransitionArc()
+    }
 }

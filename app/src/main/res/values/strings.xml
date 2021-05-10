@@ -135,4 +135,5 @@
     <string name="inure_xml_viewer">Inure Xml Viewer</string>
     <string name="inure_text_viewer">Inure Text Viewer</string>
     <string name="extras">Extras</string>
+    <string name="refresh">Refresh</string>
 </resources>

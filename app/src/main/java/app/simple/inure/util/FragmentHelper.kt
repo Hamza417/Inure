@@ -9,6 +9,7 @@ import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.decorations.transitions.DetailsTransition
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
+import app.simple.inure.extension.fragments.ScopedFragment
 import org.jetbrains.annotations.NotNull
 
 object FragmentHelper {
@@ -20,11 +21,8 @@ object FragmentHelper {
      * @param icon [View] that needs to be animated
      * @param tag back stack tag for fragment
      */
-    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, icon: View, tag: String) {
-        fragment.exitTransition = Fade()
-        fragment.sharedElementEnterTransition = DetailsTransitionArc()
-        fragment.enterTransition = Fade()
-        fragment.sharedElementReturnTransition = DetailsTransitionArc()
+    fun openFragment(fragmentManager: FragmentManager, fragment: ScopedFragment, icon: View, tag: String) {
+        fragment.setTransitions()
 
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)

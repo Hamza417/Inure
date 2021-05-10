@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:textIsSelectable="true"
             android:textSize="14sp"
+            android:textColor="@color/textSecondary"
             app:appFontStyle="regular" />
 
     </androidx.core.widget.NestedScrollView>

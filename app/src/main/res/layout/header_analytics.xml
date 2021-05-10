@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/analytics_header_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/header_icon_size"
+        android:layout_height="@dimen/header_icon_size"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/header_padding"
         android:src="@drawable/ic_analytics"

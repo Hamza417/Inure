@@ -11,12 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
 import app.simple.inure.decorations.bouncescroll.ScrollConstants
-import app.simple.inure.decorations.layoutmanager.stack.StackLayoutManager
-import app.simple.inure.decorations.layoutmanager.vega.VegaLayoutManager
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
-import ccy.focuslayoutmanager.FocusLayoutManager
 
 /**
  * Custom recycler view with nice layout animation and
@@ -28,15 +25,13 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
 
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
             try {
-                if(getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {
+                if (getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {
                     setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources), paddingRight, paddingBottom)
                 }
             } finally {
                 recycle()
             }
         }
-
-        val stackLayoutManager = StackLayoutManager(StackLayoutManager.ScrollOrientation.BOTTOM_TO_TOP)
 
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         setHasFixedSize(true)

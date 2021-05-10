@@ -177,6 +177,7 @@ class AppInfo : ScopedFragment() {
         packageId.text = PackageUtils.getApplicationVersion(requireContext(), applicationInfo)
 
         appInformation.setOnClickListener {
+            clearExitTransition()
             openFragment(requireActivity().supportFragmentManager,
                          Information.newInstance(applicationInfo),
                          "information")

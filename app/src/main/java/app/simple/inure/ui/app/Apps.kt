@@ -121,7 +121,6 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSearchPressed(view: View) {
-                    exitTransition = null
                     val fragment = requireActivity().supportFragmentManager.findFragmentByTag("search_panel")
                         ?: SearchPanel.newInstance()
 

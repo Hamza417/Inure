@@ -11,8 +11,13 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
+import app.simple.inure.decorations.popup.PopupLinearLayout
+import app.simple.inure.decorations.popup.PopupMenuCallback
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.app.MainListPopupMenu
+import app.simple.inure.popups.app.PopupAnalytics
 import app.simple.inure.util.FileSizeHelper.getFileSize
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.viewmodels.AppsAnalyticsData
@@ -37,6 +42,8 @@ class Analytics : ScopedFragment() {
     private lateinit var totalUserAppsIndicator: ProgressBar
     private lateinit var totalSystemAppsIndicator: ProgressBar
 
+    private lateinit var popup: DynamicRippleImageButton
+
     private val model: AppsAnalyticsData by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,6 +57,7 @@ class Analytics : ScopedFragment() {
         usedRam = view.findViewById(R.id.analytics_total_used)
         totalUserApps = view.findViewById(R.id.analytics_total_user_apps)
         totalSystemApps = view.findViewById(R.id.analytics_total_system_apps)
+        popup = view.findViewById(R.id.analytics_options_button)
 
         ramIndicator = view.findViewById(R.id.analytics_ram_progress_bar)
         totalUserAppsIndicator = view.findViewById(R.id.analytics_user_apps_progress_bar)
@@ -63,6 +71,27 @@ class Analytics : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setEverything()
+
+        popup.setOnClickListener {
+            val popupMenu = PopupAnalytics(layoutInflater.inflate(R.layout.popup_analytics,
+                                                                  PopupLinearLayout(requireContext()),
+                                                                  true),
+                                           it)
+
+            popupMenu.setOnPopupMenuCallback(object : PopupMenuCallback {
+                override fun onMenuItemClicked(source: String) {
+                    when(source) {
+                        getString(R.string.refresh) -> {
+                            setEverything()
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun setEverything() {
         setDeviceAnalytics()
         setRamAnalytics()
         setAppsAnalytics()

@@ -1,7 +1,6 @@
 package app.simple.inure.util
 
 import android.content.Context
-import java.lang.NullPointerException
 
 object NullSafety {
     /**
@@ -27,7 +26,7 @@ object NullSafety {
      * @throws NullPointerException
      * @return self
      */
-    fun Context?.isNull () : Context {
+    fun Context?.isNull(): Context {
         return this ?: throw NullPointerException("Initialize context first")
     }
 }
