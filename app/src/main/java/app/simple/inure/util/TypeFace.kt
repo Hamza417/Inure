@@ -29,6 +29,8 @@ object TypeFace {
     const val AUDREY = "audrey"
     const val JOSEFIN = "josefin_sans"
     const val COMFORTAA = "comfortaa"
+    const val CHILLAX = "chillax"
+    const val BONNY = "bonny"
 
     fun getTypeFace(appFont: String, style: Int, context: Context): Typeface {
         var typeface: Typeface? = null
@@ -379,8 +381,69 @@ object TypeFace {
                     }
                 }
             }
+            CHILLAX -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.chillax_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.chillax_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.chillax_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.chillax_semi_bold)
+                    }
+                }
+            }
+            BONNY -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.bonny_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.bonny_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.bonny_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.bonny_bold)
+                    }
+                }
+            }
         }
 
         return typeface!!
     }
+
+    val list = arrayListOf(
+        TypeFaceModel("Auto (System Default)", 0, AUTO),
+        TypeFaceModel("Lato", R.font.lato_bold, LATO),
+        TypeFaceModel("Plus Jakarta Sans", R.font.plus_jakarta_bold, PLUS_JAKARTA),
+        TypeFaceModel("Mulish", R.font.mulish_bold, MULISH),
+        TypeFaceModel("Jost", R.font.jost_bold, JOST),
+        TypeFaceModel("Epilogue", R.font.epilogue_bold, EPILOGUE),
+        TypeFaceModel("Ubuntu", R.font.ubuntu_bold, UBUNTU),
+        TypeFaceModel("Poppins", R.font.poppins_bold, POPPINS),
+        TypeFaceModel("Manrope", R.font.manrope_bold, MANROPE),
+        TypeFaceModel("Inter", R.font.inter_bold, INTER),
+        TypeFaceModel("Overpass", R.font.overpass_bold, OVERPASS),
+        TypeFaceModel("Urbanist", R.font.urbanist_bold, URBANIST),
+        TypeFaceModel("Nunito", R.font.nunito_bold, NUNITO),
+        TypeFaceModel("Oswald", R.font.oswald_bold, OSWALD),
+        TypeFaceModel("Roboto", R.font.roboto_bold, ROBOTO),
+        TypeFaceModel("Reforma", R.font.reforma_negra, REFORMA),
+        TypeFaceModel("Subjectivity", R.font.subjectivity_bold, SUBJECTIVITY),
+        TypeFaceModel("Mohave", R.font.mohave_bold, MOHAVE),
+        TypeFaceModel("Yessica", R.font.yessica_bold, YESSICA),
+        TypeFaceModel("Audrey", R.font.audrey_bold, AUDREY),
+        TypeFaceModel("Josefin Sans", R.font.josefin_sans_bold, JOSEFIN),
+        TypeFaceModel("Comfortaa", R.font.comfortaa_bold, COMFORTAA),
+        TypeFaceModel("Chillax", R.font.chillax_semi_bold, CHILLAX),
+        TypeFaceModel("Bonny", R.font.bonny_bold, BONNY),
+    )
+
+    class TypeFaceModel(val typefaceName: String, val typeFaceResId: Int, val name: String)
 }
