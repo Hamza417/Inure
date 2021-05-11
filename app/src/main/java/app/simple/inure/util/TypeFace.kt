@@ -7,30 +7,30 @@ import app.simple.inure.R
 
 object TypeFace {
 
-    const val AUTO = "auto"
-    const val PLUS_JAKARTA = "plus_jakarta"
-    const val LATO = "lato"
-    const val MULISH = "mulish"
-    const val JOST = "jost"
-    const val EPILOGUE = "epilogue"
-    const val UBUNTU = "ubuntu"
-    const val POPPINS = "poppins"
-    const val MANROPE = "manrope"
-    const val INTER = "inter"
-    const val OVERPASS = "overpass"
-    const val URBANIST = "urbanist"
-    const val NUNITO = "nunito"
-    const val OSWALD = "oswald"
+    private const val AUTO = "auto"
+    private const val PLUS_JAKARTA = "plus_jakarta"
+    private const val LATO = "lato"
+    private const val MULISH = "mulish"
+    private const val JOST = "jost"
+    private const val EPILOGUE = "epilogue"
+    private const val UBUNTU = "ubuntu"
+    private const val POPPINS = "poppins"
+    private const val MANROPE = "manrope"
+    private const val INTER = "inter"
+    private const val OVERPASS = "overpass"
+    private const val URBANIST = "urbanist"
+    private const val NUNITO = "nunito"
+    private const val OSWALD = "oswald"
     const val ROBOTO = "roboto"
-    const val REFORMA = "reforma"
-    const val SUBJECTIVITY = "subjectivity"
-    const val MOHAVE = "mohave"
-    const val YESSICA = "yessica"
-    const val AUDREY = "audrey"
-    const val JOSEFIN = "josefin_sans"
-    const val COMFORTAA = "comfortaa"
-    const val CHILLAX = "chillax"
-    const val BONNY = "bonny"
+    private const val REFORMA = "reforma"
+    private const val SUBJECTIVITY = "subjectivity"
+    private const val MOHAVE = "mohave"
+    private const val YESSICA = "yessica"
+    private const val AUDREY = "audrey"
+    private const val JOSEFIN = "josefin_sans"
+    private const val COMFORTAA = "comfortaa"
+    private const val CHILLAX = "chillax"
+    private const val BONNY = "bonny"
 
     fun getTypeFace(appFont: String, style: Int, context: Context): Typeface {
         var typeface: Typeface? = null
@@ -418,7 +418,7 @@ object TypeFace {
         return typeface!!
     }
 
-    val list = arrayListOf(
+    val list : ArrayList<TypeFaceModel> = arrayListOf(
         TypeFaceModel("Auto (System Default)", 0, AUTO),
         TypeFaceModel("Lato", R.font.lato_bold, LATO),
         TypeFaceModel("Plus Jakarta Sans", R.font.plus_jakarta_bold, PLUS_JAKARTA),
@@ -445,5 +445,23 @@ object TypeFace {
         TypeFaceModel("Bonny", R.font.bonny_bold, BONNY),
     )
 
-    class TypeFaceModel(val typefaceName: String, val typeFaceResId: Int, val name: String)
+    class TypeFaceModel(
+            /**
+             * Proper name of the typeface such as [ROBOTO]
+             */
+            val typefaceName: String,
+
+            /**
+             * Resource ID for the type face that is used to set typeface
+             */
+            val typeFaceResId: Int,
+
+            /**
+             * Name of the typeface that is used by the
+             * preference manager of the app to identify
+             * which typeface is used similar to [typefaceName]
+             * except it is all lowercase
+             */
+            val name: String,
+    )
 }
