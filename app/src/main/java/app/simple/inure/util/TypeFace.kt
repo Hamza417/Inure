@@ -418,6 +418,9 @@ object TypeFace {
         return typeface!!
     }
 
+    /**
+     * List of all typefaces with their code names and red IDs
+     */
     val list : ArrayList<TypeFaceModel> = arrayListOf(
         TypeFaceModel("Auto (System Default)", 0, AUTO),
         TypeFaceModel("Lato", R.font.lato_bold, LATO),

@@ -2,14 +2,17 @@ package app.simple.inure.extension.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import app.simple.inure.R
+import app.simple.inure.exception.CacheDirectoryDeletionException
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.util.ThemeSetter
+import java.io.File
 
 
 open class BaseActivity : AppCompatActivity() {
@@ -29,6 +32,16 @@ open class BaseActivity : AppCompatActivity() {
          */
         if (ConfigurationPreferences.isKeepScreenOn()) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+
+        kotlin.runCatching {
+            if (File(getExternalFilesDir(null)?.path + "/send_cache/").deleteRecursively()) {
+                Log.d(packageName, "Deleted")
+            } else {
+                throw CacheDirectoryDeletionException("Could not delete cache directory")
+            }
+        }.getOrElse {
+            it.printStackTrace()
         }
 
         setTheme()
