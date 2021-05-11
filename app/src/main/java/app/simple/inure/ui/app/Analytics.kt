@@ -3,6 +3,8 @@ package app.simple.inure.ui.app
 import android.app.ActivityManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +18,6 @@ import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.popups.app.PopupAnalytics
 import app.simple.inure.util.FileSizeHelper.getFileSize
 import app.simple.inure.util.SDKHelper
@@ -37,6 +38,7 @@ class Analytics : ScopedFragment() {
     private lateinit var usedRam: TypeFaceTextView
     private lateinit var totalUserApps: TypeFaceTextView
     private lateinit var totalSystemApps: TypeFaceTextView
+    private lateinit var availableSensors: TypeFaceTextView
 
     private lateinit var ramIndicator: ProgressBar
     private lateinit var totalUserAppsIndicator: ProgressBar
@@ -57,6 +59,7 @@ class Analytics : ScopedFragment() {
         usedRam = view.findViewById(R.id.analytics_total_used)
         totalUserApps = view.findViewById(R.id.analytics_total_user_apps)
         totalSystemApps = view.findViewById(R.id.analytics_total_system_apps)
+        availableSensors = view.findViewById(R.id.analytics_all_sensors)
         popup = view.findViewById(R.id.analytics_options_button)
 
         ramIndicator = view.findViewById(R.id.analytics_ram_progress_bar)
@@ -95,6 +98,7 @@ class Analytics : ScopedFragment() {
         setDeviceAnalytics()
         setRamAnalytics()
         setAppsAnalytics()
+        setSensors()
     }
 
     private fun setAppsAnalytics() {
@@ -173,6 +177,20 @@ class Analytics : ScopedFragment() {
 
             availableRam.text = available.getFileSize()
             usedRam.text = used.getFileSize()
+        }
+    }
+
+    private fun setSensors() {
+        val sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+        val mutableList = sensorManager.getSensorList(Sensor.TYPE_ALL)
+
+        for (x in mutableList.indices) {
+            if(x == 0) {
+                availableSensors.text = mutableList[x].name
+            } else {
+                availableSensors.text = java.lang.StringBuilder().append(availableSensors.text).append("\n").append(mutableList[x].name)
+            }
         }
     }
 
