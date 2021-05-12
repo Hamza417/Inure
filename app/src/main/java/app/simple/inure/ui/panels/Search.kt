@@ -1,4 +1,4 @@
-package app.simple.inure.ui.app
+package app.simple.inure.ui.panels
 
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
@@ -26,6 +26,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.PackageUtils.isPackageInstalled
 import app.simple.inure.util.PackageUtils.killThisApp
@@ -35,7 +36,7 @@ import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.SearchData
 import java.util.*
 
-class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: CustomRecyclerView
@@ -168,9 +169,9 @@ class SearchPanel : ScopedFragment(), SharedPreferences.OnSharedPreferenceChange
     }
 
     companion object {
-        fun newInstance(): SearchPanel {
+        fun newInstance(): Search {
             val args = Bundle()
-            val fragment = SearchPanel()
+            val fragment = Search()
             fragment.arguments = args
             return fragment
         }

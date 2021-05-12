@@ -1,4 +1,4 @@
-package app.simple.inure.ui.app
+package app.simple.inure.ui.panels
 
 import android.content.ComponentName
 import android.content.Context
@@ -16,7 +16,6 @@ import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.terminal.TerminalService
 import app.simple.inure.decorations.terminal.TerminalService.ServiceBinder
 import app.simple.inure.decorations.terminal.TerminalView

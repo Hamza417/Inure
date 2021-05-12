@@ -127,10 +127,10 @@ abstract class ScopedFragment :
         exitTransition = null
     }
 
-    open fun setExitTransition() {
-        exitTransition = Fade()
-    }
-
+    /**
+     * Sets fragment transitions prior to creating a new fragment.
+     * Used with shared elements
+     */
     open fun setTransitions() {
         exitTransition = Fade()
         enterTransition = Fade()

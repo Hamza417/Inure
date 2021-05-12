@@ -28,6 +28,10 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.MainListPopupMenu
 import app.simple.inure.popups.app.PopupMainMenu
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.ui.panels.Analytics
+import app.simple.inure.ui.panels.Search
+import app.simple.inure.ui.panels.Statistics
+import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.FragmentHelper.openFragmentLinear
@@ -122,7 +126,7 @@ class Apps : ScopedFragment() {
 
                 override fun onSearchPressed(view: View) {
                     val fragment = requireActivity().supportFragmentManager.findFragmentByTag("search_panel")
-                        ?: SearchPanel.newInstance()
+                        ?: Search.newInstance()
 
                     requireActivity().supportFragmentManager.beginTransaction()
                             .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
@@ -159,6 +163,12 @@ class Apps : ScopedFragment() {
                                                        Analytics.newInstance(),
                                                        view,
                                                        "analytics")
+                                }
+                                getString(R.string.usage_statistics) -> {
+                                    openFragmentLinear(requireActivity().supportFragmentManager,
+                                                       Statistics.newInstance(),
+                                                       view,
+                                                       "statistics")
                                 }
                             }
                         }

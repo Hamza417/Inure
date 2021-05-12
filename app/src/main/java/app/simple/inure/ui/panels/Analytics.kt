@@ -1,4 +1,4 @@
-package app.simple.inure.ui.app
+package app.simple.inure.ui.panels
 
 import android.app.ActivityManager
 import android.content.Context
