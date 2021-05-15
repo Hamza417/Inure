@@ -13,7 +13,7 @@ import app.simple.inure.preferences.AppearancePreferences
 class PopupAppTheme(contentView: View, view: View) : BasePopupWindow() {
 
     init {
-        init(contentView, view, Gravity.START)
+        init(contentView, view)
 
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_theme_dark).onClick(AppCompatDelegate.MODE_NIGHT_YES)
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_theme_light).onClick(AppCompatDelegate.MODE_NIGHT_NO)

@@ -1,6 +1,5 @@
 package app.simple.inure.ui.viewers
 
-import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterActivities
-import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.ui.subviewers.ActivityInfo
 import app.simple.inure.util.APKParser.getActivities
+import app.simple.inure.util.FragmentHelper
 import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -26,6 +25,7 @@ class Activities : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_activities, container, false)
 
         recyclerView = view.findViewById(R.id.activities_recycler_view)
+        applicationInfo = requireArguments().getParcelable<ApplicationInfo>("application_info")!!
 
         return view
     }
@@ -40,18 +40,20 @@ class Activities : ScopedFragment() {
             var list: List<AndroidComponent>
 
             withContext(Dispatchers.Default) {
-                list = requireArguments().getParcelable<ApplicationInfo>("application_info")?.getActivities()!!
+                list = applicationInfo.getActivities()!!
 
                 list.sortedBy {
-                    it.name
+                    it.name.substring(it.name.lastIndexOf(".") + 1)
                 }
             }
 
-            recyclerView.adapter = AdapterActivities(list)
+            recyclerView.adapter = AdapterActivities(applicationInfo, list)
 
-            (recyclerView.adapter as AdapterActivities).setOnActivitiesCallbacks(object : AdapterActivities.ActivitiesCallbacks{
-                override fun onActivityClicked(androidComponent: AndroidComponent) {
-
+            (recyclerView.adapter as AdapterActivities).setOnActivitiesCallbacks(object : AdapterActivities.ActivitiesCallbacks {
+                override fun onActivityClicked(androidComponent: AndroidComponent, packageId: String) {
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                ActivityInfo.newInstance(packageId, applicationInfo),
+                                                "activity_info")
                 }
             })
         }

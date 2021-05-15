@@ -12,9 +12,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import app.simple.inure.model.PackageStats
 import app.simple.inure.preferences.StatsPreferences
-import com.topjohnwu.superuser.internal.Utils.context
 import java.util.*
-
 
 class UsageStatsData(application: Application) : AndroidViewModel(application) {
 

@@ -6,7 +6,7 @@ import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import org.jetbrains.annotations.NotNull
 
-class PopupMainMenu(contentView: View, view: View) : BasePopupWindow() {
+class PopupMainListMenu(contentView: View, view: View) : BasePopupWindow() {
 
     private lateinit var popupMainMenuCallbacks: PopupMainMenuCallbacks
 

@@ -6,6 +6,7 @@ import android.view.WindowManager
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
+import app.simple.inure.util.ViewUtils.makeGoAway
 
 object ViewUtils {
     /**
@@ -44,6 +45,7 @@ object ViewUtils {
      * Makes the view go away
      */
     fun View.makeGoAway() {
+        this.isClickable = false
         this.visibility = View.GONE
     }
 
@@ -51,6 +53,7 @@ object ViewUtils {
      * Makes the view come back
      */
     fun View.makeVisible() {
+        this.isClickable = true
         this.visibility = View.VISIBLE
     }
 }

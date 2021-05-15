@@ -114,6 +114,7 @@
     <string name="method_count">Method Count</string>
     <string name="multi_dex">Multi Dex, %1$s</string>
     <string name="single_dex">Single Dex, %1$s</string>
+    <string name="activity_status">%1$s | %2$s</string>
     <string name="device_analytics">Device Analytics</string>
     <string name="terminal">Terminal</string>
     <string name="usage_statistics">Usage Statistics</string>
@@ -137,4 +138,11 @@
     <string name="extras">Extras</string>
     <string name="refresh">Refresh</string>
     <string name="sensors">Sensors</string>
+    <string name="exported">Exported</string>
+    <string name="not_exported">Not Exported</string>
+    <string name="host">Host</string>
+    <string name="intent_actions">Intent Actions</string>
+    <string name="intent_categories">Intent Categories</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
 </resources>

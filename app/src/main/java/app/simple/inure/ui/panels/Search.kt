@@ -24,7 +24,7 @@ import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.popups.app.MainListPopupMenu
+import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
@@ -106,8 +106,8 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                 }
 
                 override fun onAppLongPress(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView) {
-                    val popupMenu = MainListPopupMenu(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
-                                                      viewGroup, xOff, yOff, applicationInfo, icon)
+                    val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
+                                                  viewGroup, xOff, yOff, applicationInfo, icon)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
                             when (source) {

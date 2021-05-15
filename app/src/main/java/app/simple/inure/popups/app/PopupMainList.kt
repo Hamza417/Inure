@@ -20,7 +20,7 @@ import app.simple.inure.util.ViewUtils.dimBehind
  * window when appears. It is highly recommended to use this
  * and ditch popup menu entirely.
  */
-class MainListPopupMenu(
+class PopupMainList(
         contentView: View,
         viewGroup: ViewGroup,
         xOff: Float,

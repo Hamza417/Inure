@@ -25,8 +25,8 @@ import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.popups.app.MainListPopupMenu
-import app.simple.inure.popups.app.PopupMainMenu
+import app.simple.inure.popups.app.PopupMainList
+import app.simple.inure.popups.app.PopupMainListMenu
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Search
@@ -102,8 +102,8 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onAppLongPress(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView) {
-                    val popupMenu = MainListPopupMenu(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
-                                                      viewGroup, xOff, yOff, applicationInfo, icon)
+                    val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
+                                                  viewGroup, xOff, yOff, applicationInfo, icon)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
                             when (source) {
@@ -140,10 +140,10 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onPrefsIconPressed(view: View, view1: View) {
-                    val v = PopupMainMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_main_menu,
-                                                                                        PopupLinearLayout(requireContext())), view1)
+                    val v = PopupMainListMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_main_menu,
+                                                                                            PopupLinearLayout(requireContext())), view1)
 
-                    v.setOnMenuClickListener(object : PopupMainMenu.PopupMainMenuCallbacks {
+                    v.setOnMenuClickListener(object : PopupMainListMenu.PopupMainMenuCallbacks {
                         override fun onMenuClicked(string: String) {
                             when (string) {
                                 getString(R.string.terminal) -> {
