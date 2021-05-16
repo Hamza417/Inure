@@ -12,6 +12,9 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.util.ThemeSetter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -34,14 +37,16 @@ open class BaseActivity : AppCompatActivity() {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        kotlin.runCatching {
-            if (File(getExternalFilesDir(null)?.path + "/send_cache/").deleteRecursively()) {
-                Log.d(packageName, "Deleted")
-            } else {
-                throw CacheDirectoryDeletionException("Could not delete cache directory")
+        CoroutineScope(Dispatchers.Default).launch {
+            kotlin.runCatching {
+                if (File(getExternalFilesDir(null)?.path + "/send_cache/").deleteRecursively()) {
+                    Log.d(packageName, "Deleted")
+                } else {
+                    throw CacheDirectoryDeletionException("Could not delete cache directory")
+                }
+            }.getOrElse {
+                it.printStackTrace()
             }
-        }.getOrElse {
-            it.printStackTrace()
         }
 
         setTheme()

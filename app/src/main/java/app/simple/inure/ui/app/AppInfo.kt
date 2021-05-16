@@ -17,6 +17,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterAppInfoMenu
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -177,44 +178,8 @@ class AppInfo : ScopedFragment() {
                             applicationInfo.uninstallThisPackage(appUninstallObserver)
                         }
                         getString(R.string.send) -> {
-                            launch {
-                                withContext(Dispatchers.IO) {
-                                    runCatching {
-                                        val file: File?
-                                        File(requireContext().getExternalFilesDir(null)!!.path + "/send_cache/").mkdir()
-
-                                        if (applicationInfo.splitSourceDirs.isNotNull()) {
-                                            file = File(requireContext().getExternalFilesDir(null)!!.path + "/send_cache/" + applicationInfo.name + ".zip")
-
-                                            if(!file.exists()) {
-                                                val list = arrayOfNulls<String>(applicationInfo.splitSourceDirs.size)
-
-                                                for (i in applicationInfo.splitSourceDirs.indices) {
-                                                    list[i] = applicationInfo.splitSourceDirs[i]
-                                                    println(applicationInfo.splitSourceDirs[i])
-                                                }
-
-                                                list[list.size - 1] = applicationInfo.sourceDir
-                                                FileUtils.createZip(list.requireNoNulls(), file)
-                                            }
-
-                                        } else {
-                                            file = File(requireContext().getExternalFilesDir(null)!!.path + "/send_cache/" + applicationInfo.name + ".apk")
-
-                                            if(!file.exists()) {
-                                                applicationInfo.sourceDir.copyTo(file)
-                                            }
-                                        }
-
-                                        ShareCompat.IntentBuilder.from(requireActivity())
-                                                .setStream(FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", file))
-                                                .setType(URLConnection.guessContentTypeFromName(file.name))
-                                                .startChooser()
-                                    }.getOrElse { e ->
-                                        e.printStackTrace()
-                                    }
-                                }
-                            }
+                            Preparing.newInstance(applicationInfo)
+                                    .show(childFragmentManager, "prepare_send_files")
                         }
                     }
                 }

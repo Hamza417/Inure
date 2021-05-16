@@ -148,4 +148,9 @@
     <string name="desc_not_available">Description not available</string>
     <string name="loading">Loading…</string>
     <string name="total">Total %d</string>
+    <string name="cache_dir">Creating cache directory</string>
+    <string name="split_apk_detected">Split APK Detected</string>
+    <string name="creating_split_package">Creating split ZIP package</string>
+    <string name="preparing_apk_file">Preparing APK file</string>
+    <string name="done">Done!</string>
 </resources>

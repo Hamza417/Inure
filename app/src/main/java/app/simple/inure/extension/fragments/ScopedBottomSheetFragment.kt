@@ -2,6 +2,7 @@ package app.simple.inure.extension.fragments
 
 import android.content.DialogInterface
 import android.content.SharedPreferences
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -14,12 +15,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlin.coroutines.CoroutineContext
 
 
 abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
                                            CoroutineScope, SharedPreferences.OnSharedPreferenceChangeListener {
     private val job = Job()
+
+    /**
+     * [ScopedBottomSheetFragment]'s own [ApplicationInfo] instance, needs
+     * to be initialized before use
+     *
+     * @throws UninitializedPropertyAccessException
+     */
+    lateinit var applicationInfo: ApplicationInfo
 
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -56,13 +66,18 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
 
     override fun onResume() {
         super.onResume()
+        job.start()
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        job.cancel()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
-        job.cancel()
     }
 
     /**

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -62,7 +63,7 @@ class Information : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             var version: String
             var versionCode: String
             var installLocation: String
