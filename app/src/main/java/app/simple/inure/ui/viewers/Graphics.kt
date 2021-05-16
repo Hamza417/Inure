@@ -9,6 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterGraphics
 import app.simple.inure.decorations.popup.PopupFrameLayout
 import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupImageViewer
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -21,11 +22,13 @@ import kotlinx.coroutines.withContext
 class Graphics : ScopedFragment() {
 
     private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var total: TypeFaceTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_graphics, container, false)
 
         recyclerView = view.findViewById(R.id.graphics_recycler_view)
+        total = view.findViewById(R.id.total)
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
         return view
@@ -44,6 +47,7 @@ class Graphics : ScopedFragment() {
             }
 
             recyclerView.adapter = adapterGraphics
+            total.text = getString(R.string.total, adapterGraphics.list.size)
 
             adapterGraphics.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
                 override fun onGraphicsClicked(path: String, filePath: String, view: ViewGroup, xOff: Float, yOff: Float) {

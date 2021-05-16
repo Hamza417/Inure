@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.recyclerview.selection.Selection
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
@@ -135,7 +136,6 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSettingsPressed() {
-
                     AppsListConfiguration.newInstance().show(childFragmentManager, "apps_list_config")
                 }
 
@@ -143,9 +143,9 @@ class Apps : ScopedFragment() {
                     val v = PopupMainListMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_main_menu,
                                                                                             PopupLinearLayout(requireContext())), view1)
 
-                    v.setOnMenuClickListener(object : PopupMainListMenu.PopupMainMenuCallbacks {
-                        override fun onMenuClicked(string: String) {
-                            when (string) {
+                    v.setOnMenuClickListener(object : PopupMenuCallback {
+                        override fun onMenuItemClicked(source: String) {
+                            when (source) {
                                 getString(R.string.terminal) -> {
                                     openFragmentLinear(requireActivity().supportFragmentManager,
                                                        Terminal.newInstance(),
@@ -171,6 +171,10 @@ class Apps : ScopedFragment() {
                                                        "statistics")
                                 }
                             }
+                        }
+
+                        override fun onDismiss() {
+                            view1.animate().rotation(0F).setDuration(500L).setInterpolator(LinearOutSlowInInterpolator()).start()
                         }
                     })
                 }

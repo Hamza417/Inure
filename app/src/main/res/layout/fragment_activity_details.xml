@@ -30,9 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/app_information"
             android:textColor="?attr/colorAppAccent"
-            android:textSize="@dimen/header_font_size"
+            android:textSize="@dimen/header_name_text_size"
             android:transitionName="@string/app_information"
             app:appFontStyle="bold" />
 

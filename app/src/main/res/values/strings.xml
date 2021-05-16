@@ -145,4 +145,7 @@
     <string name="intent_categories">Intent Categories</string>
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
+    <string name="desc_not_available">Description not available</string>
+    <string name="loading">Loading…</string>
+    <string name="total">Total %d</string>
 </resources>

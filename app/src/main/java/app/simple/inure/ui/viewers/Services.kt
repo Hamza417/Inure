@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.APKParser.getServices
+import app.simple.inure.util.TypeFace
 import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -19,11 +21,13 @@ import kotlinx.coroutines.withContext
 class Services : ScopedFragment() {
 
     private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var total : TypeFaceTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_services, container, false)
 
         recyclerView = view.findViewById(R.id.services_recycler_view)
+        total = view.findViewById(R.id.total)
 
         return view
     }
@@ -45,6 +49,7 @@ class Services : ScopedFragment() {
             }
 
             recyclerView.adapter = AdapterServices(list)
+            total.text = getString(R.string.total, list.size)
         }
     }
 

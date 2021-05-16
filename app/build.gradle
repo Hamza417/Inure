@@ -8,6 +8,9 @@ android {
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
+    def appVersionCode = 4
+    def appVersionName = "build${appVersionCode}"
+
     defaultConfig {
         applicationId "app.simple.inure"
 
@@ -15,8 +18,8 @@ android {
         // minSdkVersion 23 is needed for forkpty
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 3
-        versionName "1.2_alpha"
+        versionCode appVersionCode
+        versionName appVersionName
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 21
         renderscriptSupportModeEnabled true

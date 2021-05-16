@@ -7,33 +7,58 @@
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
         <ImageView
-            android:id="@+id/graphics_header_icon"
+            android:id="@+id/imageView8"
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/header_padding"
+            android:padding="5dp"
             android:src="@drawable/ic_graphics"
             android:transitionName="@string/graphics"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
-            android:layout_width="match_parent"
+            android:id="@+id/typeFaceTextView2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
             android:text="@string/graphics"
+            app:layout_constraintBottom_toTopOf="@id/total"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView8"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/loading"
+            android:textColor="@color/textTertiary"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView8"
+            app:layout_constraintTop_toBottomOf="@+id/typeFaceTextView2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"

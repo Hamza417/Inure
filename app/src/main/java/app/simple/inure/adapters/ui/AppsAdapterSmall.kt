@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
@@ -111,8 +112,8 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
 
             holder.prefs.setOnClickListener {
-                (holder.prefs.drawable as AnimatedVectorDrawable).start()
-                appsAdapterCallbacks.onPrefsIconPressed(holder.appIcon, it)
+                it.animate().rotation(120F).setDuration(500L).setInterpolator(LinearOutSlowInInterpolator()).start()
+                appsAdapterCallbacks.onPrefsIconPressed(holder.appIcon, holder.prefs)
             }
         }
     }

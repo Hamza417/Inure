@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.APKParser.getActivities
@@ -15,14 +16,18 @@ import kotlinx.coroutines.withContext
 
 class ActivityInfo : ScopedFragment() {
 
+    private lateinit var name: TypeFaceTextView
     private lateinit var intentActions: TypeFaceTextView
     private lateinit var intentCategories: TypeFaceTextView
+    private lateinit var backButton: DynamicRippleImageButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_activity_details, container, false)
 
+        name = view.findViewById(R.id.activity_name)
         intentActions = view.findViewById(R.id.activity_info_actions)
         intentCategories = view.findViewById(R.id.activity_info_categories)
+        backButton = view.findViewById(R.id.activity_info_back_button)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
@@ -34,9 +39,11 @@ class ActivityInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        name.text = requireArguments().getString("package_id")!!
+
         launch {
             var actions = ""
-            var categories= ""
+            var categories = ""
 
             withContext(Dispatchers.Default) {
                 val list = applicationInfo.getActivities()!!
@@ -45,7 +52,7 @@ class ActivityInfo : ScopedFragment() {
                     if (activities.name == requireArguments().getString("package_id")) {
                         for (i in activities.intentFilters) {
                             for (j in i.actions.indices) {
-                                if(!actions.contains(i.actions[j])) {
+                                if (!actions.contains(i.actions[j])) {
                                     actions = if (actions.isEmpty()) {
                                         StringBuilder().append(i.actions[j]).toString()
                                     } else {
@@ -54,8 +61,8 @@ class ActivityInfo : ScopedFragment() {
                                 }
                             }
 
-                            for(j in i.categories.indices) {
-                                if(!categories.contains(i.categories[j])) {
+                            for (j in i.categories.indices) {
+                                if (!categories.contains(i.categories[j])) {
                                     categories = if (categories.isEmpty()) {
                                         StringBuilder().append(i.categories[j]).toString()
                                     } else {
@@ -70,6 +77,10 @@ class ActivityInfo : ScopedFragment() {
 
             this@ActivityInfo.intentActions.text = if (actions.isEmpty()) getString(R.string.not_available) else actions
             this@ActivityInfo.intentCategories.text = if (categories.isEmpty()) getString(R.string.not_available) else categories
+        }
+
+        backButton.setOnClickListener {
+            requireActivity().onBackPressed()
         }
     }
 

@@ -2,6 +2,7 @@ package app.simple.inure.adapters.details
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PermissionInfo
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,10 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.PermissionUtils.getPermissionInfo
 import app.simple.inure.util.PermissionUtils.protectionToString
+import app.simple.inure.util.ViewUtils.makeGoAway
 
-class AdapterPermissions(private val permissions: MutableList<String>, private val applicationInfo: ApplicationInfo) : RecyclerView.Adapter<AdapterPermissions.Holder>() {
+class AdapterPermissions(private val permissions: MutableList<String>, private val applicationInfo: ApplicationInfo)
+    : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
     private lateinit var permissionInfo: PermissionInfo
     private val permissionLabelMode = ConfigurationPreferences.getPermissionLabelMode()
@@ -23,7 +26,7 @@ class AdapterPermissions(private val permissions: MutableList<String>, private v
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        try {
+        runCatching {
             permissionInfo = permissions[position].getPermissionInfo(holder.itemView.context)!!
 
             holder.name.text = if (permissionLabelMode) {
@@ -38,16 +41,16 @@ class AdapterPermissions(private val permissions: MutableList<String>, private v
                 holder.itemView.context.getString(R.string.not_available)
             }
 
-            @Suppress("deprecation")
-            holder.status.text = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            holder.status.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 protectionToString(permissionInfo.protection, holder.itemView.context)
             } else {
+                @Suppress("deprecation")
                 protectionToString(permissionInfo.protectionLevel, holder.itemView.context)
             }
-        } catch (e: NullPointerException) {
-            holder.name.text = holder.itemView.context.getString(R.string.error)
-            holder.status.text = holder.itemView.context.getString(R.string.error)
-            holder.desc.text = ""
+        }.getOrElse {
+            holder.name.text = permissions[position]
+            holder.status.text = holder.itemView.context.getString(R.string.desc_not_available)
+            holder.desc.makeGoAway()
         }
     }
 
