@@ -29,7 +29,6 @@ import kotlin.coroutines.CoroutineContext
  */
 abstract class ScopedFragment :
     Fragment(),
-    CoroutineScope,
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     /**
@@ -50,19 +49,6 @@ abstract class ScopedFragment :
      * @throws UninitializedPropertyAccessException
      */
     lateinit var applicationInfo: ApplicationInfo
-
-    /**
-     * Get the job instance here, must be a final value
-     */
-    private val job = Job()
-
-    /**
-     * Use the job instance and attach it the [Dispatchers.Main]
-     * which will be the main thread of the given app
-     * instance
-     */
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
 
     /**
      * [postponeEnterTransition] here and initialize all the
@@ -89,17 +75,9 @@ abstract class ScopedFragment :
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
     }
 
-    /**
-     * Cancel the job instance here, since
-     * we have attached the [Job] with [Dispatchers.Main]
-     * it will cancel all the coroutines of the given instance
-     * and this way coroutines won't last more than the
-     * lifecycle itself
-     */
     override fun onDestroy() {
         super.onDestroy()
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
-        job.cancel()
     }
 
     /**

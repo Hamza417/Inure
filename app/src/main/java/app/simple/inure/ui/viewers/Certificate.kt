@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -41,7 +42,7 @@ class Certificate : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             runCatching {
                 val algorithm: String
                 val oid: String

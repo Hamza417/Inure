@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
@@ -102,8 +103,8 @@ class Analytics : ScopedFragment() {
     }
 
     private fun setAppsAnalytics() {
-        model.getAppData().observe(requireActivity(), {
-            launch {
+        model.getAppData().observe(viewLifecycleOwner, {
+            viewLifecycleOwner.lifecycleScope.launch {
                 var totalApp: Int
                 var userApp = 0
                 var systemApp = 0
@@ -134,7 +135,7 @@ class Analytics : ScopedFragment() {
     }
 
     private fun setDeviceAnalytics() {
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val osVersion: String
             val securityUpdate: String
             val root: String
@@ -155,7 +156,7 @@ class Analytics : ScopedFragment() {
     }
 
     private fun setRamAnalytics() {
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val available: Long
             val used: Long
 

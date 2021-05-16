@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.Pie
@@ -57,7 +58,7 @@ class Storage : ScopedFragment() {
             pie.value = (x * (360.0 / 100.0)).toFloat()
         })
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
 
             var apkSize: String
             var splitsSize: String

@@ -16,8 +16,8 @@ import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.terminal.TerminalService
-import app.simple.inure.decorations.terminal.TerminalService.ServiceBinder
+import app.simple.inure.services.TerminalService
+import app.simple.inure.services.TerminalService.ServiceBinder
 import app.simple.inure.decorations.terminal.TerminalView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupTerminal

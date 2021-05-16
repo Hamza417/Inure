@@ -20,8 +20,7 @@ import kotlin.coroutines.CoroutineContext
 
 
 abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
-                                           CoroutineScope, SharedPreferences.OnSharedPreferenceChangeListener {
-    private val job = Job()
+                                           SharedPreferences.OnSharedPreferenceChangeListener {
 
     /**
      * [ScopedBottomSheetFragment]'s own [ApplicationInfo] instance, needs
@@ -30,9 +29,6 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
      * @throws UninitializedPropertyAccessException
      */
     lateinit var applicationInfo: ApplicationInfo
-
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,13 +62,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
 
     override fun onResume() {
         super.onResume()
-        job.start()
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        job.cancel()
     }
 
     override fun onDestroy() {

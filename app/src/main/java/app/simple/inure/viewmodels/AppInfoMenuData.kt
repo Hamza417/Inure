@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +32,7 @@ class AppInfoMenuData(application: Application) : AndroidViewModel(application) 
     }
 
     private fun loadOptions() {
-        CoroutineScope(Dispatchers.Default).launch {
+        viewModelScope.launch(Dispatchers.Default) {
             val context = getApplication<Application>().applicationContext
 
             val list = listOf(
@@ -45,7 +46,7 @@ class AppInfoMenuData(application: Application) : AndroidViewModel(application) 
     }
 
     private fun loadItems() {
-        CoroutineScope(Dispatchers.Default).launch {
+        viewModelScope.launch(Dispatchers.Default) {
             val context = getApplication<Application>().applicationContext
 
             val list = listOf(

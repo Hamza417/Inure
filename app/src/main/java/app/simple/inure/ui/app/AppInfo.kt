@@ -80,7 +80,7 @@ class AppInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        model.getMenuItems().observe(requireActivity(), {
+        model.getMenuItems().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
             adapterAppInfoMenu = AdapterAppInfoMenu(it)

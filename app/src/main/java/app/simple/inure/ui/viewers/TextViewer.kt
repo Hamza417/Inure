@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.exception.FileOrStringTooBigException
@@ -41,7 +42,7 @@ class TextViewer : ScopedFragment() {
         applicationInfo = requireArguments().getParcelable("application_info")!!
         path.text = requireArguments().getString("path")!!
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             runCatching {
                 val string: String
 

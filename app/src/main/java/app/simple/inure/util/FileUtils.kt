@@ -25,8 +25,6 @@ object FileUtils {
 
         if (intent.resolveActivityInfo(context.packageManager, 0) != null) {
             context.startActivity(intent)
-        } else {
-
         }
     }
 

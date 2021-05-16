@@ -72,7 +72,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchModel.getSearchData().observe(requireActivity(), {
+        searchModel.getSearchData().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
             for (i in it.indices) {

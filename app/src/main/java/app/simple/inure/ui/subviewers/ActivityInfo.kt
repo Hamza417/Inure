@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -41,7 +42,7 @@ class ActivityInfo : ScopedFragment() {
 
         name.text = requireArguments().getString("package_id")!!
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             var actions = ""
             var categories = ""
 

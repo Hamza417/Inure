@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
 import app.simple.inure.decorations.views.CustomRecyclerView
@@ -37,7 +38,7 @@ class Permissions : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val adapterPermissions: AdapterPermissions
             var k: MutableList<String>
 

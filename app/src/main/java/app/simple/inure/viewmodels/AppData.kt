@@ -6,24 +6,16 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.PackageUtils.getApplicationName
 import app.simple.inure.util.Sort.getSortedList
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.stream.Collectors
 import kotlin.coroutines.CoroutineContext
 
-class AppData(application: Application)
-    : AndroidViewModel(application), CoroutineScope {
-
-    private val job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Default
+class AppData(application: Application) : AndroidViewModel(application) {
 
     private val appData: MutableLiveData<ArrayList<ApplicationInfo>> by lazy {
         MutableLiveData<ArrayList<ApplicationInfo>>().also {
@@ -36,7 +28,7 @@ class AppData(application: Application)
     }
 
     fun loadAppData() {
-        launch {
+        viewModelScope.launch(Dispatchers.Default) {
             var apps = getApplication<Application>()
                     .applicationContext.packageManager
                     .getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
@@ -62,10 +54,5 @@ class AppData(application: Application)
 
             appData.postValue(apps)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
     }
 }

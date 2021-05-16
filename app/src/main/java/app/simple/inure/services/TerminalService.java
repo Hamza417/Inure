@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package app.simple.inure.decorations.terminal;
+package app.simple.inure.services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.SparseArray;
 
-import androidx.dynamicanimation.animation.SpringForce;
+import app.simple.inure.decorations.terminal.Terminal;
 
 /**
  * Background service that keeps {@link Terminal} instances running and warm

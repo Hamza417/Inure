@@ -22,7 +22,7 @@ class SplashScreen : ScopedFragment() {
 
         val appData: AppData by viewModels()
 
-        appData.getAppData().observe(requireActivity(), {
+        appData.getAppData().observe(viewLifecycleOwner, {
             openFragment(
                 requireActivity().supportFragmentManager,
                 Apps.newInstance(), view.findViewById(R.id.imageView))

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterResources
 import app.simple.inure.decorations.views.CustomRecyclerView
@@ -37,7 +38,7 @@ class Resources : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val adapterResources: AdapterResources
 
             withContext(Dispatchers.IO) {

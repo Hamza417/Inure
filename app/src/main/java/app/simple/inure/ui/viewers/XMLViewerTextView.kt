@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -95,7 +96,7 @@ class XMLViewerTextView : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             runCatching {
                 val name: String
 

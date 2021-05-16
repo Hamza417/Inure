@@ -4,10 +4,13 @@ import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.StatsPreferences
@@ -32,10 +35,11 @@ class Statistics : ScopedFragment() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             withContext(Dispatchers.Default) {
                 val calendar: Calendar = Calendar.getInstance()
                 calendar.add(Calendar.MONTH, -1)

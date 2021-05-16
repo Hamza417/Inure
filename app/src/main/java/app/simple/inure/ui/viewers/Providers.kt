@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.decorations.views.CustomRecyclerView
@@ -39,7 +40,7 @@ class Providers : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        launch {
+        viewLifecycleOwner.lifecycleScope.launch {
 
             var list: List<AndroidComponent>
 
