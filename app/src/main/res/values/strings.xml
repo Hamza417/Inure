@@ -153,4 +153,6 @@
     <string name="creating_split_package">Creating split ZIP package</string>
     <string name="preparing_apk_file">Preparing APK file</string>
     <string name="done">Done!</string>
+    <string name="clear_data">Clear Data</string>
+    <string name="clear_cache">Clear Cache</string>
 </resources>

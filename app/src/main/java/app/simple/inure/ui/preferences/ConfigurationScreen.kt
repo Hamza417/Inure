@@ -12,6 +12,7 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import com.topjohnwu.superuser.Shell
+import com.topjohnwu.superuser.ShellUtils
 
 class ConfigurationScreen : ScopedFragment() {
 
@@ -40,7 +41,7 @@ class ConfigurationScreen : ScopedFragment() {
         permissionLabelModeSwitchView.setChecked(ConfigurationPreferences.getPermissionLabelMode())
         textViewXmlViewerSwitchView.setChecked(ConfigurationPreferences.isXmlViewerTextView())
 
-        rootSwitchView.setChecked(Shell.getShell().isRoot)
+        rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
 
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             ConfigurationPreferences.setKeepScreenOn(isChecked)
@@ -61,27 +62,11 @@ class ConfigurationScreen : ScopedFragment() {
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener {
-            // Set settings before the main shell can be created
-            Shell.enableVerboseLogging = BuildConfig.DEBUG
-            Shell.setDefaultBuilder(Shell.Builder.create()
-                                            .setFlags(Shell.FLAG_REDIRECT_STDERR)
-                                            .setTimeout(10)
-            )
-
-            // Preheat the main root shell in the splash screen
-            // so the app can use it afterwards without interrupting
-            // application flow (e.g. root permission prompt)
-            Shell.getShell { shell: Shell? ->
-                when(shell?.status) {
-                    Shell.UNKNOWN -> {
-                        ConfigurationPreferences.setUsingRoot(false)
-                    }
-                    Shell.NON_ROOT_SHELL -> {
-                        ConfigurationPreferences.setUsingRoot(false)
-                    }
-                    Shell.ROOT_SHELL -> {
-                        ConfigurationPreferences.setUsingRoot(true)
-                    }
+            if (it) {
+                if(Shell.getShell().isRoot) {
+                    ConfigurationPreferences.setUsingRoot(true)
+                } else {
+                    ConfigurationPreferences.setUsingRoot(false)
                 }
             }
         }

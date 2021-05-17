@@ -94,11 +94,11 @@ class PreparingViewModel(application: Application) : AndroidViewModel(applicatio
                     Log.v("Compress", "Adding: " + _files[i])
                     val fi = FileInputStream(_files[i])
 
-                    BufferedInputStream(fi, BUFFER).use { bufferedOutputStream ->
+                    BufferedInputStream(fi, BUFFER).use { bufferInputStream ->
                         val entry = ZipEntry(_files[i].substring(_files[i].lastIndexOf("/") + 1))
                         zipOutputStream.putNextEntry(entry)
                         var count: Int
-                        while (bufferedOutputStream.read(data, 0, BUFFER).also { count = it } != -1) {
+                        while (bufferInputStream.read(data, 0, BUFFER).also { count = it } != -1) {
                             zipOutputStream.write(data, 0, count)
                         }
                     }

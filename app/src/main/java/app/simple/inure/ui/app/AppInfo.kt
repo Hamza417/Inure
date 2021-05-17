@@ -11,6 +11,7 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
@@ -18,9 +19,11 @@ import app.simple.inure.adapters.ui.AdapterAppInfoMenu
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Preparing
+import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.shell.ShellExecutor
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.copyTo
@@ -30,6 +33,8 @@ import app.simple.inure.util.PackageUtils
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
 import app.simple.inure.viewmodels.AppInfoMenuData
+import com.topjohnwu.superuser.Shell
+import com.topjohnwu.superuser.ShellUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -180,6 +185,12 @@ class AppInfo : ScopedFragment() {
                         getString(R.string.send) -> {
                             Preparing.newInstance(applicationInfo)
                                     .show(childFragmentManager, "prepare_send_files")
+                        }
+                        getString(R.string.clear_data) -> {
+                            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                                ShellExecutorDialog.newInstance("pm clear ${applicationInfo.packageName}")
+                                        .show(childFragmentManager, "shell_executor")
+                            }
                         }
                     }
                 }

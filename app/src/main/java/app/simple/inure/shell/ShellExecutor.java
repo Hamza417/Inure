@@ -5,28 +5,24 @@ import java.io.InputStreamReader;
 
 public class ShellExecutor {
     
-    public ShellExecutor() {
-    
-    }
-    
     public String executor(String command) {
         
         StringBuilder output = new StringBuilder();
+        Process process;
         
-        Process p;
         try {
-            p = Runtime.getRuntime().exec(command);
-            p.waitFor();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 output.append(line).append("n");
             }
-            
         } catch (Exception e) {
-            e.printStackTrace();
+            return e.getLocalizedMessage();
         }
+        
         return output.toString();
     }
 }

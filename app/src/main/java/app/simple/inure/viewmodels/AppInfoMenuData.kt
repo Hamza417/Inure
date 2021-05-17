@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,11 +36,21 @@ class AppInfoMenuData(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch(Dispatchers.Default) {
             val context = getApplication<Application>().applicationContext
 
-            val list = listOf(
-                Pair(R.drawable.ic_launch, context.getString(R.string.launch)),
-                Pair(R.drawable.ic_send, context.getString(R.string.send)),
-                Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)),
-            )
+            val list = if(ConfigurationPreferences.isUsingRoot()) {
+                listOf(
+                    Pair(R.drawable.ic_launch, context.getString(R.string.launch)),
+                    Pair(R.drawable.ic_send, context.getString(R.string.send)),
+                    Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)),
+                    Pair(R.drawable.ic_delete_sweep, context.getString(R.string.clear_data)),
+                    Pair(R.drawable.ic_broom, context.getString(R.string.clear_cache))
+                )
+            } else {
+                listOf(
+                    Pair(R.drawable.ic_launch, context.getString(R.string.launch)),
+                    Pair(R.drawable.ic_send, context.getString(R.string.send)),
+                    Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)),
+                )
+            }
 
             menuOptions.postValue(list)
         }
