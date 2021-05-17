@@ -62,12 +62,10 @@ class ConfigurationScreen : ScopedFragment() {
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener {
-            if (it) {
-                if(Shell.getShell().isRoot) {
-                    ConfigurationPreferences.setUsingRoot(true)
-                } else {
-                    ConfigurationPreferences.setUsingRoot(false)
-                }
+            if(it && Shell.getShell().isRoot) {
+                ConfigurationPreferences.setUsingRoot(true)
+            } else {
+                ConfigurationPreferences.setUsingRoot(false)
             }
         }
     }

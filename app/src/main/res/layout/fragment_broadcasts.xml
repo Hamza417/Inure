@@ -18,7 +18,6 @@
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
-            android:padding="5dp"
             android:src="@drawable/ic_broadcast"
             android:transitionName="@string/broadcasts"
             app:layout_constraintBottom_toBottomOf="parent"

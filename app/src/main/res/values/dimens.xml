@@ -36,4 +36,5 @@
     <dimen name="analytics_progress_bar_padding_start">0dp</dimen>
     <dimen name="popup_image_viewer_dimension">200dp</dimen>
     <dimen name="header_name_text_size">18sp</dimen>
+    <dimen name="panel_icon_size">40dp</dimen>
 </resources>
