@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:padding="@dimen/dialog_padding">
 
     <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/dialog_elevation"
         android:backgroundTint="@color/mainBackground"
+        android:elevation="@dimen/dialog_elevation"
         android:orientation="horizontal"
         android:padding="@dimen/dialog_padding">
 

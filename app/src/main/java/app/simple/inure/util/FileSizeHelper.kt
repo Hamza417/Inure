@@ -1,5 +1,8 @@
 package app.simple.inure.util
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.MainPreferences
 import java.io.File
 import java.io.IOException
@@ -29,6 +32,7 @@ object FileSizeHelper {
         return total.getFileSize()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun String.getDirectorySize(): String {
         return try {
             Files.walk(Paths.get(this))
@@ -47,10 +51,10 @@ object FileSizeHelper {
 
     fun Long.getFileSize(): String {
         return when {
-            MainPreferences.getSizeType() == "si" -> {
+            ConfigurationPreferences.getSizeType() == "si" -> {
                 this.humanReadableByteCountSI()
             }
-            MainPreferences.getSizeType() == "binary" -> {
+            ConfigurationPreferences.getSizeType() == "binary" -> {
                 this.humanReadableByteCountBinary()
             }
             else -> {

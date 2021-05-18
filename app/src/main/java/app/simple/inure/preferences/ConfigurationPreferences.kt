@@ -1,5 +1,6 @@
 package app.simple.inure.preferences
 
+import androidx.annotation.NonNull
 import org.jetbrains.annotations.NotNull
 
 object ConfigurationPreferences {
@@ -7,6 +8,7 @@ object ConfigurationPreferences {
     private const val keepScreenOn = "keep_screen_on"
     private const val showPermissionLabel = "is_permission_label_on"
     private const val isXmlViewerTextView = "is_xml_viewer_text_view"
+    private const val sizeType = "size_type"
     const val isUsingRoot = "is_using_root"
 
     fun setKeepScreenOn(@NotNull value: Boolean) {
@@ -45,5 +47,15 @@ object ConfigurationPreferences {
 
     fun isUsingRoot(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(isUsingRoot, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setSizeType(@NonNull font: String) {
+        SharedPreferences.getSharedPreferences().edit().putString(sizeType, font).apply()
+    }
+
+    fun getSizeType(): String {
+        return SharedPreferences.getSharedPreferences().getString(sizeType, "si")!!
     }
 }

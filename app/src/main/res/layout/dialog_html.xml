@@ -13,7 +13,7 @@
         android:backgroundTint="@color/mainBackground"
         android:clipChildren="true"
         android:clipToPadding="true"
-        android:elevation="40dp">
+        android:elevation="@dimen/dialog_elevation">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

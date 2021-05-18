@@ -187,10 +187,8 @@ class AppInfo : ScopedFragment() {
                                     .show(childFragmentManager, "prepare_send_files")
                         }
                         getString(R.string.clear_data) -> {
-                            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                                ShellExecutorDialog.newInstance("pm clear ${applicationInfo.packageName}")
-                                        .show(childFragmentManager, "shell_executor")
-                            }
+                            ShellExecutorDialog.newInstance("pm clear ${applicationInfo.packageName}")
+                                    .show(childFragmentManager, "shell_executor")
                         }
                     }
                 }

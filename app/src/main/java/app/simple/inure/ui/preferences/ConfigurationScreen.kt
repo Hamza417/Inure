@@ -11,6 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.MainPreferences
 import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.ShellUtils
 
@@ -19,6 +20,7 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var keepScreenOnSwitchView: SwitchView
     private lateinit var permissionLabelModeSwitchView: SwitchView
     private lateinit var textViewXmlViewerSwitchView: SwitchView
+    private lateinit var useBinaryFormat: SwitchView
     private lateinit var rootSwitchView: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,6 +31,7 @@ class ConfigurationScreen : ScopedFragment() {
         keepScreenOnSwitchView = view.findViewById(R.id.configuration_switch_keep_screen_on)
         permissionLabelModeSwitchView = view.findViewById(R.id.configuration_show_permission_label)
         textViewXmlViewerSwitchView = view.findViewById(R.id.configuration_use_text_view)
+        useBinaryFormat = view.findViewById(R.id.configuration_use_binary_format)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
 
         return view
@@ -40,6 +43,7 @@ class ConfigurationScreen : ScopedFragment() {
         keepScreenOnSwitchView.setChecked(ConfigurationPreferences.isKeepScreenOn())
         permissionLabelModeSwitchView.setChecked(ConfigurationPreferences.getPermissionLabelMode())
         textViewXmlViewerSwitchView.setChecked(ConfigurationPreferences.isXmlViewerTextView())
+        useBinaryFormat.setChecked(ConfigurationPreferences.getSizeType() == "binary")
 
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
 
@@ -66,6 +70,14 @@ class ConfigurationScreen : ScopedFragment() {
                 ConfigurationPreferences.setUsingRoot(true)
             } else {
                 ConfigurationPreferences.setUsingRoot(false)
+            }
+        }
+
+        useBinaryFormat.setOnSwitchCheckedChangeListener {
+            if(it) {
+                ConfigurationPreferences.setSizeType("binary")
+            } else {
+                ConfigurationPreferences.setSizeType("si")
             }
         }
     }

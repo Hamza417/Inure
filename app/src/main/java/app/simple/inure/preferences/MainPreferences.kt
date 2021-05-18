@@ -18,7 +18,6 @@ object MainPreferences {
     private const val dayNightMode = "is_day_night_mode"
     private const val theme = "current_theme"
     private const val appLanguage = "current_language_locale"
-    private const val sizeType = "size_type"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
@@ -62,14 +61,6 @@ object MainPreferences {
 
     fun getAppLanguage(): String? {
         return getSharedPreferences().getString(appLanguage, "default")
-    }
-
-    fun setSizeType(@NonNull font: String) {
-        getSharedPreferences().edit().putString(sizeType, font).apply()
-    }
-
-    fun getSizeType(): String {
-        return getSharedPreferences().getString(sizeType, "SI")!!
     }
 
     fun setSortStyle(@NonNull style: String) {
