@@ -15,7 +15,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.dialogs.FilePreparingViewModel
-import app.simple.inure.viewmodels.factory.FilePreparingViewModelFactory
+import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import java.net.URLConnection
 
 class Preparing : ScopedBottomSheetFragment() {
@@ -24,7 +24,7 @@ class Preparing : ScopedBottomSheetFragment() {
     private lateinit var updates: TypeFaceTextView
     private lateinit var progress: TypeFaceTextView
     private lateinit var filePreparingViewModel: FilePreparingViewModel
-    private lateinit var filePreparingViewModelFactory: FilePreparingViewModelFactory
+    private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_send_prepare, container, false)
@@ -34,8 +34,8 @@ class Preparing : ScopedBottomSheetFragment() {
         progress = view.findViewById(R.id.preparing_progress)
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
-        filePreparingViewModelFactory = FilePreparingViewModelFactory(requireActivity().application, applicationInfo)
-        filePreparingViewModel = ViewModelProvider(this, filePreparingViewModelFactory).get(FilePreparingViewModel::class.java)
+        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
+        filePreparingViewModel = ViewModelProvider(this, applicationInfoFactory).get(FilePreparingViewModel::class.java)
 
         return view
     }
@@ -54,7 +54,7 @@ class Preparing : ScopedBottomSheetFragment() {
 
         filePreparingViewModel.getFile().observe(viewLifecycleOwner, {
             if (it.isNotNull()) {
-                ShareCompat.IntentBuilder.from(requireActivity())
+                ShareCompat.IntentBuilder(requireActivity())
                         .setStream(FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", it!!))
                         .setType(URLConnection.guessContentTypeFromName(it.name))
                         .startChooser()

@@ -33,7 +33,7 @@ import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Terminal
-import app.simple.inure.ui.preferences.MainPreferencesScreen
+import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.FragmentHelper.openFragmentLinear
 import app.simple.inure.util.PackageUtils.isPackageInstalled
@@ -52,7 +52,7 @@ class Apps : ScopedFragment() {
     private lateinit var appsAdapter: AppsAdapterSmall
     private var tracker: SelectionTracker<Long>? = null
 
-    private lateinit var model: AppData
+    private val model: AppData by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)

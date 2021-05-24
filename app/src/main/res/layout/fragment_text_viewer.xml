@@ -21,12 +21,13 @@
         android:padding="10dp"
         android:scrollbars="vertical">
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.views.TypeFaceEditText
             android:id="@+id/text_viewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/textPrimary"
             android:textIsSelectable="true"
+            android:background="@android:color/transparent"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular" />
 

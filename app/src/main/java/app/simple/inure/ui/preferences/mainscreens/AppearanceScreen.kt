@@ -1,28 +1,23 @@
-package app.simple.inure.ui.preferences
+package app.simple.inure.ui.preferences.mainscreens
 
 import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
 import app.simple.inure.R
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchCallbacks
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.dialogs.appearance.AccentColor
-import app.simple.inure.dialogs.appearance.AppearanceTypeFace
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAppTheme
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ThemeSetter
 
 class AppearanceScreen : ScopedFragment() {
@@ -71,7 +66,7 @@ class AppearanceScreen : ScopedFragment() {
         }
 
         typeface.setOnClickListener {
-            AppearanceTypeFace.newInstance().show(childFragmentManager, "appearance_type_face")
+            FragmentHelper.openFragment(parentFragmentManager, AppearanceTypeFace.newInstance(), "typeface")
         }
 
         roundedCorner.setOnClickListener {

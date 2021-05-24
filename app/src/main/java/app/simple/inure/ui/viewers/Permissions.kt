@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
@@ -12,6 +13,8 @@ import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.APKParser.getPermissions
+import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.panels.ApkDataViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,6 +23,8 @@ class Permissions : ScopedFragment() {
 
     private lateinit var recyclerView: CustomRecyclerView
     private lateinit var totalPermissions: TypeFaceTextView
+    private lateinit var componentsViewModel: ApkDataViewModel
+    private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_permissions, container, false)
@@ -29,6 +34,8 @@ class Permissions : ScopedFragment() {
         recyclerView.setHasFixedSize(true)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
+        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
 
         startPostponedEnterTransition()
 
@@ -38,18 +45,10 @@ class Permissions : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            val adapterPermissions: AdapterPermissions
-            var k: MutableList<String>
-
-            withContext(Dispatchers.Default) {
-                k = applicationInfo.getPermissions()
-                adapterPermissions = AdapterPermissions(k, applicationInfo)
-            }
-
-            recyclerView.adapter = adapterPermissions
-            totalPermissions.text = getString(R.string.total, k.size)
-        }
+        componentsViewModel.getPermissions().observe(viewLifecycleOwner, {
+            recyclerView.adapter = AdapterPermissions(it, applicationInfo)
+            totalPermissions.text = getString(R.string.total, it.size)
+        })
     }
 
     companion object {

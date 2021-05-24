@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
@@ -32,7 +33,6 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-
 
 class XMLViewerTextView : ScopedFragment() {
 
@@ -73,7 +73,7 @@ class XMLViewerTextView : ScopedFragment() {
     }
 
     private var formattedContent: SpannableString? = null
-    private lateinit var text: TypeFaceTextView
+    private lateinit var text: TypeFaceEditText
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
 
@@ -124,7 +124,7 @@ class XMLViewerTextView : ScopedFragment() {
                     }
                 }
 
-                this@XMLViewerTextView.text.text = formattedContent
+                this@XMLViewerTextView.text.setText(formattedContent)
                 this@XMLViewerTextView.name.text = name
             }
         }

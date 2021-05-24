@@ -26,7 +26,7 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
             try {
                 if (getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {
-                    setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources), paddingRight, paddingBottom)
+                    setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
                 }
             } finally {
                 recycle()

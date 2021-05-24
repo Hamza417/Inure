@@ -1,14 +1,16 @@
 package app.simple.inure.glide.graphics
 
+import android.graphics.Bitmap.CompressFormat
+import app.simple.inure.util.BitmapHelper.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
-import java.io.BufferedInputStream
-import java.io.IOException
-import java.io.InputStream
+import com.caverock.androidsvg.SVG
+import java.io.*
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
+
 
 class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppGraphicsModel) : DataFetcher<InputStream> {
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
@@ -20,7 +22,14 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
                 val entry: ZipEntry? = entries.nextElement()
                 val name: String = entry!!.name
                 if (name == appGraphicsModel.filePath) {
-                    callback.onDataReady(BufferedInputStream(ZipFile(appGraphicsModel.path).getInputStream(entry)))
+                    if(name.endsWith(".svg")) {
+                        val bitmap = SVG.getFromInputStream(ZipFile(appGraphicsModel.path).getInputStream(entry)).renderToPicture().toBitmap()
+                        val byteArrayOutputStream = ByteArrayOutputStream()
+                        bitmap!!.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)
+                        callback.onDataReady(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
+                    } else {
+                        callback.onDataReady(BufferedInputStream(ZipFile(appGraphicsModel.path).getInputStream(entry)))
+                    }
                 }
             }
         } catch (e: IOException) {

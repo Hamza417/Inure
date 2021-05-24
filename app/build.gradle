@@ -74,10 +74,10 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2-native-mt'
 
     // AndroidX
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.fragment:fragment-ktx:1.3.3'
+    implementation 'androidx.fragment:fragment-ktx:1.3.4'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
@@ -95,7 +95,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.jaredrummler:apk-parser:1.0.2'
     implementation 'com.scottyab:rootbeer-lib:0.0.9'
-    implementation 'com.ccy:FocusLayoutManager:1.0.2'
+    implementation 'com.caverock:androidsvg-aar:1.4'
 
     // root
     def libsuVersion = '3.1.2'

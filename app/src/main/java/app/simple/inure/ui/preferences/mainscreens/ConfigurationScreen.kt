@@ -1,4 +1,4 @@
-package app.simple.inure.ui.preferences
+package app.simple.inure.ui.preferences.mainscreens
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -6,14 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.MainPreferences
 import com.topjohnwu.superuser.Shell
-import com.topjohnwu.superuser.ShellUtils
 
 class ConfigurationScreen : ScopedFragment() {
 

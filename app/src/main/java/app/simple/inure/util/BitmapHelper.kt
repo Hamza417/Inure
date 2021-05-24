@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.BlurMaskFilter.Blur
 import android.graphics.Matrix.ScaleToFit
+import android.graphics.drawable.PictureDrawable
 import androidx.core.content.ContextCompat
 
 
@@ -34,6 +35,7 @@ object BitmapHelper {
      *
      * @return [Bitmap]
      */
+    @Deprecated("Use Glide renderscript")
     fun addShadow(bitmap: Bitmap, dstHeight: Int, dstWidth: Int, size: Int, dx: Float, dy: Float): Bitmap {
         val mask = Bitmap.createBitmap(dstWidth, dstHeight, Bitmap.Config.ARGB_8888)
         val scaleToFit = Matrix()
@@ -59,5 +61,14 @@ object BitmapHelper {
         retCanvas.drawBitmap(bitmap, scaleToFit, null)
         mask.recycle()
         return finalBitmap
+    }
+
+    //Convert Picture to Bitmap
+    fun Picture.toBitmap(): Bitmap? {
+        val pd = PictureDrawable(this)
+        val bitmap = Bitmap.createBitmap(pd.intrinsicWidth, pd.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawPicture(pd.picture)
+        return bitmap
     }
 }

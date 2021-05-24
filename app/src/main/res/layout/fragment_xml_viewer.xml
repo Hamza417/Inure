@@ -21,13 +21,14 @@
         android:padding="10dp"
         android:scrollbars="vertical">
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.views.TypeFaceEditText
             android:id="@+id/text_viewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/textSecondary"
             android:textIsSelectable="true"
             android:textSize="14sp"
-            android:textColor="@color/textSecondary"
+            android:background="@android:color/transparent"
             app:appFontStyle="regular" />
 
     </androidx.core.widget.NestedScrollView>

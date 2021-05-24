@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.exception.FileOrStringTooBigException
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -21,7 +22,7 @@ import java.util.zip.ZipFile
 
 class TextViewer : ScopedFragment() {
 
-    private lateinit var txt: TypeFaceTextView
+    private lateinit var txt: TypeFaceEditText
     private lateinit var path: TypeFaceTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,11 +51,11 @@ class TextViewer : ScopedFragment() {
                     string = IOUtils.toString(getInputStream(), "UTF-8")
                 }
                 if (string.length >= 100000) {
-                    throw FileOrStringTooBigException("String is too big to render without freezing the app")
+                    throw FileOrStringTooBigException("String size ${string.length} is too big to render without freezing the app")
                 }
-                txt.text = string
+                txt.setText(string)
             }.getOrElse {
-                txt.text = it.stackTrace.toString()
+                txt.setText(it.stackTraceToString())
                 txt.setTextColor(Color.RED)
             }
         }

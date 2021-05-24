@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterGraphics
 import app.simple.inure.decorations.popup.PopupFrameLayout
@@ -16,14 +16,15 @@ import app.simple.inure.popups.app.PopupImageViewer
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.APKParser
 import app.simple.inure.util.FragmentHelper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.panels.ApkDataViewModel
 
 class Graphics : ScopedFragment() {
 
     private lateinit var recyclerView: CustomRecyclerView
     private lateinit var total: TypeFaceTextView
+    private lateinit var componentsViewModel: ApkDataViewModel
+    private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_graphics, container, false)
@@ -31,6 +32,8 @@ class Graphics : ScopedFragment() {
         recyclerView = view.findViewById(R.id.graphics_recycler_view)
         total = view.findViewById(R.id.total)
         applicationInfo = requireArguments().getParcelable("application_info")!!
+        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
 
         return view
     }
@@ -40,12 +43,8 @@ class Graphics : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            val adapterGraphics: AdapterGraphics
-
-            withContext(Dispatchers.IO) {
-                adapterGraphics = AdapterGraphics(applicationInfo.sourceDir, APKParser.getGraphicsFiles(applicationInfo.sourceDir))
-            }
+        componentsViewModel.getGraphics().observe(viewLifecycleOwner, {
+            val adapterGraphics = AdapterGraphics(applicationInfo.sourceDir, APKParser.getGraphicsFiles(applicationInfo.sourceDir))
 
             recyclerView.adapter = adapterGraphics
             total.text = getString(R.string.total, adapterGraphics.list.size)
@@ -53,15 +52,15 @@ class Graphics : ScopedFragment() {
             adapterGraphics.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
                 override fun onGraphicsClicked(path: String, filePath: String, view: ViewGroup, xOff: Float, yOff: Float) {
 
-                    val f = PopupFrameLayout(requireContext())
+                    val popupFrameLayout = PopupFrameLayout(requireContext())
 
-                    f.apply {
+                    popupFrameLayout.apply {
                         minimumWidth = resources.getDimensionPixelSize(R.dimen.popup_image_viewer_dimension)
                         minimumHeight = minimumWidth
                     }
 
-                    PopupImageViewer(layoutInflater.inflate(R.layout.popup_image_viewer, f),
-                                                            view, path, filePath, xOff, yOff)
+                    PopupImageViewer(layoutInflater.inflate(R.layout.popup_image_viewer, popupFrameLayout),
+                                     view, path, filePath, xOff, yOff)
                 }
 
                 override fun onGraphicsLongPressed(filePath: String) {
@@ -78,7 +77,7 @@ class Graphics : ScopedFragment() {
                     }
                 }
             })
-        }
+        })
     }
 
     companion object {

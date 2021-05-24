@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
@@ -14,6 +15,8 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.APKParser.getActivities
 import app.simple.inure.util.APKParser.getProviders
+import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.panels.ApkDataViewModel
 import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -25,12 +28,17 @@ class Providers : ScopedFragment() {
 
     private lateinit var recyclerView: CustomRecyclerView
     private lateinit var total: TypeFaceTextView
+    private lateinit var componentsViewModel: ApkDataViewModel
+    private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_provider, container, false)
 
         recyclerView = view.findViewById(R.id.providers_recycler_view)
         total = view.findViewById(R.id.total)
+        applicationInfo = requireArguments().getParcelable("application_info")!!
+        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
 
         return view
     }
@@ -40,21 +48,10 @@ class Providers : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            var list: List<AndroidComponent>
-
-            withContext(Dispatchers.Default) {
-                list = requireArguments().getParcelable<ApplicationInfo>("application_info")?.getProviders()!!
-
-                list.sortedBy {
-                    it.name
-                }
-            }
-
-            recyclerView.adapter = AdapterServices(list)
-            total.text = getString(R.string.total, list.size)
-        }
+        componentsViewModel.getProviders().observe(viewLifecycleOwner, {
+            recyclerView.adapter = AdapterServices(it)
+            total.text = getString(R.string.total, it.size)
+        })
     }
 
     companion object {

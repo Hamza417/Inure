@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterResources
@@ -14,6 +15,8 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.APKParser
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.panels.ApkDataViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,6 +25,8 @@ class Extras : ScopedFragment() {
 
     private lateinit var recyclerView: CustomRecyclerView
     private lateinit var total: TypeFaceTextView
+    private lateinit var componentsViewModel: ApkDataViewModel
+    private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_extras, container, false)
@@ -29,6 +34,9 @@ class Extras : ScopedFragment() {
         recyclerView = view.findViewById(R.id.extras_recycler_view)
         total = view.findViewById(R.id.total)
         applicationInfo = requireArguments().getParcelable("application_info")!!
+
+        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
 
         return view
     }
@@ -38,12 +46,8 @@ class Extras : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            val adapterResources: AdapterResources
-
-            withContext(Dispatchers.IO) {
-                adapterResources = AdapterResources(APKParser.getExtraFiles(applicationInfo.sourceDir))
-            }
+        componentsViewModel.getExtras().observe(viewLifecycleOwner, {
+            val adapterResources = AdapterResources(APKParser.getExtraFiles(applicationInfo.sourceDir))
 
             recyclerView.adapter = adapterResources
             total.text = getString(R.string.total, adapterResources.list.size)
@@ -56,7 +60,7 @@ class Extras : ScopedFragment() {
                                                 "text_viewer")
                 }
             })
-        }
+        })
     }
 
     companion object {

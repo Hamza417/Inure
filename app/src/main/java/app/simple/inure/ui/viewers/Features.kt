@@ -5,29 +5,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterFeatures
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.util.APKParser.getFeatures
-import com.jaredrummler.apkparser.model.UseFeature
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.panels.ApkDataViewModel
 
 class Features : ScopedFragment() {
 
     private lateinit var recyclerView: CustomRecyclerView
     private lateinit var total: TypeFaceTextView
+    private lateinit var componentsViewModel: ApkDataViewModel
+    private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_features, container, false)
 
         recyclerView = view.findViewById(R.id.features_recycler_view)
         total = view.findViewById(R.id.total)
+        applicationInfo = requireArguments().getParcelable<ApplicationInfo>("application_info")!!
+        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
 
         return view
     }
@@ -37,20 +38,10 @@ class Features : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            var list: List<UseFeature>
-
-            withContext(Dispatchers.Default) {
-                list = requireArguments().getParcelable<ApplicationInfo>("application_info")?.getFeatures()!!
-
-                list.sortedBy {
-                    it.name
-                }
-            }
-
-            recyclerView.adapter = AdapterFeatures(list)
-            total.text = getString(R.string.total, list.size)
-        }
+        componentsViewModel.getFeatures().observe(viewLifecycleOwner, {
+            recyclerView.adapter = AdapterFeatures(it)
+            total.text = getString(R.string.total, it.size)
+        })
     }
 
     companion object {

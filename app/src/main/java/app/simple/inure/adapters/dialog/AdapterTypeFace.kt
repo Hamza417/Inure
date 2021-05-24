@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.makeGoAway
+import app.simple.inure.util.ViewUtils.makeInvisible
 import app.simple.inure.util.ViewUtils.makeVisible
 
 class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
@@ -40,8 +43,10 @@ class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
 
         if (AppearancePreferences.getAppFont() == list[position].name) {
             holder.icon.makeVisible()
+            holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textPrimary))
         } else {
-            holder.icon.makeGoAway()
+            holder.icon.makeInvisible()
+            holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textTertiary))
         }
 
         holder.container.setOnClickListener {
@@ -57,7 +62,7 @@ class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
         this.adapterTypeFaceCallbacks = adapterTypeFaceCallbacks
     }
 
-    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.adapter_typeface_textview)
         val icon: ImageView = itemView.findViewById(R.id.adapter_typeface_check_icon)
         val container: LinearLayout = itemView.findViewById(R.id.adapter_typeface_container)
