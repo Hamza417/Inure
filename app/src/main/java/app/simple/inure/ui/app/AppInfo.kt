@@ -7,11 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.app.ShareCompat
-import androidx.core.content.FileProvider
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
@@ -23,23 +20,12 @@ import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.shell.ShellExecutor
 import app.simple.inure.ui.viewers.*
-import app.simple.inure.util.FileUtils
-import app.simple.inure.util.FileUtils.copyTo
 import app.simple.inure.util.FragmentHelper.openFragment
-import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PackageUtils
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
-import app.simple.inure.viewmodels.AppInfoMenuData
-import com.topjohnwu.superuser.Shell
-import com.topjohnwu.superuser.ShellUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.net.URLConnection
+import app.simple.inure.viewmodels.panels.AppInfoMenuData
 
 
 class AppInfo : ScopedFragment() {

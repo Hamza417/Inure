@@ -1,4 +1,4 @@
-package app.simple.inure.viewmodels
+package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.app.usage.NetworkStatsManager

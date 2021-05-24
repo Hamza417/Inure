@@ -1,4 +1,4 @@
-package app.simple.inure.viewmodels
+package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.preferences.ConfigurationPreferences
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

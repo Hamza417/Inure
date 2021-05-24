@@ -9,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.ui.app.Apps
 import app.simple.inure.util.FragmentHelper.openFragment
-import app.simple.inure.viewmodels.AppData
+import app.simple.inure.viewmodels.panels.AppData
 
 class SplashScreen : ScopedFragment() {
 

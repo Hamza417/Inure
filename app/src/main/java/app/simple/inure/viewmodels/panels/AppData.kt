@@ -1,19 +1,21 @@
-package app.simple.inure.viewmodels
+package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.exception.CacheDirectoryDeletionException
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.PackageUtils.getApplicationName
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.*
+import java.io.File
 import java.util.stream.Collectors
-import kotlin.coroutines.CoroutineContext
 
 class AppData(application: Application) : AndroidViewModel(application) {
 
@@ -53,6 +55,16 @@ class AppData(application: Application) : AndroidViewModel(application) {
             apps.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)
 
             appData.postValue(apps)
+
+            kotlin.runCatching {
+                if (File(getApplication<Application>().getExternalFilesDir(null)?.path + "/send_cache/").deleteRecursively()) {
+                    Log.d(getApplication<Application>().packageName, "Deleted")
+                } else {
+                    throw CacheDirectoryDeletionException("Could not delete cache directory, manual action required.")
+                }
+            }.getOrElse {
+                it.printStackTrace()
+            }
         }
     }
 }

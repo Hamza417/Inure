@@ -22,7 +22,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAnalytics
 import app.simple.inure.util.FileSizeHelper.getFileSize
 import app.simple.inure.util.SDKHelper
-import app.simple.inure.viewmodels.AppsAnalyticsData
+import app.simple.inure.viewmodels.panels.AppsAnalyticsData
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

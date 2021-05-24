@@ -37,18 +37,6 @@ open class BaseActivity : AppCompatActivity() {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        CoroutineScope(Dispatchers.Default).launch {
-            kotlin.runCatching {
-                if (File(getExternalFilesDir(null)?.path + "/send_cache/").deleteRecursively()) {
-                    Log.d(packageName, "Deleted")
-                } else {
-                    throw CacheDirectoryDeletionException("Could not delete cache directory")
-                }
-            }.getOrElse {
-                it.printStackTrace()
-            }
-        }
-
         setTheme()
         ThemeSetter.setAppTheme(AppearancePreferences.getAppTheme())
     }

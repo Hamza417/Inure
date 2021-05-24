@@ -9,29 +9,33 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.viewmodels.PreparingViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import app.simple.inure.viewmodels.dialogs.FilePreparingViewModel
+import app.simple.inure.viewmodels.factory.FilePreparingViewModelFactory
 import java.net.URLConnection
 
 class Preparing : ScopedBottomSheetFragment() {
 
     private lateinit var loader: ImageView
     private lateinit var updates: TypeFaceTextView
-    private val preparingViewModel: PreparingViewModel by viewModels()
+    private lateinit var progress: TypeFaceTextView
+    private lateinit var filePreparingViewModel: FilePreparingViewModel
+    private lateinit var filePreparingViewModelFactory: FilePreparingViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_send_prepare, container, false)
 
         loader = view.findViewById(R.id.preparing_loader_indicator)
         updates = view.findViewById(R.id.preparing_updates)
+        progress = view.findViewById(R.id.preparing_progress)
         applicationInfo = requireArguments().getParcelable("application_info")!!
+
+        filePreparingViewModelFactory = FilePreparingViewModelFactory(requireActivity().application, applicationInfo)
+        filePreparingViewModel = ViewModelProvider(this, filePreparingViewModelFactory).get(FilePreparingViewModel::class.java)
 
         return view
     }
@@ -40,13 +44,15 @@ class Preparing : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
         loader.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.loader))
 
-        preparingViewModel.prepareApplicationFiles(applicationInfo)
-
-        preparingViewModel.getProgress().observe(viewLifecycleOwner, {
+        filePreparingViewModel.getStatus().observe(viewLifecycleOwner, {
             postUpdate(it)
         })
 
-        preparingViewModel.getFile().observe(viewLifecycleOwner, {
+        filePreparingViewModel.getProgress().observe(viewLifecycleOwner, {
+            progress.text = getString(R.string.progress, it)
+        })
+
+        filePreparingViewModel.getFile().observe(viewLifecycleOwner, {
             if (it.isNotNull()) {
                 ShareCompat.IntentBuilder.from(requireActivity())
                         .setStream(FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", it!!))
@@ -58,7 +64,6 @@ class Preparing : ScopedBottomSheetFragment() {
                 postUpdate(getString(R.string.error))
             }
         })
-
     }
 
     private fun postUpdate(update: String) {

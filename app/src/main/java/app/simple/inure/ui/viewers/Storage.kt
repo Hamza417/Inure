@@ -17,7 +17,7 @@ import app.simple.inure.util.PackageUtils.getPackageSize
 import app.simple.inure.util.FileSizeHelper.getDirectorySize
 import app.simple.inure.util.FileSizeHelper.getFileSize
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.viewmodels.AppSize
+import app.simple.inure.viewmodels.panels.AppSize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

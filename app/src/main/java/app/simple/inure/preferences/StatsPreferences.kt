@@ -1,7 +1,6 @@
 package app.simple.inure.preferences
 
 import android.app.usage.UsageStatsManager
-import app.simple.inure.viewmodels.UsageStatsData
 
 object StatsPreferences {
     const val statsInterval = "app_usage_intervals"

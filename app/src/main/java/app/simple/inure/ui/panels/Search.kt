@@ -33,7 +33,7 @@ import app.simple.inure.util.PackageUtils.killThisApp
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
 import app.simple.inure.util.StatusBarHeight
-import app.simple.inure.viewmodels.SearchData
+import app.simple.inure.viewmodels.panels.SearchData
 import java.util.*
 
 class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {

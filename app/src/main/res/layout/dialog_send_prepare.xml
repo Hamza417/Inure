@@ -27,10 +27,21 @@
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:id="@+id/preparing_updates"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dialog_padding"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="medium" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/preparing_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/dialog_padding"
             android:textColor="@color/textSecondary"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="medium" />

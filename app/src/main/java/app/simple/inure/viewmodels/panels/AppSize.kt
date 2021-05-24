@@ -1,4 +1,4 @@
-package app.simple.inure.viewmodels
+package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.PackageManager
@@ -7,11 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class AppSize(application: Application) : AndroidViewModel(application) {
 
