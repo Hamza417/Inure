@@ -219,7 +219,8 @@ object APKParser {
                     || name.endsWith(".txt")
                     || name.endsWith(".proto")
                     || name.endsWith(".java")
-                    || name.endsWith(".bin")) {
+                    || name.endsWith(".bin")
+                    || name.endsWith(".ttf")) {
                     graphicsFiles.add(name)
                 }
             }

@@ -7,7 +7,6 @@ import android.provider.DocumentsContract
 import android.util.Log
 import androidx.core.content.FileProvider
 import java.io.*
-import java.lang.NullPointerException
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
@@ -39,6 +38,23 @@ object FileUtils {
                 while (`in`.read(buf).also { len = it } > 0) {
                     out.write(buf, 0, len)
                 }
+            }
+        }
+    }
+
+    /**
+     * Converts the given input stream to the given output file
+     */
+    fun copyStreamToFile(inputStream: InputStream, outputFile: File) {
+        inputStream.use { input ->
+            FileOutputStream(outputFile).use { output ->
+                val buffer = ByteArray(1024) // buffer size
+                while (true) {
+                    val byteCount = input.read(buffer)
+                    if (byteCount < 0) break
+                    output.write(buffer, 0, byteCount)
+                }
+                output.flush()
             }
         }
     }

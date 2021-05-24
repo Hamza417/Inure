@@ -28,7 +28,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            android:src="@drawable/ic_txt"
+            android:src="@drawable/ic_file_txt"
             android:transitionName="@string/manifest"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />

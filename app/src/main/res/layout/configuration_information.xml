@@ -1,8 +1,8 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
@@ -27,7 +27,6 @@
 
         <ImageView
             android:id="@+id/imageView6"
-            tools:ignore="ContentDescription"
             android:layout_width="@dimen/preference_icon_size"
             android:layout_height="@dimen/preference_icon_size"
             android:layout_centerVertical="true"
@@ -35,7 +34,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/iconSecondary" />
+            app:tint="@color/iconSecondary"
+            tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:id="@+id/typeFaceTextView011"
@@ -92,7 +92,6 @@
 
         <ImageView
             android:id="@+id/imageView9"
-            tools:ignore="ContentDescription"
             android:layout_width="@dimen/preference_icon_size"
             android:layout_height="@dimen/preference_icon_size"
             android:layout_centerVertical="true"
@@ -100,7 +99,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/iconSecondary" />
+            app:tint="@color/iconSecondary"
+            tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:id="@+id/typeFaceTextView013"
@@ -157,7 +157,6 @@
 
         <ImageView
             android:id="@+id/imageView10"
-            tools:ignore="ContentDescription"
             android:layout_width="@dimen/preference_icon_size"
             android:layout_height="@dimen/preference_icon_size"
             android:layout_centerVertical="true"
@@ -165,7 +164,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/iconSecondary" />
+            app:tint="@color/iconSecondary"
+            tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:id="@+id/typeFaceTextView015"
@@ -200,6 +200,71 @@
 
         <app.simple.inure.decorations.switchview.SwitchView
             android:id="@+id/configuration_use_binary_format"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="@dimen/preference_icon_size"
+            android:layout_height="@dimen/preference_icon_size"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_binary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/iconSecondary"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/typeFaceTextView017"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="@string/load_large_strings"
+            android:textColor="@color/textPrimary"
+            android:textSize="14sp"
+            app:appFontStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView018"
+            app:layout_constraintEnd_toStartOf="@+id/configuration_lift_string_limit"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView14"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/typeFaceTextView018"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/desc_large_strings"
+            android:textColor="@color/textTertiary"
+            android:textSize="12sp"
+            app:appFontStyle="regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/configuration_lift_string_limit"
+            app:layout_constraintStart_toEndOf="@+id/imageView14"
+            app:layout_constraintTop_toBottomOf="@id/typeFaceTextView017" />
+
+        <app.simple.inure.decorations.switchview.SwitchView
+            android:id="@+id/configuration_lift_string_limit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

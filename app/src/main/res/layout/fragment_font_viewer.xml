@@ -1,0 +1,46 @@
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/mainBackground"
+    android:orientation="vertical">
+
+    <include layout="@layout/header_font_viewer" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:layout_height="50dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:rotationY="180"
+        android:alpha="0.75"
+        android:src="@drawable/ic_quotation"
+        app:tint="?attr/colorAppAccent"
+        tools:ignore="ContentDescription" />
+
+    <EditText
+        android:id="@+id/ttf_viewer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:padding="@dimen/analytics_item_padding"
+        android:text="Lorem Ipsum"
+        android:textColorHighlight="?attr/colorAppAccentLight"
+        android:textColor="@color/textSecondary"
+        android:textCursorDrawable="@drawable/text_cursor"
+        android:textIsSelectable="true"
+        android:textSize="@dimen/quotes_text_size"
+        tools:ignore="HardcodedText,LabelFor" />
+
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

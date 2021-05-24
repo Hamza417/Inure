@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.lifecycle.lifecycleScope
@@ -21,11 +22,15 @@ import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.exception.StringTooLargeException
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.APKParser.extractManifest
 import app.simple.inure.util.APKParser.getTransBinaryXml
 import app.simple.inure.util.ColorUtils.resolveAttrColor
+import app.simple.inure.util.ViewUtils.makeGoAway
+import app.simple.inure.util.ViewUtils.makeInvisible
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -75,6 +80,7 @@ class XMLViewerTextView : ScopedFragment() {
     private var formattedContent: SpannableString? = null
     private lateinit var text: TypeFaceEditText
     private lateinit var name: TypeFaceTextView
+    private lateinit var progress: ProgressBar
     private lateinit var options: DynamicRippleImageButton
 
     var code: String = ""
@@ -84,6 +90,7 @@ class XMLViewerTextView : ScopedFragment() {
 
         text = view.findViewById(R.id.text_viewer)
         name = view.findViewById(R.id.xml_name)
+        progress = view.findViewById(R.id.xml_loader)
         options = view.findViewById(R.id.xml_viewer_options)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
@@ -96,18 +103,23 @@ class XMLViewerTextView : ScopedFragment() {
 
         startPostponedEnterTransition()
 
+
         viewLifecycleOwner.lifecycleScope.launch {
             runCatching {
                 val name: String
 
                 withContext(Dispatchers.Default) {
-                    delay(500)
+                    delay(500) // Lets the animations finish first
                     code = if (requireArguments().getBoolean("is_manifest")) {
                         name = "AndroidManifest.xml"
                         applicationInfo.extractManifest()!!
                     } else {
                         name = requireArguments().getString("path_to_xml")!!
                         applicationInfo.getTransBinaryXml(requireArguments().getString("path_to_xml")!!)
+                    }
+
+                    if (code.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
+                        throw StringTooLargeException("String size ${code.length} is too big to render without freezing the app")
                     }
 
                     formattedContent = SpannableString(code)
@@ -126,6 +138,14 @@ class XMLViewerTextView : ScopedFragment() {
 
                 this@XMLViewerTextView.text.setText(formattedContent)
                 this@XMLViewerTextView.name.text = name
+                progress.makeInvisible()
+
+            }.getOrElse {
+                this@XMLViewerTextView.text.setText(it.stackTraceToString())
+                this@XMLViewerTextView.text.setTextColor(Color.RED)
+                this@XMLViewerTextView.name.text = getString(R.string.error)
+                progress.makeInvisible()
+                options.makeGoAway()
             }
         }
 
@@ -151,6 +171,11 @@ class XMLViewerTextView : ScopedFragment() {
                 }
             })
         }
+    }
+
+    override fun onDestroy() {
+        text.setText("")
+        super.onDestroy()
     }
 
     companion object {

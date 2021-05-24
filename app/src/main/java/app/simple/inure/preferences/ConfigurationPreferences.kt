@@ -9,6 +9,7 @@ object ConfigurationPreferences {
     private const val showPermissionLabel = "is_permission_label_on"
     private const val isXmlViewerTextView = "is_xml_viewer_text_view"
     private const val sizeType = "size_type"
+    private const val largeStrings = "load_large_strings"
     const val isUsingRoot = "is_using_root"
 
     fun setKeepScreenOn(@NotNull value: Boolean) {
@@ -57,5 +58,15 @@ object ConfigurationPreferences {
 
     fun getSizeType(): String {
         return SharedPreferences.getSharedPreferences().getString(sizeType, "si")!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setLoadLargeStrings(@NotNull value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(largeStrings, value).apply()
+    }
+
+    fun isLoadingLargeStrings(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(largeStrings, false)
     }
 }

@@ -8,11 +8,10 @@ import android.webkit.MimeTypeMap
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.exception.FileOrStringTooBigException
+import app.simple.inure.exception.StringTooLargeException
 import app.simple.inure.extension.activities.BaseActivity
 import kotlinx.coroutines.*
 import org.apache.commons.io.IOUtils
-import java.lang.Exception
 import java.util.*
 
 
@@ -38,7 +37,7 @@ class TextAssociationActivity : BaseActivity() {
                     val string = IOUtils.toString(contentResolver.openInputStream(intent.data!!), "UTF-8")
 
                     withContext(Dispatchers.Main) {
-                        if(string.length >= 100000) throw FileOrStringTooBigException("String is too big to render without freezing the app")
+                        if(string.length >= 100000) throw StringTooLargeException("String is too big to render without freezing the app")
                         txt.text = string
                     }
                 }

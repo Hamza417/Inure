@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:background="@color/mainBackground"
     android:elevation="5dp"
+    android:orientation="horizontal"
     android:padding="@dimen/header_padding">
 
     <ImageView
@@ -14,7 +14,7 @@
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/header_padding"
-        android:src="@drawable/ic_xml"
+        android:src="@drawable/ic_file_xml"
         android:transitionName="@string/manifest"
         app:tint="?attr/colorAppAccent"
         tools:ignore="ContentDescription" />
@@ -22,12 +22,20 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:id="@+id/xml_name"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         android:textColor="?attr/colorAppAccent"
         android:textSize="18sp"
         app:appFontStyle="bold" />
+
+    <ProgressBar
+        android:id="@+id/xml_loader"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="@dimen/panel_icon_size"
+        android:layout_height="@dimen/panel_icon_size"
+        android:indeterminateTint="?attr/colorAppAccent"
+        android:padding="10dp" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/xml_viewer_options"

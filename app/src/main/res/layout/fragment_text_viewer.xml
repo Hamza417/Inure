@@ -27,6 +27,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textPrimary"
             android:textIsSelectable="true"
+            android:textCursorDrawable="@drawable/text_cursor"
+            android:inputType="textMultiLine|textNoSuggestions"
             android:background="@android:color/transparent"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular" />

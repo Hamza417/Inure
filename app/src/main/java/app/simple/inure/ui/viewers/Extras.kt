@@ -6,20 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterResources
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.APKParser
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.panels.ApkDataViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class Extras : ScopedFragment() {
 
@@ -55,9 +50,15 @@ class Extras : ScopedFragment() {
             adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
                 override fun onResourceClicked(path: String) {
                     exitTransition = null
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                TextViewer.newInstance(applicationInfo, path),
-                                                "text_viewer")
+                    if (path.endsWith(".ttf")) {
+                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                    Font.newInstance(path, applicationInfo),
+                                                    "ttf_viewer")
+                    } else {
+                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                    TextViewer.newInstance(applicationInfo, path),
+                                                    "text_viewer")
+                    }
                 }
             })
         })

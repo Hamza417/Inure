@@ -116,6 +116,39 @@
                 <data android:scheme="content" />
                 <data android:host="*" />
                 <data android:mimeType="text/*" />
+                <data android:pathPattern=".*\\.txt" />
+                <data android:pathPattern=".*\\..*\\.txt" />
+                <data android:pathPattern=".*\\..*\\..*\\.txt" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.txt" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.txt" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.txt" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.txt" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.association.TTFAssociationActivity"
+            android:exported="true"
+            android:label="Inure TTF Preview">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="font/ttf" />
+                <data android:pathPattern=".*\\.ttf" />
+                <data android:pathPattern=".*\\..*\\.ttf" />
+                <data android:pathPattern=".*\\..*\\..*\\.ttf" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.ttf" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.ttf" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.ttf" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.ttf" />
             </intent-filter>
         </activity>
 

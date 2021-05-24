@@ -18,6 +18,7 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var permissionLabelModeSwitchView: SwitchView
     private lateinit var textViewXmlViewerSwitchView: SwitchView
     private lateinit var useBinaryFormat: SwitchView
+    private lateinit var loadLargeStrings: SwitchView
     private lateinit var rootSwitchView: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,6 +30,7 @@ class ConfigurationScreen : ScopedFragment() {
         permissionLabelModeSwitchView = view.findViewById(R.id.configuration_show_permission_label)
         textViewXmlViewerSwitchView = view.findViewById(R.id.configuration_use_text_view)
         useBinaryFormat = view.findViewById(R.id.configuration_use_binary_format)
+        loadLargeStrings = view.findViewById(R.id.configuration_lift_string_limit)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
 
         return view
@@ -40,6 +42,7 @@ class ConfigurationScreen : ScopedFragment() {
         keepScreenOnSwitchView.setChecked(ConfigurationPreferences.isKeepScreenOn())
         permissionLabelModeSwitchView.setChecked(ConfigurationPreferences.getPermissionLabelMode())
         textViewXmlViewerSwitchView.setChecked(ConfigurationPreferences.isXmlViewerTextView())
+        loadLargeStrings.setChecked(ConfigurationPreferences.isLoadingLargeStrings())
         useBinaryFormat.setChecked(ConfigurationPreferences.getSizeType() == "binary")
 
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
@@ -68,6 +71,10 @@ class ConfigurationScreen : ScopedFragment() {
             } else {
                 ConfigurationPreferences.setUsingRoot(false)
             }
+        }
+
+        loadLargeStrings.setOnSwitchCheckedChangeListener {
+            ConfigurationPreferences.setLoadLargeStrings(it)
         }
 
         useBinaryFormat.setOnSwitchCheckedChangeListener {

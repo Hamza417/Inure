@@ -10,8 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.exception.FileOrStringTooBigException
+import app.simple.inure.exception.StringTooLargeException
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.*
 import org.apache.commons.io.IOUtils
 import java.io.BufferedInputStream
@@ -44,14 +45,15 @@ class TextViewer : ScopedFragment() {
         path.text = requireArguments().getString("path")!!
 
         viewLifecycleOwner.lifecycleScope.launch {
+            delay(500L)
             runCatching {
                 val string: String
 
                 withContext(Dispatchers.IO) {
                     string = IOUtils.toString(getInputStream(), "UTF-8")
                 }
-                if (string.length >= 100000) {
-                    throw FileOrStringTooBigException("String size ${string.length} is too big to render without freezing the app")
+                if (string.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
+                    throw StringTooLargeException("String size ${string.length} is too big to render without freezing the app")
                 }
                 txt.setText(string)
             }.getOrElse {

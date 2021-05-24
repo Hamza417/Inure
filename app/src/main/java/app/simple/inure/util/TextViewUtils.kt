@@ -1,5 +1,6 @@
 package app.simple.inure.util
 
+import android.os.Build
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
@@ -40,5 +41,14 @@ object TextViewUtils {
         }
         this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
         this.setText(spannableString, TextView.BufferType.SPANNABLE)
+    }
+
+    fun String.toHtmlSpanned(): Spanned {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(this, Html.FROM_HTML_SEPARATOR_LINE_BREAK_HEADING)
+        } else {
+            @Suppress("DEPRECATION")
+            Html.fromHtml(this)
+        }
     }
 }
