@@ -32,7 +32,6 @@
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/txt_viewer_options"
         android:layout_width="@dimen/button_size"
-        android:visibility="gone"
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="15dp"

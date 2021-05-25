@@ -22,7 +22,6 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:rotationY="180"
-        android:alpha="0.75"
         android:src="@drawable/ic_quotation"
         app:tint="?attr/colorAppAccent"
         tools:ignore="ContentDescription" />
@@ -35,7 +34,6 @@
         android:importantForAutofill="no"
         android:inputType="textMultiLine|textNoSuggestions"
         android:padding="@dimen/analytics_item_padding"
-        android:text="Lorem Ipsum"
         android:textColorHighlight="?attr/colorAppAccentLight"
         android:textColor="@color/textSecondary"
         android:textCursorDrawable="@drawable/text_cursor"

@@ -8,7 +8,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
-    def appVersionCode = 4
+    def appVersionCode = 5
     def appVersionName = "build${appVersionCode}"
 
     defaultConfig {

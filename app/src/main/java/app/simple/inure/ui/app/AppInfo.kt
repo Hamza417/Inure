@@ -25,7 +25,7 @@ import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PackageUtils
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
-import app.simple.inure.viewmodels.panels.AppInfoMenuData
+import app.simple.inure.viewmodels.panels.InfoPanelMenuData
 
 
 class AppInfo : ScopedFragment() {
@@ -41,7 +41,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var options: RecyclerView
 
     private lateinit var adapterAppInfoMenu: AdapterAppInfoMenu
-    private val model: AppInfoMenuData by viewModels()
+    private val model: InfoPanelMenuData by viewModels()
 
     private var spanCount = 3
 

@@ -160,4 +160,15 @@
     <string name="progress">%d%%</string>
     <string name="load_large_strings">Load Large Strings</string>
     <string name="desc_large_strings">Suppress error while loading strings that are unusually large to be rendered smoothly on the screen. This option is not recommended as this can lead to UI freezing issues in the app and loading large string can take longer time to appear on the screen.</string>
+    <string name="setup">Inure Setup…</string>
+    <string name="not_granted">Not Granted, Click to Allow</string>
+    <string name="grant_usage_access_permission">Grant Usage Access Permission</string>
+    <string name="grant_storage_access_permission">Grant Storage Access Permission</string>
+    <string name="desc_usage_access">This app uses PACKAGE_USAGE_STATS permission to fetch and calculate the various app usage data available in the device.</string>
+    <string name="desc_storage_permission">Storage permission is required and used to perform various app actions such as sharing app, making backup files or associate with file available in external storage.</string>
+    <string name="granted">Granted!</string>
+    <string name="rejected">Permission Rejected, Click to Allow</string>
+    <string name="start_app_now">Start App Now</string>
+    <string name="desc_setup">Before moving ahead it is recommended to perform the necessary actions to make the all the features of the app work.</string>
+    <string name="skip">Skip for Now</string>
 </resources>

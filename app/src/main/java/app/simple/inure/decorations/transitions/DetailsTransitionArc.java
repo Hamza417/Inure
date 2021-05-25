@@ -19,7 +19,18 @@ import androidx.transition.TransitionSet;
  */
 public class DetailsTransitionArc extends TransitionSet {
     
+    private int maximumAngle = 90;
+    private int minimumHorizontalAngle = 80;
+    private int minimumVerticalAngle = 15;
+    
     public DetailsTransitionArc() {
+        init();
+    }
+    
+    public DetailsTransitionArc(int maximumAngle, int minimumHorizontalAngle, int minimumVerticalAngle) {
+        this.maximumAngle = maximumAngle;
+        this.minimumHorizontalAngle = minimumHorizontalAngle;
+        this.minimumVerticalAngle = minimumVerticalAngle;
         init();
     }
     
@@ -37,9 +48,9 @@ public class DetailsTransitionArc extends TransitionSet {
          * motion when the view is transitioning.
          */
         ArcMotion arcMotion = new ArcMotion();
-        arcMotion.setMaximumAngle(90);
-        arcMotion.setMinimumHorizontalAngle(80);
-        arcMotion.setMinimumVerticalAngle(15);
+        arcMotion.setMaximumAngle(maximumAngle);
+        arcMotion.setMinimumHorizontalAngle(minimumHorizontalAngle);
+        arcMotion.setMinimumVerticalAngle(minimumVerticalAngle);
         
         /*
          * Makes sure things go smoothly

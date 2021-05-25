@@ -59,6 +59,12 @@ class XMLViewerTextView : ScopedFragment() {
                 "|\\/>", // />
         Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
 
+    private var formattedContent: SpannableString? = null
+    private lateinit var text: TypeFaceEditText
+    private lateinit var name: TypeFaceTextView
+    private lateinit var progress: ProgressBar
+    private lateinit var options: DynamicRippleImageButton
+
     private val exportManifest = registerForActivityResult(CreateDocument()) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
@@ -67,7 +73,7 @@ class XMLViewerTextView : ScopedFragment() {
         try {
             requireContext().contentResolver.openOutputStream(uri).use { outputStream ->
                 if (outputStream == null) throw IOException()
-                outputStream.write(code.toByteArray())
+                outputStream.write(text.text.toString().toByteArray())
                 outputStream.flush()
                 Toast.makeText(requireContext(), R.string.saved_successfully, Toast.LENGTH_SHORT).show()
             }
@@ -76,14 +82,6 @@ class XMLViewerTextView : ScopedFragment() {
             Toast.makeText(requireContext(), R.string.failed, Toast.LENGTH_SHORT).show()
         }
     }
-
-    private var formattedContent: SpannableString? = null
-    private lateinit var text: TypeFaceEditText
-    private lateinit var name: TypeFaceTextView
-    private lateinit var progress: ProgressBar
-    private lateinit var options: DynamicRippleImageButton
-
-    var code: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_xml_viewer, container, false)
@@ -107,6 +105,7 @@ class XMLViewerTextView : ScopedFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             runCatching {
                 val name: String
+                val code: String
 
                 withContext(Dispatchers.Default) {
                     delay(500) // Lets the animations finish first
@@ -160,7 +159,7 @@ class XMLViewerTextView : ScopedFragment() {
                     when (source) {
                         getString(R.string.copy) -> {
                             val clipboard: ClipboardManager? = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-                            val clip = ClipData.newPlainText("xml", code)
+                            val clip = ClipData.newPlainText("xml", text.text.toString())
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {

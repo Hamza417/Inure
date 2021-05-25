@@ -20,4 +20,8 @@ object ColorUtils {
     fun changeAlpha(origColor: Int, userInputAlpha: Int): Int {
         return origColor and 0x00ffffff or (userInputAlpha shl 24)
     }
+
+    fun Int.toHexColor(): String {
+        return java.lang.String.format("#%06X", 0xFFFFFF and this)
+    }
 }

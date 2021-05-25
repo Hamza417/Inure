@@ -10,7 +10,7 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AppInfoMenuData(application: Application) : AndroidViewModel(application) {
+class InfoPanelMenuData(application: Application) : AndroidViewModel(application) {
     private val menuItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
         MutableLiveData<List<Pair<Int, String>>>().also {
             loadItems()

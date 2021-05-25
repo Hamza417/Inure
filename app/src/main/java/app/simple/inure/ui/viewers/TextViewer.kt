@@ -1,21 +1,31 @@
 package app.simple.inure.ui.viewers
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.decorations.popup.PopupLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.exception.StringTooLargeException
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.*
 import org.apache.commons.io.IOUtils
 import java.io.BufferedInputStream
+import java.io.IOException
 import java.io.InputStream
 import java.util.*
 import java.util.zip.ZipEntry
@@ -25,12 +35,32 @@ class TextViewer : ScopedFragment() {
 
     private lateinit var txt: TypeFaceEditText
     private lateinit var path: TypeFaceTextView
+    private lateinit var options: DynamicRippleImageButton
+
+    private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
+        if (uri == null) {
+            // Back button pressed.
+            return@registerForActivityResult
+        }
+        try {
+            requireContext().contentResolver.openOutputStream(uri).use { outputStream ->
+                if (outputStream == null) throw IOException()
+                outputStream.write(txt.text.toString().toByteArray())
+                outputStream.flush()
+                Toast.makeText(requireContext(), R.string.saved_successfully, Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), R.string.failed, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_text_viewer, container, false)
 
         txt = view.findViewById(R.id.text_viewer)
         path = view.findViewById(R.id.txt_name)
+        options = view.findViewById(R.id.txt_viewer_options)
 
         startPostponedEnterTransition()
 
@@ -60,6 +90,29 @@ class TextViewer : ScopedFragment() {
                 txt.setText(it.stackTraceToString())
                 txt.setTextColor(Color.RED)
             }
+        }
+
+        options.setOnClickListener {
+            val p = PopupXmlViewer(LayoutInflater.from(requireContext())
+                                           .inflate(R.layout.popup_xml_options,
+                                                    PopupLinearLayout(requireContext()),
+                                                    true), it)
+
+            p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
+                override fun onPopupItemClicked(source: String) {
+                    when (source) {
+                        getString(R.string.copy) -> {
+                            val clipboard: ClipboardManager? = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+                            val clip = ClipData.newPlainText("xml", txt.text.toString())
+                            clipboard?.setPrimaryClip(clip)
+                        }
+                        getString(R.string.save) -> {
+                            val fileName: String = applicationInfo.packageName + "_" + path.text
+                            exportText.launch(fileName)
+                        }
+                    }
+                }
+            })
         }
     }
 

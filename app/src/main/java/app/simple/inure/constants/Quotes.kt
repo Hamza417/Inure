@@ -23,7 +23,10 @@ object Quotes {
         quote("Go confidently in the direction of your dreams! Live the life you've imagined.") + author("Henry David Thoreau"),
         quote("In three words I can sum up everything I've learned about life: it goes on.") + author("Robert Frost"),
         quote("If you really look closely, most overnight successes took a long time.") + author("Steve Jobs"),
-        quote("A truth that's told with bad intent beats all the lies you can invent.") + author("William Blake")
+        quote("A truth that's told with bad intent beats all the lies you can invent.") + author("William Blake"),
+        quote("Forget all the reasons why it won't work, and believe the one reason why it will.") + author("Ziad K. Abdelnour"),
+        quote("You can't go back and change the beginning but you can start where you are and change the ending.") + author("C.S. Lewis"),
+        quote("This moment will just be another story someday.") + author("Stephen Chbosky")
     )
 
     private fun author(string: String): String {
