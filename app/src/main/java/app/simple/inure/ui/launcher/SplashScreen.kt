@@ -29,18 +29,14 @@ class SplashScreen : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        println(requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty())
-        println(!checkForPermission())
-        println(requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty() && !checkForPermission())
-
         when {
             requireArguments().getBoolean("skip") -> {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    delay(1000L) // Make sure the animation runs
+                    delay(1000L) // Make sure the animation finishes
                     proceed()
                 }
             }
-            requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty() && !checkForPermission() -> {
+            requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty() || !checkForPermission() -> {
                 viewLifecycleOwner.lifecycleScope.launch {
                     delay(1000L) // Make sure the animation runs
                     openFragment(
@@ -49,7 +45,10 @@ class SplashScreen : ScopedFragment() {
                 }
             }
             else -> {
-                proceed()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    delay(1000L) // Make sure the animation finishes
+                    proceed()
+                }
             }
         }
     }

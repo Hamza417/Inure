@@ -80,11 +80,8 @@ object FragmentHelper {
      * @param fragment [Fragment]
      * @param icon [View] that needs to be animated
      */
-    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, @NotNull icon: ImageView) {
-        fragment.exitTransition = Fade()
-        fragment.sharedElementEnterTransition = DetailsTransitionArc()
-        fragment.enterTransition = Fade()
-        fragment.sharedElementReturnTransition = DetailsTransitionArc()
+    fun openFragment(fragmentManager: FragmentManager, fragment: ScopedFragment, @NotNull icon: ImageView) {
+        fragment.setTransitions()
 
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)

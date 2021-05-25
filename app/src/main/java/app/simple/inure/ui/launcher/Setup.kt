@@ -20,13 +20,14 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.appearance.AccentColor
+import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.makeInvisible
 import app.simple.inure.util.ViewUtils.makeVisible
 
-class Setup : Fragment() {
+class Setup : ScopedFragment() {
 
     private lateinit var usageAccess: DynamicRippleLinearLayout
     private lateinit var storageAccess: DynamicRippleLinearLayout
@@ -54,8 +55,6 @@ class Setup : Fragment() {
         appStorageAccessResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
-                    println(result.data)
-
                     val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
                             Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 
@@ -63,18 +62,15 @@ class Setup : Fragment() {
                         requireActivity().contentResolver.takePersistableUriPermission(it!!.data?.normalizeScheme()!!, takeFlags)
                     }
 
-                    storageStatus.text = getString(R.string.granted)
-                    storageStatus.setTextColor(requireContext().resolveAttrColor(R.attr.colorAppAccent))
-                    storageAccess.isClickable = false
-
                     showStartAppButton()
-
+                    setStorageStatus()
                 }
                 Activity.RESULT_CANCELED -> {
                     storageStatus.text = getString(R.string.rejected)
                     storageStatus.setTextColor(Color.RED)
 
                     showStartAppButton()
+                    setStorageStatus()
                 }
             }
         }
@@ -128,6 +124,7 @@ class Setup : Fragment() {
         }
 
         showStartAppButton()
+        setStorageStatus()
     }
 
     private fun requestStoragePermission() {
@@ -155,6 +152,16 @@ class Setup : Fragment() {
             appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), requireContext().packageName)
         }
         return mode == AppOpsManagerCompat.MODE_ALLOWED
+    }
+
+    private fun setStorageStatus() {
+        if(requireActivity().contentResolver.persistedUriPermissions.isNotEmpty()) {
+            storageStatus.text = getString(R.string.granted)
+            storageStatus.setTextColor(requireContext().resolveAttrColor(R.attr.colorAppAccent))
+            storageAccess.isClickable = false
+        } else {
+            storageStatus.text = getString(R.string.not_granted)
+        }
     }
 
     private fun openDirectory() {
