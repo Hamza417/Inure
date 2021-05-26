@@ -30,6 +30,7 @@ import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -120,13 +121,6 @@ public class TerminalView extends ListView {
         }
     }
     
-    private final OnItemClickListener mClickListener = (parent, v, pos, id) -> {
-        if (parent.requestFocus()) {
-            InputMethodManager imm = (InputMethodManager) parent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(parent, InputMethodManager.SHOW_IMPLICIT);
-        }
-    };
-    
     private final Runnable mDamageRunnable = () -> {
         invalidateViews();
         if (SCROLL_ON_DAMAGE) {
@@ -152,8 +146,21 @@ public class TerminalView extends ListView {
         setFocusableInTouchMode(true);
         
         setAdapter(mAdapter);
+        OnKeyListener mKeyListener = (v, keyCode, event) -> {
+            final boolean res = mTermKeys.onKey(v, keyCode, event);
+            if (res && SCROLL_ON_INPUT) {
+                scrollToBottom(true);
+            }
+            return res;
+        };
         setOnKeyListener(mKeyListener);
-        
+    
+        OnItemClickListener mClickListener = (parent, v, pos, id) -> {
+            if (parent.requestFocus()) {
+                InputMethodManager imm = (InputMethodManager) parent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(parent, InputMethodManager.SHOW_IMPLICIT);
+            }
+        };
         setOnItemClickListener(mClickListener);
     }
     
@@ -226,14 +233,6 @@ public class TerminalView extends ListView {
         return pos - mScrollRows;
     }
     
-    private OnKeyListener mKeyListener = (v, keyCode, event) -> {
-        final boolean res = mTermKeys.onKey(v, keyCode, event);
-        if (res && SCROLL_ON_INPUT) {
-            scrollToBottom(true);
-        }
-        return res;
-    };
-    
     @Override
     public void onRestoreInstanceState(Parcelable state) {
         super.onRestoreInstanceState(state);
@@ -303,11 +302,6 @@ public class TerminalView extends ListView {
         mMetrics.setTextSize(textSize);
         
         // Layout will kick off terminal resize when needed
-        requestLayout();
-    }
-    
-    public void setTypeFace(Typeface typeFace) {
-        mMetrics.setTypeFace(typeFace);
         requestLayout();
     }
     

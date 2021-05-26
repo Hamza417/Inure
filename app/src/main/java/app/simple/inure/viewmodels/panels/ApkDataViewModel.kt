@@ -17,6 +17,7 @@ import com.jaredrummler.apkparser.model.AndroidComponent
 import com.jaredrummler.apkparser.model.UseFeature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ApkDataViewModel(application: Application, val param: ApplicationInfo) : AndroidViewModel(application) {
 
@@ -112,26 +113,38 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
 
     private fun getActivitiesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            activities.postValue(param.getActivities()!!.sort())
+            activities.postValue(param.getActivities()!!.apply {
+                sortBy {
+                    it.name.substring(it.name.lastIndexOf("."))
+                }
+            })
         }
     }
 
     private fun getBroadcastsData() {
         viewModelScope.launch(Dispatchers.Default) {
-            broadcasts.postValue(param.getBroadcasts()!!.sort())
+            broadcasts.postValue(param.getBroadcasts()!!.apply {
+                sortBy {
+                    it.name.substring(it.name.lastIndexOf("."))
+                }
+            })
         }
     }
 
     private fun getExtrasData() {
         viewModelScope.launch(Dispatchers.Default) {
-            extras.postValue(APKParser.getExtraFiles(param.sourceDir))
+            extras.postValue(APKParser.getExtraFiles(param.sourceDir).apply {
+                sortBy {
+                    it.toLowerCase(Locale.getDefault())
+                }
+            })
         }
     }
 
     private fun getFeaturesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            features.postValue(param.getFeatures().apply {
-                this!!.sortBy {
+            features.postValue(param.getFeatures()!!.apply {
+                sortBy {
                     it.name
                 }
             })
@@ -140,39 +153,66 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
 
     private fun getGraphicsData() {
         viewModelScope.launch(Dispatchers.Default) {
-            graphics.postValue(APKParser.getGraphicsFiles(param.sourceDir))
+            graphics.postValue(APKParser.getGraphicsFiles(param.sourceDir).apply {
+                sortBy {
+                    it.toLowerCase(Locale.getDefault())
+                }
+            })
         }
     }
 
     private fun getPermissionData() {
         viewModelScope.launch(Dispatchers.Default) {
-            permissions.postValue(param.getPermissions())
+            permissions.postValue(param.getPermissions().apply {
+                sortBy {
+                    it.toLowerCase(Locale.getDefault())
+                }
+            })
         }
     }
 
     private fun getProvidersData() {
         viewModelScope.launch(Dispatchers.Default) {
-            activities.postValue(param.getProviders()!!.sort())
+            providers.postValue(param.getProviders()!!.apply {
+                sortBy {
+                    it.name.substring(it.name.lastIndexOf("."))
+                }
+            })
         }
     }
 
     private fun getResourceData() {
         viewModelScope.launch(Dispatchers.Default) {
-            resources.postValue(APKParser.getXmlFiles(param.sourceDir))
+            resources.postValue(APKParser.getXmlFiles(param.sourceDir).apply {
+                sortBy {
+                    it.toLowerCase(Locale.getDefault())
+                }
+            })
         }
     }
 
     private fun getServicesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            services.postValue(param.getServices()!!.sort())
+            services.postValue(param.getServices()!!.apply {
+                sortBy {
+                    it.name.substring(it.name.lastIndexOf("."))
+                }
+            })
         }
     }
 
+    /**
+     * For some reason this did not work.
+     *
+     * TODO - add explanation for why
+     */
+    @Deprecated("This won't work",
+                ReplaceWith("this.apply { sortedBy { it.name.substring(it.name.lastIndexOf(\".\")) } }"))
     private fun MutableList<AndroidComponent>.sort(): MutableList<AndroidComponent> {
-        this.sortedBy {
-            it.name.substring(it.name.lastIndexOf(".") + 1)
+        return this.apply {
+            sortedBy {
+                it.name.substring(it.name.lastIndexOf("."))
+            }
         }
-
-        return this
     }
 }

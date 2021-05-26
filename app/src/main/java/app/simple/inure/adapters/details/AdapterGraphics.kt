@@ -12,6 +12,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
+import app.simple.inure.util.StringUtils.optimizeToColoredString
 
 class AdapterGraphics(val path: String, val list: MutableList<String>) : RecyclerView.Adapter<AdapterGraphics.Holder>() {
 
@@ -25,7 +26,7 @@ class AdapterGraphics(val path: String, val list: MutableList<String>) : Recycle
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.xml.text = list[position]
+        holder.xml.text = list[position].optimizeToColoredString(holder.itemView.context, "/")
         holder.graphics.loadGraphics(path, list[position])
 
         holder.container.setOnTouchListener { _, event ->

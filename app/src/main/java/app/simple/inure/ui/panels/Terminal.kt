@@ -39,15 +39,9 @@ class Terminal : ScopedFragment() {
         icon = view.findViewById(R.id.terminal_header_icon)
         terminal = view.findViewById(R.id.terminal_view)
         terminalOptions = view.findViewById(R.id.terminal_options_button)
-        (icon.drawable as AnimatedVectorDrawable).start()
+        //(icon.drawable as AnimatedVectorDrawable).start()
 
         startPostponedEnterTransition()
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -60,7 +54,6 @@ class Terminal : ScopedFragment() {
                     Log.d(requireContext().packageName, "Could not create terminal")
                 }
 
-                terminal.requestFocus()
                 terminal.scrollToBottom(false)
 
                 /**
@@ -75,6 +68,12 @@ class Terminal : ScopedFragment() {
             override fun onServiceDisconnected(name: ComponentName?) {
             }
         }
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         requireActivity().bindService(
             Intent(requireContext(), TerminalService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)

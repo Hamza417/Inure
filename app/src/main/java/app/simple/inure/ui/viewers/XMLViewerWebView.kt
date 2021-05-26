@@ -104,7 +104,7 @@ class XMLViewerWebView : ScopedFragment() {
             val p = PopupXmlViewer(LayoutInflater.from(requireContext())
                                            .inflate(R.layout.popup_xml_options,
                                                     PopupLinearLayout(requireContext()),
-                                                    false), it)
+                                                    true), it)
 
             p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {

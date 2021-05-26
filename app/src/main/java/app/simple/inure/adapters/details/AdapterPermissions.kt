@@ -13,6 +13,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.PermissionUtils.getPermissionInfo
 import app.simple.inure.util.PermissionUtils.protectionToString
+import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.makeGoAway
 
 class AdapterPermissions(private val permissions: MutableList<String>, private val applicationInfo: ApplicationInfo)
@@ -33,7 +34,7 @@ class AdapterPermissions(private val permissions: MutableList<String>, private v
                 permissionInfo.loadLabel(holder.itemView.context.packageManager)
             } else {
                 permissions[position]
-            }
+            }.toString().optimizeToColoredString(holder.itemView.context, ".")
 
             holder.desc.text = try {
                 permissionInfo.loadDescription(holder.itemView.context.packageManager)
@@ -48,7 +49,7 @@ class AdapterPermissions(private val permissions: MutableList<String>, private v
                 protectionToString(permissionInfo.protectionLevel, holder.itemView.context)
             }
         }.getOrElse {
-            holder.name.text = permissions[position]
+            holder.name.text = permissions[position].optimizeToColoredString(holder.itemView.context, ".")
             holder.status.text = holder.itemView.context.getString(R.string.desc_not_available)
             holder.desc.makeGoAway()
         }

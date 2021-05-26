@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
+import app.simple.inure.util.StringUtils.optimizeToColoredString
+
 
 class AdapterResources(val list: MutableList<String>) : RecyclerView.Adapter<AdapterResources.Holder>() {
 
@@ -17,7 +19,7 @@ class AdapterResources(val list: MutableList<String>) : RecyclerView.Adapter<Ada
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.xml.text = list[position]
+        holder.xml.text = list[position].optimizeToColoredString(holder.itemView.context, "/")
 
         holder.xml.setOnClickListener {
             resourceCallbacks.onResourceClicked(list[position])

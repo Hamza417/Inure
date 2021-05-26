@@ -62,8 +62,6 @@ public class TerminalService extends Service {
         final Terminal term = mTerminals.get(key);
         term.destroy();
         mTerminals.delete(key);
-    
-        System.out.println("Destroyed");
 
         // If our last terminal, tear down long-lived service
         if (mTerminals.size() == 0) {

@@ -68,7 +68,7 @@ public class Terminal {
     private final long mNativePtr;
     private final Thread mThread;
     
-    private String mTitle;
+    private final String mTitle;
     
     private TerminalClient mClient;
     
@@ -76,46 +76,45 @@ public class Terminal {
     private int mCursorRow;
     private int mCursorCol;
     
-    private final TerminalCallbacks mCallbacks = new TerminalCallbacks() {
-        @Override
-        public int damage(int startRow, int endRow, int startCol, int endCol) {
-            if (mClient != null) {
-                mClient.onDamage(startRow, endRow, startCol, endCol);
-            }
-            return 1;
-        }
-        
-        @Override
-        public int moveRect(int destStartRow, int destEndRow, int destStartCol, int destEndCol,
-                int srcStartRow, int srcEndRow, int srcStartCol, int srcEndCol) {
-            if (mClient != null) {
-                mClient.onMoveRect(destStartRow, destEndRow, destStartCol, destEndCol, srcStartRow,
-                        srcEndRow, srcStartCol, srcEndCol);
-            }
-            return 1;
-        }
-        
-        @Override
-        public int moveCursor(int posRow, int posCol, int oldPosRow, int oldPosCol, int visible) {
-            mCursorVisible = (visible != 0);
-            mCursorRow = posRow;
-            mCursorCol = posCol;
-            if (mClient != null) {
-                mClient.onMoveCursor(posRow, posCol, oldPosRow, oldPosCol, visible);
-            }
-            return 1;
-        }
-        
-        @Override
-        public int bell() {
-            if (mClient != null) {
-                mClient.onBell();
-            }
-            return 1;
-        }
-    };
-    
     public Terminal() {
+        TerminalCallbacks mCallbacks = new TerminalCallbacks() {
+            @Override
+            public int damage(int startRow, int endRow, int startCol, int endCol) {
+                if (mClient != null) {
+                    mClient.onDamage(startRow, endRow, startCol, endCol);
+                }
+                return 1;
+            }
+            
+            @Override
+            public int moveRect(int destStartRow, int destEndRow, int destStartCol, int destEndCol,
+                    int srcStartRow, int srcEndRow, int srcStartCol, int srcEndCol) {
+                if (mClient != null) {
+                    mClient.onMoveRect(destStartRow, destEndRow, destStartCol, destEndCol, srcStartRow,
+                            srcEndRow, srcStartCol, srcEndCol);
+                }
+                return 1;
+            }
+            
+            @Override
+            public int moveCursor(int posRow, int posCol, int oldPosRow, int oldPosCol, int visible) {
+                mCursorVisible = (visible != 0);
+                mCursorRow = posRow;
+                mCursorCol = posCol;
+                if (mClient != null) {
+                    mClient.onMoveCursor(posRow, posCol, oldPosRow, oldPosCol, visible);
+                }
+                return 1;
+            }
+            
+            @Override
+            public int bell() {
+                if (mClient != null) {
+                    mClient.onBell();
+                }
+                return 1;
+            }
+        };
         mNativePtr = nativeInit(mCallbacks);
         key = sNumber++;
         mTitle = TAG + " " + key;
