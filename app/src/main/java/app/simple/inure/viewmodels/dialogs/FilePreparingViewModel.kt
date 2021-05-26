@@ -16,6 +16,13 @@ import java.util.zip.ZipOutputStream
 
 class FilePreparingViewModel(application: Application, val applicationInfo: ApplicationInfo) : AndroidViewModel(application) {
 
+    private var zipOutputStream: ZipOutputStream? = null
+    private var fileOutputStream: FileOutputStream? = null
+    private var fileInputStream: FileInputStream? = null
+    private var bufferedOutputStream: BufferedOutputStream? = null
+    private var bufferedInputStream: BufferedInputStream? = null
+    private var cleared = false
+
     private val progress: MutableLiveData<Long> by lazy {
         MutableLiveData<Long>()
     }
@@ -60,28 +67,31 @@ class FilePreparingViewModel(application: Application, val applicationInfo: Appl
 
                         file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + applicationInfo.name + ".zip")
 
-                        if (!file.exists()) {
+                        status.postValue(getApplication<Application>().getString(R.string.creating_split_package))
 
-                            status.postValue(getApplication<Application>().getString(R.string.creating_split_package))
+                        val list = arrayOfNulls<String>(applicationInfo.splitSourceDirs.size + 1)
+                        var length = File(applicationInfo.sourceDir).length()
 
-                            val list = arrayOfNulls<String>(applicationInfo.splitSourceDirs.size + 1)
-                            var length = File(applicationInfo.sourceDir).length()
+                        for (i in applicationInfo.splitSourceDirs.indices) {
+                            list[i] = applicationInfo.splitSourceDirs[i]
+                            length += File(applicationInfo.splitSourceDirs[i]).length()
+                        }
 
-                            for (i in applicationInfo.splitSourceDirs.indices) {
-                                list[i] = applicationInfo.splitSourceDirs[i]
-                                length += File(applicationInfo.splitSourceDirs[i]).length()
-                            }
-
+                        if (!file.exists() || file.length() < length) {
                             list[list.size - 1] = applicationInfo.sourceDir
                             createZip(list.requireNoNulls(), file, length)
+                        } else {
+                            this@FilePreparingViewModel.file.postValue(file)
                         }
 
                     } else {
                         status.postValue(getApplication<Application>().getString(R.string.preparing_apk_file))
                         file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + applicationInfo.name + ".apk")
 
-                        if (!file.exists()) {
+                        if (!file.exists() || file.length() < File(applicationInfo.sourceDir).length()) {
                             applicationInfo.sourceDir.copyTo(file)
+                        } else {
+                            this@FilePreparingViewModel.file.postValue(file)
                         }
                     }
 
@@ -100,27 +110,48 @@ class FilePreparingViewModel(application: Application, val applicationInfo: Appl
     private fun createZip(_files: Array<String>, zipFileName: File?, length: Long) {
         kotlin.runCatching {
             var total = 0L
-            ZipOutputStream(BufferedOutputStream(FileOutputStream(zipFileName))).use { zipOutputStream ->
-                val data = ByteArray(BUFFER)
+            fileOutputStream = FileOutputStream(zipFileName)
+            bufferedOutputStream = BufferedOutputStream(fileOutputStream)
+            zipOutputStream = ZipOutputStream(bufferedOutputStream)
 
-                for (i in _files.indices) {
-                    Log.v("Compress", "Adding: " + _files[i])
-                    val fi = FileInputStream(_files[i])
+            val data = ByteArray(BUFFER)
 
-                    BufferedInputStream(fi, BUFFER).use { bufferInputStream ->
-                        val entry = ZipEntry(_files[i].substring(_files[i].lastIndexOf("/") + 1))
-                        zipOutputStream.putNextEntry(entry)
-                        var count: Int
-                        while (bufferInputStream.read(data, 0, BUFFER).also { count = it } != -1) {
-                            total += count
-                            progress.postValue(total * 100 / length)
-                            zipOutputStream.write(data, 0, count)
-                            Log.v("Buffering", "Adding: " + data.size)
-                        }
-                    }
+            for (i in _files.indices) {
+                Log.v("Compress", "Adding: " + _files[i])
+                fileInputStream = FileInputStream(_files[i])
+                bufferedInputStream = BufferedInputStream(fileInputStream, BUFFER)
+
+                val entry = ZipEntry(_files[i].substring(_files[i].lastIndexOf("/") + 1))
+                zipOutputStream!!.putNextEntry(entry)
+                var count: Int
+                while (bufferedInputStream!!.read(data, 0, BUFFER).also { count = it } != -1) {
+                    if(cleared) break
+                    total += count
+                    progress.postValue(total * 100 / length)
+                    zipOutputStream!!.write(data, 0, count)
                 }
             }
+
+            zipOutputStream?.flush()
+            bufferedOutputStream?.flush()
+            fileOutputStream?.flush()
+            zipOutputStream?.close()
+            bufferedOutputStream?.close()
+            fileOutputStream?.close()
+            bufferedInputStream?.close()
+            fileInputStream?.close()
+
         }.getOrElse {
+
+            zipOutputStream?.flush()
+            bufferedOutputStream?.flush()
+            fileOutputStream?.flush()
+            zipOutputStream?.close()
+            bufferedOutputStream?.close()
+            fileOutputStream?.close()
+            bufferedInputStream?.close()
+            fileInputStream?.close()
+
             file.postValue(null)
         }
     }
@@ -132,21 +163,52 @@ class FilePreparingViewModel(application: Application, val applicationInfo: Appl
         kotlin.runCatching {
             var total = 0L
             val lengthOfFile = File(this).length()
-            FileInputStream(File(this)).use { `in` ->
-                FileOutputStream(destination).use { out ->
-                    val buf = ByteArray(BUFFER)
-                    var len: Int
-                    while (`in`.read(buf).also { len = it } > 0) {
-                        total += len
-                        progress.postValue(total * 100 / lengthOfFile)
-                        out.write(buf, 0, len)
-                    }
-                }
+
+            fileInputStream = FileInputStream(File(this))
+            fileOutputStream = FileOutputStream(destination)
+
+            val buf = ByteArray(BUFFER)
+            var len: Int
+            while (fileInputStream!!.read(buf).also { len = it } > 0) {
+                if(cleared) break
+                total += len
+                progress.postValue(total * 100 / lengthOfFile)
+                fileOutputStream!!.write(buf, 0, len)
             }
+
+            fileOutputStream!!.flush()
+            fileOutputStream!!.close()
+            fileInputStream!!.close()
+
         }.getOrElse {
             it.printStackTrace()
+
+            fileOutputStream!!.flush()
+            fileOutputStream!!.close()
+            fileInputStream!!.close()
+
             file.postValue(null)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        cleared = true
+
+        kotlin.runCatching {
+            viewModelScope.cancel()
+            zipOutputStream?.flush()
+            bufferedOutputStream?.flush()
+            fileOutputStream?.flush()
+            zipOutputStream?.close()
+            bufferedOutputStream?.close()
+            fileOutputStream?.close()
+            bufferedInputStream?.close()
+            fileInputStream?.close()
+        }.getOrElse {
+            it.printStackTrace()
+        }
+        println("Cleared")
     }
 
     companion object {

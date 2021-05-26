@@ -178,7 +178,7 @@ class AppInfo : ScopedFragment() {
                             if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
                                 val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
                                 popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
-                                    override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                    override fun onMenuItemClicked(source: String) {
                                         when (source) {
                                             getString(R.string.yes) -> {
                                                 val f = ShellExecutorDialog.newInstance("pm uninstall -k --user 0 ${applicationInfo.packageName}")
@@ -205,7 +205,7 @@ class AppInfo : ScopedFragment() {
                         getString(R.string.clear_data) -> {
                             val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
                             popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
-                                override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                override fun onMenuItemClicked(source: String) {
                                     when (source) {
                                         getString(R.string.yes) -> {
                                             ShellExecutorDialog.newInstance("pm clear ${applicationInfo.packageName}")
@@ -218,7 +218,7 @@ class AppInfo : ScopedFragment() {
                         getString(R.string.clear_cache) -> {
                             val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
                             popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
-                                override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                override fun onMenuItemClicked(source: String) {
                                     when (source) {
                                         getString(R.string.yes) -> {
                                             ShellExecutorDialog.newInstance("rm -r -v /data/data/${applicationInfo.packageName}/cache " +
@@ -235,7 +235,7 @@ class AppInfo : ScopedFragment() {
                         getString(R.string.force_stop) -> {
                             val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
                             popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
-                                override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                override fun onMenuItemClicked(source: String) {
                                     when (source) {
                                         getString(R.string.yes) -> {
                                             ShellExecutorDialog.newInstance("am force-stop ${applicationInfo.packageName}")
@@ -248,7 +248,7 @@ class AppInfo : ScopedFragment() {
                         getString(R.string.disable) -> {
                             val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
                             popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
-                                override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                override fun onMenuItemClicked(source: String) {
                                     when (source) {
                                         getString(R.string.yes) -> {
                                             val f = ShellExecutorDialog.newInstance("pm disable ${applicationInfo.packageName}")

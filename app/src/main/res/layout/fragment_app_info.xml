@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:paddingHorizontal="20dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:clipChildren="false"
@@ -47,6 +48,12 @@
             android:layout_width="match_parent"
             android:overScrollMode="never"
             android:scrollbars="none" />
+
+        <View
+            android:background="@color/divider"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
