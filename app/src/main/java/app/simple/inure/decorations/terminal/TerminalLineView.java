@@ -26,7 +26,6 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.decorations.terminal.TerminalView.TerminalMetrics;
-import kotlin.Suppress;
 
 /**
  * Rendered contents of a single line of a {@link Terminal} session.
@@ -37,16 +36,16 @@ public class TerminalLineView extends View {
     public int pos;
     public int row;
     public int cols;
-
+    
     private final Terminal mTerm;
     private final TerminalMetrics mMetrics;
-
+    
     public TerminalLineView(Context context, Terminal term, TerminalMetrics metrics) {
         super(context);
         mTerm = term;
         mMetrics = metrics;
     }
-
+    
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
@@ -56,43 +55,43 @@ public class TerminalLineView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        
         if (mTerm == null) {
             Log.w(TAG, "onDraw() without a terminal");
             canvas.drawColor(Color.MAGENTA);
             return;
         }
-
+        
         final TerminalMetrics m = mMetrics;
-
-        for (int col = 0; col < cols;) {
+        
+        for (int col = 0; col < cols; ) {
             mTerm.getCellRun(row, col, m.run);
-
+            
             m.bgPaint.setColor(Color.TRANSPARENT);
             m.textPaint.setColor(ContextCompat.getColor(getContext(), R.color.textPrimary));
-
+            
             final int x = col * m.charWidth;
             final int xEnd = x + (m.run.colSize * m.charWidth);
-
+            
             canvas.save();
             canvas.translate(x, 0);
             canvas.clipRect(0, 0, m.run.colSize * m.charWidth, m.charHeight);
-
+            
             canvas.drawPaint(m.bgPaint);
             
             canvas.drawPosText(m.run.data, 0, m.run.dataSize, m.pos, m.textPaint);
-
+            
             canvas.restore();
-
+            
             col += m.run.colSize;
         }
-
+        
         if (mTerm.getCursorVisible() && mTerm.getCursorRow() == row) {
             canvas.save();
             canvas.translate(mTerm.getCursorCol() * m.charWidth, 0);
             canvas.drawRect(0, 0, m.charWidth, m.charHeight, m.cursorPaint);
             canvas.restore();
         }
-
+        
     }
 }

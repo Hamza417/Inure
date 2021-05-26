@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/popup_sorting_style_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/dialogBackground"
+    android:orientation="vertical"
+    android:padding="@dimen/popup_padding"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:gravity="start"
+        android:text="@string/sure"
+        android:textColor="@color/textTertiary"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/sure_affirmative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:minWidth="100dp"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:gravity="center"
+        android:layout_gravity="start"
+        android:paddingVertical="20dp"
+        android:text="@string/yes"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+</merge>

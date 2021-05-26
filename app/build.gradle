@@ -104,6 +104,5 @@ dependencies {
     // root
     def libsuVersion = '3.1.2'
     implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
-    implementation "com.github.topjohnwu.libsu:service:${libsuVersion}"
     implementation "com.github.topjohnwu.libsu:io:${libsuVersion}"
 }

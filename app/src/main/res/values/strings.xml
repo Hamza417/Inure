@@ -12,7 +12,7 @@
     <string name="name">Name</string>
     <string name="package_name">Package Name</string>
     <string name="app_size">App Size</string>
-    <string name="reverse">Reverse</string>
+    <string name="descending">Descending</string>
     <string name="apps_category">Apps Category</string>
     <string name="system">System</string>
     <string name="user">User</string>
@@ -145,6 +145,8 @@
     <string name="intent_categories">Intent Categories</string>
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
     <string name="desc_not_available">Description not available</string>
     <string name="loading">Loading…</string>
     <string name="total">Total %d</string>
@@ -171,4 +173,9 @@
     <string name="start_app_now">Start App Now</string>
     <string name="desc_setup">Before moving ahead it is recommended to perform the necessary actions to make the all the features of the app work.</string>
     <string name="skip">Skip for Now</string>
+    <string name="executing_command">Executing Command…</string>
+    <string name="force_stop">Force Stop</string>
+    <string name="sure">Sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

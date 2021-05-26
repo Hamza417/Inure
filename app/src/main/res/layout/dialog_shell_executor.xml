@@ -21,16 +21,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?attr/colorAppAccent"
+            android:ellipsize="end"
+            android:maxLines="3"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.views.TypeFaceEditText
             android:id="@+id/shell_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textColor="@color/textTertiary"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine|textNoSuggestions"
             android:textSize="@dimen/info_text_small"
+            android:text="@string/executing_command"
             app:appFontStyle="regular" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

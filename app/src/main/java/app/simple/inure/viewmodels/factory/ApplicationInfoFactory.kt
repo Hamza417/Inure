@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.viewmodels.dialogs.FilePreparingViewModel
 import app.simple.inure.viewmodels.panels.ApkDataViewModel
+import app.simple.inure.viewmodels.panels.InfoPanelMenuData
 import app.simple.inure.viewmodels.panels.XMLViewerData
 import java.lang.IllegalArgumentException
 
@@ -24,13 +25,16 @@ class ApplicationInfoFactory(private val application: Application, private val p
             modelClass.isAssignableFrom(XMLViewerData::class.java) -> {
                 return XMLViewerData(application, param) as T
             }
+            modelClass.isAssignableFrom(InfoPanelMenuData::class.java) -> {
+                return InfoPanelMenuData(application, param) as T
+            }
             else -> {
                 /**
                  * This viewmodel factory is specific to
                  * [FilePreparingViewModel] and assigning it properly
                  * won't throw this exception
                  */
-                throw IllegalArgumentException("Nope, Wrong Viewmodel!!")
+                throw IllegalArgumentException("Nope!!, Wrong Viewmodel!!")
             }
         }
     }

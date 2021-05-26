@@ -1,6 +1,5 @@
 package app.simple.inure.ui.app
 
-import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
 import android.os.Bundle
@@ -9,23 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterAppInfoMenu
+import app.simple.inure.decorations.popup.PopupLinearLayout
+import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.popups.app.PopupMainList
+import app.simple.inure.popups.app.PopupSure
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PackageUtils
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
+import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
 
 
@@ -42,7 +46,8 @@ class AppInfo : ScopedFragment() {
     private lateinit var options: RecyclerView
 
     private lateinit var adapterAppInfoMenu: AdapterAppInfoMenu
-    private val model: InfoPanelMenuData by viewModels()
+    private lateinit var componentsViewModel: InfoPanelMenuData
+    private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
     private var spanCount = 3
 
@@ -66,13 +71,16 @@ class AppInfo : ScopedFragment() {
             6
         }
 
+        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(InfoPanelMenuData::class.java)
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        model.getMenuItems().observe(viewLifecycleOwner, {
+        componentsViewModel.getMenuItems().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
             adapterAppInfoMenu = AdapterAppInfoMenu(it)
@@ -154,7 +162,7 @@ class AppInfo : ScopedFragment() {
             })
         })
 
-        model.getMenuOptions().observe(requireActivity(), {
+        componentsViewModel.getMenuOptions().observe(requireActivity(), {
             val adapterAppInfoMenu = AdapterAppInfoMenu(it)
             options.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
             options.adapter = adapterAppInfoMenu
@@ -167,15 +175,108 @@ class AppInfo : ScopedFragment() {
                             applicationInfo.launchThisPackage(requireActivity())
                         }
                         getString(R.string.uninstall) -> {
-                            applicationInfo.uninstallThisPackage(appUninstallObserver, -1)
+                            if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
+                                val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                                popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
+                                    override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                        when (source) {
+                                            getString(R.string.yes) -> {
+                                                val f = ShellExecutorDialog.newInstance("pm uninstall -k --user 0 ${applicationInfo.packageName}")
+                                                f.show(parentFragmentManager, "shell_executor")
+                                                f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                                    override fun onCommandExecuted(result: String) {
+                                                        if (result == "Success") {
+                                                            onAppUninstalled(true)
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    }
+                                })
+                            } else {
+                                applicationInfo.uninstallThisPackage(appUninstallObserver, -1)
+                            }
                         }
                         getString(R.string.send) -> {
                             Preparing.newInstance(applicationInfo)
                                     .show(childFragmentManager, "prepare_send_files")
                         }
                         getString(R.string.clear_data) -> {
-                            ShellExecutorDialog.newInstance("pm clear ${applicationInfo.packageName}")
-                                    .show(childFragmentManager, "shell_executor")
+                            val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                            popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
+                                override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                    when (source) {
+                                        getString(R.string.yes) -> {
+                                            ShellExecutorDialog.newInstance("pm clear ${applicationInfo.packageName}")
+                                                    .show(parentFragmentManager, "shell_executor")
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        getString(R.string.clear_cache) -> {
+                            val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                            popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
+                                override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                    when (source) {
+                                        getString(R.string.yes) -> {
+                                            ShellExecutorDialog.newInstance("rm -r -v /data/data/${applicationInfo.packageName}/cache " +
+                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/app_cache " +
+                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/app_texture " +
+                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/app_webview " +
+                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/code_cache")
+                                                    .show(parentFragmentManager, "shell_executor")
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        getString(R.string.force_stop) -> {
+                            val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                            popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
+                                override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                    when (source) {
+                                        getString(R.string.yes) -> {
+                                            ShellExecutorDialog.newInstance("am force-stop ${applicationInfo.packageName}")
+                                                    .show(parentFragmentManager, "shell_executor")
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        getString(R.string.disable) -> {
+                            val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                            popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
+                                override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                                    when (source) {
+                                        getString(R.string.yes) -> {
+                                            val f = ShellExecutorDialog.newInstance("pm disable ${applicationInfo.packageName}")
+                                            f.show(parentFragmentManager, "shell_executor")
+
+                                            f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                                override fun onCommandExecuted(result: String) {
+                                                    if(result.contains("disabled")) {
+                                                        componentsViewModel.loadOptions()
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        getString(R.string.enable) -> {
+                            val f = ShellExecutorDialog.newInstance("pm enable ${applicationInfo.packageName}")
+                            f.show(parentFragmentManager, "shell_executor")
+
+                            f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                override fun onCommandExecuted(result: String) {
+                                    if(result.contains("enabled")) {
+                                        componentsViewModel.loadOptions()
+                                    }
+                                }
+                            })
                         }
                     }
                 }

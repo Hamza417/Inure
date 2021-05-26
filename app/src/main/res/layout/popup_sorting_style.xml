@@ -80,7 +80,7 @@
             android:fontFamily="@font/lato_bold"
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
-            android:text="@string/reverse"
+            android:text="@string/descending"
             android:textColor="@color/textPrimary"
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold" />
