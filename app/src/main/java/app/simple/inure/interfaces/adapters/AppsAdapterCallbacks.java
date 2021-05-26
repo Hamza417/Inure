@@ -12,7 +12,7 @@ public interface AppsAdapterCallbacks {
     
     }
     
-    default void onAppLongPress(@NotNull ApplicationInfo applicationInfo, @NotNull ViewGroup viewGroup, float xOff, float yOff, ImageView icon) {
+    default void onAppLongPress(@NotNull ApplicationInfo applicationInfo, @NotNull ViewGroup viewGroup, float xOff, float yOff, ImageView icon, int position) {
     
     }
     

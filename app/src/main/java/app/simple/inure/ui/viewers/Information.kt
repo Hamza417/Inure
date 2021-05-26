@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -19,6 +20,7 @@ import app.simple.inure.util.PackageUtils
 import app.simple.inure.util.PackageUtils.getApplicationInstallTime
 import app.simple.inure.util.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.util.SDKHelper
+import app.simple.inure.util.ViewUtils.makeGoAway
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -116,6 +118,8 @@ class Information : ScopedFragment() {
             } else {
                 String.format(getString(R.string.single_dex), NumberFormat.getNumberInstance().format(methodCount))
             }
+
+            //view.findViewById<ProgressBar>(R.id.loader).makeGoAway()
         }
 
         back.setOnClickListener {

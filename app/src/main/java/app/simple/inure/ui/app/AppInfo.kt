@@ -1,5 +1,6 @@
 package app.simple.inure.ui.app
 
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
 import android.os.Bundle
@@ -166,7 +167,7 @@ class AppInfo : ScopedFragment() {
                             applicationInfo.launchThisPackage(requireActivity())
                         }
                         getString(R.string.uninstall) -> {
-                            applicationInfo.uninstallThisPackage(appUninstallObserver)
+                            applicationInfo.uninstallThisPackage(appUninstallObserver, -1)
                         }
                         getString(R.string.send) -> {
                             Preparing.newInstance(applicationInfo)

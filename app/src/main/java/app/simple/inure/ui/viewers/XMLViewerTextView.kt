@@ -101,7 +101,6 @@ class XMLViewerTextView : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             runCatching {
                 val name: String

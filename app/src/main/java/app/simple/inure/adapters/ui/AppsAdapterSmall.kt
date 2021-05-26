@@ -88,7 +88,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks.onAppLongPress(apps[position], holder.container, xOff, yOff, holder.icon)
+                appsAdapterCallbacks.onAppLongPress(apps[position], holder.container, xOff, yOff, holder.icon, position_)
                 true
             }
 

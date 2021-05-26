@@ -47,15 +47,7 @@ class PopupMainList(
         contentView.findViewById<TypeFaceTextView>(R.id.menu_launch).onClick()
         contentView.findViewById<TypeFaceTextView>(R.id.menu_uninstall).onClick()
         contentView.findViewById<TypeFaceTextView>(R.id.menu_sort_name).onClick()
-
-        val kill = contentView.findViewById<TypeFaceTextView>(R.id.menu_kill)
-
-        if(ConfigurationPreferences.isUsingRoot()) {
-            kill.onClick()
-        } else {
-            kill.makeGoAway()
-            contentView.rootView.requestLayout()
-        }
+        contentView.findViewById<TypeFaceTextView>(R.id.menu_kill).onClick()
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             overlapAnchor = false

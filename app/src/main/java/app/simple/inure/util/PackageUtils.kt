@@ -18,7 +18,7 @@ import app.simple.inure.model.PackageSizes
 import java.lang.reflect.Method
 
 
-object  PackageUtils {
+object PackageUtils {
 
     private const val UNINSTALL_REQUEST_CODE = 6452
 
@@ -146,10 +146,11 @@ object  PackageUtils {
      * @param appUninstallObserver reference of the current [ActivityResultLauncher]
      */
     @Suppress("deprecation")
-    fun ApplicationInfo.uninstallThisPackage(appUninstallObserver: ActivityResultLauncher<Intent>) {
+    fun ApplicationInfo.uninstallThisPackage(appUninstallObserver: ActivityResultLauncher<Intent>, position: Int) {
         val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
         intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
         intent.data = Uri.parse("package:${this.packageName}")
+        intent.putExtra("position", position)
         appUninstallObserver.launch(intent)
     }
 

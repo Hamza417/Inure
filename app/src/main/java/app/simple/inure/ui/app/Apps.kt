@@ -1,5 +1,6 @@
 package app.simple.inure.ui.app
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
@@ -24,6 +25,7 @@ import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
+import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.PopupMainList
@@ -37,7 +39,6 @@ import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.FragmentHelper.openFragmentLinear
 import app.simple.inure.util.PackageUtils.isPackageInstalled
-import app.simple.inure.util.PackageUtils.killThisApp
 import app.simple.inure.util.PackageUtils.launchThisPackage
 import app.simple.inure.util.PackageUtils.uninstallThisPackage
 import app.simple.inure.viewmodels.panels.AppData
@@ -103,7 +104,7 @@ class Apps : ScopedFragment() {
                     openAppInfo(applicationInfo, icon)
                 }
 
-                override fun onAppLongPress(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView) {
+                override fun onAppLongPress(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView, position: Int) {
                     val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
                                                   viewGroup, xOff, yOff, applicationInfo, icon)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
@@ -115,11 +116,12 @@ class Apps : ScopedFragment() {
                                 getString(R.string.launch) -> {
                                     applicationInfo.launchThisPackage(requireActivity())
                                 }
-                                getString(R.string.kill) -> {
-                                    applicationInfo.killThisApp(requireActivity())
+                                getString(R.string.send) -> {
+                                    Preparing.newInstance(applicationInfo)
+                                            .show(parentFragmentManager, "send_app")
                                 }
                                 getString(R.string.uninstall) -> {
-                                    applicationInfo.uninstallThisPackage(appUninstallObserver)
+                                    applicationInfo.uninstallThisPackage(appUninstallObserver, position)
                                 }
                             }
                         }
@@ -224,9 +226,10 @@ class Apps : ScopedFragment() {
         }.toList()
     }
 
-    override fun onAppUninstalled(result: Boolean) {
+    override fun onAppUninstalled(result: Boolean, data: Intent?) {
+        println(data!!.getIntExtra("position", -1))
         if (result) {
-            model.loadAppData()
+            appsAdapter.notifyItemRemoved(data.getIntExtra("position", -1))
         }
     }
 

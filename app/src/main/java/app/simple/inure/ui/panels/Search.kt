@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
@@ -105,7 +106,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                     openAppInfo(applicationInfo, icon)
                 }
 
-                override fun onAppLongPress(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView) {
+                override fun onAppLongPress(applicationInfo: ApplicationInfo, viewGroup: ViewGroup, xOff: Float, yOff: Float, icon: ImageView, position: Int) {
                     val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
                                                   viewGroup, xOff, yOff, applicationInfo, icon)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
@@ -121,7 +122,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                                     applicationInfo.killThisApp(requireActivity())
                                 }
                                 getString(R.string.uninstall) -> {
-                                    applicationInfo.uninstallThisPackage(appUninstallObserver)
+                                    applicationInfo.uninstallThisPackage(appUninstallObserver, position)
                                 }
                             }
                         }
@@ -153,8 +154,10 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                                     icon, "app_info_by_search")
     }
 
-    override fun onAppUninstalled(result: Boolean) {
-        if (result) searchModel.loadSearchData()
+    override fun onAppUninstalled(result: Boolean, data: Intent?) {
+        if (result) {
+            appsAdapterSmall.notifyItemRemoved(data!!.getIntExtra("position", -1))
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

@@ -57,7 +57,7 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
         }
 
         holder.container.setOnLongClickListener {
-            appsAdapterCallbacks.onAppLongPress(apps[position], holder.container, xOff, yOff, holder.icon)
+            appsAdapterCallbacks.onAppLongPress(apps[position], holder.container, xOff, yOff, holder.icon, position)
             true
         }
     }

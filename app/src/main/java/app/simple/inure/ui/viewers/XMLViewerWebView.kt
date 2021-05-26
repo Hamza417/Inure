@@ -10,6 +10,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +23,9 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.APKParser.extractManifest
 import app.simple.inure.util.APKParser.getTransBinaryXml
+import app.simple.inure.util.ViewUtils.makeInvisible
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -33,6 +36,7 @@ class XMLViewerWebView : ScopedFragment() {
     private lateinit var manifest: CustomWebView
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
+    private lateinit var progress: ProgressBar
 
     private var code = ""
 
@@ -62,6 +66,7 @@ class XMLViewerWebView : ScopedFragment() {
         manifest = view.findViewById(R.id.source_view)
         name = view.findViewById(R.id.xml_name)
         options = view.findViewById(R.id.xml_viewer_options)
+        progress = view.findViewById(R.id.xml_loader)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
@@ -72,8 +77,10 @@ class XMLViewerWebView : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewLifecycleOwner.lifecycleScope.launch {
+
             val text: String
             val name: String
+            delay(500) // Lets the animations finish first
 
             withContext(Dispatchers.Default) {
                 code = if (requireArguments().getBoolean("is_manifest")) {
@@ -90,6 +97,7 @@ class XMLViewerWebView : ScopedFragment() {
 
             loadSourceCode(text)
             this@XMLViewerWebView.name.text = name
+            progress.makeInvisible()
         }
 
         options.setOnClickListener {

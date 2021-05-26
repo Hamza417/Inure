@@ -15,9 +15,6 @@ import androidx.fragment.app.Fragment
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
 
 /**
  * [ScopedFragment] is lifecycle aware [CoroutineScope] fragment
@@ -61,9 +58,11 @@ abstract class ScopedFragment :
         appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
+                    onAppUninstalled(true, result.data)
                     onAppUninstalled(true)
                 }
                 Activity.RESULT_CANCELED -> {
+                    onAppUninstalled(false, result.data)
                     onAppUninstalled(false)
                 }
             }
@@ -94,6 +93,7 @@ abstract class ScopedFragment :
      *               else false for any other result be it cancelled
      *               or failed
      */
+    open fun onAppUninstalled(@NonNull result: Boolean, data: Intent?) {}
     open fun onAppUninstalled(@NonNull result: Boolean) {}
 
     /**
