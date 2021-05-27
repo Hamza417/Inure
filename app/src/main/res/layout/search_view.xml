@@ -7,7 +7,7 @@
     android:backgroundTint="@color/dialogBackground"
     tools:parentTag="app.simple.inure.decorations.corners.DynamicCornerLinearLayout">
 
-    <EditText
+    <app.simple.inure.decorations.views.TypeFaceEditText
         android:id="@+id/search_view_text_input_layout"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -25,6 +25,7 @@
         android:paddingEnd="20dp"
         android:textColor="@color/textPrimary"
         android:textColorHint="@color/textTertiary"
+        app:appFontStyle="bold"
         app:drawableTint="@color/iconSecondary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton

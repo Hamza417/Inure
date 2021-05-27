@@ -1,23 +1,20 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.ApplicationInfo
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.util.APKParser.getPermissions
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.panels.ApkDataViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class Permissions : ScopedFragment() {
 
@@ -48,6 +45,13 @@ class Permissions : ScopedFragment() {
         componentsViewModel.getPermissions().observe(viewLifecycleOwner, {
             recyclerView.adapter = AdapterPermissions(it, applicationInfo)
             totalPermissions.text = getString(R.string.total, it.size)
+        })
+
+        componentsViewModel.getError().observe(viewLifecycleOwner, {
+            ErrorPopup.newInstance(it)
+                    .show(childFragmentManager, "apk_error_window")
+            totalPermissions.text = getString(R.string.failed)
+            totalPermissions.setTextColor(Color.RED)
         })
     }
 

@@ -64,6 +64,11 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
         holder.container.setOnClickListener {
             activitiesCallbacks.onActivityClicked(activities[position], activities[position].name)
         }
+
+        holder.container.setOnLongClickListener {
+            activitiesCallbacks.onActivityLongPressed(activities[position], activities[position].name, applicationInfo, it)
+            true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -83,13 +88,14 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
         this.activitiesCallbacks = activitiesCallbacks
     }
 
-    interface ActivitiesCallbacks {
-        fun onActivityClicked(androidComponent: AndroidComponent, packageId: String)
-    }
-
     companion object {
         private const val intentMain = "android.intent.action.MAIN"
         private const val categoryLauncher = "android.intent.category.LAUNCHER"
         private const val categoryLeanback = "android.intent.category.LEANBACK_LAUNCHER"
+
+        interface ActivitiesCallbacks {
+            fun onActivityClicked(androidComponent: AndroidComponent, packageId: String)
+            fun onActivityLongPressed(androidComponent: AndroidComponent, packageId: String, applicationInfo: ApplicationInfo, icon: View)
+        }
     }
 }

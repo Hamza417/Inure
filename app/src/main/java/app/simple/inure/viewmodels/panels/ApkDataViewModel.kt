@@ -16,10 +16,15 @@ import app.simple.inure.util.APKParser.getServices
 import com.jaredrummler.apkparser.model.AndroidComponent
 import com.jaredrummler.apkparser.model.UseFeature
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
 class ApkDataViewModel(application: Application, val param: ApplicationInfo) : AndroidViewModel(application) {
+
+    private val error: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     private val activities: MutableLiveData<MutableList<AndroidComponent>> by lazy {
         MutableLiveData<MutableList<AndroidComponent>>().also {
@@ -75,6 +80,10 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         }
     }
 
+    fun getError(): LiveData<String> {
+        return error
+    }
+
     fun getActivities(): LiveData<MutableList<AndroidComponent>> {
         return activities
     }
@@ -113,21 +122,31 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
 
     private fun getActivitiesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            activities.postValue(param.getActivities()!!.apply {
-                sortBy {
-                    it.name.substring(it.name.lastIndexOf("."))
-                }
-            })
+            kotlin.runCatching {
+                activities.postValue(param.getActivities()!!.apply {
+                    sortBy {
+                        it.name.substring(it.name.lastIndexOf("."))
+                    }
+                })
+            }.getOrElse {
+                delay(1000L)
+                error.postValue(it.message)
+            }
         }
     }
 
     private fun getBroadcastsData() {
         viewModelScope.launch(Dispatchers.Default) {
-            broadcasts.postValue(param.getBroadcasts()!!.apply {
-                sortBy {
-                    it.name.substring(it.name.lastIndexOf("."))
-                }
-            })
+            kotlin.runCatching {
+                broadcasts.postValue(param.getBroadcasts()!!.apply {
+                    sortBy {
+                        it.name.substring(it.name.lastIndexOf("."))
+                    }
+                })
+            }.getOrElse {
+                delay(1000L)
+                error.postValue(it.message)
+            }
         }
     }
 
@@ -143,11 +162,16 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
 
     private fun getFeaturesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            features.postValue(param.getFeatures()!!.apply {
-                sortBy {
-                    it.name
-                }
-            })
+            kotlin.runCatching {
+                features.postValue(param.getFeatures()!!.apply {
+                    sortBy {
+                        it.name
+                    }
+                })
+            }.getOrElse {
+                delay(1000L)
+                error.postValue(it.message)
+            }
         }
     }
 
@@ -163,21 +187,31 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
 
     private fun getPermissionData() {
         viewModelScope.launch(Dispatchers.Default) {
-            permissions.postValue(param.getPermissions().apply {
-                sortBy {
-                    it.toLowerCase(Locale.getDefault())
-                }
-            })
+           kotlin.runCatching {
+               permissions.postValue(param.getPermissions().apply {
+                   sortBy {
+                       it.toLowerCase(Locale.getDefault())
+                   }
+               })
+           }.getOrElse {
+               delay(1000L)
+               error.postValue(it.message)
+           }
         }
     }
 
     private fun getProvidersData() {
         viewModelScope.launch(Dispatchers.Default) {
-            providers.postValue(param.getProviders()!!.apply {
-                sortBy {
-                    it.name.substring(it.name.lastIndexOf("."))
-                }
-            })
+            kotlin.runCatching {
+                providers.postValue(param.getProviders()!!.apply {
+                    sortBy {
+                        it.name.substring(it.name.lastIndexOf("."))
+                    }
+                })
+            }.getOrElse {
+                delay(1000L)
+                error.postValue(it.message)
+            }
         }
     }
 
@@ -193,11 +227,16 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
 
     private fun getServicesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            services.postValue(param.getServices()!!.apply {
-                sortBy {
-                    it.name.substring(it.name.lastIndexOf("."))
-                }
-            })
+            kotlin.runCatching {
+                services.postValue(param.getServices()!!.apply {
+                    sortBy {
+                        it.name.substring(it.name.lastIndexOf("."))
+                    }
+                })
+            }.getOrElse {
+                delay(1000L)
+                error.postValue(it.message)
+            }
         }
     }
 

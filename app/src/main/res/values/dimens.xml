@@ -25,7 +25,7 @@
     <dimen name="app_info_icon_size">60dp</dimen>
     <dimen name="app_icon_margin_horizontal">10dp</dimen>
     <dimen name="pie_dimens">300dp</dimen>
-    <dimen name="dialog_height">500dp</dimen>
+    <dimen name="dialog_height">400dp</dimen>
     <dimen name="panel_padding_horizontal">0dp</dimen>
     <dimen name="header_icon_size">50dp</dimen>
     <dimen name="header_font_size">30sp</dimen>

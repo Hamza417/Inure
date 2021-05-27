@@ -31,26 +31,17 @@ class MainPreferencesScreen : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         appearance.setOnClickListener {
-            val fragment = requireActivity().supportFragmentManager.findFragmentByTag("appearance_preferences_screen")
-                ?: AppearanceScreen.newInstance()
-
-            exitTransition = TransitionManager.getEnterTransitions(TransitionManager.FADE)
-            fragment.sharedElementEnterTransition = DetailsTransitionArc()
-            fragment.enterTransition = TransitionManager.getExitTransition(TransitionManager.FADE)
-            fragment.sharedElementReturnTransition = DetailsTransitionArc()
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                    .addSharedElement(view.findViewById(R.id.appearance_icon), "appearance_icon")
-                    .replace(R.id.app_container, fragment, "appearance_preferences_screen")
-                    .addToBackStack(fragment.tag)
-                    .commit()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        AppearanceScreen.newInstance(),
+                                        view.findViewById(R.id.appearance_icon),
+                                        "appearance_prefs")
         }
 
         configuration.setOnClickListener {
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         ConfigurationScreen.newInstance(),
                                         view.findViewById(R.id.config_icon),
-                                        tag!!)
+                                        "config_prefs")
         }
     }
 

@@ -179,4 +179,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="open_in_settings">Open in Settings…</string>
+    <string name="force_launch_with_action">Force Launch with Action</string>
+    <string name="force_launch">Force Launch</string>
+    <string name="action">Action</string>
+    <string name="desc_intent_action">Make sure the activity is receiving or compatible with the above specified action. Activity will still launch but the action supplied will have no effect otherwise.</string>
 </resources>

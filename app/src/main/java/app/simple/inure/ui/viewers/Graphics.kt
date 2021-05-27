@@ -12,7 +12,7 @@ import app.simple.inure.decorations.popup.PopupFrameLayout
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.popups.app.PopupImageViewer
+import app.simple.inure.popups.viewers.PopupImageViewer
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.APKParser
 import app.simple.inure.util.FragmentHelper

@@ -12,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.APKParser.getActivities
 import app.simple.inure.util.APKParser.getProviders
@@ -51,6 +52,12 @@ class Providers : ScopedFragment() {
         componentsViewModel.getProviders().observe(viewLifecycleOwner, {
             recyclerView.adapter = AdapterServices(it)
             total.text = getString(R.string.total, it.size)
+        })
+
+        componentsViewModel.getError().observe(viewLifecycleOwner, {
+            ErrorPopup.newInstance(it.toString())
+                    .show(childFragmentManager, "apk_error_window")
+            total.text = getString(R.string.failed)
         })
     }
 

@@ -20,7 +20,7 @@ class AccentColor : ScopedBottomSheetFragment() {
     private var spanCount = 4
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = layoutInflater.inflate(R.layout.dialog_color_accent, container, false)
+        val view = inflater.inflate(R.layout.dialog_color_accent, container, false)
 
         spanCount = if (this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             4

@@ -1,6 +1,7 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.ApplicationInfo
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.APKParser.getBroadcasts
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
@@ -48,6 +50,13 @@ class Broadcasts : ScopedFragment() {
         componentsViewModel.getBroadcasts().observe(viewLifecycleOwner, {
             recyclerView.adapter = AdapterServices(it)
             total.text = getString(R.string.total, it.size)
+        })
+
+        componentsViewModel.getError().observe(viewLifecycleOwner, {
+            ErrorPopup.newInstance(it)
+                    .show(childFragmentManager, "apk_error_window")
+            total.text = getString(R.string.failed)
+            total.setTextColor(Color.RED)
         })
     }
 

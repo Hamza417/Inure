@@ -2,12 +2,12 @@ package app.simple.inure.decorations.views
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatEditText
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.TypeFace
+import com.google.android.material.textfield.TextInputEditText
 
-class TypeFaceEditText : AppCompatEditText {
+class TypeFaceTextInputEditText : TextInputEditText {
     constructor(context: Context?) : super(context!!) {
         init(null)
     }
