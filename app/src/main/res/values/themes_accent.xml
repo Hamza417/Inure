@@ -54,4 +54,9 @@
         <item name="colorAppAccent">@color/amaranth</item>
         <item name="colorAppAccentLight">@color/amaranth_light</item>
     </style>
+
+    <style name="Yellow" parent="Inure">
+        <item name="colorAppAccent">@color/yellow</item>
+        <item name="colorAppAccentLight">@color/yellow_light</item>
+    </style>
 </resources>

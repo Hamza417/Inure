@@ -14,7 +14,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
-import app.simple.inure.viewmodels.panels.ApkDataViewModel
+import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Permissions : ScopedFragment() {
 

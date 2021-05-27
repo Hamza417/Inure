@@ -1,29 +1,19 @@
 package app.simple.inure.ui.viewers
 
-import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.util.APKParser.getActivities
-import app.simple.inure.util.APKParser.getProviders
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
-import app.simple.inure.viewmodels.panels.ApkDataViewModel
-import com.jaredrummler.apkparser.model.AndroidComponent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.jar.Manifest
+import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Providers : ScopedFragment() {
 

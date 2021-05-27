@@ -4,16 +4,17 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import app.simple.inure.viewmodels.viewers.FontData
+import app.simple.inure.viewmodels.viewers.TextViewerData
+import app.simple.inure.viewmodels.viewers.XMLViewerData
 
-class FontViewModelFactory(val application: Application, val path: String, val applicationInfo: ApplicationInfo, val color: Int)
+class TextDataFactory(private val applicationInfo: ApplicationInfo, private val path: String, val application: Application)
     : ViewModelProvider.AndroidViewModelFactory(application) {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST") // Cast is checked
         when {
-            modelClass.isAssignableFrom(FontData::class.java) -> {
-                return FontData(application, path, applicationInfo, color) as T
+            modelClass.isAssignableFrom(TextViewerData::class.java) -> {
+                return TextViewerData(applicationInfo, path, application) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope, Wrong Viewmodel!!")

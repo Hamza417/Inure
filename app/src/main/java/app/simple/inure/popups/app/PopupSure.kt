@@ -20,8 +20,8 @@ class PopupSure(contentView: View, view: View) : BasePopupWindow() {
 
         contentView.findViewById<DynamicRippleTextView>(R.id.sure_affirmative).onClick(context.getString(R.string.yes))
 
-        setOnDismissListener {
-            popupMainMenuCallbacks.onDismiss()
+        contentView.findViewById<DynamicRippleTextView>(R.id.sure_negative).setOnClickListener {
+            dismiss()
         }
     }
 

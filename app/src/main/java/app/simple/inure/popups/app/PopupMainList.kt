@@ -26,8 +26,8 @@ class PopupMainList(contentView: View, private val applicationInfo: ApplicationI
     init {
         init(contentView, anchor, Gravity.END)
 
-        contentView.findViewById<TypeFaceTextView>(R.id.menu_sort_name).onClick()
-        contentView.findViewById<TypeFaceTextView>(R.id.menu_kill).onClick()
+        contentView.findViewById<TypeFaceTextView>(R.id.popup_app_info).onClick()
+        contentView.findViewById<TypeFaceTextView>(R.id.popup_send).onClick()
     }
 
     private fun TextView.onClick() {

@@ -5,9 +5,8 @@ import android.content.pm.ApplicationInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.viewmodels.dialogs.FilePreparingViewModel
-import app.simple.inure.viewmodels.panels.ApkDataViewModel
+import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
-import app.simple.inure.viewmodels.panels.XMLViewerData
 import java.lang.IllegalArgumentException
 
 class ApplicationInfoFactory(private val application: Application, private val param: ApplicationInfo)
@@ -21,9 +20,6 @@ class ApplicationInfoFactory(private val application: Application, private val p
             }
             modelClass.isAssignableFrom(ApkDataViewModel::class.java) -> {
                 return ApkDataViewModel(application, param) as T
-            }
-            modelClass.isAssignableFrom(XMLViewerData::class.java) -> {
-                return XMLViewerData(application, param) as T
             }
             modelClass.isAssignableFrom(InfoPanelMenuData::class.java) -> {
                 return InfoPanelMenuData(application, param) as T

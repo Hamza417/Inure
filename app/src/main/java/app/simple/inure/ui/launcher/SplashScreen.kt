@@ -14,7 +14,7 @@ import app.simple.inure.R
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.ui.app.Apps
 import app.simple.inure.util.FragmentHelper.openFragment
-import app.simple.inure.viewmodels.panels.AppData
+import app.simple.inure.viewmodels.panels.AllAppsData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -54,9 +54,9 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun proceed() {
-        val appData: AppData by viewModels()
+        val allAppsData: AllAppsData by viewModels()
 
-        appData.getAppData().observe(viewLifecycleOwner, {
+        allAppsData.getAppData().observe(viewLifecycleOwner, {
             openFragment(
                 requireActivity().supportFragmentManager,
                 Apps.newInstance(), requireView().findViewById(R.id.imageView))

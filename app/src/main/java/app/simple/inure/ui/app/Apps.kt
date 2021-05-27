@@ -29,7 +29,7 @@ import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.PopupMainList
-import app.simple.inure.popups.app.PopupMainListMenu
+import app.simple.inure.popups.app.PopupPreference
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Search
@@ -39,7 +39,7 @@ import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.FragmentHelper.openFragmentLinear
 import app.simple.inure.util.PackageUtils.isPackageInstalled
-import app.simple.inure.viewmodels.panels.AppData
+import app.simple.inure.viewmodels.panels.AllAppsData
 import java.util.*
 
 class Apps : ScopedFragment() {
@@ -51,7 +51,7 @@ class Apps : ScopedFragment() {
     private lateinit var appsAdapter: AppsAdapterSmall
     private var tracker: SelectionTracker<Long>? = null
 
-    private val model: AppData by viewModels()
+    private val model: AllAppsData by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
@@ -137,8 +137,8 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onPrefsIconPressed(view: View, view1: View) {
-                    val v = PopupMainListMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_main_menu,
-                                                                                            PopupLinearLayout(requireContext())), view1)
+                    val v = PopupPreference(LayoutInflater.from(requireContext()).inflate(R.layout.popup_main_menu,
+                                                                                          PopupLinearLayout(requireContext())), view1)
 
                     v.setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {

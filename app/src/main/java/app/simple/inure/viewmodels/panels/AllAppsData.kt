@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.util.stream.Collectors
 
-class AppData(application: Application) : AndroidViewModel(application) {
+class AllAppsData(application: Application) : AndroidViewModel(application) {
 
     private val appData: MutableLiveData<ArrayList<ApplicationInfo>> by lazy {
         MutableLiveData<ArrayList<ApplicationInfo>>().also {

@@ -21,7 +21,7 @@ import app.simple.inure.popups.viewers.PopupActivitiesMenu
 import app.simple.inure.ui.subviewers.ActivityInfo
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
-import app.simple.inure.viewmodels.panels.ApkDataViewModel
+import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 import com.jaredrummler.apkparser.model.AndroidComponent
 
 class Activities : ScopedFragment() {

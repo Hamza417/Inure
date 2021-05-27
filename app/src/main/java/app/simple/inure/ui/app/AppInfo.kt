@@ -103,11 +103,11 @@ class AppInfo : ScopedFragment() {
                         getString(R.string.manifest) -> {
                             if (ConfigurationPreferences.isXmlViewerTextView()) {
                                 openFragment(requireActivity().supportFragmentManager,
-                                             XMLViewerTextView.newInstance(applicationInfo, true, null),
+                                             XMLViewerTextView.newInstance(applicationInfo, true, "AndroidManifest.xml"),
                                              icon, "manifest")
                             } else {
                                 openFragment(requireActivity().supportFragmentManager,
-                                             XMLViewerWebView.newInstance(applicationInfo, true, null),
+                                             XMLViewerWebView.newInstance(applicationInfo, true, "AndroidManifest.xml"),
                                              icon, "manifest")
                             }
                         }

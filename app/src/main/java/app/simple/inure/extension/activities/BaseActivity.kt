@@ -74,6 +74,9 @@ open class BaseActivity : AppCompatActivity() {
             ContextCompat.getColor(baseContext, R.color.amaranth) -> {
                 setTheme(R.style.Amaranth)
             }
+            ContextCompat.getColor(baseContext, R.color.yellow) -> {
+                setTheme(R.style.Yellow)
+            }
             else -> {
                 setTheme(R.style.Inure)
                 AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))

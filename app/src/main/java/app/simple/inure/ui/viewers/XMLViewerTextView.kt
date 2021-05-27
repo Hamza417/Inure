@@ -7,16 +7,13 @@ import android.content.pm.ApplicationInfo
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -26,44 +23,22 @@ import app.simple.inure.exception.StringTooLargeException
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.util.APKParser.extractManifest
-import app.simple.inure.util.APKParser.getTransBinaryXml
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.makeGoAway
 import app.simple.inure.util.ViewUtils.makeInvisible
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import app.simple.inure.viewmodels.factory.XmlDataFactory
+import app.simple.inure.viewmodels.viewers.XMLViewerData
 import java.io.IOException
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 class XMLViewerTextView : ScopedFragment() {
 
-    private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
-
-    private val tags = Pattern.compile(
-        "\\B<\\w+\\b(?![.])(?<!:NULL)" + // <xml.yml.zml
-                "|\\B\\<\\/\\w+(?=\\S*['-])([a-zA-Z'-]+>)" + // </xml-yml>
-                "|\\B\\<\\/\\w+(?=\\S*['-])([a-zA-Z'-]+)" + // </xml-yml
-                "|\\B</\\w+>" + // </xml>
-                "|\\B</\\w+" + // </xml
-                "|\\B<\\w+\\/>" + // <xml/>
-                "|\\B<\\w+>" +  // <xml>
-                "|\\B<\\w+" +  // <xml
-                "|\\B\\?\\w+" + // ?xml
-                "|\\?\\>" + // ?>
-                "|\\>" + // >
-                "|\\B<" + // <
-                "|\\/>", // />
-        Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
-
-    private var formattedContent: SpannableString? = null
     private lateinit var text: TypeFaceEditText
     private lateinit var name: TypeFaceTextView
     private lateinit var progress: ProgressBar
     private lateinit var options: DynamicRippleImageButton
+
+    private lateinit var componentsViewModel: XMLViewerData
+    private lateinit var applicationInfoFactory: XmlDataFactory
 
     private val exportManifest = registerForActivityResult(CreateDocument()) { uri: Uri? ->
         if (uri == null) {
@@ -93,6 +68,13 @@ class XMLViewerTextView : ScopedFragment() {
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
+        applicationInfoFactory = XmlDataFactory(applicationInfo, requireArguments().getBoolean("is_manifest"),
+                                                requireArguments().getString("path_to_xml")!!,
+                                                requireActivity().application,
+                                                requireContext().resolveAttrColor(R.attr.colorAppAccent))
+
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerData::class.java)
+
         return view
     }
 
@@ -101,51 +83,27 @@ class XMLViewerTextView : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            runCatching {
-                val name: String
-                val code: String
+        componentsViewModel.getSpanned().observe(viewLifecycleOwner, {
+            kotlin.runCatching {
 
-                withContext(Dispatchers.Default) {
-                    delay(500) // Lets the animations finish first
-                    code = if (requireArguments().getBoolean("is_manifest")) {
-                        name = "AndroidManifest.xml"
-                        applicationInfo.extractManifest()!!
-                    } else {
-                        name = requireArguments().getString("path_to_xml")!!
-                        applicationInfo.getTransBinaryXml(requireArguments().getString("path_to_xml")!!)
-                    }
-
-                    if (code.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
-                        throw StringTooLargeException("String size ${code.length} is too big to render without freezing the app")
-                    }
-
-                    formattedContent = SpannableString(code)
-                    val matcher: Matcher = tags.matcher(code)
-                    while (matcher.find()) {
-                        formattedContent!!.setSpan(ForegroundColorSpan(Color.parseColor("#2980B9")), matcher.start(),
-                                                   matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
-                    matcher.usePattern(quotations)
-                    while (matcher.find()) {
-                        formattedContent!!.setSpan(ForegroundColorSpan(requireContext().resolveAttrColor(R.attr.colorAppAccent)),
-                                                   matcher.start(), matcher.end(),
-                                                   Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
+                if (it.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
+                    throw StringTooLargeException("String size ${it.length} is too big to render without freezing the app")
                 }
 
-                this@XMLViewerTextView.text.setText(formattedContent)
-                this@XMLViewerTextView.name.text = name
+                this@XMLViewerTextView.text.setText(it)
+                this@XMLViewerTextView.name.text = requireArguments().getString("path_to_xml")!!
                 progress.makeInvisible()
 
             }.getOrElse {
+
                 this@XMLViewerTextView.text.setText(it.stackTraceToString())
                 this@XMLViewerTextView.text.setTextColor(Color.RED)
                 this@XMLViewerTextView.name.text = getString(R.string.error)
                 progress.makeInvisible()
                 options.makeGoAway()
+
             }
-        }
+        })
 
         options.setOnClickListener {
             val p = PopupXmlViewer(LayoutInflater.from(requireContext())

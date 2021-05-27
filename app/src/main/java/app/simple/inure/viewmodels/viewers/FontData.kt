@@ -1,4 +1,4 @@
-package app.simple.inure.viewmodels.panels
+package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
@@ -8,9 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.R
 import app.simple.inure.constants.Quotes
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.TTFHelper
 import app.simple.inure.util.TextViewUtils.toHtmlSpanned

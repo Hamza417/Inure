@@ -10,7 +10,7 @@
     tools:parentTag="android.widget.LinearLayout">
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/menu_sort_name"
+        android:id="@+id/popup_app_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -24,7 +24,7 @@
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/menu_kill"
+        android:id="@+id/popup_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"

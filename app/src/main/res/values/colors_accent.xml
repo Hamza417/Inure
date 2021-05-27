@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Accent Colors -->
-    <color name="inure">#FF9800</color>
+    <color name="inure">#FFff8a68</color>
     <color name="blue">#2980B9</color>
     <color name="blueGrey">#2C3E50</color>
     <color name="darkBlue">#154360</color>
@@ -9,10 +9,11 @@
     <color name="green">#16A085</color>
     <color name="orange">#D35400</color>
     <color name="purple">#6C3483</color>
-    <color name="brown">#BB3000</color>
+    <color name="brown">#FF5100</color>
     <color name="caribbeanGreen">#00D390</color>
     <color name="persianGreen">#00B2AA</color>
     <color name="amaranth">#E4354A</color>
+    <color name="yellow">#FF9800</color>
 
     <color name="inure_light">#FFffbf65</color>
     <color name="blue_light">#85C1E9</color>
@@ -26,4 +27,5 @@
     <color name="caribbeanGreenLight">#65FFCE</color>
     <color name="persianGreen_light">#38D9D2</color>
     <color name="amaranth_light">#F75D70</color>
+    <color name="yellow_light">#FFB649</color>
 </resources>

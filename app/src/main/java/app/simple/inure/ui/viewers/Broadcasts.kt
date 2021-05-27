@@ -7,20 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.util.APKParser.getBroadcasts
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
-import app.simple.inure.viewmodels.panels.ApkDataViewModel
-import com.jaredrummler.apkparser.model.AndroidComponent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Broadcasts : ScopedFragment() {
 

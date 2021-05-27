@@ -6,14 +6,13 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -21,13 +20,11 @@ import app.simple.inure.decorations.views.CustomWebView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.util.APKParser.extractManifest
-import app.simple.inure.util.APKParser.getTransBinaryXml
+import app.simple.inure.util.ColorUtils.resolveAttrColor
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.makeInvisible
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import app.simple.inure.viewmodels.factory.XmlDataFactory
+import app.simple.inure.viewmodels.viewers.XMLViewerData
 import java.io.IOException
 
 
@@ -39,6 +36,9 @@ class XMLViewerWebView : ScopedFragment() {
     private lateinit var progress: ProgressBar
 
     private var code = ""
+
+    private lateinit var componentsViewModel: XMLViewerData
+    private lateinit var applicationInfoFactory: XmlDataFactory
 
     private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
         if (uri == null) {
@@ -61,8 +61,6 @@ class XMLViewerWebView : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_web_viewer, container, false)
 
-        startPostponedEnterTransition()
-
         manifest = view.findViewById(R.id.source_view)
         name = view.findViewById(R.id.xml_name)
         options = view.findViewById(R.id.xml_viewer_options)
@@ -70,35 +68,31 @@ class XMLViewerWebView : ScopedFragment() {
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
+        applicationInfoFactory = XmlDataFactory(applicationInfo, requireArguments().getBoolean("is_manifest"),
+                                                requireArguments().getString("path_to_xml")!!,
+                                                requireActivity().application,
+                                                requireContext().resolveAttrColor(R.attr.colorAppAccent))
+
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerData::class.java)
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        startPostponedEnterTransition()
 
-            val text: String
-            val name: String
-            delay(500) // Lets the animations finish first
-
-            withContext(Dispatchers.Default) {
-                code = if (requireArguments().getBoolean("is_manifest")) {
-                    name = "AndroidManifest.xml"
-                    requireArguments().getParcelable<ApplicationInfo>("application_info")?.extractManifest()!!
-                } else {
-                    name = requireArguments().getString("path_to_xml")!!
-                    requireArguments().getParcelable<ApplicationInfo>("application_info")!!
-                            .getTransBinaryXml(requireArguments().getString("path_to_xml")!!)
-                }
-
-                text = Html.escapeHtml(code)
+        componentsViewModel.getString().observe(viewLifecycleOwner, {
+            if (savedInstanceState.isNull()) {
+                manifest.loadDataWithBaseURL("file:///android_asset/", it, "text/html", "UTF-8", null)
+            } else {
+                manifest.restoreState(savedInstanceState!!)
             }
-
-            loadSourceCode(text)
-            this@XMLViewerWebView.name.text = name
+            this@XMLViewerWebView.name.text = requireArguments().getString("path_to_xml")!!
             progress.makeInvisible()
-        }
+            code = it
+        })
 
         options.setOnClickListener {
             val p = PopupXmlViewer(LayoutInflater.from(requireContext())
@@ -124,14 +118,9 @@ class XMLViewerWebView : ScopedFragment() {
         }
     }
 
-    private fun loadSourceCode(html: String) {
-        val data = String.format(
-            "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3" +
-                    ".org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3" +
-                    ".org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; " +
-                    "charset=utf-8\" /><p style=\"word-wrap: break-word;\"><script src=\"run_prettify.js?skin=github\"></script></head><body " +
-                    "bgcolor=\"transparent\"><pre class=\"prettyprint linenums\">%s</pre></body></html>", html)
-        manifest.loadDataWithBaseURL("file:///android_asset/", data, "text/html", "UTF-8", null)
+    override fun onSaveInstanceState(outState: Bundle) {
+        manifest.saveState(outState)
+        super.onSaveInstanceState(outState)
     }
 
     companion object {

@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.details.AdapterResources
+import app.simple.inure.adapters.details.AdapterExtras
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.APKParser
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
-import app.simple.inure.viewmodels.panels.ApkDataViewModel
+import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Extras : ScopedFragment() {
 
@@ -42,12 +42,12 @@ class Extras : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getExtras().observe(viewLifecycleOwner, {
-            val adapterResources = AdapterResources(APKParser.getExtraFiles(applicationInfo.sourceDir))
+            val adapterExtras = AdapterExtras(APKParser.getExtraFiles(applicationInfo.sourceDir))
 
-            recyclerView.adapter = adapterResources
-            total.text = getString(R.string.total, adapterResources.list.size)
+            recyclerView.adapter = adapterExtras
+            total.text = getString(R.string.total, adapterExtras.list.size)
 
-            adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
+            adapterExtras.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks{
                 override fun onResourceClicked(path: String) {
                     exitTransition = null
                     if (path.endsWith(".ttf")) {

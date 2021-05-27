@@ -33,10 +33,11 @@ class AccentColorAdapter : RecyclerView.Adapter<AccentColorAdapter.Holder>() {
             ContextCompat.getColor(parent.context, R.color.brown),
             ContextCompat.getColor(parent.context, R.color.caribbeanGreen),
             ContextCompat.getColor(parent.context, R.color.persianGreen),
-            ContextCompat.getColor(parent.context, R.color.amaranth)
+            ContextCompat.getColor(parent.context, R.color.amaranth),
+            ContextCompat.getColor(parent.context, R.color.yellow)
         )
 
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_color_pallete, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_accent, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -59,7 +60,7 @@ class AccentColorAdapter : RecyclerView.Adapter<AccentColorAdapter.Holder>() {
     }
 
     override fun getItemCount(): Int {
-        return 12
+        return 13
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

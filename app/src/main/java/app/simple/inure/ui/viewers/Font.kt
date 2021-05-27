@@ -13,7 +13,7 @@ import app.simple.inure.R
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.viewmodels.factory.FontViewModelFactory
-import app.simple.inure.viewmodels.panels.FontData
+import app.simple.inure.viewmodels.viewers.FontData
 
 class Font : ScopedFragment() {
 

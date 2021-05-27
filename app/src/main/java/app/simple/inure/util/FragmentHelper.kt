@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.decorations.transitions.DetailsTransition
-import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.extension.fragments.ScopedFragment
 import org.jetbrains.annotations.NotNull
 
@@ -37,10 +36,10 @@ object FragmentHelper {
      *
      * @param fragmentManager [FragmentManager]
      * @param fragment [Fragment]
-     * @param icon [View] that needs to be animated
+     * @param view [View] that needs to be animated
      * @param tag back stack tag for fragment
      */
-    fun openFragmentLinear(fragmentManager: FragmentManager, fragment: Fragment, icon: View, tag: String) {
+    fun openFragmentLinear(fragmentManager: FragmentManager, fragment: Fragment, view: View, tag: String) {
         fragment.exitTransition = Fade()
         fragment.sharedElementEnterTransition = DetailsTransition()
         fragment.enterTransition = Fade()
@@ -48,7 +47,7 @@ object FragmentHelper {
 
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .addSharedElement(icon, icon.transitionName)
+                .addSharedElement(view, view.transitionName)
                 .replace(R.id.app_container, fragment, tag)
                 .addToBackStack(tag)
                 .commit()

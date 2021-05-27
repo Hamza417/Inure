@@ -14,7 +14,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
-import app.simple.inure.viewmodels.panels.ApkDataViewModel
+import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Resources : ScopedFragment() {
 
@@ -59,6 +59,14 @@ class Resources : ScopedFragment() {
                                                     XMLViewerWebView.newInstance(applicationInfo, false, path),
                                                     "wv_xml")
                     }
+                }
+
+                override fun onResourceLongClicked(path: String) {
+                    clearExitTransition()
+                    
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                TextViewer.newInstance(applicationInfo, path),
+                                                "txt_tv_xml")
                 }
             })
         })

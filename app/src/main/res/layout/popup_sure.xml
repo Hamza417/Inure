@@ -40,4 +40,21 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/sure_negative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:minWidth="100dp"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:gravity="center"
+        android:layout_gravity="start"
+        android:paddingVertical="20dp"
+        android:text="@string/no"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
 </merge>

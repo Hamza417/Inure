@@ -10,9 +10,9 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 
 
-class AdapterResources(val list: MutableList<String>) : RecyclerView.Adapter<AdapterResources.Holder>() {
+class AdapterExtras(val list: MutableList<String>) : RecyclerView.Adapter<AdapterExtras.Holder>() {
 
-    private lateinit var resourceCallbacks: ResourceCallbacks
+    private lateinit var extrasCallbacks: ExtrasCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_resources, parent, false))
@@ -22,12 +22,7 @@ class AdapterResources(val list: MutableList<String>) : RecyclerView.Adapter<Ada
         holder.xml.text = list[position].optimizeToColoredString(holder.itemView.context, "/")
 
         holder.xml.setOnClickListener {
-            resourceCallbacks.onResourceClicked(list[position])
-        }
-
-        holder.xml.setOnLongClickListener {
-            resourceCallbacks.onResourceLongClicked(list[position])
-            true
+            extrasCallbacks.onResourceClicked(list[position])
         }
     }
 
@@ -35,16 +30,15 @@ class AdapterResources(val list: MutableList<String>) : RecyclerView.Adapter<Ada
         return list.size
     }
 
-    fun setOnResourceClickListener(resourceCallbacks: ResourceCallbacks) {
-        this.resourceCallbacks = resourceCallbacks
+    fun setOnResourceClickListener(resourceCallbacks: ExtrasCallbacks) {
+        this.extrasCallbacks = resourceCallbacks
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val xml: DynamicRippleTextView = itemView.findViewById(R.id.adapter_resources_name)
     }
 
-    interface ResourceCallbacks {
+    interface ExtrasCallbacks {
         fun onResourceClicked(path: String)
-        fun onResourceLongClicked(path: String)
     }
 }
