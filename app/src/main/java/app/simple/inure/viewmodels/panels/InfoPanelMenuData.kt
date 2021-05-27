@@ -57,6 +57,7 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
                 list.add(Pair(R.drawable.ic_close, context.getString(R.string.force_stop)))
                 list.add(Pair(R.drawable.ic_delete_sweep, context.getString(R.string.clear_data)))
                 list.add(Pair(R.drawable.ic_broom, context.getString(R.string.clear_cache)))
+                list.add(Pair(R.drawable.ic_double_arrow, context.getString(R.string.open_in_settings)))
 
             } else {
                 if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
@@ -71,6 +72,8 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
                     }
                     list.add(Pair(R.drawable.ic_send, context.getString(R.string.send)))
                 }
+
+                list.add(Pair(R.drawable.ic_double_arrow, context.getString(R.string.open_in_settings)))
             }
 
             menuOptions.postValue(list)
