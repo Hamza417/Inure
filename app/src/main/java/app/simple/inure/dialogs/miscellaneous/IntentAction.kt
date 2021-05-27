@@ -27,6 +27,7 @@ class IntentAction : ScopedDialogFragment() {
         launch = view.findViewById(R.id.launch_intent_action)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
+
         return view
     }
 

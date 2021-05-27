@@ -41,7 +41,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
         dialog?.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
 
         if (AppearancePreferences.isDimmingOn()) {
-            dialog?.window?.setDimAmount(0.3f)
+            dialog?.window?.setDimAmount(0.4f)
         } else {
             dialog?.window?.setDimAmount(0f)
         }

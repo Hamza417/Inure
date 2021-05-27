@@ -66,7 +66,7 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
         }
 
         holder.container.setOnLongClickListener {
-            activitiesCallbacks.onActivityLongPressed(activities[position], activities[position].name, applicationInfo, it)
+            activitiesCallbacks.onActivityLongPressed( activities[position].name, applicationInfo, it)
             true
         }
     }
@@ -95,7 +95,7 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
 
         interface ActivitiesCallbacks {
             fun onActivityClicked(androidComponent: AndroidComponent, packageId: String)
-            fun onActivityLongPressed(androidComponent: AndroidComponent, packageId: String, applicationInfo: ApplicationInfo, icon: View)
+            fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View)
         }
     }
 }

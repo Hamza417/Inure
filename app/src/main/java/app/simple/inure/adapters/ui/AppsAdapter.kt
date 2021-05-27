@@ -3,7 +3,6 @@ package app.simple.inure.adapters.ui
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -22,12 +21,10 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     var apps = arrayListOf<ApplicationInfo>()
     var searchKeyword: String = ""
-    private var xOff = 0f
-    private var yOff = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
-                          .inflate(R.layout.adapter_all_apps, parent, false))
+                              .inflate(R.layout.adapter_all_apps, parent, false))
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -37,7 +34,7 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
         holder.name.text = apps[position].name
         holder.packageId.text = apps[position].packageName
 
-        if(searchKeyword.isNotEmpty()) {
+        if (searchKeyword.isNotEmpty()) {
             searchHighlighter(holder.name, holder.itemView.context, searchKeyword)
             searchHighlighter(holder.packageId, holder.itemView.context, searchKeyword)
         }
@@ -46,18 +43,8 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
             appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
         }
 
-        holder.container.setOnTouchListener { _, event ->
-            when (event!!.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    xOff = event.x
-                    yOff = event.y
-                }
-            }
-            false
-        }
-
         holder.container.setOnLongClickListener {
-            appsAdapterCallbacks.onAppLongPress(apps[position], holder.container, xOff, yOff, holder.icon, position)
+            appsAdapterCallbacks.onAppLongPress(apps[position], it, holder.icon, position)
             true
         }
     }

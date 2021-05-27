@@ -57,18 +57,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.Holder>() {
             AdapterUtils.searchHighlighter(holder.packageId, holder.itemView.context, searchKeyword)
         }
 
-        holder.container.setOnTouchListener { _, event ->
-            when (event!!.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    xOff = event.x
-                    yOff = event.y
-                }
-            }
-            false
-        }
-
         holder.container.setOnLongClickListener {
-            appsAdapterCallbacks.onAppLongPress(apps[position], holder.container, xOff, yOff, holder.icon, position)
+            appsAdapterCallbacks.onAppLongPress(apps[position], it, holder.icon, position)
             true
         }
     }

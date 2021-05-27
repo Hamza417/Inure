@@ -24,6 +24,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.popups.app.PopupSure
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PackageUtils
@@ -195,7 +196,28 @@ class AppInfo : ScopedFragment() {
                                     }
                                 })
                             } else {
-                                applicationInfo.uninstallThisPackage(appUninstallObserver, -1)
+                                if(ConfigurationPreferences.isUsingRoot()) {
+                                    val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                                    popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
+                                        override fun onMenuItemClicked(source: String) {
+                                            when (source) {
+                                                getString(R.string.yes) -> {
+                                                    val f = ShellExecutorDialog.newInstance("pm uninstall ${applicationInfo.packageName}")
+                                                    f.show(parentFragmentManager, "shell_executor")
+                                                    f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                                        override fun onCommandExecuted(result: String) {
+                                                            if (result == "Success") {
+                                                                onAppUninstalled(true)
+                                                            }
+                                                        }
+                                                    })
+                                                }
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    applicationInfo.uninstallThisPackage(appUninstallObserver, -1)
+                                }
                             }
                         }
                         getString(R.string.send) -> {

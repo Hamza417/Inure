@@ -62,7 +62,7 @@ class Activities : ScopedFragment() {
                                                 "activity_info")
                 }
 
-                override fun onActivityLongPressed(androidComponent: AndroidComponent, packageId: String, applicationInfo: ApplicationInfo, icon: View) {
+                override fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View) {
                     val v = PopupActivitiesMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_activities_menu,
                                                                                               PopupLinearLayout(requireContext())), icon)
 

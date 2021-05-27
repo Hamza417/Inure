@@ -7,7 +7,6 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -33,8 +32,6 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     var apps = arrayListOf<ApplicationInfo>()
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
-    private var xOff = 0f
-    private var yOff = 0f
 
     var tracker: SelectionTracker<Long>? = null
 
@@ -84,18 +81,8 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
                 appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
             }
 
-            holder.container.setOnTouchListener { _, event ->
-                when (event!!.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        xOff = event.x
-                        yOff = event.y
-                    }
-                }
-                false
-            }
-
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks.onAppLongPress(apps[position], holder.container, xOff, yOff, holder.icon, position_)
+                appsAdapterCallbacks.onAppLongPress(apps[position], it, holder.icon, position_)
                 true
             }
 

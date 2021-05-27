@@ -1,5 +1,6 @@
 package app.simple.inure.extension.fragments
 
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -8,8 +9,10 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
 import app.simple.inure.R
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 
-open class ScopedDialogFragment : DialogFragment() {
+open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     /**
      * [ScopedBottomSheetFragment]'s own [ApplicationInfo] instance, needs
@@ -31,11 +34,35 @@ open class ScopedDialogFragment : DialogFragment() {
         val displayMetrics = DisplayMetrics()
 
         window.attributes.windowAnimations = R.style.DialogAnimation
-        window.attributes.width = FrameLayout.LayoutParams.MATCH_PARENT
+        window.attributes.height = FrameLayout.LayoutParams.WRAP_CONTENT
         @Suppress("deprecation")
         window.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        window.setDimAmount(0.5f)
+
+        if (AppearancePreferences.isDimmingOn()) {
+            dialog?.window?.setDimAmount(0.4f)
+        } else {
+            dialog?.window?.setDimAmount(0f)
+        }
+
         window.attributes.gravity = Gravity.CENTER
         window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 85f).toInt()
     }
+
+    override fun onResume() {
+        super.onResume()
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    /**
+     * Called when any preferences is changed using [getSharedPreferences]
+     *
+     * Override this to get any preferences change events inside
+     * the fragment
+     */
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {}
 }
