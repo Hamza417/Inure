@@ -26,6 +26,7 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.makeGoAway
 import app.simple.inure.util.ViewUtils.makeInvisible
+import app.simple.inure.util.ViewUtils.makeVisible
 import app.simple.inure.viewmodels.factory.XmlDataFactory
 import app.simple.inure.viewmodels.viewers.XMLViewerData
 import java.io.IOException
@@ -93,6 +94,7 @@ class XMLViewerTextView : ScopedFragment() {
                 this@XMLViewerTextView.text.setText(it)
                 this@XMLViewerTextView.name.text = requireArguments().getString("path_to_xml")!!
                 progress.makeInvisible()
+                options.makeVisible()
 
             }.getOrElse {
 

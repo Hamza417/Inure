@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/mainBackground"
     android:elevation="5dp"
+    android:animateLayoutChanges="true"
     android:orientation="horizontal"
     android:padding="@dimen/header_padding">
 
@@ -41,6 +42,8 @@
         android:id="@+id/xml_viewer_options"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
+        android:clickable="false"
+        android:visibility="gone"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="15dp"
         android:src="@drawable/ic_more_vert"
