@@ -168,8 +168,9 @@
     <string name="grant_storage_access_permission">Grant Storage Access Permission</string>
     <string name="desc_usage_access">This app uses PACKAGE_USAGE_STATS permission to fetch and calculate the various app usage data available in the device.</string>
     <string name="desc_storage_permission">Storage permission is required and used to perform various app actions such as sharing app, making backup files or associate with file available in external storage.</string>
-    <string name="granted">Granted!</string>
-    <string name="rejected">Permission Rejected, Click to Allow</string>
+    <string name="granted">Granted</string>
+    <string name="rejected_contextual">Permission Rejected, Click to Allow</string>
+    <string name="rejected">Rejected</string>
     <string name="start_app_now">Start App Now</string>
     <string name="desc_setup">Before moving ahead it is recommended to perform the necessary actions to make the all the features of the app work.</string>
     <string name="skip">Skip for Now</string>
@@ -183,4 +184,6 @@
     <string name="force_launch">Force Launch</string>
     <string name="action">Action</string>
     <string name="desc_intent_action">Make sure the activity is receiving or compatible with the above specified action. Activity will still launch but the action supplied will have no effect otherwise.</string>
+    <string name="revoke">Revoke</string>
+    <string name="grant">Grant</string>
 </resources>

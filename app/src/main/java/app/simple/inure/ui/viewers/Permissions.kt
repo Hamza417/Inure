@@ -9,10 +9,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
+import app.simple.inure.decorations.popup.PopupLinearLayout
+import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.model.PermissionInfo
+import app.simple.inure.popups.viewers.PopupPermissions
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
@@ -22,6 +27,7 @@ class Permissions : ScopedFragment() {
     private lateinit var totalPermissions: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var adapterPermissions: AdapterPermissions
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_permissions, container, false)
@@ -43,8 +49,46 @@ class Permissions : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         componentsViewModel.getPermissions().observe(viewLifecycleOwner, {
-            recyclerView.adapter = AdapterPermissions(it, applicationInfo)
+            adapterPermissions = AdapterPermissions(it)
+            recyclerView.adapter = adapterPermissions
             totalPermissions.text = getString(R.string.total, it.size)
+
+            adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
+                override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo) {
+                    val popup = PopupPermissions(layoutInflater.inflate(R.layout.popup_permission_options,
+                                                                        PopupLinearLayout(requireContext()),
+                                                                        true), container, permissionInfo)
+
+                    popup.setOnMenuClickListener(object : PopupMenuCallback {
+                        override fun onMenuItemClicked(source: String) {
+                            when (source) {
+                                getString(R.string.revoke) -> {
+                                    val shell = ShellExecutorDialog.newInstance("pm revoke ${applicationInfo.packageName} ${permissionInfo.name}")
+                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                        override fun onCommandExecuted(result: String) {
+                                            if (result.contains(getString(R.string.done))) {
+                                                componentsViewModel.loadPermissionData()
+                                            }
+                                        }
+                                    })
+                                    shell.show(childFragmentManager, "shell_executor")
+                                }
+                                getString(R.string.grant) -> {
+                                    val shell = ShellExecutorDialog.newInstance("pm grant ${applicationInfo.packageName} ${permissionInfo.name}")
+                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                        override fun onCommandExecuted(result: String) {
+                                            if (result.contains(getString(R.string.done))) {
+                                                componentsViewModel.loadPermissionData()
+                                            }
+                                        }
+                                    })
+                                    shell.show(childFragmentManager, "shell_executor")
+                                }
+                            }
+                        }
+                    })
+                }
+            })
         })
 
         componentsViewModel.getError().observe(viewLifecycleOwner, {

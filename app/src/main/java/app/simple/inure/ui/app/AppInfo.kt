@@ -186,7 +186,7 @@ class AppInfo : ScopedFragment() {
                                         when (source) {
                                             getString(R.string.yes) -> {
                                                 val f = ShellExecutorDialog.newInstance("pm uninstall -k --user 0 ${applicationInfo.packageName}")
-                                                f.show(parentFragmentManager, "shell_executor")
+
                                                 f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                                     override fun onCommandExecuted(result: String) {
                                                         if (result == "Success") {
@@ -194,6 +194,8 @@ class AppInfo : ScopedFragment() {
                                                         }
                                                     }
                                                 })
+
+                                                f.show(parentFragmentManager, "shell_executor")
                                             }
                                         }
                                     }
@@ -206,7 +208,7 @@ class AppInfo : ScopedFragment() {
                                             when (source) {
                                                 getString(R.string.yes) -> {
                                                     val f = ShellExecutorDialog.newInstance("pm uninstall ${applicationInfo.packageName}")
-                                                    f.show(parentFragmentManager, "shell_executor")
+
                                                     f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                                         override fun onCommandExecuted(result: String) {
                                                             if (result == "Success") {
@@ -214,6 +216,8 @@ class AppInfo : ScopedFragment() {
                                                             }
                                                         }
                                                     })
+
+                                                    f.show(parentFragmentManager, "shell_executor")
                                                 }
                                             }
                                         }
@@ -250,7 +254,7 @@ class AppInfo : ScopedFragment() {
                                                                                     "& rm -r -v /data/data/${applicationInfo.packageName}/app_cache " +
                                                                                     "& rm -r -v /data/data/${applicationInfo.packageName}/app_texture " +
                                                                                     "& rm -r -v /data/data/${applicationInfo.packageName}/app_webview " +
-                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/code_cache")
+                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/code_cache",)
                                                     .show(parentFragmentManager, "shell_executor")
                                         }
                                     }
@@ -277,7 +281,6 @@ class AppInfo : ScopedFragment() {
                                     when (source) {
                                         getString(R.string.yes) -> {
                                             val f = ShellExecutorDialog.newInstance("pm disable ${applicationInfo.packageName}")
-                                            f.show(parentFragmentManager, "shell_executor")
 
                                             f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                                 override fun onCommandExecuted(result: String) {
@@ -286,6 +289,8 @@ class AppInfo : ScopedFragment() {
                                                     }
                                                 }
                                             })
+
+                                            f.show(parentFragmentManager, "shell_executor")
                                         }
                                     }
                                 }
@@ -293,7 +298,6 @@ class AppInfo : ScopedFragment() {
                         }
                         getString(R.string.enable) -> {
                             val f = ShellExecutorDialog.newInstance("pm enable ${applicationInfo.packageName}")
-                            f.show(parentFragmentManager, "shell_executor")
 
                             f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                 override fun onCommandExecuted(result: String) {
@@ -302,6 +306,8 @@ class AppInfo : ScopedFragment() {
                                     }
                                 }
                             })
+
+                            f.show(parentFragmentManager, "shell_executor")
                         }
                         getString(R.string.open_in_settings) -> {
                             startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {

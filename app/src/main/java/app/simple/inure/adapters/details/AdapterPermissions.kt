@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.details
 
-import android.content.pm.ApplicationInfo
 import android.content.pm.PermissionInfo
 import android.os.Build
 import android.view.LayoutInflater
@@ -8,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -16,9 +16,10 @@ import app.simple.inure.util.PermissionUtils.protectionToString
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.makeGoAway
 
-class AdapterPermissions(private val permissions: MutableList<String>, private val applicationInfo: ApplicationInfo)
+class AdapterPermissions(private val permissions: MutableList<app.simple.inure.model.PermissionInfo>)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
+    private lateinit var permissionCallbacks: PermissionCallbacks
     private lateinit var permissionInfo: PermissionInfo
     private val permissionLabelMode = ConfigurationPreferences.getPermissionLabelMode()
 
@@ -28,12 +29,12 @@ class AdapterPermissions(private val permissions: MutableList<String>, private v
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         runCatching {
-            permissionInfo = permissions[position].getPermissionInfo(holder.itemView.context)!!
+            permissionInfo = permissions[position].name.getPermissionInfo(holder.itemView.context)!!
 
             holder.name.text = if (permissionLabelMode) {
                 permissionInfo.loadLabel(holder.itemView.context.packageManager)
             } else {
-                permissions[position]
+                permissions[position].name
             }.toString().optimizeToColoredString(holder.itemView.context, ".")
 
             holder.desc.text = try {
@@ -48,10 +49,22 @@ class AdapterPermissions(private val permissions: MutableList<String>, private v
                 @Suppress("deprecation")
                 protectionToString(permissionInfo.protectionLevel, holder.itemView.context)
             }
+
+            kotlin.runCatching {
+                holder.status.text = if (permissions[position].isGranted) {
+                    holder.status.text.toString() + " | " + holder.itemView.context.getString(R.string.granted)
+                } else {
+                    holder.status.text.toString() + " | " + holder.itemView.context.getString(R.string.rejected)
+                }
+            }
         }.getOrElse {
-            holder.name.text = permissions[position].optimizeToColoredString(holder.itemView.context, ".")
+            holder.name.text = permissions[position].name.optimizeToColoredString(holder.itemView.context, ".")
             holder.status.text = holder.itemView.context.getString(R.string.desc_not_available)
             holder.desc.makeGoAway()
+        }
+
+        holder.container.setOnClickListener {
+            permissionCallbacks.onPermissionClicked(it, permissions[position])
         }
     }
 
@@ -63,5 +76,16 @@ class AdapterPermissions(private val permissions: MutableList<String>, private v
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_name)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)
+        val container : DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_permissions_container)
+    }
+
+    fun setOnPermissionCallbacksListener(permissionCallbacks: PermissionCallbacks) {
+        this.permissionCallbacks = permissionCallbacks
+    }
+
+    companion object {
+        interface PermissionCallbacks {
+            fun onPermissionClicked(container: View, permissionInfo: app.simple.inure.model.PermissionInfo)
+        }
     }
 }

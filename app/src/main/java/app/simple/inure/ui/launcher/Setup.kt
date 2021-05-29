@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.AppOpsManagerCompat
-import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -66,7 +65,7 @@ class Setup : ScopedFragment() {
                     setStorageStatus()
                 }
                 Activity.RESULT_CANCELED -> {
-                    storageStatus.text = getString(R.string.rejected)
+                    storageStatus.text = getString(R.string.rejected_contextual)
                     storageStatus.setTextColor(Color.RED)
 
                     showStartAppButton()

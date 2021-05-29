@@ -2,10 +2,13 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.model.PermissionInfo
 import app.simple.inure.util.APKParser
 import app.simple.inure.util.APKParser.getActivities
 import app.simple.inure.util.APKParser.getBroadcasts
@@ -56,9 +59,9 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         }
     }
 
-    private val permissions: MutableLiveData<MutableList<String>> by lazy {
-        MutableLiveData<MutableList<String>>().also {
-            getPermissionData()
+    private val permissions: MutableLiveData<MutableList<PermissionInfo>> by lazy {
+        MutableLiveData<MutableList<PermissionInfo>>().also {
+            loadPermissionData()
         }
     }
 
@@ -104,7 +107,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         return graphics
     }
 
-    fun getPermissions(): LiveData<MutableList<String>> {
+    fun getPermissions(): LiveData<MutableList<PermissionInfo>> {
         return permissions
     }
 
@@ -185,12 +188,28 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         }
     }
 
-    private fun getPermissionData() {
+    fun loadPermissionData() {
         viewModelScope.launch(Dispatchers.Default) {
            kotlin.runCatching {
-               permissions.postValue(param.getPermissions().apply {
+               val permissionsList = param.getPermissions()
+               val packageInfo = getApplication<Application>().packageManager.getPackageInfo(param.packageName, PackageManager.GET_PERMISSIONS)
+               val permissions = arrayListOf<PermissionInfo>()
+
+               for(x in permissionsList.indices) {
+                   for(y in packageInfo.requestedPermissions.indices) {
+                       if(permissionsList[x] == packageInfo.requestedPermissions[y]) {
+                           if(packageInfo.requestedPermissionsFlags[y] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
+                               permissions.add(PermissionInfo(true, permissionsList[x]))
+                           } else {
+                               permissions.add(PermissionInfo(false, permissionsList[x]))
+                           }
+                       }
+                   }
+               }
+
+               this@ApkDataViewModel.permissions.postValue(permissions.apply {
                    sortBy {
-                       it.toLowerCase(Locale.getDefault())
+                       it.name.toLowerCase(Locale.getDefault())
                    }
                })
            }.getOrElse {
