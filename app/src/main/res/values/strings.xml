@@ -203,4 +203,9 @@
     <string name="incident_report_approver">Incident Report Approver</string>
     <string name="app_predictor">App Predictor</string>
     <string name="retail_demo">Retail Demo</string>
+    <string name="apex">Apex</string>
+    <string name="auto">Auto</string>
+    <string name="internal">Internal</string>
+    <string name="prefer_external">External Preferred</string>
+    <string name="application_type">Application Type</string>
 </resources>

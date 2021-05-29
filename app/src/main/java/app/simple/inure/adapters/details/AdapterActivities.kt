@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ViewUtils.makeVisible
 import com.jaredrummler.apkparser.model.AndroidComponent
@@ -17,6 +18,7 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
     : RecyclerView.Adapter<AdapterActivities.Holder>() {
 
     private lateinit var activitiesCallbacks: ActivitiesCallbacks
+    private val isRootMode = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_activities, parent, false))
@@ -65,9 +67,11 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
             activitiesCallbacks.onActivityClicked(activities[position], activities[position].name)
         }
 
-        holder.container.setOnLongClickListener {
-            activitiesCallbacks.onActivityLongPressed( activities[position].name, applicationInfo, it)
-            true
+        if (isRootMode) {
+            holder.container.setOnLongClickListener {
+                activitiesCallbacks.onActivityLongPressed( activities[position].name, applicationInfo, it)
+                true
+            }
         }
     }
 

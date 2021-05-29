@@ -25,6 +25,7 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
     private lateinit var permissionCallbacks: PermissionCallbacks
     private lateinit var permissionInfo: PermissionInfo
     private val permissionLabelMode = ConfigurationPreferences.getPermissionLabelMode()
+    private val isRootMode = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_permissions, parent, false))
@@ -46,8 +47,6 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
             } catch (e: NullPointerException) {
                 holder.itemView.context.getString(R.string.not_available)
             }
-
-            println(holder.desc.text)
 
             @Suppress("deprecation")
             holder.status.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -71,8 +70,10 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
             holder.desc.makeGoAway()
         }
 
-        holder.container.setOnClickListener {
-            permissionCallbacks.onPermissionClicked(it, permissions[position])
+        if (isRootMode) {
+            holder.container.setOnClickListener {
+                permissionCallbacks.onPermissionClicked(it, permissions[position])
+            }
         }
     }
 
