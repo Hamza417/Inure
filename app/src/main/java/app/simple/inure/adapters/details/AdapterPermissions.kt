@@ -1,20 +1,26 @@
 package app.simple.inure.adapters.details
 
 import android.content.pm.PermissionInfo
+import android.graphics.Color
 import android.os.Build
+import android.text.Spannable
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.PermissionUtils.getPermissionInfo
 import app.simple.inure.util.PermissionUtils.protectionToString
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.makeGoAway
+import java.util.regex.Pattern
 
 class AdapterPermissions(private val permissions: MutableList<app.simple.inure.model.PermissionInfo>)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
@@ -57,9 +63,13 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
                     holder.status.text.toString() + " | " + holder.itemView.context.getString(R.string.rejected)
                 }
             }
+
+            holder.status.setTextColor(holder.itemView.context.resolveAttrColor(R.attr.colorAppAccent))
+
         }.getOrElse {
             holder.name.text = permissions[position].name.optimizeToColoredString(holder.itemView.context, ".")
             holder.status.text = holder.itemView.context.getString(R.string.desc_not_available)
+            holder.status.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textSecondary))
             holder.desc.makeGoAway()
         }
 
