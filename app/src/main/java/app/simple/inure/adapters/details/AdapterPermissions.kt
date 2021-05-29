@@ -1,11 +1,7 @@
 package app.simple.inure.adapters.details
 
-import android.content.Context
 import android.content.pm.PermissionInfo
-import android.graphics.Color
 import android.os.Build
-import android.text.Spannable
-import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +17,7 @@ import app.simple.inure.util.PermissionUtils.getPermissionInfo
 import app.simple.inure.util.PermissionUtils.protectionToString
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.makeGoAway
-import java.util.regex.Pattern
+import app.simple.inure.util.ViewUtils.makeVisible
 
 class AdapterPermissions(private val permissions: MutableList<app.simple.inure.model.PermissionInfo>)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
@@ -44,11 +40,14 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
                 permissions[position].name
             }.toString().optimizeToColoredString(holder.itemView.context, ".")
 
+            holder.desc.makeVisible()
             holder.desc.text = try {
                 permissionInfo.loadDescription(holder.itemView.context.packageManager)
             } catch (e: NullPointerException) {
                 holder.itemView.context.getString(R.string.not_available)
             }
+
+            println(holder.desc.text)
 
             @Suppress("deprecation")
             holder.status.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -57,12 +56,10 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
                 protectionToString(permissionInfo.protectionLevel, holder.itemView.context)
             }
 
-            kotlin.runCatching {
-                holder.status.text = if (permissions[position].isGranted) {
-                    holder.status.text.toString() + " | " + holder.itemView.context.getString(R.string.granted)
-                } else {
-                    holder.status.text.toString() + " | " + holder.itemView.context.getString(R.string.rejected)
-                }
+            holder.status.text = if (permissions[position].isGranted) {
+                holder.status.text.toString() + " | " + holder.itemView.context.getString(R.string.granted)
+            } else {
+                holder.status.text.toString() + " | " + holder.itemView.context.getString(R.string.rejected)
             }
 
             holder.status.setTextColor(holder.itemView.context.resolveAttrColor(R.attr.colorAppAccent))
@@ -87,7 +84,7 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_name)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)
-        val container : DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_permissions_container)
+        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_permissions_container)
     }
 
     fun setOnPermissionCallbacksListener(permissionCallbacks: PermissionCallbacks) {

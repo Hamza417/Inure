@@ -34,7 +34,6 @@ class Permissions : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.permissions_recycler_view)
         totalPermissions = view.findViewById(R.id.total_permissions)
-        recyclerView.setHasFixedSize(true)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
         applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
