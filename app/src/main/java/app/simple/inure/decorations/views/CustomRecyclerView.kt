@@ -112,9 +112,9 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
 
     class AppsLookup(private val recyclerView: CustomRecyclerView) : ItemDetailsLookup<Long>() {
         override fun getItemDetails(e: MotionEvent): ItemDetails<Long>? {
-            val view = recyclerView.findChildViewUnder(e.x, e.y)
-            if (view.isNotNull()) {
-                return (recyclerView.getChildViewHolder(view!!) as AppsAdapterSmall.Holder).getItemDetails()
+            val view = recyclerView.findChildViewUnder(e.x, e.y)!!
+            if (view.isNotNull() && recyclerView.getChildViewHolder(view) is AppsAdapterSmall.Holder) {
+                return (recyclerView.getChildViewHolder(view) as AppsAdapterSmall.Holder).getItemDetails()
             }
 
             return null

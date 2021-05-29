@@ -2,7 +2,6 @@ package app.simple.inure.interfaces.adapters;
 
 import android.content.pm.ApplicationInfo;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +27,7 @@ public interface AppsAdapterCallbacks {
     
     }
     
-    default void onItemSelected () {
+    default void onItemSelected(int position) {
     
     }
 }

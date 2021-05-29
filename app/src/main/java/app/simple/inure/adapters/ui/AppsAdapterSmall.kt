@@ -7,6 +7,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -86,9 +87,8 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
                 true
             }
 
-            holder.iconContainer.setOnClickListener {
-                holder.selection.isActivated = true
-                appsAdapterCallbacks.onItemSelected()
+            holder.icon.setOnClickListener {
+                appsAdapterCallbacks.onItemSelected(position + 1)
             }
 
             tracker?.let {
@@ -141,8 +141,6 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val selection: ImageView = itemView.findViewById(R.id.adapter_all_app_selection_indicator)
-        val iconContainer: FrameLayout = itemView.findViewById(R.id.adapter_all_app_icon_container)
         val icon: ImageView = itemView.findViewById(R.id.adapter_all_app_icon)
         val name: TextView = itemView.findViewById(R.id.adapter_all_app_name)
         val packageId: TextView = itemView.findViewById(R.id.adapter_all_app_package_id)
@@ -154,11 +152,11 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
             object : ItemDetailsLookup.ItemDetails<Long>() {
                 override fun getPosition(): Int = absoluteAdapterPosition - 1
                 override fun getSelectionKey(): Long = absoluteAdapterPosition.toLong() - 1
+                override fun inSelectionHotspot(e: MotionEvent): Boolean = false
             }
 
         fun bind(selected: Boolean) {
-            selection.isActivated = selected
-            if (selected) icon.alpha = 0.5F
+            container.setDefaultBackground(selected)
         }
     }
 

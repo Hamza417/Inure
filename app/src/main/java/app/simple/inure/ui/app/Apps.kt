@@ -80,6 +80,17 @@ class Apps : ScopedFragment() {
 
             appsListRecyclerView.adapter = appsAdapter
 
+            tracker = SelectionTracker.Builder(
+                "selection",
+                appsListRecyclerView,
+                CustomRecyclerView.KeyProvider(appsListRecyclerView),
+                CustomRecyclerView.AppsLookup(appsListRecyclerView),
+                StorageStrategy.createLongStorage())
+                    .withSelectionPredicate(SelectionPredicates.createSelectAnything())
+                    .build()
+
+            appsAdapter.tracker = tracker
+
             kotlin.runCatching {
                 // TODO - fix out of bounds error
                 if (!fastScrollerView.isSetup) {
@@ -176,20 +187,9 @@ class Apps : ScopedFragment() {
                     })
                 }
 
-                override fun onItemSelected() {
-                    super.onItemSelected()
-                    tracker = SelectionTracker.Builder(
-                        "selection",
-                        appsListRecyclerView,
-                        CustomRecyclerView.KeyProvider(appsListRecyclerView),
-                        CustomRecyclerView.AppsLookup(appsListRecyclerView),
-                        StorageStrategy.createLongStorage()
-                    )
-                            .withSelectionPredicate(SelectionPredicates.createSelectAnything())
-                            .build()
+                override fun onItemSelected(position: Int) {
+                    super.onItemSelected(position)
 
-                    appsAdapter.tracker = tracker
-                    appsAdapter.notifyDataSetChanged()
                 }
             })
         })
