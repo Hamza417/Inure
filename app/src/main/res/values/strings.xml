@@ -70,7 +70,7 @@
     <string name="services">Services</string>
     <string name="certificate">Certificate</string>
     <string name="resources">Resources</string>
-    <string name="broadcasts">Broadcasts</string>
+    <string name="receivers">Receivers</string>
     <string name="manifest">Manifest</string>
     <string name="providers">Providers</string>
     <string name="screen">Screen</string>
@@ -197,8 +197,8 @@
     <string name="oem">OEM</string>
     <string name="vendor_privileged">Vendor Privileged</string>
     <string name="text_classifier">Text Classifier</string>
-    <string name="welbeing">Welbeing</string>
-    <string name="documentar">Documentar</string>
+    <string name="wellbeing">Wellbeing</string>
+    <string name="documenter">Documenter</string>
     <string name="configurator">Configurator</string>
     <string name="incident_report_approver">Incident Report Approver</string>
     <string name="app_predictor">App Predictor</string>

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.adapters.details.AdapterProviders
 import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -40,7 +41,7 @@ class Providers : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getProviders().observe(viewLifecycleOwner, {
-            recyclerView.adapter = AdapterServices(it)
+            recyclerView.adapter = AdapterProviders(it, applicationInfo)
             total.text = getString(R.string.total, it.size)
         })
 

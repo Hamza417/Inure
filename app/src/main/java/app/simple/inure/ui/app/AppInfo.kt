@@ -24,10 +24,8 @@ import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.popups.app.PopupSure
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PackageUtils
@@ -136,9 +134,9 @@ class AppInfo : ScopedFragment() {
                                          Certificate.newInstance(applicationInfo),
                                          icon, "certificate")
                         }
-                        getString(R.string.broadcasts) -> {
+                        getString(R.string.receivers) -> {
                             openFragment(requireActivity().supportFragmentManager,
-                                         Broadcasts.newInstance(applicationInfo),
+                                         Receivers.newInstance(applicationInfo),
                                          icon, "broadcasts")
                         }
                         getString(R.string.resources) -> {

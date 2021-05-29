@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.model.PermissionInfo
 import app.simple.inure.util.APKParser
 import app.simple.inure.util.APKParser.getActivities
-import app.simple.inure.util.APKParser.getBroadcasts
+import app.simple.inure.util.APKParser.getReceivers
 import app.simple.inure.util.APKParser.getFeatures
 import app.simple.inure.util.APKParser.getPermissions
 import app.simple.inure.util.APKParser.getProviders
@@ -35,9 +35,9 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         }
     }
 
-    private val broadcasts: MutableLiveData<MutableList<AndroidComponent>> by lazy {
+    private val receivers: MutableLiveData<MutableList<AndroidComponent>> by lazy {
         MutableLiveData<MutableList<AndroidComponent>>().also {
-            getBroadcastsData()
+            getReceiversData()
         }
     }
 
@@ -91,8 +91,8 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         return activities
     }
 
-    fun getBroadcasts(): LiveData<MutableList<AndroidComponent>> {
-        return broadcasts
+    fun getReceivers(): LiveData<MutableList<AndroidComponent>> {
+        return receivers
     }
 
     fun getExtras(): LiveData<MutableList<String>> {
@@ -138,10 +138,10 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         }
     }
 
-    private fun getBroadcastsData() {
+    private fun getReceiversData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                broadcasts.postValue(param.getBroadcasts()!!.apply {
+                receivers.postValue(param.getReceivers()!!.apply {
                     sortBy {
                         it.name.substring(it.name.lastIndexOf("."))
                     }

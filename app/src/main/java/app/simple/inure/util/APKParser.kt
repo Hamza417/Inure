@@ -98,7 +98,7 @@ object APKParser {
      * Fetch the list of broadcast receivers from
      * an APK file
      */
-    fun ApplicationInfo.getBroadcasts(): MutableList<AndroidComponent>? {
+    fun ApplicationInfo.getReceivers(): MutableList<AndroidComponent>? {
         ApkParser.create(this).use {
             return it.androidManifest.receivers
         }

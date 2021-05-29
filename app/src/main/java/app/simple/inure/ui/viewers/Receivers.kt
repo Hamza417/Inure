@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.details.AdapterServices
+import app.simple.inure.adapters.details.AdapterReceivers
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
@@ -16,7 +16,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
-class Broadcasts : ScopedFragment() {
+class Receivers : ScopedFragment() {
 
     private lateinit var recyclerView: CustomRecyclerView
     private lateinit var total: TypeFaceTextView
@@ -41,8 +41,8 @@ class Broadcasts : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        componentsViewModel.getBroadcasts().observe(viewLifecycleOwner, {
-            recyclerView.adapter = AdapterServices(it)
+        componentsViewModel.getReceivers().observe(viewLifecycleOwner, {
+            recyclerView.adapter = AdapterReceivers(it, applicationInfo)
             total.text = getString(R.string.total, it.size)
         })
 
@@ -55,10 +55,10 @@ class Broadcasts : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Broadcasts {
+        fun newInstance(applicationInfo: ApplicationInfo): Receivers {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
-            val fragment = Broadcasts()
+            val fragment = Receivers()
             fragment.arguments = args
             return fragment
         }

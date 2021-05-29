@@ -90,7 +90,7 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
                 Pair(R.drawable.ic_services, context.getString(R.string.services)),
                 Pair(R.drawable.ic_certificate, context.getString(R.string.certificate)),
                 Pair(R.drawable.ic_resources, context.getString(R.string.resources)),
-                Pair(R.drawable.ic_broadcast, context.getString(R.string.broadcasts)),
+                Pair(R.drawable.ic_receivers, context.getString(R.string.receivers)),
                 Pair(R.drawable.ic_provider, context.getString(R.string.providers)),
                 Pair(R.drawable.ic_file_xml, context.getString(R.string.manifest)),
                 Pair(R.drawable.ic_anchor, context.getString(R.string.uses_feature)),

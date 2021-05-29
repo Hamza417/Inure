@@ -17,6 +17,15 @@
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/adapter_service_status"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorAppAccent"
+        android:textSize="14sp"
+        app:appFontStyle="regular" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
         android:id="@+id/adapter_services_process"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

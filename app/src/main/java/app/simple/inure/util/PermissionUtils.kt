@@ -45,7 +45,7 @@ object PermissionUtils {
             PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> protectionLevel = context.getString(R.string.signature_or_system)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_PRIVILEGED != 0) {
-            protectionLevel += " | " + context.getString(R.string.privileged)
+            protectionLevel += context.getString(R.string.privileged)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_DEVELOPMENT != 0) {
             protectionLevel += " | " + context.getString(R.string.development)
@@ -84,10 +84,10 @@ object PermissionUtils {
             protectionLevel += " | " + context.getString(R.string.text_classifier)
         }
         if (level and PROTECTION_FLAG_WELLBEING != 0) {
-            protectionLevel += " | " + context.getString(R.string.welbeing)
+            protectionLevel += " | " + context.getString(R.string.wellbeing)
         }
         if (level and PROTECTION_FLAG_DOCUMENTER != 0) {
-            protectionLevel += " | " + context.getString(R.string.documentar)
+            protectionLevel += " | " + context.getString(R.string.documenter)
         }
         if (level and PROTECTION_FLAG_CONFIGURATOR != 0) {
             protectionLevel += " | " + context.getString(R.string.configurator)

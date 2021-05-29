@@ -41,7 +41,7 @@ class Services : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getServices().observe(viewLifecycleOwner, {
-            recyclerView.adapter = AdapterServices(it)
+            recyclerView.adapter = AdapterServices(it, applicationInfo)
             total.text = getString(R.string.total, it.size)
         })
 

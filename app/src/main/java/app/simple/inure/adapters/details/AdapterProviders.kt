@@ -9,10 +9,11 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.util.ServicesUtils
+import app.simple.inure.util.ProvidersUtils
 import com.jaredrummler.apkparser.model.AndroidComponent
 
-class AdapterServices(private val services: List<AndroidComponent>, private val applicationInfo: ApplicationInfo) : RecyclerView.Adapter<AdapterServices.Holder>() {
+class AdapterProviders(private val services: List<AndroidComponent>, private val applicationInfo: ApplicationInfo)
+    : RecyclerView.Adapter<AdapterProviders.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_services, parent, false))
@@ -31,7 +32,7 @@ class AdapterServices(private val services: List<AndroidComponent>, private val 
                 holder.itemView.context.getString(R.string.not_exported)
             },
 
-            if (ServicesUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[position].name)) {
+            if (ProvidersUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[position].name)) {
                 holder.itemView.context.getString(R.string.enabled)
             } else {
                 holder.itemView.context.getString(R.string.disabled)
