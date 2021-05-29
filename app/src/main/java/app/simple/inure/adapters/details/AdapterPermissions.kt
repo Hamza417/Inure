@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.details
 
+import android.content.Context
 import android.content.pm.PermissionInfo
 import android.graphics.Color
 import android.os.Build
@@ -49,10 +50,10 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
                 holder.itemView.context.getString(R.string.not_available)
             }
 
+            @Suppress("deprecation")
             holder.status.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                protectionToString(permissionInfo.protection, holder.itemView.context)
+                protectionToString(permissionInfo.protectionFlags, holder.itemView.context)
             } else {
-                @Suppress("deprecation")
                 protectionToString(permissionInfo.protectionLevel, holder.itemView.context)
             }
 

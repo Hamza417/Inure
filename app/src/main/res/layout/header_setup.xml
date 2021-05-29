@@ -22,9 +22,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
-            android:text="@string/setup"
+            android:text="@string/inure_setup"
             android:textSize="30sp"
-            android:transitionName="@string/setup"
+            android:transitionName="@string/inure_setup"
             android:textColor="@color/textPrimary"
             app:appFontStyle="light" />
 

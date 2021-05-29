@@ -45,61 +45,61 @@ object PermissionUtils {
             PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> protectionLevel = context.getString(R.string.signature_or_system)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_PRIVILEGED != 0) {
-            protectionLevel += "|privileged"
+            protectionLevel += " | " + context.getString(R.string.privileged)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_DEVELOPMENT != 0) {
-            protectionLevel += "|development"
+            protectionLevel += " | " + context.getString(R.string.development)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_APPOP != 0) {
-            protectionLevel += "|appop"
+            protectionLevel += " | AppOp"
         }
         if (level and PermissionInfo.PROTECTION_FLAG_PRE23 != 0) {
-            protectionLevel += "|pre23"
+            protectionLevel += " | Pre23"
         }
         if (level and PermissionInfo.PROTECTION_FLAG_INSTALLER != 0) {
-            protectionLevel += "|installer"
+            protectionLevel += " | " + context.getString(R.string.installer)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_VERIFIER != 0) {
-            protectionLevel += "|verifier"
+            protectionLevel += " | " + context.getString(R.string.verifier)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_PREINSTALLED != 0) {
-            protectionLevel += "|preinstalled"
+            protectionLevel += " | " + context.getString(R.string.pre_installed)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_SETUP != 0) {
-            protectionLevel += "|setup"
+            protectionLevel += " | " + context.getString(R.string.setup)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_INSTANT != 0) {
-            protectionLevel += "|instant"
+            protectionLevel += " | " + context.getString(R.string.instant)
         }
         if (level and PermissionInfo.PROTECTION_FLAG_RUNTIME_ONLY != 0) {
-            protectionLevel += "|runtime"
+            protectionLevel += " | " + context.getString(R.string.runtime)
         }
         if (level and PROTECTION_FLAG_OEM != 0) {
-            protectionLevel += "|oem"
+            protectionLevel += " | " + context.getString(R.string.oem)
         }
         if (level and PROTECTION_FLAG_VENDOR_PRIVILEGED != 0) {
-            protectionLevel += "|vendorPrivileged"
+            protectionLevel += " | " + context.getString(R.string.vendor_privileged)
         }
         if (level and PROTECTION_FLAG_SYSTEM_TEXT_CLASSIFIER != 0) {
-            protectionLevel += "|textClassifier"
+            protectionLevel += " | " + context.getString(R.string.text_classifier)
         }
         if (level and PROTECTION_FLAG_WELLBEING != 0) {
-            protectionLevel += "|wellbeing"
+            protectionLevel += " | " + context.getString(R.string.welbeing)
         }
         if (level and PROTECTION_FLAG_DOCUMENTER != 0) {
-            protectionLevel += "|documenter"
+            protectionLevel += " | " + context.getString(R.string.documentar)
         }
         if (level and PROTECTION_FLAG_CONFIGURATOR != 0) {
-            protectionLevel += "|configurator"
+            protectionLevel += " | " + context.getString(R.string.configurator)
         }
         if (level and PROTECTION_FLAG_INCIDENT_REPORT_APPROVER != 0) {
-            protectionLevel += "|incidentReportApprover"
+            protectionLevel += " | " + context.getString(R.string.incident_report_approver)
         }
         if (level and PROTECTION_FLAG_APP_PREDICTOR != 0) {
-            protectionLevel += "|appPredictor"
+            protectionLevel += " | " + context.getString(R.string.app_predictor)
         }
         if (level and PROTECTION_FLAG_RETAIL_DEMO != 0) {
-            protectionLevel += "|retailDemo"
+            protectionLevel += " | " + context.getString(R.string.retail_demo)
         }
         return protectionLevel
     }

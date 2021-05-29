@@ -162,7 +162,7 @@
     <string name="progress">%d%%</string>
     <string name="load_large_strings">Load Large Strings</string>
     <string name="desc_large_strings">Suppress error while loading strings that are unusually large to be rendered smoothly on the screen. This option is not recommended as this can lead to UI freezing issues in the app and loading large string can take longer time to appear on the screen.</string>
-    <string name="setup">Inure Setup…</string>
+    <string name="inure_setup">Inure Setup…</string>
     <string name="not_granted">Not Granted, Click to Allow</string>
     <string name="grant_usage_access_permission">Grant Usage Access Permission</string>
     <string name="grant_storage_access_permission">Grant Storage Access Permission</string>
@@ -186,4 +186,21 @@
     <string name="desc_intent_action">Make sure the activity is receiving or compatible with the above specified action. Activity will still launch but the action supplied will have no effect otherwise.</string>
     <string name="revoke">Revoke</string>
     <string name="grant">Grant</string>
+    <string name="privileged">Privileged</string>
+    <string name="development">Development</string>
+    <string name="installer">Installer</string>
+    <string name="verifier">Verifier</string>
+    <string name="pre_installed">Pre Installed</string>
+    <string name="setup">Setup</string>
+    <string name="instant">Instant</string>
+    <string name="runtime">Runtime</string>
+    <string name="oem">OEM</string>
+    <string name="vendor_privileged">Vendor Privileged</string>
+    <string name="text_classifier">Text Classifier</string>
+    <string name="welbeing">Welbeing</string>
+    <string name="documentar">Documentar</string>
+    <string name="configurator">Configurator</string>
+    <string name="incident_report_approver">Incident Report Approver</string>
+    <string name="app_predictor">App Predictor</string>
+    <string name="retail_demo">Retail Demo</string>
 </resources>
