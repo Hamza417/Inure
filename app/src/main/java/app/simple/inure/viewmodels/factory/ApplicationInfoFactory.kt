@@ -8,6 +8,7 @@ import app.simple.inure.viewmodels.dialogs.FilePreparingViewModel
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
 import app.simple.inure.viewmodels.viewers.AppInformationViewModel
+import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 import java.lang.IllegalArgumentException
 
 class ApplicationInfoFactory(private val application: Application, private val param: ApplicationInfo)
@@ -27,6 +28,9 @@ class ApplicationInfoFactory(private val application: Application, private val p
             }
             modelClass.isAssignableFrom(AppInformationViewModel::class.java) -> {
                 return AppInformationViewModel(application, param) as T
+            }
+            modelClass.isAssignableFrom(CertificatesViewModel::class.java) -> {
+                return CertificatesViewModel(application, param) as T
             }
             else -> {
                 /**

@@ -2,41 +2,32 @@ package app.simple.inure.ui.viewers
 
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
-import android.os.Trace
-import android.util.Base64
-import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.adapters.details.AdapterInformation
+import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.util.APKParser.getCertificates
-import app.simple.inure.util.PackageUtils.getApplicationSignature
-import com.scottyab.rootbeer.util.QLog.i
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 
 class Certificate : ScopedFragment() {
 
-    private lateinit var algorithm: TypeFaceTextView
-    private lateinit var oid: TypeFaceTextView
-    private lateinit var base64md5: TypeFaceTextView
-    private lateinit var md5: TypeFaceTextView
-    private lateinit var validity: TypeFaceTextView
+    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var viewModel: CertificatesViewModel
+    private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_certificate, container, false)
 
-        algorithm = view.findViewById(R.id.certificate_algorithm)
-        oid = view.findViewById(R.id.certificate_algorithm_oid)
-        base64md5 = view.findViewById(R.id.certificate_base64_md5)
-        md5 = view.findViewById(R.id.certificate_md5)
-        validity = view.findViewById(R.id.certificate_validity)
+        recyclerView = view.findViewById(R.id.certificate_data_recycler_view)
 
-        applicationInfo = requireArguments().getParcelable<ApplicationInfo>("application_info")!!
+        applicationInfo = requireArguments().getParcelable("application_info")!!
+
+        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
+        viewModel = ViewModelProvider(this, applicationInfoFactory).get(CertificatesViewModel::class.java)
 
         return view
     }
@@ -46,38 +37,9 @@ class Certificate : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            runCatching {
-                val algorithm: String
-                val oid: String
-                val base64md5: String
-                val md5: String
-                val validity: String
-
-                withContext(Dispatchers.Default) {
-                    val cert = applicationInfo.getCertificates()
-                    val k = applicationInfo.getApplicationSignature(requireContext())!!
-
-                    for (sig in k.signature) {
-                        println(Base64.decode(sig.hashCode().toString(), Base64.DEFAULT))
-                    }
-
-                    algorithm = cert.signAlgorithm //k[0].hashCode().toString()
-                    oid = cert.signAlgorithmOID
-                    base64md5 = cert.certBase64Md5
-                    md5 = cert.certMd5
-                    validity = "${cert.startDate} - ${cert.endDate}"
-                }
-
-                this@Certificate.algorithm.text = algorithm
-                this@Certificate.oid.text = oid
-                this@Certificate.base64md5.text = base64md5
-                this@Certificate.md5.text = md5
-                this@Certificate.validity.text = validity
-            }.getOrElse {
-                it.printStackTrace()
-            }
-        }
+        viewModel.getCertificateData().observe(viewLifecycleOwner, {
+            recyclerView.adapter = AdapterInformation(it)
+        })
     }
 
     companion object {

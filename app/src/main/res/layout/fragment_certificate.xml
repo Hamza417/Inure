@@ -39,94 +39,13 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-    <androidx.core.widget.NestedScrollView
+    <app.simple.inure.decorations.views.CustomRecyclerView
+        android:id="@+id/certificate_data_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="30dp">
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                style="@style/InfoTextLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:text="@string/sign_algorithm"
-                app:appFontStyle="bold" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_algorithm"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/not_available"
-                app:appFontStyle="regular" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                style="@style/InfoTextLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sign_algorithm_oid"
-                app:appFontStyle="bold" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_algorithm_oid"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/not_available"
-                app:appFontStyle="regular" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                style="@style/InfoTextLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/certificate_base64_md5"
-                app:appFontStyle="bold" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_base64_md5"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/not_available"
-                app:appFontStyle="regular" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                style="@style/InfoTextLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/certificate_md5"
-                app:appFontStyle="bold" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_md5"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/not_available"
-                app:appFontStyle="regular" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                style="@style/InfoTextLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/validity"
-                app:appFontStyle="bold" />
-
-            <app.simple.inure.decorations.views.TypeFaceTextView
-                android:id="@+id/certificate_validity"
-                style="@style/InfoTextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/not_available"
-                app:appFontStyle="regular" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/list_animation_controller"
+        android:padding="@dimen/header_padding"
+        app:statusBarPaddingRequired="false" />
 
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

@@ -83,7 +83,7 @@
     <string name="normal">Normal</string>
     <string name="dangerous">Dangerous</string>
     <string name="sign_algorithm">Sign Algorithm</string>
-    <string name="validity">Validity</string>
+    <string name="valid_from">Valid from</string>
     <string name="certificate_base64_md5">Certificate Base64 MD5</string>
     <string name="certificate_md5">Certificate MD5</string>
     <string name="sign_algorithm_oid">Sign Algorithm OID</string>
@@ -212,4 +212,5 @@
     <string name="transitions">Transitions</string>
     <string name="arc_animations">Arc Animations</string>
     <string name="desc_animations">Enables or Disables circular path animations for the icons.\n\nThis option does not override if animations are disabled by the System itself.</string>
+    <string name="valid_to">Valid until</string>
 </resources>
