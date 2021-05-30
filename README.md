@@ -2,7 +2,7 @@
 
 An elegant Android app manager, currently in development
 
-**Update (30 May)** -:Development is stopped due to exams and will be continued after a few months.
+**Update (30 May)** -: Development is stopped due to exams and will be continued after a few months.
 
 <br/>
 <br/>
