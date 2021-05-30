@@ -7,12 +7,13 @@ import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.transition.Fade
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
+import androidx.transition.Fade
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.CoroutineScope
 
@@ -105,14 +106,31 @@ abstract class ScopedFragment :
         exitTransition = null
     }
 
+    open fun clearEnterTransition() {
+        enterTransition = null
+    }
+
     /**
      * Sets fragment transitions prior to creating a new fragment.
      * Used with shared elements
      */
     open fun setTransitions() {
-        exitTransition = Fade()
-        enterTransition = Fade()
-        sharedElementEnterTransition = DetailsTransitionArc()
-        sharedElementReturnTransition = DetailsTransitionArc()
+        /**
+         * Animations are expensive, every time a view is added into the
+         * animating view transaction time will increase a little
+         * making the interaction a little bit slow.
+         */
+        if (AppearancePreferences.isTransitionOn()) {
+            exitTransition = Fade()
+            enterTransition = Fade()
+        } else {
+            clearExitTransition()
+            clearEnterTransition()
+        }
+
+        if (AppearancePreferences.isAnimationOn()) {
+            sharedElementEnterTransition = DetailsTransitionArc()
+            sharedElementReturnTransition = DetailsTransitionArc()
+        }
     }
 }

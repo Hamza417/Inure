@@ -30,6 +30,8 @@ class AppearanceScreen : ScopedFragment() {
 
     private lateinit var dimWindows: SwitchView
     private lateinit var shadows: SwitchView
+    private lateinit var transition: SwitchView
+    private lateinit var animations: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_appearances, container, false)
@@ -42,6 +44,8 @@ class AppearanceScreen : ScopedFragment() {
 
         dimWindows = view.findViewById(R.id.appearance_switch_dim_windows)
         shadows = view.findViewById(R.id.appearance_switch_shadows)
+        transition = view.findViewById(R.id.appearance_transition_switch)
+        animations = view.findViewById(R.id.appearance_animations_switch)
 
         startPostponedEnterTransition()
 
@@ -53,6 +57,8 @@ class AppearanceScreen : ScopedFragment() {
 
         dimWindows.setChecked(AppearancePreferences.isDimmingOn())
         shadows.setChecked(AppearancePreferences.areShadowsOn())
+        transition.setChecked(AppearancePreferences.isTransitionOn())
+        animations.setChecked(AppearancePreferences.isAnimationOn())
         setAppThemeText()
 
         appTheme.setOnClickListener {
@@ -73,9 +79,22 @@ class AppearanceScreen : ScopedFragment() {
             RoundedCorner.newInstance().show(childFragmentManager, "rounded_corner")
         }
 
-        dimWindows.setOnSwitchCheckedChangeListener { isChecked -> AppearancePreferences.setDimWindows(isChecked) }
+        dimWindows.setOnSwitchCheckedChangeListener {
+            AppearancePreferences.setDimWindows(it)
+        }
 
-        shadows.setOnSwitchCheckedChangeListener { isChecked -> AppearancePreferences.setShadows(isChecked) }
+        shadows.setOnSwitchCheckedChangeListener {
+            AppearancePreferences.setShadows(it)
+        }
+
+        transition.setOnSwitchCheckedChangeListener {
+            AppearancePreferences.setTransitionOn(it)
+        }
+
+        animations.setOnSwitchCheckedChangeListener {
+            AppearancePreferences.setAnimations(it)
+        }
+
     }
 
     private fun setAppThemeText() {

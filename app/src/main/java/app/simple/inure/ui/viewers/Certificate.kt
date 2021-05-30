@@ -2,6 +2,9 @@ package app.simple.inure.ui.viewers
 
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
+import android.os.Trace
+import android.util.Base64
+import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +13,8 @@ import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.APKParser.getCertificates
-import app.simple.inure.util.PackageUtils
+import app.simple.inure.util.PackageUtils.getApplicationSignature
+import com.scottyab.rootbeer.util.QLog.i
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -52,8 +56,13 @@ class Certificate : ScopedFragment() {
 
                 withContext(Dispatchers.Default) {
                     val cert = applicationInfo.getCertificates()
+                    val k = applicationInfo.getApplicationSignature(requireContext())!!
 
-                    algorithm = cert.signAlgorithm
+                    for (sig in k.signature) {
+                        println(Base64.decode(sig.hashCode().toString(), Base64.DEFAULT))
+                    }
+
+                    algorithm = cert.signAlgorithm //k[0].hashCode().toString()
                     oid = cert.signAlgorithmOID
                     base64md5 = cert.certBase64Md5
                     md5 = cert.certMd5
@@ -65,6 +74,8 @@ class Certificate : ScopedFragment() {
                 this@Certificate.base64md5.text = base64md5
                 this@Certificate.md5.text = md5
                 this@Certificate.validity.text = validity
+            }.getOrElse {
+                it.printStackTrace()
             }
         }
     }

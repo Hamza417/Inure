@@ -1,21 +1,25 @@
 package app.simple.inure.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.usage.StorageStatsManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ApplicationInfo
-import android.content.pm.IPackageStatsObserver
-import android.content.pm.PackageManager
-import android.content.pm.PackageStats
+import android.content.pm.*
 import android.net.Uri
+import android.os.Build
 import android.os.RemoteException
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
 import app.simple.inure.model.PackageSizes
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.lang.reflect.Method
+import java.security.cert.CertificateException
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
 
 
 object PackageUtils {
@@ -63,7 +67,7 @@ object PackageUtils {
      */
     fun getApplicationVersionCode(context: Context, applicationInfo: ApplicationInfo): String {
         return try {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 context.packageManager.getPackageInfo(applicationInfo.packageName, 0).longVersionCode.toString()
             } else {
                 @Suppress("deprecation")
@@ -72,6 +76,38 @@ object PackageUtils {
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
         }
+    }
+
+
+    @SuppressLint("PackageManagerGetSignatures")
+    fun ApplicationInfo.getApplicationSignature(context: Context): X509Certificate? {
+        try {
+            val arrSignatures: Array<Signature> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.apkContentsSigners
+            } else {
+                @Suppress("deprecation")
+                context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
+            }
+
+            for (sig in arrSignatures) {
+                /**
+                 * Get the X.509 certificate.
+                 */
+                val rawCert = sig.toByteArray()
+                val certStream: InputStream = ByteArrayInputStream(rawCert)
+
+                try {
+                    val certFactory: CertificateFactory = CertificateFactory.getInstance("X509")
+                    return certFactory.generateCertificate(certStream) as X509Certificate
+                } catch (e: CertificateException) {
+                    e.printStackTrace()
+                }
+            }
+        } catch (e: PackageManager.NameNotFoundException) {
+            return null
+        }
+
+        return null
     }
 
     /**
@@ -159,7 +195,7 @@ object PackageUtils {
      * @return [Long] and should be formatted manually
      */
     fun ApplicationInfo.getPackageSize(context: Context): PackageSizes {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val storageStatsManager = context.getSystemService(Context.STORAGE_STATS_SERVICE) as StorageStatsManager
             return try {
                 val storageStats = storageStatsManager.queryStatsForUid(this.storageUuid, this.uid)
