@@ -8,7 +8,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
-    def appVersionCode = 5
+    def appVersionCode = 6
     def appVersionName = "inure_build_${appVersionCode}"
 
     defaultConfig {
@@ -86,7 +86,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.webkit:webkit:1.4.0'
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
 

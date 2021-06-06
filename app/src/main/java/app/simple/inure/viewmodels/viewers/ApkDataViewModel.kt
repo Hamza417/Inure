@@ -11,10 +11,10 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.model.PermissionInfo
 import app.simple.inure.util.APKParser
 import app.simple.inure.util.APKParser.getActivities
-import app.simple.inure.util.APKParser.getReceivers
 import app.simple.inure.util.APKParser.getFeatures
 import app.simple.inure.util.APKParser.getPermissions
 import app.simple.inure.util.APKParser.getProviders
+import app.simple.inure.util.APKParser.getReceivers
 import app.simple.inure.util.APKParser.getServices
 import com.jaredrummler.apkparser.model.AndroidComponent
 import com.jaredrummler.apkparser.model.UseFeature
@@ -190,32 +190,53 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
 
     fun loadPermissionData() {
         viewModelScope.launch(Dispatchers.Default) {
-           kotlin.runCatching {
-               val permissionsList = param.getPermissions()
-               val packageInfo = getApplication<Application>().packageManager.getPackageInfo(param.packageName, PackageManager.GET_PERMISSIONS)
-               val permissions = arrayListOf<PermissionInfo>()
+            kotlin.runCatching {
+                val permissionsList = param.getPermissions()
+                val packageInfo = getApplication<Application>().packageManager.getPackageInfo(param.packageName, PackageManager.GET_PERMISSIONS)
+                val permissions = arrayListOf<PermissionInfo>()
 
-               for(x in permissionsList.indices) {
-                   for(y in packageInfo.requestedPermissions.indices) {
-                       if(permissionsList[x] == packageInfo.requestedPermissions[y]) {
-                           if(packageInfo.requestedPermissionsFlags[y] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
-                               permissions.add(PermissionInfo(true, permissionsList[x]))
-                           } else {
-                               permissions.add(PermissionInfo(false, permissionsList[x]))
-                           }
-                       }
-                   }
-               }
+                for (x in permissionsList.indices) {
+                    for (y in packageInfo.requestedPermissions.indices) {
+                        if (permissionsList[x] == packageInfo.requestedPermissions[y]) {
+                            if (packageInfo.requestedPermissionsFlags[y] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
+                                permissions.add(PermissionInfo(true, permissionsList[x]))
+                            } else {
+                                permissions.add(PermissionInfo(false, permissionsList[x]))
+                            }
+                        }
+                    }
+                }
 
-               this@ApkDataViewModel.permissions.postValue(permissions.apply {
-                   sortBy {
-                       it.name.toLowerCase(Locale.getDefault())
-                   }
-               })
-           }.getOrElse {
-               delay(1000L)
-               error.postValue(it.message)
-           }
+                this@ApkDataViewModel.permissions.postValue(permissions.apply {
+                    sortBy {
+                        it.name.toLowerCase(Locale.getDefault())
+                    }
+                })
+            }.onFailure {
+                val permissionsList = getApplication<Application>().packageManager.getPackageInfo(param.packageName, PackageManager.GET_PERMISSIONS)
+                val permissions = arrayListOf<PermissionInfo>()
+
+                for (x in permissionsList.permissions.indices) {
+                    for (y in permissionsList.requestedPermissions.indices) {
+                        if (permissionsList.permissions[x].toString() == permissionsList.requestedPermissions[y]) {
+                            if (permissionsList.requestedPermissionsFlags[y] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
+                                permissions.add(PermissionInfo(true, permissionsList.requestedPermissions[x]))
+                            } else {
+                                permissions.add(PermissionInfo(false, permissionsList.requestedPermissions[x]))
+                            }
+                        }
+                    }
+                }
+
+                this@ApkDataViewModel.permissions.postValue(permissions.apply {
+                    sortBy {
+                        it.name.toLowerCase(Locale.getDefault())
+                    }
+                })
+            }.getOrElse {
+                delay(1000L)
+                error.postValue(it.message)
+            }
         }
     }
 

@@ -34,74 +34,74 @@ object PermissionUtils {
     }
 
     @Suppress("deprecation")
-    fun protectionToString(level: Int, context: Context): String {
+    fun protectionToString(level: Int, flags: Int, context: Context): String {
 
-        var protectionLevel = "????"
+        var protection = "????"
 
         when (level and PermissionInfo.PROTECTION_MASK_BASE) {
-            PermissionInfo.PROTECTION_DANGEROUS -> protectionLevel = context.getString(R.string.dangerous)
-            PermissionInfo.PROTECTION_NORMAL -> protectionLevel = context.getString(R.string.normal)
-            PermissionInfo.PROTECTION_SIGNATURE -> protectionLevel = context.getString(R.string.signature)
-            PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> protectionLevel = context.getString(R.string.signature_or_system)
+            PermissionInfo.PROTECTION_DANGEROUS -> protection = context.getString(R.string.dangerous)
+            PermissionInfo.PROTECTION_NORMAL -> protection = context.getString(R.string.normal)
+            PermissionInfo.PROTECTION_SIGNATURE -> protection = context.getString(R.string.signature)
+            PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> protection = context.getString(R.string.signature_or_system)
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_PRIVILEGED != 0) {
-            protectionLevel += " | " + context.getString(R.string.privileged)
+        if (flags and PermissionInfo.PROTECTION_FLAG_PRIVILEGED != 0) {
+            protection += " | " + context.getString(R.string.privileged)
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_DEVELOPMENT != 0) {
-            protectionLevel += " | " + context.getString(R.string.development)
+        if (flags and PermissionInfo.PROTECTION_FLAG_DEVELOPMENT != 0) {
+            protection += " | " + context.getString(R.string.development)
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_APPOP != 0) {
-            protectionLevel += " | AppOp"
+        if (flags and PermissionInfo.PROTECTION_FLAG_APPOP != 0) {
+            protection += " | AppOp"
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_PRE23 != 0) {
-            protectionLevel += " | Pre23"
+        if (flags and PermissionInfo.PROTECTION_FLAG_PRE23 != 0) {
+            protection += " | Pre23"
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_INSTALLER != 0) {
-            protectionLevel += " | " + context.getString(R.string.installer)
+        if (flags and PermissionInfo.PROTECTION_FLAG_INSTALLER != 0) {
+            protection += " | " + context.getString(R.string.installer)
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_VERIFIER != 0) {
-            protectionLevel += " | " + context.getString(R.string.verifier)
+        if (flags and PermissionInfo.PROTECTION_FLAG_VERIFIER != 0) {
+            protection += " | " + context.getString(R.string.verifier)
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_PREINSTALLED != 0) {
-            protectionLevel += " | " + context.getString(R.string.pre_installed)
+        if (flags and PermissionInfo.PROTECTION_FLAG_PREINSTALLED != 0) {
+            protection += " | " + context.getString(R.string.pre_installed)
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_SETUP != 0) {
-            protectionLevel += " | " + context.getString(R.string.setup)
+        if (flags and PermissionInfo.PROTECTION_FLAG_SETUP != 0) {
+            protection += " | " + context.getString(R.string.setup)
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_INSTANT != 0) {
-            protectionLevel += " | " + context.getString(R.string.instant)
+        if (flags and PermissionInfo.PROTECTION_FLAG_INSTANT != 0) {
+            protection += " | " + context.getString(R.string.instant)
         }
-        if (level and PermissionInfo.PROTECTION_FLAG_RUNTIME_ONLY != 0) {
-            protectionLevel += " | " + context.getString(R.string.runtime)
+        if (flags and PermissionInfo.PROTECTION_FLAG_RUNTIME_ONLY != 0) {
+            protection += " | " + context.getString(R.string.runtime)
         }
-        if (level and PROTECTION_FLAG_OEM != 0) {
-            protectionLevel += " | " + context.getString(R.string.oem)
+        if (flags and PROTECTION_FLAG_OEM != 0) {
+            protection += " | " + context.getString(R.string.oem)
         }
-        if (level and PROTECTION_FLAG_VENDOR_PRIVILEGED != 0) {
-            protectionLevel += " | " + context.getString(R.string.vendor_privileged)
+        if (flags and PROTECTION_FLAG_VENDOR_PRIVILEGED != 0) {
+            protection += " | " + context.getString(R.string.vendor_privileged)
         }
-        if (level and PROTECTION_FLAG_SYSTEM_TEXT_CLASSIFIER != 0) {
-            protectionLevel += " | " + context.getString(R.string.text_classifier)
+        if (flags and PROTECTION_FLAG_SYSTEM_TEXT_CLASSIFIER != 0) {
+            protection += " | " + context.getString(R.string.text_classifier)
         }
-        if (level and PROTECTION_FLAG_WELLBEING != 0) {
-            protectionLevel += " | " + context.getString(R.string.wellbeing)
+        if (flags and PROTECTION_FLAG_WELLBEING != 0) {
+            protection += " | " + context.getString(R.string.wellbeing)
         }
-        if (level and PROTECTION_FLAG_DOCUMENTER != 0) {
-            protectionLevel += " | " + context.getString(R.string.documenter)
+        if (flags and PROTECTION_FLAG_DOCUMENTER != 0) {
+            protection += " | " + context.getString(R.string.documenter)
         }
-        if (level and PROTECTION_FLAG_CONFIGURATOR != 0) {
-            protectionLevel += " | " + context.getString(R.string.configurator)
+        if (flags and PROTECTION_FLAG_CONFIGURATOR != 0) {
+            protection += " | " + context.getString(R.string.configurator)
         }
-        if (level and PROTECTION_FLAG_INCIDENT_REPORT_APPROVER != 0) {
-            protectionLevel += " | " + context.getString(R.string.incident_report_approver)
+        if (flags and PROTECTION_FLAG_INCIDENT_REPORT_APPROVER != 0) {
+            protection += " | " + context.getString(R.string.incident_report_approver)
         }
-        if (level and PROTECTION_FLAG_APP_PREDICTOR != 0) {
-            protectionLevel += " | " + context.getString(R.string.app_predictor)
+        if (flags and PROTECTION_FLAG_APP_PREDICTOR != 0) {
+            protection += " | " + context.getString(R.string.app_predictor)
         }
-        if (level and PROTECTION_FLAG_RETAIL_DEMO != 0) {
-            protectionLevel += " | " + context.getString(R.string.retail_demo)
+        if (flags and PROTECTION_FLAG_RETAIL_DEMO != 0) {
+            protection += " | " + context.getString(R.string.retail_demo)
         }
-        return protectionLevel
+        return protection
     }
 
     fun hasPermission(context: Context?, permissionName: String?): Boolean {

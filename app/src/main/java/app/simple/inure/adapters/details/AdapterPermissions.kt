@@ -50,9 +50,9 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
 
             @Suppress("deprecation")
             holder.status.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                protectionToString(permissionInfo.protectionFlags, holder.itemView.context)
+                protectionToString(permissionInfo.protection, permissionInfo.protectionFlags, holder.itemView.context)
             } else {
-                protectionToString(permissionInfo.protectionLevel, holder.itemView.context)
+                protectionToString(permissionInfo.protectionLevel, permissionInfo.protectionLevel, holder.itemView.context)
             }
 
             holder.status.text = if (permissions[position].isGranted) {
