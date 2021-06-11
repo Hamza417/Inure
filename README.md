@@ -3,7 +3,8 @@
 An elegant Android app manager, currently in development
 
 <br/>
-<br/>
+// Progress is delayed due to exams, I will begin developing the app once I'm more comfortable with
+my schedule.
 
 ## Screenshots
 
