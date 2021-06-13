@@ -11,7 +11,7 @@ my schedule.
 
 ## Stats
 
-![AndroidWeekly](https://androidweekly.net/issues/issue-465/badge)
+[![AndroidWeekly](https://androidweekly.net/issues/issue-465/badge)](https://androidweekly.net/issues/issue-465)
 <br>
 <br>
 
