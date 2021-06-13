@@ -78,6 +78,8 @@ class Apps : ScopedFragment() {
             appsAdapter = AppsAdapterSmall()
             appsAdapter.apps = it
 
+            println(it.size)
+
             appsListRecyclerView.adapter = appsAdapter
 
             tracker = SelectionTracker.Builder(
@@ -92,18 +94,18 @@ class Apps : ScopedFragment() {
             appsAdapter.tracker = tracker
 
             kotlin.runCatching {
-                // TODO - fix out of bounds error
-                if (!fastScrollerView.isSetup) {
-                    fastScrollerView.setupWithRecyclerView(appsListRecyclerView, { position ->
-                        if (position == VerticalListViewHolder.TYPE_HEADER) {
-                            FastScrollItemIndicator.Icon(R.drawable.ic_header_icon)
-                        } else {
-                            FastScrollItemIndicator.Text(it[position - 1].name.substring(0, 1).toUpperCase(Locale.ROOT))
-                        }
-                    })
+                fastScrollerView.setupWithRecyclerView(appsListRecyclerView, { position ->
+                    if (position == VerticalListViewHolder.TYPE_HEADER) {
+                        FastScrollItemIndicator.Icon(R.drawable.ic_header_icon)
+                    } else {
+                        /**
+                         * position - 1 because the 0th position is reserved for header
+                         */
+                        FastScrollItemIndicator.Text(it[position - 1].name.substring(0, 1).toUpperCase(Locale.ROOT))
+                    }
+                })
 
-                    scrollerThumb.setupWithFastScroller(fastScrollerView)
-                }
+                scrollerThumb.setupWithFastScroller(fastScrollerView)
             }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {

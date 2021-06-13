@@ -168,8 +168,16 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
      *                           See [FastScrollerView.useDefaultScroller].
      */
     @JvmOverloads
-    fun setupWithRecyclerView(recyclerView: RecyclerView, getItemIndicator: (Int) -> FastScrollItemIndicator?, showIndicator: ((FastScrollItemIndicator, Int, Int) -> Boolean)? = null, useDefaultScroller: Boolean = true) {
-        check(!isSetup) { "Only set this view's RecyclerView once!" }
+    fun setupWithRecyclerView(
+            recyclerView: RecyclerView, getItemIndicator: (Int) -> FastScrollItemIndicator?,
+            showIndicator:
+            ((FastScrollItemIndicator, Int, Int) -> Boolean)? = null,
+            useDefaultScroller: Boolean = true,
+    ) {
+        /**
+         * Removed this line because it prevented any dynamic list loading
+         */
+        //check(!isSetup) { "Only set this view's RecyclerView once!" }
         this.recyclerView = recyclerView
         this.getItemIndicator = getItemIndicator
         this.showIndicator = showIndicator

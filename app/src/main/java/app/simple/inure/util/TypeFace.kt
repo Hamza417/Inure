@@ -7,7 +7,13 @@ import app.simple.inure.R
 
 object TypeFace {
 
-    private const val AUTO = "auto"
+    /**
+     * [AUTO] is default as it is appropriate
+     * to let the initial font to be of user's
+     * choice unless he specifies his preferences
+     * in later stages.
+     */
+    const val AUTO = "auto"
     private const val PLUS_JAKARTA = "plus_jakarta"
     private const val LATO = "lato"
     private const val MULISH = "mulish"
@@ -21,7 +27,7 @@ object TypeFace {
     private const val URBANIST = "urbanist"
     private const val NUNITO = "nunito"
     private const val OSWALD = "oswald"
-    const val ROBOTO = "roboto"
+    private const val ROBOTO = "roboto"
     private const val REFORMA = "reforma"
     private const val SUBJECTIVITY = "subjectivity"
     private const val MOHAVE = "mohave"
@@ -31,6 +37,7 @@ object TypeFace {
     private const val COMFORTAA = "comfortaa"
     private const val CHILLAX = "chillax"
     private const val BONNY = "bonny"
+    private const val SOURCE_SANS_PRO = "source_sans_pro"
 
     fun getTypeFace(appFont: String, style: Int, context: Context): Typeface {
         var typeface: Typeface? = null
@@ -413,6 +420,22 @@ object TypeFace {
                     }
                 }
             }
+            SOURCE_SANS_PRO -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.source_code_pro_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.source_code_pro_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.source_code_pro_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.source_code_pro_bold)
+                    }
+                }
+            }
         }
 
         return typeface!!
@@ -421,7 +444,7 @@ object TypeFace {
     /**
      * List of all typefaces with their code names and red IDs
      */
-    val list : ArrayList<TypeFaceModel> = arrayListOf(
+    val list: ArrayList<TypeFaceModel> = arrayListOf(
         TypeFaceModel("Auto (System Default)", 0, AUTO),
         TypeFaceModel("Lato", R.font.lato_bold, LATO),
         TypeFaceModel("Plus Jakarta Sans", R.font.plus_jakarta_bold, PLUS_JAKARTA),
@@ -446,6 +469,7 @@ object TypeFace {
         TypeFaceModel("Comfortaa", R.font.comfortaa_bold, COMFORTAA),
         TypeFaceModel("Chillax", R.font.chillax_semi_bold, CHILLAX),
         TypeFaceModel("Bonny", R.font.bonny_bold, BONNY),
+        TypeFaceModel("SourceSans Pro", R.font.source_code_pro_bold, SOURCE_SANS_PRO),
     )
 
     class TypeFaceModel(

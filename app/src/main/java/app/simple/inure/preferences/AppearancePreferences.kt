@@ -35,7 +35,7 @@ object AppearancePreferences {
     }
 
     fun getAppFont(): String {
-        return getSharedPreferences().getString(appFont, TypeFace.ROBOTO)!!
+        return getSharedPreferences().getString(appFont, TypeFace.AUTO)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
