@@ -22,7 +22,6 @@ import app.simple.inure.util.StatusBarHeight
 class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
 
     init {
-
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
             try {
                 if (getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {

@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.adapters.dialog.AdapterTypeFace
+import app.simple.inure.adapters.preferences.AdapterTypeFace
 import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
@@ -36,7 +35,6 @@ class AppearanceTypeFace : ScopedFragment() {
             AppearancePreferences.setAppFont(it)
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapterTypeFace
     }
 

@@ -1,4 +1,4 @@
-package app.simple.inure.adapters.dialog
+package app.simple.inure.adapters.preferences
 
 import android.content.res.Resources
 import android.graphics.Typeface
@@ -16,7 +16,6 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.TypeFace
-import app.simple.inure.util.ViewUtils.makeGoAway
 import app.simple.inure.util.ViewUtils.makeInvisible
 import app.simple.inure.util.ViewUtils.makeVisible
 

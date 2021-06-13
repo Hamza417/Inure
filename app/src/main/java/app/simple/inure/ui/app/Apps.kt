@@ -78,8 +78,6 @@ class Apps : ScopedFragment() {
             appsAdapter = AppsAdapterSmall()
             appsAdapter.apps = it
 
-            println(it.size)
-
             appsListRecyclerView.adapter = appsAdapter
 
             tracker = SelectionTracker.Builder(

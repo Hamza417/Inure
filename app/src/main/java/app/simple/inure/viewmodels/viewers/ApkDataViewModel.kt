@@ -212,27 +212,6 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
                         it.name.toLowerCase(Locale.getDefault())
                     }
                 })
-            }.onFailure {
-                val permissionsList = getApplication<Application>().packageManager.getPackageInfo(param.packageName, PackageManager.GET_PERMISSIONS)
-                val permissions = arrayListOf<PermissionInfo>()
-
-                for (x in permissionsList.permissions.indices) {
-                    for (y in permissionsList.requestedPermissions.indices) {
-                        if (permissionsList.permissions[x].toString() == permissionsList.requestedPermissions[y]) {
-                            if (permissionsList.requestedPermissionsFlags[y] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
-                                permissions.add(PermissionInfo(true, permissionsList.requestedPermissions[x]))
-                            } else {
-                                permissions.add(PermissionInfo(false, permissionsList.requestedPermissions[x]))
-                            }
-                        }
-                    }
-                }
-
-                this@ApkDataViewModel.permissions.postValue(permissions.apply {
-                    sortBy {
-                        it.name.toLowerCase(Locale.getDefault())
-                    }
-                })
             }.getOrElse {
                 delay(1000L)
                 error.postValue(it.message)

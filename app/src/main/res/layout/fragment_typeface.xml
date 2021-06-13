@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:paddingVertical="150dp"
-    android:layoutAnimation="@anim/list_animation_controller"
     android:padding="@dimen/dialog_padding"
     app:statusBarPaddingRequired="true" />
 

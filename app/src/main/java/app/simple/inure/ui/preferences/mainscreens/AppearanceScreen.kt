@@ -72,6 +72,7 @@ class AppearanceScreen : ScopedFragment() {
         }
 
         typeface.setOnClickListener {
+            clearExitTransition()
             FragmentHelper.openFragment(parentFragmentManager, AppearanceTypeFace.newInstance(), "typeface")
         }
 
