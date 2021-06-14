@@ -1,4 +1,2 @@
-include ':android-pdf-viewer'
 include ':app'
-project(':android-pdf-viewer').projectDir = new File(rootDir, 'AndroidPdfViewer/android-pdf-viewer/')
 rootProject.name = "Inure"
