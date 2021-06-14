@@ -1,7 +1,6 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.ApplicationInfo
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -52,7 +51,8 @@ class Font : ScopedFragment() {
         })
 
         viewModel.getTypeFace().observe(viewLifecycleOwner, {
-            fontEditText.setTypeface(it, Typeface.NORMAL)
+            fontName.typeface = it
+            fontEditText.typeface = it
         })
     }
 

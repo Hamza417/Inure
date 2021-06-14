@@ -3,8 +3,6 @@ package app.simple.inure.decorations.indicatorfastscroll
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -20,6 +18,8 @@ import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import app.simple.inure.R
+import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.util.TypeFace
 
 /**
  * Companion view for a [fast scroller][FastScrollerView] that shows its currently pressed indicator
@@ -42,7 +42,7 @@ class FastScrollerThumbView @JvmOverloads constructor(context: Context, attrs: A
     var textColor: Int by onUpdate(::applyStyle)
 
     private val thumbView: ViewGroup
-    private val textView: TextView
+    private val textView: TypeFaceTextView
     private val iconView: ImageView
 
     private val isSetup: Boolean get() = (fastScrollerView != null)
@@ -52,20 +52,20 @@ class FastScrollerThumbView @JvmOverloads constructor(context: Context, attrs: A
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.FastScrollerThumbView, defStyleAttr, R.style.Widget_IndicatorFastScroll_FastScrollerThumb)
-            .use { attrsArray ->
-                throwIfMissingAttrs(styleRes = R.style.Widget_IndicatorFastScroll_FastScrollerThumb) {
-                    thumbColor =
-                        attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerThumbView_fastScrollerThumbColor)
-                    iconSize =
-                        attrsArray.getDimensionPixelSizeOrThrow(R.styleable.FastScrollerThumbView_fastScrollerIconSize)
-                    iconColor =
-                        attrsArray.getColorOrThrow(R.styleable.FastScrollerThumbView_fastScrollerIconColor)
-                    textAppearanceRes =
-                        attrsArray.getResourceIdOrThrow(R.styleable.FastScrollerThumbView_android_textAppearance)
-                    textColor =
-                        attrsArray.getColorOrThrow(R.styleable.FastScrollerThumbView_android_textColor)
+                .use { attrsArray ->
+                    throwIfMissingAttrs(styleRes = R.style.Widget_IndicatorFastScroll_FastScrollerThumb) {
+                        thumbColor =
+                            attrsArray.getColorStateListOrThrow(R.styleable.FastScrollerThumbView_fastScrollerThumbColor)
+                        iconSize =
+                            attrsArray.getDimensionPixelSizeOrThrow(R.styleable.FastScrollerThumbView_fastScrollerIconSize)
+                        iconColor =
+                            attrsArray.getColorOrThrow(R.styleable.FastScrollerThumbView_fastScrollerIconColor)
+                        textAppearanceRes =
+                            attrsArray.getResourceIdOrThrow(R.styleable.FastScrollerThumbView_android_textAppearance)
+                        textColor =
+                            attrsArray.getColorOrThrow(R.styleable.FastScrollerThumbView_android_textColor)
+                    }
                 }
-            }
 
         LayoutInflater.from(context).inflate(R.layout.fast_scroller_thumb_view, this, true)
         thumbView = findViewById(R.id.fast_scroller_thumb)
@@ -110,13 +110,6 @@ class FastScrollerThumbView @JvmOverloads constructor(context: Context, attrs: A
             }
         }
         thumbView.backgroundTintList = thumbColor
-        if (Build.VERSION.SDK_INT == 21) {
-            // Workaround for 21 background tint bug
-            (thumbView.background as GradientDrawable).apply {
-                mutate()
-                color = thumbColor
-            }
-        }
         TextViewCompat.setTextAppearance(textView, textAppearanceRes)
         textView.setTextColor(textColor)
         iconView.updateLayoutParams {

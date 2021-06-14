@@ -208,7 +208,7 @@
     <string name="internal">Internal</string>
     <string name="prefer_external">External Preferred</string>
     <string name="application_type">Application Type</string>
-    <string name="transition_desc">Enables fade transition animation between panels.\n\nThis option does not override if animations are disabled by the System itself.</string>
+    <string name="transition_desc">Enables fade transition animation between panels. Turning this off is recommended because this will make the other animations of the UI snappier.\n\nThis option does not override if animations are disabled by the System itself.</string>
     <string name="transitions">Transitions</string>
     <string name="arc_animations">Arc Animations</string>
     <string name="desc_animations">Enables or Disables circular path animations for the icons.\n\nThis option does not override if animations are disabled by the System itself.</string>

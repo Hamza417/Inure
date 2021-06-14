@@ -349,9 +349,11 @@ class FastScrollerView @JvmOverloads constructor(context: Context, attrs: Attrib
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 animate().alpha(1F).setInterpolator(DecelerateInterpolator()).start()
+                recyclerView!!.animate().alpha(0.6F).setInterpolator(DecelerateInterpolator()).start()
             }
             MotionEvent.ACTION_UP -> {
                 animate().alpha(0F).setInterpolator(DecelerateInterpolator()).start()
+                recyclerView!!.animate().alpha(1F).setInterpolator(DecelerateInterpolator()).start()
             }
         }
 
