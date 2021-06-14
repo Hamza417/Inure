@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/adapter_app_info_menu_container"
-    android:layout_width="80dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dialog_padding"
-    android:paddingVertical="10dp"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/popup_padding"
+    android:layout_margin="20dp">
 
     <ImageView
         android:id="@+id/adapter_app_info_menu_icon"

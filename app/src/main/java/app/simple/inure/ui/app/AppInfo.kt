@@ -88,7 +88,8 @@ class AppInfo : ScopedFragment() {
 
             adapterAppInfoMenu = AdapterAppInfoMenu(it)
             adapterAppInfoMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-            menu.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
+            menu.layoutManager = GridLayoutManager(requireContext(), spanCount)
+            //menu.addItemDecoration(GridSpacingItemDecoration(spanCount, resources.getDimensionPixelSize(R.dimen.dialog_padding), true, 0))
             menu.adapter = adapterAppInfoMenu
             menu.scheduleLayoutAnimation()
 
