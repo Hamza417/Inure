@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.transition.Fade
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.CoroutineScope
 
@@ -120,7 +121,7 @@ abstract class ScopedFragment :
          * animating view transaction time will increase a little
          * making the interaction a little bit slow.
          */
-        if (AppearancePreferences.isTransitionOn()) {
+        if (BehaviourPreferences.isTransitionOn()) {
             exitTransition = Fade()
             enterTransition = Fade()
         } else {
@@ -128,7 +129,7 @@ abstract class ScopedFragment :
             clearEnterTransition()
         }
 
-        if (AppearancePreferences.isAnimationOn()) {
+        if (BehaviourPreferences.isAnimationOn()) {
             sharedElementEnterTransition = DetailsTransitionArc()
             sharedElementReturnTransition = DetailsTransitionArc()
         }

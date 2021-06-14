@@ -186,11 +186,6 @@ class Apps : ScopedFragment() {
                         }
                     })
                 }
-
-                override fun onItemSelected(position: Int) {
-                    super.onItemSelected(position)
-
-                }
             })
         })
 

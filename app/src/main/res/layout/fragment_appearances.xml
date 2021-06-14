@@ -25,7 +25,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/header_padding"
                 android:src="@drawable/ic_palette"
-                android:transitionName="appearance_icon"
+                android:transitionName="@string/appearance"
                 app:tint="?attr/colorAppAccent"
                 tools:ignore="ContentDescription" />
 
@@ -266,8 +266,6 @@
                 app:appFontStyle="regular" />
 
         </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
-
-        <include layout="@layout/appearance_behavior" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 </androidx.core.widget.NestedScrollView>

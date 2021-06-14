@@ -10,7 +10,6 @@ import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.dialogs.appearance.AccentColor
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -28,11 +27,6 @@ class AppearanceScreen : ScopedFragment() {
 
     private lateinit var appTheme: DynamicRippleTextView
 
-    private lateinit var dimWindows: SwitchView
-    private lateinit var shadows: SwitchView
-    private lateinit var transition: SwitchView
-    private lateinit var animations: SwitchView
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_appearances, container, false)
 
@@ -42,11 +36,6 @@ class AppearanceScreen : ScopedFragment() {
 
         appTheme = view.findViewById(R.id.popup_application_theme)
 
-        dimWindows = view.findViewById(R.id.appearance_switch_dim_windows)
-        shadows = view.findViewById(R.id.appearance_switch_shadows)
-        transition = view.findViewById(R.id.appearance_transition_switch)
-        animations = view.findViewById(R.id.appearance_animations_switch)
-
         startPostponedEnterTransition()
 
         return view
@@ -55,10 +44,6 @@ class AppearanceScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dimWindows.setChecked(AppearancePreferences.isDimmingOn())
-        shadows.setChecked(AppearancePreferences.areShadowsOn())
-        transition.setChecked(AppearancePreferences.isTransitionOn())
-        animations.setChecked(AppearancePreferences.isAnimationOn())
         setAppThemeText()
 
         appTheme.setOnClickListener {
@@ -79,23 +64,6 @@ class AppearanceScreen : ScopedFragment() {
         roundedCorner.setOnClickListener {
             RoundedCorner.newInstance().show(childFragmentManager, "rounded_corner")
         }
-
-        dimWindows.setOnSwitchCheckedChangeListener {
-            AppearancePreferences.setDimWindows(it)
-        }
-
-        shadows.setOnSwitchCheckedChangeListener {
-            AppearancePreferences.setShadows(it)
-        }
-
-        transition.setOnSwitchCheckedChangeListener {
-            AppearancePreferences.setTransitionOn(it)
-        }
-
-        animations.setOnSwitchCheckedChangeListener {
-            AppearancePreferences.setAnimations(it)
-        }
-
     }
 
     private fun setAppThemeText() {

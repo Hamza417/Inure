@@ -40,100 +40,11 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-    <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-        android:id="@+id/frag_pref_appearances"
+    <app.simple.inure.decorations.views.CustomRecyclerView
+        android:id="@+id/preferences_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:padding="@dimen/header_padding">
-
-        <ImageView
-            android:id="@+id/appearance_icon"
-            android:layout_width="@dimen/preference_icon_size"
-            android:layout_height="@dimen/preference_icon_size"
-            android:src="@drawable/ic_palette"
-            android:transitionName="appearance_icon"
-            app:tint="?attr/colorAppAccent"
-            tools:ignore="ContentDescription" />
-
-        <app.simple.inure.decorations.views.TypeFaceTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingHorizontal="20dp"
-            android:text="@string/appearance"
-            android:textColor="@color/textPrimary"
-            android:textSize="20sp"
-            app:appFontStyle="medium" />
-
-    </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
-
-    <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-        android:id="@+id/frag_pref_config"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="@dimen/header_padding"
-        android:orientation="horizontal"
-        android:padding="@dimen/header_padding">
-
-        <ImageView
-            android:id="@+id/config_icon"
-            android:layout_width="@dimen/preference_icon_size"
-            android:layout_height="@dimen/preference_icon_size"
-            android:src="@drawable/ic_app_settings"
-            android:transitionName="configuration_icon"
-            app:tint="?attr/colorAppAccent"
-            tools:ignore="ContentDescription" />
-
-        <app.simple.inure.decorations.views.TypeFaceTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingHorizontal="20dp"
-            android:text="@string/configuration"
-            android:textColor="@color/textPrimary"
-            android:textSize="20sp"
-            app:appFontStyle="medium" />
-
-    </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_margin="@dimen/analytics_item_padding"
-        android:background="@color/divider" />
-
-    <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-        android:id="@+id/frag_pref_about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:orientation="horizontal"
-        android:padding="@dimen/header_padding"
-        android:visibility="invisible">
-
-        <ImageView
-            android:id="@+id/about_icon"
-            android:layout_width="@dimen/preference_icon_size"
-            android:layout_height="@dimen/preference_icon_size"
-            android:src="@drawable/ic_about"
-            android:transitionName="about_icon"
-            app:tint="?attr/colorAppAccent"
-            tools:ignore="ContentDescription" />
-
-        <app.simple.inure.decorations.views.TypeFaceTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingHorizontal="20dp"
-            android:text="@string/about"
-            android:textColor="@color/textPrimary"
-            android:textSize="20sp"
-            app:appFontStyle="medium" />
-
-    </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+        android:layout_height="match_parent"
+        app:statusBarPaddingRequired="false"
+        android:layoutAnimation="@anim/list_animation_controller" />
 
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

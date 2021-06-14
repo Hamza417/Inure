@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 
 open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -38,7 +39,7 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
         @Suppress("deprecation")
         window.windowManager.defaultDisplay.getMetrics(displayMetrics)
 
-        if (AppearancePreferences.isDimmingOn()) {
+        if (BehaviourPreferences.isDimmingOn()) {
             dialog?.window?.setDimAmount(0.4f)
         } else {
             dialog?.window?.setDimAmount(0f)

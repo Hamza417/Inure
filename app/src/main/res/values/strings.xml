@@ -215,4 +215,6 @@
     <string name="valid_to">Valid until</string>
     <string name="pdf_viewer">PDF Viewer</string>
     <string name="ttf_viewer">TTF Viewer</string>
+    <string name="popups">Popups</string>
+    <string name="animations">Animations</string>
 </resources>

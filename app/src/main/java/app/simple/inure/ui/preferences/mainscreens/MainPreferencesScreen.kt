@@ -4,25 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-import app.simple.inure.decorations.transitions.DetailsTransitionArc
-import app.simple.inure.decorations.transitions.TransitionManager
+import app.simple.inure.adapters.preferences.PreferencesAdapter
+import app.simple.inure.decorations.views.CustomRecyclerView
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.viewmodels.viewers.PreferencesViewModel
 
 class MainPreferencesScreen : Fragment() {
 
-    private lateinit var appearance: DynamicRippleLinearLayout
-    private lateinit var configuration: DynamicRippleLinearLayout
+    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var preferencesAdapter: PreferencesAdapter
+
+    private val preferencesViewModel: PreferencesViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_preference, container, false)
 
-        appearance = view.findViewById(R.id.frag_pref_appearances)
-        configuration = view.findViewById(R.id.frag_pref_config)
-
-        // (view.findViewById<ImageView>(R.id.preferences_header_icon).drawable as AnimatedVectorDrawable).start()
+        recyclerView = view.findViewById(R.id.preferences_recycler_view)
 
         return view
     }
@@ -30,19 +32,43 @@ class MainPreferencesScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        appearance.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        AppearanceScreen.newInstance(),
-                                        view.findViewById(R.id.appearance_icon),
-                                        "appearance_prefs")
-        }
+        preferencesViewModel.getPreferences().observe(viewLifecycleOwner, {
 
-        configuration.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        ConfigurationScreen.newInstance(),
-                                        view.findViewById(R.id.config_icon),
-                                        "config_prefs")
-        }
+            postponeEnterTransition()
+
+            preferencesAdapter = PreferencesAdapter(it)
+
+            preferencesAdapter.setOnPreferencesCallbackListener(object : PreferencesAdapter.Companion.PreferencesCallbacks {
+                override fun onPrefsClicked(imageView: ImageView, category: String) {
+                    when (category) {
+                        getString(R.string.appearance) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        AppearanceScreen.newInstance(),
+                                                        imageView,
+                                                        "appearance_prefs")
+                        }
+                        getString(R.string.behaviour) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        BehaviourScreen.newInstance(),
+                                                        imageView,
+                                                        "behaviour_prefs")
+                        }
+                        getString(R.string.configuration) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        ConfigurationScreen.newInstance(),
+                                                        imageView,
+                                                        "config_prefs")
+                        }
+                    }
+                }
+            })
+
+            recyclerView.adapter = preferencesAdapter
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+        })
     }
 
     companion object {
