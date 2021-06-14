@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!--
+    Coordinator layout is used as fragment container to support
+    Overscroll effect on NestedScrollViews.
+
+    @See app.simple.inure.decorations.behaviour.OverScrollBehaviour
+    to understand the use case of coordinator layout in place of
+    FragmentContainerView.
+-->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainBackground"
-    tools:context=".activities.app.MainActivity"/>
+    tools:context=".activities.app.MainActivity" />

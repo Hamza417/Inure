@@ -26,7 +26,7 @@ class PreferencesViewModel(application: Application) : AndroidViewModel(applicat
             val context = getApplication<Application>().applicationContext
 
             val list = arrayListOf(
-                Pair(R.drawable.ic_palette, context.getString(R.string.appearance)),
+                Pair(R.drawable.ic_appearance, context.getString(R.string.appearance)),
                 Pair(R.drawable.ic_behaviour, context.getString(R.string.behaviour)),
                 Pair(R.drawable.ic_app_settings, context.getString(R.string.configuration)),
                 Pair(R.drawable.ic_about, context.getString(R.string.about))

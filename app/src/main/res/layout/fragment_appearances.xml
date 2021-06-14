@@ -6,7 +6,8 @@
     android:background="@color/mainBackground"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingBottom="50dp">
+    android:paddingBottom="50dp"
+    app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
 
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
                 android:layout_height="@dimen/header_icon_size"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/header_padding"
-                android:src="@drawable/ic_palette"
+                android:src="@drawable/ic_appearance"
                 android:transitionName="@string/appearance"
                 app:tint="?attr/colorAppAccent"
                 tools:ignore="ContentDescription" />

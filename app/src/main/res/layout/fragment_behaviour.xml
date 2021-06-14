@@ -6,7 +6,8 @@
     android:background="@color/mainBackground"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingBottom="50dp">
+    android:paddingBottom="50dp"
+    app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
 
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
