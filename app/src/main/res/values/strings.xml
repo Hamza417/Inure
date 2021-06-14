@@ -133,8 +133,8 @@
     <string name="total_system_apps">Total System Apps</string>
     <string name="graphics">Graphics</string>
     <string name="send">Send</string>
-    <string name="inure_xml_viewer">Inure Xml Viewer</string>
-    <string name="inure_text_viewer">Inure Text Viewer</string>
+    <string name="xml_viewer">XML Viewer</string>
+    <string name="text_viewer">Text Viewer</string>
     <string name="extras">Extras</string>
     <string name="refresh">Refresh</string>
     <string name="sensors">Sensors</string>
@@ -213,4 +213,6 @@
     <string name="arc_animations">Arc Animations</string>
     <string name="desc_animations">Enables or Disables circular path animations for the icons.\n\nThis option does not override if animations are disabled by the System itself.</string>
     <string name="valid_to">Valid until</string>
+    <string name="pdf_viewer">PDF Viewer</string>
+    <string name="ttf_viewer">TTF Viewer</string>
 </resources>

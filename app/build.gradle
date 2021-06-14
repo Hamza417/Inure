@@ -101,6 +101,7 @@ dependencies {
     implementation 'com.scottyab:rootbeer-lib:0.0.9'
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'com.github.hsiafan:apk-parser:v2.6.10'
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
 
     // root
     def libsuVersion = '3.1.2'

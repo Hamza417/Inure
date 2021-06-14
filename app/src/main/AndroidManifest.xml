@@ -80,7 +80,7 @@
         <activity
             android:name=".activities.association.XmlAssociationActivity"
             android:exported="true"
-            android:label="@string/inure_xml_viewer">
+            android:label="@string/xml_viewer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -102,9 +102,33 @@
         </activity>
 
         <activity
+            android:name=".activities.association.PDFAssociationActivity"
+            android:exported="true"
+            android:label="@string/pdf_viewer">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="application/pdf" />
+                <data android:pathPattern=".*\\.pdf" />
+                <data android:pathPattern=".*\\..*\\.pdf" />
+                <data android:pathPattern=".*\\..*\\..*\\.pdf" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.pdf" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pdf" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pdf" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pdf" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".activities.association.TextAssociationActivity"
             android:exported="true"
-            android:label="@string/inure_text_viewer">
+            android:label="@string/text_viewer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -130,7 +154,7 @@
         <activity
             android:name=".activities.association.TTFAssociationActivity"
             android:exported="true"
-            android:label="Inure TTF Preview">
+            android:label="@string/ttf_viewer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
