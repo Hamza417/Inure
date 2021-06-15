@@ -1,4 +1,4 @@
-package app.simple.inure.util
+package app.simple.inure.apk.parsers
 
 import android.content.pm.ApplicationInfo
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter

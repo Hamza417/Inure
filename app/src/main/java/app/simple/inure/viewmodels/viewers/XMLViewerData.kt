@@ -13,8 +13,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.util.APKParser.extractManifest
-import app.simple.inure.util.APKParser.getTransBinaryXml
+import app.simple.inure.apk.parsers.APKParser.extractManifest
+import app.simple.inure.apk.parsers.APKParser.getTransBinaryXml
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

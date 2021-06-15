@@ -1,4 +1,4 @@
-package app.simple.inure.util
+package app.simple.inure.apk.utils
 
 import android.Manifest
 import android.content.Context

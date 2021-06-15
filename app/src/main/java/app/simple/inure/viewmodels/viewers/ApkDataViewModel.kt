@@ -9,13 +9,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.model.PermissionInfo
-import app.simple.inure.util.APKParser
-import app.simple.inure.util.APKParser.getActivities
-import app.simple.inure.util.APKParser.getFeatures
-import app.simple.inure.util.APKParser.getPermissions
-import app.simple.inure.util.APKParser.getProviders
-import app.simple.inure.util.APKParser.getReceivers
-import app.simple.inure.util.APKParser.getServices
+import app.simple.inure.apk.parsers.APKParser
+import app.simple.inure.apk.parsers.APKParser.getActivities
+import app.simple.inure.apk.parsers.APKParser.getFeatures
+import app.simple.inure.apk.parsers.APKParser.getPermissions
+import app.simple.inure.apk.parsers.APKParser.getProviders
+import app.simple.inure.apk.parsers.APKParser.getReceivers
+import app.simple.inure.apk.parsers.APKParser.getServices
 import com.jaredrummler.apkparser.model.AndroidComponent
 import com.jaredrummler.apkparser.model.UseFeature
 import kotlinx.coroutines.Dispatchers
@@ -188,7 +188,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         }
     }
 
-    fun loadPermissionData() {
+    private fun loadPermissionData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val permissionsList = param.getPermissions()

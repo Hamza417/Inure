@@ -29,10 +29,10 @@ import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.PackageUtils.isPackageInstalled
-import app.simple.inure.util.PackageUtils.killThisApp
-import app.simple.inure.util.PackageUtils.launchThisPackage
-import app.simple.inure.util.PackageUtils.uninstallThisPackage
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.killThisApp
+import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
+import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.panels.SearchData
 import java.util.*

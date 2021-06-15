@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SearchPreferences
-import app.simple.inure.util.PackageUtils.getApplicationName
+import app.simple.inure.apk.utils.PackageUtils.getApplicationName
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

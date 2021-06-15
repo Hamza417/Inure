@@ -8,7 +8,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
-    def appVersionCode = 6
+    def appVersionCode = 7
     def appVersionName = "inure_build_${appVersionCode}"
 
     defaultConfig {
@@ -43,7 +43,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {

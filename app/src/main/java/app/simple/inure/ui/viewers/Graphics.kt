@@ -14,7 +14,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.viewers.PopupImageViewer
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.util.APKParser
+import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel

@@ -1,4 +1,4 @@
-package app.simple.inure.util
+package app.simple.inure.apk.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
 import app.simple.inure.model.PackageSizes
+import app.simple.inure.util.DateUtils
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.lang.reflect.Method

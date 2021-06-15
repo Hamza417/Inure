@@ -53,7 +53,8 @@ class Permissions : ScopedFragment() {
             totalPermissions.text = getString(R.string.total, it.size)
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
-                override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo) {
+                override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
+
                     val popup = PopupPermissions(layoutInflater.inflate(R.layout.popup_permission_options,
                                                                         PopupLinearLayout(requireContext()),
                                                                         true), container, permissionInfo)
@@ -66,7 +67,7 @@ class Permissions : ScopedFragment() {
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
                                             if (result.contains(getString(R.string.done))) {
-                                                componentsViewModel.loadPermissionData()
+                                                adapterPermissions.permissionStatusChanged(position, false)
                                             }
                                         }
                                     })
@@ -77,7 +78,7 @@ class Permissions : ScopedFragment() {
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
                                             if (result.contains(getString(R.string.done))) {
-                                                componentsViewModel.loadPermissionData()
+                                                adapterPermissions.permissionStatusChanged(position, true)
                                             }
                                         }
                                     })

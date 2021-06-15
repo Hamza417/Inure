@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterAppInfoMenu
-import app.simple.inure.decorations.itemdecorations.GridSpacingItemDecoration
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -29,9 +28,9 @@ import app.simple.inure.popups.app.PopupSure
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
-import app.simple.inure.util.PackageUtils
-import app.simple.inure.util.PackageUtils.launchThisPackage
-import app.simple.inure.util.PackageUtils.uninstallThisPackage
+import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
+import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
 

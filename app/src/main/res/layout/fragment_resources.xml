@@ -33,10 +33,10 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:text="@string/resources"
-            app:layout_constraintBottom_toTopOf="@id/total"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/total"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView8"
             app:layout_constraintTop_toTopOf="parent" />
@@ -71,6 +71,11 @@
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
         android:padding="@dimen/header_padding"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
         app:statusBarPaddingRequired="false" />
 
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

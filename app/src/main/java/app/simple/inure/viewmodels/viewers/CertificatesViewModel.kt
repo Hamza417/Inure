@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.util.APKParser.getCertificates
+import app.simple.inure.apk.parsers.APKParser.getCertificates
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

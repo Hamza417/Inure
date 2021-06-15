@@ -1,4 +1,4 @@
-package app.simple.inure.util
+package app.simple.inure.apk.utils
 
 import android.content.ComponentName
 import android.content.Context
@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import app.simple.inure.util.NullSafety.isNotNull
 
-object ProvidersUtils {
+object ReceiversUtils {
     fun isEnabled(context: Context, packageName: String, clsName: String) : Boolean {
         val componentName = ComponentName(packageName, clsName)
 
@@ -17,18 +17,18 @@ object ProvidersUtils {
             PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ->       // We need to get the application info to get the component's default state
                 try {
                     val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_PROVIDERS
+                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_RECEIVERS
                                 or PackageManager.MATCH_DISABLED_COMPONENTS)
                     } else {
                         @Suppress("deprecation")
-                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_PROVIDERS
+                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_RECEIVERS
                                 or PackageManager.GET_DISABLED_COMPONENTS)
                     }
 
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
-                    if (packageInfo.providers.isNotNull()) {
-                        for(i in packageInfo.providers) {
+                    if (packageInfo.receivers.isNotNull()) {
+                        for(i in packageInfo.receivers) {
                             components.add(i)
                         }
                     }
@@ -49,18 +49,18 @@ object ProvidersUtils {
             else -> {
                 try {
                     val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_PROVIDERS
+                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_RECEIVERS
                                 or PackageManager.MATCH_DISABLED_COMPONENTS)
                     } else {
                         @Suppress("deprecation")
-                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_PROVIDERS
+                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_RECEIVERS
                                 or PackageManager.GET_DISABLED_COMPONENTS)
                     }
 
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
-                    if (packageInfo.providers.isNotNull()) {
-                        for(i in packageInfo.providers) {
+                    if (packageInfo.receivers.isNotNull()) {
+                        for(i in packageInfo.receivers) {
                             components.add(i)
                         }
                     }

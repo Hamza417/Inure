@@ -147,7 +147,8 @@
     <string name="disabled">Disabled</string>
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
-    <string name="desc_not_available">Description not available</string>
+    <string name="desc_not_available">Description not available.</string>
+    <string name="permission_info_not_available">Permission information not available.</string>
     <string name="loading">Loading…</string>
     <string name="total">Total %d</string>
     <string name="cache_dir">Creating cache directory</string>

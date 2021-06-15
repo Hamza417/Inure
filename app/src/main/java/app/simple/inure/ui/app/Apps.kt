@@ -38,7 +38,7 @@ import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.FragmentHelper.openFragmentLinear
-import app.simple.inure.util.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.viewmodels.panels.AllAppsData
 import java.util.*
 
