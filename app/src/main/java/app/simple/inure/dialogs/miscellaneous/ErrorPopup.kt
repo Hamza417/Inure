@@ -1,17 +1,18 @@
 package app.simple.inure.dialogs.miscellaneous
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 
 class ErrorPopup : ScopedBottomSheetFragment() {
 
     private lateinit var error: TypeFaceTextView
+    private var errorDialogCallbacks: ErrorDialogCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.dialog_error, container, false)
@@ -24,7 +25,16 @@ class ErrorPopup : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        error.setText(requireArguments().getString("error")!!)
+        error.text = requireArguments().getString("error")!!
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        errorDialogCallbacks!!.onDismiss()
+    }
+
+    fun setOnErrorDialogCallbackListener(errorDialogCallbacks: ErrorDialogCallbacks) {
+        this.errorDialogCallbacks = errorDialogCallbacks
     }
 
     companion object {
@@ -34,6 +44,10 @@ class ErrorPopup : ScopedBottomSheetFragment() {
             val fragment = ErrorPopup()
             fragment.arguments = args
             return fragment
+        }
+
+        interface ErrorDialogCallbacks {
+            fun onDismiss()
         }
     }
 }

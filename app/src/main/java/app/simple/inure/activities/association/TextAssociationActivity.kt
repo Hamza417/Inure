@@ -5,11 +5,14 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.webkit.MimeTypeMap
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.exception.StringTooLargeException
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.exceptions.StringTooLargeException
 import app.simple.inure.extension.activities.BaseActivity
+import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.*
 import org.apache.commons.io.IOUtils
 import java.util.*
@@ -31,20 +34,27 @@ class TextAssociationActivity : BaseActivity() {
 
         path.text = intent.data!!.path
 
-        CoroutineScope(Dispatchers.Default).launch {
+        lifecycleScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 withTimeout(3000) {
                     val string = IOUtils.toString(contentResolver.openInputStream(intent.data!!), "UTF-8")
 
                     withContext(Dispatchers.Main) {
-                        if(string.length >= 100000) throw StringTooLargeException("String is too big to render without freezing the app")
+                        if (string.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
+                            throw StringTooLargeException("String size ${string.length} is too big to render without freezing the app")
+                        }
                         txt.text = string
                     }
                 }
             }.getOrElse {
                 withContext(Dispatchers.Main) {
-                    txt.text = it.stackTraceToString()
-                    txt.setTextColor(Color.RED)
+                    val e = ErrorPopup.newInstance(it.message!!)
+                    e.show(supportFragmentManager, "error_dialog")
+                    e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                        override fun onDismiss() {
+                            onBackPressed()
+                        }
+                    })
                 }
             }
         }

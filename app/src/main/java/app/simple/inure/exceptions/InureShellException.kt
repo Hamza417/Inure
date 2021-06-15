@@ -1,3 +1,3 @@
-package app.simple.inure.exception
+package app.simple.inure.exceptions
 
 class InureShellException(string: String) : Exception(string)

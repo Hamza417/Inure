@@ -7,7 +7,7 @@
     android:clipToPadding="false"
     android:maxHeight="@dimen/dialog_height">
 
-    <app.simple.inure.decorations.corners.DynamicCornerFrameLayout
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dialog_padding"
@@ -17,15 +17,25 @@
         android:padding="@dimen/dialog_padding">
 
         <app.simple.inure.decorations.views.TypeFaceTextView
-            android:id="@+id/print_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:text="@string/executing_command"
+            android:text="@string/error"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold" />
 
-    </app.simple.inure.decorations.corners.DynamicCornerFrameLayout>
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/print_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:text="@string/executing_command"
+            android:textColor="@color/textTertiary"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="regular" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
 </FrameLayout>

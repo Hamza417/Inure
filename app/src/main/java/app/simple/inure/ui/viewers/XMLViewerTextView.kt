@@ -19,7 +19,8 @@ import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.exception.StringTooLargeException
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.exceptions.StringTooLargeException
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -85,26 +86,21 @@ class XMLViewerTextView : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getSpanned().observe(viewLifecycleOwner, {
-            kotlin.runCatching {
+            this@XMLViewerTextView.text.setText(it)
+            this@XMLViewerTextView.name.text = requireArguments().getString("path_to_xml")!!
+            progress.makeInvisible()
+            options.makeVisible()
+        })
 
-                if (it.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
-                    throw StringTooLargeException("String size ${it.length} is too big to render without freezing the app")
+        componentsViewModel.getError().observe(viewLifecycleOwner, {
+            progress.makeInvisible()
+            val e = ErrorPopup.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
                 }
-
-                this@XMLViewerTextView.text.setText(it)
-                this@XMLViewerTextView.name.text = requireArguments().getString("path_to_xml")!!
-                progress.makeInvisible()
-                options.makeVisible()
-
-            }.getOrElse {
-
-                this@XMLViewerTextView.text.setText(it.stackTraceToString())
-                this@XMLViewerTextView.text.setTextColor(Color.RED)
-                this@XMLViewerTextView.name.text = getString(R.string.error)
-                progress.makeInvisible()
-                options.makeGoAway()
-
-            }
+            })
         })
 
         options.setOnClickListener {

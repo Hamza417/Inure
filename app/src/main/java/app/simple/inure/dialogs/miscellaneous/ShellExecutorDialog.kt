@@ -8,7 +8,7 @@ import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.exception.InureShellException
+import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import com.topjohnwu.superuser.Shell
 

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.constants.Quotes
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.util.TTFHelper
 import app.simple.inure.util.TextViewUtils.toHtmlSpanned
@@ -36,6 +37,16 @@ class TTFAssociationActivity : BaseActivity() {
                     fontEditText.setTypeface(typeFace, Typeface.NORMAL)
                     fontName.setTypeface(typeFace, Typeface.NORMAL)
                     fontEditText.setText(Quotes.quotes.random().toHtmlSpanned())
+                }
+            }.onFailure {
+                withContext(Dispatchers.Main) {
+                    val e = ErrorPopup.newInstance(it.message!!)
+                    e.show(supportFragmentManager, "error_dialog")
+                    e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                        override fun onDismiss() {
+                            onBackPressed()
+                        }
+                    })
                 }
             }
         }

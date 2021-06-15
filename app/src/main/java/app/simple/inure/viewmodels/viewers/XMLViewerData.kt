@@ -15,6 +15,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser.extractManifest
 import app.simple.inure.apk.parsers.APKParser.getTransBinaryXml
+import app.simple.inure.exceptions.StringTooLargeException
+import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -23,6 +25,10 @@ import java.util.regex.Pattern
 
 class XMLViewerData(val applicationInfo: ApplicationInfo, private val isManifest: Boolean, private val pathToXml: String, application: Application, val accentColor: Int)
     : AndroidViewModel(application) {
+
+    private val error: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
 
@@ -62,10 +68,14 @@ class XMLViewerData(val applicationInfo: ApplicationInfo, private val isManifest
         return string
     }
 
+    fun getError(): LiveData<String> {
+        return error
+    }
+
     private fun getSpannedXml() {
         viewModelScope.launch(Dispatchers.IO) {
 
-            delay(1000L)
+            delay(500L)
 
             kotlin.runCatching {
                 val formattedContent: SpannableString
@@ -76,6 +86,9 @@ class XMLViewerData(val applicationInfo: ApplicationInfo, private val isManifest
                     applicationInfo.getTransBinaryXml(pathToXml)
                 }
 
+                if (code.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
+                    throw StringTooLargeException("String size ${code.length} is too big to render without freezing the app")
+                }
 
                 formattedContent = SpannableString(code)
                 val matcher: Matcher = tags.matcher(code)
@@ -93,14 +106,14 @@ class XMLViewerData(val applicationInfo: ApplicationInfo, private val isManifest
 
                 spanned.postValue(formattedContent)
             }.getOrElse {
-                spanned.postValue(it.stackTraceToString().toSpanned())
+                error.postValue(it.message!!)
             }
         }
     }
 
     private fun getStringXml() {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(1000) // Lets the animations finish first
+            delay(500) // Lets the animations finish first
 
             kotlin.runCatching {
                 val code = if (isManifest) {

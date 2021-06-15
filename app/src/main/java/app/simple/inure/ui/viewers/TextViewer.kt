@@ -18,7 +18,7 @@ import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.exception.StringTooLargeException
+import app.simple.inure.exceptions.StringTooLargeException
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.preferences.ConfigurationPreferences

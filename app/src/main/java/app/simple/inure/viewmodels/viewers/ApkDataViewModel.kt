@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.model.PermissionInfo
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.parsers.APKParser.getActivities
 import app.simple.inure.apk.parsers.APKParser.getFeatures
@@ -16,14 +15,17 @@ import app.simple.inure.apk.parsers.APKParser.getPermissions
 import app.simple.inure.apk.parsers.APKParser.getProviders
 import app.simple.inure.apk.parsers.APKParser.getReceivers
 import app.simple.inure.apk.parsers.APKParser.getServices
+import app.simple.inure.model.PermissionInfo
+import app.simple.inure.model.UsesFeatures
 import com.jaredrummler.apkparser.model.AndroidComponent
-import com.jaredrummler.apkparser.model.UseFeature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
 class ApkDataViewModel(application: Application, val param: ApplicationInfo) : AndroidViewModel(application) {
+
+    private val delay = 500L
 
     private val error: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -47,8 +49,8 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         }
     }
 
-    private val features: MutableLiveData<MutableList<UseFeature>> by lazy {
-        MutableLiveData<MutableList<UseFeature>>().also {
+    private val features: MutableLiveData<MutableList<UsesFeatures>> by lazy {
+        MutableLiveData<MutableList<UsesFeatures>>().also {
             getFeaturesData()
         }
     }
@@ -99,7 +101,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         return extras
     }
 
-    fun getFeatures(): LiveData<MutableList<UseFeature>> {
+    fun getFeatures(): LiveData<MutableList<UsesFeatures>> {
         return features
     }
 
@@ -132,7 +134,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
                     }
                 })
             }.getOrElse {
-                delay(1000L)
+                delay(delay)
                 error.postValue(it.message)
             }
         }
@@ -147,7 +149,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
                     }
                 })
             }.getOrElse {
-                delay(1000L)
+                delay(delay)
                 error.postValue(it.message)
             }
         }
@@ -166,13 +168,13 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
     private fun getFeaturesData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                features.postValue(param.getFeatures()!!.apply {
+                features.postValue(param.getFeatures().apply {
                     sortBy {
                         it.name
                     }
                 })
             }.getOrElse {
-                delay(1000L)
+                delay(delay)
                 error.postValue(it.message)
             }
         }
@@ -213,7 +215,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
                     }
                 })
             }.getOrElse {
-                delay(1000L)
+                delay(delay)
                 error.postValue(it.message)
             }
         }
@@ -228,7 +230,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
                     }
                 })
             }.getOrElse {
-                delay(1000L)
+                delay(delay)
                 error.postValue(it.message)
             }
         }
@@ -253,7 +255,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
                     }
                 })
             }.getOrElse {
-                delay(1000L)
+                delay(delay)
                 error.postValue(it.message)
             }
         }
@@ -262,7 +264,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
     /**
      * For some reason this did not work.
      *
-     * TODO - add explanation for why
+     * TODO - add explanation to why
      */
     @Deprecated("This won't work",
                 ReplaceWith("this.apply { sortedBy { it.name.substring(it.name.lastIndexOf(\".\")) } }"))

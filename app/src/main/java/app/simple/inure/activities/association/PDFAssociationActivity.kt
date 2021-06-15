@@ -46,18 +46,23 @@ class PDFAssociationActivity : BaseActivity() {
                     .spacing(25)
                     .fitEachPage(false)
                     .onError {
-                        ErrorPopup.newInstance(it.message!!)
-                                .show(supportFragmentManager, "error")
+                        val e = ErrorPopup.newInstance(it.message!!)
+                        e.show(supportFragmentManager, "error_dialog")
+                        e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                            override fun onDismiss() {
+                                onBackPressed()
+                            }
+                        })
                     }
                     .enableAntialiasing(true)
                     .pageFitPolicy(FitPolicy.WIDTH)
                     .onTap {
-                        if (isFullScreen) {
+                        isFullScreen = if (isFullScreen) {
                             header.animate().translationY(header.height.toFloat() * -1).setInterpolator(DecelerateInterpolator()).start()
-                            isFullScreen = false
+                            false
                         } else {
                             header.animate().translationY(0F).setInterpolator(DecelerateInterpolator()).start()
-                            isFullScreen = true
+                            true
                         }
                         true
                     }

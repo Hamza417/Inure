@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterInformation
 import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
@@ -39,6 +40,16 @@ class Certificate : ScopedFragment() {
 
         viewModel.getCertificateData().observe(viewLifecycleOwner, {
             recyclerView.adapter = AdapterInformation(it)
+        })
+
+        viewModel.getError().observe(viewLifecycleOwner, {
+            val e = ErrorPopup.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
+                }
+            })
         })
     }
 

@@ -12,11 +12,12 @@ import app.simple.inure.R
 import app.simple.inure.apk.parsers.APKParser.getApkMeta
 import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.SDKHelper
+import com.jaredrummler.apkparser.model.ApkMeta
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -64,12 +65,12 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
         progress.postValue(22)
 
         val installLocation = kotlin.runCatching {
-            when(pi.installLocation) {
+            when (pi.installLocation) {
                 PackageInfo.INSTALL_LOCATION_AUTO -> context.getString(R.string.auto)
                 PackageInfo.INSTALL_LOCATION_INTERNAL_ONLY -> context.getString(R.string.internal)
                 PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL -> context.getString(R.string.prefer_external)
                 else -> {
-                    if(applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+                    if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
                         context.getString(R.string.system)
                     } else {
                         context.getString(R.string.not_available)
@@ -83,10 +84,10 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
         progress.postValue(33)
 
         val glesVersion = kotlin.runCatching {
-            if (applicationInfo.getGlEsVersion().isNull()) {
+            if (applicationInfo.getGlEsVersion().isEmpty()) {
                 context.getString(R.string.not_available)
             } else {
-                applicationInfo.getGlEsVersion().toString()
+                applicationInfo.getGlEsVersion()
             }
         }.getOrElse {
             it.message!!
@@ -120,7 +121,17 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 "${pi.applicationInfo.minSdkVersion}, ${SDKHelper.getSdkTitle(pi.applicationInfo.minSdkVersion)}"
             } else {
-                "${applicationInfo.getApkMeta().minSdkVersion}, ${SDKHelper.getSdkTitle(applicationInfo.getApkMeta().minSdkVersion)}"
+                when (val apkMeta: Any? = applicationInfo.getApkMeta()) {
+                    is ApkMeta -> {
+                        "${apkMeta.minSdkVersion}, ${SDKHelper.getSdkTitle(apkMeta.minSdkVersion)}"
+                    }
+                    is net.dongliu.apk.parser.bean.ApkMeta -> {
+                        "${apkMeta.minSdkVersion}, ${SDKHelper.getSdkTitle(apkMeta.minSdkVersion)}"
+                    }
+                    else -> {
+                        getApplication<Application>().getString(R.string.not_available)
+                    }
+                }
             }
         }.getOrElse {
             it.message!!
@@ -136,7 +147,7 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
 
         progress.postValue(88)
 
-        val applicationType = if(applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+        val applicationType = if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
             context.getString(R.string.system)
         } else {
             context.getString(R.string.user)

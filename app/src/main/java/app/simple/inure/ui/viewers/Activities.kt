@@ -86,8 +86,13 @@ class Activities : ScopedFragment() {
         })
 
         componentsViewModel.getError().observe(viewLifecycleOwner, {
-            ErrorPopup.newInstance(it)
-                    .show(childFragmentManager, "apk_error_window")
+            val e = ErrorPopup.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
+                }
+            })
             totalActivities.text = getString(R.string.failed)
             totalActivities.setTextColor(Color.RED)
         })
