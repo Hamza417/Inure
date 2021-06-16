@@ -78,7 +78,7 @@ class Home : ScopedFragment() {
                 override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
                     when (source) {
                         getString(R.string.apps) -> {
-                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                               Apps.newInstance(),
                                                               icon,
                                                               "apps")

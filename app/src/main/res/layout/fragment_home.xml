@@ -12,14 +12,13 @@
 
         <include layout="@layout/header_home" />
 
-        <include layout="@layout/home_recently_installed" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never" />
 
+        <include layout="@layout/home_recently_installed" />
 
     </LinearLayout>
 
