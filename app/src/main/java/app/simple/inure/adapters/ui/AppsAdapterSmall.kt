@@ -3,7 +3,6 @@ package app.simple.inure.adapters.ui
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.graphics.Paint
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
@@ -104,11 +102,6 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
                 appsAdapterCallbacks.onFilterPressed()
             }
 
-            holder.prefs.setOnClickListener {
-                it.animate().rotation(120F).setDuration(500L).setInterpolator(LinearOutSlowInInterpolator()).start()
-                appsAdapterCallbacks.onSettingsPressed(holder.appIcon, holder.prefs)
-            }
-
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
         }
     }
@@ -162,10 +155,8 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
-        internal val appIcon: ImageView = itemView.findViewById(R.id.imageView4)
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
-        val prefs: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_pref_button)
     }
 }

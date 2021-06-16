@@ -80,7 +80,7 @@ class Home : ScopedFragment() {
                         getString(R.string.apps) -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               Apps.newInstance(),
-                                                              view.findViewById(R.id.imageView3),
+                                                              icon,
                                                               "apps")
                         }
                         getString(R.string.analytics) -> {

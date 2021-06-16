@@ -13,10 +13,9 @@
 
     <ImageView
         android:id="@+id/adapter_app_info_menu_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/header_icon_size"
+        android:layout_height="@dimen/header_icon_size"
         android:layout_gravity="center"
-        app:tint="?attr/colorAppAccent"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView

@@ -137,13 +137,6 @@ class Apps : ScopedFragment() {
                 override fun onFilterPressed() {
                     AppsListConfiguration.newInstance().show(childFragmentManager, "apps_list_config")
                 }
-
-                override fun onSettingsPressed(view: View, view1: View) {
-                    openFragmentLinear(requireActivity().supportFragmentManager,
-                                       MainPreferencesScreen.newInstance(),
-                                       view,
-                                       "preferences_screen")
-                }
             })
         })
 
