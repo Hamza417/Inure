@@ -5,16 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterTypeFace
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
 
 class AppearanceTypeFace : ScopedFragment() {
 
-    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterTypeFace: AdapterTypeFace
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

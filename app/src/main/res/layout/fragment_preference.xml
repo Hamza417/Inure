@@ -27,6 +27,7 @@
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
             android:text="@string/preferences"
             android:textColor="@color/textHeading"
@@ -40,7 +41,7 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-    <app.simple.inure.decorations.views.CustomRecyclerView
+    <app.simple.inure.decorations.views.CustomVerticalRecyclerView
         android:id="@+id/preferences_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -41,4 +41,5 @@
     <dimen name="quotes_text_size">30sp</dimen>
     <dimen name="popup_padding_horizontal">30dp</dimen>
     <dimen name="popup_padding_vertical">20dp</dimen>
+    <dimen name="home_heading_text_size">24sp</dimen>
 </resources>

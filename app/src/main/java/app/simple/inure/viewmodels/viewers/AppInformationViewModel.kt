@@ -15,7 +15,6 @@ import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.SDKHelper
 import com.jaredrummler.apkparser.model.ApkMeta
 import kotlinx.coroutines.Dispatchers

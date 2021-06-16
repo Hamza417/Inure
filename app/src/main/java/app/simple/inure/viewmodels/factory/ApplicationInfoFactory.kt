@@ -5,11 +5,10 @@ import android.content.pm.ApplicationInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.viewmodels.dialogs.FilePreparingViewModel
-import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
+import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 import app.simple.inure.viewmodels.viewers.AppInformationViewModel
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
-import java.lang.IllegalArgumentException
 
 class ApplicationInfoFactory(private val application: Application, private val param: ApplicationInfo)
     : ViewModelProvider.AndroidViewModelFactory(application) {

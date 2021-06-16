@@ -52,7 +52,7 @@
         android:progressTint="?attr/colorAppAccent"
         tools:ignore="PxUsage" />
 
-    <app.simple.inure.decorations.views.CustomRecyclerView
+    <app.simple.inure.decorations.views.CustomVerticalRecyclerView
         android:id="@+id/information_data_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -2,15 +2,15 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
-import android.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.apache.commons.io.IOUtils
 import java.io.BufferedInputStream
-import java.io.InputStream
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
@@ -24,7 +24,7 @@ class TextViewerData(private val applicationInfo: ApplicationInfo, private val p
         }
     }
 
-    fun getText() : LiveData<String> {
+    fun getText(): LiveData<String> {
         return string
     }
 

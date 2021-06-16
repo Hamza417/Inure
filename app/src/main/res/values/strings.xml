@@ -22,7 +22,8 @@
     <string name="select_the_application_s_typeface">Change application\'s font style.</string>
     <string name="appearance">Appearance</string>
     <string name="appearance_icon">Appearance Icon</string>
-    <string name="apps">%1$s Apps</string>
+    <string name="total_apps">%1$s Apps</string>
+    <string name="apps">Apps</string>
     <string name="configuration_button">Configuration Button</string>
     <string name="search_button">Search Button</string>
     <string name="sorting_style">Sorting Style</string>
@@ -218,4 +219,5 @@
     <string name="ttf_viewer">TTF Viewer</string>
     <string name="popups">Popups</string>
     <string name="animations">Animations</string>
+    <string name="recently_installed">Recently Installed</string>
 </resources>

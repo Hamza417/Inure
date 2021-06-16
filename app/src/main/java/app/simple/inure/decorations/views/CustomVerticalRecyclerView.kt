@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
-import app.simple.inure.decorations.bouncescroll.ScrollConstants
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
@@ -19,7 +18,7 @@ import app.simple.inure.util.StatusBarHeight
  * Custom recycler view with nice layout animation and
  * smooth overscroll effect and various states retention
  */
-class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
+class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
@@ -55,8 +54,8 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
                          * simply update the view properties without animation.
                          */
                         val sign = if (direction == DIRECTION_BOTTOM) -1 else 1
-                        val rotationDelta = sign * deltaDistance * ScrollConstants.overScrollRotationMagnitude
-                        val translationYDelta = sign * recyclerView.width * deltaDistance * ScrollConstants.overScrollTranslationMagnitude
+                        val rotationDelta = sign * deltaDistance * overScrollRotationMagnitude
+                        val translationYDelta = sign * recyclerView.width * deltaDistance * overScrollTranslationMagnitude
 
                         recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
                             holder.rotation.cancel()
@@ -85,7 +84,7 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
                         /**
                          * The list has reached the edge on fling
                          */
-                        val translationVelocity = sign * velocity * ScrollConstants.flingTranslationMagnitude
+                        val translationVelocity = sign * velocity * flingTranslationMagnitude
                         recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
                             holder.translationY
                                     .setStartVelocity(translationVelocity)
@@ -109,7 +108,7 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
         }
     }
 
-    class AppsLookup(private val recyclerView: CustomRecyclerView) : ItemDetailsLookup<Long>() {
+    class AppsLookup(private val recyclerView: CustomVerticalRecyclerView) : ItemDetailsLookup<Long>() {
         override fun getItemDetails(e: MotionEvent): ItemDetails<Long>? {
             val view = recyclerView.findChildViewUnder(e.x, e.y)!!
             if (view.isNotNull() && recyclerView.getChildViewHolder(view) is AppsAdapterSmall.Holder) {
@@ -132,5 +131,12 @@ class CustomRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
             return recyclerView.findViewHolderForItemId(key)?.layoutPosition
                 ?: NO_POSITION
         }
+    }
+
+    companion object {
+        private const val value = 1.0f
+        const val flingTranslationMagnitude = value
+        const val overScrollRotationMagnitude = value
+        const val overScrollTranslationMagnitude = value
     }
 }

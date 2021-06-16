@@ -11,7 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterActivities
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.IntentAction
@@ -26,7 +26,7 @@ import com.jaredrummler.apkparser.model.AndroidComponent
 
 class Activities : ScopedFragment() {
 
-    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var totalActivities: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var applicationInfoFactory: ApplicationInfoFactory

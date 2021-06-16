@@ -19,11 +19,11 @@ public interface AppsAdapterCallbacks {
     
     }
     
-    default void onSettingsPressed() {
+    default void onFilterPressed() {
     
     }
     
-    default void onPrefsIconPressed(@NotNull View view, @NotNull View view1) {
+    default void onSettingsPressed(@NotNull View view, @NotNull View view1) {
     
     }
     

@@ -12,9 +12,8 @@ class XmlDataFactory(
         private val isManifest: Boolean,
         @Nullable private val pathToXml: String,
         val application: Application,
-        private val accentColor: Int
-)
-    : ViewModelProvider.AndroidViewModelFactory(application) {
+        private val accentColor: Int,
+) : ViewModelProvider.AndroidViewModelFactory(application) {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST") // Cast is checked

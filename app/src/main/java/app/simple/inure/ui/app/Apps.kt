@@ -10,41 +10,36 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.recyclerview.selection.Selection
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.PopupMainList
-import app.simple.inure.popups.app.PopupPreference
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Search
-import app.simple.inure.ui.panels.Statistics
-import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.FragmentHelper.openFragmentLinear
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.viewmodels.panels.AllAppsData
 import java.util.*
 
 class Apps : ScopedFragment() {
 
-    private lateinit var appsListRecyclerView: CustomRecyclerView
+    private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
     private lateinit var fastScrollerView: FastScrollerView
     private lateinit var scrollerThumb: FastScrollerThumbView
 
@@ -83,8 +78,8 @@ class Apps : ScopedFragment() {
             tracker = SelectionTracker.Builder(
                 "selection",
                 appsListRecyclerView,
-                CustomRecyclerView.KeyProvider(appsListRecyclerView),
-                CustomRecyclerView.AppsLookup(appsListRecyclerView),
+                CustomVerticalRecyclerView.KeyProvider(appsListRecyclerView),
+                CustomVerticalRecyclerView.AppsLookup(appsListRecyclerView),
                 StorageStrategy.createLongStorage())
                     .withSelectionPredicate(SelectionPredicates.createSelectAnything())
                     .build()
@@ -134,57 +129,20 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSearchPressed(view: View) {
-                    val fragment = requireActivity().supportFragmentManager.findFragmentByTag("search_panel")
-                        ?: Search.newInstance()
-
-                    requireActivity().supportFragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
-                            .replace(R.id.app_container, fragment, "search_panel")
-                            .addToBackStack("search_panel").commit()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                Search.newInstance(true),
+                                                "search")
                 }
 
-                override fun onSettingsPressed() {
+                override fun onFilterPressed() {
                     AppsListConfiguration.newInstance().show(childFragmentManager, "apps_list_config")
                 }
 
-                override fun onPrefsIconPressed(view: View, view1: View) {
-                    val v = PopupPreference(LayoutInflater.from(requireContext()).inflate(R.layout.popup_main_menu,
-                                                                                          PopupLinearLayout(requireContext())), view1)
-
-                    v.setOnMenuClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String) {
-                            when (source) {
-                                getString(R.string.terminal) -> {
-                                    openFragmentLinear(requireActivity().supportFragmentManager,
-                                                       Terminal.newInstance(),
-                                                       view,
-                                                       "terminal_screen")
-                                }
-                                getString(R.string.preferences) -> {
-                                    openFragmentLinear(requireActivity().supportFragmentManager,
-                                                       MainPreferencesScreen.newInstance(),
-                                                       view,
-                                                       "preferences_screen")
-                                }
-                                getString(R.string.device_analytics) -> {
-                                    openFragmentLinear(requireActivity().supportFragmentManager,
-                                                       Analytics.newInstance(),
-                                                       view,
-                                                       "analytics")
-                                }
-                                getString(R.string.usage_statistics) -> {
-                                    openFragmentLinear(requireActivity().supportFragmentManager,
-                                                       Statistics.newInstance(),
-                                                       view,
-                                                       "statistics")
-                                }
-                            }
-                        }
-
-                        override fun onDismiss() {
-                            view1.animate().rotation(0F).setDuration(500L).setInterpolator(LinearOutSlowInInterpolator()).start()
-                        }
-                    })
+                override fun onSettingsPressed(view: View, view1: View) {
+                    openFragmentLinear(requireActivity().supportFragmentManager,
+                                       MainPreferencesScreen.newInstance(),
+                                       view,
+                                       "preferences_screen")
                 }
             })
         })

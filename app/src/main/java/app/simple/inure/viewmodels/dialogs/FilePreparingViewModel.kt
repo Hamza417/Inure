@@ -125,7 +125,7 @@ class FilePreparingViewModel(application: Application, val applicationInfo: Appl
                 zipOutputStream!!.putNextEntry(entry)
                 var count: Int
                 while (bufferedInputStream!!.read(data, 0, BUFFER).also { count = it } != -1) {
-                    if(cleared) break
+                    if (cleared) break
                     total += count
                     progress.postValue(total * 100 / length)
                     zipOutputStream!!.write(data, 0, count)
@@ -170,7 +170,7 @@ class FilePreparingViewModel(application: Application, val applicationInfo: Appl
             val buf = ByteArray(BUFFER)
             var len: Int
             while (fileInputStream!!.read(buf).also { len = it } > 0) {
-                if(cleared) break
+                if (cleared) break
                 total += len
                 progress.postValue(total * 100 / lengthOfFile)
                 fileOutputStream!!.write(buf, 0, len)

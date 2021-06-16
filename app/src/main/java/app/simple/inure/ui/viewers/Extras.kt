@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterExtras
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.apk.parsers.APKParser
@@ -18,7 +18,7 @@ import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Extras : ScopedFragment() {
 
-    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var total: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var applicationInfoFactory: ApplicationInfoFactory

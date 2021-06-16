@@ -10,16 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterInformation
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.util.ViewUtils.makeGoAway
-import app.simple.inure.util.ViewUtils.makeInvisible
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.viewers.AppInformationViewModel
 
 class Information : ScopedFragment() {
 
-    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var back: DynamicRippleImageButton
     private lateinit var progress: ProgressBar
 

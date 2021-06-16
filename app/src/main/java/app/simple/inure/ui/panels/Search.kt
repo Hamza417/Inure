@@ -13,6 +13,10 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.SearchAdapter
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.killThisApp
+import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
+import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
 import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
@@ -21,7 +25,7 @@ import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
@@ -29,10 +33,6 @@ import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
-import app.simple.inure.apk.utils.PackageUtils.killThisApp
-import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
-import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.panels.SearchData
 import java.util.*
@@ -40,7 +40,7 @@ import java.util.*
 class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var searchView: SearchView
-    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var appsAdapterSmall: SearchAdapter
     private lateinit var fastScrollerView: FastScrollerView
     private lateinit var scrollerThumb: FastScrollerThumbView
@@ -66,6 +66,11 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                                 recyclerView.paddingTop + params.topMargin + params.height + params.bottomMargin,
                                 recyclerView.paddingRight,
                                 recyclerView.paddingBottom)
+
+        if (requireArguments().getBoolean("first_launch")) {
+            startPostponedEnterTransition()
+            requireArguments().putBoolean("first_launch", false)
+        }
 
         return view
     }
@@ -172,8 +177,9 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
     }
 
     companion object {
-        fun newInstance(): Search {
+        fun newInstance(firstLaunch: Boolean): Search {
             val args = Bundle()
+            args.putBoolean("first_launch", firstLaunch)
             val fragment = Search()
             fragment.arguments = args
             return fragment

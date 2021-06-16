@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.adapters.ui.AdapterAppInfoMenu
+import app.simple.inure.adapters.menus.AdapterMenu
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -47,7 +47,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var menu: RecyclerView
     private lateinit var options: RecyclerView
 
-    private lateinit var adapterAppInfoMenu: AdapterAppInfoMenu
+    private lateinit var adapterMenu: AdapterMenu
     private lateinit var componentsViewModel: InfoPanelMenuData
     private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
@@ -85,18 +85,18 @@ class AppInfo : ScopedFragment() {
         componentsViewModel.getMenuItems().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
-            adapterAppInfoMenu = AdapterAppInfoMenu(it)
-            adapterAppInfoMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+            adapterMenu = AdapterMenu(it)
+            adapterMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
             menu.layoutManager = GridLayoutManager(requireContext(), spanCount)
             //menu.addItemDecoration(GridSpacingItemDecoration(spanCount, resources.getDimensionPixelSize(R.dimen.dialog_padding), true, 0))
-            menu.adapter = adapterAppInfoMenu
+            menu.adapter = adapterMenu
             menu.scheduleLayoutAnimation()
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
-            adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterAppInfoMenu.AppInfoMenuCallbacks {
+            adapterMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
                     when (source) {
                         getString(R.string.manifest) -> {
@@ -166,12 +166,12 @@ class AppInfo : ScopedFragment() {
         })
 
         componentsViewModel.getMenuOptions().observe(requireActivity(), {
-            val adapterAppInfoMenu = AdapterAppInfoMenu(it)
+            val adapterAppInfoMenu = AdapterMenu(it)
             options.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
             options.adapter = adapterAppInfoMenu
             options.scheduleLayoutAnimation()
 
-            adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterAppInfoMenu.AppInfoMenuCallbacks {
+            adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
                     when (source) {
                         getString(R.string.launch) -> {

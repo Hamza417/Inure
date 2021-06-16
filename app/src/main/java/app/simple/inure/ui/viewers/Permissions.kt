@@ -11,7 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
@@ -23,7 +23,7 @@ import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Permissions : ScopedFragment() {
 
-    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var totalPermissions: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var applicationInfoFactory: ApplicationInfoFactory

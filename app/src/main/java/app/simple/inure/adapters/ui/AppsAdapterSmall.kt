@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
@@ -102,13 +101,15 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
 
             holder.settings.setOnClickListener {
-                appsAdapterCallbacks.onSettingsPressed()
+                appsAdapterCallbacks.onFilterPressed()
             }
 
             holder.prefs.setOnClickListener {
                 it.animate().rotation(120F).setDuration(500L).setInterpolator(LinearOutSlowInInterpolator()).start()
-                appsAdapterCallbacks.onPrefsIconPressed(holder.appIcon, holder.prefs)
+                appsAdapterCallbacks.onSettingsPressed(holder.appIcon, holder.prefs)
             }
+
+            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
         }
     }
 
@@ -161,15 +162,10 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
-        internal val appIcon: ImageView = itemView.findViewById(R.id.imageView3)
-        private val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+        internal val appIcon: ImageView = itemView.findViewById(R.id.imageView4)
+        val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
         val prefs: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_pref_button)
-
-        init {
-            Handler(Looper.getMainLooper()).postDelayed({ (appIcon.drawable as AnimatedVectorDrawable).start() }, 1000L)
-            total.text = String.format(itemView.context.getString(R.string.apps), apps.size)
-        }
     }
 }

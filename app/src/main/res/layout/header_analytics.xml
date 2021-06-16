@@ -14,9 +14,9 @@
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/header_padding"
         android:src="@drawable/ic_analytics"
-        android:transitionName="main_app_icon"
-        android:padding="10dp"
-        tools:ignore="ContentDescription" />
+        android:transitionName="@string/analytics"
+        tools:ignore="ContentDescription"
+        app:tint="?attr/colorAppAccent" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:id="@+id/header_name"

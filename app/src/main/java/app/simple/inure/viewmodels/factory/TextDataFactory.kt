@@ -5,7 +5,6 @@ import android.content.pm.ApplicationInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.viewmodels.viewers.TextViewerData
-import app.simple.inure.viewmodels.viewers.XMLViewerData
 
 class TextDataFactory(private val applicationInfo: ApplicationInfo, private val path: String, val application: Application)
     : ViewModelProvider.AndroidViewModelFactory(application) {

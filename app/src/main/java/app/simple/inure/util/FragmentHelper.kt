@@ -39,11 +39,8 @@ object FragmentHelper {
      * @param view [View] that needs to be animated
      * @param tag back stack tag for fragment
      */
-    fun openFragmentLinear(fragmentManager: FragmentManager, fragment: Fragment, view: View, tag: String) {
-        fragment.exitTransition = Fade()
-        fragment.sharedElementEnterTransition = DetailsTransition()
-        fragment.enterTransition = Fade()
-        fragment.sharedElementReturnTransition = DetailsTransition()
+    fun openFragmentLinear(fragmentManager: FragmentManager, fragment: ScopedFragment, view: View, tag: String) {
+        fragment.setTransitions()
 
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
@@ -60,7 +57,8 @@ object FragmentHelper {
      * @param fragment [Fragment]
      * @param tag back stack tag for fragment
      */
-    fun openFragment(fragmentManager: FragmentManager, fragment: Fragment, @Nullable tag: String) {
+    fun openFragment(fragmentManager: FragmentManager, fragment: ScopedFragment, @Nullable tag: String) {
+        fragment.clearExitTransition()
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)

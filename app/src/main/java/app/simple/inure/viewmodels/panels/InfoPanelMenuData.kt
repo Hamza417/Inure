@@ -48,7 +48,7 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
                 list.add(Pair(R.drawable.ic_send, context.getString(R.string.send)))
                 list.add(Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)))
 
-                if(getApplication<Application>().packageManager.getApplicationInfo(applicationInfo.packageName, 0).enabled) {
+                if (getApplication<Application>().packageManager.getApplicationInfo(applicationInfo.packageName, 0).enabled) {
                     list.add(Pair(R.drawable.ic_disable, context.getString(R.string.disable)))
                 } else {
                     list.add(Pair(R.drawable.ic_check, context.getString(R.string.enable)))

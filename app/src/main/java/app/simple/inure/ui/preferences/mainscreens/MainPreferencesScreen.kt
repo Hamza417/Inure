@@ -10,13 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.PreferencesAdapter
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
+import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.viewers.PreferencesViewModel
 
-class MainPreferencesScreen : Fragment() {
+class MainPreferencesScreen : ScopedFragment() {
 
-    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var preferencesAdapter: PreferencesAdapter
 
     private val preferencesViewModel: PreferencesViewModel by viewModels()

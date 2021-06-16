@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_app_info_menu_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:padding="@dimen/header_padding">
+
+    <ImageView
+        android:id="@+id/adapter_app_info_menu_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        app:tint="?attr/colorAppAccent"
+        tools:ignore="ContentDescription" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/adapter_app_info_menu_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        app:appFontStyle="medium" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor>

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterInformation
-import app.simple.inure.decorations.views.CustomRecyclerView
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
@@ -16,7 +16,7 @@ import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 
 class Certificate : ScopedFragment() {
 
-    private lateinit var recyclerView: CustomRecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var viewModel: CertificatesViewModel
     private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
