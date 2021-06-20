@@ -57,7 +57,7 @@ class Font : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(path: String, applicationInfo: ApplicationInfo): Font {
+        fun newInstance(applicationInfo: ApplicationInfo, path: String): Font {
             val args = Bundle()
             args.putString("path", path)
             args.putParcelable("application_info", applicationInfo)

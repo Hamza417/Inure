@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterExtras
+import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
@@ -47,18 +47,36 @@ class Extras : ScopedFragment() {
             recyclerView.adapter = adapterExtras
             total.text = getString(R.string.total, adapterExtras.list.size)
 
-            adapterExtras.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks{
+            adapterExtras.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
                 override fun onResourceClicked(path: String) {
                     exitTransition = null
-                    if (path.endsWith(".ttf")) {
-                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    Font.newInstance(path, applicationInfo),
-                                                    "ttf_viewer")
-                    } else {
-                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    TextViewer.newInstance(applicationInfo, path),
-                                                    "text_viewer")
+                    when {
+                        path.endsWith(".ttf") -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Font.newInstance(applicationInfo, path),
+                                                        "ttf_viewer")
+                        }
+                        path.endsWith(".html") -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        HtmlViewer.newInstance(applicationInfo, path),
+                                                        "html_viewer")
+                        }
+                        path.endsWith(".java") ||
+                                path.endsWith(".css") ||
+                                path.endsWith(".json") ||
+                                path.endsWith(".proto") ||
+                                path.endsWith(".js") -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        CodeViewer.newInstance(applicationInfo, path, path.substring(path.lastIndexOf(".") + 1, path.length)),
+                                                        "code_viewer")
+                        }
+                        else -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        TextViewer.newInstance(applicationInfo, path),
+                                                        "text_viewer")
+                        }
                     }
+
                 }
             })
         })

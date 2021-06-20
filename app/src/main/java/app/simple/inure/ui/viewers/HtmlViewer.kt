@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
@@ -18,29 +17,27 @@ import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomWebView
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.util.ColorUtils.resolveAttrColor
-import app.simple.inure.util.NullSafety.isNull
-import app.simple.inure.util.ViewUtils.makeInvisible
-import app.simple.inure.viewmodels.factory.XmlDataFactory
-import app.simple.inure.viewmodels.viewers.XMLViewerData
+import app.simple.inure.viewmodels.factory.TextDataFactory
+import app.simple.inure.viewmodels.viewers.TextViewerData
+import kotlinx.coroutines.*
 import java.io.IOException
+import java.util.*
 
+class HtmlViewer : ScopedFragment() {
 
-class XMLViewerWebView : ScopedFragment() {
-
-    private lateinit var manifest: CustomWebView
-    private lateinit var name: TypeFaceTextView
+    private lateinit var html: CustomWebView
+    private lateinit var path: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var progress: ProgressBar
 
-    private var code = ""
+    private lateinit var textViewerData: TextViewerData
+    private lateinit var textDataFactory: TextDataFactory
 
-    private lateinit var componentsViewModel: XMLViewerData
-    private lateinit var applicationInfoFactory: XmlDataFactory
+    private var htmlTxt: String = ""
 
-    private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
+    private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult
@@ -48,7 +45,7 @@ class XMLViewerWebView : ScopedFragment() {
         try {
             requireContext().contentResolver.openOutputStream(uri).use { outputStream ->
                 if (outputStream == null) throw IOException()
-                outputStream.write(code.toByteArray())
+                outputStream.write(htmlTxt.toByteArray())
                 outputStream.flush()
                 Toast.makeText(requireContext(), R.string.saved_successfully, Toast.LENGTH_SHORT).show()
             }
@@ -59,24 +56,22 @@ class XMLViewerWebView : ScopedFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_web_viewer, container, false)
+        val view = inflater.inflate(R.layout.fragment_html_viewer, container, false)
 
-        manifest = view.findViewById(R.id.source_view)
-        name = view.findViewById(R.id.xml_name)
-        options = view.findViewById(R.id.xml_viewer_options)
-        progress = view.findViewById(R.id.xml_loader)
-
-        manifest.enableWithWebClient()
-
+        html = view.findViewById(R.id.html_viewer)
+        path = view.findViewById(R.id.html_name)
+        options = view.findViewById(R.id.html_viewer_options)
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
-        applicationInfoFactory = XmlDataFactory(applicationInfo, requireArguments().getBoolean("is_manifest"),
-                                                requireArguments().getString("path_to_xml")!!,
-                                                requireActivity().application,
-                                                requireContext().resolveAttrColor(R.attr.colorAppAccent))
+        textDataFactory = TextDataFactory(
+            applicationInfo,
+            requireArguments().getString("path")!!,
+            requireActivity().application,
+        )
 
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerData::class.java)
+        textViewerData = ViewModelProvider(this, textDataFactory).get(TextViewerData::class.java)
 
+        path.text = requireArguments().getString("path")!!
         return view
     }
 
@@ -85,15 +80,19 @@ class XMLViewerWebView : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        componentsViewModel.getString().observe(viewLifecycleOwner, {
-            if (savedInstanceState.isNull()) {
-                manifest.loadDataWithBaseURL("file:///android_asset/", it, "text/html", "UTF-8", null)
-            } else {
-                manifest.restoreState(savedInstanceState!!)
+        textViewerData.getText().observe(viewLifecycleOwner, {
+            runCatching {
+                htmlTxt = it
+                html.loadData(it, "text/html", "UTF-8")
+            }.getOrElse {
+                val e = ErrorPopup.newInstance(it.message!!)
+                e.show(childFragmentManager, "error_dialog")
+                e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                    override fun onDismiss() {
+                        requireActivity().onBackPressed()
+                    }
+                })
             }
-            this@XMLViewerWebView.name.text = requireArguments().getString("path_to_xml")!!
-            progress.makeInvisible()
-            code = it
         })
 
         options.setOnClickListener {
@@ -107,12 +106,12 @@ class XMLViewerWebView : ScopedFragment() {
                     when (source) {
                         getString(R.string.copy) -> {
                             val clipboard: ClipboardManager? = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-                            val clip = ClipData.newPlainText("xml", code)
+                            val clip = ClipData.newPlainText("xml", htmlTxt)
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {
-                            val fileName: String = applicationInfo.packageName + "_" + name.text
-                            exportManifest.launch(fileName)
+                            val fileName: String = applicationInfo.packageName + "_" + path.text
+                            exportText.launch(fileName)
                         }
                     }
                 }
@@ -120,18 +119,12 @@ class XMLViewerWebView : ScopedFragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        manifest.saveState(outState)
-        super.onSaveInstanceState(outState)
-    }
-
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo?, isManifest: Boolean, pathToXml: String?): XMLViewerWebView {
+        fun newInstance(applicationInfo: ApplicationInfo, path: String): HtmlViewer {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
-            args.putBoolean("is_manifest", isManifest)
-            args.putString("path_to_xml", pathToXml)
-            val fragment = XMLViewerWebView()
+            args.putString("path", path)
+            val fragment = HtmlViewer()
             fragment.arguments = args
             return fragment
         }
