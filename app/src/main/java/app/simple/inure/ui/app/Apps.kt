@@ -10,10 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.selection.Selection
-import androidx.recyclerview.selection.SelectionPredicates
-import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.selection.StorageStrategy
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
@@ -36,7 +32,6 @@ class Apps : ScopedFragment() {
     private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
 
     private lateinit var appsAdapter: AppsAdapterSmall
-    private var tracker: SelectionTracker<Long>? = null
 
     private val model: AllAppsData by viewModels()
 
@@ -64,17 +59,6 @@ class Apps : ScopedFragment() {
             appsAdapter.apps = it
 
             appsListRecyclerView.adapter = appsAdapter
-
-            tracker = SelectionTracker.Builder(
-                "selection",
-                appsListRecyclerView,
-                CustomVerticalRecyclerView.KeyProvider(appsListRecyclerView),
-                CustomVerticalRecyclerView.AppsLookup(appsListRecyclerView),
-                StorageStrategy.createLongStorage())
-                    .withSelectionPredicate(SelectionPredicates.createSelectAnything())
-                    .build()
-
-            appsAdapter.tracker = tracker
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -115,17 +99,6 @@ class Apps : ScopedFragment() {
             })
         })
 
-        tracker?.addObserver(
-            object : SelectionTracker.SelectionObserver<Long>() {
-                override fun onSelectionChanged() {
-                    super.onSelectionChanged()
-                    val items = tracker?.selection!!.size()
-                    if (items == 2) {
-                        launchSum(tracker?.selection!!)
-                    }
-                }
-            })
-
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -133,12 +106,6 @@ class Apps : ScopedFragment() {
         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                     AppInfo.newInstance(applicationInfo, icon.transitionName),
                                     icon, "app_info")
-    }
-
-    private fun launchSum(selection: Selection<Long>) {
-        selection.map {
-            appsAdapter.apps[it.toInt()]
-        }.toList()
     }
 
     override fun onAppUninstalled(result: Boolean, data: Intent?) {

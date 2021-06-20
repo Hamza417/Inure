@@ -126,31 +126,6 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
         }
     }
 
-    class AppsLookup(private val recyclerView: CustomVerticalRecyclerView) : ItemDetailsLookup<Long>() {
-        override fun getItemDetails(e: MotionEvent): ItemDetails<Long>? {
-            val view = recyclerView.findChildViewUnder(e.x, e.y)!!
-            if (view.isNotNull() && recyclerView.getChildViewHolder(view) is AppsAdapterSmall.Holder) {
-                return (recyclerView.getChildViewHolder(view) as AppsAdapterSmall.Holder).getItemDetails()
-            }
-
-            return null
-        }
-    }
-
-
-    class KeyProvider(private val recyclerView: RecyclerView) :
-        ItemKeyProvider<Long>(SCOPE_MAPPED) {
-
-        override fun getKey(position: Int): Long? {
-            return recyclerView.adapter?.getItemId(position)
-        }
-
-        override fun getPosition(key: Long): Int {
-            return recyclerView.findViewHolderForItemId(key)?.layoutPosition
-                ?: NO_POSITION
-        }
-    }
-
     companion object {
         private const val value = 1.0f
         const val flingTranslationMagnitude = value

@@ -7,12 +7,13 @@ import android.os.Process
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.core.app.AppOpsManagerCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.ui.app.Apps
 import app.simple.inure.ui.app.Home
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.viewmodels.panels.AllAppsData
@@ -20,6 +21,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashScreen : ScopedFragment() {
+
+    private lateinit var icon: ImageView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -29,6 +32,9 @@ class SplashScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         startPostponedEnterTransition()
+
+        icon = view.findViewById(R.id.imageView)
+        icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))
 
         when {
             requireArguments().getBoolean("skip") -> {

@@ -26,7 +26,7 @@
             android:textSize="30sp"
             android:transitionName="@string/inure_setup"
             android:textColor="@color/textPrimary"
-            app:appFontStyle="light" />
+            app:appFontStyle="bold" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -47,8 +47,8 @@
         android:layout_marginTop="@dimen/dialog_padding"
         android:paddingHorizontal="@dimen/dialog_padding"
         android:text="@string/desc_setup"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="16sp"
-        app:appFontStyle="medium" />
+        android:textColor="@color/textTertiary"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="light" />
 
 </LinearLayout>

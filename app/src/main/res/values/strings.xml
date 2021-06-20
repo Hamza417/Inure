@@ -221,4 +221,5 @@
     <string name="animations">Animations</string>
     <string name="recently_installed">Recently Installed</string>
     <string name="recently_updated">Recently Updated</string>
+    <string name="dex_error">This apk does not contain any recognizable dex classes data.</string>
 </resources>

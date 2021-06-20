@@ -89,7 +89,7 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
                 applicationInfo.getGlEsVersion()
             }
         }.getOrElse {
-            it.message!!
+            context.getString(R.string.not_available)
         }
 
         progress.postValue(44)
@@ -100,18 +100,21 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
 
         progress.postValue(55)
 
-        val v = applicationInfo.getDexData()!!
-        var methodCount = 0L
-        for (i in v) {
-            methodCount += i.header.methodIdsSize
-        }
+        val method = kotlin.runCatching {
+            val p0 = applicationInfo.getDexData()!!
+            var count = 0
 
-        val isMultiDex = v.size > 1
+            for (i in p0) {
+                count = i.header.methodIdsSize
+            }
 
-        val method = if (isMultiDex) {
-            String.format(context.getString(R.string.multi_dex), NumberFormat.getNumberInstance().format(methodCount))
-        } else {
-            String.format(context.getString(R.string.single_dex), NumberFormat.getNumberInstance().format(methodCount))
+            if (p0.size > 1) {
+                String.format(context.getString(R.string.multi_dex), NumberFormat.getNumberInstance().format(count))
+            } else {
+                String.format(context.getString(R.string.single_dex), NumberFormat.getNumberInstance().format(count))
+            }
+        }.getOrElse {
+            it.message!!
         }
 
         progress.postValue(66)
@@ -133,7 +136,7 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
                 }
             }
         }.getOrElse {
-            it.message!!
+            context.getString(R.string.dex_error)
         }
 
         progress.postValue(77)

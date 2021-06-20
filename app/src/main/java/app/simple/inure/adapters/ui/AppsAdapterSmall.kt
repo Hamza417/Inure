@@ -33,8 +33,6 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
     var apps = arrayListOf<ApplicationInfo>()
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
 
-    var tracker: SelectionTracker<Long>? = null
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             TYPE_HEADER -> {
@@ -84,14 +82,6 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
             holder.container.setOnLongClickListener {
                 appsAdapterCallbacks.onAppLongPress(apps[position], it, holder.icon, position_)
                 true
-            }
-
-            holder.icon.setOnClickListener {
-                appsAdapterCallbacks.onItemSelected(position + 1)
-            }
-
-            tracker?.let {
-                holder.bind(it.isSelected(position.toLong()))
             }
         }
 
@@ -143,17 +133,6 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
         val packageSize: TextView = itemView.findViewById(R.id.adapter_all_app_package_size)
         val packageType: TextView = itemView.findViewById(R.id.adapter_all_app_type)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
-
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
-            object : ItemDetailsLookup.ItemDetails<Long>() {
-                override fun getPosition(): Int = absoluteAdapterPosition - 1
-                override fun getSelectionKey(): Long = absoluteAdapterPosition.toLong() - 1
-                override fun inSelectionHotspot(e: MotionEvent): Boolean = false
-            }
-
-        fun bind(selected: Boolean) {
-            container.setDefaultBackground(selected)
-        }
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {

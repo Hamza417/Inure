@@ -3,6 +3,7 @@ package app.simple.inure.apk.parsers
 import android.content.pm.ApplicationInfo
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.CertificateParseException
+import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.model.UsesFeatures
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import com.jaredrummler.apkparser.ApkParser
@@ -10,6 +11,7 @@ import com.jaredrummler.apkparser.model.AndroidComponent
 import com.jaredrummler.apkparser.model.CertificateMeta
 import com.jaredrummler.apkparser.model.DexInfo
 import net.dongliu.apk.parser.ApkFile
+import net.dongliu.apk.parser.bean.DexClass
 import java.io.IOException
 import java.util.*
 import java.util.zip.ZipEntry
@@ -204,11 +206,24 @@ object APKParser {
     }
 
     /**
-     *
+     * Fetch APK's dex data
      */
     fun ApplicationInfo.getDexData(): MutableList<DexInfo>? {
-        ApkParser.create(this).use {
-            return it.dexInfos
+        kotlin.runCatching {
+            ApkParser.create(this).use {
+                return it.dexInfos
+            }
+        }.getOrElse {
+            throw DexClassesNotFoundException("This apk does not contain any recognizable dex classes data.")
+        }
+    }
+
+    /**
+     * Get list of all dex classes
+     */
+    fun ApplicationInfo.getDexClasses(): ArrayList<DexClass> {
+        ApkFile(sourceDir).use {
+            return it.dexClasses!!.toList() as ArrayList<DexClass>
         }
     }
 
