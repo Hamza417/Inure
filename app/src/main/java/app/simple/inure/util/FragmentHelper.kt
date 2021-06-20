@@ -40,7 +40,7 @@ object FragmentHelper {
      * @param tag back stack tag for fragment
      */
     fun openFragmentLinear(fragmentManager: FragmentManager, fragment: ScopedFragment, view: View, tag: String) {
-        fragment.setTransitions()
+        fragment.setLinearTransitions()
 
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)

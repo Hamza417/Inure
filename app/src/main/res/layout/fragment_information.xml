@@ -37,20 +37,19 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/information_data_progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:progressBackgroundTint="@android:color/transparent"
+        android:progressTint="?attr/colorAppAccent"
+        tools:ignore="PxUsage" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/divider" />
-
-    <ProgressBar
-        android:id="@+id/information_data_progress"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:progress="50"
-        android:progressBackgroundTint="@android:color/transparent"
-        android:progressTint="?attr/colorAppAccent"
-        tools:ignore="PxUsage" />
 
     <app.simple.inure.decorations.views.CustomVerticalRecyclerView
         android:id="@+id/information_data_recycler_view"
@@ -58,6 +57,5 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
-        android:padding="@dimen/header_padding"
         app:statusBarPaddingRequired="false" />
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

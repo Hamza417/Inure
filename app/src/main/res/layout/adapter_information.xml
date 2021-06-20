@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginHorizontal="@dimen/header_padding"
     android:padding="@dimen/analytics_item_padding">
 
     <app.simple.inure.decorations.views.TypeFaceTextView

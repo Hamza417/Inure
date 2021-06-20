@@ -22,22 +22,6 @@
     <attr name="fastScrollerTextPadding" format="dimension" />
     <attr name="fastScrollerThumbColor" format="color" />
 
-    <declare-styleable name="FastScrollerView">
-        <attr name="fastScrollerIconSize" />
-        <attr name="fastScrollerIconColor" />
-        <attr name="android:textAppearance" />
-        <attr name="android:textColor" />
-        <attr name="fastScrollerTextPadding" />
-    </declare-styleable>
-
-    <declare-styleable name="FastScrollerThumbView">
-        <attr name="fastScrollerThumbColor" />
-        <attr name="fastScrollerIconSize" />
-        <attr name="fastScrollerIconColor" />
-        <attr name="android:textAppearance" />
-        <attr name="android:textColor" />
-    </declare-styleable>
-
     <!-- Icon View -->
     <declare-styleable name="AppTheme">
         <attr name="iconViewStyle" format="reference" />
@@ -72,24 +56,6 @@
          Default value is 0. Can be useful for mixing some Visibility transitions,
          for example Scale and Fade. -->
         <attr name="disappearedScale" format="float" />
-    </declare-styleable>
-
-    <declare-styleable name="BouncyNestedScrollView">
-        <attr name="overscroll_animation_size" format="float" />
-        <attr name="fling_animation_size" format="float" />
-
-        <attr name="damping_ratio" format="integer">
-            <enum name="DAMPING_RATIO_NO_BOUNCY" value="0" />
-            <enum name="DAMPING_RATIO_LOW_BOUNCY" value="1" />
-            <enum name="DAMPING_RATIO_MEDIUM_BOUNCY" value="2" />
-            <enum name="DAMPING_RATIO_HIGH_BOUNCY" value="3" />
-        </attr>
-        <attr name="stiffness" format="integer">
-            <enum name="STIFFNESS_VERY_LOW" value="0" />
-            <enum name="STIFFNESS_LOW" value="1" />
-            <enum name="STIFFNESS_MEDIUM" value="2" />
-            <enum name="STIFFNESS_HIGH" value="3" />
-        </attr>
     </declare-styleable>
 
     <declare-styleable name="SwitchView">

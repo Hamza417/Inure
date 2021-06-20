@@ -50,6 +50,7 @@ class Permissions : ScopedFragment() {
         componentsViewModel.getPermissions().observe(viewLifecycleOwner, {
             adapterPermissions = AdapterPermissions(it)
             recyclerView.adapter = adapterPermissions
+            recyclerView.setHasFixedSize(false)
             totalPermissions.text = getString(R.string.total, it.size)
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {

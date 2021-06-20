@@ -24,7 +24,7 @@ class Receivers : ScopedFragment() {
     private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_broadcasts, container, false)
+        val view = inflater.inflate(R.layout.fragment_receivers, container, false)
 
         recyclerView = view.findViewById(R.id.broadcast_recycler_view)
         total = view.findViewById(R.id.total)

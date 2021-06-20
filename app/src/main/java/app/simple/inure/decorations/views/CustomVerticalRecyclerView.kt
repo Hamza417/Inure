@@ -4,12 +4,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.EdgeEffect
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
+import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
@@ -100,6 +102,22 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
         super.setAdapter(adapter)
         adapter?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
         scheduleLayoutAnimation()
+
+        /**
+         * Setup fast scroller only when adapter is large enough
+         * to require a fast scroller
+         */
+        if(adapter!!.itemCount > 25) {
+            setupFastScroller()
+        }
+    }
+
+    private fun setupFastScroller() {
+        FastScrollerBuilder(this)
+                .useMd2Style()
+                .setTrackDrawable(ResourcesCompat.getDrawable(resources, R.drawable.afs_md2_track, context.theme)!!)
+                .setThumbDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_thumb, context.theme)!!)
+                .build()
     }
 
     private inline fun <reified T : VerticalListViewHolder> RecyclerView.forEachVisibleHolder(action: (T) -> Unit) {

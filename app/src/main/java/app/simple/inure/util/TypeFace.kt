@@ -7,6 +7,13 @@ import app.simple.inure.R
 
 object TypeFace {
 
+    enum class TypefaceStyle(val style: Int) {
+        LIGHT(0),
+        REGULAR(1),
+        MEDIUM(2),
+        BOLD(3)
+    }
+
     /**
      * [AUTO] is default as it is appropriate
      * to let the initial font to be of user's

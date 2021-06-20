@@ -10,13 +10,14 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.AdapterUtils.searchHighlighter
 
-class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
+class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>(), PopupTextProvider {
 
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     var apps = arrayListOf<ApplicationInfo>()
@@ -67,5 +68,9 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>() {
         val name: TextView = itemView.findViewById(R.id.adapter_all_app_name)
         val packageId: TextView = itemView.findViewById(R.id.adapter_all_app_package_id)
         val container: ConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
+    }
+
+    override fun getPopupText(position: Int): String {
+        return apps[position].name.substring(0, 1)
     }
 }

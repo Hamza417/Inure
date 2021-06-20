@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <app.simple.inure.decorations.searchview.SearchView
         android:id="@+id/search_view"
@@ -15,22 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
-        android:layoutAnimation="@anim/search_list_controller"
-        android:clipToPadding="false" />
-
-    <app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
-        android:id="@+id/all_apps_fast_scroller"
-        android:layout_width="32dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        app:fastScrollerTextPadding="5dp" />
-
-    <app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
-        android:id="@+id/all_apps_thumb"
-        android:layout_width="@dimen/fast_scroller_thumb_size"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:layout_marginEnd="75dp"
-        app:fastScrollerThumbColor="?attr/colorAppAccent" />
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/search_list_controller" />
 
 </FrameLayout>

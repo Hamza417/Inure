@@ -17,12 +17,8 @@ import androidx.recyclerview.selection.StorageStrategy
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
-import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
-import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
-import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.dialogs.miscellaneous.Preparing
@@ -31,17 +27,13 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Search
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.FragmentHelper.openFragmentLinear
 import app.simple.inure.viewmodels.panels.AllAppsData
 import java.util.*
 
 class Apps : ScopedFragment() {
 
     private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
-    private lateinit var fastScrollerView: FastScrollerView
-    private lateinit var scrollerThumb: FastScrollerThumbView
 
     private lateinit var appsAdapter: AppsAdapterSmall
     private var tracker: SelectionTracker<Long>? = null
@@ -52,8 +44,6 @@ class Apps : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
 
         appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
-        fastScrollerView = view.findViewById(R.id.all_apps_fast_scroller)
-        scrollerThumb = view.findViewById(R.id.all_apps_thumb)
 
         return view
     }
@@ -85,21 +75,6 @@ class Apps : ScopedFragment() {
                     .build()
 
             appsAdapter.tracker = tracker
-
-            kotlin.runCatching {
-                fastScrollerView.setupWithRecyclerView(appsListRecyclerView, { position ->
-                    if (position == VerticalListViewHolder.TYPE_HEADER) {
-                        FastScrollItemIndicator.Icon(R.drawable.ic_header_icon)
-                    } else {
-                        /**
-                         * position - 1 because the 0th position is reserved for header
-                         */
-                        FastScrollItemIndicator.Text(it[position - 1].name.substring(0, 1).toUpperCase(Locale.ROOT))
-                    }
-                })
-
-                scrollerThumb.setupWithFastScroller(fastScrollerView)
-            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -167,9 +142,8 @@ class Apps : ScopedFragment() {
     }
 
     override fun onAppUninstalled(result: Boolean, data: Intent?) {
-        println(data!!.getIntExtra("position", -1))
         if (result) {
-            appsAdapter.notifyItemRemoved(data.getIntExtra("position", -1))
+            appsAdapter.notifyItemRemoved(data!!.getIntExtra("position", -1))
         }
     }
 

@@ -15,6 +15,7 @@ import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
@@ -25,8 +26,9 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.FileSizeHelper.getFileSize
+import java.util.*
 
-class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
     var apps = arrayListOf<ApplicationInfo>()
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
@@ -158,5 +160,9 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>() {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
+    }
+
+    override fun getPopupText(position: Int): String {
+        return apps[position].name.substring(0, 1).toUpperCase(Locale.ROOT)
     }
 }

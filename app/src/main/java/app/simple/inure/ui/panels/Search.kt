@@ -17,14 +17,10 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.killThisApp
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
-import app.simple.inure.decorations.indicatorfastscroll.FastScrollItemIndicator
-import app.simple.inure.decorations.indicatorfastscroll.FastScrollerThumbView
-import app.simple.inure.decorations.indicatorfastscroll.FastScrollerView
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -42,8 +38,6 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var appsAdapterSmall: SearchAdapter
-    private lateinit var fastScrollerView: FastScrollerView
-    private lateinit var scrollerThumb: FastScrollerThumbView
 
     private val searchModel: SearchData by viewModels()
 
@@ -52,8 +46,6 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.search_recycler_view)
-        fastScrollerView = view.findViewById(R.id.all_apps_fast_scroller)
-        scrollerThumb = view.findViewById(R.id.all_apps_thumb)
         appsAdapterSmall = SearchAdapter()
 
         val params = searchView.layoutParams as MarginLayoutParams
@@ -92,19 +84,6 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
             appsAdapterSmall.searchKeyword = searchModel.getSearchKeywords().value!!
 
             recyclerView.adapter = appsAdapterSmall
-
-            if (!fastScrollerView.isSetup) {
-                fastScrollerView.setupWithRecyclerView(recyclerView, { position ->
-                    if (position == VerticalListViewHolder.TYPE_HEADER) {
-                        FastScrollItemIndicator.Icon(R.drawable.ic_search)
-                    } else {
-                        FastScrollItemIndicator.Text(it[position - 1].name.substring(0, 1)
-                                                             .toUpperCase(Locale.ROOT))
-                    }
-                })
-
-                scrollerThumb.setupWithFastScroller(fastScrollerView)
-            }
 
             appsAdapterSmall.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(applicationInfo: ApplicationInfo, icon: ImageView) {
