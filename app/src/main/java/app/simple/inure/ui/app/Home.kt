@@ -1,5 +1,6 @@
 package app.simple.inure.ui.app
 
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,10 +13,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterHomeRecentlyInstalled
+import app.simple.inure.adapters.home.AdapterHomeRecentlyUpdated
 import app.simple.inure.adapters.menus.AdapterHomeMenu
+import app.simple.inure.decorations.popup.PopupLinearLayout
+import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomHorizontalRecyclerView
+import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
@@ -26,6 +32,7 @@ class Home : ScopedFragment() {
 
     private lateinit var navigationRecyclerView: RecyclerView
     private lateinit var recentlyInstalledRecyclerView: CustomHorizontalRecyclerView
+    private lateinit var recentlyUpdatedRecyclerView: CustomHorizontalRecyclerView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
 
@@ -36,6 +43,7 @@ class Home : ScopedFragment() {
 
         navigationRecyclerView = view.findViewById(R.id.home_menu)
         recentlyInstalledRecyclerView = view.findViewById(R.id.recently_installed_recycler_view)
+        recentlyUpdatedRecyclerView = view.findViewById(R.id.recently_updated_recycler_view)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
         return view
@@ -55,10 +63,69 @@ class Home : ScopedFragment() {
                                                 AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
                                                 icon, "app_info")
                 }
+
+                override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
+                    val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
+                                                  packageInfo.applicationInfo, icon, anchor)
+                    popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
+                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                            when (source) {
+                                getString(R.string.app_information) -> {
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
+                                                                icon, "app_info")
+                                }
+                                getString(R.string.send) -> {
+                                    Preparing.newInstance(packageInfo.applicationInfo)
+                                            .show(parentFragmentManager, "send_app")
+                                }
+                            }
+                        }
+                    })
+                }
             })
 
             recentlyInstalledRecyclerView.adapter = adapter
-            recentlyInstalledRecyclerView.scheduleLayoutAnimation()
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+        })
+
+        homeViewModel.getUpdatedApps().observe(viewLifecycleOwner, {
+            postponeEnterTransition()
+
+            val adapter = AdapterHomeRecentlyUpdated(it)
+
+            adapter.setOnRecentAppsClickedListener(object : AdapterHomeRecentlyUpdated.Companion.RecentlyUpdatedAppsCallbacks {
+                override fun onRecentAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
+                                                icon, "app_info")
+                }
+
+                override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
+                    val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
+                                                  packageInfo.applicationInfo, icon, anchor)
+                    popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
+                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                            when (source) {
+                                getString(R.string.app_information) -> {
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
+                                                                icon, "app_info")
+                                }
+                                getString(R.string.send) -> {
+                                    Preparing.newInstance(packageInfo.applicationInfo)
+                                            .show(parentFragmentManager, "send_app")
+                                }
+                            }
+                        }
+                    })
+                }
+            })
+
+            recentlyUpdatedRecyclerView.adapter = adapter
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -79,9 +146,9 @@ class Home : ScopedFragment() {
                     when (source) {
                         getString(R.string.apps) -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                              Apps.newInstance(),
-                                                              icon,
-                                                              "apps")
+                                                        Apps.newInstance(),
+                                                        icon,
+                                                        "apps")
                         }
                         getString(R.string.analytics) -> {
                             FragmentHelper.openFragment(

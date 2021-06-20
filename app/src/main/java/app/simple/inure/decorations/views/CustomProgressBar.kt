@@ -1,0 +1,45 @@
+package app.simple.inure.decorations.views
+
+import android.animation.ValueAnimator
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.ProgressBar
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import app.simple.inure.R
+
+class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : ProgressBar(context, attrs, defStyleAttr) {
+
+    private var valueAnimator: ValueAnimator? = null
+
+    /**
+     * Set progress but with animation for all API levels
+     *
+     * @param progress progress of the seekbar
+     * @param animate animate the progress change
+     * @param fromStart start from the beginning or start from the already progressed value
+     */
+    fun setProgress(progress: Int, animate: Boolean, fromStart: Boolean) {
+        if (animate) {
+            valueAnimator = ValueAnimator.ofInt(if (fromStart) 0 else this.progress, progress)
+            valueAnimator?.interpolator = LinearOutSlowInInterpolator()
+            valueAnimator?.duration = resources.getInteger(R.integer.animation_duration).toLong()
+            valueAnimator?.addUpdateListener { animation -> setProgress(animation.animatedValue as Int) }
+            valueAnimator?.start()
+        } else {
+            setProgress(progress)
+        }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        clearAnimation()
+        valueAnimator?.cancel()
+    }
+
+    override fun clearAnimation() {
+        valueAnimator?.removeAllUpdateListeners()
+        valueAnimator?.cancel()
+        super.clearAnimation()
+    }
+}

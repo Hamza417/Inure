@@ -22,6 +22,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private val recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            loadRecentlyUpdatedAppData()
+        }
+    }
+
     private val menuItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
         MutableLiveData<List<Pair<Int, String>>>().also {
             loadItems()
@@ -30,6 +36,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getRecentApps(): LiveData<ArrayList<PackageInfo>> {
         return recentlyInstalledAppData
+    }
+
+    fun getUpdatedApps(): LiveData<ArrayList<PackageInfo>> {
+        return recentlyUpdatedAppData
     }
 
     fun getMenuItems(): LiveData<List<Pair<Int, String>>> {
@@ -55,6 +65,29 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             recentlyInstalledAppData.postValue(apps)
+        }
+    }
+
+    private fun loadRecentlyUpdatedAppData() {
+        viewModelScope.launch(Dispatchers.Default) {
+            var apps = getApplication<Application>()
+                    .applicationContext.packageManager
+                    .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+
+            apps = apps.stream().filter { p ->
+                p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+
+            for (i in apps.indices) {
+                apps[i].applicationInfo.name =
+                    PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+            }
+
+            apps.sortByDescending {
+                it.lastUpdateTime
+            }
+
+            recentlyUpdatedAppData.postValue(apps)
         }
     }
 

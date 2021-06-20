@@ -65,14 +65,13 @@
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="medium" />
 
-        <ProgressBar
+        <app.simple.inure.decorations.views.CustomProgressBar
             android:id="@+id/analytics_ram_progress_bar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="200dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical|end"
             android:paddingStart="@dimen/analytics_progress_bar_padding_start"
-            android:progress="55"
             android:progressDrawable="@drawable/progress_bar"
             tools:ignore="RtlSymmetry" />
 

@@ -10,13 +10,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAnalytics
@@ -41,9 +41,9 @@ class Analytics : ScopedFragment() {
     private lateinit var totalSystemApps: TypeFaceTextView
     private lateinit var availableSensors: TypeFaceTextView
 
-    private lateinit var ramIndicator: ProgressBar
-    private lateinit var totalUserAppsIndicator: ProgressBar
-    private lateinit var totalSystemAppsIndicator: ProgressBar
+    private lateinit var ramIndicator: CustomProgressBar
+    private lateinit var totalUserAppsIndicator: CustomProgressBar
+    private lateinit var totalSystemAppsIndicator: CustomProgressBar
 
     private lateinit var popup: DynamicRippleImageButton
 
@@ -85,7 +85,7 @@ class Analytics : ScopedFragment() {
 
             popupMenu.setOnPopupMenuCallback(object : PopupMenuCallback {
                 override fun onMenuItemClicked(source: String) {
-                    when(source) {
+                    when (source) {
                         getString(R.string.refresh) -> {
                             setEverything()
                         }
@@ -127,9 +127,9 @@ class Analytics : ScopedFragment() {
                 totalSystemApps.text = StringBuilder().append(systemApp).append("/").append(totalApp)
 
                 totalSystemAppsIndicator.max = totalApp
-                totalSystemAppsIndicator.progress = systemApp
                 totalUserAppsIndicator.max = totalApp
-                totalUserAppsIndicator.progress = userApp
+                totalSystemAppsIndicator.setProgress(systemApp, animate = true, fromStart = false)
+                totalUserAppsIndicator.setProgress(userApp, animate = true, fromStart = false)
             }
         })
     }
@@ -170,11 +170,7 @@ class Analytics : ScopedFragment() {
             }
 
             ramIndicator.max = (available / 1000).toInt()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                ramIndicator.setProgress((used / 1000).toInt(), true)
-            } else {
-                ramIndicator.progress = (used / 1000).toInt()
-            }
+            ramIndicator.setProgress((used / 1000).toInt(), animate = true, fromStart = false)
 
             availableRam.text = available.getFileSize()
             usedRam.text = used.getFileSize()
@@ -187,7 +183,7 @@ class Analytics : ScopedFragment() {
         val mutableList = sensorManager.getSensorList(Sensor.TYPE_ALL)
 
         for (x in mutableList.indices) {
-            if(x == 0) {
+            if (x == 0) {
                 availableSensors.text = mutableList[x].name
             } else {
                 availableSensors.text = java.lang.StringBuilder().append(availableSensors.text).append("\n").append(mutableList[x].name)
@@ -195,9 +191,11 @@ class Analytics : ScopedFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        setRamAnalytics()
+    override fun onDestroy() {
+        super.onDestroy()
+        ramIndicator.clearAnimation()
+        totalSystemAppsIndicator.clearAnimation()
+        totalUserAppsIndicator.clearAnimation()
     }
 
     companion object {

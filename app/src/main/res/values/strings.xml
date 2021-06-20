@@ -220,4 +220,5 @@
     <string name="popups">Popups</string>
     <string name="animations">Animations</string>
     <string name="recently_installed">Recently Installed</string>
+    <string name="recently_updated">Recently Updated</string>
 </resources>
