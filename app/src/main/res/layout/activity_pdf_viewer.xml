@@ -18,7 +18,7 @@
         android:clipToPadding="false"
         android:padding="@dimen/dialog_padding">
 
-        <com.github.barteksc.pdfviewer.PDFView
+        <com.pdfview.PDFView
             android:id="@+id/pdf_viewer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

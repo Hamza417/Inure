@@ -160,6 +160,11 @@ class AppInfo : ScopedFragment() {
                                          Extras.newInstance(applicationInfo),
                                          icon, "extras")
                         }
+                        getString(R.string.dex_classes) -> {
+                            openFragment(requireActivity().supportFragmentManager,
+                                         Dexs.newInstance(applicationInfo),
+                                         icon, "dexs")
+                        }
                     }
                 }
             })

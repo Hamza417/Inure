@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.constants.Quotes
@@ -27,7 +28,7 @@ class TTFAssociationActivity : BaseActivity() {
         fontEditText = findViewById(R.id.ttf_viewer)
         fontName = findViewById(R.id.ttf_name)
 
-        fontName.text = intent.data!!.path
+        fontName.text = DocumentFile.fromSingleUri(this, intent!!.data!!)!!.name
 
         lifecycleScope.launch(Dispatchers.Default) {
             kotlin.runCatching {

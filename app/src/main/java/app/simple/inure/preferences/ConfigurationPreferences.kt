@@ -37,7 +37,7 @@ object ConfigurationPreferences {
     }
 
     fun isXmlViewerTextView(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(isXmlViewerTextView, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(isXmlViewerTextView, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

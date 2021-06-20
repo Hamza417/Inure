@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.webkit.MimeTypeMap
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -32,7 +33,7 @@ class TextAssociationActivity : BaseActivity() {
         path = findViewById(R.id.txt_name)
         close = findViewById(R.id.close)
 
-        path.text = intent.data!!.path
+        path.text = DocumentFile.fromSingleUri(this, intent!!.data!!)!!.name
 
         lifecycleScope.launch(Dispatchers.Default) {
             kotlin.runCatching {

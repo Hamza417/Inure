@@ -95,7 +95,8 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
                 Pair(R.drawable.ic_file_xml, context.getString(R.string.manifest)),
                 Pair(R.drawable.ic_anchor, context.getString(R.string.uses_feature)),
                 Pair(R.drawable.ic_graphics, context.getString(R.string.graphics)),
-                Pair(R.drawable.ic_extras, context.getString(R.string.extras))
+                Pair(R.drawable.ic_extras, context.getString(R.string.extras)),
+                Pair(R.drawable.ic_code, context.getString(R.string.dex_classes))
             )
 
             menuItems.postValue(list)

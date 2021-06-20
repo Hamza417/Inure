@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dex_classes">Dex Classes</string>
+    <string name="public_identifier">Public</string>
+    <string name="private_identifier">Private</string>
+    <string name="protected_identifier">Protected</string>
+    <string name="default_identifier">Default</string>
+    <string name="annotation_identifier">Annotation</string>
+    <string name="interface_identifier">Interface</string>
+    <string name="enum_identifier">Enum</string>
+    <string name="static_identifier">Static</string>
+</resources>

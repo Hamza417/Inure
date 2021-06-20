@@ -9,6 +9,7 @@ import app.simple.inure.viewmodels.panels.InfoPanelMenuData
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 import app.simple.inure.viewmodels.viewers.AppInformationViewModel
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
+import app.simple.inure.viewmodels.viewers.DexDataViewModel
 
 class ApplicationInfoFactory(private val application: Application, private val param: ApplicationInfo)
     : ViewModelProvider.AndroidViewModelFactory(application) {
@@ -30,6 +31,9 @@ class ApplicationInfoFactory(private val application: Application, private val p
             }
             modelClass.isAssignableFrom(CertificatesViewModel::class.java) -> {
                 return CertificatesViewModel(application, param) as T
+            }
+            modelClass.isAssignableFrom(DexDataViewModel::class.java) -> {
+                return DexDataViewModel(application, param) as T
             }
             else -> {
                 /**
