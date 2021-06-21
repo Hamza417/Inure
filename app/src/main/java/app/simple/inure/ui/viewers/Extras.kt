@@ -70,13 +70,17 @@ class Extras : ScopedFragment() {
                                                         CodeViewer.newInstance(applicationInfo, path, path.substring(path.lastIndexOf(".") + 1, path.length)),
                                                         "code_viewer")
                         }
+                        path.endsWith(".md") -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Markdown.newInstance(applicationInfo, path),
+                                                        "md_viewer")
+                        }
                         else -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         TextViewer.newInstance(applicationInfo, path),
                                                         "text_viewer")
                         }
                     }
-
                 }
             })
         })

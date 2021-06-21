@@ -81,7 +81,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.fragment:fragment-ktx:1.3.4'
+    implementation 'androidx.fragment:fragment-ktx:1.3.5'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
@@ -102,7 +102,8 @@ dependencies {
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'com.github.hsiafan:apk-parser:v2.6.10'
     implementation "com.pdfview:pdfview-android:1.0.0"
-    implementation 'com.github.kbiakov:CodeView-Android:1.3.2'
+    implementation 'com.pddstudio:highlightjs-android:1.5.0'
+    implementation 'com.mittsu:markedview:1.0.7@aar'
 
     // root
     def libsuVersion = '3.1.2'
