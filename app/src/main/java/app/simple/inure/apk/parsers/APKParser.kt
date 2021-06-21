@@ -4,6 +4,7 @@ import android.content.pm.ApplicationInfo
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.CertificateParseException
 import app.simple.inure.exceptions.DexClassesNotFoundException
+import app.simple.inure.exceptions.InureXmlParserException
 import app.simple.inure.model.UsesFeatures
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import com.jaredrummler.apkparser.ApkParser
@@ -13,6 +14,7 @@ import com.jaredrummler.apkparser.model.DexInfo
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.DexClass
 import java.io.IOException
+import java.lang.Exception
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
@@ -126,9 +128,17 @@ object APKParser {
      * Fetch the install location of an APK file
      */
     fun ApplicationInfo.getInstallLocation(): String {
-        ApkParser.create(this).use {
-            return it.androidManifest.apkMeta
-                    .installLocation.capitalizeFirstLetter()
+        kotlin.runCatching {
+            ApkParser.create(this).use {
+                return it.androidManifest.apkMeta
+                        .installLocation.capitalizeFirstLetter()
+            }
+        }.onFailure {
+            ApkFile(sourceDir).use {
+                return it.apkMeta.installLocation.capitalizeFirstLetter()
+            }
+        }.getOrElse {
+            throw Exception()
         }
     }
 
@@ -200,8 +210,16 @@ object APKParser {
      * an APK file
      */
     fun ApplicationInfo.getTransBinaryXml(path: String): String {
-        ApkParser.create(this).use {
-            return it.transBinaryXml(path)
+        kotlin.runCatching {
+            ApkParser.create(this).use {
+                return it.transBinaryXml(path)
+            }
+        }.onFailure {
+            ApkFile(sourceDir).use {
+                return it.transBinaryXml(path)
+            }
+        }.getOrElse {
+            throw InureXmlParserException("Couldn't parse XML file for package $packageName")
         }
     }
 
