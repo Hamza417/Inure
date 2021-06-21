@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <ImageView

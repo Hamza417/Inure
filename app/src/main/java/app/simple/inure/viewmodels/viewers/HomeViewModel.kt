@@ -97,9 +97,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
             val list = listOf(
                 Pair(R.drawable.ic_apps, context.getString(R.string.apps)),
-                //Pair(R.drawable.ani_ic_terminal, context.getString(R.string.terminal)),
+                Pair(R.drawable.ic_terminal, context.getString(R.string.terminal)),
                 Pair(R.drawable.ic_analytics, context.getString(R.string.analytics)),
-                //Pair(R.drawable.ic_icon_stats, context.getString(R.string.usage_statistics)),
+                Pair(R.drawable.ic_stats, context.getString(R.string.usage_statistics)),
             )
 
             menuItems.postValue(list)

@@ -25,7 +25,6 @@ import app.simple.inure.util.TypeFace
 
 class Terminal : ScopedFragment() {
 
-    private lateinit var icon: ImageView
     private lateinit var terminalOptions: DynamicRippleImageButton
     private lateinit var terminal: TerminalView
 
@@ -36,10 +35,8 @@ class Terminal : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_terminal, container, false)
 
-        icon = view.findViewById(R.id.terminal_header_icon)
         terminal = view.findViewById(R.id.terminal_view)
         terminalOptions = view.findViewById(R.id.terminal_options_button)
-        //(icon.drawable as AnimatedVectorDrawable).start()
 
         startPostponedEnterTransition()
 

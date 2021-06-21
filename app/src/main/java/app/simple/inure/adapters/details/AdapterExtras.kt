@@ -19,10 +19,15 @@ class AdapterExtras(val list: MutableList<String>) : RecyclerView.Adapter<Adapte
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.xml.text = list[position].optimizeToColoredString(holder.itemView.context, "/")
+        holder.extra.text = list[position].optimizeToColoredString(holder.itemView.context, "/")
 
-        holder.xml.setOnClickListener {
-            extrasCallbacks.onResourceClicked(list[position])
+        holder.extra.setOnClickListener {
+            extrasCallbacks.onExtrasClicked(list[position])
+        }
+
+        holder.extra.setOnLongClickListener {
+            extrasCallbacks.onExtrasLongClicked(list[position])
+            true
         }
     }
 
@@ -35,10 +40,11 @@ class AdapterExtras(val list: MutableList<String>) : RecyclerView.Adapter<Adapte
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val xml: DynamicRippleTextView = itemView.findViewById(R.id.adapter_resources_name)
+        val extra: DynamicRippleTextView = itemView.findViewById(R.id.adapter_resources_name)
     }
 
     interface ExtrasCallbacks {
-        fun onResourceClicked(path: String)
+        fun onExtrasClicked(path: String)
+        fun onExtrasLongClicked(path: String)
     }
 }

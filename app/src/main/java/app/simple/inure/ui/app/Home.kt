@@ -24,6 +24,8 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Search
+import app.simple.inure.ui.panels.Statistics
+import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.viewers.HomeViewModel
@@ -154,6 +156,16 @@ class Home : ScopedFragment() {
                             FragmentHelper.openFragment(
                                 requireActivity().supportFragmentManager,
                                 Analytics.newInstance(), icon, "analytics")
+                        }
+                        getString(R.string.terminal) -> {
+                            FragmentHelper.openFragment(
+                                requireActivity().supportFragmentManager,
+                                Terminal.newInstance(), icon, "terminal")
+                        }
+                        getString(R.string.usage_statistics) -> {
+                            FragmentHelper.openFragment(
+                                requireActivity().supportFragmentManager,
+                                Statistics.newInstance(), icon, "stats")
                         }
                     }
                 }

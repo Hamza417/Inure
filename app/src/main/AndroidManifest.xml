@@ -79,30 +79,6 @@
         </activity>
 
         <activity
-            android:name=".activities.association.XmlAssociationActivity"
-            android:exported="true"
-            android:label="@string/xml_viewer">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="file" />
-                <data android:scheme="content" />
-                <data android:host="*" />
-                <data android:mimeType="text/xml" />
-                <data android:pathPattern=".*\\.xml" />
-                <data android:pathPattern=".*\\..*\\.xml" />
-                <data android:pathPattern=".*\\..*\\..*\\.xml" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.xml" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.xml" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xml" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xml" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".activities.association.PDFAssociationActivity"
             android:exported="true"
             android:label="@string/pdf_viewer">
@@ -149,6 +125,17 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.txt" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.txt" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.txt" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="text/xml" />
+                <data android:pathPattern=".*\\.xml" />
+                <data android:pathPattern=".*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xml" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xml" />
             </intent-filter>
         </activity>
 

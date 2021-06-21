@@ -48,8 +48,7 @@ class Extras : ScopedFragment() {
             total.text = getString(R.string.total, adapterExtras.list.size)
 
             adapterExtras.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
-                override fun onResourceClicked(path: String) {
-                    exitTransition = null
+                override fun onExtrasClicked(path: String) {
                     when {
                         path.endsWith(".ttf") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
@@ -74,6 +73,32 @@ class Extras : ScopedFragment() {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Markdown.newInstance(applicationInfo, path),
                                                         "md_viewer")
+                        }
+                        else -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        TextViewer.newInstance(applicationInfo, path),
+                                                        "text_viewer")
+                        }
+                    }
+                }
+
+                override fun onExtrasLongClicked(path: String) {
+                    when {
+                        path.endsWith(".ttf") -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Font.newInstance(applicationInfo, path),
+                                                        "ttf_viewer")
+                        }
+                        path.endsWith(".html") ||
+                                path.endsWith(".java") ||
+                                path.endsWith(".css") ||
+                                path.endsWith(".json") ||
+                                path.endsWith(".proto") ||
+                                path.endsWith(".js") ||
+                                path.endsWith(".md") -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        TextViewer.newInstance(applicationInfo, path),
+                                                        "text_viewer")
                         }
                         else -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,

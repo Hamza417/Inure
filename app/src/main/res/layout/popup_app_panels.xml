@@ -47,7 +47,7 @@
             android:layout_width="@dimen/panel_icon_size"
             android:layout_height="@dimen/panel_icon_size"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ani_ic_terminal"
+            android:src="@drawable/ic_terminal"
             android:padding="5dp"
             tools:ignore="ContentDescription" />
 
@@ -75,7 +75,7 @@
             android:layout_height="@dimen/panel_icon_size"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
-            android:src="@drawable/ic_icon_stats"
+            android:src="@drawable/ic_stats"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
