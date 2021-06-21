@@ -18,7 +18,6 @@
         android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:padding="10dp"
         android:scrollbars="vertical">
 
         <app.simple.inure.decorations.views.TypeFaceEditText
@@ -28,6 +27,7 @@
             android:textColor="@color/textSecondary"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
+            android:padding="10dp"
             android:textCursorDrawable="@drawable/text_cursor"
             android:inputType="textMultiLine|textNoSuggestions"
             android:background="@android:color/transparent"
