@@ -101,9 +101,9 @@ dependencies {
     implementation 'com.scottyab:rootbeer-lib:0.0.9'
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'com.github.hsiafan:apk-parser:v2.6.10'
-    implementation "com.pdfview:pdfview-android:1.0.0"
     implementation 'com.pddstudio:highlightjs-android:1.5.0'
     implementation 'com.mittsu:markedview:1.0.7@aar'
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
 
     // root
     def libsuVersion = '3.1.2'

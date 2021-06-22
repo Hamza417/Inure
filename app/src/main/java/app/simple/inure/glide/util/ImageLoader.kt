@@ -10,9 +10,9 @@ import app.simple.inure.glide.modules.GlideApp
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.pdfview.subsamplincscaleimageview.ImageSource
-import com.pdfview.subsamplincscaleimageview.ImageViewState
-import com.pdfview.subsamplincscaleimageview.SubsamplingScaleImageView
+import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.ImageViewState
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import org.jetbrains.annotations.NotNull
 
 object ImageLoader {

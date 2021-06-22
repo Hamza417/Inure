@@ -14,10 +14,9 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.util.NullSafety.isNotNull
-import com.pdfview.subsamplincscaleimageview.ImageViewState
-import com.pdfview.subsamplincscaleimageview.SubsamplingScaleImageView
+import com.davemorrissey.labs.subscaleview.ImageViewState
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import org.jetbrains.annotations.NotNull
-
 
 class ImageViewer : ScopedFragment() {
 
@@ -25,7 +24,6 @@ class ImageViewer : ScopedFragment() {
     private lateinit var back: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
     private lateinit var header: PaddingAwareLinearLayout
-    private lateinit var gradient: View
 
     private var isFullScreen = true
 
@@ -36,7 +34,6 @@ class ImageViewer : ScopedFragment() {
         back = view.findViewById(R.id.image_viewer_back_button)
         name = view.findViewById(R.id.image_name)
         header = view.findViewById(R.id.header)
-        gradient = view.findViewById(R.id.gradient)
 
         startPostponedEnterTransition()
 
@@ -49,6 +46,7 @@ class ImageViewer : ScopedFragment() {
 
         image.isPanEnabled = true
         image.isZoomEnabled = true
+        image.maxScale = 1000F
 
         if (savedInstanceState.isNotNull()) {
             image.loadGraphics(requireContext(),
@@ -69,23 +67,21 @@ class ImageViewer : ScopedFragment() {
 
         image.setOnClickListener {
             isFullScreen = if (isFullScreen) {
-                setFullScreen(header.height.toFloat() * -1F, 0F)
+                setFullScreen(header.height.toFloat() * -1F)
                 false
             } else {
-                setFullScreen(0F, 1F)
+                setFullScreen(0F)
                 true
             }
         }
     }
 
-    private fun setFullScreen(translationY: Float, alpha: Float) {
+    private fun setFullScreen(translationY: Float) {
         header.animate().translationY(translationY).setInterpolator(DecelerateInterpolator()).start()
-        gradient.animate().alpha(alpha).setInterpolator(DecelerateInterpolator()).start()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putFloat("translation", header.translationY)
-        outState.putFloat("alpha", gradient.alpha)
         outState.putBoolean("fullscreen", isFullScreen)
         outState.putSerializable("image", image.state)
         super.onSaveInstanceState(outState)
@@ -94,7 +90,7 @@ class ImageViewer : ScopedFragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         if (savedInstanceState.isNotNull()) {
-            setFullScreen(savedInstanceState!!.getFloat("translation"), savedInstanceState.getFloat("alpha"))
+            setFullScreen(savedInstanceState!!.getFloat("translation"))
             isFullScreen = savedInstanceState.getBoolean("fullscreen")
         }
         super.onViewStateRestored(savedInstanceState)

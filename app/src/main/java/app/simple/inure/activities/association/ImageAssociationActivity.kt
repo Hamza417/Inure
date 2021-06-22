@@ -1,18 +1,19 @@
 package app.simple.inure.activities.association
 
 import android.os.Bundle
-import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.documentfile.provider.DocumentFile
+import androidx.exifinterface.media.ExifInterface
 import app.simple.inure.R
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.util.NullSafety.isNotNull
-import com.pdfview.subsamplincscaleimageview.ImageSource
-import com.pdfview.subsamplincscaleimageview.ImageViewState
-import com.pdfview.subsamplincscaleimageview.SubsamplingScaleImageView
+import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.ImageViewState
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import java.io.InputStream
 
 class ImageAssociationActivity : BaseActivity() {
 
@@ -20,7 +21,6 @@ class ImageAssociationActivity : BaseActivity() {
     private lateinit var back: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
     private lateinit var header: PaddingAwareLinearLayout
-    private lateinit var gradient: View
 
     private var isFullScreen = true
 
@@ -32,12 +32,14 @@ class ImageAssociationActivity : BaseActivity() {
         back = findViewById(R.id.image_viewer_back_button)
         name = findViewById(R.id.image_name)
         header = findViewById(R.id.header)
-        gradient = findViewById(R.id.gradient)
 
         image.isPanEnabled = true
         image.isZoomEnabled = true
+        image.maxScale = 100F
+        image.minScale = -100F
+        image.setExifOrientation(contentResolver.openInputStream(intent?.data!!)!!)
 
-        if(savedInstanceState.isNotNull()) {
+        if (savedInstanceState.isNotNull()) {
             image.setImage(ImageSource.uri(intent?.data!!), savedInstanceState!!.getSerializable("image") as ImageViewState)
         } else {
             image.setImage(ImageSource.uri(intent?.data!!))
@@ -47,10 +49,10 @@ class ImageAssociationActivity : BaseActivity() {
 
         image.setOnClickListener {
             isFullScreen = if (isFullScreen) {
-                setFullScreen(header.height.toFloat() * -1F, 0F)
+                setFullScreen(header.height.toFloat() * -1F)
                 false
             } else {
-                setFullScreen(0F, 1F)
+                setFullScreen(0F)
                 true
             }
         }
@@ -60,14 +62,38 @@ class ImageAssociationActivity : BaseActivity() {
         }
     }
 
-    private fun setFullScreen(translationY: Float, alpha: Float) {
-        header.animate().translationY(translationY).setInterpolator(DecelerateInterpolator()).start()
-        gradient.animate().alpha(alpha).setInterpolator(DecelerateInterpolator()).start()
+    private fun setFullScreen(translationY: Float) {
+        header.animate()
+                .translationY(translationY)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+    }
+
+    private fun SubsamplingScaleImageView.setExifOrientation(inputStream: InputStream) {
+        val exifOrientation = ExifInterface(inputStream).getAttributeInt(ExifInterface.TAG_ORIENTATION, 1)
+        orientation = when (exifOrientation) {
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> {
+                scaleX = -1f
+                SubsamplingScaleImageView.ORIENTATION_0
+            }
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                scaleY = -1f
+                SubsamplingScaleImageView.ORIENTATION_0
+            }
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                scaleX = -1f
+                SubsamplingScaleImageView.ORIENTATION_270
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                scaleX = -1f
+                SubsamplingScaleImageView.ORIENTATION_90
+            }
+            else -> SubsamplingScaleImageView.ORIENTATION_USE_EXIF
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putFloat("translation", header.translationY)
-        outState.putFloat("alpha", gradient.alpha)
         outState.putBoolean("fullscreen", isFullScreen)
         outState.putSerializable("image", image.state)
         super.onSaveInstanceState(outState)
@@ -75,7 +101,7 @@ class ImageAssociationActivity : BaseActivity() {
 
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        setFullScreen(savedInstanceState.getFloat("translation"), savedInstanceState.getFloat("alpha"))
+        setFullScreen(savedInstanceState.getFloat("translation"))
         isFullScreen = savedInstanceState.getBoolean("fullscreen")
         super.onRestoreInstanceState(savedInstanceState)
     }

@@ -119,26 +119,6 @@
         </activity>
 
         <activity
-            android:name=".activities.association.PDFAssociationActivity"
-            android:exported="true"
-            android:autoRemoveFromRecents="true"
-            android:clearTaskOnLaunch="true"
-            android:documentLaunchMode="intoExisting"
-            android:label="@string/pdf_viewer">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="file" />
-                <data android:scheme="content" />
-                <data android:host="*" />
-                <data android:mimeType="application/pdf" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".activities.association.TextAssociationActivity"
             android:exported="true"
             android:autoRemoveFromRecents="true"

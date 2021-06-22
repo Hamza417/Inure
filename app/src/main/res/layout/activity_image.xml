@@ -4,28 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="false"
+    android:background="@color/viewerBackground"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:background="@android:color/black">
-
-    <com.pdfview.subsamplincscaleimageview.SubsamplingScaleImageView
-        android:id="@+id/image_viewer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="matrix"
-        tools:ignore="ContentDescription" />
-
-    <View
-        android:id="@+id/gradient"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/gradient_image_viewer"/>
+    android:fitsSystemWindows="false">
 
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/header"
+        android:background="@color/mainBackground"
+        android:elevation="5dp"
         android:padding="@dimen/header_padding">
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -37,7 +26,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back"
             android:transitionName="@string/app_information"
-            app:tint="@android:color/white"
+            app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
@@ -46,10 +35,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_name_text_size"
             app:appFontStyle="bold" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        android:id="@+id/image_viewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="ContentDescription" />
 
 </FrameLayout>
