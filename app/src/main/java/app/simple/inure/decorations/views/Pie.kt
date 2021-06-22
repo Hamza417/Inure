@@ -50,7 +50,7 @@ class Pie @JvmOverloads constructor(context: Context, attrs: AttributeSet? = nul
         fractionalValuePaint.apply {
             isAntiAlias = true
             xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP)
-            color = Color.parseColor("#F4F6F6")
+            color = ContextCompat.getColor(context, R.color.edgeEffect)
             strokeWidth = radius / 4F
             strokeCap = Paint.Cap.ROUND
             style = Paint.Style.STROKE

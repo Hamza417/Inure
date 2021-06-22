@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:background="@android:color/black">
+
+    <com.pdfview.subsamplincscaleimageview.SubsamplingScaleImageView
+        android:id="@+id/image_viewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="matrix"
+        tools:ignore="ContentDescription" />
+
+    <View
+        android:id="@+id/gradient"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/gradient_image_viewer"/>
+
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/header"
+        android:padding="@dimen/header_padding">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/image_viewer_back_button"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_arrow_back"
+            android:transitionName="@string/app_information"
+            app:tint="@android:color/white"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/image_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/header_name_text_size"
+            app:appFontStyle="bold" />
+
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+</FrameLayout>

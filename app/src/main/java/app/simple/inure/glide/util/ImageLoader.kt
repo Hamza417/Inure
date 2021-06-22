@@ -1,13 +1,19 @@
 package app.simple.inure.glide.util
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import app.simple.inure.decorations.views.IconView
 import app.simple.inure.glide.graphics.AppGraphicsModel
 import app.simple.inure.glide.icon.AppIcon
 import app.simple.inure.glide.modules.GlideApp
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.pdfview.subsamplincscaleimageview.ImageSource
+import com.pdfview.subsamplincscaleimageview.ImageViewState
+import com.pdfview.subsamplincscaleimageview.SubsamplingScaleImageView
 import org.jetbrains.annotations.NotNull
-import java.nio.file.Path
 
 object ImageLoader {
     /**
@@ -34,5 +40,43 @@ object ImageLoader {
                 .asBitmap()
                 .load(AppGraphicsModel(path, filePath))
                 .into(this)
+    }
+
+    fun SubsamplingScaleImageView.loadGraphics(context: Context, @NotNull path: String, filePath: String) {
+        Glide.with(context)
+                .asBitmap()
+                .dontTransform()
+                .dontAnimate()
+                .load(AppGraphicsModel(path, filePath))
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        this@loadGraphics.setImage(ImageSource.bitmap(resource).apply {
+                            tilingEnabled()
+                        })
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        /* no-op */
+                    }
+                })
+    }
+
+    fun SubsamplingScaleImageView.loadGraphics(context: Context, @NotNull path: String, filePath: String, state: ImageViewState) {
+        Glide.with(context)
+                .asBitmap()
+                .dontTransform()
+                .dontAnimate()
+                .load(AppGraphicsModel(path, filePath))
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        this@loadGraphics.setImage(ImageSource.bitmap(resource).apply {
+                            tilingEnabled()
+                        }, state)
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        /* no-op */
+                    }
+                })
     }
 }
