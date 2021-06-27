@@ -11,16 +11,15 @@ import app.simple.inure.R
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.util.NullSafety.isNotNull
-import com.davemorrissey.labs.subscaleview.ImageViewState
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import org.jetbrains.annotations.NotNull
 
 class ImageViewer : ScopedFragment() {
 
-    private lateinit var image: SubsamplingScaleImageView
+    private lateinit var image: ZoomImageView
     private lateinit var back: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
     private lateinit var header: PaddingAwareLinearLayout
@@ -44,20 +43,9 @@ class ImageViewer : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        image.isPanEnabled = true
-        image.isZoomEnabled = true
-        image.maxScale = 1000F
-
-        if (savedInstanceState.isNotNull()) {
-            image.loadGraphics(requireContext(),
-                               requireArguments().getString("path_of_apk")!!,
-                               requireArguments().getString("path_of_image")!!,
-                               savedInstanceState!!.getSerializable("image") as ImageViewState)
-        } else {
-            image.loadGraphics(requireContext(),
-                               requireArguments().getString("path_of_apk")!!,
-                               requireArguments().getString("path_of_image")!!)
-        }
+        image.loadGraphics(requireContext(),
+                           requireArguments().getString("path_of_apk")!!,
+                           requireArguments().getString("path_of_image")!!)
 
         name.text = requireArguments().getString("path_of_image")
 
@@ -83,7 +71,6 @@ class ImageViewer : ScopedFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putFloat("translation", header.translationY)
         outState.putBoolean("fullscreen", isFullScreen)
-        outState.putSerializable("image", image.state)
         super.onSaveInstanceState(outState)
     }
 

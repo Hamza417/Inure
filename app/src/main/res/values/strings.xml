@@ -223,4 +223,5 @@
     <string name="recently_updated">Recently Updated</string>
     <string name="dex_error">This apk does not contain any recognizable dex classes data.</string>
     <string name="image_viewer">Image Viewer</string>
+    <string name="audio_player">Audio Player</string>
 </resources>

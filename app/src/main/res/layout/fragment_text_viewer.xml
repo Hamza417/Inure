@@ -18,12 +18,12 @@
         android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:padding="10dp"
         android:scrollbars="vertical">
 
         <app.simple.inure.decorations.views.TypeFaceEditText
             android:id="@+id/text_viewer"
             android:layout_width="match_parent"
-            android:padding="10dp"
             android:layout_height="wrap_content"
             android:textColor="@color/textPrimary"
             android:textIsSelectable="true"

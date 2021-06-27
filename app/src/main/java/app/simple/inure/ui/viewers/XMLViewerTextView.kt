@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,17 +14,16 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView
+import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
-import app.simple.inure.exceptions.StringTooLargeException
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
-import app.simple.inure.util.ViewUtils.makeGoAway
 import app.simple.inure.util.ViewUtils.makeInvisible
 import app.simple.inure.util.ViewUtils.makeVisible
 import app.simple.inure.viewmodels.factory.XmlDataFactory
@@ -38,6 +36,7 @@ class XMLViewerTextView : ScopedFragment() {
     private lateinit var name: TypeFaceTextView
     private lateinit var progress: ProgressBar
     private lateinit var options: DynamicRippleImageButton
+    private lateinit var scrollView: FastScrollNestedScrollView
 
     private lateinit var componentsViewModel: XMLViewerData
     private lateinit var applicationInfoFactory: XmlDataFactory
@@ -67,6 +66,7 @@ class XMLViewerTextView : ScopedFragment() {
         name = view.findViewById(R.id.xml_name)
         progress = view.findViewById(R.id.xml_loader)
         options = view.findViewById(R.id.xml_viewer_options)
+        scrollView = view.findViewById(R.id.xml_nested_scroll_view)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
 
@@ -76,6 +76,8 @@ class XMLViewerTextView : ScopedFragment() {
                                                 requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerData::class.java)
+
+        FastScrollerBuilder(scrollView).useMd2Style().build()
 
         return view
     }

@@ -100,10 +100,10 @@
 
         <activity
             android:name=".activities.association.ImageAssociationActivity"
-            android:exported="true"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:documentLaunchMode="intoExisting"
+            android:exported="true"
             android:label="@string/image_viewer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -119,11 +119,31 @@
         </activity>
 
         <activity
-            android:name=".activities.association.TextAssociationActivity"
-            android:exported="true"
+            android:name=".activities.association.AudioAssociationActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:documentLaunchMode="intoExisting"
+            android:exported="true"
+            android:label="@string/audio_player">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="audio/*" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.association.TextAssociationActivity"
+            android:autoRemoveFromRecents="true"
+            android:clearTaskOnLaunch="true"
+            android:documentLaunchMode="intoExisting"
+            android:exported="true"
             android:label="@string/text_viewer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -147,10 +167,10 @@
 
         <activity
             android:name=".activities.association.TTFAssociationActivity"
-            android:exported="true"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:documentLaunchMode="intoExisting"
+            android:exported="true"
             android:label="@string/ttf_viewer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

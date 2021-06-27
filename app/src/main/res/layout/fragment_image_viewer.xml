@@ -41,7 +41,7 @@
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+    <app.simple.inure.decorations.views.ZoomImageView
         android:id="@+id/image_viewer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

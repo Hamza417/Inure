@@ -103,7 +103,7 @@ dependencies {
     implementation 'com.github.hsiafan:apk-parser:v2.6.10'
     implementation 'com.pddstudio:highlightjs-android:1.5.0'
     implementation 'com.mittsu:markedview:1.0.7@aar'
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
+    implementation 'com.bogdwellers:pinchtozoom:0.1'
 
     // root
     def libsuVersion = '3.1.2'

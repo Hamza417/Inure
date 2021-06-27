@@ -115,7 +115,7 @@ public class FastScrollerBuilder {
     public FastScrollerBuilder useMd2Style() {
         Context context = mView.getContext();
         mTrackDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.afs_md2_track, context.getTheme());
-        mThumbDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.afs_md2_thumb, context.getTheme());
+        mThumbDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_thumb, context.getTheme());
         mPopupStyle = PopupStyles.MD2;
         return this;
     }

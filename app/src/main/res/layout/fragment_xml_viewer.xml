@@ -12,26 +12,25 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-    <androidx.core.widget.NestedScrollView
+    <app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView
         android:id="@+id/xml_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
-        android:clipToPadding="false"
-        android:scrollbars="vertical">
+        android:clipToPadding="false">
 
         <app.simple.inure.decorations.views.TypeFaceEditText
             android:id="@+id/text_viewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:padding="10dp"
             android:textColor="@color/textSecondary"
+            android:textCursorDrawable="@drawable/text_cursor"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
-            android:padding="10dp"
-            android:textCursorDrawable="@drawable/text_cursor"
-            android:inputType="textMultiLine|textNoSuggestions"
-            android:background="@android:color/transparent"
             app:appFontStyle="regular" />
 
-    </androidx.core.widget.NestedScrollView>
+    </app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView>
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
