@@ -25,30 +25,30 @@ namespace android {
 
 // ----------------------------------------------------------------------
 
-class IMediaResourceMonitor : public IInterface {
-public:
-    DECLARE_META_INTERFACE(MediaResourceMonitor)
+    class IMediaResourceMonitor : public IInterface {
+    public:
+        DECLARE_META_INTERFACE(MediaResourceMonitor)
 
-    // Values should be in sync with Intent.EXTRA_MEDIA_RESOURCE_TYPE_XXX.
-    enum {
-        TYPE_VIDEO_CODEC = 0,
-        TYPE_AUDIO_CODEC = 1,
+        // Values should be in sync with Intent.EXTRA_MEDIA_RESOURCE_TYPE_XXX.
+        enum {
+            TYPE_VIDEO_CODEC = 0,
+            TYPE_AUDIO_CODEC = 1,
+        };
+
+        virtual void notifyResourceGranted(/*in*/ int32_t pid, /*in*/ const int32_t type) = 0;
+
+        enum {
+            NOTIFY_RESOURCE_GRANTED = IBinder::FIRST_CALL_TRANSACTION,
+        };
     };
-
-    virtual void notifyResourceGranted(/*in*/ int32_t pid, /*in*/ const int32_t type) = 0;
-
-    enum {
-        NOTIFY_RESOURCE_GRANTED = IBinder::FIRST_CALL_TRANSACTION,
-    };
-};
 
 // ----------------------------------------------------------------------
 
-class BnMediaResourceMonitor : public BnInterface<IMediaResourceMonitor> {
-public:
-    virtual status_t onTransact(uint32_t code, const Parcel& data, Parcel* reply,
-            uint32_t flags = 0);
-};
+    class BnMediaResourceMonitor : public BnInterface<IMediaResourceMonitor> {
+    public:
+        virtual status_t onTransact(uint32_t code, const Parcel &data, Parcel *reply,
+                                    uint32_t flags = 0);
+    };
 
 // ----------------------------------------------------------------------
 

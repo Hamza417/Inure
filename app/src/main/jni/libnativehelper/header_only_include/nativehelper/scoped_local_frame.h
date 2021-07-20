@@ -21,7 +21,7 @@
 
 class ScopedLocalFrame {
 public:
-    explicit ScopedLocalFrame(JNIEnv* env) : mEnv(env) {
+    explicit ScopedLocalFrame(JNIEnv *env) : mEnv(env) {
         mEnv->PushLocalFrame(128);
     }
 
@@ -30,7 +30,7 @@ public:
     }
 
 private:
-    JNIEnv* const mEnv;
+    JNIEnv *const mEnv;
 
     DISALLOW_COPY_AND_ASSIGN(ScopedLocalFrame);
 };

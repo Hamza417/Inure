@@ -2,7 +2,6 @@ package app.simple.inure.decorations.popup;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;

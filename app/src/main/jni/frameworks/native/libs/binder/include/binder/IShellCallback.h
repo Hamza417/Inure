@@ -24,29 +24,27 @@ namespace android {
 
 // ----------------------------------------------------------------------
 
-class IShellCallback : public IInterface
-{
-public:
-    DECLARE_META_INTERFACE(ShellCallback);
+    class IShellCallback : public IInterface {
+    public:
+        DECLARE_META_INTERFACE(ShellCallback);
 
-    virtual int openFile(const String16& path, const String16& seLinuxContext,
-            const String16& mode) = 0;
+        virtual int openFile(const String16 &path, const String16 &seLinuxContext,
+                             const String16 &mode) = 0;
 
-    enum {
-        OP_OPEN_OUTPUT_FILE = IBinder::FIRST_CALL_TRANSACTION
+        enum {
+            OP_OPEN_OUTPUT_FILE = IBinder::FIRST_CALL_TRANSACTION
+        };
     };
-};
 
 // ----------------------------------------------------------------------
 
-class BnShellCallback : public BnInterface<IShellCallback>
-{
-public:
-    virtual status_t    onTransact( uint32_t code,
-                                    const Parcel& data,
-                                    Parcel* reply,
+    class BnShellCallback : public BnInterface<IShellCallback> {
+    public:
+        virtual status_t onTransact(uint32_t code,
+                                    const Parcel &data,
+                                    Parcel *reply,
                                     uint32_t flags = 0);
-};
+    };
 
 // ----------------------------------------------------------------------
 

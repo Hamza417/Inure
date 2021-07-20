@@ -22,7 +22,7 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
                 val entry: ZipEntry? = entries.nextElement()
                 val name: String = entry!!.name
                 if (name == appGraphicsModel.filePath) {
-                    if(name.endsWith(".svg")) {
+                    if (name.endsWith(".svg")) {
                         val bitmap = SVG.getFromInputStream(ZipFile(appGraphicsModel.path).getInputStream(entry)).renderToPicture().toBitmap()
                         val byteArrayOutputStream = ByteArrayOutputStream()
                         bitmap!!.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)

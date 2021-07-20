@@ -29,49 +29,12 @@ public class Slide extends Visibility {
     private static final TimeInterpolator sDecelerate = new DecelerateInterpolator(1.5F);
     private static final TimeInterpolator sAccelerate = new AccelerateInterpolator(1.5F);
     private static final String PROPNAME_SCREEN_POSITION = "android:slide:screenPosition";
-    private CalculateSlide mSlideCalculator = sCalculateBottom;
-    private int mSlideEdge = Gravity.BOTTOM;
-    
-    private interface CalculateSlide {
-        
-        /**
-         * Returns the translation value for view when it goes out of the scene
-         */
-        float getGoneX(ViewGroup sceneRoot, View view);
-        
-        /**
-         * Returns the translation value for view when it goes out of the scene
-         */
-        float getGoneY(ViewGroup sceneRoot, View view);
-    }
-    
-    @RestrictTo (LIBRARY_GROUP_PREFIX)
-    @Retention (RetentionPolicy.SOURCE)
-    @IntDef ({Gravity.LEFT, Gravity.TOP, Gravity.RIGHT, Gravity.BOTTOM, Gravity.START, Gravity.END})
-    public @interface GravityFlag {
-    }
-    
-    private abstract static class CalculateSlideHorizontal implements CalculateSlide {
-        @Override
-        public float getGoneY(ViewGroup sceneRoot, View view) {
-            return view.getTranslationY();
-        }
-    }
-    
-    private abstract static class CalculateSlideVertical implements CalculateSlide {
-        @Override
-        public float getGoneX(ViewGroup sceneRoot, View view) {
-            return view.getTranslationX();
-        }
-    }
-    
     private static final CalculateSlide sCalculateLeft = new CalculateSlideHorizontal() {
         @Override
         public float getGoneX(ViewGroup sceneRoot, View view) {
             return view.getTranslationX() - sceneRoot.getWidth();
         }
     };
-    
     private static final CalculateSlide sCalculateStart = new CalculateSlideHorizontal() {
         @Override
         public float getGoneX(ViewGroup sceneRoot, View view) {
@@ -87,21 +50,18 @@ public class Slide extends Visibility {
             return x;
         }
     };
-    
     private static final CalculateSlide sCalculateTop = new CalculateSlideVertical() {
         @Override
         public float getGoneY(ViewGroup sceneRoot, View view) {
             return view.getTranslationY() - sceneRoot.getHeight();
         }
     };
-    
     private static final CalculateSlide sCalculateRight = new CalculateSlideHorizontal() {
         @Override
         public float getGoneX(ViewGroup sceneRoot, View view) {
             return view.getTranslationX() + sceneRoot.getWidth();
         }
     };
-    
     private static final CalculateSlide sCalculateEnd = new CalculateSlideHorizontal() {
         @Override
         public float getGoneX(ViewGroup sceneRoot, View view) {
@@ -117,13 +77,14 @@ public class Slide extends Visibility {
             return x;
         }
     };
-    
     private static final CalculateSlide sCalculateBottom = new CalculateSlideVertical() {
         @Override
         public float getGoneY(ViewGroup sceneRoot, View view) {
             return view.getTranslationY() + sceneRoot.getHeight();
         }
     };
+    private CalculateSlide mSlideCalculator = sCalculateBottom;
+    private int mSlideEdge = Gravity.BOTTOM;
     
     /**
      * Constructor using the default {@link Gravity#BOTTOM}
@@ -169,6 +130,19 @@ public class Slide extends Visibility {
     }
     
     /**
+     * Returns the edge that Views appear and disappear from.
+     *
+     * @return the edge of the scene to use for Views appearing and disappearing. One of
+     * {@link android.view.Gravity#LEFT}, {@link android.view.Gravity#TOP},
+     * {@link android.view.Gravity#RIGHT}, {@link android.view.Gravity#BOTTOM},
+     * {@link android.view.Gravity#START}, {@link android.view.Gravity#END}.
+     */
+    @GravityFlag
+    public int getSlideEdge() {
+        return mSlideEdge;
+    }
+    
+    /**
      * Change the edge that Views appear and disappear from.
      *
      * @param slideEdge The edge of the scene to use for Views appearing and disappearing. One of
@@ -205,19 +179,6 @@ public class Slide extends Visibility {
         setPropagation(propagation);
     }
     
-    /**
-     * Returns the edge that Views appear and disappear from.
-     *
-     * @return the edge of the scene to use for Views appearing and disappearing. One of
-     * {@link android.view.Gravity#LEFT}, {@link android.view.Gravity#TOP},
-     * {@link android.view.Gravity#RIGHT}, {@link android.view.Gravity#BOTTOM},
-     * {@link android.view.Gravity#START}, {@link android.view.Gravity#END}.
-     */
-    @GravityFlag
-    public int getSlideEdge() {
-        return mSlideEdge;
-    }
-    
     @Override
     public Animator onAppear(ViewGroup sceneRoot, View view,
             TransitionValues startValues, TransitionValues endValues) {
@@ -250,6 +211,39 @@ public class Slide extends Visibility {
         return TranslationAnimationCreator
                 .createAnimation(view, startValues, position[0], position[1],
                         startX, startY, endX, endY, sAccelerate, this);
+    }
+    
+    private interface CalculateSlide {
+        
+        /**
+         * Returns the translation value for view when it goes out of the scene
+         */
+        float getGoneX(ViewGroup sceneRoot, View view);
+        
+        /**
+         * Returns the translation value for view when it goes out of the scene
+         */
+        float getGoneY(ViewGroup sceneRoot, View view);
+    }
+    
+    @RestrictTo (LIBRARY_GROUP_PREFIX)
+    @Retention (RetentionPolicy.SOURCE)
+    @IntDef ({Gravity.LEFT, Gravity.TOP, Gravity.RIGHT, Gravity.BOTTOM, Gravity.START, Gravity.END})
+    public @interface GravityFlag {
+    }
+    
+    private abstract static class CalculateSlideHorizontal implements CalculateSlide {
+        @Override
+        public float getGoneY(ViewGroup sceneRoot, View view) {
+            return view.getTranslationY();
+        }
+    }
+    
+    private abstract static class CalculateSlideVertical implements CalculateSlide {
+        @Override
+        public float getGoneX(ViewGroup sceneRoot, View view) {
+            return view.getTranslationX();
+        }
     }
     
 }

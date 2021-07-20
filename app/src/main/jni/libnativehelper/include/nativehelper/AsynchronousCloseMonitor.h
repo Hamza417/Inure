@@ -43,7 +43,9 @@
 class AsynchronousCloseMonitor {
 public:
     explicit AsynchronousCloseMonitor(int fd);
+
     ~AsynchronousCloseMonitor();
+
     bool wasSignaled() const;
 
     static void init();
@@ -51,15 +53,16 @@ public:
     static void signalBlockedThreads(int fd);
 
 private:
-    AsynchronousCloseMonitor* mPrev;
-    AsynchronousCloseMonitor* mNext;
+    AsynchronousCloseMonitor *mPrev;
+    AsynchronousCloseMonitor *mNext;
     pthread_t mThread;
     int mFd;
     bool mSignaled;
 
     // Disallow copy and assignment.
-    AsynchronousCloseMonitor(const AsynchronousCloseMonitor&);
-    void operator=(const AsynchronousCloseMonitor&);
+    AsynchronousCloseMonitor(const AsynchronousCloseMonitor &);
+
+    void operator=(const AsynchronousCloseMonitor &);
 };
 
 #endif  // ASYNCHRONOUS_CLOSE_MONITOR_H_included

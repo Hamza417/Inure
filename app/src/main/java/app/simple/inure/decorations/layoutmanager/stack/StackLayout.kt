@@ -2,9 +2,11 @@ package app.simple.inure.decorations.layoutmanager.stack
 
 import android.view.View
 
-abstract class StackLayout(scrollOrientation: StackLayoutManager.ScrollOrientation,
-                           visibleCount: Int,
-                           perItemOffset: Int) {
+abstract class StackLayout(
+        scrollOrientation: StackLayoutManager.ScrollOrientation,
+        visibleCount: Int,
+        perItemOffset: Int,
+) {
 
     protected val mScrollOrientation = scrollOrientation
     protected var mVisibleCount = visibleCount
@@ -24,11 +26,13 @@ abstract class StackLayout(scrollOrientation: StackLayoutManager.ScrollOrientati
      * @param itemView The current itemView.
      * @param position The position corresponding to the current itemView, position = 0 until visibleCount.
      */
-    abstract fun doLayout(stackLayoutManager: StackLayoutManager,
-                          scrollOffset: Int,
-                          firstMovePercent: Float,
-                          itemView: View,
-                          position: Int)
+    abstract fun doLayout(
+            stackLayoutManager: StackLayoutManager,
+            scrollOffset: Int,
+            firstMovePercent: Float,
+            itemView: View,
+            position: Int,
+    )
 
     abstract fun requestLayout()
 }

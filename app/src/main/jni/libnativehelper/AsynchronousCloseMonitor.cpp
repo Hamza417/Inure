@@ -34,7 +34,7 @@
  * question). For now at least, this seems like a good compromise for Android.
  */
 static std::mutex blockedThreadListMutex;
-static AsynchronousCloseMonitor* blockedThreadList = NULL;
+static AsynchronousCloseMonitor *blockedThreadList = NULL;
 
 /**
  * The specific signal chosen here is arbitrary, but bionic needs to know so that SIGRTMIN
@@ -61,8 +61,8 @@ void AsynchronousCloseMonitor::init() {
 }
 
 void AsynchronousCloseMonitor::signalBlockedThreads(int fd) {
-    std::lock_guard<std::mutex> lock(blockedThreadListMutex);
-    for (AsynchronousCloseMonitor* it = blockedThreadList; it != NULL; it = it->mNext) {
+    std::lock_guard <std::mutex> lock(blockedThreadListMutex);
+    for (AsynchronousCloseMonitor *it = blockedThreadList; it != NULL; it = it->mNext) {
         if (it->mFd == fd) {
             it->mSignaled = true;
             pthread_kill(it->mThread, BLOCKED_THREAD_SIGNAL);
@@ -76,7 +76,7 @@ bool AsynchronousCloseMonitor::wasSignaled() const {
 }
 
 AsynchronousCloseMonitor::AsynchronousCloseMonitor(int fd) {
-    std::lock_guard<std::mutex> lock(blockedThreadListMutex);
+    std::lock_guard <std::mutex> lock(blockedThreadListMutex);
     // Who are we, and what are we waiting for?
     mThread = pthread_self();
     mFd = fd;
@@ -91,7 +91,7 @@ AsynchronousCloseMonitor::AsynchronousCloseMonitor(int fd) {
 }
 
 AsynchronousCloseMonitor::~AsynchronousCloseMonitor() {
-    std::lock_guard<std::mutex> lock(blockedThreadListMutex);
+    std::lock_guard <std::mutex> lock(blockedThreadListMutex);
     // Unlink ourselves from the intrusive doubly-linked list...
     if (mNext != NULL) {
         mNext->mPrev = mPrev;

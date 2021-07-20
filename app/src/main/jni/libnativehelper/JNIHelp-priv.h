@@ -19,7 +19,7 @@
 
 namespace android {
 
-void ClearJNIHelpLocalCache();
+    void ClearJNIHelpLocalCache();
 
 }  // namespace android
 

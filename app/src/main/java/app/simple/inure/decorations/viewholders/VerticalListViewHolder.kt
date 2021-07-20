@@ -4,7 +4,6 @@ import android.view.View
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.RecyclerView
-import app.simple.inure.preferences.AppearancePreferences
 
 open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var currentVelocity = 0f
@@ -16,27 +15,27 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
      * The animation is started in [RecyclerView.addOnScrollListener].
      */
     val rotation: SpringAnimation = SpringAnimation(itemView, SpringAnimation.ROTATION)
-        .setSpring(
-            SpringForce()
-                .setFinalPosition(0f)
-                .setDampingRatio(bouncyValue)
-                .setStiffness(stiffnessValue)
-        )
-        .addUpdateListener { _, _, velocity ->
-            currentVelocity = velocity
-        }
+            .setSpring(
+                SpringForce()
+                        .setFinalPosition(0f)
+                        .setDampingRatio(bouncyValue)
+                        .setStiffness(stiffnessValue)
+            )
+            .addUpdateListener { _, _, velocity ->
+                currentVelocity = velocity
+            }
 
     /**
      * A [SpringAnimation] for this RecyclerView item. This animation is used to bring the item back
      * after the over-scroll effect.
      */
     val translationY: SpringAnimation = SpringAnimation(itemView, SpringAnimation.TRANSLATION_Y)
-        .setSpring(
-            SpringForce()
-                .setFinalPosition(0f)
-                .setDampingRatio(bouncyValue)
-                .setStiffness(stiffnessValue)
-        )
+            .setSpring(
+                SpringForce()
+                        .setFinalPosition(0f)
+                        .setDampingRatio(bouncyValue)
+                        .setStiffness(stiffnessValue)
+            )
 
     companion object {
         const val bouncyValue = SpringForce.DAMPING_RATIO_NO_BOUNCY

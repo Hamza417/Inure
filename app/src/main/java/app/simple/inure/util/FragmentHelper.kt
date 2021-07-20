@@ -5,9 +5,7 @@ import android.widget.ImageView
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.transition.Fade
 import app.simple.inure.R
-import app.simple.inure.decorations.transitions.DetailsTransition
 import app.simple.inure.extension.fragments.ScopedFragment
 import org.jetbrains.annotations.NotNull
 

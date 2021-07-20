@@ -27,58 +27,58 @@
 /*
  * Declare a concrete type for the NDK's AInputQueue forward declaration
  */
-struct AInputQueue{
+struct AInputQueue {
 };
 
 namespace android {
 
-class InputQueue : public AInputQueue, public MessageHandler {
-public:
-    virtual ~InputQueue();
+    class InputQueue : public AInputQueue, public MessageHandler {
+    public:
+        virtual ~InputQueue();
 
-    void attachLooper(Looper* looper, int ident, ALooper_callbackFunc callback, void* data);
+        void attachLooper(Looper *looper, int ident, ALooper_callbackFunc callback, void *data);
 
-    void detachLooper();
+        void detachLooper();
 
-    bool hasEvents();
+        bool hasEvents();
 
-    status_t getEvent(InputEvent** outEvent);
+        status_t getEvent(InputEvent **outEvent);
 
-    bool preDispatchEvent(InputEvent* event);
+        bool preDispatchEvent(InputEvent *event);
 
-    void finishEvent(InputEvent* event, bool handled);
+        void finishEvent(InputEvent *event, bool handled);
 
-    KeyEvent* createKeyEvent();
+        KeyEvent *createKeyEvent();
 
-    MotionEvent* createMotionEvent();
+        MotionEvent *createMotionEvent();
 
-    void recycleInputEvent(InputEvent* event);
+        void recycleInputEvent(InputEvent *event);
 
-    void enqueueEvent(InputEvent* event);
+        void enqueueEvent(InputEvent *event);
 
-    static InputQueue* createQueue(jobject inputQueueObj, const sp<Looper>& looper);
+        static InputQueue *createQueue(jobject inputQueueObj, const sp <Looper> &looper);
 
-protected:
-    virtual void handleMessage(const Message& message);
+    protected:
+        virtual void handleMessage(const Message &message);
 
-private:
-    InputQueue(jobject inputQueueObj, const sp<Looper>& looper,
-            int readDispatchFd, int writeDispatchFd);
+    private:
+        InputQueue(jobject inputQueueObj, const sp <Looper> &looper,
+                   int readDispatchFd, int writeDispatchFd);
 
-    void detachLooperLocked();
+        void detachLooperLocked();
 
-    jobject mInputQueueWeakGlobal;
-    int mDispatchReadFd;
-    int mDispatchWriteFd;
-    Vector<Looper*> mAppLoopers;
-    sp<Looper> mDispatchLooper;
-    sp<WeakMessageHandler> mHandler;
-    PooledInputEventFactory mPooledInputEventFactory;
-    // Guards the pending and finished event vectors
-    mutable Mutex mLock;
-    Vector<InputEvent*> mPendingEvents;
-    Vector<key_value_pair_t<InputEvent*, bool> > mFinishedEvents;
-};
+        jobject mInputQueueWeakGlobal;
+        int mDispatchReadFd;
+        int mDispatchWriteFd;
+        Vector<Looper *> mAppLoopers;
+        sp <Looper> mDispatchLooper;
+        sp <WeakMessageHandler> mHandler;
+        PooledInputEventFactory mPooledInputEventFactory;
+        // Guards the pending and finished event vectors
+        mutable Mutex mLock;
+        Vector<InputEvent *> mPendingEvents;
+        Vector <key_value_pair_t<InputEvent *, bool>> mFinishedEvents;
+    };
 
 } // namespace android
 

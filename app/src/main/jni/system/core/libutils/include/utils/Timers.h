@@ -35,44 +35,38 @@ extern "C" {
 
 typedef int64_t nsecs_t;       // nano-seconds
 
-static CONSTEXPR inline nsecs_t seconds_to_nanoseconds(nsecs_t secs)
-{
-    return secs*1000000000;
+static CONSTEXPR inline nsecs_t seconds_to_nanoseconds(nsecs_t secs) {
+    return secs * 1000000000;
 }
 
-static CONSTEXPR inline nsecs_t milliseconds_to_nanoseconds(nsecs_t secs)
-{
-    return secs*1000000;
+static CONSTEXPR inline nsecs_t milliseconds_to_nanoseconds(nsecs_t secs) {
+    return secs * 1000000;
 }
 
-static CONSTEXPR inline nsecs_t microseconds_to_nanoseconds(nsecs_t secs)
-{
-    return secs*1000;
+static CONSTEXPR inline nsecs_t microseconds_to_nanoseconds(nsecs_t secs) {
+    return secs * 1000;
 }
 
-static CONSTEXPR inline nsecs_t nanoseconds_to_seconds(nsecs_t secs)
-{
-    return secs/1000000000;
+static CONSTEXPR inline nsecs_t nanoseconds_to_seconds(nsecs_t secs) {
+    return secs / 1000000000;
 }
 
-static CONSTEXPR inline nsecs_t nanoseconds_to_milliseconds(nsecs_t secs)
-{
-    return secs/1000000;
+static CONSTEXPR inline nsecs_t nanoseconds_to_milliseconds(nsecs_t secs) {
+    return secs / 1000000;
 }
 
-static CONSTEXPR inline nsecs_t nanoseconds_to_microseconds(nsecs_t secs)
-{
-    return secs/1000;
+static CONSTEXPR inline nsecs_t nanoseconds_to_microseconds(nsecs_t secs) {
+    return secs / 1000;
 }
 
-static CONSTEXPR inline nsecs_t s2ns(nsecs_t v)  {return seconds_to_nanoseconds(v);}
-static CONSTEXPR inline nsecs_t ms2ns(nsecs_t v) {return milliseconds_to_nanoseconds(v);}
-static CONSTEXPR inline nsecs_t us2ns(nsecs_t v) {return microseconds_to_nanoseconds(v);}
-static CONSTEXPR inline nsecs_t ns2s(nsecs_t v)  {return nanoseconds_to_seconds(v);}
-static CONSTEXPR inline nsecs_t ns2ms(nsecs_t v) {return nanoseconds_to_milliseconds(v);}
-static CONSTEXPR inline nsecs_t ns2us(nsecs_t v) {return nanoseconds_to_microseconds(v);}
+static CONSTEXPR inline nsecs_t s2ns(nsecs_t v) { return seconds_to_nanoseconds(v); }
+static CONSTEXPR inline nsecs_t ms2ns(nsecs_t v) { return milliseconds_to_nanoseconds(v); }
+static CONSTEXPR inline nsecs_t us2ns(nsecs_t v) { return microseconds_to_nanoseconds(v); }
+static CONSTEXPR inline nsecs_t ns2s(nsecs_t v) { return nanoseconds_to_seconds(v); }
+static CONSTEXPR inline nsecs_t ns2ms(nsecs_t v) { return nanoseconds_to_milliseconds(v); }
+static CONSTEXPR inline nsecs_t ns2us(nsecs_t v) { return nanoseconds_to_microseconds(v); }
 
-static CONSTEXPR inline nsecs_t seconds(nsecs_t v)      { return s2ns(v); }
+static CONSTEXPR inline nsecs_t seconds(nsecs_t v) { return s2ns(v); }
 static CONSTEXPR inline nsecs_t milliseconds(nsecs_t v) { return ms2ns(v); }
 static CONSTEXPR inline nsecs_t microseconds(nsecs_t v) { return us2ns(v); }
 

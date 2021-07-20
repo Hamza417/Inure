@@ -3,7 +3,6 @@ package app.simple.inure.decorations.ripple;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.RippleDrawable;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import app.simple.inure.R;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.util.ColorUtils;
-import app.simple.inure.util.ViewUtils;
 
 public class DynamicRippleConstraintLayout extends ConstraintLayout {
     
@@ -45,7 +43,7 @@ public class DynamicRippleConstraintLayout extends ConstraintLayout {
             setBackgroundTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.changeAlpha(
                     ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent),
                     25)));
-    
+            
             LayoutBackground.setBackground(getContext(), this, null);
         }
         else {

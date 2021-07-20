@@ -9,6 +9,9 @@ import androidx.annotation.Nullable;
 
 class AnimatorUtils {
     
+    private AnimatorUtils() {
+    }
+    
     static void addPauseListener(@NonNull Animator animator,
             @NonNull AnimatorListenerAdapter listener) {
         animator.addPauseListener(listener);
@@ -20,22 +23,6 @@ class AnimatorUtils {
     
     static void resume(@NonNull Animator animator) {
         animator.resume();
-    }
-    
-    /**
-     * Listeners can implement this interface in addition to the platform AnimatorPauseListener to
-     * make them compatible with API level 18 and below. Animators will not be paused or resumed,
-     * but the callbacks here are invoked.
-     */
-    interface AnimatorPauseListenerCompat {
-        
-        void onAnimationPause(Animator animation);
-        
-        void onAnimationResume(Animator animation);
-        
-    }
-    
-    private AnimatorUtils() {
     }
     
     /**
@@ -54,6 +41,19 @@ class AnimatorUtils {
             animatorSet.playTogether(animator1, animator2);
             return animatorSet;
         }
+    }
+    
+    /**
+     * Listeners can implement this interface in addition to the platform AnimatorPauseListener to
+     * make them compatible with API level 18 and below. Animators will not be paused or resumed,
+     * but the callbacks here are invoked.
+     */
+    interface AnimatorPauseListenerCompat {
+        
+        void onAnimationPause(Animator animation);
+        
+        void onAnimationResume(Animator animation);
+        
     }
 }
 

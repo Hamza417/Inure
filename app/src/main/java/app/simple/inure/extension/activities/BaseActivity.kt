@@ -1,10 +1,8 @@
 package app.simple.inure.extension.activities
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import app.simple.inure.R

@@ -48,6 +48,7 @@ class Home : ScopedFragment() {
         recentlyUpdatedRecyclerView = view.findViewById(R.id.recently_updated_recycler_view)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
+
         return view
     }
 

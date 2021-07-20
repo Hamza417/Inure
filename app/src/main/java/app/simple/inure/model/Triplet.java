@@ -1,6 +1,6 @@
 package app.simple.inure.model;
 
-public class Triplet<T, U, V> {
+public class Triplet <T, U, V> {
     private final T first;
     private final U second;
     private final V third;
@@ -11,7 +11,15 @@ public class Triplet<T, U, V> {
         this.third = third;
     }
     
-    public T getFirst() { return first; }
-    public U getSecond() { return second; }
-    public V getThird() { return third; }
+    public T getFirst() {
+        return first;
+    }
+    
+    public U getSecond() {
+        return second;
+    }
+    
+    public V getThird() {
+        return third;
+    }
 }

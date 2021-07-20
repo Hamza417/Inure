@@ -154,7 +154,7 @@ class Setup : ScopedFragment() {
     }
 
     private fun setStorageStatus() {
-        if(requireActivity().contentResolver.persistedUriPermissions.isNotEmpty()) {
+        if (requireActivity().contentResolver.persistedUriPermissions.isNotEmpty()) {
             storageStatus.text = getString(R.string.granted)
             storageStatus.setTextColor(requireContext().resolveAttrColor(R.attr.colorAppAccent))
             storageAccess.isClickable = false

@@ -30,36 +30,35 @@
 // ---------------------------------------------------------------------------
 namespace android {
 
-template<typename SERVICE>
-class BinderService
-{
-public:
-    static status_t publish(bool allowIsolated = false,
-                            int dumpFlags = IServiceManager::DUMP_FLAG_PRIORITY_DEFAULT) {
-        sp<IServiceManager> sm(defaultServiceManager());
-        return sm->addService(String16(SERVICE::getServiceName()), new SERVICE(), allowIsolated,
-                              dumpFlags);
-    }
+    template<typename SERVICE>
+    class BinderService {
+    public:
+        static status_t publish(bool allowIsolated = false,
+                                int dumpFlags = IServiceManager::DUMP_FLAG_PRIORITY_DEFAULT) {
+            sp <IServiceManager> sm(defaultServiceManager());
+            return sm->addService(String16(SERVICE::getServiceName()), new SERVICE(), allowIsolated,
+                                  dumpFlags);
+        }
 
-    static void publishAndJoinThreadPool(
-            bool allowIsolated = false,
-            int dumpFlags = IServiceManager::DUMP_FLAG_PRIORITY_DEFAULT) {
-        publish(allowIsolated, dumpFlags);
-        joinThreadPool();
-    }
+        static void publishAndJoinThreadPool(
+                bool allowIsolated = false,
+                int dumpFlags = IServiceManager::DUMP_FLAG_PRIORITY_DEFAULT) {
+            publish(allowIsolated, dumpFlags);
+            joinThreadPool();
+        }
 
-    static void instantiate() { publish(); }
+        static void instantiate() { publish(); }
 
-    static status_t shutdown() { return NO_ERROR; }
+        static status_t shutdown() { return NO_ERROR; }
 
-private:
-    static void joinThreadPool() {
-        sp<ProcessState> ps(ProcessState::self());
-        ps->startThreadPool();
-        ps->giveThreadPoolName();
-        IPCThreadState::self()->joinThreadPool();
-    }
-};
+    private:
+        static void joinThreadPool() {
+            sp <ProcessState> ps(ProcessState::self());
+            ps->startThreadPool();
+            ps->giveThreadPoolName();
+            IPCThreadState::self()->joinThreadPool();
+        }
+    };
 
 
 }; // namespace android

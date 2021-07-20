@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.Pie
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
-import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.util.FileSizeHelper.getDirectorySize
 import app.simple.inure.util.FileSizeHelper.getFileSize
 import app.simple.inure.util.NullSafety.isNotNull

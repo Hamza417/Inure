@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.menus.AdapterMenu
+import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
+import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -28,9 +31,6 @@ import app.simple.inure.popups.app.PopupSure
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
-import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
-import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
 
@@ -205,7 +205,7 @@ class AppInfo : ScopedFragment() {
                                     }
                                 })
                             } else {
-                                if(ConfigurationPreferences.isUsingRoot()) {
+                                if (ConfigurationPreferences.isUsingRoot()) {
                                     val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
                                     popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
                                         override fun onMenuItemClicked(source: String) {
@@ -254,11 +254,13 @@ class AppInfo : ScopedFragment() {
                                 override fun onMenuItemClicked(source: String) {
                                     when (source) {
                                         getString(R.string.yes) -> {
-                                            ShellExecutorDialog.newInstance("rm -r -v /data/data/${applicationInfo.packageName}/cache " +
-                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/app_cache " +
-                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/app_texture " +
-                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/app_webview " +
-                                                                                    "& rm -r -v /data/data/${applicationInfo.packageName}/code_cache",)
+                                            ShellExecutorDialog.newInstance(
+                                                "rm -r -v /data/data/${applicationInfo.packageName}/cache " +
+                                                        "& rm -r -v /data/data/${applicationInfo.packageName}/app_cache " +
+                                                        "& rm -r -v /data/data/${applicationInfo.packageName}/app_texture " +
+                                                        "& rm -r -v /data/data/${applicationInfo.packageName}/app_webview " +
+                                                        "& rm -r -v /data/data/${applicationInfo.packageName}/code_cache",
+                                            )
                                                     .show(parentFragmentManager, "shell_executor")
                                         }
                                     }
@@ -288,7 +290,7 @@ class AppInfo : ScopedFragment() {
 
                                             f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                                 override fun onCommandExecuted(result: String) {
-                                                    if(result.contains("disabled")) {
+                                                    if (result.contains("disabled")) {
                                                         componentsViewModel.loadOptions()
                                                     }
                                                 }
@@ -305,7 +307,7 @@ class AppInfo : ScopedFragment() {
 
                             f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                 override fun onCommandExecuted(result: String) {
-                                    if(result.contains("enabled")) {
+                                    if (result.contains("enabled")) {
                                         componentsViewModel.loadOptions()
                                     }
                                 }

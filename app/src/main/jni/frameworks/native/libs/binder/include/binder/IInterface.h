@@ -24,50 +24,50 @@ namespace android {
 
 // ----------------------------------------------------------------------
 
-class IInterface : public virtual RefBase
-{
-public:
-            IInterface();
-            static sp<IBinder>  asBinder(const IInterface*);
-            static sp<IBinder>  asBinder(const sp<IInterface>&);
+    class IInterface : public virtual RefBase {
+    public:
+        IInterface();
 
-protected:
-    virtual                     ~IInterface();
-    virtual IBinder*            onAsBinder() = 0;
-};
+        static sp <IBinder> asBinder(const IInterface *);
 
-// ----------------------------------------------------------------------
+        static sp <IBinder> asBinder(const sp <IInterface> &);
 
-template<typename INTERFACE>
-inline sp<INTERFACE> interface_cast(const sp<IBinder>& obj)
-{
-    return INTERFACE::asInterface(obj);
-}
+    protected:
+        virtual                     ~IInterface();
+
+        virtual IBinder *onAsBinder() = 0;
+    };
 
 // ----------------------------------------------------------------------
 
-template<typename INTERFACE>
-class BnInterface : public INTERFACE, public BBinder
-{
-public:
-    virtual sp<IInterface>      queryLocalInterface(const String16& _descriptor);
-    virtual const String16&     getInterfaceDescriptor() const;
-
-protected:
-    virtual IBinder*            onAsBinder();
-};
+    template<typename INTERFACE>
+    inline sp <INTERFACE> interface_cast(const sp <IBinder> &obj) {
+        return INTERFACE::asInterface(obj);
+    }
 
 // ----------------------------------------------------------------------
 
-template<typename INTERFACE>
-class BpInterface : public INTERFACE, public BpRefBase
-{
-public:
-    explicit                    BpInterface(const sp<IBinder>& remote);
+    template<typename INTERFACE>
+    class BnInterface : public INTERFACE, public BBinder {
+    public:
+        virtual sp <IInterface> queryLocalInterface(const String16 &_descriptor);
 
-protected:
-    virtual IBinder*            onAsBinder();
-};
+        virtual const String16 &getInterfaceDescriptor() const;
+
+    protected:
+        virtual IBinder *onAsBinder();
+    };
+
+// ----------------------------------------------------------------------
+
+    template<typename INTERFACE>
+    class BpInterface : public INTERFACE, public BpRefBase {
+    public:
+        explicit BpInterface(const sp <IBinder> &remote);
+
+    protected:
+        virtual IBinder *onAsBinder();
+    };
 
 // ----------------------------------------------------------------------
 
@@ -111,38 +111,33 @@ protected:
 // ----------------------------------------------------------------------
 // No user-serviceable parts after this...
 
-template<typename INTERFACE>
-inline sp<IInterface> BnInterface<INTERFACE>::queryLocalInterface(
-        const String16& _descriptor)
-{
-    if (_descriptor == INTERFACE::descriptor) return this;
-    return NULL;
-}
+    template<typename INTERFACE>
+    inline sp <IInterface> BnInterface<INTERFACE>::queryLocalInterface(
+            const String16 &_descriptor) {
+        if (_descriptor == INTERFACE::descriptor) return this;
+        return NULL;
+    }
 
-template<typename INTERFACE>
-inline const String16& BnInterface<INTERFACE>::getInterfaceDescriptor() const
-{
-    return INTERFACE::getInterfaceDescriptor();
-}
+    template<typename INTERFACE>
+    inline const String16 &BnInterface<INTERFACE>::getInterfaceDescriptor() const {
+        return INTERFACE::getInterfaceDescriptor();
+    }
 
-template<typename INTERFACE>
-IBinder* BnInterface<INTERFACE>::onAsBinder()
-{
-    return this;
-}
+    template<typename INTERFACE>
+    IBinder *BnInterface<INTERFACE>::onAsBinder() {
+        return this;
+    }
 
-template<typename INTERFACE>
-inline BpInterface<INTERFACE>::BpInterface(const sp<IBinder>& remote)
-    : BpRefBase(remote)
-{
-}
+    template<typename INTERFACE>
+    inline BpInterface<INTERFACE>::BpInterface(const sp <IBinder> &remote)
+            : BpRefBase(remote) {
+    }
 
-template<typename INTERFACE>
-inline IBinder* BpInterface<INTERFACE>::onAsBinder()
-{
-    return remote();
-}
-    
+    template<typename INTERFACE>
+    inline IBinder *BpInterface<INTERFACE>::onAsBinder() {
+        return remote();
+    }
+
 // ----------------------------------------------------------------------
 
 }; // namespace android

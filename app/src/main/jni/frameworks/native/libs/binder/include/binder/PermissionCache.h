@@ -40,41 +40,43 @@ namespace android {
  *
  */
 
-class PermissionCache : Singleton<PermissionCache> {
-    struct Entry {
-        String16    name;
-        uid_t       uid;
-        bool        granted;
-        inline bool operator < (const Entry& e) const {
-            return (uid == e.uid) ? (name < e.name) : (uid < e.uid);
-        }
+    class PermissionCache : Singleton<PermissionCache> {
+        struct Entry {
+            String16 name;
+            uid_t uid;
+            bool granted;
+
+            inline bool operator<(const Entry &e) const {
+                return (uid == e.uid) ? (name < e.name) : (uid < e.uid);
+            }
+        };
+
+        mutable Mutex mLock;
+        // we pool all the permission names we see, as many permissions checks
+        // will have identical names
+        SortedVector <String16> mPermissionNamesPool;
+        // this is our cache per say. it stores pooled names.
+        SortedVector <Entry> mCache;
+
+        // free the whole cache, but keep the permission name pool
+        void purge();
+
+        status_t check(bool *granted,
+                       const String16 &permission, uid_t uid) const;
+
+        void cache(const String16 &permission, uid_t uid, bool granted);
+
+    public:
+        PermissionCache();
+
+        static bool checkCallingPermission(const String16 &permission);
+
+        static bool checkCallingPermission(const String16 &permission,
+                                           int32_t *outPid, int32_t *outUid);
+
+        static bool checkPermission(const String16 &permission,
+                                    pid_t pid, uid_t uid);
     };
-    mutable Mutex mLock;
-    // we pool all the permission names we see, as many permissions checks
-    // will have identical names
-    SortedVector< String16 > mPermissionNamesPool;
-    // this is our cache per say. it stores pooled names.
-    SortedVector< Entry > mCache;
-
-    // free the whole cache, but keep the permission name pool
-    void purge();
-
-    status_t check(bool* granted,
-            const String16& permission, uid_t uid) const;
-
-    void cache(const String16& permission, uid_t uid, bool granted);
-
-public:
-    PermissionCache();
-
-    static bool checkCallingPermission(const String16& permission);
-
-    static bool checkCallingPermission(const String16& permission,
-                                int32_t* outPid, int32_t* outUid);
-
-    static bool checkPermission(const String16& permission,
-            pid_t pid, uid_t uid);
-};
 
 // ---------------------------------------------------------------------------
 }; // namespace android

@@ -27,23 +27,26 @@ namespace android {
 
 // ---------------------------------------------------------------------------
 
-class MemoryBase : public BnMemory 
-{
-public:
-    MemoryBase(const sp<IMemoryHeap>& heap, ssize_t offset, size_t size);
-    virtual ~MemoryBase();
-    virtual sp<IMemoryHeap> getMemory(ssize_t* offset, size_t* size) const;
+    class MemoryBase : public BnMemory {
+    public:
+        MemoryBase(const sp <IMemoryHeap> &heap, ssize_t offset, size_t size);
 
-protected:
-    size_t getSize() const { return mSize; }
-    ssize_t getOffset() const { return mOffset; }
-    const sp<IMemoryHeap>& getHeap() const { return mHeap; }
+        virtual ~MemoryBase();
 
-private:
-    size_t          mSize;
-    ssize_t         mOffset;
-    sp<IMemoryHeap> mHeap;
-};
+        virtual sp <IMemoryHeap> getMemory(ssize_t *offset, size_t *size) const;
+
+    protected:
+        size_t getSize() const { return mSize; }
+
+        ssize_t getOffset() const { return mOffset; }
+
+        const sp <IMemoryHeap> &getHeap() const { return mHeap; }
+
+    private:
+        size_t mSize;
+        ssize_t mOffset;
+        sp <IMemoryHeap> mHeap;
+    };
 
 // ---------------------------------------------------------------------------
 }; // namespace android

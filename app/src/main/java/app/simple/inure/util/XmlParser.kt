@@ -3,11 +3,11 @@ package app.simple.inure.util
 import java.util.zip.ZipFile
 
 object XmlParser {
-    fun main(args : Array<String>) {
+    fun main(args: Array<String>) {
         val fileName = "app.apk"
         ZipFile(fileName).use { zip ->
             zip.entries().asSequence().forEach { entry ->
-                if(entry.name == "AndroidManifest.xml") {
+                if (entry.name == "AndroidManifest.xml") {
                     zip.getInputStream(entry).use { input ->
                         val xml = decompressXML(input.readBytes())
                         //TODO: parse the XML

@@ -29,99 +29,109 @@
 // ---------------------------------------------------------------------------
 namespace android {
 
-class IPCThreadState;
+    class IPCThreadState;
 
-class ProcessState : public virtual RefBase
-{
-public:
-    static  sp<ProcessState>    self();
-    static  sp<ProcessState>    selfOrNull();
-    /* initWithDriver() can be used to configure libbinder to use
-     * a different binder driver dev node. It must be called *before*
-     * any call to ProcessState::self(). /dev/binder remains the default.
-     */
-    static  sp<ProcessState>    initWithDriver(const char *driver);
+    class ProcessState : public virtual RefBase {
+    public:
+        static sp <ProcessState> self();
 
-            void                setContextObject(const sp<IBinder>& object);
-            sp<IBinder>         getContextObject(const sp<IBinder>& caller);
-        
-            void                setContextObject(const sp<IBinder>& object,
-                                                 const String16& name);
-            sp<IBinder>         getContextObject(const String16& name,
-                                                 const sp<IBinder>& caller);
+        static sp <ProcessState> selfOrNull();
 
-            void                startThreadPool();
-                        
-    typedef bool (*context_check_func)(const String16& name,
-                                       const sp<IBinder>& caller,
-                                       void* userData);
-        
-            bool                isContextManager(void) const;
-            bool                becomeContextManager(
-                                    context_check_func checkFunc,
-                                    void* userData);
+        /* initWithDriver() can be used to configure libbinder to use
+         * a different binder driver dev node. It must be called *before*
+         * any call to ProcessState::self(). /dev/binder remains the default.
+         */
+        static sp <ProcessState> initWithDriver(const char *driver);
 
-            sp<IBinder>         getStrongProxyForHandle(int32_t handle);
-            wp<IBinder>         getWeakProxyForHandle(int32_t handle);
-            void                expungeHandle(int32_t handle, IBinder* binder);
+        void setContextObject(const sp <IBinder> &object);
 
-            void                spawnPooledThread(bool isMain);
-            
-            status_t            setThreadPoolMaxThreadCount(size_t maxThreads);
-            void                giveThreadPoolName();
+        sp <IBinder> getContextObject(const sp <IBinder> &caller);
 
-            String8             getDriverName();
+        void setContextObject(const sp <IBinder> &object,
+                              const String16 &name);
 
-            ssize_t             getKernelReferences(size_t count, uintptr_t* buf);
+        sp <IBinder> getContextObject(const String16 &name,
+                                      const sp <IBinder> &caller);
 
-private:
-    friend class IPCThreadState;
-    
-                                ProcessState(const char* driver);
-                                ~ProcessState();
+        void startThreadPool();
 
-                                ProcessState(const ProcessState& o);
-            ProcessState&       operator=(const ProcessState& o);
-            String8             makeBinderThreadName();
+        typedef bool (*context_check_func)(const String16 &name,
+                                           const sp <IBinder> &caller,
+                                           void *userData);
 
-            struct handle_entry {
-                IBinder* binder;
-                RefBase::weakref_type* refs;
-            };
+        bool isContextManager(void) const;
 
-            handle_entry*       lookupHandleLocked(int32_t handle);
+        bool becomeContextManager(
+                context_check_func checkFunc,
+                void *userData);
 
-            String8             mDriverName;
-            int                 mDriverFD;
-            void*               mVMStart;
+        sp <IBinder> getStrongProxyForHandle(int32_t handle);
 
-            // Protects thread count variable below.
-            pthread_mutex_t     mThreadCountLock;
-            pthread_cond_t      mThreadCountDecrement;
-            // Number of binder threads current executing a command.
-            size_t              mExecutingThreadsCount;
-            // Maximum number for binder threads allowed for this process.
-            size_t              mMaxThreads;
-            // Time when thread pool was emptied
-            int64_t             mStarvationStartTimeMs;
+        wp <IBinder> getWeakProxyForHandle(int32_t handle);
 
-    mutable Mutex               mLock;  // protects everything below.
+        void expungeHandle(int32_t handle, IBinder *binder);
 
-            Vector<handle_entry>mHandleToObject;
+        void spawnPooledThread(bool isMain);
 
-            bool                mManagesContexts;
-            context_check_func  mBinderContextCheckFunc;
-            void*               mBinderContextUserData;
+        status_t setThreadPoolMaxThreadCount(size_t maxThreads);
 
-            KeyedVector<String16, sp<IBinder> >
-                                mContexts;
+        void giveThreadPoolName();
+
+        String8 getDriverName();
+
+        ssize_t getKernelReferences(size_t count, uintptr_t *buf);
+
+    private:
+        friend class IPCThreadState;
+
+        ProcessState(const char *driver);
+
+        ~ProcessState();
+
+        ProcessState(const ProcessState &o);
+
+        ProcessState &operator=(const ProcessState &o);
+
+        String8 makeBinderThreadName();
+
+        struct handle_entry {
+            IBinder *binder;
+            RefBase::weakref_type *refs;
+        };
+
+        handle_entry *lookupHandleLocked(int32_t handle);
+
+        String8 mDriverName;
+        int mDriverFD;
+        void *mVMStart;
+
+        // Protects thread count variable below.
+        pthread_mutex_t mThreadCountLock;
+        pthread_cond_t mThreadCountDecrement;
+        // Number of binder threads current executing a command.
+        size_t mExecutingThreadsCount;
+        // Maximum number for binder threads allowed for this process.
+        size_t mMaxThreads;
+        // Time when thread pool was emptied
+        int64_t mStarvationStartTimeMs;
+
+        mutable Mutex mLock;  // protects everything below.
+
+        Vector <handle_entry> mHandleToObject;
+
+        bool mManagesContexts;
+        context_check_func mBinderContextCheckFunc;
+        void *mBinderContextUserData;
+
+        KeyedVector <String16, sp<IBinder>>
+                mContexts;
 
 
-            String8             mRootDir;
-            bool                mThreadPoolStarted;
-    volatile int32_t            mThreadPoolSeq;
-};
-    
+        String8 mRootDir;
+        bool mThreadPoolStarted;
+        volatile int32_t mThreadPoolSeq;
+    };
+
 }; // namespace android
 
 // ---------------------------------------------------------------------------

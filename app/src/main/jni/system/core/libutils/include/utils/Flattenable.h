@@ -29,55 +29,55 @@
 namespace android {
 
 
-class FlattenableUtils {
-public:
-    template<size_t N>
-    static size_t align(size_t size) {
-        static_assert(!(N & (N - 1)), "Can only align to a power of 2.");
-        return (size + (N-1)) & ~(N-1);
-    }
+    class FlattenableUtils {
+    public:
+        template<size_t N>
+        static size_t align(size_t size) {
+            static_assert(!(N & (N - 1)), "Can only align to a power of 2.");
+            return (size + (N - 1)) & ~(N - 1);
+        }
 
-    template<size_t N>
-    static size_t align(void const*& buffer) {
-        static_assert(!(N & (N - 1)), "Can only align to a power of 2.");
-        uintptr_t b = uintptr_t(buffer);
-        buffer = reinterpret_cast<void*>((uintptr_t(buffer) + (N-1)) & ~(N-1));
-        return size_t(uintptr_t(buffer) - b);
-    }
+        template<size_t N>
+        static size_t align(void const *&buffer) {
+            static_assert(!(N & (N - 1)), "Can only align to a power of 2.");
+            uintptr_t b = uintptr_t(buffer);
+            buffer = reinterpret_cast<void *>((uintptr_t(buffer) + (N - 1)) & ~(N - 1));
+            return size_t(uintptr_t(buffer) - b);
+        }
 
-    template<size_t N>
-    static size_t align(void*& buffer) {
-        return align<N>( const_cast<void const*&>(buffer) );
-    }
+        template<size_t N>
+        static size_t align(void *&buffer) {
+            return align<N>(const_cast<void const *&>(buffer));
+        }
 
-    static void advance(void*& buffer, size_t& size, size_t offset) {
-        buffer = reinterpret_cast<void*>( uintptr_t(buffer) + offset );
-        size -= offset;
-    }
+        static void advance(void *&buffer, size_t &size, size_t offset) {
+            buffer = reinterpret_cast<void *>( uintptr_t(buffer) + offset );
+            size -= offset;
+        }
 
-    static void advance(void const*& buffer, size_t& size, size_t offset) {
-        buffer = reinterpret_cast<void const*>( uintptr_t(buffer) + offset );
-        size -= offset;
-    }
+        static void advance(void const *&buffer, size_t &size, size_t offset) {
+            buffer = reinterpret_cast<void const *>( uintptr_t(buffer) + offset );
+            size -= offset;
+        }
 
-    // write a POD structure
-    template<typename T>
-    static void write(void*& buffer, size_t& size, const T& value) {
-        static_assert(std::is_trivially_copyable<T>::value,
-                      "Cannot flatten a non-trivially-copyable type");
-        memcpy(buffer, &value, sizeof(T));
-        advance(buffer, size, sizeof(T));
-    }
+        // write a POD structure
+        template<typename T>
+        static void write(void *&buffer, size_t &size, const T &value) {
+            static_assert(std::is_trivially_copyable<T>::value,
+                          "Cannot flatten a non-trivially-copyable type");
+            memcpy(buffer, &value, sizeof(T));
+            advance(buffer, size, sizeof(T));
+        }
 
-    // read a POD structure
-    template<typename T>
-    static void read(void const*& buffer, size_t& size, T& value) {
-        static_assert(std::is_trivially_copyable<T>::value,
-                      "Cannot unflatten a non-trivially-copyable type");
-        memcpy(&value, buffer, sizeof(T));
-        advance(buffer, size, sizeof(T));
-    }
-};
+        // read a POD structure
+        template<typename T>
+        static void read(void const *&buffer, size_t &size, T &value) {
+            static_assert(std::is_trivially_copyable<T>::value,
+                          "Cannot unflatten a non-trivially-copyable type");
+            memcpy(&value, buffer, sizeof(T));
+            advance(buffer, size, sizeof(T));
+        }
+    };
 
 
 /*
@@ -86,50 +86,54 @@ public:
  * Flattenable objects must implement this protocol.
  */
 
-template <typename T>
-class Flattenable {
-public:
-    // size in bytes of the flattened object
-    inline size_t getFlattenedSize() const;
+    template<typename T>
+    class Flattenable {
+    public:
+        // size in bytes of the flattened object
+        inline size_t getFlattenedSize() const;
 
-    // number of file descriptors to flatten
-    inline size_t getFdCount() const;
+        // number of file descriptors to flatten
+        inline size_t getFdCount() const;
 
-    // flattens the object into buffer.
-    // size should be at least of getFlattenedSize()
-    // file descriptors are written in the fds[] array but ownership is
-    // not transfered (ie: they must be dupped by the caller of
-    // flatten() if needed).
-    inline status_t flatten(void*& buffer, size_t& size, int*& fds, size_t& count) const;
+        // flattens the object into buffer.
+        // size should be at least of getFlattenedSize()
+        // file descriptors are written in the fds[] array but ownership is
+        // not transfered (ie: they must be dupped by the caller of
+        // flatten() if needed).
+        inline status_t flatten(void *&buffer, size_t &size, int *&fds, size_t &count) const;
 
-    // unflattens the object from buffer.
-    // size should be equal to the value of getFlattenedSize() when the
-    // object was flattened.
-    // unflattened file descriptors are found in the fds[] array and
-    // don't need to be dupped(). ie: the caller of unflatten doesn't
-    // keep ownership. If a fd is not retained by unflatten() it must be
-    // explicitly closed.
-    inline status_t unflatten(void const*& buffer, size_t& size, int const*& fds, size_t& count);
-};
+        // unflattens the object from buffer.
+        // size should be equal to the value of getFlattenedSize() when the
+        // object was flattened.
+        // unflattened file descriptors are found in the fds[] array and
+        // don't need to be dupped(). ie: the caller of unflatten doesn't
+        // keep ownership. If a fd is not retained by unflatten() it must be
+        // explicitly closed.
+        inline status_t
+        unflatten(void const *&buffer, size_t &size, int const *&fds, size_t &count);
+    };
 
-template<typename T>
-inline size_t Flattenable<T>::getFlattenedSize() const {
-    return static_cast<T const*>(this)->T::getFlattenedSize();
-}
-template<typename T>
-inline size_t Flattenable<T>::getFdCount() const {
-    return static_cast<T const*>(this)->T::getFdCount();
-}
-template<typename T>
-inline status_t Flattenable<T>::flatten(
-        void*& buffer, size_t& size, int*& fds, size_t& count) const {
-    return static_cast<T const*>(this)->T::flatten(buffer, size, fds, count);
-}
-template<typename T>
-inline status_t Flattenable<T>::unflatten(
-        void const*& buffer, size_t& size, int const*& fds, size_t& count) {
-    return static_cast<T*>(this)->T::unflatten(buffer, size, fds, count);
-}
+    template<typename T>
+    inline size_t Flattenable<T>::getFlattenedSize() const {
+        return static_cast<T const *>(this)->T::getFlattenedSize();
+    }
+
+    template<typename T>
+    inline size_t Flattenable<T>::getFdCount() const {
+        return static_cast<T const *>(this)->T::getFdCount();
+    }
+
+    template<typename T>
+    inline status_t Flattenable<T>::flatten(
+            void *&buffer, size_t &size, int *&fds, size_t &count) const {
+        return static_cast<T const *>(this)->T::flatten(buffer, size, fds, count);
+    }
+
+    template<typename T>
+    inline status_t Flattenable<T>::unflatten(
+            void const *&buffer, size_t &size, int const *&fds, size_t &count) {
+        return static_cast<T *>(this)->T::unflatten(buffer, size, fds, count);
+    }
 
 /*
  * LightFlattenable is a protocol allowing object to serialize themselves out
@@ -137,39 +141,42 @@ inline status_t Flattenable<T>::unflatten(
  * LightFlattenable is usually more size efficient than Flattenable.
  * LightFlattenable objects must implement this protocol.
  */
-template <typename T>
-class LightFlattenable {
-public:
-    // returns whether this object always flatten into the same size.
-    // for efficiency, this should always be inline.
-    inline bool isFixedSize() const;
+    template<typename T>
+    class LightFlattenable {
+    public:
+        // returns whether this object always flatten into the same size.
+        // for efficiency, this should always be inline.
+        inline bool isFixedSize() const;
 
-    // returns size in bytes of the flattened object. must be a constant.
-    inline size_t getFlattenedSize() const;
+        // returns size in bytes of the flattened object. must be a constant.
+        inline size_t getFlattenedSize() const;
 
-    // flattens the object into buffer.
-    inline status_t flatten(void* buffer, size_t size) const;
+        // flattens the object into buffer.
+        inline status_t flatten(void *buffer, size_t size) const;
 
-    // unflattens the object from buffer of given size.
-    inline status_t unflatten(void const* buffer, size_t size);
-};
+        // unflattens the object from buffer of given size.
+        inline status_t unflatten(void const *buffer, size_t size);
+    };
 
-template <typename T>
-inline bool LightFlattenable<T>::isFixedSize() const {
-    return static_cast<T const*>(this)->T::isFixedSize();
-}
-template <typename T>
-inline size_t LightFlattenable<T>::getFlattenedSize() const {
-    return static_cast<T const*>(this)->T::getFlattenedSize();
-}
-template <typename T>
-inline status_t LightFlattenable<T>::flatten(void* buffer, size_t size) const {
-    return static_cast<T const*>(this)->T::flatten(buffer, size);
-}
-template <typename T>
-inline status_t LightFlattenable<T>::unflatten(void const* buffer, size_t size) {
-    return static_cast<T*>(this)->T::unflatten(buffer, size);
-}
+    template<typename T>
+    inline bool LightFlattenable<T>::isFixedSize() const {
+        return static_cast<T const *>(this)->T::isFixedSize();
+    }
+
+    template<typename T>
+    inline size_t LightFlattenable<T>::getFlattenedSize() const {
+        return static_cast<T const *>(this)->T::getFlattenedSize();
+    }
+
+    template<typename T>
+    inline status_t LightFlattenable<T>::flatten(void *buffer, size_t size) const {
+        return static_cast<T const *>(this)->T::flatten(buffer, size);
+    }
+
+    template<typename T>
+    inline status_t LightFlattenable<T>::unflatten(void const *buffer, size_t size) {
+        return static_cast<T *>(this)->T::unflatten(buffer, size);
+    }
 
 /*
  * LightFlattenablePod is an implementation of the LightFlattenable protocol
@@ -177,26 +184,28 @@ inline status_t LightFlattenable<T>::unflatten(void const* buffer, size_t size) 
  * Simply derive from LightFlattenablePod<Foo> to make Foo flattenable; no
  * need to implement any methods; obviously Foo must be a POD structure.
  */
-template <typename T>
-class LightFlattenablePod : public LightFlattenable<T> {
-public:
-    inline bool isFixedSize() const {
-        return true;
-    }
+    template<typename T>
+    class LightFlattenablePod : public LightFlattenable<T> {
+    public:
+        inline bool isFixedSize() const {
+            return true;
+        }
 
-    inline size_t getFlattenedSize() const {
-        return sizeof(T);
-    }
-    inline status_t flatten(void* buffer, size_t size) const {
-        if (size < sizeof(T)) return NO_MEMORY;
-        memcpy(buffer, static_cast<T const*>(this), sizeof(T));
-        return NO_ERROR;
-    }
-    inline status_t unflatten(void const* buffer, size_t) {
-        memcpy(static_cast<T*>(this), buffer, sizeof(T));
-        return NO_ERROR;
-    }
-};
+        inline size_t getFlattenedSize() const {
+            return sizeof(T);
+        }
+
+        inline status_t flatten(void *buffer, size_t size) const {
+            if (size < sizeof(T)) return NO_MEMORY;
+            memcpy(buffer, static_cast<T const *>(this), sizeof(T));
+            return NO_ERROR;
+        }
+
+        inline status_t unflatten(void const *buffer, size_t) {
+            memcpy(static_cast<T *>(this), buffer, sizeof(T));
+            return NO_ERROR;
+        }
+    };
 
 
 }; // namespace android

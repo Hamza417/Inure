@@ -32,9 +32,9 @@
 
 namespace android {
 
-class Parcel;
+    class Parcel;
 
-namespace binder {
+    namespace binder {
 
 /**
  * A limited C++ generic type. The purpose of this class is to allow C++
@@ -53,133 +53,211 @@ namespace binder {
  * When reading or writing this class to a Parcel, use the `writeValue()`
  * and `readValue()` methods.
  */
-class Value {
-public:
-    Value();
-    virtual ~Value();
+        class Value {
+        public:
+            Value();
 
-    Value& swap(Value &);
+            virtual ~Value();
 
-    bool empty() const;
+            Value &swap(Value &);
 
-    void clear();
+            bool empty() const;
+
+            void clear();
 
 #ifdef LIBBINDER_VALUE_SUPPORTS_TYPE_INFO
-    const std::type_info& type() const;
+            const std::type_info& type() const;
 #endif
 
-    int32_t parcelType() const;
+            int32_t parcelType() const;
 
-    bool operator==(const Value& rhs) const;
-    bool operator!=(const Value& rhs) const { return !this->operator==(rhs); }
+            bool operator==(const Value &rhs) const;
 
-    Value(const Value& value);
-    Value(const bool& value);
-    Value(const int8_t& value);
-    Value(const int32_t& value);
-    Value(const int64_t& value);
-    Value(const double& value);
-    Value(const String16& value);
-    Value(const std::vector<bool>& value);
-    Value(const std::vector<uint8_t>& value);
-    Value(const std::vector<int32_t>& value);
-    Value(const std::vector<int64_t>& value);
-    Value(const std::vector<double>& value);
-    Value(const std::vector<String16>& value);
-    Value(const os::PersistableBundle& value);
-    Value(const binder::Map& value);
+            bool operator!=(const Value &rhs) const { return !this->operator==(rhs); }
 
-    Value& operator=(const Value& rhs);
-    Value& operator=(const int8_t& rhs);
-    Value& operator=(const bool& rhs);
-    Value& operator=(const int32_t& rhs);
-    Value& operator=(const int64_t& rhs);
-    Value& operator=(const double& rhs);
-    Value& operator=(const String16& rhs);
-    Value& operator=(const std::vector<bool>& rhs);
-    Value& operator=(const std::vector<uint8_t>& rhs);
-    Value& operator=(const std::vector<int32_t>& rhs);
-    Value& operator=(const std::vector<int64_t>& rhs);
-    Value& operator=(const std::vector<double>& rhs);
-    Value& operator=(const std::vector<String16>& rhs);
-    Value& operator=(const os::PersistableBundle& rhs);
-    Value& operator=(const binder::Map& rhs);
+            Value(const Value &value);
 
-    void putBoolean(const bool& value);
-    void putByte(const int8_t& value);
-    void putInt(const int32_t& value);
-    void putLong(const int64_t& value);
-    void putDouble(const double& value);
-    void putString(const String16& value);
-    void putBooleanVector(const std::vector<bool>& value);
-    void putByteVector(const std::vector<uint8_t>& value);
-    void putIntVector(const std::vector<int32_t>& value);
-    void putLongVector(const std::vector<int64_t>& value);
-    void putDoubleVector(const std::vector<double>& value);
-    void putStringVector(const std::vector<String16>& value);
-    void putPersistableBundle(const os::PersistableBundle& value);
-    void putMap(const binder::Map& value);
+            Value(const bool &value);
 
-    bool getBoolean(bool* out) const;
-    bool getByte(int8_t* out) const;
-    bool getInt(int32_t* out) const;
-    bool getLong(int64_t* out) const;
-    bool getDouble(double* out) const;
-    bool getString(String16* out) const;
-    bool getBooleanVector(std::vector<bool>* out) const;
-    bool getByteVector(std::vector<uint8_t>* out) const;
-    bool getIntVector(std::vector<int32_t>* out) const;
-    bool getLongVector(std::vector<int64_t>* out) const;
-    bool getDoubleVector(std::vector<double>* out) const;
-    bool getStringVector(std::vector<String16>* out) const;
-    bool getPersistableBundle(os::PersistableBundle* out) const;
-    bool getMap(binder::Map* out) const;
+            Value(const int8_t &value);
 
-    bool isBoolean() const;
-    bool isByte() const;
-    bool isInt() const;
-    bool isLong() const;
-    bool isDouble() const;
-    bool isString() const;
-    bool isBooleanVector() const;
-    bool isByteVector() const;
-    bool isIntVector() const;
-    bool isLongVector() const;
-    bool isDoubleVector() const;
-    bool isStringVector() const;
-    bool isPersistableBundle() const;
-    bool isMap() const;
+            Value(const int32_t &value);
 
-    // String Convenience Adapters
-    // ---------------------------
+            Value(const int64_t &value);
 
-    Value(const String8& value):               Value(String16(value)) { }
-    Value(const ::std::string& value):         Value(String8(value.c_str())) { }
-    void putString(const String8& value)       { return putString(String16(value)); }
-    void putString(const ::std::string& value) { return putString(String8(value.c_str())); }
-    Value& operator=(const String8& rhs)       { return *this = String16(rhs); }
-    Value& operator=(const ::std::string& rhs) { return *this = String8(rhs.c_str()); }
-    bool getString(String8* out) const;
-    bool getString(::std::string* out) const;
+            Value(const double &value);
 
-private:
+            Value(const String16 &value);
 
-    // This allows ::android::Parcel to call the two methods below.
-    friend class ::android::Parcel;
+            Value(const std::vector<bool> &value);
 
-    // This is called by ::android::Parcel::writeValue()
-    status_t writeToParcel(Parcel* parcel) const;
+            Value(const std::vector <uint8_t> &value);
 
-    // This is called by ::android::Parcel::readValue()
-    status_t readFromParcel(const Parcel* parcel);
+            Value(const std::vector <int32_t> &value);
 
-    template<typename T> class Content;
-    class ContentBase;
+            Value(const std::vector <int64_t> &value);
 
-    ContentBase* mContent;
-};
+            Value(const std::vector<double> &value);
 
-}  // namespace binder
+            Value(const std::vector <String16> &value);
+
+            Value(const os::PersistableBundle &value);
+
+            Value(const binder::Map &value);
+
+            Value &operator=(const Value &rhs);
+
+            Value &operator=(const int8_t &rhs);
+
+            Value &operator=(const bool &rhs);
+
+            Value &operator=(const int32_t &rhs);
+
+            Value &operator=(const int64_t &rhs);
+
+            Value &operator=(const double &rhs);
+
+            Value &operator=(const String16 &rhs);
+
+            Value &operator=(const std::vector<bool> &rhs);
+
+            Value &operator=(const std::vector <uint8_t> &rhs);
+
+            Value &operator=(const std::vector <int32_t> &rhs);
+
+            Value &operator=(const std::vector <int64_t> &rhs);
+
+            Value &operator=(const std::vector<double> &rhs);
+
+            Value &operator=(const std::vector <String16> &rhs);
+
+            Value &operator=(const os::PersistableBundle &rhs);
+
+            Value &operator=(const binder::Map &rhs);
+
+            void putBoolean(const bool &value);
+
+            void putByte(const int8_t &value);
+
+            void putInt(const int32_t &value);
+
+            void putLong(const int64_t &value);
+
+            void putDouble(const double &value);
+
+            void putString(const String16 &value);
+
+            void putBooleanVector(const std::vector<bool> &value);
+
+            void putByteVector(const std::vector <uint8_t> &value);
+
+            void putIntVector(const std::vector <int32_t> &value);
+
+            void putLongVector(const std::vector <int64_t> &value);
+
+            void putDoubleVector(const std::vector<double> &value);
+
+            void putStringVector(const std::vector <String16> &value);
+
+            void putPersistableBundle(const os::PersistableBundle &value);
+
+            void putMap(const binder::Map &value);
+
+            bool getBoolean(bool *out) const;
+
+            bool getByte(int8_t *out) const;
+
+            bool getInt(int32_t *out) const;
+
+            bool getLong(int64_t *out) const;
+
+            bool getDouble(double *out) const;
+
+            bool getString(String16 *out) const;
+
+            bool getBooleanVector(std::vector<bool> *out) const;
+
+            bool getByteVector(std::vector <uint8_t> *out) const;
+
+            bool getIntVector(std::vector <int32_t> *out) const;
+
+            bool getLongVector(std::vector <int64_t> *out) const;
+
+            bool getDoubleVector(std::vector<double> *out) const;
+
+            bool getStringVector(std::vector <String16> *out) const;
+
+            bool getPersistableBundle(os::PersistableBundle *out) const;
+
+            bool getMap(binder::Map *out) const;
+
+            bool isBoolean() const;
+
+            bool isByte() const;
+
+            bool isInt() const;
+
+            bool isLong() const;
+
+            bool isDouble() const;
+
+            bool isString() const;
+
+            bool isBooleanVector() const;
+
+            bool isByteVector() const;
+
+            bool isIntVector() const;
+
+            bool isLongVector() const;
+
+            bool isDoubleVector() const;
+
+            bool isStringVector() const;
+
+            bool isPersistableBundle() const;
+
+            bool isMap() const;
+
+            // String Convenience Adapters
+            // ---------------------------
+
+            Value(const String8 &value) : Value(String16(value)) {}
+
+            Value(const ::std::string &value) : Value(String8(value.c_str())) {}
+
+            void putString(const String8 &value) { return putString(String16(value)); }
+
+            void putString(const ::std::string &value) { return putString(String8(value.c_str())); }
+
+            Value &operator=(const String8 &rhs) { return *this = String16(rhs); }
+
+            Value &operator=(const ::std::string &rhs) { return *this = String8(rhs.c_str()); }
+
+            bool getString(String8 *out) const;
+
+            bool getString(::std::string *out) const;
+
+        private:
+
+            // This allows ::android::Parcel to call the two methods below.
+            friend class ::android::Parcel;
+
+            // This is called by ::android::Parcel::writeValue()
+            status_t writeToParcel(Parcel *parcel) const;
+
+            // This is called by ::android::Parcel::readValue()
+            status_t readFromParcel(const Parcel *parcel);
+
+            template<typename T>
+            class Content;
+
+            class ContentBase;
+
+            ContentBase *mContent;
+        };
+
+    }  // namespace binder
 
 }  // namespace android
 

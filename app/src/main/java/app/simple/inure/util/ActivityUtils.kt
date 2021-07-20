@@ -7,12 +7,8 @@ import android.content.pm.ComponentInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.util.NullSafety.isNotNull
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 object ActivityUtils {
@@ -42,7 +38,7 @@ object ActivityUtils {
         startActivity(context, launchIntent, null)
     }
 
-    fun isEnabled(context: Context, packageName: String, clsName: String) : Boolean {
+    fun isEnabled(context: Context, packageName: String, clsName: String): Boolean {
         val componentName = ComponentName(packageName, clsName)
 
         return when (context.packageManager.getComponentEnabledSetting(componentName)) {
@@ -62,7 +58,7 @@ object ActivityUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.activities.isNotNull()) {
-                        for(i in packageInfo.activities) {
+                        for (i in packageInfo.activities) {
                             components.add(i)
                         }
                     }
@@ -94,7 +90,7 @@ object ActivityUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.activities.isNotNull()) {
-                        for(i in packageInfo.activities) {
+                        for (i in packageInfo.activities) {
                             components.add(i)
                         }
                     }

@@ -18,7 +18,7 @@ class PopupPermissions(contentView: View, view: View, val permissionInfo: Permis
         val context = contentView.context
         val revoke = contentView.findViewById<DynamicRippleTextView>(R.id.popup_revoke)
 
-        revoke.text = if(permissionInfo.isGranted) {
+        revoke.text = if (permissionInfo.isGranted) {
             context.getString(R.string.revoke)
         } else {
             context.getString(R.string.grant)

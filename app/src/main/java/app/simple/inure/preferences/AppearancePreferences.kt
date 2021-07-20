@@ -3,7 +3,6 @@ package app.simple.inure.preferences
 import androidx.annotation.IntRange
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.dynamicanimation.animation.SpringForce
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.TypeFace
 

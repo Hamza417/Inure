@@ -17,13 +17,15 @@
 #include <nativehelper/JniConstants.h>
 #include <nativehelper/toStringArray.h>
 
-jobjectArray newStringArray(JNIEnv* env, size_t count) {
+jobjectArray newStringArray(JNIEnv *env, size_t count) {
     return env->NewObjectArray(count, JniConstants::stringClass, NULL);
 }
 
 struct ArrayCounter {
-    const char* const* strings;
-    explicit ArrayCounter(const char* const* strings) : strings(strings) {}
+    const char *const *strings;
+
+    explicit ArrayCounter(const char *const *strings) : strings(strings) {}
+
     size_t operator()() {
         size_t count = 0;
         while (strings[count] != NULL) {
@@ -34,14 +36,16 @@ struct ArrayCounter {
 };
 
 struct ArrayGetter {
-    const char* const* strings;
-    explicit ArrayGetter(const char* const* strings) : strings(strings) {}
-    const char* operator()(size_t i) {
+    const char *const *strings;
+
+    explicit ArrayGetter(const char *const *strings) : strings(strings) {}
+
+    const char *operator()(size_t i) {
         return strings[i];
     }
 };
 
-jobjectArray toStringArray(JNIEnv* env, const char* const* strings) {
+jobjectArray toStringArray(JNIEnv *env, const char *const *strings) {
     ArrayCounter counter(strings);
     ArrayGetter getter(strings);
     return toStringArray(env, &counter, &getter);

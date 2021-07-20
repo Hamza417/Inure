@@ -22,7 +22,9 @@
 #include <time.h>
 
 #if !defined(_WIN32)
+
 # include <pthread.h>
+
 #endif
 
 #include "Errors.h"
@@ -79,7 +81,7 @@
 namespace android {
 // ---------------------------------------------------------------------------
 
-class Condition;
+    class Condition;
 
 /*
  * NOTE: This class is for code that builds on Win32.  Its usage is
@@ -91,112 +93,132 @@ class Condition;
  * The mutex must be unlocked by the thread that locked it.  They are not
  * recursive, i.e. the same thread can't lock it multiple times.
  */
-class CAPABILITY("mutex") Mutex {
-  public:
-    enum {
-        PRIVATE = 0,
-        SHARED = 1
-    };
+    class CAPABILITY("mutex") Mutex {
+    public:
+        enum {
+            PRIVATE = 0,
+            SHARED = 1
+        };
 
-    Mutex();
-    explicit Mutex(const char* name);
-    explicit Mutex(int type, const char* name = NULL);
-    ~Mutex();
+        Mutex();
 
-    // lock or unlock the mutex
-    status_t lock() ACQUIRE();
-    void unlock() RELEASE();
+        explicit Mutex(const char *name);
 
-    // lock if possible; returns 0 on success, error otherwise
-    status_t tryLock() TRY_ACQUIRE(true);
+        explicit Mutex(int type, const char *name = NULL);
+
+        ~Mutex();
+
+        // lock or unlock the mutex
+        status_t lock() ACQUIRE();
+
+        void unlock() RELEASE();
+
+        // lock if possible; returns 0 on success, error otherwise
+        status_t tryLock() TRY_ACQUIRE(true);
 
 #if defined(__ANDROID__)
-    // Lock the mutex, but don't wait longer than timeoutNs (relative time).
-    // Returns 0 on success, TIMED_OUT for failure due to timeout expiration.
-    //
-    // OSX doesn't have pthread_mutex_timedlock() or equivalent. To keep
-    // capabilities consistent across host OSes, this method is only available
-    // when building Android binaries.
-    //
-    // FIXME?: pthread_mutex_timedlock is based on CLOCK_REALTIME,
-    // which is subject to NTP adjustments, and includes time during suspend,
-    // so a timeout may occur even though no processes could run.
-    // Not holding a partial wakelock may lead to a system suspend.
-    status_t timedLock(nsecs_t timeoutNs) TRY_ACQUIRE(true);
+
+        // Lock the mutex, but don't wait longer than timeoutNs (relative time).
+        // Returns 0 on success, TIMED_OUT for failure due to timeout expiration.
+        //
+        // OSX doesn't have pthread_mutex_timedlock() or equivalent. To keep
+        // capabilities consistent across host OSes, this method is only available
+        // when building Android binaries.
+        //
+        // FIXME?: pthread_mutex_timedlock is based on CLOCK_REALTIME,
+        // which is subject to NTP adjustments, and includes time during suspend,
+        // so a timeout may occur even though no processes could run.
+        // Not holding a partial wakelock may lead to a system suspend.
+        status_t timedLock(nsecs_t timeoutNs) TRY_ACQUIRE(true);
+
 #endif
 
-    // Manages the mutex automatically. It'll be locked when Autolock is
-    // constructed and released when Autolock goes out of scope.
-    class SCOPED_CAPABILITY Autolock {
-      public:
-        inline explicit Autolock(Mutex& mutex) ACQUIRE(mutex) : mLock(mutex) { mLock.lock(); }
-        inline explicit Autolock(Mutex* mutex) ACQUIRE(mutex) : mLock(*mutex) { mLock.lock(); }
-        inline ~Autolock() RELEASE() { mLock.unlock(); }
+        // Manages the mutex automatically. It'll be locked when Autolock is
+        // constructed and released when Autolock goes out of scope.
+        class SCOPED_CAPABILITY Autolock {
+        public:
+            inline explicit Autolock(Mutex &mutex) ACQUIRE(mutex): mLock(mutex) { mLock.lock(); }
 
-      private:
-        Mutex& mLock;
-        // Cannot be copied or moved - declarations only
-        Autolock(const Autolock&);
-        Autolock& operator=(const Autolock&);
-    };
+            inline explicit Autolock(Mutex *mutex) ACQUIRE(mutex): mLock(*mutex) { mLock.lock(); }
 
-  private:
-    friend class Condition;
+            inline ~Autolock() RELEASE() { mLock.unlock(); }
 
-    // A mutex cannot be copied
-    Mutex(const Mutex&);
-    Mutex& operator=(const Mutex&);
+        private:
+            Mutex &mLock;
+
+            // Cannot be copied or moved - declarations only
+            Autolock(const Autolock &);
+
+            Autolock &operator=(const Autolock &);
+        };
+
+    private:
+        friend class Condition;
+
+        // A mutex cannot be copied
+        Mutex(const Mutex &);
+
+        Mutex &operator=(const Mutex &);
 
 #if !defined(_WIN32)
-    pthread_mutex_t mMutex;
+        pthread_mutex_t mMutex;
 #else
-    void _init();
-    void* mState;
+        void _init();
+        void* mState;
 #endif
-};
+    };
 
 // ---------------------------------------------------------------------------
 
 #if !defined(_WIN32)
 
-inline Mutex::Mutex() {
-    pthread_mutex_init(&mMutex, NULL);
-}
-inline Mutex::Mutex(__attribute__((unused)) const char* name) {
-    pthread_mutex_init(&mMutex, NULL);
-}
-inline Mutex::Mutex(int type, __attribute__((unused)) const char* name) {
-    if (type == SHARED) {
-        pthread_mutexattr_t attr;
-        pthread_mutexattr_init(&attr);
-        pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED);
-        pthread_mutex_init(&mMutex, &attr);
-        pthread_mutexattr_destroy(&attr);
-    } else {
+    inline Mutex::Mutex() {
         pthread_mutex_init(&mMutex, NULL);
     }
-}
-inline Mutex::~Mutex() {
-    pthread_mutex_destroy(&mMutex);
-}
-inline status_t Mutex::lock() {
-    return -pthread_mutex_lock(&mMutex);
-}
-inline void Mutex::unlock() {
-    pthread_mutex_unlock(&mMutex);
-}
-inline status_t Mutex::tryLock() {
-    return -pthread_mutex_trylock(&mMutex);
-}
+
+    inline Mutex::Mutex(__attribute__((unused)) const char *name) {
+        pthread_mutex_init(&mMutex, NULL);
+    }
+
+    inline Mutex::Mutex(int type, __attribute__((unused)) const char *name) {
+        if (type == SHARED) {
+            pthread_mutexattr_t attr;
+            pthread_mutexattr_init(&attr);
+            pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED);
+            pthread_mutex_init(&mMutex, &attr);
+            pthread_mutexattr_destroy(&attr);
+        } else {
+            pthread_mutex_init(&mMutex, NULL);
+        }
+    }
+
+    inline Mutex::~Mutex() {
+        pthread_mutex_destroy(&mMutex);
+    }
+
+    inline status_t Mutex::lock() {
+        return -pthread_mutex_lock(&mMutex);
+    }
+
+    inline void Mutex::unlock() {
+        pthread_mutex_unlock(&mMutex);
+    }
+
+    inline status_t Mutex::tryLock() {
+        return -pthread_mutex_trylock(&mMutex);
+    }
+
 #if defined(__ANDROID__)
-inline status_t Mutex::timedLock(nsecs_t timeoutNs) {
-    timeoutNs += systemTime(SYSTEM_TIME_REALTIME);
-    const struct timespec ts = {
-        /* .tv_sec = */ static_cast<time_t>(timeoutNs / 1000000000),
-        /* .tv_nsec = */ static_cast<long>(timeoutNs % 1000000000),
-    };
-    return -pthread_mutex_timedlock(&mMutex, &ts);
-}
+
+    inline status_t Mutex::timedLock(nsecs_t timeoutNs) {
+        timeoutNs += systemTime(SYSTEM_TIME_REALTIME);
+        const struct timespec ts = {
+                /* .tv_sec = */ static_cast<time_t>(timeoutNs / 1000000000),
+                /* .tv_nsec = */ static_cast<long>(timeoutNs % 1000000000),
+        };
+        return -pthread_mutex_timedlock(&mMutex, &ts);
+    }
+
 #endif
 
 #endif // !defined(_WIN32)
@@ -209,7 +231,7 @@ inline status_t Mutex::timedLock(nsecs_t timeoutNs) {
  * mutex.
  */
 
-typedef Mutex::Autolock AutoMutex;
+    typedef Mutex::Autolock AutoMutex;
 
 // ---------------------------------------------------------------------------
 }; // namespace android

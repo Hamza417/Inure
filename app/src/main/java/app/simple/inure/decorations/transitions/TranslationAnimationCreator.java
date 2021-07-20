@@ -20,6 +20,9 @@ import app.simple.inure.R;
  */
 class TranslationAnimationCreator {
     
+    private TranslationAnimationCreator() {
+    }
+    
     /**
      * Creates an animator that can be used for x and/or y translations. When interrupted,
      * it sets a tag to keep track of the position so that it may be continued from position.
@@ -88,11 +91,11 @@ class TranslationAnimationCreator {
         private final View mMovingView;
         private final int mStartX;
         private final int mStartY;
+        private final float mTerminalX;
+        private final float mTerminalY;
         private int[] mTransitionPosition;
         private float mPausedX;
         private float mPausedY;
-        private final float mTerminalX;
-        private final float mTerminalY;
         
         TransitionPositionListener(View movingView, View viewInHierarchy, int startX, int startY, float terminalX, float terminalY) {
             mMovingView = movingView;
@@ -153,8 +156,5 @@ class TranslationAnimationCreator {
         @Override
         public void onTransitionResume(@NonNull Transition transition) {
         }
-    }
-    
-    private TranslationAnimationCreator() {
     }
 }

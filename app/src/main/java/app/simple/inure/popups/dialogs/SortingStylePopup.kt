@@ -4,12 +4,10 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import app.simple.inure.R
-import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.popup.PopupMenuCallback
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.Sort
 
 class SortingStylePopup(contentView: View, view: View)

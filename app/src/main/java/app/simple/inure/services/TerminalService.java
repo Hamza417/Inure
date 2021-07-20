@@ -29,43 +29,43 @@ import app.simple.inure.decorations.terminal.Terminal;
  * when UI isn't present.
  */
 public class TerminalService extends Service {
-    private final SparseArray<Terminal> mTerminals = new SparseArray <>();
-
-    public class ServiceBinder extends Binder {
-        public TerminalService getService() {
-            return TerminalService.this;
-        }
-    }
-
+    private final SparseArray <Terminal> mTerminals = new SparseArray <>();
+    
     @Override
     public IBinder onBind(Intent intent) {
         return new ServiceBinder();
     }
-
-    public SparseArray<Terminal> getTerminals() {
+    
+    public SparseArray <Terminal> getTerminals() {
         return mTerminals;
     }
-
+    
     public int createTerminal() {
         // If our first terminal, start ourselves as long-lived service
         if (mTerminals.size() == 0) {
             startService(new Intent(this, TerminalService.class));
         }
-
+        
         final Terminal term = new Terminal();
         term.start();
         mTerminals.put(term.key, term);
         return term.key;
     }
-
+    
     public void destroyTerminal(int key) {
         final Terminal term = mTerminals.get(key);
         term.destroy();
         mTerminals.delete(key);
-
+        
         // If our last terminal, tear down long-lived service
         if (mTerminals.size() == 0) {
             stopService(new Intent(this, TerminalService.class));
+        }
+    }
+    
+    public class ServiceBinder extends Binder {
+        public TerminalService getService() {
+            return TerminalService.this;
         }
     }
 }

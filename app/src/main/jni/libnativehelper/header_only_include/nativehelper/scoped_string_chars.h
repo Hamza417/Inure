@@ -30,44 +30,44 @@
 //     return NULL;
 //   }
 class ScopedStringChars {
- public:
-  ScopedStringChars(JNIEnv* env, jstring s) : env_(env), string_(s), size_(0) {
-    if (s == NULL) {
-      chars_ = NULL;
-      jniThrowNullPointerException(env, NULL);
-    } else {
-      chars_ = env->GetStringChars(string_, NULL);
-      if (chars_ != NULL) {
-        size_ = env->GetStringLength(string_);
-      }
+public:
+    ScopedStringChars(JNIEnv *env, jstring s) : env_(env), string_(s), size_(0) {
+        if (s == NULL) {
+            chars_ = NULL;
+            jniThrowNullPointerException(env, NULL);
+        } else {
+            chars_ = env->GetStringChars(string_, NULL);
+            if (chars_ != NULL) {
+                size_ = env->GetStringLength(string_);
+            }
+        }
     }
-  }
 
-  ~ScopedStringChars() {
-    if (chars_ != NULL) {
-      env_->ReleaseStringChars(string_, chars_);
+    ~ScopedStringChars() {
+        if (chars_ != NULL) {
+            env_->ReleaseStringChars(string_, chars_);
+        }
     }
-  }
 
-  const jchar* get() const {
-    return chars_;
-  }
+    const jchar *get() const {
+        return chars_;
+    }
 
-  size_t size() const {
-    return size_;
-  }
+    size_t size() const {
+        return size_;
+    }
 
-  const jchar& operator[](size_t n) const {
-    return chars_[n];
-  }
+    const jchar &operator[](size_t n) const {
+        return chars_[n];
+    }
 
- private:
-  JNIEnv* const env_;
-  const jstring string_;
-  const jchar* chars_;
-  size_t size_;
+private:
+    JNIEnv *const env_;
+    const jstring string_;
+    const jchar *chars_;
+    size_t size_;
 
-  DISALLOW_COPY_AND_ASSIGN(ScopedStringChars);
+    DISALLOW_COPY_AND_ASSIGN(ScopedStringChars);
 };
 
 #endif  // SCOPED_STRING_CHARS_H_

@@ -21,11 +21,11 @@
 
 namespace android {
 
-class SurfaceComposerClient;
+    class SurfaceComposerClient;
 
 /* Gets the underlying SurfaceComposerClient for a SurfaceSession. */
-extern sp<SurfaceComposerClient> android_view_SurfaceSession_getClient(
-        JNIEnv* env, jobject surfaceSessionObj);
+    extern sp <SurfaceComposerClient> android_view_SurfaceSession_getClient(
+            JNIEnv *env, jobject surfaceSessionObj);
 
 } // namespace android
 

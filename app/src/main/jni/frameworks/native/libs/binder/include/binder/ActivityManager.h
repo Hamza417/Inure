@@ -26,42 +26,46 @@
 // ---------------------------------------------------------------------------
 namespace android {
 
-class ActivityManager
-{
-public:
+    class ActivityManager {
+    public:
 
-    enum {
-        // Flag for registerUidObserver: report uid gone
-        UID_OBSERVER_GONE = 1<<1,
-        // Flag for registerUidObserver: report uid has become idle
-        UID_OBSERVER_IDLE = 1<<2,
-        // Flag for registerUidObserver: report uid has become active
-        UID_OBSERVER_ACTIVE = 1<<3
+        enum {
+            // Flag for registerUidObserver: report uid gone
+            UID_OBSERVER_GONE = 1 << 1,
+            // Flag for registerUidObserver: report uid has become idle
+            UID_OBSERVER_IDLE = 1 << 2,
+            // Flag for registerUidObserver: report uid has become active
+            UID_OBSERVER_ACTIVE = 1 << 3
+        };
+
+        enum {
+            // Not a real process state
+            PROCESS_STATE_UNKNOWN = -1
+        };
+
+        ActivityManager();
+
+        int openContentUri(const String16 &stringUri);
+
+        void registerUidObserver(const sp <IUidObserver> &observer,
+                                 const int32_t event,
+                                 const int32_t cutpoint,
+                                 const String16 &callingPackage);
+
+        void unregisterUidObserver(const sp <IUidObserver> &observer);
+
+        bool isUidActive(const uid_t uid, const String16 &callingPackage);
+
+        status_t linkToDeath(const sp <IBinder::DeathRecipient> &recipient);
+
+        status_t unlinkToDeath(const sp <IBinder::DeathRecipient> &recipient);
+
+    private:
+        Mutex mLock;
+        sp <IActivityManager> mService;
+
+        sp <IActivityManager> getService();
     };
-
-    enum {
-        // Not a real process state
-        PROCESS_STATE_UNKNOWN = -1
-    };
-
-    ActivityManager();
-
-    int openContentUri(const String16& stringUri);
-    void registerUidObserver(const sp<IUidObserver>& observer,
-                             const int32_t event,
-                             const int32_t cutpoint,
-                             const String16& callingPackage);
-    void unregisterUidObserver(const sp<IUidObserver>& observer);
-    bool isUidActive(const uid_t uid, const String16& callingPackage);
-
-    status_t linkToDeath(const sp<IBinder::DeathRecipient>& recipient);
-    status_t unlinkToDeath(const sp<IBinder::DeathRecipient>& recipient);
-
-private:
-    Mutex mLock;
-    sp<IActivityManager> mService;
-    sp<IActivityManager> getService();
-};
 
 
 }; // namespace android

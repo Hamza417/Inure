@@ -10,9 +10,9 @@ public interface PopupMenuCallback {
     /**
      * Suitable for using with {@link androidx.recyclerview.widget.RecyclerView}
      *
-     * @param source text of the menu item
+     * @param source          text of the menu item
      * @param applicationInfo {@link ApplicationInfo}
-     * @param icon {@link ImageView} used for transition effects
+     * @param icon            {@link ImageView} used for transition effects
      */
     default void onMenuItemClicked(@NotNull String source, ApplicationInfo applicationInfo, ImageView icon) {
     }

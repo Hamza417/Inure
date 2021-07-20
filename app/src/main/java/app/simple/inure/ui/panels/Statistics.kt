@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.StatsPreferences
-import com.topjohnwu.superuser.internal.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -56,7 +55,7 @@ class Statistics : ScopedFragment() {
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when(key) {
+        when (key) {
             StatsPreferences.statsInterval -> {
 
             }

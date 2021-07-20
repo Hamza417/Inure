@@ -24,7 +24,7 @@
 
 namespace android {
 
-class Parcel;
+    class Parcel;
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -32,27 +32,28 @@ class Parcel;
 #endif
 
 // Abstract interface of all parcelables.
-class Parcelable {
-public:
-    virtual ~Parcelable() = default;
+    class Parcelable {
+    public:
+        virtual ~Parcelable() = default;
 
-    Parcelable() = default;
-    Parcelable(const Parcelable&) = default;
+        Parcelable() = default;
 
-    // Write |this| parcelable to the given |parcel|.  Keep in mind that
-    // implementations of writeToParcel must be manually kept in sync
-    // with readFromParcel and the Java equivalent versions of these methods.
-    //
-    // Returns android::OK on success and an appropriate error otherwise.
-    virtual status_t writeToParcel(Parcel* parcel) const = 0;
+        Parcelable(const Parcelable &) = default;
 
-    // Read data from the given |parcel| into |this|.  After readFromParcel
-    // completes, |this| should have equivalent state to the object that
-    // wrote itself to the parcel.
-    //
-    // Returns android::OK on success and an appropriate error otherwise.
-    virtual status_t readFromParcel(const Parcel* parcel) = 0;
-};  // class Parcelable
+        // Write |this| parcelable to the given |parcel|.  Keep in mind that
+        // implementations of writeToParcel must be manually kept in sync
+        // with readFromParcel and the Java equivalent versions of these methods.
+        //
+        // Returns android::OK on success and an appropriate error otherwise.
+        virtual status_t writeToParcel(Parcel *parcel) const = 0;
+
+        // Read data from the given |parcel| into |this|.  After readFromParcel
+        // completes, |this| should have equivalent state to the object that
+        // wrote itself to the parcel.
+        //
+        // Returns android::OK on success and an appropriate error otherwise.
+        virtual status_t readFromParcel(const Parcel *parcel) = 0;
+    };  // class Parcelable
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

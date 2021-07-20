@@ -24,8 +24,8 @@ namespace android {
 // ---------------------------------------------------------------------------
 
 #ifdef __cplusplus
-template<bool> struct CompileTimeAssert;
-template<> struct CompileTimeAssert<true> {};
+    template<bool> struct CompileTimeAssert;
+    template<> struct CompileTimeAssert<true> {};
 #define COMPILE_TIME_ASSERT(_exp) \
     template class CompileTimeAssert< (_exp) >;
 #endif

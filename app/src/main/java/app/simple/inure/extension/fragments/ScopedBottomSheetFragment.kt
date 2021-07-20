@@ -1,23 +1,16 @@
 package app.simple.inure.extension.fragments
 
-import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import app.simple.inure.R
-import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
-import kotlin.coroutines.CoroutineContext
 
 
 abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),

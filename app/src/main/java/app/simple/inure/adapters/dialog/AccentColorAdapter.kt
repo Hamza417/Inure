@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
-import app.simple.inure.decorations.corners.DynamicCornerFrameLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.preferences.AppearancePreferences
 import org.jetbrains.annotations.NotNull

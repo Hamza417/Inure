@@ -14,7 +14,6 @@ import com.jaredrummler.apkparser.model.DexInfo
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.DexClass
 import java.io.IOException
-import java.lang.Exception
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile

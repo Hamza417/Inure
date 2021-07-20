@@ -1,9 +1,7 @@
 package app.simple.inure.preferences
 
-import androidx.annotation.IntRange
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort

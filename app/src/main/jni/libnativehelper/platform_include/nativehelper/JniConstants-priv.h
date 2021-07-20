@@ -19,7 +19,7 @@
 
 namespace android {
 
-void ClearJniConstantsCache();
+    void ClearJniConstantsCache();
 
 }  // namespace android
 

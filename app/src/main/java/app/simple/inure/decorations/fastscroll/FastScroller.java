@@ -31,37 +31,31 @@ public class FastScroller {
     private final ViewGroup mView;
     @NonNull
     private final ViewHelper mViewHelper;
-    @Nullable
-    private Rect mUserPadding;
     @NonNull
     private final AnimationHelper mAnimationHelper;
-    
     private final int mTrackWidth;
     private final int mThumbWidth;
     private final int mThumbHeight;
-    
     @NonNull
     private final View mTrackView;
     @NonNull
     private final View mThumbView;
     @NonNull
     private final TextView mPopupView;
-    
+    @NonNull
+    private final Rect mTempRect = new Rect();
+    @Nullable
+    private Rect mUserPadding;
     private boolean mScrollbarEnabled;
     private int mThumbOffset;
-    
     private float mDownX;
     private float mDownY;
     private float mLastY;
     private float mDragStartY;
     private int mDragStartThumbOffset;
     private boolean mDragging;
-    
     @NonNull
     private final Runnable mAutoHideScrollbarRunnable = this :: autoHideScrollbar;
-    
-    @NonNull
-    private final Rect mTempRect = new Rect();
     
     public FastScroller(@NonNull ViewGroup view, @NonNull ViewHelper viewHelper,
             @Nullable Rect padding, @NonNull Drawable trackDrawable,
@@ -116,6 +110,18 @@ public class FastScroller {
         mView.invalidate();
     }
     
+    @NonNull
+    private Rect getPadding() {
+        if (mUserPadding != null) {
+            mTempRect.set(mUserPadding);
+        }
+        else {
+            mTempRect.set(mView.getPaddingLeft(), mView.getPaddingTop(), mView.getPaddingRight(),
+                    mView.getPaddingBottom());
+        }
+        return mTempRect;
+    }
+    
     public void setPadding(@Nullable Rect padding) {
         if (Objects.equals(mUserPadding, padding)) {
             return;
@@ -130,18 +136,6 @@ public class FastScroller {
             mUserPadding = null;
         }
         mView.invalidate();
-    }
-    
-    @NonNull
-    private Rect getPadding() {
-        if (mUserPadding != null) {
-            mTempRect.set(mUserPadding);
-        }
-        else {
-            mTempRect.set(mView.getPaddingLeft(), mView.getPaddingTop(), mView.getPaddingRight(),
-                    mView.getPaddingBottom());
-        }
-        return mTempRect;
     }
     
     private void onPreDraw() {

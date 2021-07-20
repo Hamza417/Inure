@@ -29,71 +29,78 @@ namespace android {
 
 // ----------------------------------------------------------------------------
 
-class IMemoryHeap : public IInterface
-{
-public:
-    DECLARE_META_INTERFACE(MemoryHeap)
+    class IMemoryHeap : public IInterface {
+    public:
+        DECLARE_META_INTERFACE(MemoryHeap)
 
-    // flags returned by getFlags()
-    enum {
-        READ_ONLY   = 0x00000001
+        // flags returned by getFlags()
+        enum {
+            READ_ONLY = 0x00000001
+        };
+
+        virtual int getHeapID() const = 0;
+
+        virtual void *getBase() const = 0;
+
+        virtual size_t getSize() const = 0;
+
+        virtual uint32_t getFlags() const = 0;
+
+        virtual uint32_t getOffset() const = 0;
+
+        // these are there just for backward source compatibility
+        int32_t heapID() const { return getHeapID(); }
+
+        void *base() const { return getBase(); }
+
+        size_t virtualSize() const { return getSize(); }
     };
 
-    virtual int         getHeapID() const = 0;
-    virtual void*       getBase() const = 0;
-    virtual size_t      getSize() const = 0;
-    virtual uint32_t    getFlags() const = 0;
-    virtual uint32_t    getOffset() const = 0;
+    class BnMemoryHeap : public BnInterface<IMemoryHeap> {
+    public:
+        virtual status_t onTransact(
+                uint32_t code,
+                const Parcel &data,
+                Parcel *reply,
+                uint32_t flags = 0);
 
-    // these are there just for backward source compatibility
-    int32_t heapID() const { return getHeapID(); }
-    void*   base() const  { return getBase(); }
-    size_t  virtualSize() const { return getSize(); }
-};
+        BnMemoryHeap();
 
-class BnMemoryHeap : public BnInterface<IMemoryHeap>
-{
-public:
-    virtual status_t onTransact( 
-            uint32_t code,
-            const Parcel& data,
-            Parcel* reply,
-            uint32_t flags = 0);
-    
-    BnMemoryHeap();
-protected:
-    virtual ~BnMemoryHeap();
-};
+    protected:
+        virtual ~BnMemoryHeap();
+    };
 
 // ----------------------------------------------------------------------------
 
-class IMemory : public IInterface
-{
-public:
-    DECLARE_META_INTERFACE(Memory)
+    class IMemory : public IInterface {
+    public:
+        DECLARE_META_INTERFACE(Memory)
 
-    virtual sp<IMemoryHeap> getMemory(ssize_t* offset=0, size_t* size=0) const = 0;
+        virtual sp <IMemoryHeap> getMemory(ssize_t *offset = 0, size_t *size = 0) const = 0;
 
-    // helpers
-    void* fastPointer(const sp<IBinder>& heap, ssize_t offset) const;
-    void* pointer() const;
-    size_t size() const;
-    ssize_t offset() const;
-};
+        // helpers
+        void *fastPointer(const sp <IBinder> &heap, ssize_t offset) const;
 
-class BnMemory : public BnInterface<IMemory>
-{
-public:
-    virtual status_t onTransact(
-            uint32_t code,
-            const Parcel& data,
-            Parcel* reply,
-            uint32_t flags = 0);
+        void *pointer() const;
 
-    BnMemory();
-protected:
-    virtual ~BnMemory();
-};
+        size_t size() const;
+
+        ssize_t offset() const;
+    };
+
+    class BnMemory : public BnInterface<IMemory> {
+    public:
+        virtual status_t onTransact(
+                uint32_t code,
+                const Parcel &data,
+                Parcel *reply,
+                uint32_t flags = 0);
+
+        BnMemory();
+
+    protected:
+        virtual ~BnMemory();
+    };
 
 // ----------------------------------------------------------------------------
 

@@ -26,47 +26,52 @@
 
 namespace android {
 
-class ReferenceRenamer;
+    class ReferenceRenamer;
 
-template <class T>
-class LightRefBase
-{
-public:
-    inline LightRefBase() : mCount(0) { }
-    inline void incStrong(__attribute__((unused)) const void* id) const {
-        mCount.fetch_add(1, std::memory_order_relaxed);
-    }
-    inline void decStrong(__attribute__((unused)) const void* id) const {
-        if (mCount.fetch_sub(1, std::memory_order_release) == 1) {
-            std::atomic_thread_fence(std::memory_order_acquire);
-            delete static_cast<const T*>(this);
+    template<class T>
+    class LightRefBase {
+    public:
+        inline LightRefBase() : mCount(0) {}
+
+        inline void incStrong(__attribute__((unused)) const void *id) const {
+            mCount.fetch_add(1, std::memory_order_relaxed);
         }
-    }
-    //! DEBUGGING ONLY: Get current strong ref count.
-    inline int32_t getStrongCount() const {
-        return mCount.load(std::memory_order_relaxed);
-    }
 
-    typedef LightRefBase<T> basetype;
+        inline void decStrong(__attribute__((unused)) const void *id) const {
+            if (mCount.fetch_sub(1, std::memory_order_release) == 1) {
+                std::atomic_thread_fence(std::memory_order_acquire);
+                delete static_cast<const T *>(this);
+            }
+        }
 
-protected:
-    inline ~LightRefBase() { }
+        //! DEBUGGING ONLY: Get current strong ref count.
+        inline int32_t getStrongCount() const {
+            return mCount.load(std::memory_order_relaxed);
+        }
 
-private:
-    friend class ReferenceMover;
-    inline static void renameRefs(size_t /*n*/, const ReferenceRenamer& /*renamer*/) { }
-    inline static void renameRefId(T* /*ref*/, const void* /*old_id*/ , const void* /*new_id*/) { }
+        typedef LightRefBase<T> basetype;
 
-private:
-    mutable std::atomic<int32_t> mCount;
-};
+    protected:
+        inline ~LightRefBase() {}
+
+    private:
+        friend class ReferenceMover;
+
+        inline static void renameRefs(size_t /*n*/, const ReferenceRenamer & /*renamer*/) {}
+
+        inline static void
+        renameRefId(T * /*ref*/, const void * /*old_id*/ , const void * /*new_id*/) {}
+
+    private:
+        mutable std::atomic<int32_t> mCount;
+    };
 
 
 // This is a wrapper around LightRefBase that simply enforces a virtual
 // destructor to eliminate the template requirement of LightRefBase
-class VirtualLightRefBase : public LightRefBase<VirtualLightRefBase> {
-public:
-    virtual ~VirtualLightRefBase() = default;
-};
+    class VirtualLightRefBase : public LightRefBase<VirtualLightRefBase> {
+    public:
+        virtual ~VirtualLightRefBase() = default;
+    };
 
 }; // namespace android

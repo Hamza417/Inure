@@ -16,9 +16,6 @@ import app.simple.inure.util.ViewUtils;
 
 public class PopupStyles {
     
-    private PopupStyles() {
-    }
-    
     public static Consumer <TextView> MD2 = popupView -> {
         Resources resources = popupView.getResources();
         popupView.setMinimumWidth(resources.getDimensionPixelSize(R.dimen.fs_md2_popup_min_width));
@@ -43,4 +40,7 @@ public class PopupStyles {
         popupView.setTextColor(Utils.getColorFromAttrRes(android.R.attr.textColorPrimaryInverse, context));
         popupView.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimensionPixelSize(R.dimen.fs_md2_popup_text_size));
     };
+    
+    private PopupStyles() {
+    }
 }

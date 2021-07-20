@@ -69,8 +69,8 @@ jclass JniConstants::structUtsnameClass;
 jclass JniConstants::unixSocketAddressClass;
 jclass JniConstants::zipEntryClass;
 
-static jclass findClass(JNIEnv* env, const char* name) {
-    ScopedLocalRef<jclass> localClass(env, env->FindClass(name));
+static jclass findClass(JNIEnv *env, const char *name) {
+    ScopedLocalRef <jclass> localClass(env, env->FindClass(name));
     jclass result = reinterpret_cast<jclass>(env->NewGlobalRef(localClass.get()));
     if (result == NULL) {
         ALOGE("failed to find class '%s'", name);
@@ -79,18 +79,18 @@ static jclass findClass(JNIEnv* env, const char* name) {
     return result;
 }
 
-void JniConstants::init(JNIEnv* env) {
+void JniConstants::init(JNIEnv *env) {
     // Fast check
     if (g_constants_initialized) {
-      // already initialized
-      return;
+        // already initialized
+        return;
     }
 
     // Slightly slower check
-    std::lock_guard<std::mutex> guard(g_constants_mutex);
+    std::lock_guard <std::mutex> guard(g_constants_mutex);
     if (g_constants_initialized) {
-      // already initialized
-      return;
+        // already initialized
+        return;
     }
 
     booleanClass = findClass(env, "java/lang/Boolean");
@@ -106,7 +106,8 @@ void JniConstants::init(JNIEnv* env) {
     inetAddressClass = findClass(env, "java/net/InetAddress");
     inetAddressHolderClass = findClass(env, "java/net/InetAddress$InetAddressHolder");
     inetSocketAddressClass = findClass(env, "java/net/InetSocketAddress");
-    inetSocketAddressHolderClass = findClass(env, "java/net/InetSocketAddress$InetSocketAddressHolder");
+    inetSocketAddressHolderClass = findClass(env,
+                                             "java/net/InetSocketAddress$InetSocketAddressHolder");
     integerClass = findClass(env, "java/lang/Integer");
     localeDataClass = findClass(env, "libcore/icu/LocaleData");
     longClass = findClass(env, "java/lang/Long");
@@ -137,9 +138,9 @@ void JniConstants::init(JNIEnv* env) {
 
 namespace android {
 
-void ClearJniConstantsCache() {
-    g_constants_initialized = false;
-    ClearJNIHelpLocalCache();
-}
+    void ClearJniConstantsCache() {
+        g_constants_initialized = false;
+        ClearJNIHelpLocalCache();
+    }
 
 }

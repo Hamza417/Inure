@@ -214,14 +214,14 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
         val messages = ArrayList<ByteArray>()
         messages.add(ID_BYTES)
         messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE)
-                         .putFloat(blurRadius).array())
+                             .putFloat(blurRadius).array())
         messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE)
-                         .putFloat(elevation).array())
+                             .putFloat(elevation).array())
         messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE).putFloat(angle)
-                         .array())
+                             .array())
         messages.add(ByteBuffer.allocate(Integer.SIZE / java.lang.Byte.SIZE).putInt(colour).array())
         messages.add(ByteBuffer.allocate(java.lang.Long.SIZE).putLong(System.currentTimeMillis())
-                         .array())
+                             .array())
         for (c in messages.indices) {
             messageDigest.update(messages[c])
         }

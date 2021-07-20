@@ -33,12 +33,11 @@ import app.simple.inure.decorations.terminal.TerminalView.TerminalMetrics;
 @SuppressLint ("ViewConstructor")
 public class TerminalLineView extends View {
     private static final String TAG = "TAG";
+    private final Terminal mTerm;
+    private final TerminalMetrics mMetrics;
     public int pos;
     public int row;
     public int cols;
-    
-    private final Terminal mTerm;
-    private final TerminalMetrics mMetrics;
     
     public TerminalLineView(Context context, Terminal term, TerminalMetrics metrics) {
         super(context);

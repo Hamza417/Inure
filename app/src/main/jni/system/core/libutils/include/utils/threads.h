@@ -28,11 +28,13 @@
 #include "AndroidThreads.h"
 
 #ifdef __cplusplus
+
 #include "Condition.h"
 #include "Errors.h"
 #include "Mutex.h"
 #include "RWLock.h"
 #include "Thread.h"
+
 #endif
 
 #endif // _LIBS_UTILS_THREADS_H

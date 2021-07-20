@@ -28,107 +28,107 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 
-@SuppressLint("MissingSuperCall")
+@SuppressLint ("MissingSuperCall")
 public class FastScrollWebView extends WebView implements ViewHelperProvider {
-
+    
     @NonNull
     private final ViewHelper mViewHelper = new ViewHelper();
-
+    
     public FastScrollWebView(@NonNull Context context) {
         super(context);
-
+        
         init();
     }
-
+    
     public FastScrollWebView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
+        
         init();
     }
-
+    
     public FastScrollWebView(@NonNull Context context, @Nullable AttributeSet attrs,
-                             @AttrRes int defStyleAttr) {
+            @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        
         init();
     }
-
+    
     public FastScrollWebView(@NonNull Context context, @Nullable AttributeSet attrs,
-                             @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+            @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-
+        
         init();
     }
-
+    
     private void init() {
         setVerticalScrollBarEnabled(false);
         setScrollContainer(true);
     }
-
+    
     @NonNull
     @Override
     public FastScroller.ViewHelper getViewHelper() {
         return mViewHelper;
     }
-
+    
     @Override
     public void draw(@NonNull Canvas canvas) {
         mViewHelper.draw(canvas);
     }
-
+    
     @Override
     protected void onScrollChanged(int left, int top, int oldLeft, int oldTop) {
         mViewHelper.onScrollChanged(left, top, oldLeft, oldTop);
     }
-
+    
     @Override
     public boolean onInterceptTouchEvent(@NonNull MotionEvent event) {
         return mViewHelper.onInterceptTouchEvent(event);
     }
-
+    
     @SuppressLint ("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         return mViewHelper.onTouchEvent(event);
     }
-
+    
     private class ViewHelper extends SimpleViewHelper {
-
+        
         @Override
         protected void superDraw(@NonNull Canvas canvas) {
             FastScrollWebView.super.draw(canvas);
         }
-
+        
         @Override
         protected void superOnScrollChanged(int left, int top, int oldLeft, int oldTop) {
             FastScrollWebView.super.onScrollChanged(left, top, oldLeft, oldTop);
         }
-
+        
         @Override
         protected boolean superOnInterceptTouchEvent(@NonNull MotionEvent event) {
             return FastScrollWebView.super.onInterceptTouchEvent(event);
         }
-
+        
         @Override
         protected boolean superOnTouchEvent(@NonNull MotionEvent event) {
             return FastScrollWebView.super.onTouchEvent(event);
         }
-
+        
         @Override
         protected int computeVerticalScrollRange() {
             return FastScrollWebView.this.computeVerticalScrollRange();
         }
-
+        
         @Override
         protected int computeVerticalScrollOffset() {
             return FastScrollWebView.this.computeVerticalScrollOffset();
         }
-
+        
         @Override
         protected int getScrollX() {
             return FastScrollWebView.this.getScrollX();
         }
-
+        
         @Override
         protected void scrollTo(int x, int y) {
             FastScrollWebView.this.scrollTo(x, y);

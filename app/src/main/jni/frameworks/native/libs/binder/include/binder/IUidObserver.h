@@ -26,32 +26,32 @@ namespace android {
 
 // ----------------------------------------------------------------------
 
-class IUidObserver : public IInterface
-{
-public:
-    DECLARE_META_INTERFACE(UidObserver)
+    class IUidObserver : public IInterface {
+    public:
+        DECLARE_META_INTERFACE(UidObserver)
 
-    virtual void onUidGone(uid_t uid, bool disabled) = 0;
-    virtual void onUidActive(uid_t uid) = 0;
-    virtual void onUidIdle(uid_t uid, bool disabled) = 0;
+        virtual void onUidGone(uid_t uid, bool disabled) = 0;
 
-    enum {
-        ON_UID_GONE_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION,
-        ON_UID_ACTIVE_TRANSACTION,
-        ON_UID_IDLE_TRANSACTION
+        virtual void onUidActive(uid_t uid) = 0;
+
+        virtual void onUidIdle(uid_t uid, bool disabled) = 0;
+
+        enum {
+            ON_UID_GONE_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION,
+            ON_UID_ACTIVE_TRANSACTION,
+            ON_UID_IDLE_TRANSACTION
+        };
     };
-};
 
 // ----------------------------------------------------------------------
 
-class BnUidObserver : public BnInterface<IUidObserver>
-{
-public:
-    virtual status_t  onTransact(uint32_t code,
-                                 const Parcel& data,
-                                 Parcel* reply,
-                                 uint32_t flags = 0);
-};
+    class BnUidObserver : public BnInterface<IUidObserver> {
+    public:
+        virtual status_t onTransact(uint32_t code,
+                                    const Parcel &data,
+                                    Parcel *reply,
+                                    uint32_t flags = 0);
+    };
 
 // ----------------------------------------------------------------------
 

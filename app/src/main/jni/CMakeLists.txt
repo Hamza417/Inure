@@ -28,7 +28,7 @@ add_library( # Sets the name of the library.
         JVM.cpp
         packages/apps/Terminal/jni/com_android_terminal_Terminal.cpp
         packages/apps/Terminal/jni/jni_init.cpp
-)
+        )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

@@ -4,23 +4,21 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.services.TerminalService
-import app.simple.inure.services.TerminalService.ServiceBinder
 import app.simple.inure.decorations.terminal.TerminalView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupTerminal
+import app.simple.inure.services.TerminalService
+import app.simple.inure.services.TerminalService.ServiceBinder
 import app.simple.inure.util.TypeFace
 
 class Terminal : ScopedFragment() {
@@ -96,7 +94,7 @@ class Terminal : ScopedFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if(isKilled) {
+        if (isKilled) {
             terminalService.destroyTerminal(terminal.terminal.key)
         }
         requireActivity().unbindService(serviceConnection)

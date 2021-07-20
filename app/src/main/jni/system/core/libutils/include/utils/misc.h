@@ -31,9 +31,11 @@
 
 namespace android {
 
-typedef void (*sysprop_change_callback)(void);
-void add_sysprop_change_callback(sysprop_change_callback cb, int priority);
-void report_sysprop_change();
+    typedef void (*sysprop_change_callback)(void);
+
+    void add_sysprop_change_callback(sysprop_change_callback cb, int priority);
+
+    void report_sysprop_change();
 
 }; // namespace android
 

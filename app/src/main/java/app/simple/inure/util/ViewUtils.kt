@@ -4,10 +4,8 @@ import android.content.Context
 import android.view.View
 import android.view.WindowManager
 import app.simple.inure.R
-import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
-import app.simple.inure.util.ViewUtils.makeGoAway
 
 object ViewUtils {
     /**
@@ -17,7 +15,7 @@ object ViewUtils {
      * initialized
      */
     fun dimBehind(contentView: View) {
-        if(BehaviourPreferences.isDimmingOn()) {
+        if (BehaviourPreferences.isDimmingOn()) {
             val container = contentView.rootView
             val windowManager = contentView.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val layoutParams = container.layoutParams as WindowManager.LayoutParams

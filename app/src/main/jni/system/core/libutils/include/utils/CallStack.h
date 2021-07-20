@@ -27,45 +27,47 @@
 
 namespace android {
 
-class Printer;
+    class Printer;
 
 // Collect/print the call stack (function, file, line) traces for a single thread.
-class CallStack {
-public:
-    // Create an empty call stack. No-op.
-    CallStack();
-    // Create a callstack with the current thread's stack trace.
-    // Immediately dump it to logcat using the given logtag.
-    CallStack(const char* logtag, int32_t ignoreDepth=1);
-    ~CallStack();
+    class CallStack {
+    public:
+        // Create an empty call stack. No-op.
+        CallStack();
 
-    // Reset the stack frames (same as creating an empty call stack).
-    void clear() { mFrameLines.clear(); }
+        // Create a callstack with the current thread's stack trace.
+        // Immediately dump it to logcat using the given logtag.
+        CallStack(const char *logtag, int32_t ignoreDepth = 1);
 
-    // Immediately collect the stack traces for the specified thread.
-    // The default is to dump the stack of the current call.
-    void update(int32_t ignoreDepth=1, pid_t tid=BACKTRACE_CURRENT_THREAD);
+        ~CallStack();
 
-    // Dump a stack trace to the log using the supplied logtag.
-    void log(const char* logtag,
-             android_LogPriority priority = ANDROID_LOG_DEBUG,
-             const char* prefix = 0) const;
+        // Reset the stack frames (same as creating an empty call stack).
+        void clear() { mFrameLines.clear(); }
 
-    // Dump a stack trace to the specified file descriptor.
-    void dump(int fd, int indent = 0, const char* prefix = 0) const;
+        // Immediately collect the stack traces for the specified thread.
+        // The default is to dump the stack of the current call.
+        void update(int32_t ignoreDepth = 1, pid_t tid = BACKTRACE_CURRENT_THREAD);
 
-    // Return a string (possibly very long) containing the complete stack trace.
-    String8 toString(const char* prefix = 0) const;
+        // Dump a stack trace to the log using the supplied logtag.
+        void log(const char *logtag,
+                 android_LogPriority priority = ANDROID_LOG_DEBUG,
+                 const char *prefix = 0) const;
 
-    // Dump a serialized representation of the stack trace to the specified printer.
-    void print(Printer& printer) const;
+        // Dump a stack trace to the specified file descriptor.
+        void dump(int fd, int indent = 0, const char *prefix = 0) const;
 
-    // Get the count of stack frames that are in this call stack.
-    size_t size() const { return mFrameLines.size(); }
+        // Return a string (possibly very long) containing the complete stack trace.
+        String8 toString(const char *prefix = 0) const;
 
-private:
-    Vector<String8> mFrameLines;
-};
+        // Dump a serialized representation of the stack trace to the specified printer.
+        void print(Printer &printer) const;
+
+        // Get the count of stack frames that are in this call stack.
+        size_t size() const { return mFrameLines.size(); }
+
+    private:
+        Vector <String8> mFrameLines;
+    };
 
 }; // namespace android
 

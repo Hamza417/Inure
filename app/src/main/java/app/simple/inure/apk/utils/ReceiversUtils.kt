@@ -8,7 +8,7 @@ import android.os.Build
 import app.simple.inure.util.NullSafety.isNotNull
 
 object ReceiversUtils {
-    fun isEnabled(context: Context, packageName: String, clsName: String) : Boolean {
+    fun isEnabled(context: Context, packageName: String, clsName: String): Boolean {
         val componentName = ComponentName(packageName, clsName)
 
         return when (context.packageManager.getComponentEnabledSetting(componentName)) {
@@ -28,7 +28,7 @@ object ReceiversUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.receivers.isNotNull()) {
-                        for(i in packageInfo.receivers) {
+                        for (i in packageInfo.receivers) {
                             components.add(i)
                         }
                     }
@@ -60,7 +60,7 @@ object ReceiversUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.receivers.isNotNull()) {
-                        for(i in packageInfo.receivers) {
+                        for (i in packageInfo.receivers) {
                             components.add(i)
                         }
                     }

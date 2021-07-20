@@ -22,16 +22,16 @@
 
 // ---------------------------------------------------------------------------
 namespace android {
-namespace binder {
+    namespace binder {
 
-class Value;
+        class Value;
 
 /**
  * Convenience typedef for ::std::map<::std::string,::android::binder::Value>
  */
-typedef ::std::map<::std::string, Value> Map;
+        typedef ::std::map<::std::string, Value> Map;
 
-} // namespace binder
+    } // namespace binder
 } // namespace android
 
 // ---------------------------------------------------------------------------

@@ -19,17 +19,12 @@ package app.simple.inure.decorations.fastscroll;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 class Utils {
     @ColorInt
@@ -37,10 +32,10 @@ class Utils {
         ColorStateList colorStateList = getColorStateListFromAttrRes(attrRes, context);
         return colorStateList != null ? colorStateList.getDefaultColor() : 0;
     }
-
+    
     @Nullable
     public static ColorStateList getColorStateListFromAttrRes(@AttrRes int attrRes, @NonNull Context context) {
-        TypedArray a = context.obtainStyledAttributes(new int[] { attrRes });
+        TypedArray a = context.obtainStyledAttributes(new int[] {attrRes});
         int resId;
         try {
             resId = a.getResourceId(0, 0);

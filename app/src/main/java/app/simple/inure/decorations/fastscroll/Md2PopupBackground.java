@@ -42,6 +42,12 @@ class Md2PopupBackground extends Drawable {
         mPaddingEnd = resources.getDimensionPixelOffset(R.dimen.afs_md2_popup_padding_end);
     }
     
+    private static void pathArcTo(@NonNull Path path, float centerX, float centerY, float radius,
+            float startAngle, float sweepAngle) {
+        path.arcTo(centerX - radius, centerY - radius, centerX + radius, centerY + radius,
+                startAngle, sweepAngle, false);
+    }
+    
     @Override
     public void draw(@NonNull Canvas canvas) {
         canvas.drawPath(mPath, mPaint);
@@ -108,12 +114,6 @@ class Md2PopupBackground extends Drawable {
         }
         mTempMatrix.postTranslate(bounds.left, bounds.top);
         mPath.transform(mTempMatrix);
-    }
-    
-    private static void pathArcTo(@NonNull Path path, float centerX, float centerY, float radius,
-            float startAngle, float sweepAngle) {
-        path.arcTo(centerX - radius, centerY - radius, centerX + radius, centerY + radius,
-                startAngle, sweepAngle, false);
     }
     
     @Override

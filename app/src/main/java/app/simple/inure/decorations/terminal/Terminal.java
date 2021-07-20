@@ -23,59 +23,20 @@ import android.graphics.Color;
  */
 public class Terminal {
     public static final String TAG = "Terminal";
-    
-    public final int key;
-    
     private static int sNumber = 0;
     
     static {
         System.loadLibrary("_inure_terminal");
     }
     
-    /**
-     * Represents a run of one or more {@code VTermScreenCell} which all have
-     * the same formatting.
-     */
-    public static class CellRun {
-        char[] data;
-        int dataSize;
-        int colSize;
-        
-        boolean bold;
-        int underline;
-        boolean blink;
-        boolean reverse;
-        boolean strike;
-        int font;
-        
-        int fg = Color.CYAN;
-        int bg = Color.TRANSPARENT;
-    }
-    
-    // NOTE: clients must not call back into terminal while handling a callback,
-    // since native mutex isn't reentrant.
-    public interface TerminalClient {
-        public void onDamage(int startRow, int endRow, int startCol, int endCol);
-        
-        public void onMoveRect(int destStartRow, int destEndRow, int destStartCol, int destEndCol,
-                int srcStartRow, int srcEndRow, int srcStartCol, int srcEndCol);
-        
-        public void onMoveCursor(int posRow, int posCol, int oldPosRow, int oldPosCol, int visible);
-        
-        public void onBell();
-    }
-    
+    public final int key;
     private final long mNativePtr;
     private final Thread mThread;
-    
     private final String mTitle;
-    
     private TerminalClient mClient;
-    
     private boolean mCursorVisible;
     private int mCursorRow;
     private int mCursorCol;
-    
     public Terminal() {
         TerminalCallbacks mCallbacks = new TerminalCallbacks() {
             @Override
@@ -125,6 +86,26 @@ public class Terminal {
             }
         };
     }
+
+    private static native long nativeInit(TerminalCallbacks callbacks);
+    
+    private static native int nativeDestroy(long ptr);
+    
+    private static native int nativeRun(long ptr);
+    
+    private static native int nativeResize(long ptr, int rows, int cols, int scrollRows);
+    
+    private static native int nativeGetCellRun(long ptr, int row, int col, CellRun run);
+    
+    private static native int nativeGetRows(long ptr);
+    
+    private static native int nativeGetCols(long ptr);
+    
+    private static native int nativeGetScrollRows(long ptr);
+    
+    private static native boolean nativeDispatchKey(long ptr, int modifiers, int key);
+    
+    private static native boolean nativeDispatchCharacter(long ptr, int modifiers, int character);
     
     /**
      * Start thread which internally forks and manages the pseudo terminal.
@@ -192,23 +173,36 @@ public class Terminal {
         return nativeDispatchCharacter(mNativePtr, modifiers, character);
     }
     
-    private static native long nativeInit(TerminalCallbacks callbacks);
+    // NOTE: clients must not call back into terminal while handling a callback,
+    // since native mutex isn't reentrant.
+    public interface TerminalClient {
+        public void onDamage(int startRow, int endRow, int startCol, int endCol);
+        
+        public void onMoveRect(int destStartRow, int destEndRow, int destStartCol, int destEndCol,
+                int srcStartRow, int srcEndRow, int srcStartCol, int srcEndCol);
+        
+        public void onMoveCursor(int posRow, int posCol, int oldPosRow, int oldPosCol, int visible);
+        
+        public void onBell();
+    }
     
-    private static native int nativeDestroy(long ptr);
-    
-    private static native int nativeRun(long ptr);
-    
-    private static native int nativeResize(long ptr, int rows, int cols, int scrollRows);
-    
-    private static native int nativeGetCellRun(long ptr, int row, int col, CellRun run);
-    
-    private static native int nativeGetRows(long ptr);
-    
-    private static native int nativeGetCols(long ptr);
-    
-    private static native int nativeGetScrollRows(long ptr);
-    
-    private static native boolean nativeDispatchKey(long ptr, int modifiers, int key);
-    
-    private static native boolean nativeDispatchCharacter(long ptr, int modifiers, int character);
+    /**
+     * Represents a run of one or more {@code VTermScreenCell} which all have
+     * the same formatting.
+     */
+    public static class CellRun {
+        char[] data;
+        int dataSize;
+        int colSize;
+        
+        boolean bold;
+        int underline;
+        boolean blink;
+        boolean reverse;
+        boolean strike;
+        int font;
+        
+        int fg = Color.CYAN;
+        int bg = Color.TRANSPARENT;
+    }
 }

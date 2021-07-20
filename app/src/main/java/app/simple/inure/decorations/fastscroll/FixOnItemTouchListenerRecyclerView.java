@@ -31,60 +31,60 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FixOnItemTouchListenerRecyclerView extends RecyclerView {
-
+    
     @NonNull
     private final OnItemTouchDispatcher mOnItemTouchDispatcher = new OnItemTouchDispatcher();
-
+    
     public FixOnItemTouchListenerRecyclerView(@NonNull Context context) {
         super(context);
-
+        
         init();
     }
-
+    
     public FixOnItemTouchListenerRecyclerView(@NonNull Context context,
-                                              @Nullable AttributeSet attrs) {
+            @Nullable AttributeSet attrs) {
         super(context, attrs);
-
+        
         init();
     }
-
+    
     public FixOnItemTouchListenerRecyclerView(@NonNull Context context,
-                                              @Nullable AttributeSet attrs,
-                                              @AttrRes int defStyleAttr) {
+            @Nullable AttributeSet attrs,
+            @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        
         init();
     }
-
+    
     private void init() {
         super.addOnItemTouchListener(mOnItemTouchDispatcher);
     }
-
+    
     @Override
     public void addOnItemTouchListener(@NonNull OnItemTouchListener listener) {
         mOnItemTouchDispatcher.addListener(listener);
     }
-
+    
     @Override
     public void removeOnItemTouchListener(@NonNull OnItemTouchListener listener) {
         mOnItemTouchDispatcher.removeListener(listener);
     }
-
+    
     private static class OnItemTouchDispatcher implements OnItemTouchListener {
-
+        
         @NonNull
-        private final List<OnItemTouchListener> mListeners = new ArrayList<>();
-
+        private final List <OnItemTouchListener> mListeners = new ArrayList <>();
+        
         @NonNull
-        private final Set<OnItemTouchListener> mTrackingListeners = new LinkedHashSet<>();
-
+        private final Set <OnItemTouchListener> mTrackingListeners = new LinkedHashSet <>();
+        
         @Nullable
         private OnItemTouchListener mInterceptingListener;
-
+        
         public void addListener(@NonNull OnItemTouchListener listener) {
             mListeners.add(listener);
         }
-
+        
         public void removeListener(@NonNull OnItemTouchListener listener) {
             mListeners.remove(listener);
             mTrackingListeners.remove(listener);
@@ -92,11 +92,11 @@ public class FixOnItemTouchListenerRecyclerView extends RecyclerView {
                 mInterceptingListener = null;
             }
         }
-
+        
         // @see RecyclerView#findInterceptingOnItemTouchListener
         @Override
         public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView,
-                                             @NonNull MotionEvent event) {
+                @NonNull MotionEvent event) {
             int action = event.getAction();
             for (OnItemTouchListener listener : mListeners) {
                 boolean intercepted = listener.onInterceptTouchEvent(recyclerView, event);
@@ -114,13 +114,14 @@ public class FixOnItemTouchListenerRecyclerView extends RecyclerView {
                     mTrackingListeners.clear();
                     mInterceptingListener = listener;
                     return true;
-                } else {
+                }
+                else {
                     mTrackingListeners.add(listener);
                 }
             }
             return false;
         }
-
+        
         @Override
         public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent event) {
             if (mInterceptingListener == null) {
@@ -132,7 +133,7 @@ public class FixOnItemTouchListenerRecyclerView extends RecyclerView {
                 mInterceptingListener = null;
             }
         }
-
+        
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
             for (OnItemTouchListener listener : mListeners) {

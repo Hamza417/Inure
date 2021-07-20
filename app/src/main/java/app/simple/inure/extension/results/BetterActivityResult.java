@@ -11,6 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class BetterActivityResult <Input, Result> {
+    private final ActivityResultLauncher <Input> launcher;
+    @Nullable
+    private OnActivityResult <Result> onActivityResult;
+    
+    private BetterActivityResult(@NonNull ActivityResultCaller caller,
+            @NonNull ActivityResultContract <Input, Result> contract,
+            @Nullable OnActivityResult <Result> onActivityResult) {
+        this.onActivityResult = onActivityResult;
+        this.launcher = caller.registerForActivityResult(contract, this :: callOnActivityResult);
+    }
+    
     /**
      * Register activity result using a {@link ActivityResultContract} and an in-place activity result callback like
      * the default approach. You can still customise callback using {@link #launch(Object, OnActivityResult)}.
@@ -43,27 +54,6 @@ public class BetterActivityResult <Input, Result> {
         return registerForActivityResult(caller, new ActivityResultContracts.StartActivityForResult());
     }
     
-    /**
-     * Callback interface
-     */
-    public interface OnActivityResult <O> {
-        /**
-         * Called after receiving a result from the target activity
-         */
-        void onActivityResult(O result);
-    }
-    
-    private final ActivityResultLauncher <Input> launcher;
-    @Nullable
-    private OnActivityResult <Result> onActivityResult;
-    
-    private BetterActivityResult(@NonNull ActivityResultCaller caller,
-            @NonNull ActivityResultContract <Input, Result> contract,
-            @Nullable OnActivityResult <Result> onActivityResult) {
-        this.onActivityResult = onActivityResult;
-        this.launcher = caller.registerForActivityResult(contract, this :: callOnActivityResult);
-    }
-    
     public void setOnActivityResult(@Nullable OnActivityResult <Result> onActivityResult) {
         this.onActivityResult = onActivityResult;
     }
@@ -90,5 +80,15 @@ public class BetterActivityResult <Input, Result> {
         if (onActivityResult != null) {
             onActivityResult.onActivityResult(result);
         }
+    }
+    
+    /**
+     * Callback interface
+     */
+    public interface OnActivityResult <O> {
+        /**
+         * Called after receiving a result from the target activity
+         */
+        void onActivityResult(O result);
     }
 }

@@ -9,4 +9,5 @@ class PermissionInfo(
         /**
          * Name of the permission
          */
-        var name: String)
+        var name: String,
+)

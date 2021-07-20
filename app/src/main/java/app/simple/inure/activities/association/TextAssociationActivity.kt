@@ -1,7 +1,6 @@
 package app.simple.inure.activities.association
 
 import android.content.ContentResolver
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.webkit.MimeTypeMap
@@ -14,7 +13,10 @@ import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.exceptions.StringTooLargeException
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.preferences.ConfigurationPreferences
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import org.apache.commons.io.IOUtils
 import java.util.*
 

@@ -37,6 +37,13 @@ public class Scale extends Visibility {
         setDisappearedScale(disappearedScale);
     }
     
+    public Scale(@NonNull Context context, @NonNull AttributeSet attrs) {
+        super(context, attrs);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Scale);
+        setDisappearedScale(a.getFloat(R.styleable.Scale_disappearedScale, mDisappearedScale));
+        a.recycle();
+    }
+    
     @Override
     public void captureStartValues(@NonNull TransitionValues transitionValues) {
         super.captureStartValues(transitionValues);
@@ -57,13 +64,6 @@ public class Scale extends Visibility {
         }
         mDisappearedScale = disappearedScale;
         return this;
-    }
-    
-    public Scale(@NonNull Context context, @NonNull AttributeSet attrs) {
-        super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Scale);
-        setDisappearedScale(a.getFloat(R.styleable.Scale_disappearedScale, mDisappearedScale));
-        a.recycle();
     }
     
     @Nullable

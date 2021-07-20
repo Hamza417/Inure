@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.apk.utils.ReceiversUtils
 import com.jaredrummler.apkparser.model.AndroidComponent
 
 class AdapterReceivers(private val services: List<AndroidComponent>, private val applicationInfo: ApplicationInfo)

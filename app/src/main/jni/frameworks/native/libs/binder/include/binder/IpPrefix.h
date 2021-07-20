@@ -27,63 +27,73 @@
 
 namespace android {
 
-namespace net {
+    namespace net {
 
 /*
  * C++ implementation of the Java class android.net.IpPrefix
  */
-class IpPrefix : public Parcelable {
-public:
-    IpPrefix() = default;
-    virtual ~IpPrefix() = default;
-    IpPrefix(const IpPrefix& prefix) = default;
+        class IpPrefix : public Parcelable {
+        public:
+            IpPrefix() = default;
 
-    IpPrefix(const struct in6_addr& addr, int32_t plen):
-        mUnion(addr), mPrefixLength(plen), mIsIpv6(true) { }
+            virtual ~IpPrefix() = default;
 
-    IpPrefix(const struct in_addr& addr, int32_t plen):
-        mUnion(addr), mPrefixLength(plen), mIsIpv6(false) { }
+            IpPrefix(const IpPrefix &prefix) = default;
 
-    bool getAddressAsIn6Addr(struct in6_addr* addr) const;
-    bool getAddressAsInAddr(struct in_addr* addr) const;
+            IpPrefix(const struct in6_addr &addr, int32_t plen) :
+                    mUnion(addr), mPrefixLength(plen), mIsIpv6(true) {}
 
-    const struct in6_addr& getAddressAsIn6Addr() const;
-    const struct in_addr& getAddressAsInAddr() const;
+            IpPrefix(const struct in_addr &addr, int32_t plen) :
+                    mUnion(addr), mPrefixLength(plen), mIsIpv6(false) {}
 
-    bool isIpv6() const;
-    bool isIpv4() const;
+            bool getAddressAsIn6Addr(struct in6_addr *addr) const;
 
-    int32_t getPrefixLength() const;
+            bool getAddressAsInAddr(struct in_addr *addr) const;
 
-    void setAddress(const struct in6_addr& addr);
-    void setAddress(const struct in_addr& addr);
+            const struct in6_addr &getAddressAsIn6Addr() const;
 
-    void setPrefixLength(int32_t prefix);
+            const struct in_addr &getAddressAsInAddr() const;
 
-    friend bool operator==(const IpPrefix& lhs, const IpPrefix& rhs);
+            bool isIpv6() const;
 
-    friend bool operator!=(const IpPrefix& lhs, const IpPrefix& rhs) {
-        return !(lhs == rhs);
-    }
+            bool isIpv4() const;
 
-public:
-    // Overrides
-    status_t writeToParcel(Parcel* parcel) const override;
-    status_t readFromParcel(const Parcel* parcel) override;
+            int32_t getPrefixLength() const;
 
-private:
-    union InternalUnion {
-        InternalUnion() = default;
-        InternalUnion(const struct in6_addr &addr):mIn6Addr(addr) { };
-        InternalUnion(const struct in_addr &addr):mInAddr(addr) { };
-        struct in6_addr mIn6Addr;
-        struct in_addr mInAddr;
-    } mUnion;
-    int32_t mPrefixLength;
-    bool mIsIpv6;
-};
+            void setAddress(const struct in6_addr &addr);
 
-}  // namespace net
+            void setAddress(const struct in_addr &addr);
+
+            void setPrefixLength(int32_t prefix);
+
+            friend bool operator==(const IpPrefix &lhs, const IpPrefix &rhs);
+
+            friend bool operator!=(const IpPrefix &lhs, const IpPrefix &rhs) {
+                return !(lhs == rhs);
+            }
+
+        public:
+            // Overrides
+            status_t writeToParcel(Parcel *parcel) const override;
+
+            status_t readFromParcel(const Parcel *parcel) override;
+
+        private:
+            union InternalUnion {
+                InternalUnion() = default;
+
+                InternalUnion(const struct in6_addr &addr) : mIn6Addr(addr) {};
+
+                InternalUnion(const struct in_addr &addr) : mInAddr(addr) {};
+                struct in6_addr mIn6Addr;
+                struct in_addr mInAddr;
+            } mUnion;
+
+            int32_t mPrefixLength;
+            bool mIsIpv6;
+        };
+
+    }  // namespace net
 
 }  // namespace android
 

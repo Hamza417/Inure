@@ -27,40 +27,38 @@ namespace android {
 
 // ----------------------------------------------------------------------
 
-class IPermissionController : public IInterface
-{
-public:
-    DECLARE_META_INTERFACE(PermissionController)
+    class IPermissionController : public IInterface {
+    public:
+        DECLARE_META_INTERFACE(PermissionController)
 
-    virtual bool checkPermission(const String16& permission, int32_t pid, int32_t uid) = 0;
+        virtual bool checkPermission(const String16 &permission, int32_t pid, int32_t uid) = 0;
 
-    virtual int32_t noteOp(const String16& op, int32_t uid, const String16& packageName) = 0;
+        virtual int32_t noteOp(const String16 &op, int32_t uid, const String16 &packageName) = 0;
 
-    virtual void getPackagesForUid(const uid_t uid, Vector<String16> &packages) = 0;
+        virtual void getPackagesForUid(const uid_t uid, Vector <String16> &packages) = 0;
 
-    virtual bool isRuntimePermission(const String16& permission) = 0;
+        virtual bool isRuntimePermission(const String16 &permission) = 0;
 
-    virtual int getPackageUid(const String16& package, int flags) = 0;
+        virtual int getPackageUid(const String16 &package, int flags) = 0;
 
-    enum {
-        CHECK_PERMISSION_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION,
-        NOTE_OP_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 1,
-        GET_PACKAGES_FOR_UID_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 2,
-        IS_RUNTIME_PERMISSION_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 3,
-        GET_PACKAGE_UID_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 4
+        enum {
+            CHECK_PERMISSION_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION,
+            NOTE_OP_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 1,
+            GET_PACKAGES_FOR_UID_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 2,
+            IS_RUNTIME_PERMISSION_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 3,
+            GET_PACKAGE_UID_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 4
+        };
     };
-};
 
 // ----------------------------------------------------------------------
 
-class BnPermissionController : public BnInterface<IPermissionController>
-{
-public:
-    virtual status_t    onTransact( uint32_t code,
-                                    const Parcel& data,
-                                    Parcel* reply,
+    class BnPermissionController : public BnInterface<IPermissionController> {
+    public:
+        virtual status_t onTransact(uint32_t code,
+                                    const Parcel &data,
+                                    Parcel *reply,
                                     uint32_t flags = 0);
-};
+    };
 
 // ----------------------------------------------------------------------
 

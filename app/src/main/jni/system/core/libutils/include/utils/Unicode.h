@@ -29,7 +29,7 @@ size_t strlen16(const char16_t *);
 size_t strnlen16(const char16_t *, size_t);
 char16_t *strcpy16(char16_t *, const char16_t *);
 char16_t *strncpy16(char16_t *, const char16_t *, size_t);
-char16_t *strstr16(const char16_t*, const char16_t*);
+char16_t *strstr16(const char16_t *, const char16_t *);
 
 // Version of comparison that supports embedded NULs.
 // This is different than strncmp() because we don't stop
@@ -90,7 +90,7 @@ ssize_t utf32_to_utf8_length(const char32_t *src, size_t src_len);
  * (note that "dst" is NOT nul-terminated, like strncpy)
  * \endcode
  */
-void utf32_to_utf8(const char32_t* src, size_t src_len, char* dst, size_t dst_len);
+void utf32_to_utf8(const char32_t *src, size_t src_len, char *dst, size_t dst_len);
 
 /**
  * Returns the unicode value at "index".
@@ -112,7 +112,7 @@ ssize_t utf16_to_utf8_length(const char16_t *src, size_t src_len);
  * enough to fit the UTF-16 as measured by utf16_to_utf8_length with an added
  * NUL terminator.
  */
-void utf16_to_utf8(const char16_t* src, size_t src_len, char* dst, size_t dst_len);
+void utf16_to_utf8(const char16_t *src, size_t src_len, char *dst, size_t dst_len);
 
 /**
  * Returns the length of "src" when "src" is valid UTF-8 string.
@@ -142,7 +142,7 @@ size_t utf8_to_utf32_length(const char *src, size_t src_len);
  * enough to store the entire converted string as measured by
  * utf8_to_utf32_length plus space for a NUL terminator.
  */
-void utf8_to_utf32(const char* src, size_t src_len, char32_t* dst);
+void utf8_to_utf32(const char *src, size_t src_len, char32_t *dst);
 
 /**
  * Returns the UTF-16 length of UTF-8 string "src". Returns -1 in case
@@ -150,7 +150,7 @@ void utf8_to_utf32(const char* src, size_t src_len, char32_t* dst);
  * can ask to log a message and fail in case the invalid utf8 could have caused an override if no
  * bound checks were used (otherwise -1 is returned).
  */
-ssize_t utf8_to_utf16_length(const uint8_t* src, size_t srcLen, bool overreadIsFatal = false);
+ssize_t utf8_to_utf16_length(const uint8_t *src, size_t srcLen, bool overreadIsFatal = false);
 
 /**
  * Convert UTF-8 to UTF-16 including surrogate pairs.
@@ -159,8 +159,8 @@ ssize_t utf8_to_utf16_length(const uint8_t* src, size_t srcLen, bool overreadIsF
  * pair. If dstLen == 0 nothing is written and dst is returned. If dstLen > SSIZE_MAX it aborts
  * (this being probably a negative number returned as an error and casted to unsigned).
  */
-char16_t* utf8_to_utf16_no_null_terminator(
-        const uint8_t* src, size_t srcLen, char16_t* dst, size_t dstLen);
+char16_t *utf8_to_utf16_no_null_terminator(
+        const uint8_t *src, size_t srcLen, char16_t *dst, size_t dstLen);
 
 /**
  * Convert UTF-8 to UTF-16 including surrogate pairs. At most dstLen - 1
@@ -171,7 +171,7 @@ char16_t* utf8_to_utf16_no_null_terminator(
  * pointer to the NUL terminator.
  */
 char16_t *utf8_to_utf16(
-        const uint8_t* src, size_t srcLen, char16_t* dst, size_t dstLen);
+        const uint8_t *src, size_t srcLen, char16_t *dst, size_t dstLen);
 
 }
 

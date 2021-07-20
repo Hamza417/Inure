@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.NonNull;
@@ -42,6 +41,16 @@ public class Explode extends Visibility {
     public Explode(Context context, AttributeSet attrs) {
         super(context, attrs);
         setPropagation(new CircularPropagation());
+    }
+    
+    private static float calculateMaxDistance(View sceneRoot, int focalX, int focalY) {
+        int maxX = Math.max(focalX, sceneRoot.getWidth() - focalX);
+        int maxY = Math.max(focalY, sceneRoot.getHeight() - focalY);
+        return calculateDistance(maxX, maxY);
+    }
+    
+    private static float calculateDistance(float x, float y) {
+        return (float) Math.sqrt((x * x) + (y * y));
     }
     
     private void captureValues(TransitionValues transitionValues) {
@@ -150,16 +159,6 @@ public class Explode extends Visibility {
         
         outVector[0] = Math.round(maxDistance * xVector);
         outVector[1] = Math.round(maxDistance * yVector);
-    }
-    
-    private static float calculateMaxDistance(View sceneRoot, int focalX, int focalY) {
-        int maxX = Math.max(focalX, sceneRoot.getWidth() - focalX);
-        int maxY = Math.max(focalY, sceneRoot.getHeight() - focalY);
-        return calculateDistance(maxX, maxY);
-    }
-    
-    private static float calculateDistance(float x, float y) {
-        return (float) Math.sqrt((x * x) + (y * y));
     }
     
 }

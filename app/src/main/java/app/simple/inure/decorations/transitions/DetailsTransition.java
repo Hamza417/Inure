@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
-import androidx.transition.ArcMotion;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.ChangeTransform;

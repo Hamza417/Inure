@@ -1,7 +1,6 @@
 package app.simple.inure.glide.icon
 
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory

@@ -24,27 +24,27 @@
 namespace android {
 
 /* Gets the underlying AHardwareBuffer for a HardwareBuffer. */
-extern AHardwareBuffer* android_hardware_HardwareBuffer_getNativeHardwareBuffer(
-        JNIEnv* env, jobject hardwareBufferObj);
+    extern AHardwareBuffer *android_hardware_HardwareBuffer_getNativeHardwareBuffer(
+            JNIEnv *env, jobject hardwareBufferObj);
 
 /* Returns a HardwareBuffer wrapper for the underlying AHardwareBuffer. */
-extern jobject android_hardware_HardwareBuffer_createFromAHardwareBuffer(
-        JNIEnv* env, AHardwareBuffer* hardwareBuffer);
+    extern jobject android_hardware_HardwareBuffer_createFromAHardwareBuffer(
+            JNIEnv *env, AHardwareBuffer *hardwareBuffer);
 
 /* Convert from HAL_PIXEL_FORMAT values to AHARDWAREBUFFER_FORMAT values. */
-extern uint32_t android_hardware_HardwareBuffer_convertFromPixelFormat(uint32_t format);
+    extern uint32_t android_hardware_HardwareBuffer_convertFromPixelFormat(uint32_t format);
 
 /* Convert from AHARDWAREBUFFER_FORMAT values to HAL_PIXEL_FORMAT values. */
-extern uint32_t android_hardware_HardwareBuffer_convertToPixelFormat(uint32_t format);
+    extern uint32_t android_hardware_HardwareBuffer_convertToPixelFormat(uint32_t format);
 
 /* Convert from AHARDWAREBUFFER_USAGE* flags to to gralloc usage flags. */
-extern uint64_t android_hardware_HardwareBuffer_convertToGrallocUsageBits(uint64_t usage);
+    extern uint64_t android_hardware_HardwareBuffer_convertToGrallocUsageBits(uint64_t usage);
 
-inline void android_hardware_HardwareBuffer_convertToGrallocUsageBits(
-        uint64_t* outProducerUsage, uint64_t* outConsumerUsage, uint64_t usage, uint64_t) {
-    outProducerUsage[0] = outConsumerUsage[0] =
-            android_hardware_HardwareBuffer_convertToGrallocUsageBits(usage);
-}
+    inline void android_hardware_HardwareBuffer_convertToGrallocUsageBits(
+            uint64_t *outProducerUsage, uint64_t *outConsumerUsage, uint64_t usage, uint64_t) {
+        outProducerUsage[0] = outConsumerUsage[0] =
+                android_hardware_HardwareBuffer_convertToGrallocUsageBits(usage);
+    }
 
 } // namespace android
 

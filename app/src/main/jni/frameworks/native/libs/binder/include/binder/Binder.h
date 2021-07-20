@@ -24,79 +24,89 @@
 // ---------------------------------------------------------------------------
 namespace android {
 
-class BBinder : public IBinder
-{
-public:
-                        BBinder();
+    class BBinder : public IBinder {
+    public:
+        BBinder();
 
-    virtual const String16& getInterfaceDescriptor() const;
-    virtual bool        isBinderAlive() const;
-    virtual status_t    pingBinder();
-    virtual status_t    dump(int fd, const Vector<String16>& args);
+        virtual const String16 &getInterfaceDescriptor() const;
 
-    virtual status_t    transact(   uint32_t code,
-                                    const Parcel& data,
-                                    Parcel* reply,
+        virtual bool isBinderAlive() const;
+
+        virtual status_t pingBinder();
+
+        virtual status_t dump(int fd, const Vector <String16> &args);
+
+        virtual status_t transact(uint32_t code,
+                                  const Parcel &data,
+                                  Parcel *reply,
+                                  uint32_t flags = 0);
+
+        virtual status_t linkToDeath(const sp <DeathRecipient> &recipient,
+                                     void *cookie = NULL,
+                                     uint32_t flags = 0);
+
+        virtual status_t unlinkToDeath(const wp <DeathRecipient> &recipient,
+                                       void *cookie = NULL,
+                                       uint32_t flags = 0,
+                                       wp <DeathRecipient> *outRecipient = NULL);
+
+        virtual void attachObject(const void *objectID,
+                                  void *object,
+                                  void *cleanupCookie,
+                                  object_cleanup_func func);
+
+        virtual void *findObject(const void *objectID) const;
+
+        virtual void detachObject(const void *objectID);
+
+        virtual BBinder *localBinder();
+
+    protected:
+        virtual             ~BBinder();
+
+        virtual status_t onTransact(uint32_t code,
+                                    const Parcel &data,
+                                    Parcel *reply,
                                     uint32_t flags = 0);
 
-    virtual status_t    linkToDeath(const sp<DeathRecipient>& recipient,
-                                    void* cookie = NULL,
-                                    uint32_t flags = 0);
+    private:
+        BBinder(const BBinder &o);
 
-    virtual status_t    unlinkToDeath(  const wp<DeathRecipient>& recipient,
-                                        void* cookie = NULL,
-                                        uint32_t flags = 0,
-                                        wp<DeathRecipient>* outRecipient = NULL);
+        BBinder &operator=(const BBinder &o);
 
-    virtual void        attachObject(   const void* objectID,
-                                        void* object,
-                                        void* cleanupCookie,
-                                        object_cleanup_func func);
-    virtual void*       findObject(const void* objectID) const;
-    virtual void        detachObject(const void* objectID);
+        class Extras;
 
-    virtual BBinder*    localBinder();
-
-protected:
-    virtual             ~BBinder();
-
-    virtual status_t    onTransact( uint32_t code,
-                                    const Parcel& data,
-                                    Parcel* reply,
-                                    uint32_t flags = 0);
-
-private:
-                        BBinder(const BBinder& o);
-            BBinder&    operator=(const BBinder& o);
-
-    class Extras;
-
-    std::atomic<Extras*> mExtras;
-            void*       mReserved0;
-};
+        std::atomic<Extras *> mExtras;
+        void *mReserved0;
+    };
 
 // ---------------------------------------------------------------------------
 
-class BpRefBase : public virtual RefBase
-{
-protected:
-    explicit                BpRefBase(const sp<IBinder>& o);
-    virtual                 ~BpRefBase();
-    virtual void            onFirstRef();
-    virtual void            onLastStrongRef(const void* id);
-    virtual bool            onIncStrongAttempted(uint32_t flags, const void* id);
+    class BpRefBase : public virtual RefBase {
+    protected:
+        explicit BpRefBase(const sp <IBinder> &o);
 
-    inline  IBinder*        remote()                { return mRemote; }
-    inline  IBinder*        remote() const          { return mRemote; }
+        virtual                 ~BpRefBase();
 
-private:
-                            BpRefBase(const BpRefBase& o);
-    BpRefBase&              operator=(const BpRefBase& o);
+        virtual void onFirstRef();
 
-    IBinder* const          mRemote;
-    RefBase::weakref_type*  mRefs;
-    std::atomic<int32_t>    mState;
-};
+        virtual void onLastStrongRef(const void *id);
+
+        virtual bool onIncStrongAttempted(uint32_t flags, const void *id);
+
+        inline IBinder *remote() { return mRemote; }
+
+        inline IBinder *remote() const { return mRemote; }
+
+    private:
+        BpRefBase(const BpRefBase &o);
+
+        BpRefBase &operator=(const BpRefBase &o);
+
+        IBinder *const mRemote;
+        RefBase::weakref_type *mRefs;
+        std::atomic <int32_t> mState;
+    };
 
 }; // namespace android
 

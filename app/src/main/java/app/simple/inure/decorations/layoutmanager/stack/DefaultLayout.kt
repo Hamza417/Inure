@@ -2,9 +2,11 @@ package app.simple.inure.decorations.layoutmanager.stack
 
 import android.view.View
 
-class DefaultLayout(scrollOrientation: StackLayoutManager.ScrollOrientation,
-                    visibleCount: Int,
-                    perItemOffset: Int) : StackLayout(scrollOrientation, visibleCount, perItemOffset) {
+class DefaultLayout(
+        scrollOrientation: StackLayoutManager.ScrollOrientation,
+        visibleCount: Int,
+        perItemOffset: Int,
+) : StackLayout(scrollOrientation, visibleCount, perItemOffset) {
 
     private var mHasMeasureItemSize = false
     private var mWidthSpace = 0
@@ -46,7 +48,7 @@ class DefaultLayout(scrollOrientation: StackLayoutManager.ScrollOrientation,
     }
 
     private fun getFirstVisibleItemLeft(): Int {
-        return when(mScrollOrientation) {
+        return when (mScrollOrientation) {
             StackLayoutManager.ScrollOrientation.RIGHT_TO_LEFT -> mStartMargin - mScrollOffset % mWidth
             StackLayoutManager.ScrollOrientation.LEFT_TO_RIGHT -> {
                 return if (mScrollOffset % mWidth == 0) {
@@ -60,7 +62,7 @@ class DefaultLayout(scrollOrientation: StackLayoutManager.ScrollOrientation,
     }
 
     private fun getFirstVisibleItemTop(): Int {
-        return when(mScrollOrientation) {
+        return when (mScrollOrientation) {
             StackLayoutManager.ScrollOrientation.BOTTOM_TO_TOP -> mStartMargin - mScrollOffset % mHeight
             StackLayoutManager.ScrollOrientation.TOP_TO_BOTTOM -> {
                 return if (mScrollOffset % mHeight == 0) {
@@ -69,12 +71,12 @@ class DefaultLayout(scrollOrientation: StackLayoutManager.ScrollOrientation,
                     mStartMargin + (mHeight - mScrollOffset % mHeight)
                 }
             }
-            else ->  mHeightSpace / 2
+            else -> mHeightSpace / 2
         }
     }
 
     private fun getAfterFirstVisibleItemLeft(visiblePosition: Int, movePercent: Float): Int {
-        return when(mScrollOrientation) {
+        return when (mScrollOrientation) {
             StackLayoutManager.ScrollOrientation.RIGHT_TO_LEFT -> (mStartMargin + mPerItemOffset * (visiblePosition - movePercent)).toInt()
             StackLayoutManager.ScrollOrientation.LEFT_TO_RIGHT -> (mStartMargin - mPerItemOffset * (visiblePosition - movePercent)).toInt()
             else -> mWidthSpace / 2
@@ -82,15 +84,15 @@ class DefaultLayout(scrollOrientation: StackLayoutManager.ScrollOrientation,
     }
 
     private fun getAfterFirstVisibleItemTop(visiblePosition: Int, movePercent: Float): Int {
-        return when(mScrollOrientation) {
+        return when (mScrollOrientation) {
             StackLayoutManager.ScrollOrientation.BOTTOM_TO_TOP -> (mStartMargin + mPerItemOffset * (visiblePosition - movePercent)).toInt()
             StackLayoutManager.ScrollOrientation.TOP_TO_BOTTOM -> (mStartMargin - mPerItemOffset * (visiblePosition - movePercent)).toInt()
-            else ->  mHeightSpace / 2
+            else -> mHeightSpace / 2
         }
     }
 
     private fun getStartMargin(): Int {
-        return when(mScrollOrientation) {
+        return when (mScrollOrientation) {
             StackLayoutManager.ScrollOrientation.RIGHT_TO_LEFT, StackLayoutManager.ScrollOrientation.LEFT_TO_RIGHT -> mWidthSpace / 2
             else -> mHeightSpace / 2
         }

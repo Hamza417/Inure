@@ -26,7 +26,7 @@
 template<typename T>
 class ScopedLocalRef {
 public:
-    ScopedLocalRef(JNIEnv* env, T localRef) : mEnv(env), mLocalRef(localRef) {
+    ScopedLocalRef(JNIEnv *env, T localRef) : mEnv(env), mLocalRef(localRef) {
     }
 
     ~ScopedLocalRef() {
@@ -54,11 +54,12 @@ public:
 
 // Some better C++11 support.
 #if __cplusplus >= 201103L
+
     // Move constructor.
-    ScopedLocalRef(ScopedLocalRef&& s) : mEnv(s.mEnv), mLocalRef(s.release()) {
+    ScopedLocalRef(ScopedLocalRef &&s) : mEnv(s.mEnv), mLocalRef(s.release()) {
     }
 
-    explicit ScopedLocalRef(JNIEnv* env) : mEnv(env), mLocalRef(nullptr) {
+    explicit ScopedLocalRef(JNIEnv *env) : mEnv(env), mLocalRef(nullptr) {
     }
 
     // We do not expose an empty constructor as it can easily lead to errors
@@ -67,7 +68,7 @@ public:
     //   ref.reset(...);
 
     // Move assignment operator.
-    ScopedLocalRef& operator=(ScopedLocalRef&& s) {
+    ScopedLocalRef &operator=(ScopedLocalRef &&s) {
         reset(s.release());
         mEnv = s.mEnv;
         return *this;
@@ -82,10 +83,11 @@ public:
     bool operator!=(std::nullptr_t) const {
         return mLocalRef != nullptr;
     }
+
 #endif
 
 private:
-    JNIEnv* mEnv;
+    JNIEnv *mEnv;
     T mLocalRef;
 
     DISALLOW_COPY_AND_ASSIGN(ScopedLocalRef);

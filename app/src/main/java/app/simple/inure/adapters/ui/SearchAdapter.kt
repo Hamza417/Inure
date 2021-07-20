@@ -3,7 +3,6 @@ package app.simple.inure.adapters.ui
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView

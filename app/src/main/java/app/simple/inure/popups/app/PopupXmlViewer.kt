@@ -1,6 +1,5 @@
 package app.simple.inure.popups.app
 
-import android.view.Gravity
 import android.view.View
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.BasePopupWindow

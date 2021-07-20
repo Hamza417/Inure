@@ -26,28 +26,26 @@ namespace android {
 
 // ----------------------------------------------------------------------
 
-class IAppOpsCallback : public IInterface
-{
-public:
-    DECLARE_META_INTERFACE(AppOpsCallback)
+    class IAppOpsCallback : public IInterface {
+    public:
+        DECLARE_META_INTERFACE(AppOpsCallback)
 
-    virtual void opChanged(int32_t op, const String16& packageName) = 0;
+        virtual void opChanged(int32_t op, const String16 &packageName) = 0;
 
-    enum {
-        OP_CHANGED_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION
+        enum {
+            OP_CHANGED_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION
+        };
     };
-};
 
 // ----------------------------------------------------------------------
 
-class BnAppOpsCallback : public BnInterface<IAppOpsCallback>
-{
-public:
-    virtual status_t    onTransact( uint32_t code,
-                                    const Parcel& data,
-                                    Parcel* reply,
+    class BnAppOpsCallback : public BnInterface<IAppOpsCallback> {
+    public:
+        virtual status_t onTransact(uint32_t code,
+                                    const Parcel &data,
+                                    Parcel *reply,
                                     uint32_t flags = 0);
-};
+    };
 
 // ----------------------------------------------------------------------
 

@@ -7,7 +7,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TextAppearanceSpan
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import app.simple.inure.R
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import java.util.*

@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
 import app.simple.inure.R
-import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 

@@ -13,7 +13,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.views.SquareImageView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment

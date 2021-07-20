@@ -34,8 +34,9 @@
 #endif  // !defined(DISALLOW_COPY_AND_ASSIGN)
 
 #ifndef NATIVEHELPER_JNIHELP_H_
+
 // This seems a header-only include. Provide NPE throwing.
-static inline int jniThrowNullPointerException(JNIEnv* env, const char* msg) {
+static inline int jniThrowNullPointerException(JNIEnv *env, const char *msg) {
     if (env->ExceptionCheck()) {
         // Drop any pending exception.
         env->ExceptionClear();
@@ -54,6 +55,7 @@ static inline int jniThrowNullPointerException(JNIEnv* env, const char* msg) {
     env->DeleteLocalRef(e_class);
     return 0;
 }
+
 #endif  // NATIVEHELPER_JNIHELP_H_
 
 #endif  // defined(__cplusplus)

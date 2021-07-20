@@ -25,11 +25,12 @@ namespace android {
 using namespace android;
 
 namespace JVM {
-    extern JavaVM* jvm;
-    extern JNIEnv* GetEnv();
+    extern JavaVM *jvm;
+
+    extern JNIEnv *GetEnv();
 }
 
-extern "C" jint JNI_OnLoad(JavaVM* vm, void* reserved) {
+extern "C" jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     JVM::jvm = vm;
     register_com_android_terminal_Terminal();
     return JNI_VERSION_1_6;

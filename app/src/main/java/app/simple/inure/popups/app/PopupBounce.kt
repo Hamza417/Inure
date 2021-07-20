@@ -6,7 +6,6 @@ import androidx.dynamicanimation.animation.SpringForce
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.preferences.AppearancePreferences
 
 class PopupBounce(contentView: View, view: View) : BasePopupWindow() {
 

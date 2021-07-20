@@ -8,7 +8,7 @@ package app.simple.inure.decorations.fastscroll;
 import androidx.annotation.NonNull;
 
 public interface ViewHelperProvider {
-
+    
     @NonNull
     FastScroller.ViewHelper getViewHelper();
 }

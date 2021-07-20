@@ -26,13 +26,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.graphics.drawable.DrawableWrapper;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-@SuppressLint("RestrictedApi")
+@SuppressLint ("RestrictedApi")
 class AutoMirrorDrawable extends DrawableWrapper {
-
+    
     public AutoMirrorDrawable(@NonNull Drawable drawable) {
         super(drawable);
     }
-
+    
     @Override
     public void draw(@NonNull Canvas canvas) {
         if (needMirroring()) {
@@ -40,26 +40,27 @@ class AutoMirrorDrawable extends DrawableWrapper {
             canvas.scale(-1, 1, centerX, 0);
             super.draw(canvas);
             canvas.scale(-1, 1, centerX, 0);
-        } else {
+        }
+        else {
             super.draw(canvas);
         }
     }
-
+    
     @Override
     public boolean onLayoutDirectionChanged(int layoutDirection) {
         super.onLayoutDirectionChanged(layoutDirection);
         return true;
     }
-
+    
     @Override
     public boolean isAutoMirrored() {
         return true;
     }
-
+    
     private boolean needMirroring() {
         return DrawableCompat.getLayoutDirection(this) == View.LAYOUT_DIRECTION_RTL;
     }
-
+    
     @Override
     public boolean getPadding(@NonNull Rect padding) {
         boolean hasPadding = super.getPadding(padding);

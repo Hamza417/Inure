@@ -2,12 +2,10 @@ package app.simple.inure.popups.viewers
 
 import android.view.Gravity
 import android.view.View
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import org.jetbrains.annotations.NotNull
 
 class PopupActivitiesMenu(contentView: View, view: View) : BasePopupWindow() {
 

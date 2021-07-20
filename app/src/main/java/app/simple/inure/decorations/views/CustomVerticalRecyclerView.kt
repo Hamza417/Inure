@@ -2,18 +2,13 @@ package app.simple.inure.decorations.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.widget.EdgeEffect
 import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.adapters.ui.AppsAdapterSmall
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
-import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
 
 /**
@@ -107,7 +102,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
          * Setup fast scroller only when adapter is large enough
          * to require a fast scroller
          */
-        if(adapter!!.itemCount > 25) {
+        if (adapter!!.itemCount > 25) {
             setupFastScroller()
         }
     }

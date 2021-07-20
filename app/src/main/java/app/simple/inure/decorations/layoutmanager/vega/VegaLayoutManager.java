@@ -12,18 +12,17 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder;
 
 public class VegaLayoutManager extends RecyclerView.LayoutManager {
     
-    private int scroll = 0;
     private final SparseArray <Rect> locationRects = new SparseArray <>();
     private final SparseBooleanArray attachedItems = new SparseBooleanArray();
     private final ArrayMap <Integer, Integer> viewTypeHeightMap = new ArrayMap <>();
-    
+    private int scroll = 0;
     private boolean needSnap = false;
     private int lastDy = 0;
     private int maxScroll = -1;
-    private RecyclerView.Adapter<VerticalListViewHolder> adapter;
+    private RecyclerView.Adapter <VerticalListViewHolder> adapter;
     private RecyclerView.Recycler recycler;
     
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings ("deprecation")
     public VegaLayoutManager() {
         setAutoMeasureEnabled(true);
     }

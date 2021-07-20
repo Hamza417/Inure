@@ -23,10 +23,10 @@
 #include <string>
 #include <vector>
 
-jobjectArray newStringArray(JNIEnv* env, size_t count);
+jobjectArray newStringArray(JNIEnv *env, size_t count);
 
-template <typename Counter, typename Getter>
-jobjectArray toStringArray(JNIEnv* env, Counter* counter, Getter* getter) {
+template<typename Counter, typename Getter>
+jobjectArray toStringArray(JNIEnv *env, Counter *counter, Getter *getter) {
     size_t count = (*counter)();
     jobjectArray result = newStringArray(env, count);
     if (result == NULL) {
@@ -46,26 +46,35 @@ jobjectArray toStringArray(JNIEnv* env, Counter* counter, Getter* getter) {
 }
 
 struct VectorCounter {
-    const std::vector<std::string>& strings;
-    explicit VectorCounter(const std::vector<std::string>& strings) : strings(strings) {}
+    const std::vector <std::string> &strings;
+
+    explicit VectorCounter(const std::vector <std::string> &strings) : strings(strings) {}
+
     size_t operator()() {
         return strings.size();
     }
 };
+
 struct VectorGetter {
-    const std::vector<std::string>& strings;
-    explicit VectorGetter(const std::vector<std::string>& strings) : strings(strings) {}
-    const char* operator()(size_t i) {
+    const std::vector <std::string> &strings;
+
+    explicit VectorGetter(const std::vector <std::string> &strings) : strings(strings) {}
+
+    const char *operator()(size_t i) {
         return strings[i].c_str();
     }
 };
 
-inline jobjectArray toStringArray(JNIEnv* env, const std::vector<std::string>& strings) {
+inline jobjectArray toStringArray(JNIEnv *env, const std::vector <std::string> &strings) {
     VectorCounter counter(strings);
     VectorGetter getter(strings);
     return toStringArray<VectorCounter, VectorGetter>(env, &counter, &getter);
 }
 
-JNIEXPORT jobjectArray toStringArray(JNIEnv* env, const char* const* strings);
+JNIEXPORT jobjectArray
+toStringArray(JNIEnv
+* env,
+const char *const *strings
+);
 
 #endif  // TO_STRING_ARRAY_H_included

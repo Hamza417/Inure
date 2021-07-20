@@ -26,75 +26,77 @@ namespace android {
 
 // ----------------------------------------------------------------------
 
-class IServiceManager : public IInterface
-{
-public:
-    DECLARE_META_INTERFACE(ServiceManager)
-    /**
-     * Must match values in IServiceManager.java
-     */
-    /* Allows services to dump sections according to priorities. */
-    static const int DUMP_FLAG_PRIORITY_CRITICAL = 1 << 0;
-    static const int DUMP_FLAG_PRIORITY_HIGH = 1 << 1;
-    static const int DUMP_FLAG_PRIORITY_NORMAL = 1 << 2;
-    /**
-     * Services are by default registered with a DEFAULT dump priority. DEFAULT priority has the
-     * same priority as NORMAL priority but the services are not called with dump priority
-     * arguments.
-     */
-    static const int DUMP_FLAG_PRIORITY_DEFAULT = 1 << 3;
-    static const int DUMP_FLAG_PRIORITY_ALL = DUMP_FLAG_PRIORITY_CRITICAL |
-            DUMP_FLAG_PRIORITY_HIGH | DUMP_FLAG_PRIORITY_NORMAL | DUMP_FLAG_PRIORITY_DEFAULT;
-    static const int DUMP_FLAG_PROTO = 1 << 4;
+    class IServiceManager : public IInterface {
+    public:
+        DECLARE_META_INTERFACE(ServiceManager)
+        /**
+         * Must match values in IServiceManager.java
+         */
+        /* Allows services to dump sections according to priorities. */
+        static const int DUMP_FLAG_PRIORITY_CRITICAL = 1 << 0;
+        static const int DUMP_FLAG_PRIORITY_HIGH = 1 << 1;
+        static const int DUMP_FLAG_PRIORITY_NORMAL = 1 << 2;
+        /**
+         * Services are by default registered with a DEFAULT dump priority. DEFAULT priority has the
+         * same priority as NORMAL priority but the services are not called with dump priority
+         * arguments.
+         */
+        static const int DUMP_FLAG_PRIORITY_DEFAULT = 1 << 3;
+        static const int DUMP_FLAG_PRIORITY_ALL = DUMP_FLAG_PRIORITY_CRITICAL |
+                                                  DUMP_FLAG_PRIORITY_HIGH |
+                                                  DUMP_FLAG_PRIORITY_NORMAL |
+                                                  DUMP_FLAG_PRIORITY_DEFAULT;
+        static const int DUMP_FLAG_PROTO = 1 << 4;
 
-    /**
-     * Retrieve an existing service, blocking for a few seconds
-     * if it doesn't yet exist.
-     */
-    virtual sp<IBinder>         getService( const String16& name) const = 0;
+        /**
+         * Retrieve an existing service, blocking for a few seconds
+         * if it doesn't yet exist.
+         */
+        virtual sp <IBinder> getService(const String16 &name) const = 0;
 
-    /**
-     * Retrieve an existing service, non-blocking.
-     */
-    virtual sp<IBinder>         checkService( const String16& name) const = 0;
+        /**
+         * Retrieve an existing service, non-blocking.
+         */
+        virtual sp <IBinder> checkService(const String16 &name) const = 0;
 
-    /**
-     * Register a service.
-     */
-    virtual status_t addService(const String16& name, const sp<IBinder>& service,
-                                bool allowIsolated = false,
-                                int dumpsysFlags = DUMP_FLAG_PRIORITY_DEFAULT) = 0;
+        /**
+         * Register a service.
+         */
+        virtual status_t addService(const String16 &name, const sp <IBinder> &service,
+                                    bool allowIsolated = false,
+                                    int dumpsysFlags = DUMP_FLAG_PRIORITY_DEFAULT) = 0;
 
-    /**
-     * Return list of all existing services.
-     */
-    virtual Vector<String16> listServices(int dumpsysFlags = DUMP_FLAG_PRIORITY_ALL) = 0;
+        /**
+         * Return list of all existing services.
+         */
+        virtual Vector <String16> listServices(int dumpsysFlags = DUMP_FLAG_PRIORITY_ALL) = 0;
 
-    enum {
-        GET_SERVICE_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION,
-        CHECK_SERVICE_TRANSACTION,
-        ADD_SERVICE_TRANSACTION,
-        LIST_SERVICES_TRANSACTION,
+        enum {
+            GET_SERVICE_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION,
+            CHECK_SERVICE_TRANSACTION,
+            ADD_SERVICE_TRANSACTION,
+            LIST_SERVICES_TRANSACTION,
+        };
     };
-};
 
-sp<IServiceManager> defaultServiceManager();
+    sp <IServiceManager> defaultServiceManager();
 
-template<typename INTERFACE>
-status_t getService(const String16& name, sp<INTERFACE>* outService)
-{
-    const sp<IServiceManager> sm = defaultServiceManager();
-    if (sm != NULL) {
-        *outService = interface_cast<INTERFACE>(sm->getService(name));
-        if ((*outService) != NULL) return NO_ERROR;
+    template<typename INTERFACE>
+    status_t getService(const String16 &name, sp <INTERFACE> *outService) {
+        const sp <IServiceManager> sm = defaultServiceManager();
+        if (sm != NULL) {
+            *outService = interface_cast<INTERFACE>(sm->getService(name));
+            if ((*outService) != NULL) return NO_ERROR;
+        }
+        return NAME_NOT_FOUND;
     }
-    return NAME_NOT_FOUND;
-}
 
-bool checkCallingPermission(const String16& permission);
-bool checkCallingPermission(const String16& permission,
-                            int32_t* outPid, int32_t* outUid);
-bool checkPermission(const String16& permission, pid_t pid, uid_t uid);
+    bool checkCallingPermission(const String16 &permission);
+
+    bool checkCallingPermission(const String16 &permission,
+                                int32_t *outPid, int32_t *outUid);
+
+    bool checkPermission(const String16 &permission, pid_t pid, uid_t uid);
 
 }; // namespace android
 

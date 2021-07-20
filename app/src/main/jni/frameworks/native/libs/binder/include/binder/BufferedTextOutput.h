@@ -24,42 +24,45 @@
 // ---------------------------------------------------------------------------
 namespace android {
 
-class BufferedTextOutput : public TextOutput
-{
-public:
-    //** Flags for constructor */
-    enum {
-        MULTITHREADED = 0x0001
-    };
-    
-                        BufferedTextOutput(uint32_t flags = 0);
-    virtual             ~BufferedTextOutput();
-    
-    virtual status_t    print(const char* txt, size_t len);
-    virtual void        moveIndent(int delta);
-    
-    virtual void        pushBundle();
-    virtual void        popBundle();
-    
-protected:
-    virtual status_t    writeLines(const struct iovec& vec, size_t N) = 0;
+    class BufferedTextOutput : public TextOutput {
+    public:
+        //** Flags for constructor */
+        enum {
+            MULTITHREADED = 0x0001
+        };
 
-private:
-    struct BufferState;
-    struct ThreadState;
-    
-    static  ThreadState*getThreadState();
-    static  void        threadDestructor(void *st);
-    
-            BufferState*getBuffer() const;
-            
-    uint32_t            mFlags;
-    const int32_t       mSeq;
-    const int32_t       mIndex;
-    
-    Mutex               mLock;
-    BufferState*        mGlobalState;
-};
+        BufferedTextOutput(uint32_t flags = 0);
+
+        virtual             ~BufferedTextOutput();
+
+        virtual status_t print(const char *txt, size_t len);
+
+        virtual void moveIndent(int delta);
+
+        virtual void pushBundle();
+
+        virtual void popBundle();
+
+    protected:
+        virtual status_t writeLines(const struct iovec &vec, size_t N) = 0;
+
+    private:
+        struct BufferState;
+        struct ThreadState;
+
+        static ThreadState *getThreadState();
+
+        static void threadDestructor(void *st);
+
+        BufferState *getBuffer() const;
+
+        uint32_t mFlags;
+        const int32_t mSeq;
+        const int32_t mIndex;
+
+        Mutex mLock;
+        BufferState *mGlobalState;
+    };
 
 // ---------------------------------------------------------------------------
 }; // namespace android

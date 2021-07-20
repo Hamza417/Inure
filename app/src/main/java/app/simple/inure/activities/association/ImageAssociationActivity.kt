@@ -1,10 +1,7 @@
-
-
 package app.simple.inure.activities.association
 
 import android.os.Bundle
 import android.view.animation.DecelerateInterpolator
-import android.widget.FrameLayout
 import androidx.documentfile.provider.DocumentFile
 import app.simple.inure.R
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
@@ -38,7 +35,7 @@ class ImageAssociationActivity : BaseActivity() {
                 .dontTransform()
                 .load(intent.data)
                 .into(image)
-        
+
         image.swipeToDismissEnabled = false
 
         name.text = DocumentFile.fromSingleUri(this, intent!!.data!!)!!.name

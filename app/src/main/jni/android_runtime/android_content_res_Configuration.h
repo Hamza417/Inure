@@ -27,8 +27,8 @@ struct AConfiguration : android::ResTable_config {
 
 namespace android {
 
-extern void android_Configuration_getFromJava(
-        JNIEnv* env, jobject clazz, struct AConfiguration* out);
+    extern void android_Configuration_getFromJava(
+            JNIEnv *env, jobject clazz, struct AConfiguration *out);
 
 } // namespace android
 

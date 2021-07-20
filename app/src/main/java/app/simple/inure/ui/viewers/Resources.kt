@@ -63,7 +63,7 @@ class Resources : ScopedFragment() {
 
                 override fun onResourceLongClicked(path: String) {
                     clearExitTransition()
-                    
+
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                 TextViewer.newInstance(applicationInfo, path),
                                                 "txt_tv_xml")

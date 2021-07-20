@@ -23,7 +23,6 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.viewmodels.factory.TextDataFactory
 import app.simple.inure.viewmodels.viewers.TextViewerData
 import com.pddstudio.highlightjs.HighlightJsView
@@ -93,7 +92,7 @@ class CodeViewer : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        if(savedInstanceState.isNotNull()) {
+        if (savedInstanceState.isNotNull()) {
             println(savedInstanceState?.getBoolean("full_screen"))
         }
 

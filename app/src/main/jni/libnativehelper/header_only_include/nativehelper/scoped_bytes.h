@@ -29,16 +29,15 @@
 template<bool readOnly>
 class ScopedBytes {
 public:
-    ScopedBytes(JNIEnv* env, jobject object)
-    : mEnv(env), mObject(object), mByteArray(NULL), mPtr(NULL)
-    {
+    ScopedBytes(JNIEnv *env, jobject object)
+            : mEnv(env), mObject(object), mByteArray(NULL), mPtr(NULL) {
         if (mObject == NULL) {
             jniThrowNullPointerException(mEnv, NULL);
         } else if (mEnv->IsInstanceOf(mObject, JniConstants::byteArrayClass)) {
             mByteArray = reinterpret_cast<jbyteArray>(mObject);
             mPtr = mEnv->GetByteArrayElements(mByteArray, NULL);
         } else {
-            mPtr = reinterpret_cast<jbyte*>(mEnv->GetDirectBufferAddress(mObject));
+            mPtr = reinterpret_cast<jbyte *>(mEnv->GetDirectBufferAddress(mObject));
         }
     }
 
@@ -49,12 +48,12 @@ public:
     }
 
 private:
-    JNIEnv* const mEnv;
+    JNIEnv *const mEnv;
     const jobject mObject;
     jbyteArray mByteArray;
 
 protected:
-    jbyte* mPtr;
+    jbyte *mPtr;
 
 private:
     DISALLOW_COPY_AND_ASSIGN(ScopedBytes);
@@ -62,16 +61,18 @@ private:
 
 class ScopedBytesRO : public ScopedBytes<true> {
 public:
-    ScopedBytesRO(JNIEnv* env, jobject object) : ScopedBytes<true>(env, object) {}
-    const jbyte* get() const {
+    ScopedBytesRO(JNIEnv *env, jobject object) : ScopedBytes<true>(env, object) {}
+
+    const jbyte *get() const {
         return mPtr;
     }
 };
 
 class ScopedBytesRW : public ScopedBytes<false> {
 public:
-    ScopedBytesRW(JNIEnv* env, jobject object) : ScopedBytes<false>(env, object) {}
-    jbyte* get() {
+    ScopedBytesRW(JNIEnv *env, jobject object) : ScopedBytes<false>(env, object) {}
+
+    jbyte *get() {
         return mPtr;
     }
 };

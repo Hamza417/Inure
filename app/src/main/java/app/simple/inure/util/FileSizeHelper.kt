@@ -3,7 +3,6 @@ package app.simple.inure.util
 import android.os.Build
 import androidx.annotation.RequiresApi
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.MainPreferences
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files

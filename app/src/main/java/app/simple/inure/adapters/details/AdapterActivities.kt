@@ -69,7 +69,7 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
 
         if (isRootMode) {
             holder.container.setOnLongClickListener {
-                activitiesCallbacks.onActivityLongPressed( activities[position].name, applicationInfo, it)
+                activitiesCallbacks.onActivityLongPressed(activities[position].name, applicationInfo, it)
                 true
             }
         }

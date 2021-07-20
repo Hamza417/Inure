@@ -26,8 +26,8 @@ namespace android {
 /**
  * Copies the native metadata for this java object into the given output CameraMetadata object.
  */
-status_t CameraMetadata_getNativeMetadata(JNIEnv* env, jobject thiz,
-               /*out*/CameraMetadata* metadata);
+    status_t CameraMetadata_getNativeMetadata(JNIEnv *env, jobject thiz,
+            /*out*/CameraMetadata *metadata);
 
 } /*namespace android*/
 
