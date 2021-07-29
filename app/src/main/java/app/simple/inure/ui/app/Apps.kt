@@ -85,6 +85,8 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSearchPressed(view: View) {
+                    clearEnterTransition()
+                    clearExitTransition()
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                 Search.newInstance(true),
                                                 "search")

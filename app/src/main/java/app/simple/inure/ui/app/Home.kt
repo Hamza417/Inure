@@ -182,6 +182,8 @@ class Home : ScopedFragment() {
         })
 
         search.setOnClickListener {
+            clearEnterTransition()
+            clearExitTransition()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         Search.newInstance(true),
                                         "search")
