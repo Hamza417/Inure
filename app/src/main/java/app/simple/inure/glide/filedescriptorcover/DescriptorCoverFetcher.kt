@@ -31,6 +31,7 @@ class DescriptorCoverFetcher(private val descriptorCoverModel: DescriptorCoverMo
         } catch (e: NullPointerException) {
             callback.onLoadFailed(e)
         } finally {
+            println("Called")
             mediaMetadataRetriever.release()
             mediaMetadataRetriever.close()
             file?.close()

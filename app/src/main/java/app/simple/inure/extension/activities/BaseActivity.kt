@@ -2,6 +2,7 @@ package app.simple.inure.extension.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.os.StrictMode
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,6 +23,11 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
+                                       .detectLeakedClosableObjects()
+                                       .penaltyLog()
+                                       .build())
 
         /**
          * Sets window flags for keeping the screen on

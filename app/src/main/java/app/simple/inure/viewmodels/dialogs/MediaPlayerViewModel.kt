@@ -38,7 +38,7 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
     private var focusRequest: AudioFocusRequest? = null
     private val audioBecomingNoisyFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
 
-    private val volumeFadeDuration: Int = 500
+    private val volumeFadeDuration: Int = 250
     private var iVolume = 0
     private val intVolumeMax = 100
     private val intVolumeMin = 0
@@ -133,7 +133,7 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
 
     fun changePlayerState() {
         if (mediaPlayer.isPlaying) {
-            pause(false)
+            pause()
             state.postValue(false)
         } else {
             play()
@@ -247,7 +247,7 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
         }
     }
 
-    fun pause(kill: Boolean) {
+    fun pause() {
         if (timerTask != null && timer != null) {
             timer!!.cancel()
             timerTask!!.cancel()
@@ -271,12 +271,6 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
                         // Pause music
                         if (mediaPlayer.isPlaying) {
                             mediaPlayer.pause()
-
-                            if (kill) {
-                                mediaPlayer.stop()
-                                mediaPlayer.reset()
-                                mediaPlayer.release()
-                            }
                         }
                         timer!!.cancel()
                         timer!!.purge()
@@ -364,7 +358,9 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
         super.onCleared()
         handler.removeCallbacks(progressRunnable)
         handler.removeCallbacksAndMessages(null)
-        pause(true)
+        mediaPlayer.stop()
+        mediaPlayer.reset()
+        mediaPlayer.release()
         removeAudioFocus()
     }
 }

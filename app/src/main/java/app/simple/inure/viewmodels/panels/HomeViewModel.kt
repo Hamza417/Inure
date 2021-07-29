@@ -1,4 +1,4 @@
-package app.simple.inure.viewmodels.viewers
+package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
@@ -52,9 +52,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     .applicationContext.packageManager
                     .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
-            apps = apps.stream().filter { p ->
-                p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
-            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            apps = apps.stream().use { stream ->
+                stream.filter {
+                    it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                }.use {
+                    it.collect(Collectors.toList()) as ArrayList<PackageInfo>
+                }
+            }
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
@@ -74,9 +78,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     .applicationContext.packageManager
                     .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
-            apps = apps.stream().filter { p ->
-                p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
-            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            apps = apps.stream().use { stream ->
+                stream.filter {
+                    it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                }.use {
+                    it.collect(Collectors.toList()) as ArrayList<PackageInfo>
+                }
+            }
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =

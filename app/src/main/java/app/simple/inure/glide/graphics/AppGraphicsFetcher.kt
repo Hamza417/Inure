@@ -11,7 +11,6 @@ import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-
 class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppGraphicsModel) : DataFetcher<InputStream> {
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         var zipFile: ZipFile? = null
@@ -24,11 +23,22 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
                 val name: String = entry!!.name
                 if (name == appGraphicsModel.filePath) {
                     if (name.endsWith(".svg")) {
-                        val bitmap = SVG.getFromInputStream(ZipFile(appGraphicsModel.path).getInputStream(entry)).renderToPicture().toBitmap()
+                        val bitmap = ZipFile(appGraphicsModel.path).getInputStream(entry).use {
+                            SVG.getFromInputStream(it).renderToPicture().toBitmap()
+                        }
                         bitmap!!.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)
-                        callback.onDataReady(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
+                        ByteArrayInputStream(byteArrayOutputStream.toByteArray()).use {
+                            callback.onDataReady(it)
+                        }
+                        bitmap.recycle()
                     } else {
-                        callback.onDataReady(BufferedInputStream(ZipFile(appGraphicsModel.path).getInputStream(entry)))
+                        ZipFile(appGraphicsModel.path).use { file ->
+                            file.getInputStream(entry).use { inputStream ->
+                                BufferedInputStream(inputStream).use {
+                                    callback.onDataReady(it)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -38,10 +48,11 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
             if (zipFile != null) {
                 try {
                     zipFile.close()
-                    byteArrayOutputStream.close()
                 } catch (ignored: IOException) {
                 }
             }
+
+            byteArrayOutputStream.close()
         }
     }
 

@@ -28,7 +28,7 @@ import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.viewmodels.viewers.HomeViewModel
+import app.simple.inure.viewmodels.panels.HomeViewModel
 
 class Home : ScopedFragment() {
 

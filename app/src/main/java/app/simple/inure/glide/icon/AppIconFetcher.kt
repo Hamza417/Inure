@@ -37,5 +37,4 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
     override fun getDataSource(): DataSource {
         return DataSource.LOCAL
     }
-
 }

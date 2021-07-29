@@ -23,7 +23,9 @@ object AudioUtils {
         val mex = MediaExtractor()
         try {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                mex.setDataSource(context.contentResolver.openAssetFileDescriptor(fileUri, "r")!!)
+                context.contentResolver.openAssetFileDescriptor(fileUri, "r")!!.use {
+                    mex.setDataSource(it)
+                }
             } else {
                 mex.setDataSource(context, fileUri, null)
             }
