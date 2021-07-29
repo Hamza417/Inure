@@ -30,7 +30,7 @@
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/lato_bold"
-            android:text="@string/device_analytics"
+            android:text="@string/device_stats"
             android:textColor="@color/textPrimary"
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold" />

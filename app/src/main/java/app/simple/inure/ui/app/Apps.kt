@@ -33,10 +33,10 @@ import kotlin.system.measureTimeMillis
 class Apps : ScopedFragment() {
 
     private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
-
     private lateinit var appsAdapter: AppsAdapterSmall
-
     private lateinit var model: AllAppsData
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
@@ -50,6 +50,8 @@ class Apps : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         model.getAppData().observe(viewLifecycleOwner, {
+            postponeEnterTransition()
+
             appsAdapter = AppsAdapterSmall()
             appsAdapter.apps = it
 
@@ -94,8 +96,8 @@ class Apps : ScopedFragment() {
             })
         })
 
-        model.appLoaded.observe(viewLifecycleOwner, { event ->
-            event.getContentIfNotHandledOrReturnNull()?.let {
+        model.appLoaded.observe(viewLifecycleOwner, {
+            it.getContentIfNotHandledOrReturnNull()?.let {
                 Log.d("Apps", if(it) "Apps Loaded" else "Failed")
             }
         })

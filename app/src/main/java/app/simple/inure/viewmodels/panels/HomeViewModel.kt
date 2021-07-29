@@ -108,6 +108,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 Pair(R.drawable.ic_terminal, context.getString(R.string.terminal)),
                 Pair(R.drawable.ic_analytics, context.getString(R.string.analytics)),
                 Pair(R.drawable.ic_stats, context.getString(R.string.usage_statistics)),
+                Pair(R.drawable.ic_smartphone, context.getString(R.string.device_stats))
             )
 
             menuItems.postValue(list)

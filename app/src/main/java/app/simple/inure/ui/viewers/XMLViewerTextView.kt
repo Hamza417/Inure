@@ -88,8 +88,8 @@ class XMLViewerTextView : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getSpanned().observe(viewLifecycleOwner, {
-            this@XMLViewerTextView.text.setText(it)
-            this@XMLViewerTextView.name.text = requireArguments().getString("path_to_xml")!!
+            text.setText(it)
+            name.text = requireArguments().getString("path_to_xml")!!
             progress.makeInvisible()
             options.makeVisible()
         })

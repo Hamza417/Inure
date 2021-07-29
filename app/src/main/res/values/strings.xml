@@ -116,7 +116,7 @@
     <string name="multi_dex">Multi Dex, %1$s</string>
     <string name="single_dex">Single Dex, %1$s</string>
     <string name="activity_status">%1$s | %2$s</string>
-    <string name="device_analytics">Device Analytics</string>
+    <string name="device_stats">Device Info</string>
     <string name="terminal">Terminal</string>
     <string name="usage_statistics">Usage Statistics</string>
     <string name="close">Close</string>

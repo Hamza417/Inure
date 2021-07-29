@@ -10,7 +10,6 @@
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_arrow_right"
         android:paddingHorizontal="25dp"
         android:paddingTop="@dimen/header_padding"
         android:text="@string/recently_updated"

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
@@ -22,7 +22,7 @@ import app.simple.inure.decorations.views.CustomHorizontalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupMainList
-import app.simple.inure.ui.panels.Analytics
+import app.simple.inure.ui.panels.DeviceInfo
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Terminal
@@ -38,7 +38,7 @@ class Home : ScopedFragment() {
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
@@ -48,8 +48,6 @@ class Home : ScopedFragment() {
         recentlyUpdatedRecyclerView = view.findViewById(R.id.recently_updated_recycler_view)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
-
-        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
 
         return view
     }
@@ -138,10 +136,9 @@ class Home : ScopedFragment() {
         })
 
         homeViewModel.getMenuItems().observe(viewLifecycleOwner, {
-
             postponeEnterTransition()
 
-            navigationRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+            navigationRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
             navigationRecyclerView.setHasFixedSize(true)
 
             val adapter = AdapterHomeMenu(it)
@@ -156,9 +153,7 @@ class Home : ScopedFragment() {
                                                         "apps")
                         }
                         getString(R.string.analytics) -> {
-                            FragmentHelper.openFragment(
-                                requireActivity().supportFragmentManager,
-                                Analytics.newInstance(), icon, "analytics")
+
                         }
                         getString(R.string.terminal) -> {
                             FragmentHelper.openFragment(
@@ -169,6 +164,11 @@ class Home : ScopedFragment() {
                             FragmentHelper.openFragment(
                                 requireActivity().supportFragmentManager,
                                 Statistics.newInstance(), icon, "stats")
+                        }
+                        getString(R.string.device_stats) -> {
+                            FragmentHelper.openFragment(
+                                requireActivity().supportFragmentManager,
+                                DeviceInfo.newInstance(), icon, "info")
                         }
                     }
                 }

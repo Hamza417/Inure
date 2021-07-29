@@ -12,13 +12,13 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-    <androidx.core.widget.NestedScrollView
+    <app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
+        android:scrollbarSize="0dp"
         android:clipToPadding="false"
-        android:padding="10dp"
         android:scrollbars="vertical">
 
         <app.simple.inure.decorations.views.TypeFaceEditText
@@ -27,11 +27,12 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textPrimary"
             android:textIsSelectable="true"
+            android:padding="10dp"
             android:textCursorDrawable="@drawable/text_cursor"
             android:inputType="textMultiLine|textNoSuggestions"
             android:background="@android:color/transparent"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular" />
 
-    </androidx.core.widget.NestedScrollView>
+    </app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView>
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

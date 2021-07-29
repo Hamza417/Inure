@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class Analytics : ScopedFragment() {
+class DeviceInfo : ScopedFragment() {
 
     private lateinit var osVersion: TypeFaceTextView
     private lateinit var securityUpdate: TypeFaceTextView
@@ -50,7 +50,7 @@ class Analytics : ScopedFragment() {
     private val model: AppsAnalyticsData by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_analytics, container, false)
+        val view = inflater.inflate(R.layout.fragment_device_info, container, false)
 
         osVersion = view.findViewById(R.id.analytics_os_version)
         securityUpdate = view.findViewById(R.id.analytics_security_update)
@@ -148,10 +148,10 @@ class Analytics : ScopedFragment() {
                 busyBox = RootBeer(requireContext()).checkForBusyBoxBinary().toString()
             }
 
-            this@Analytics.osVersion.text = osVersion
-            this@Analytics.securityUpdate.text = securityUpdate
-            this@Analytics.root.text = root
-            this@Analytics.busybox.text = busyBox
+            this@DeviceInfo.osVersion.text = osVersion
+            this@DeviceInfo.securityUpdate.text = securityUpdate
+            this@DeviceInfo.root.text = root
+            this@DeviceInfo.busybox.text = busyBox
         }
     }
 
@@ -199,9 +199,9 @@ class Analytics : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): Analytics {
+        fun newInstance(): DeviceInfo {
             val args = Bundle()
-            val fragment = Analytics()
+            val fragment = DeviceInfo()
             fragment.arguments = args
             return fragment
         }
