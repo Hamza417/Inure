@@ -44,7 +44,6 @@ class Apps : ScopedFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         model.getAppData().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
