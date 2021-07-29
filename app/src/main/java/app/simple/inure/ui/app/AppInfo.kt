@@ -25,6 +25,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
+import app.simple.inure.events.AppsEvent
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.popups.app.PopupSure
@@ -32,6 +33,7 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.panels.AllAppsData
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
 
 
@@ -50,6 +52,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var adapterMenu: AdapterMenu
     private lateinit var componentsViewModel: InfoPanelMenuData
     private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var allAppsData: AllAppsData
 
     private var spanCount = 3
 
@@ -75,6 +78,7 @@ class AppInfo : ScopedFragment() {
 
         applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(InfoPanelMenuData::class.java)
+        allAppsData = ViewModelProvider(requireActivity()).get(AllAppsData::class.java)
 
         return view
     }
@@ -353,10 +357,18 @@ class AppInfo : ScopedFragment() {
 
     override fun onAppUninstalled(result: Boolean) {
         if (result) {
-            handler.postDelayed({
-                                    requireActivity().supportFragmentManager
-                                            .popBackStack()
-                                }, 500)
+            with(allAppsData) {
+                loadAppData()
+
+                appLoaded.observe(viewLifecycleOwner, { appsEvent ->
+                    appsEvent.getContentIfNotHandledOrReturnNull()?.let {
+                        if (it) {
+                            requireActivity().supportFragmentManager
+                                    .popBackStack()
+                        }
+                    }
+                })
+            }
         }
     }
 

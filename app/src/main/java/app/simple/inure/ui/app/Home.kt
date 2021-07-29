@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
@@ -38,7 +38,7 @@ class Home : ScopedFragment() {
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
@@ -48,6 +48,8 @@ class Home : ScopedFragment() {
         recentlyUpdatedRecyclerView = view.findViewById(R.id.recently_updated_recycler_view)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
+
+        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
 
         return view
     }

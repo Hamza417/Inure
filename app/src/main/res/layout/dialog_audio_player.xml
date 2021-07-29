@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:drawablePadding="5dp"
+                    android:drawablePadding="@dimen/popup_padding"
                     android:gravity="center_vertical"
                     android:text="Inure Mini Player"
                     android:textColor="@color/textTertiary"

@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.core.app.AppOpsManagerCompat
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -61,7 +61,7 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun proceed() {
-        val allAppsData: AllAppsData by viewModels()
+        val allAppsData: AllAppsData = ViewModelProvider(requireActivity()).get(AllAppsData::class.java)
 
         allAppsData.getAppData().observe(viewLifecycleOwner, {
             openFragment(

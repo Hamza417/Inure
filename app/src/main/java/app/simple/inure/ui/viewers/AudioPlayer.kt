@@ -136,7 +136,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        requireActivity().finish()
+        requireActivity().finishAfterTransition()
     }
 
     private fun setSeekbarProgress(seekbarProgress: Int) {

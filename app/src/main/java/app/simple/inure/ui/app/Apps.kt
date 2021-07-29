@@ -4,12 +4,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
@@ -26,6 +28,7 @@ import app.simple.inure.ui.panels.Search
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.AllAppsData
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 class Apps : ScopedFragment() {
 
@@ -33,27 +36,20 @@ class Apps : ScopedFragment() {
 
     private lateinit var appsAdapter: AppsAdapterSmall
 
-    private val model: AllAppsData by viewModels()
+    private lateinit var model: AllAppsData
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
 
         appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
 
+        model = ViewModelProvider(requireActivity()).get(AllAppsData::class.java)
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         model.getAppData().observe(viewLifecycleOwner, {
-            postponeEnterTransition()
-
-            for (i in it.indices) {
-                if (!it[i].isPackageInstalled(requireActivity().packageManager)) {
-                    model.loadAppData()
-                    return@observe
-                }
-            }
-
             appsAdapter = AppsAdapterSmall()
             appsAdapter.apps = it
 
@@ -96,6 +92,12 @@ class Apps : ScopedFragment() {
                     AppsListConfiguration.newInstance().show(childFragmentManager, "apps_list_config")
                 }
             })
+        })
+
+        model.appLoaded.observe(viewLifecycleOwner, { event ->
+            event.getContentIfNotHandledOrReturnNull()?.let {
+                Log.d("Apps", if(it) "Apps Loaded" else "Failed")
+            }
         })
 
         super.onViewCreated(view, savedInstanceState)

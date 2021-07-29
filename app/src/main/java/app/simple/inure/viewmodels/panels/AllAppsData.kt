@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
+import app.simple.inure.events.AppsEvent
 import app.simple.inure.exceptions.CacheDirectoryDeletionException
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
@@ -20,10 +21,14 @@ import java.util.stream.Collectors
 
 class AllAppsData(application: Application) : AndroidViewModel(application) {
 
-    private val appData: MutableLiveData<ArrayList<ApplicationInfo>> by lazy {
+    val appData: MutableLiveData<ArrayList<ApplicationInfo>> by lazy {
         MutableLiveData<ArrayList<ApplicationInfo>>().also {
             loadAppData()
         }
+    }
+
+    val appLoaded: MutableLiveData<AppsEvent<Boolean>> by lazy {
+        MutableLiveData<AppsEvent<Boolean>>()
     }
 
     fun getAppData(): LiveData<ArrayList<ApplicationInfo>> {
@@ -56,16 +61,7 @@ class AllAppsData(application: Application) : AndroidViewModel(application) {
             apps.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)
 
             appData.postValue(apps)
-
-            kotlin.runCatching {
-                if (File(getApplication<Application>().getExternalFilesDir(null)?.path + "/send_cache/").deleteRecursively()) {
-                    Log.d(getApplication<Application>().packageName, "Deleted")
-                } else {
-                    throw CacheDirectoryDeletionException("Could not delete cache directory, manual action required.")
-                }
-            }.getOrElse {
-                it.printStackTrace()
-            }
+            appLoaded.postValue(AppsEvent(true))
         }
     }
 }
