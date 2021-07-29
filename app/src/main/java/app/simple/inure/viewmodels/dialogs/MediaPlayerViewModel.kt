@@ -21,6 +21,8 @@ import app.simple.inure.model.AudioMetaData
 import app.simple.inure.util.MetadataHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.math.ln
 
 class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
     AndroidViewModel(application),
@@ -35,6 +37,16 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
     private var audioManager = getApplication<Application>().getSystemService(Context.AUDIO_SERVICE) as AudioManager
     private var focusRequest: AudioFocusRequest? = null
     private val audioBecomingNoisyFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+
+    private val volumeFadeDuration: Int = 500
+    private var iVolume = 0
+    private val intVolumeMax = 100
+    private val intVolumeMin = 0
+    private val floatVolumeMax = 1f
+    private val floatVolumeMin = 0f
+
+    private var timer: Timer? = null
+    private var timerTask: TimerTask? = null
 
     private val becomingNoisyReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -121,10 +133,10 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
 
     fun changePlayerState() {
         if (mediaPlayer.isPlaying) {
-            mediaPlayer.pause()
+            pause(false)
             state.postValue(false)
         } else {
-            mediaPlayer.start()
+            play()
             state.postValue(true)
         }
     }
@@ -196,7 +208,6 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
-
         return true
     }
 
@@ -236,11 +247,124 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
         }
     }
 
+    fun pause(kill: Boolean) {
+        if (timerTask != null && timer != null) {
+            timer!!.cancel()
+            timerTask!!.cancel()
+        }
+
+        // Set current volume, depending on fade or not
+        iVolume = if (volumeFadeDuration > 0) {
+            intVolumeMax
+        } else {
+            intVolumeMin
+        }
+        updateVolume(0)
+
+        // Start increasing volume in increments
+        if (volumeFadeDuration > 0) {
+            timer = Timer(true)
+            timerTask = object : TimerTask() {
+                override fun run() {
+                    updateVolume(-1)
+                    if (iVolume == intVolumeMin) {
+                        // Pause music
+                        if (mediaPlayer.isPlaying) {
+                            mediaPlayer.pause()
+
+                            if (kill) {
+                                mediaPlayer.stop()
+                                mediaPlayer.reset()
+                                mediaPlayer.release()
+                            }
+                        }
+                        timer!!.cancel()
+                        timer!!.purge()
+                    }
+                }
+            }
+
+            // calculate delay, cannot be zero, set to 1 if zero
+            var delay: Int = volumeFadeDuration / intVolumeMax
+            if (delay == 0) {
+                delay = 1
+            }
+            timer!!.schedule(timerTask, delay.toLong(), delay.toLong())
+        }
+    }
+
+    fun play() {
+        if (timerTask != null && timer != null) {
+            timer!!.cancel()
+            timerTask!!.cancel()
+        }
+
+        // Set current volume, depending on fade or not
+        iVolume = if (volumeFadeDuration > 0) {
+            intVolumeMin
+        } else {
+            intVolumeMax
+        }
+
+        updateVolume(0)
+
+        // Play music
+        if (!mediaPlayer.isPlaying) {
+            if (requestAudioFocus()) {
+                mediaPlayer.start()
+            }
+        }
+
+        // Start increasing volume in increments
+        if (volumeFadeDuration > 0) {
+            timer = Timer(true)
+            timerTask = object : TimerTask() {
+                override fun run() {
+                    updateVolume(1)
+                    if (iVolume == intVolumeMax) {
+                        timer!!.cancel()
+                        timer!!.purge()
+                    }
+                }
+            }
+
+            // calculate delay, cannot be zero, set to 1 if zero
+            var delay: Int = volumeFadeDuration / intVolumeMax
+            if (delay == 0) {
+                delay = 1
+            }
+            timer!!.schedule(timerTask, delay.toLong(), delay.toLong())
+        }
+    }
+
+    private fun updateVolume(change: Int) {
+        // increment or decrement depending on type of fade
+        iVolume += change
+
+        // ensure iVolume within boundaries
+        if (iVolume < intVolumeMin) {
+            iVolume = intVolumeMin
+        } else if (iVolume > intVolumeMax) {
+            iVolume = intVolumeMax
+        }
+
+        // convert to float value
+        var fVolume = 1 - ln((intVolumeMax - iVolume).toDouble()).toFloat() / ln(intVolumeMax.toDouble()).toFloat()
+
+        // ensure fVolume within boundaries
+        if (fVolume < floatVolumeMin) {
+            fVolume = floatVolumeMin
+        } else if (fVolume > floatVolumeMax) {
+            fVolume = floatVolumeMax
+        }
+        mediaPlayer.setVolume(fVolume, fVolume)
+    }
+
     override fun onCleared() {
         super.onCleared()
-        mediaPlayer.stop()
-        mediaPlayer.reset()
-        mediaPlayer.release()
+        handler.removeCallbacks(progressRunnable)
+        handler.removeCallbacksAndMessages(null)
+        pause(true)
         removeAudioFocus()
     }
 }

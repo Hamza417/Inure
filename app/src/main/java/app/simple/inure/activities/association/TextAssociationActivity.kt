@@ -73,7 +73,7 @@ class TextAssociationActivity : BaseActivity() {
         } else {
             val fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri.toString())
             MimeTypeMap.getSingleton().getMimeTypeFromExtension(
-                fileExtension.toLowerCase(Locale.ROOT))
+                fileExtension.lowercase(Locale.ROOT))
         }
     }
 }

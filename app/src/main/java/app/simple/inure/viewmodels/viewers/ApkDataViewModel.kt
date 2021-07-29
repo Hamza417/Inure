@@ -159,7 +159,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         viewModelScope.launch(Dispatchers.Default) {
             extras.postValue(APKParser.getExtraFiles(param.sourceDir).apply {
                 sortBy {
-                    it.toLowerCase(Locale.getDefault())
+                    it.lowercase(Locale.getDefault())
                 }
             })
         }
@@ -184,7 +184,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         viewModelScope.launch(Dispatchers.Default) {
             graphics.postValue(APKParser.getGraphicsFiles(param.sourceDir).apply {
                 sortBy {
-                    it.toLowerCase(Locale.getDefault())
+                    it.lowercase(Locale.getDefault())
                 }
             })
         }
@@ -211,7 +211,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
 
                 this@ApkDataViewModel.permissions.postValue(permissions.apply {
                     sortBy {
-                        it.name.toLowerCase(Locale.getDefault())
+                        it.name.lowercase(Locale.getDefault())
                     }
                 })
             }.getOrElse {
@@ -240,7 +240,7 @@ class ApkDataViewModel(application: Application, val param: ApplicationInfo) : A
         viewModelScope.launch(Dispatchers.Default) {
             resources.postValue(APKParser.getXmlFiles(param.sourceDir).apply {
                 sortBy {
-                    it.toLowerCase(Locale.getDefault())
+                    it.lowercase(Locale.getDefault())
                 }
             })
         }

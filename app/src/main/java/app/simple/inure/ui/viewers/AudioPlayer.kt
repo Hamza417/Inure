@@ -1,37 +1,41 @@
 package app.simple.inure.ui.viewers
 
 import android.animation.ObjectAnimator
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.content.res.ResourcesCompat
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.NumberUtils
+import app.simple.inure.util.ViewUtils
 import app.simple.inure.viewmodels.dialogs.MediaPlayerViewModel
 import app.simple.inure.viewmodels.factory.MediaPlayerViewModelFactory
+import com.google.android.material.card.MaterialCardView
 
-class AudioPlayer : ScopedFragment() {
+class AudioPlayer : ScopedBottomSheetFragment() {
 
     private lateinit var art: ImageView
     private lateinit var playPause: DynamicRippleImageButton
-    private lateinit var menu: DynamicRippleImageButton
     private lateinit var duration: TypeFaceTextView
     private lateinit var progress: TypeFaceTextView
     private lateinit var title: TypeFaceTextView
     private lateinit var artist: TypeFaceTextView
     private lateinit var album: TypeFaceTextView
     private lateinit var fileInfo: TypeFaceTextView
+    private lateinit var playerContainer: MaterialCardView
     private lateinit var seekBar: SeekBar
 
     private lateinit var playerViewModel: MediaPlayerViewModel
@@ -39,19 +43,21 @@ class AudioPlayer : ScopedFragment() {
     private var animation: ObjectAnimator? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
+        val view = inflater.inflate(R.layout.dialog_audio_player, container, false)
 
-        art = view.findViewById(R.id.album_art)
-        playPause = view.findViewById(R.id.play_button)
-        duration = view.findViewById(R.id.duration)
-        progress = view.findViewById(R.id.current_time)
-        title = view.findViewById(R.id.title)
-        artist = view.findViewById(R.id.artist)
-        album = view.findViewById(R.id.album)
-        seekBar = view.findViewById(R.id.seekbar)
+        art = view.findViewById(R.id.album_art_mime)
+        playPause = view.findViewById(R.id.mime_play_button)
+        duration = view.findViewById(R.id.current_duration_mime)
+        progress = view.findViewById(R.id.current_time_mime)
+        fileInfo = view.findViewById(R.id.mime_info)
+        title = view.findViewById(R.id.mime_title)
+        artist = view.findViewById(R.id.mime_artist)
+        album = view.findViewById(R.id.mime_album)
+        seekBar = view.findViewById(R.id.seekbar_mime)
+        playerContainer = view.findViewById(R.id.container)
 
         mediaPlayerViewModelFactory = MediaPlayerViewModelFactory(requireActivity().application, requireArguments().getParcelable("uri")!!)
-        playerViewModel = ViewModelProvider(requireActivity(), mediaPlayerViewModelFactory).get(MediaPlayerViewModel::class.java)
+        playerViewModel = ViewModelProvider(this, mediaPlayerViewModelFactory).get(MediaPlayerViewModel::class.java)
 
         startPostponedEnterTransition()
 
@@ -61,7 +67,11 @@ class AudioPlayer : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        art.loadFromFileDescriptor(requireContext(), requireArguments().getParcelable("uri")!!)
+        art.loadFromFileDescriptor(requireArguments().getParcelable("uri")!!)
+
+        playerContainer.radius = AppearancePreferences.getCornerRadius().toFloat()
+
+        ViewUtils.addShadow(playerContainer)
 
         playerViewModel.getDuration().observe(viewLifecycleOwner, {
             seekBar.max = it
@@ -77,7 +87,7 @@ class AudioPlayer : ScopedFragment() {
             title.text = it.title
             artist.text = it.artists
             album.text = it.album
-            //fileInfo.text = getString(R.string.audio_file_info, it.format, it.sampling, it.bitrate)
+            fileInfo.text = getString(R.string.audio_file_info, it.format, it.sampling, it.bitrate)
         })
 
         playerViewModel.getError().observe(viewLifecycleOwner, {
@@ -85,7 +95,7 @@ class AudioPlayer : ScopedFragment() {
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
-                    requireActivity().onBackPressed()
+                    dismiss()
                 }
             })
         })
@@ -115,15 +125,24 @@ class AudioPlayer : ScopedFragment() {
             playerViewModel.changePlayerState()
         }
 
+        playerContainer.setOnClickListener {
+            playerViewModel.changePlayerState()
+        }
+
         playerViewModel.getCloseEvent().observe(viewLifecycleOwner, {
-            requireActivity().finish()
+            dismiss()
         })
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        requireActivity().finish()
     }
 
     private fun setSeekbarProgress(seekbarProgress: Int) {
         animation = ObjectAnimator.ofInt(seekBar, "progress", seekbarProgress)
         animation!!.duration = 1000L
-        animation!!.interpolator = DecelerateInterpolator(1.5F)
+        animation!!.interpolator = LinearOutSlowInInterpolator()
         animation!!.start()
     }
 

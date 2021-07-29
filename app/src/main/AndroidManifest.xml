@@ -124,7 +124,8 @@
             android:clearTaskOnLaunch="true"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
-            android:label="@string/audio_player">
+            android:label="@string/audio_player"
+            android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

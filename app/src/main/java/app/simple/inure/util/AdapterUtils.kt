@@ -15,7 +15,7 @@ object AdapterUtils {
     fun searchHighlighter(textView: TextView, context: Context, searchKeyword: String) {
         val string = textView.text.toString()
         val sb = SpannableStringBuilder(string)
-        val startPos = string.toLowerCase(Locale.getDefault()).indexOf(searchKeyword.toLowerCase(Locale.getDefault()))
+        val startPos = string.lowercase(Locale.getDefault()).indexOf(searchKeyword.lowercase(Locale.getDefault()))
         val endPos = startPos + searchKeyword.length
 
         if (startPos != -1) {

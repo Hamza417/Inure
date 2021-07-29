@@ -24,7 +24,7 @@ class AudioMetaData(
         /**
          * File extension
          */
-        val format: String? = null,
+        var format: String? = null,
 
         /**
          * frequency of the audio file in KHz

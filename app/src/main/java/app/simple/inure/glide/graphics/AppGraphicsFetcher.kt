@@ -15,6 +15,7 @@ import java.util.zip.ZipFile
 class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppGraphicsModel) : DataFetcher<InputStream> {
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         var zipFile: ZipFile? = null
+        val byteArrayOutputStream = ByteArrayOutputStream()
         try {
             zipFile = ZipFile(appGraphicsModel.path)
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
@@ -24,7 +25,6 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
                 if (name == appGraphicsModel.filePath) {
                     if (name.endsWith(".svg")) {
                         val bitmap = SVG.getFromInputStream(ZipFile(appGraphicsModel.path).getInputStream(entry)).renderToPicture().toBitmap()
-                        val byteArrayOutputStream = ByteArrayOutputStream()
                         bitmap!!.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)
                         callback.onDataReady(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
                     } else {
@@ -38,6 +38,7 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
             if (zipFile != null) {
                 try {
                     zipFile.close()
+                    byteArrayOutputStream.close()
                 } catch (ignored: IOException) {
                 }
             }

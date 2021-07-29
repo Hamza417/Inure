@@ -139,6 +139,6 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
     }
 
     override fun getPopupText(position: Int): String {
-        return apps[position].name.substring(0, 1).toUpperCase(Locale.ROOT)
+        return apps[position].name.substring(0, 1).uppercase(Locale.ROOT)
     }
 }

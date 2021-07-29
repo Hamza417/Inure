@@ -67,11 +67,11 @@ object Sort {
     private fun ArrayList<ApplicationInfo>.sortByName() {
         return if (MainPreferences.isReverseSorting()) {
             this.sortByDescending {
-                it.name.toLowerCase(Locale.getDefault())
+                it.name.lowercase(Locale.getDefault())
             }
         } else {
             this.sortBy {
-                it.name.toLowerCase(Locale.getDefault())
+                it.name.lowercase(Locale.getDefault())
             }
         }
     }
@@ -97,11 +97,11 @@ object Sort {
     private fun ArrayList<ApplicationInfo>.sortByPackageName() {
         return if (MainPreferences.isReverseSorting()) {
             this.sortByDescending {
-                it.packageName.toLowerCase(Locale.getDefault())
+                it.packageName.lowercase(Locale.getDefault())
             }
         } else {
             this.sortBy {
-                it.packageName.toLowerCase(Locale.getDefault())
+                it.packageName.lowercase(Locale.getDefault())
             }
         }
     }

@@ -13,11 +13,6 @@ class AppGraphicsLoader : ModelLoader<AppGraphicsModel, InputStream> {
         return ModelLoader.LoadData(ObjectKey(model), AppGraphicsFetcher(model))
     }
 
-    fun getResourceFetcher(model: AppGraphicsModel?, width: Int, height: Int): DataFetcher<InputStream> {
-        return AppGraphicsFetcher(model!!)
-    }
-
-
     override fun handles(model: AppGraphicsModel): Boolean {
         return true
     }

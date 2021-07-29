@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mime_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_padding"
+        android:checkable="true"
+        app:cardElevation="@dimen/dialog_elevation"
+        app:rippleColor="?attr/colorAppAccent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dialog_padding"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.views.TypeFaceTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="Inure Mini Player"
+                    android:textColor="@color/textTertiary"
+                    app:appFontStyle="regular"
+                    app:drawableLeftCompat="@drawable/ic_audio_placeholder"
+                    app:drawableTint="?attr/colorAppAccent"
+                    tools:ignore="HardcodedText" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/mime_play_button"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/ic_pause"
+                    app:tint="@color/iconSecondary" />
+
+            </LinearLayout>
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/mime_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingHorizontal="5dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/textPrimary"
+                android:textSize="10pt"
+                android:transitionName="album_name"
+                app:appFontStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="5dp"
+                android:paddingVertical="20dp">
+
+                <ImageView
+                    android:id="@+id/album_art_mime"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <app.simple.inure.decorations.views.TypeFaceTextView
+                        android:id="@+id/mime_artist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:drawableStart="@drawable/ic_person"
+                        android:drawablePadding="@dimen/popup_padding"
+                        android:drawableTint="@color/iconSecondary"
+                        android:ellipsize="marquee"
+                        android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="@dimen/info_text_small"
+                        app:appFontStyle="medium" />
+
+                    <app.simple.inure.decorations.views.TypeFaceTextView
+                        android:id="@+id/mime_album"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginStart="5dp"
+                        android:drawableStart="@drawable/ic_album"
+                        android:drawablePadding="@dimen/popup_padding"
+                        android:drawableTint="@color/iconSecondary"
+                        android:ellipsize="marquee"
+                        android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="@dimen/info_text_small"
+                        app:appFontStyle="medium" />
+
+                    <app.simple.inure.decorations.views.TypeFaceTextView
+                        android:id="@+id/mime_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:drawableStart="@drawable/ic_app_info"
+                        android:drawablePadding="@dimen/popup_padding"
+                        android:drawableTint="@color/iconSecondary"
+                        android:ellipsize="marquee"
+                        android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="@dimen/info_text_small"
+                        app:appFontStyle="medium" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.views.TypeFaceTextView
+                    android:id="@+id/current_time_mime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="--:--"
+                    android:textAlignment="center"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    tools:ignore="HardcodedText,RtlCompat" />
+
+                <SeekBar
+                    android:id="@+id/seekbar_mime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight=".9"
+                    android:maxHeight="4dp"
+                    android:progressDrawable="@drawable/seek_bar"
+                    android:progressTint="?attr/colorAppAccent"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/seekbar_thumb" />
+
+                <app.simple.inure.decorations.views.TypeFaceTextView
+                    android:id="@+id/current_duration_mime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="--:--"
+                    android:textAlignment="center"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    tools:ignore="HardcodedText,RtlCompat" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

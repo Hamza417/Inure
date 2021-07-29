@@ -3,6 +3,7 @@ package app.simple.inure.util
 import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.webkit.MimeTypeMap
 import app.simple.inure.R
 import app.simple.inure.model.AudioMetaData
 import app.simple.inure.util.AudioUtils.toBitrate
@@ -18,6 +19,7 @@ object MetadataHelper {
         audioMetadata.title = getSongTitleMeta(context, mediaMetadataRetriever)
         audioMetadata.artists = getSongArtistMeta(context, mediaMetadataRetriever)
         audioMetadata.album = getSongAlbumMeta(context, mediaMetadataRetriever)
+        audioMetadata.format = getFileExtension(context, songUri)
         audioMetadata.bitrate = getBitrate(mediaMetadataRetriever)
         audioMetadata.sampling = AudioUtils.getSampling(context, songUri)
 
@@ -85,5 +87,12 @@ object MetadataHelper {
      */
     private fun getBitrate(mediaMetadataRetriever: MediaMetadataRetriever): String {
         return mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)!!.toInt().toBitrate()
+    }
+
+    /**
+     * Get extension of any Mime Type based content URI
+     */
+    private fun getFileExtension(context: Context, uri: Uri?): String {
+        return "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(uri!!))
     }
 }
