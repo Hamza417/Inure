@@ -20,6 +20,7 @@ object MainPreferences {
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
 
+    // ---------------------------------------------------------------------------------------------------------- //
 
     fun setLaunchCount(value: Int) {
         getSharedPreferences().edit().putInt(launchCount, value).apply()
@@ -28,6 +29,8 @@ object MainPreferences {
     fun getLaunchCount(): Int {
         return getSharedPreferences().getInt(launchCount, 0)
     }
+
+    // ---------------------------------------------------------------------------------------------------------- //
 
     /**
      * @param value for storing theme preferences
@@ -44,6 +47,8 @@ object MainPreferences {
         return getSharedPreferences().getInt(theme, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 
+    // ---------------------------------------------------------------------------------------------------------- //
+
     // Day/Night Auto
     fun setDayNight(@NotNull value: Boolean) {
         getSharedPreferences().edit().putBoolean(dayNightMode, value).apply()
@@ -53,6 +58,8 @@ object MainPreferences {
         return getSharedPreferences().getBoolean(dayNightMode, false)
     }
 
+    // ---------------------------------------------------------------------------------------------------------- //
+
     fun setAppLanguage(@NonNull locale: String) {
         getSharedPreferences().edit().putString(appLanguage, locale).apply()
     }
@@ -60,6 +67,8 @@ object MainPreferences {
     fun getAppLanguage(): String? {
         return getSharedPreferences().getString(appLanguage, "default")
     }
+
+    // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSortStyle(@NonNull style: String) {
         getSharedPreferences().edit().putString(sortStyle, style).apply()
@@ -69,6 +78,8 @@ object MainPreferences {
         return getSharedPreferences().getString(sortStyle, Sort.NAME)!!
     }
 
+    // ---------------------------------------------------------------------------------------------------------- //
+
     fun setReverseSorting(@NotNull value: Boolean) {
         getSharedPreferences().edit().putBoolean(isSortingReversed, value).apply()
     }
@@ -76,6 +87,8 @@ object MainPreferences {
     fun isReverseSorting(): Boolean {
         return getSharedPreferences().getBoolean(isSortingReversed, false)
     }
+
+    // ---------------------------------------------------------------------------------------------------------- //
 
     fun setListAppCategory(@NonNull category: String) {
         getSharedPreferences().edit().putString(listAppsCategory, category).apply()

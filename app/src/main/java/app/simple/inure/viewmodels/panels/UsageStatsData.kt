@@ -12,7 +12,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.model.PackageStats
-import app.simple.inure.util.FileSizeHelper.toSize
+import app.simple.inure.util.SortUsageStats.sortStats
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -69,9 +69,7 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
                 }
             }
 
-            list.sortBy {
-                it.packageInfo!!.applicationInfo.name
-            }
+            list.sortStats()
 
             usageData.postValue(list)
         }
