@@ -23,25 +23,10 @@ class StatisticsAdapter(private val data: ArrayList<PackageStats>) : RecyclerVie
         holder.icon.loadAppIcon(data[position].packageInfo!!.packageName)
         holder.name.text = data[position].packageInfo!!.applicationInfo.name
 
-        holder.data.apply {
-            text = StringBuilder().apply {
-                append("↑")
-                append(data[position].dataSent.getFileSize())
-                append(" ")
-                append("↓")
-                append(data[position].dataReceived.getFileSize())
-            }
-        }
-
-        holder.wifi.apply {
-            text = StringBuilder().apply {
-                append("↑")
-                append(data[position].dataSentWifi.getFileSize())
-                append(" ")
-                append("↓")
-                append(data[position].dataReceivedWifi.getFileSize())
-            }
-        }
+        holder.dataUp.text = data[position].dataSent.getFileSize()
+        holder.dataDown.text = data[position].dataReceived.getFileSize()
+        holder.wifiUp.text = data[position].dataSentWifi.getFileSize()
+        holder.wifiDown.text = data[position].dataReceivedWifi.getFileSize()
     }
 
     override fun getItemCount(): Int {
@@ -53,7 +38,9 @@ class StatisticsAdapter(private val data: ArrayList<PackageStats>) : RecyclerVie
         val icon: ImageView = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val time: TypeFaceTextView = itemView.findViewById(R.id.total_time_used)
-        val data: TypeFaceTextView = itemView.findViewById(R.id.total_data_used)
-        val wifi: TypeFaceTextView = itemView.findViewById(R.id.total_wifi_used)
+        val dataUp: TypeFaceTextView = itemView.findViewById(R.id.total_data_up_used)
+        val dataDown: TypeFaceTextView = itemView.findViewById(R.id.total_data_down_used)
+        val wifiUp: TypeFaceTextView = itemView.findViewById(R.id.total_wifi_up_used)
+        val wifiDown: TypeFaceTextView = itemView.findViewById(R.id.total_wifi_down_used)
     }
 }
