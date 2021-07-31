@@ -20,7 +20,7 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAnalytics
-import app.simple.inure.util.FileSizeHelper.getFileSize
+import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.viewmodels.panels.AppsAnalyticsData
 import com.scottyab.rootbeer.RootBeer
@@ -172,8 +172,8 @@ class DeviceInfo : ScopedFragment() {
             ramIndicator.max = (available / 1000).toInt()
             ramIndicator.setProgress((used / 1000).toInt(), animate = true, fromStart = false)
 
-            availableRam.text = available.getFileSize()
-            usedRam.text = used.getFileSize()
+            availableRam.text = available.toSize()
+            usedRam.text = used.toSize()
         }
     }
 

@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.views.CustomVerticalRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/usage_rv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="vertical">
-
-    <include layout="@layout/header_statistics" />
-
-    <app.simple.inure.decorations.views.CustomProgressBar
-        android:id="@+id/progress"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:progressBackgroundTint="@android:color/transparent"
-        android:progressTint="?attr/colorAppAccent" />
-
-    <app.simple.inure.decorations.views.CustomVerticalRecyclerView
-        android:id="@+id/usage_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layoutAnimation="@anim/list_animation_controller"
-        app:statusBarPaddingRequired="false" />
-
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+    android:layoutAnimation="@anim/list_animation_controller"
+    app:manuallyAnimated="true"
+    app:statusBarPaddingRequired="true" />

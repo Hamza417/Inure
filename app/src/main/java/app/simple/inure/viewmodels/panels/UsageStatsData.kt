@@ -3,26 +3,19 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.app.usage.NetworkStats
 import android.app.usage.NetworkStatsManager
-import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.R
 import app.simple.inure.model.PackageStats
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.util.FileSizeHelper.toSize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.system.measureTimeMillis
 
 class UsageStatsData(application: Application) : AndroidViewModel(application) {
 
@@ -47,9 +40,9 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
             calendar.add(Calendar.MONTH, -1)
             val start: Long = calendar.timeInMillis
             val end = System.currentTimeMillis()
-            val stats: List<UsageStats> = usageStatsManager.queryUsageStats(StatsPreferences.getInterval(), start, end)
 
             val list = arrayListOf<PackageStats>()
+            val stats = usageStatsManager.queryAndAggregateUsageStats(start, end)
 
             max.postValue(stats.size)
 
@@ -58,13 +51,13 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
                     val packageStats = PackageStats()
 
                     packageStats.packageInfo = getApplication<Application>()
-                            .packageManager.getPackageInfo(i.packageName, PackageManager.GET_META_DATA)
+                            .packageManager.getPackageInfo(i.value.packageName, PackageManager.GET_META_DATA)
 
                     packageStats.packageInfo!!.applicationInfo.apply {
                         name = getApplication<Application>().packageManager.getApplicationLabel(this).toString()
                     }
 
-                    packageStats.totalTimeUsed = i.lastTimeUsed
+                    packageStats.totalTimeUsed = i.value.totalTimeInForeground
 
                     getInternetUsage(packageStats.packageInfo!!, packageStats)
 
@@ -74,6 +67,10 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
                 }.getOrElse {
                     it.printStackTrace()
                 }
+            }
+
+            list.sortBy {
+                it.packageInfo!!.applicationInfo.name
             }
 
             usageData.postValue(list)
@@ -98,16 +95,10 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
         val bucket = NetworkStats.Bucket()
         bucketMobile.getNextBucket(bucket)
 
-        Log.d("MOBILE INTERNET UP", "${bucket.txBytes / (1024f * 1024f)} MB")
-        Log.d("MOBILE INTERNET DOWN", "${bucket.rxBytes / (1024f * 1024f)} MB")
-
         packageStats.dataReceived = bucket.rxBytes
         packageStats.dataSent = bucket.txBytes
 
         bucketWifi.getNextBucket(bucket)
-
-        Log.d("WIFI INTERNET UP", "${bucket.txBytes / (1024f * 1024f)} MB")
-        Log.d("WIFI INTERNET DOWN", "${bucket.rxBytes / (1024f * 1024f)} MB")
 
         packageStats.dataReceivedWifi = bucket.rxBytes
         packageStats.dataSentWifi = bucket.txBytes

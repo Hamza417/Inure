@@ -22,7 +22,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.util.FileSizeHelper.getFileSize
+import app.simple.inure.util.FileSizeHelper.toSize
 import java.util.*
 
 class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
@@ -70,7 +70,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
                 holder.itemView.context.getString(R.string.system)
             }
 
-            holder.packageSize.text = apps[position].sourceDir.getFileSize()
+            holder.packageSize.text = apps[position].sourceDir.toSize()
 
             holder.container.setOnClickListener {
                 appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)

@@ -15,7 +15,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FileSizeHelper.getDirectorySize
-import app.simple.inure.util.FileSizeHelper.getFileSize
+import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.viewers.AppSize
 import kotlinx.coroutines.Dispatchers
@@ -68,12 +68,12 @@ class Storage : ScopedFragment() {
             withContext(Dispatchers.Default) {
                 val packageSize = applicationInfo.getPackageSize(requireContext())
 
-                apkSize = packageSize.codeSize.getFileSize()
+                apkSize = packageSize.codeSize.toSize()
                 splitsSize = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && applicationInfo.splitSourceDirs.isNotNull()) {
                     "${applicationInfo.splitSourceDirs.getDirectorySize()} (${applicationInfo.splitNames.size} ${getString(R.string.files)})"
                 } else getString(R.string.not_available)
-                cacheSize = packageSize.cacheSize.getFileSize()
-                dataSize = packageSize.dataSize.getFileSize()
+                cacheSize = packageSize.cacheSize.toSize()
+                dataSize = packageSize.dataSize.toSize()
             }
 
             this@Storage.apkSize.text = apkSize

@@ -12,6 +12,6 @@ object StatsPreferences {
     }
 
     fun getInterval(): Int {
-        return SharedPreferences.getSharedPreferences().getInt(statsInterval, UsageStatsManager.INTERVAL_WEEKLY)
+        return SharedPreferences.getSharedPreferences().getInt(statsInterval, UsageStatsManager.INTERVAL_MONTHLY)
     }
 }

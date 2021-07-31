@@ -15,7 +15,7 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.AdapterUtils
-import app.simple.inure.util.FileSizeHelper.getFileSize
+import app.simple.inure.util.FileSizeHelper.toSize
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.Holder>() {
 
@@ -45,7 +45,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.Holder>() {
             holder.itemView.context.getString(R.string.system)
         }
 
-        holder.packageSize.text = apps[position].sourceDir.getFileSize()
+        holder.packageSize.text = apps[position].sourceDir.toSize()
 
         holder.container.setOnClickListener {
             appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)

@@ -13,8 +13,8 @@ import kotlin.math.abs
 
 object FileSizeHelper {
 
-    fun String.getFileSize(): String {
-        return File(this).length().getFileSize()
+    fun String.toSize(): String {
+        return File(this).length().toSize()
     }
 
     fun String.getDirectoryLength(): Long {
@@ -28,7 +28,7 @@ object FileSizeHelper {
             total = File(this[i]).length()
         }
 
-        return total.getFileSize()
+        return total.toSize()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -37,10 +37,10 @@ object FileSizeHelper {
             Files.walk(Paths.get(this))
                     .filter { p -> p.toFile().isFile }
                     .mapToLong { p -> p.toFile().length() }
-                    .sum().getFileSize()
+                    .sum().toSize()
         } catch (e: IOException) {
             e.printStackTrace()
-            0L.getFileSize()
+            0L.toSize()
         }
     }
 
@@ -48,7 +48,7 @@ object FileSizeHelper {
         return File(this).list()!!.size
     }
 
-    fun Long.getFileSize(): String {
+    fun Long.toSize(): String {
         return when {
             ConfigurationPreferences.getSizeType() == "si" -> {
                 this.humanReadableByteCountSI()

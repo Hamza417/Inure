@@ -191,6 +191,15 @@ object PackageUtils {
         appUninstallObserver.launch(intent)
     }
 
+    fun isPackageInstalled(packageName: String, packageManager: PackageManager): Boolean {
+        return try {
+            packageManager.getPackageInfo(packageName, 0)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+    }
+
     /**
      * Fetches the directory size of this installed application
      * @return [Long] and should be formatted manually
