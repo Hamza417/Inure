@@ -31,7 +31,7 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>(), PopupTextProvide
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = "app_$position"
-        holder.icon.loadAppIcon(holder.itemView.context, apps[position].packageName)
+        holder.icon.loadAppIcon(apps[position].packageName)
         holder.name.text = apps[position].name
         holder.packageId.text = apps[position].packageName
 

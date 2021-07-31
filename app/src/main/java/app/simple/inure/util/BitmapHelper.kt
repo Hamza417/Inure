@@ -35,7 +35,7 @@ object BitmapHelper {
      *
      * @return [Bitmap]
      */
-    @Deprecated("Use Glide renderscript")
+    @Deprecated("Use Glide with Renderscript")
     fun addShadow(bitmap: Bitmap, dstHeight: Int, dstWidth: Int, size: Int, dx: Float, dy: Float): Bitmap {
         val mask = Bitmap.createBitmap(dstWidth, dstHeight, Bitmap.Config.ARGB_8888)
         val scaleToFit = Matrix()

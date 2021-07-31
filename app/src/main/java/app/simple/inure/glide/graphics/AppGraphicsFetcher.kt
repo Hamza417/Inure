@@ -71,5 +71,4 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
     override fun getDataSource(): DataSource {
         return DataSource.LOCAL
     }
-
 }

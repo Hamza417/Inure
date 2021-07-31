@@ -2,6 +2,7 @@ package app.simple.inure.decorations.views
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.widget.ProgressBar
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
@@ -28,6 +29,20 @@ class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: Attri
             valueAnimator?.start()
         } else {
             setProgress(progress)
+        }
+    }
+
+    fun changeColor(color: Int, animate: Boolean) {
+        if (animate) {
+            valueAnimator = ValueAnimator.ofArgb(progressTintList!!.defaultColor, color)
+            valueAnimator?.interpolator = LinearOutSlowInInterpolator()
+            valueAnimator?.duration = resources.getInteger(R.integer.animation_duration).toLong()
+            valueAnimator?.addUpdateListener { animation ->
+                progressTintList = ColorStateList.valueOf(animation.animatedValue as Int)
+            }
+            valueAnimator?.start()
+        } else {
+            progressTintList = ColorStateList.valueOf(color)
         }
     }
 

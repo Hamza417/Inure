@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/popup_padding">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/app_icon_dimension"
+        android:layout_height="@dimen/app_icon_dimension"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toTopOf="@id/total_time_used"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/app_name_text_size"
+        app:appFontStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="@+id/icon" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/total_time_used"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/total_data_used"
+        android:textColor="?attr/colorAppAccent"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintEnd_toEndOf="@+id/name"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/total_data_used"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/total_wifi_used"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_signal_cellular"
+        android:drawablePadding="@dimen/popup_padding"
+        android:gravity="center_vertical"
+        android:textColor="?attr/colorAppAccent"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintEnd_toEndOf="@+id/name"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/total_time_used" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/total_wifi_used"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_wifi"
+        android:drawablePadding="@dimen/popup_padding"
+        android:gravity="center_vertical"
+        android:textColor="?attr/colorAppAccent"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toBottomOf="@+id/icon"
+        app:layout_constraintEnd_toEndOf="@+id/name"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/total_data_used" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

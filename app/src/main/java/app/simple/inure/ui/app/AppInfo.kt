@@ -25,7 +25,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
-import app.simple.inure.events.AppsEvent
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.popups.app.PopupSure
@@ -330,7 +329,7 @@ class AppInfo : ScopedFragment() {
         })
 
         icon.transitionName = requireArguments().getString("transition_name")
-        icon.loadAppIcon(requireContext(), applicationInfo.packageName)
+        icon.loadAppIcon(applicationInfo.packageName)
 
         name.text = applicationInfo.name
         packageId.text = PackageUtils.getApplicationVersion(requireContext(), applicationInfo)

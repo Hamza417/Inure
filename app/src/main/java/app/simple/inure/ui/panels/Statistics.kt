@@ -1,7 +1,5 @@
 package app.simple.inure.ui.panels
 
-import android.app.usage.UsageStats
-import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
@@ -10,48 +8,51 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.lifecycleScope
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import app.simple.inure.R
+import app.simple.inure.adapters.ui.StatisticsAdapter
+import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.StatsPreferences
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.*
-
+import app.simple.inure.viewmodels.panels.UsageStatsData
 
 class Statistics : ScopedFragment() {
 
-    private lateinit var usageStatsManager: UsageStatsManager
+    private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var progress: CustomProgressBar
+    private val usageStatsData: UsageStatsData by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_statistics, container, false)
 
-        usageStatsManager = requireActivity().getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        recyclerView = view.findViewById(R.id.usage_rv)
+        progress = view.findViewById(R.id.progress)
 
         startPostponedEnterTransition()
 
         return view
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            withContext(Dispatchers.Default) {
-                val calendar: Calendar = Calendar.getInstance()
-                calendar.add(Calendar.MONTH, -1)
-                val start: Long = calendar.timeInMillis
-                val end = System.currentTimeMillis()
-                val stats: List<UsageStats> = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY, start, end)
+        usageStatsData.usageData.observe(viewLifecycleOwner, {
+            val adapter = StatisticsAdapter(it)
+            recyclerView.adapter = adapter
 
-                for (i in stats) {
-                    println(i.packageName)
-                    println(i.totalTimeVisible)
-                }
-            }
-        }
+            progress.changeColor(ContextCompat.getColor(requireContext(), R.color.divider), true)
+            progress.progress = progress.max
+        })
+
+        usageStatsData.progress.observe(viewLifecycleOwner, {
+            progress.setProgress(it, true, fromStart = false)
+        })
+
+        usageStatsData.max.observe(viewLifecycleOwner, {
+            progress.max = it
+        })
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

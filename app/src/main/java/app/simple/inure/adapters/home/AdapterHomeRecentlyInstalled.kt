@@ -22,7 +22,7 @@ class AdapterHomeRecentlyInstalled(private val list: ArrayList<PackageInfo>) : R
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = "app_$position"
-        holder.icon.loadAppIcon(holder.itemView.context, list[position].packageName)
+        holder.icon.loadAppIcon(list[position].packageName)
         holder.name.text = list[position].applicationInfo.name
 
         holder.container.setOnClickListener {
