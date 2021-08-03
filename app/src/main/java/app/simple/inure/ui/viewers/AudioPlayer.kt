@@ -1,7 +1,6 @@
 package app.simple.inure.ui.viewers
 
 import android.animation.ObjectAnimator
-import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -131,11 +130,12 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
         playerViewModel.getCloseEvent().observe(viewLifecycleOwner, {
             dismiss()
+            requireActivity().finishAfterTransition()
         })
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+    override fun onDestroy() {
+        super.onDestroy()
         requireActivity().finishAfterTransition()
     }
 

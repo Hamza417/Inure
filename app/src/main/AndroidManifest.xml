@@ -31,9 +31,11 @@
         android:theme="@style/Inure"
         android:windowSoftInputMode="adjustPan"
         tools:ignore="AllowBackup">
+
         <activity
             android:name=".activities.app.MainActivity"
-            android:documentLaunchMode="intoExisting">
+            android:documentLaunchMode="intoExisting"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -125,6 +127,7 @@
             android:documentLaunchMode="intoExisting"
             android:exported="true"
             android:label="@string/audio_player"
+            android:configChanges="orientation|screenSize|uiMode"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
