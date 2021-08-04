@@ -27,7 +27,7 @@ object StatsPreferences {
     }
 
     fun getSortedBy(): String {
-        return getSharedPreferences().getString(statsSorting, SortUsageStats.DATA_RECEIVED)!!
+        return getSharedPreferences().getString(statsSorting, SortUsageStats.TIME)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -37,6 +37,6 @@ object StatsPreferences {
     }
 
     fun isReverseSorting(): Boolean {
-        return getSharedPreferences().getBoolean(isSortingReversed, false)
+        return getSharedPreferences().getBoolean(isSortingReversed, true)
     }
 }

@@ -5,7 +5,6 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -45,31 +44,26 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun loadFrequentlyUsed() {
         viewModelScope.launch(Dispatchers.Default) {
             val stats = with(getWeeklyInterval()) {
-                usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY, first, second)
+                usageStatsManager.queryAndAggregateUsageStats(first, second)
             }
 
-            stats.sortedByDescending {
-                it.totalTimeInForeground
-            }
+            val apps = getApplication<Application>()
+                    .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+
 
             val list = arrayListOf<PackageStats>()
 
-            for (i in stats) {
+            for (app in apps) {
                 kotlin.runCatching {
                     val packageStats = PackageStats()
 
-                    packageStats.packageInfo = getApplication<Application>()
-                            .packageManager.getPackageInfo(i.packageName, PackageManager.GET_META_DATA)
+                    packageStats.packageInfo = app
 
                     packageStats.packageInfo!!.applicationInfo.apply {
                         name = getApplication<Application>().packageManager.getApplicationLabel(this).toString()
                     }
 
-                    packageStats.totalTimeUsed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        i.totalTimeVisible
-                    } else {
-                        i.totalTimeInForeground
-                    }
+                    packageStats.totalTimeUsed += stats[app.packageName]?.totalTimeInForeground ?: 0
 
                     list.add(packageStats)
                 }.getOrElse {

@@ -7,7 +7,7 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -43,23 +43,24 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
 
             val list = arrayListOf<PackageStats>()
             val stats = usageStatsManager.queryAndAggregateUsageStats(start, end)
+            val apps = getApplication<Application>()
+                    .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
 
             max.postValue(stats.size)
 
-            for (i in stats) {
+            for (app in apps) {
                 kotlin.runCatching {
                     val packageStats = PackageStats()
 
-                    packageStats.packageInfo = getApplication<Application>()
-                            .packageManager.getPackageInfo(i.value.packageName, PackageManager.GET_META_DATA)
+                    packageStats.packageInfo = app
 
                     packageStats.packageInfo!!.applicationInfo.apply {
                         name = getApplication<Application>().packageManager.getApplicationLabel(this).toString()
                     }
 
-                    packageStats.totalTimeUsed = i.value.totalTimeInForeground
+                    packageStats.totalTimeUsed += stats[app.packageName]?.totalTimeInForeground ?: 0
 
-                    getInternetUsage(packageStats.packageInfo!!, packageStats)
+                    getInternetUsage(app, packageStats)
 
                     list.add(packageStats)
 
@@ -77,14 +78,14 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
 
     private fun getInternetUsage(packageInfo: PackageInfo, packageStats: PackageStats) {
         val bucketWifi = networkStatsManager
-                .queryDetailsForUid(ConnectivityManager.TYPE_WIFI,
+                .queryDetailsForUid(NetworkCapabilities.TRANSPORT_WIFI,
                                     "",
                                     packageInfo.firstInstallTime,
                                     System.currentTimeMillis(),
                                     packageInfo.applicationInfo.uid)
 
         val bucketMobile = networkStatsManager
-                .queryDetailsForUid(ConnectivityManager.TYPE_MOBILE,
+                .queryDetailsForUid(NetworkCapabilities.TRANSPORT_CELLULAR,
                                     null,
                                     packageInfo.firstInstallTime,
                                     System.currentTimeMillis(),

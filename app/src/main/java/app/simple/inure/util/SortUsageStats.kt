@@ -29,6 +29,9 @@ object SortUsageStats {
             WIFI_RECEIVED -> {
                 sortByWifiReceived()
             }
+            TIME -> {
+                sortByTime()
+            }
             else -> {
                 sortByName()
             }
