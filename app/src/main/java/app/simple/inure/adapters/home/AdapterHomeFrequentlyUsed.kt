@@ -11,26 +11,28 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.HorizontalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.model.PackageStats
+import java.util.*
 
-class AdapterHomeRecentlyInstalled(private val list: ArrayList<PackageInfo>) : RecyclerView.Adapter<AdapterHomeRecentlyInstalled.Holder>() {
+class AdapterHomeFrequentlyUsed(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<AdapterHomeFrequentlyUsed.Holder>() {
 
-    private var recentlyAppsCallbacks: RecentlyAppsCallbacks? = null
+    private var recentlyUpdatedAppsCallbacks: RecentlyUpdatedAppsCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_recently_installed, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_recently_updated, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.icon.transitionName = "recently_installed_$position"
-        holder.icon.loadAppIcon(list[position].packageName)
-        holder.name.text = list[position].applicationInfo.name
+        holder.icon.transitionName = "frequently_$position"
+        holder.icon.loadAppIcon(list[position].packageInfo!!.packageName)
+        holder.name.text = list[position].packageInfo!!.applicationInfo.name
 
         holder.container.setOnClickListener {
-            recentlyAppsCallbacks?.onRecentAppClicked(list[position], holder.icon)
+            recentlyUpdatedAppsCallbacks?.onRecentAppClicked(list[position].packageInfo!!, holder.icon)
         }
 
         holder.container.setOnLongClickListener {
-            recentlyAppsCallbacks?.onRecentAppLongPressed(list[position], holder.icon, holder.container)
+            recentlyUpdatedAppsCallbacks?.onRecentAppLongPressed(list[position].packageInfo!!, holder.icon, holder.container)
             true
         }
     }
@@ -45,12 +47,12 @@ class AdapterHomeRecentlyInstalled(private val list: ArrayList<PackageInfo>) : R
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.recently_container)
     }
 
-    fun setOnRecentAppsClickedListener(recentlyAppsCallbacks: RecentlyAppsCallbacks) {
-        this.recentlyAppsCallbacks = recentlyAppsCallbacks
+    fun setOnRecentAppsClickedListener(recentlyUpdatedAppsCallbacks: RecentlyUpdatedAppsCallbacks) {
+        this.recentlyUpdatedAppsCallbacks = recentlyUpdatedAppsCallbacks
     }
 
     companion object {
-        interface RecentlyAppsCallbacks {
+        interface RecentlyUpdatedAppsCallbacks {
             fun onRecentAppClicked(packageInfo: PackageInfo, icon: ImageView)
             fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup)
         }

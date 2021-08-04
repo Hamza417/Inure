@@ -28,6 +28,8 @@
 
         <include layout="@layout/home_recently_updated" />
 
+        <include layout="@layout/home_frequently_used" />
+
     </LinearLayout>
 
 </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ani_ic_app_icon.xml" value="0.25625" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_home.xml" value="0.21203703703703702" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/home_frequently_used.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/home_recently_updated.xml" value="0.21203703703703702" />
       </map>
     </option>
   </component>

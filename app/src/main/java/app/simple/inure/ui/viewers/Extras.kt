@@ -49,6 +49,8 @@ class Extras : ScopedFragment() {
 
             adapterExtras.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
                 override fun onExtrasClicked(path: String) {
+                    clearEnterTransition()
+                    clearExitTransition()
                     when {
                         path.endsWith(".ttf") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
@@ -83,6 +85,8 @@ class Extras : ScopedFragment() {
                 }
 
                 override fun onExtrasLongClicked(path: String) {
+                    clearEnterTransition()
+                    clearExitTransition()
                     when {
                         path.endsWith(".ttf") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,

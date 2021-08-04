@@ -1,20 +1,28 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
+import android.app.usage.UsageStatsManager
+import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.model.PackageStats
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.stream.Collectors
+import java.util.*
+import java.util.concurrent.TimeUnit
+
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
+
+    private var usageStatsManager: UsageStatsManager = getApplication<Application>()
+            .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
     private val recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {
@@ -25,6 +33,55 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {
             loadRecentlyUpdatedAppData()
+        }
+    }
+
+    val frequentlyUsed: MutableLiveData<ArrayList<PackageStats>> by lazy {
+        MutableLiveData<ArrayList<PackageStats>>().also {
+            loadFrequentlyUsed()
+        }
+    }
+
+    private fun loadFrequentlyUsed() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val stats = with(getWeeklyInterval()) {
+                usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY, first, second)
+            }
+
+            stats.sortedByDescending {
+                it.totalTimeInForeground
+            }
+
+            val list = arrayListOf<PackageStats>()
+
+            for (i in stats) {
+                kotlin.runCatching {
+                    val packageStats = PackageStats()
+
+                    packageStats.packageInfo = getApplication<Application>()
+                            .packageManager.getPackageInfo(i.packageName, PackageManager.GET_META_DATA)
+
+                    packageStats.packageInfo!!.applicationInfo.apply {
+                        name = getApplication<Application>().packageManager.getApplicationLabel(this).toString()
+                    }
+
+                    packageStats.totalTimeUsed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        i.totalTimeVisible
+                    } else {
+                        i.totalTimeInForeground
+                    }
+
+                    list.add(packageStats)
+                }.getOrElse {
+                    it.printStackTrace()
+                }
+            }
+
+            list.sortByDescending {
+                it.totalTimeUsed
+            }
+
+            frequentlyUsed.postValue(list)
         }
     }
 
@@ -48,17 +105,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = getApplication<Application>()
+            val apps = getApplication<Application>()
                     .applicationContext.packageManager
                     .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
-
-            apps = apps.stream().use { stream ->
-                stream.filter {
-                    it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
-                }.use {
-                    it.collect(Collectors.toList()) as ArrayList<PackageInfo>
-                }
-            }
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
@@ -74,17 +123,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun loadRecentlyUpdatedAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = getApplication<Application>()
+            val apps = getApplication<Application>()
                     .applicationContext.packageManager
                     .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
-
-            apps = apps.stream().use { stream ->
-                stream.filter {
-                    it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
-                }.use {
-                    it.collect(Collectors.toList()) as ArrayList<PackageInfo>
-                }
-            }
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
@@ -113,5 +154,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
             menuItems.postValue(list)
         }
+    }
+
+    private fun getWeeklyInterval(): Pair<Long, Long> {
+        val timeEnd = System.currentTimeMillis()
+        val timeStart: Long = timeEnd - TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS)
+        return Pair(timeStart, timeEnd)
     }
 }

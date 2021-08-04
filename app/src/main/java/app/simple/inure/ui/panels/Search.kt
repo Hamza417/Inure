@@ -92,9 +92,9 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
                 override fun onAppLongPress(applicationInfo: ApplicationInfo, anchor: View, icon: ImageView, position: Int) {
                     val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
-                                                  applicationInfo, icon, anchor)
+                                                  applicationInfo, anchor)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo) {
                             when (source) {
                                 getString(R.string.app_information) -> {
                                     openAppInfo(applicationInfo, icon)

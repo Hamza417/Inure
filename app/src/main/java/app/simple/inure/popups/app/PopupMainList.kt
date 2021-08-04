@@ -3,7 +3,6 @@ package app.simple.inure.popups.app
 import android.content.pm.ApplicationInfo
 import android.view.Gravity
 import android.view.View
-import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import app.simple.inure.R
@@ -19,7 +18,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
  * window when appears. It is highly recommended to use this
  * and ditch popup menu entirely.
  */
-class PopupMainList(contentView: View, private val applicationInfo: ApplicationInfo, private val icon: ImageView, anchor: View) : BasePopupWindow() {
+class PopupMainList(contentView: View, private val applicationInfo: ApplicationInfo, anchor: View) : BasePopupWindow() {
 
     lateinit var popupMenuCallback: PopupMenuCallback
 
@@ -32,7 +31,7 @@ class PopupMainList(contentView: View, private val applicationInfo: ApplicationI
 
     private fun TextView.onClick() {
         this.setOnClickListener {
-            popupMenuCallback.onMenuItemClicked(this.text.toString(), applicationInfo, icon)
+            popupMenuCallback.onMenuItemClicked(this.text.toString(), applicationInfo)
             dismiss()
         }
     }

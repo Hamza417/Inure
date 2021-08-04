@@ -1,7 +1,6 @@
 package app.simple.inure.decorations.popup;
 
 import android.content.pm.ApplicationInfo;
-import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,9 +11,8 @@ public interface PopupMenuCallback {
      *
      * @param source          text of the menu item
      * @param applicationInfo {@link ApplicationInfo}
-     * @param icon            {@link ImageView} used for transition effects
      */
-    default void onMenuItemClicked(@NotNull String source, ApplicationInfo applicationInfo, ImageView icon) {
+    default void onMenuItemClicked(@NotNull String source, ApplicationInfo applicationInfo) {
     }
     
     /**

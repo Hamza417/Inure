@@ -10,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AppsAdapterSmall
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
@@ -27,8 +25,6 @@ import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.AllAppsData
-import java.util.*
-import kotlin.system.measureTimeMillis
 
 class Apps : ScopedFragment() {
 
@@ -68,9 +64,9 @@ class Apps : ScopedFragment() {
 
                 override fun onAppLongPress(applicationInfo: ApplicationInfo, anchor: View, icon: ImageView, position: Int) {
                     val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
-                                                  applicationInfo, icon, anchor)
+                                                  applicationInfo, anchor)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
+                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo) {
                             when (source) {
                                 getString(R.string.app_information) -> {
                                     openAppInfo(applicationInfo, icon)

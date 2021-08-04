@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.adapters.home.AdapterHomeFrequentlyUsed
 import app.simple.inure.adapters.home.AdapterHomeRecentlyInstalled
 import app.simple.inure.adapters.home.AdapterHomeRecentlyUpdated
 import app.simple.inure.adapters.menus.AdapterHomeMenu
@@ -35,6 +36,7 @@ class Home : ScopedFragment() {
     private lateinit var navigationRecyclerView: RecyclerView
     private lateinit var recentlyInstalledRecyclerView: CustomHorizontalRecyclerView
     private lateinit var recentlyUpdatedRecyclerView: CustomHorizontalRecyclerView
+    private lateinit var frequentlyUsedRecyclerView: CustomHorizontalRecyclerView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
 
@@ -46,6 +48,7 @@ class Home : ScopedFragment() {
         navigationRecyclerView = view.findViewById(R.id.home_menu)
         recentlyInstalledRecyclerView = view.findViewById(R.id.recently_installed_recycler_view)
         recentlyUpdatedRecyclerView = view.findViewById(R.id.recently_updated_recycler_view)
+        frequentlyUsedRecyclerView = view.findViewById(R.id.frequently_used_recycler_view)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
 
@@ -62,29 +65,11 @@ class Home : ScopedFragment() {
 
             adapter.setOnRecentAppsClickedListener(object : AdapterHomeRecentlyInstalled.Companion.RecentlyAppsCallbacks {
                 override fun onRecentAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
-                                                icon, "app_info")
+                    openAppInfo(packageInfo, icon)
                 }
 
                 override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
-                                                  packageInfo.applicationInfo, icon, anchor)
-                    popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
-                            when (source) {
-                                getString(R.string.app_information) -> {
-                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                                AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
-                                                                icon, "app_info")
-                                }
-                                getString(R.string.send) -> {
-                                    Preparing.newInstance(packageInfo.applicationInfo)
-                                            .show(parentFragmentManager, "send_app")
-                                }
-                            }
-                        }
-                    })
+                    openAppMenu(packageInfo, icon, anchor)
                 }
             })
 
@@ -102,33 +87,37 @@ class Home : ScopedFragment() {
 
             adapter.setOnRecentAppsClickedListener(object : AdapterHomeRecentlyUpdated.Companion.RecentlyUpdatedAppsCallbacks {
                 override fun onRecentAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
-                                                icon, "app_info")
+                    openAppInfo(packageInfo, icon)
                 }
 
                 override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
-                                                  packageInfo.applicationInfo, icon, anchor)
-                    popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo, icon: ImageView) {
-                            when (source) {
-                                getString(R.string.app_information) -> {
-                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                                AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
-                                                                icon, "app_info")
-                                }
-                                getString(R.string.send) -> {
-                                    Preparing.newInstance(packageInfo.applicationInfo)
-                                            .show(parentFragmentManager, "send_app")
-                                }
-                            }
-                        }
-                    })
+                    openAppMenu(packageInfo, icon, anchor)
                 }
             })
 
             recentlyUpdatedRecyclerView.adapter = adapter
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+        })
+
+        homeViewModel.frequentlyUsed.observe(viewLifecycleOwner, {
+            postponeEnterTransition()
+
+            val adapterHomeFrequentlyUsed = AdapterHomeFrequentlyUsed(it)
+
+            adapterHomeFrequentlyUsed.setOnRecentAppsClickedListener(object : AdapterHomeFrequentlyUsed.Companion.RecentlyUpdatedAppsCallbacks {
+                override fun onRecentAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                    openAppInfo(packageInfo, icon)
+                }
+
+                override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
+                    openAppMenu(packageInfo, icon, anchor)
+                }
+            })
+
+            frequentlyUsedRecyclerView.adapter = adapterHomeFrequentlyUsed
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -195,6 +184,32 @@ class Home : ScopedFragment() {
                                               view.findViewById(R.id.imageView3),
                                               "preferences_screen")
         }
+    }
+
+    private fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
+        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                    AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
+                                    icon, "app_info")
+    }
+
+    private fun openAppMenu(packageInfo: PackageInfo, icon: ImageView, anchor: View) {
+        val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
+                                      packageInfo.applicationInfo, anchor)
+        popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
+            override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo) {
+                when (source) {
+                    getString(R.string.app_information) -> {
+                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                    AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
+                                                    icon, "app_info")
+                    }
+                    getString(R.string.send) -> {
+                        Preparing.newInstance(packageInfo.applicationInfo)
+                                .show(parentFragmentManager, "send_app")
+                    }
+                }
+            }
+        })
     }
 
     companion object {

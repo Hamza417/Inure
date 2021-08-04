@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="25dp"
+        android:paddingTop="@dimen/header_padding"
+        android:text="@string/frequently_used"
+        android:textColor="@color/textSecondary"
+        android:textSize="@dimen/home_heading_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.views.CustomHorizontalRecyclerView
+        android:id="@+id/frequently_used_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:paddingHorizontal="@dimen/dialog_padding"
+        android:nestedScrollingEnabled="true"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/horizontal_list_controller"
+        android:paddingVertical="@dimen/dialog_padding"
+        app:statusBarPaddingRequired="false" />
+
+</merge>
