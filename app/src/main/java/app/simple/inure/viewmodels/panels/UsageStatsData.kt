@@ -91,16 +91,24 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
                                     System.currentTimeMillis(),
                                     packageInfo.applicationInfo.uid)
 
-        val bucket = NetworkStats.Bucket()
-        bucketMobile.getNextBucket(bucket)
 
-        packageStats.dataReceived = bucket.rxBytes
-        packageStats.dataSent = bucket.txBytes
+        with(NetworkStats.Bucket()) {
+            while (bucketMobile.hasNextBucket()) {
+                bucketMobile.getNextBucket(this)
 
-        bucketWifi.getNextBucket(bucket)
+                packageStats.dataReceived += rxBytes
+                packageStats.dataSent += txBytes
+            }
+        }
 
-        packageStats.dataReceivedWifi = bucket.rxBytes
-        packageStats.dataSentWifi = bucket.txBytes
+        with(NetworkStats.Bucket()) {
+            while (bucketWifi.hasNextBucket()) {
+                bucketWifi.getNextBucket(this)
+
+                packageStats.dataReceivedWifi += rxBytes
+                packageStats.dataSentWifi += txBytes
+            }
+        }
 
         bucketWifi.close()
         bucketMobile.close()
