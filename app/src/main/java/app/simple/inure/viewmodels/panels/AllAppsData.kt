@@ -3,20 +3,17 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
 import app.simple.inure.events.AppsEvent
-import app.simple.inure.exceptions.CacheDirectoryDeletionException
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.util.stream.Collectors
 
 class AllAppsData(application: Application) : AndroidViewModel(application) {

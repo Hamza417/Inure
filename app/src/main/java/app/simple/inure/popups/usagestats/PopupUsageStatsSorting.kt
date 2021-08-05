@@ -1,4 +1,4 @@
-package app.simple.inure.popups.app
+package app.simple.inure.popups.usagestats
 
 import android.view.View
 import android.widget.CheckBox

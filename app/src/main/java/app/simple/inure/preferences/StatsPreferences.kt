@@ -1,11 +1,13 @@
 package app.simple.inure.preferences
 
 import android.app.usage.UsageStatsManager
+import app.simple.inure.popups.usagestats.PopupAppsCategoryUsageStats
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.SortUsageStats
 import org.jetbrains.annotations.NotNull
 
 object StatsPreferences {
+    const val appsCategory = "stats_app_category"
     const val statsInterval = "app_usage_intervals"
     const val statsSorting = "sorted_by"
     const val isSortingReversed = "stats_is_sorting_reversed"
@@ -38,5 +40,15 @@ object StatsPreferences {
 
     fun isReverseSorting(): Boolean {
         return getSharedPreferences().getBoolean(isSortingReversed, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setAppsCategory(value: String) {
+        getSharedPreferences().edit().putString(appsCategory, value).apply()
+    }
+
+    fun getAppsCategory(): String {
+        return getSharedPreferences().getString(appsCategory, PopupAppsCategoryUsageStats.BOTH)!!
     }
 }

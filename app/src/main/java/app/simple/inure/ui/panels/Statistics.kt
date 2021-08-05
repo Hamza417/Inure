@@ -59,6 +59,9 @@ class Statistics : ScopedFragment() {
             StatsPreferences.statsInterval -> {
 
             }
+            StatsPreferences.appsCategory -> {
+                usageStatsData.loadAppStats()
+            }
             StatsPreferences.isSortingReversed,
             StatsPreferences.statsSorting,
             -> {

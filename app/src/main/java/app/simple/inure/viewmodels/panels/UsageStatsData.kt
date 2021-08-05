@@ -5,6 +5,7 @@ import android.app.usage.NetworkStats
 import android.app.usage.NetworkStatsManager
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.NetworkCapabilities
@@ -12,10 +13,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.model.PackageStats
+import app.simple.inure.popups.dialogs.AppCategoryPopup
+import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.util.SortUsageStats.sortStats
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import java.util.stream.Collectors
 
 class UsageStatsData(application: Application) : AndroidViewModel(application) {
 
@@ -34,7 +38,7 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
     val progress = MutableLiveData<Int>()
     val max = MutableLiveData<Int>()
 
-    private fun loadAppStats() {
+    fun loadAppStats() {
         viewModelScope.launch(Dispatchers.Default) {
             val calendar: Calendar = Calendar.getInstance()
             calendar.add(Calendar.MONTH, -1)
@@ -43,8 +47,21 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
 
             var list = arrayListOf<PackageStats>()
             val stats = usageStatsManager.queryAndAggregateUsageStats(start, end)
-            val apps = getApplication<Application>()
+            var apps = getApplication<Application>()
                     .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+
+            when (StatsPreferences.getAppsCategory()) {
+                AppCategoryPopup.SYSTEM -> {
+                    apps = apps.stream().filter { p ->
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+                }
+                AppCategoryPopup.USER -> {
+                    apps = apps.stream().filter { p ->
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+                }
+            }
 
             max.postValue(stats.size)
 
