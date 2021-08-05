@@ -37,4 +37,9 @@ class PackageStats {
      * Total data received via wifi
      */
     var dataReceivedWifi = 0L
+
+    /**
+     * Total launch count
+     */
+    var launchCount = 0
 }

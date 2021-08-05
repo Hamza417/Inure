@@ -43,6 +43,8 @@ public class DetailsTransition extends TransitionSet {
          */
         addTransition(new ChangeBounds())
                 .addTransition(new ChangeTransform())
+                .addTransition(new ChangeTransform())
+                .addTransition(new ChangeImageTransform())
                 .setDuration(500L)
                 .setInterpolator(new LinearOutSlowInInterpolator());
     }

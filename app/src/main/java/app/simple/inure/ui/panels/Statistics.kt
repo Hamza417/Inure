@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.StatisticsAdapter
-import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.ui.menus.UsageStatsMenu
 import app.simple.inure.viewmodels.panels.UsageStatsData
 
 class Statistics : ScopedFragment() {
@@ -41,6 +40,14 @@ class Statistics : ScopedFragment() {
         }
 
         usageStatsData.usageData.observe(viewLifecycleOwner, {
+
+            statisticsAdapter.setOnStatsCallbackListener(object : StatisticsAdapter.Companion.StatsAdapterCallbacks {
+                override fun onFilterPressed(view: View) {
+                    UsageStatsMenu.newInstance()
+                            .show(childFragmentManager, "menu")
+                }
+            })
+
             statisticsAdapter.setData(it).also {
                 recyclerView.setupFastScroller()
             }
@@ -51,6 +58,11 @@ class Statistics : ScopedFragment() {
         when (key) {
             StatsPreferences.statsInterval -> {
 
+            }
+            StatsPreferences.isSortingReversed,
+            StatsPreferences.statsSorting,
+            -> {
+                usageStatsData.sortUsageData()
             }
         }
     }

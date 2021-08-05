@@ -34,14 +34,14 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
     val progress = MutableLiveData<Int>()
     val max = MutableLiveData<Int>()
 
-    fun loadAppStats() {
+    private fun loadAppStats() {
         viewModelScope.launch(Dispatchers.Default) {
             val calendar: Calendar = Calendar.getInstance()
             calendar.add(Calendar.MONTH, -1)
             val start: Long = calendar.timeInMillis
             val end = System.currentTimeMillis()
 
-            val list = arrayListOf<PackageStats>()
+            var list = arrayListOf<PackageStats>()
             val stats = usageStatsManager.queryAndAggregateUsageStats(start, end)
             val apps = getApplication<Application>()
                     .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
@@ -70,9 +70,23 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
                 }
             }
 
+            list = list.filter {
+                it.totalTimeUsed != 0L
+            } as ArrayList<PackageStats>
+
             list.sortStats()
 
             usageData.postValue(list)
+        }
+    }
+
+    fun sortUsageData() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val list = usageData.value
+
+            list?.sortStats()?.also {
+                usageData.postValue(list)
+            }
         }
     }
 

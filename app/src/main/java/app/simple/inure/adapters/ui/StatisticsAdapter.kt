@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,8 @@ import java.util.concurrent.TimeUnit
 
 class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
-    private val data = arrayListOf<PackageStats>()
+    private var data = arrayListOf<PackageStats>()
+    private var statsAdapterCallbacks: StatsAdapterCallbacks? = null
     private var isLoaded = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -51,7 +53,10 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
 
             with(data[position].totalTimeUsed) {
                 holder.time.apply {
-                    this.text = if (TimeUnit.MILLISECONDS.toMinutes(this@with) < 60) {
+                    this.text = if (TimeUnit.MILLISECONDS.toSeconds(this@with) < 60) {
+                        this.context.getString(R.string.used_for_seconds,
+                                               TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
+                    } else if (TimeUnit.MILLISECONDS.toMinutes(this@with) < 60) {
                         this.context.getString(R.string.used_for_short,
                                                TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
                     } else {
@@ -64,7 +69,7 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
 
         } else if (holder is Header) {
             holder.settings.setOnClickListener {
-
+                statsAdapterCallbacks?.onFilterPressed(it)
             }
 
             if (isLoaded) {
@@ -91,10 +96,15 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
         return data[position].packageInfo?.applicationInfo?.name?.substring(0, 1) ?: ""
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(list: ArrayList<PackageStats>) {
-        this.data.addAll(list)
+        this.data = list
         notifyDataSetChanged()
         isLoaded = true
+    }
+
+    fun setOnStatsCallbackListener(statsAdapterCallbacks: StatsAdapterCallbacks) {
+        this.statsAdapterCallbacks = statsAdapterCallbacks
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
@@ -111,5 +121,11 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
         val progress: ContentLoadingProgressBar = itemView.findViewById(R.id.progress)
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
+    }
+
+    companion object {
+        interface StatsAdapterCallbacks {
+            fun onFilterPressed(view: View)
+        }
     }
 }
