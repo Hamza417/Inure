@@ -342,12 +342,14 @@ class AppInfo : ScopedFragment() {
         }
 
         storage.setOnClickListener {
+            clearExitTransition()
             openFragment(requireActivity().supportFragmentManager,
                          Storage.newInstance(applicationInfo),
                          getString(R.string.storage))
         }
 
         directories.setOnClickListener {
+            clearExitTransition()
             openFragment(requireActivity().supportFragmentManager,
                          Directories.newInstance(applicationInfo),
                          getString(R.string.directories))

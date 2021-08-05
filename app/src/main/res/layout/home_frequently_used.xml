@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="25dp"
         android:paddingTop="@dimen/header_padding"
-        android:text="@string/frequently_used"
+        android:text="@string/most_used"
         android:textColor="@color/textSecondary"
         android:textSize="@dimen/home_heading_text_size"
         app:appFontStyle="bold" />

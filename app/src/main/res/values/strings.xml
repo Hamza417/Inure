@@ -227,7 +227,7 @@
     <string name="used_for_seconds">Used for %1$s seconds</string>
     <string name="used_for_short">Used for %1$s minutes</string>
     <string name="used_for_long">Used for %1$s hour %2$s minutes</string>
-    <string name="frequently_used">Frequently Used</string>
+    <string name="most_used">Most Used</string>
     <string name="time_used">Time Used</string>
     <string name="data_sent">Data Sent</string>
     <string name="data_received">Data Received</string>
