@@ -10,9 +10,9 @@ import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.StatisticsAdapter
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.usagestats.UsageStatsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.StatsPreferences
-import app.simple.inure.ui.menus.UsageStatsMenu
 import app.simple.inure.viewmodels.panels.UsageStatsData
 
 class Statistics : ScopedFragment() {
@@ -57,7 +57,7 @@ class Statistics : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             StatsPreferences.statsInterval -> {
-
+                usageStatsData.loadAppStats()
             }
             StatsPreferences.appsCategory -> {
                 usageStatsData.loadAppStats()

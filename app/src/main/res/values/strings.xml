@@ -233,4 +233,9 @@
     <string name="data_received">Data Received</string>
     <string name="wifi_received">WiFi Received</string>
     <string name="wifi_sent">WiFi Sent</string>
+    <string name="data_interval">Data Interval</string>
+    <string name="today">Today</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="daily">Daily</string>
 </resources>

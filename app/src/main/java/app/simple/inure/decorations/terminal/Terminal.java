@@ -37,6 +37,7 @@ public class Terminal {
     private boolean mCursorVisible;
     private int mCursorRow;
     private int mCursorCol;
+    
     public Terminal() {
         TerminalCallbacks mCallbacks = new TerminalCallbacks() {
             @Override
@@ -176,14 +177,14 @@ public class Terminal {
     // NOTE: clients must not call back into terminal while handling a callback,
     // since native mutex isn't reentrant.
     public interface TerminalClient {
-        public void onDamage(int startRow, int endRow, int startCol, int endCol);
+        void onDamage(int startRow, int endRow, int startCol, int endCol);
         
-        public void onMoveRect(int destStartRow, int destEndRow, int destStartCol, int destEndCol,
+        void onMoveRect(int destStartRow, int destEndRow, int destStartCol, int destEndCol,
                 int srcStartRow, int srcEndRow, int srcStartCol, int srcEndCol);
         
-        public void onMoveCursor(int posRow, int posCol, int oldPosRow, int oldPosCol, int visible);
+        void onMoveCursor(int posRow, int posCol, int oldPosRow, int oldPosCol, int visible);
         
-        public void onBell();
+        void onBell();
     }
     
     /**

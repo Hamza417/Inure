@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/dialogBackground"
     android:orientation="vertical"
-    android:padding="@dimen/popup_padding">
+    android:padding="@dimen/popup_padding"
+    tools:parentTag="android.widget.LinearLayout">
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/popup_bounce_no_bounce"
+        android:id="@+id/popup_interval_today"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -17,45 +19,45 @@
         android:maxLines="1"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/none"
+        android:text="@string/today"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/popup_bounce_low"
+        android:id="@+id/popup_interval_daily"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/low"
+        android:text="@string/daily"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/popup_bounce_medium"
+        android:id="@+id/popup_interval_weekly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/medium"
+        android:text="@string/weekly"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/popup_bounce_high"
+        android:id="@+id/popup_interval_monthly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/high"
+        android:text="@string/monthly"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+</merge>

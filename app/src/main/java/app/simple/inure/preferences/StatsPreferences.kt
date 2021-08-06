@@ -1,9 +1,9 @@
 package app.simple.inure.preferences
 
-import android.app.usage.UsageStatsManager
 import app.simple.inure.popups.usagestats.PopupAppsCategoryUsageStats
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.SortUsageStats
+import app.simple.inure.util.UsageInterval
 import org.jetbrains.annotations.NotNull
 
 object StatsPreferences {
@@ -14,12 +14,12 @@ object StatsPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setInterval(int: Int) {
-        getSharedPreferences().edit().putInt(statsInterval, int).apply()
+    fun setInterval(value: String) {
+        getSharedPreferences().edit().putString(statsInterval, value).apply()
     }
 
-    fun getInterval(): Int {
-        return getSharedPreferences().getInt(statsInterval, UsageStatsManager.INTERVAL_MONTHLY)
+    fun getInterval(): String {
+        return getSharedPreferences().getString(statsInterval, UsageInterval.WEEKlY)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

@@ -50,6 +50,7 @@ public class TerminalView extends ListView {
     private static final boolean SCROLL_ON_INPUT = true;
     private final TerminalMetrics mMetrics = new TerminalMetrics();
     private final TerminalKeys mTermKeys = new TerminalKeys();
+    
     private final TerminalClient mClient = new TerminalClient() {
         @Override
         public void onDamage(final int startRow, final int endRow, int startCol, int endCol) {
@@ -72,6 +73,7 @@ public class TerminalView extends ListView {
             Log.i(TAG, "DING!");
         }
     };
+    
     private Terminal mTerm;
     private boolean mScrolled;
     private final Runnable mDamageRunnable = () -> {
@@ -97,6 +99,7 @@ public class TerminalView extends ListView {
             view.pos = position;
             view.row = posToRow(position);
             view.cols = mCols;
+    
             return view;
         }
         
@@ -297,6 +300,7 @@ public class TerminalView extends ListView {
         public TerminalMetrics() {
             run = new CellRun();
             run.data = new char[MAX_RUN_LENGTH];
+            run.blink = true;
             
             // Positions of each possible cell
             // TODO: make sure this works with surrogate pairs

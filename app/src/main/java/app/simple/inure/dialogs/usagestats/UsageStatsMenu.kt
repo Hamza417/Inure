@@ -1,4 +1,4 @@
-package app.simple.inure.ui.menus
+package app.simple.inure.dialogs.usagestats
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -10,16 +10,19 @@ import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.usagestats.PopupAppsCategoryUsageStats
+import app.simple.inure.popups.usagestats.PopupUsageIntervals
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.SortUsageStats
+import app.simple.inure.util.UsageInterval
 
 class UsageStatsMenu : ScopedBottomSheetFragment() {
 
     private lateinit var sort: DynamicRippleTextView
     private lateinit var category: DynamicRippleTextView
     private lateinit var settings: DynamicRippleTextView
+    private lateinit var interval: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_usage_settings, container, false)
@@ -27,6 +30,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         sort = view.findViewById(R.id.dialog_apps_sorting)
         category = view.findViewById(R.id.dialog_apps_category)
         settings = view.findViewById(R.id.dialog_open_apps_settings)
+        interval = view.findViewById(R.id.popup_interval)
 
         return view
     }
@@ -36,6 +40,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
         setSortText()
         setCategoryText()
+        setIntervalText()
 
         sort.setOnClickListener {
             PopupUsageStatsSorting(layoutInflater.inflate(R.layout.popup_usage_stats_sorting,
@@ -46,6 +51,11 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         category.setOnClickListener {
             PopupAppsCategoryUsageStats(layoutInflater.inflate(R.layout.popup_apps_category, DynamicCornerLinearLayout(requireContext())),
                                         it)
+        }
+
+        interval.setOnClickListener {
+            PopupUsageIntervals(layoutInflater.inflate(R.layout.popup_data_interval, DynamicCornerLinearLayout(requireContext())),
+                                it)
         }
 
         settings.setOnClickListener {
@@ -81,6 +91,16 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         }
     }
 
+    private fun setIntervalText() {
+        interval.text = when (StatsPreferences.getInterval()) {
+            UsageInterval.TODAY -> getString(R.string.today)
+            UsageInterval.DAILY -> getString(R.string.daily)
+            UsageInterval.WEEKlY -> getString(R.string.weekly)
+            UsageInterval.MONTHLY -> getString(R.string.monthly)
+            else -> getString(R.string.weekly)
+        }
+    }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             StatsPreferences.statsSorting -> {
@@ -88,6 +108,9 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
             }
             StatsPreferences.appsCategory -> {
                 setCategoryText()
+            }
+            StatsPreferences.statsInterval -> {
+                setIntervalText()
             }
         }
     }

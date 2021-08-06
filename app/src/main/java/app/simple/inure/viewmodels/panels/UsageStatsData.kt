@@ -16,6 +16,7 @@ import app.simple.inure.model.PackageStats
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.util.SortUsageStats.sortStats
+import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -40,13 +41,11 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
 
     fun loadAppStats() {
         viewModelScope.launch(Dispatchers.Default) {
-            val calendar: Calendar = Calendar.getInstance()
-            calendar.add(Calendar.MONTH, -1)
-            val start: Long = calendar.timeInMillis
-            val end = System.currentTimeMillis()
-
             var list = arrayListOf<PackageStats>()
-            val stats = usageStatsManager.queryAndAggregateUsageStats(start, end)
+            val stats = with(UsageInterval.getTimeInterval()) {
+                usageStatsManager.queryAndAggregateUsageStats(first, second)
+            }
+
             var apps = getApplication<Application>()
                     .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
 
@@ -108,18 +107,20 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getInternetUsage(packageInfo: PackageInfo, packageStats: PackageStats) {
+        val interval = UsageInterval.getTimeInterval()
+
         val bucketWifi = networkStatsManager
                 .queryDetailsForUid(NetworkCapabilities.TRANSPORT_WIFI,
                                     "",
-                                    packageInfo.firstInstallTime,
-                                    System.currentTimeMillis(),
+                                    interval.first,
+                                    interval.second,
                                     packageInfo.applicationInfo.uid)
 
         val bucketMobile = networkStatsManager
                 .queryDetailsForUid(NetworkCapabilities.TRANSPORT_CELLULAR,
                                     null,
-                                    packageInfo.firstInstallTime,
-                                    System.currentTimeMillis(),
+                                    interval.first,
+                                    interval.second,
                                     packageInfo.applicationInfo.uid)
 
 

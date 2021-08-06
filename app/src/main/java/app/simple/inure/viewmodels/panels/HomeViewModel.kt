@@ -12,10 +12,10 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.model.PackageStats
+import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
@@ -43,7 +43,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun loadFrequentlyUsed() {
         viewModelScope.launch(Dispatchers.Default) {
-            val stats = with(getWeeklyInterval()) {
+            val stats = with(UsageInterval.getTimeInterval()) {
                 usageStatsManager.queryAndAggregateUsageStats(first, second)
             }
 
@@ -148,11 +148,5 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
             menuItems.postValue(list)
         }
-    }
-
-    private fun getWeeklyInterval(): Pair<Long, Long> {
-        val timeEnd = System.currentTimeMillis()
-        val timeStart: Long = timeEnd - TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS)
-        return Pair(timeStart, timeEnd)
     }
 }

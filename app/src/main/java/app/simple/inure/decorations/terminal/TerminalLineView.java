@@ -91,6 +91,5 @@ public class TerminalLineView extends View {
             canvas.drawRect(0, 0, m.charWidth, m.charHeight, m.cursorPaint);
             canvas.restore();
         }
-        
     }
 }
