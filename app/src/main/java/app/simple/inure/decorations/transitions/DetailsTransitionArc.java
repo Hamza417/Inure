@@ -67,7 +67,7 @@ public class DetailsTransitionArc extends TransitionSet {
         addTransition(new ChangeBounds())
                 .addTransition(new ChangeTransform())
                 .addTransition(new ChangeImageTransform())
-                .setDuration(500L)
+                .setDuration(300L)
                 .setInterpolator(new LinearOutSlowInInterpolator())
                 .setPathMotion(arcMotion);
     }

@@ -10,6 +10,7 @@ object UsageInterval {
     const val DAILY = "daily"
     const val WEEKlY = "weekly"
     const val MONTHLY = "monthly"
+    const val YEARLY = "yearly"
 
     fun getTimeInterval(): Pair<Long, Long> {
         return when (StatsPreferences.getInterval()) {
@@ -17,6 +18,7 @@ object UsageInterval {
             DAILY -> getDailyInterval()
             WEEKlY -> getWeeklyInterval()
             MONTHLY -> getMonthlyInterval()
+            YEARLY -> getYearlyInterval()
             else -> getWeeklyInterval()
         }
     }
@@ -27,6 +29,7 @@ object UsageInterval {
             DAILY -> getDailyInterval()
             WEEKlY -> getWeeklyInterval()
             MONTHLY -> getMonthlyInterval()
+            YEARLY -> getYearlyInterval()
             else -> getWeeklyInterval()
         }
     }
@@ -60,6 +63,12 @@ object UsageInterval {
     private fun getMonthlyInterval(): Pair<Long, Long> {
         val timeEnd = System.currentTimeMillis()
         val timeStart: Long = timeEnd - TimeUnit.MILLISECONDS.convert(30, TimeUnit.DAYS)
+        return Pair(timeStart, timeEnd)
+    }
+
+    private fun getYearlyInterval(): Pair<Long, Long> {
+        val timeEnd = System.currentTimeMillis()
+        val timeStart: Long = timeEnd - TimeUnit.MILLISECONDS.convert(365, TimeUnit.DAYS)
         return Pair(timeStart, timeEnd)
     }
 }

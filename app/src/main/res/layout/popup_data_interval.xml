@@ -60,4 +60,16 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_interval_yearly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/yearly"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
 </merge>

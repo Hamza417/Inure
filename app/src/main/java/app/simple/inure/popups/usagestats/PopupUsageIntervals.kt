@@ -26,6 +26,10 @@ class PopupUsageIntervals(contentView: View, view: View) : BasePopupWindow() {
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_interval_monthly).setOnClickListener {
             setInterval(UsageInterval.MONTHLY)
         }
+
+        contentView.findViewById<DynamicRippleTextView>(R.id.popup_interval_yearly).setOnClickListener {
+            setInterval(UsageInterval.YEARLY)
+        }
     }
 
     private fun setInterval(interval: String) {
