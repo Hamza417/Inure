@@ -45,7 +45,7 @@ public class DetailsTransition extends TransitionSet {
                 .addTransition(new ChangeTransform())
                 .addTransition(new ChangeTransform())
                 .addTransition(new ChangeImageTransform())
-                .setDuration(300L)
+                .setDuration(500)
                 .setInterpolator(new LinearOutSlowInInterpolator());
     }
 }
