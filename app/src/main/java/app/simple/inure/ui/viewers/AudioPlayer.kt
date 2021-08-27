@@ -128,15 +128,14 @@ class AudioPlayer : ScopedBottomSheetFragment() {
             playerViewModel.changePlayerState()
         }
 
-        playerViewModel.getCloseEvent().observe(viewLifecycleOwner, {
+        playerViewModel.getCloseEvent().observe(this, {
             dismiss()
-            requireActivity().finishAfterTransition()
         })
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        requireActivity().finishAfterTransition()
+        requireActivity().finish()
     }
 
     private fun setSeekbarProgress(seekbarProgress: Int) {

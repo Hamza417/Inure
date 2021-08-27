@@ -45,6 +45,8 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
     private val floatVolumeMax = 1f
     private val floatVolumeMin = 0f
 
+    private var wasPlaying = false
+
     private var timer: Timer? = null
     private var timerTask: TimerTask? = null
 
@@ -134,9 +136,11 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
     fun changePlayerState() {
         if (mediaPlayer.isPlaying) {
             pause()
+            wasPlaying = false
             state.postValue(false)
         } else {
             play()
+            wasPlaying = true
             state.postValue(true)
         }
     }
@@ -170,7 +174,9 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
         when (focusChange) {
             AudioManager.AUDIOFOCUS_GAIN -> {
                 if (!mediaPlayer.isPlaying) {
-                    mediaPlayer.start()
+                    if (wasPlaying) {
+                        mediaPlayer.start()
+                    }
                 }
             }
             /**
@@ -178,7 +184,10 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
              */
             AudioManager.AUDIOFOCUS_LOSS,
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT,
-            ->
+            -> {
+
+                wasPlaying = mediaPlayer.isPlaying
+
                 /**
                  * Lost focus for a short time, but we have to stop
                  * playback. We don't release the media player because playback
@@ -187,8 +196,11 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
                 if (mediaPlayer.isPlaying) {
                     mediaPlayer.pause()
                 }
-            AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> if (mediaPlayer.isPlaying) {
-                mediaPlayer.setVolume(.1f, .1f)
+            }
+            AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> {
+                if (mediaPlayer.isPlaying) {
+                    mediaPlayer.setVolume(.1f, .1f)
+                }
             }
         }
     }
@@ -247,7 +259,7 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
         }
     }
 
-    fun pause() {
+    private fun pause() {
         if (timerTask != null && timer != null) {
             timer!!.cancel()
             timerTask!!.cancel()
@@ -287,7 +299,7 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
         }
     }
 
-    fun play() {
+    private fun play() {
         if (timerTask != null && timer != null) {
             timer!!.cancel()
             timerTask!!.cancel()
