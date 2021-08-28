@@ -5,10 +5,11 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
+import app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView;
+import app.simple.inure.decorations.fastscroll.FastScrollerBuilder;
 import app.simple.inure.util.StatusBarHeight;
 
-public class PaddingAwareNestedScrollView extends NestedScrollView {
+public class PaddingAwareNestedScrollView extends FastScrollNestedScrollView {
     public PaddingAwareNestedScrollView(@NonNull Context context) {
         super(context);
         init();
@@ -23,6 +24,8 @@ public class PaddingAwareNestedScrollView extends NestedScrollView {
         setPadding(getPaddingLeft(),
                 StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
                 getPaddingRight(),
-                StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingBottom());
+                getPaddingBottom());
+    
+        new FastScrollerBuilder(this).useMd2Style().build();
     }
 }

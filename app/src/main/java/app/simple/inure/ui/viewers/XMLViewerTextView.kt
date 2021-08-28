@@ -14,8 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView
-import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
+import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceEditText
@@ -36,7 +35,7 @@ class XMLViewerTextView : ScopedFragment() {
     private lateinit var name: TypeFaceTextView
     private lateinit var progress: ProgressBar
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var scrollView: FastScrollNestedScrollView
+    private lateinit var scrollView: PaddingAwareNestedScrollView
 
     private lateinit var componentsViewModel: XMLViewerData
     private lateinit var applicationInfoFactory: XmlDataFactory
@@ -76,8 +75,6 @@ class XMLViewerTextView : ScopedFragment() {
                                                 requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerData::class.java)
-
-        FastScrollerBuilder(scrollView).useMd2Style().build()
 
         return view
     }

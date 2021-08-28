@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/mainBackground"
-    android:elevation="5dp"
     android:orientation="horizontal"
     android:padding="@dimen/header_padding">
 
@@ -19,14 +17,15 @@
         app:tint="?attr/colorAppAccent"
         tools:ignore="ContentDescription" />
 
-    <TextView
+    <app.simple.inure.decorations.views.TypeFaceTextView
         android:id="@+id/ttf_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:textColor="?attr/colorAppAccent"
-        android:textSize="@dimen/header_name_text_size" />
+        android:textSize="@dimen/header_name_text_size"
+        app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/txt_viewer_options"

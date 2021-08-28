@@ -1,23 +1,25 @@
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/xml_nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:background="@color/mainBackground"
     android:orientation="vertical">
 
-    <include layout="@layout/header_xml_viewer" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider" />
-
-    <app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView
-        android:id="@+id/xml_nested_scroll_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:orientation="vertical">
+
+        <include layout="@layout/header_xml_viewer" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider" />
 
         <app.simple.inure.decorations.views.TypeFaceEditText
             android:id="@+id/text_viewer"
@@ -28,9 +30,11 @@
             android:padding="10dp"
             android:textColor="@color/textSecondary"
             android:textCursorDrawable="@drawable/text_cursor"
+            android:textColorHighlight="?attr/colorAppAccentLight"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular" />
 
-    </app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView>
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+    </LinearLayout>
+</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

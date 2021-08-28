@@ -14,8 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView
-import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
+import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceEditText
@@ -35,7 +34,7 @@ class TextViewer : ScopedFragment() {
     private lateinit var txt: TypeFaceEditText
     private lateinit var path: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var scrollView: FastScrollNestedScrollView
+    private lateinit var scrollView: PaddingAwareNestedScrollView
 
     private lateinit var textViewerData: TextViewerData
     private lateinit var textDataFactory: TextDataFactory
@@ -64,9 +63,7 @@ class TextViewer : ScopedFragment() {
         txt = view.findViewById(R.id.text_viewer)
         path = view.findViewById(R.id.txt_name)
         options = view.findViewById(R.id.txt_viewer_options)
-        scrollView = view.findViewById(R.id.nested_scroll_view)
-
-        FastScrollerBuilder(scrollView).useMd2Style().build()
+        scrollView = view.findViewById(R.id.text_viewer_scroll_view)
 
         applicationInfo = requireArguments().getParcelable("application_info")!!
 

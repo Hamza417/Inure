@@ -62,14 +62,17 @@ class Extras : ScopedFragment() {
                                                         HtmlViewer.newInstance(applicationInfo, path),
                                                         "html_viewer")
                         }
+                        /**
+                         * TODO - Add a delicious looking code viewer
+                         */
                         path.endsWith(".java") ||
                                 path.endsWith(".css") ||
                                 path.endsWith(".json") ||
                                 path.endsWith(".proto") ||
                                 path.endsWith(".js") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        CodeViewer.newInstance(applicationInfo, path, path.substring(path.lastIndexOf(".") + 1, path.length)),
-                                                        "code_viewer")
+                                                        TextViewer.newInstance(applicationInfo, path),
+                                                        "text_viewer")
                         }
                         path.endsWith(".md") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,

@@ -92,15 +92,16 @@ dependencies {
     // Google
     implementation 'com.google.android.material:material:1.4.0'
 
-    // Third Party
+    // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
+
+    // Third Party
     implementation 'com.jaredrummler:apk-parser:1.0.2'
     implementation 'com.scottyab:rootbeer-lib:0.0.9'
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'com.github.hsiafan:apk-parser:v2.6.10'
-    implementation 'com.pddstudio:highlightjs-android:1.5.0'
     implementation 'com.mittsu:markedview:1.0.7@aar'
     implementation 'com.bogdwellers:pinchtozoom:0.1'
 

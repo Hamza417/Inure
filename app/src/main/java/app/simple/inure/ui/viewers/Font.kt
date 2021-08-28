@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.viewmodels.factory.FontViewModelFactory
@@ -17,7 +17,7 @@ import app.simple.inure.viewmodels.viewers.FontData
 class Font : ScopedFragment() {
 
     private lateinit var fontEditText: EditText
-    private lateinit var fontName: TextView
+    private lateinit var fontName: TypeFaceTextView
     private lateinit var viewModel: FontData
     private lateinit var fontViewModelFactory: FontViewModelFactory
 
@@ -51,7 +51,11 @@ class Font : ScopedFragment() {
         })
 
         viewModel.getTypeFace().observe(viewLifecycleOwner, {
-            fontName.typeface = it
+            /**
+             * The header font style is set to app's default to
+             * balance the design consistency
+             */
+            // fontName.typeface = it
             fontEditText.typeface = it
         })
     }
