@@ -16,6 +16,8 @@ import app.simple.inure.adapters.home.AdapterHomeFrequentlyUsed
 import app.simple.inure.adapters.home.AdapterHomeRecentlyInstalled
 import app.simple.inure.adapters.home.AdapterHomeRecentlyUpdated
 import app.simple.inure.adapters.menus.AdapterHomeMenu
+import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -29,10 +31,13 @@ import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
 class Home : ScopedFragment() {
 
+    private lateinit var scrollView: PaddingAwareNestedScrollView
+    private lateinit var header: DynamicCornerLinearLayout
     private lateinit var navigationRecyclerView: RecyclerView
     private lateinit var recentlyInstalledRecyclerView: CustomHorizontalRecyclerView
     private lateinit var recentlyUpdatedRecyclerView: CustomHorizontalRecyclerView
@@ -45,6 +50,8 @@ class Home : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        scrollView = view.findViewById(R.id.home_scroll_view)
+        header = view.findViewById(R.id.home_header)
         navigationRecyclerView = view.findViewById(R.id.home_menu)
         recentlyInstalledRecyclerView = view.findViewById(R.id.recently_installed_recycler_view)
         recentlyUpdatedRecyclerView = view.findViewById(R.id.recently_updated_recycler_view)
@@ -52,11 +59,27 @@ class Home : ScopedFragment() {
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
 
+        val params = header.layoutParams as ViewGroup.MarginLayoutParams
+        params.setMargins(params.leftMargin,
+                          StatusBarHeight.getStatusBarHeight(resources) + params.topMargin,
+                          params.rightMargin,
+                          params.bottomMargin)
+
+        scrollView.setPadding(scrollView.paddingLeft,
+                              scrollView.paddingTop + params.topMargin + params.height + params.bottomMargin * 2,
+                              scrollView.paddingRight,
+                              scrollView.paddingBottom)
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        scrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+
+            println(scrollY)
+        }
 
         homeViewModel.getRecentApps().observe(viewLifecycleOwner, {
             postponeEnterTransition()

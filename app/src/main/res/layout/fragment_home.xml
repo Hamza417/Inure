@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:id="@+id/home_scroll_view"
-    android:clipToPadding="false">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <include layout="@layout/header_home" />
+
+    <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
+        android:id="@+id/home_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:layout_height="wrap_content">
 
-        <include layout="@layout/header_home" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginVertical="5dp"
-            android:background="@color/divider" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_menu"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never" />
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
 
-        <include layout="@layout/home_recently_installed" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
 
-        <include layout="@layout/home_recently_updated" />
+            <include layout="@layout/home_recently_installed" />
 
-        <include layout="@layout/home_frequently_used" />
+            <include layout="@layout/home_recently_updated" />
 
-    </LinearLayout>
+            <include layout="@layout/home_frequently_used" />
 
-</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+        </LinearLayout>
+
+    </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+
+</FrameLayout>
