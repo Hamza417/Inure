@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@color/mainBackground"
-    android:elevation="5dp"
     android:paddingVertical="10dp"
     android:paddingHorizontal="@dimen/header_padding">
 
@@ -27,7 +25,7 @@
         android:layout_gravity="center_vertical"
         android:text="@string/terminal"
         android:textColor="?attr/colorAppAccent"
-        android:textSize="18sp"
+        android:textSize="@dimen/header_name_text_size"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
