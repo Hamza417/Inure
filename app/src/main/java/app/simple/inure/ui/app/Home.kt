@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -75,11 +76,6 @@ class Home : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        scrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-
-            println(scrollY)
-        }
 
         homeViewModel.getRecentApps().observe(viewLifecycleOwner, {
             postponeEnterTransition()
@@ -165,7 +161,7 @@ class Home : ScopedFragment() {
                                                         "apps")
                         }
                         getString(R.string.analytics) -> {
-
+                            Toast.makeText(requireContext(), "Not implemented yet", Toast.LENGTH_SHORT).show()
                         }
                         getString(R.string.terminal) -> {
                             FragmentHelper.openFragment(

@@ -20,7 +20,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
             android:padding="10dp"
-            android:src="@drawable/ic_app_icon_preferences"
+            android:src="@drawable/ic_app_icon_settings"
             android:transitionName="main_app_icon"
             tools:ignore="ContentDescription" />
 
