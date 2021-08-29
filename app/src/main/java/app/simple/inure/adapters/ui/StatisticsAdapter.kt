@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -44,6 +46,7 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
         val position = position_ - 1
 
         if (holder is Holder) {
+            holder.icon.transitionName = "stats_app_$position"
             holder.icon.loadAppIcon(data[position].packageInfo!!.packageName)
             holder.name.text = data[position].packageInfo!!.applicationInfo.name
             holder.dataUp.text = data[position].dataSent.toSize()
@@ -53,18 +56,31 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
 
             with(data[position].totalTimeUsed) {
                 holder.time.apply {
-                    this.text = if (TimeUnit.MILLISECONDS.toSeconds(this@with) < 60) {
-                        this.context.getString(R.string.used_for_seconds,
-                                               TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
-                    } else if (TimeUnit.MILLISECONDS.toMinutes(this@with) < 60) {
-                        this.context.getString(R.string.used_for_short,
-                                               TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
-                    } else {
-                        this.context.getString(R.string.used_for_long,
-                                               TimeUnit.MILLISECONDS.toHours(this@with).toString(),
-                                               (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                    this.text = when {
+                        TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
+                            this.context.getString(R.string.used_for_seconds,
+                                                   TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
+                        }
+                        TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
+                            this.context.getString(R.string.used_for_short,
+                                                   TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
+                        }
+                        else -> {
+                            this.context.getString(R.string.used_for_long,
+                                                   TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                   (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                        }
                     }
                 }
+            }
+
+            holder.container.setOnClickListener {
+                statsAdapterCallbacks?.onAppClicked(data[position].packageInfo!!, holder.icon)
+            }
+
+            holder.container.setOnLongClickListener {
+                statsAdapterCallbacks?.onAppLongClicked(data[position].packageInfo!!, holder.icon, holder.container)
+                true
             }
 
         } else if (holder is Header) {
@@ -108,6 +124,7 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_usage_stats_container)
         val icon: ImageView = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val time: TypeFaceTextView = itemView.findViewById(R.id.total_time_used)
@@ -126,6 +143,8 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
     companion object {
         interface StatsAdapterCallbacks {
             fun onFilterPressed(view: View)
+            fun onAppClicked(packageInfo: PackageInfo, icon: ImageView)
+            fun onAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup)
         }
     }
 }

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/adapter_usage_stats_container"
+    android:layout_margin="10dp"
     android:padding="@dimen/popup_padding">
 
     <ImageView
@@ -140,4 +142,4 @@
         app:layout_constraintTop_toTopOf="@+id/total_wifi_up_used"
         app:layout_constraintVertical_bias="0.0" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
