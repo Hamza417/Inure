@@ -24,7 +24,6 @@ class ErrorPopup : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         error.text = requireArguments().getString("error")!!
     }
 

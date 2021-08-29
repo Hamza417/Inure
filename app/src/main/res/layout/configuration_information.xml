@@ -225,7 +225,7 @@
             android:layout_width="@dimen/preference_icon_size"
             android:layout_height="@dimen/preference_icon_size"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_terrain"
+            android:src="@drawable/ic_quote"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

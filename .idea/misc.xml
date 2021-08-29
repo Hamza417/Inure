@@ -9,10 +9,13 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/activity_text.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_home_menu.xml" value="0.2222222222222222" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_usage_stats_header.xml" value="0.2" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/configuration_information.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/configuration_root.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_main_settings.xml" value="0.2" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_usage_settings.xml" value="0.2" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_app_info.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_code_viewer.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_configuration.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_font_viewer.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_html_viewer.xml" value="0.24010416666666667" />
