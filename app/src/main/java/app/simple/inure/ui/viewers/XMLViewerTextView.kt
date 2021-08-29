@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -75,6 +76,8 @@ class XMLViewerTextView : ScopedFragment() {
                                                 requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerData::class.java)
+
+        FastScrollerBuilder(scrollView).useMd2Style().build()
 
         return view
     }

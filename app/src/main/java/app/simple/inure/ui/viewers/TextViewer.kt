@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -76,6 +77,9 @@ class TextViewer : ScopedFragment() {
         textViewerData = ViewModelProvider(this, textDataFactory).get(TextViewerData::class.java)
 
         path.text = requireArguments().getString("path")!!
+
+        FastScrollerBuilder(scrollView).useMd2Style().build()
+
         return view
     }
 

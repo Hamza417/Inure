@@ -13,6 +13,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
+import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomWebView
@@ -28,6 +30,7 @@ import java.util.*
 
 class HtmlViewer : ScopedFragment() {
 
+    private lateinit var scrollView: PaddingAwareNestedScrollView
     private lateinit var html: CustomWebView
     private lateinit var path: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
@@ -58,6 +61,7 @@ class HtmlViewer : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_html_viewer, container, false)
 
+        scrollView = view.findViewById(R.id.html_viewer_scroll_view)
         html = view.findViewById(R.id.html_viewer)
         path = view.findViewById(R.id.html_name)
         options = view.findViewById(R.id.html_viewer_options)
@@ -72,6 +76,9 @@ class HtmlViewer : ScopedFragment() {
         textViewerData = ViewModelProvider(this, textDataFactory).get(TextViewerData::class.java)
 
         path.text = requireArguments().getString("path")!!
+
+        FastScrollerBuilder(scrollView).useMd2Style().build()
+
         return view
     }
 

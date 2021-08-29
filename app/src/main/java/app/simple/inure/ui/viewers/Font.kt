@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
+import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.ColorUtils.resolveAttrColor
@@ -16,6 +18,7 @@ import app.simple.inure.viewmodels.viewers.FontData
 
 class Font : ScopedFragment() {
 
+    private lateinit var scrollView: PaddingAwareNestedScrollView
     private lateinit var fontEditText: EditText
     private lateinit var fontName: TypeFaceTextView
     private lateinit var viewModel: FontData
@@ -24,6 +27,7 @@ class Font : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_font_viewer, container, false)
 
+        scrollView = view.findViewById(R.id.font_viewer_scroll_view)
         fontEditText = view.findViewById(R.id.ttf_viewer)
         fontName = view.findViewById(R.id.ttf_name)
 
@@ -35,6 +39,8 @@ class Font : ScopedFragment() {
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
         viewModel = ViewModelProvider(this, fontViewModelFactory).get(FontData::class.java)
+
+        FastScrollerBuilder(scrollView).useMd2Style().build()
 
         return view
     }
