@@ -10,7 +10,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:padding="@dimen/header_padding"
-        android:src="@drawable/ani_ic_app_icon"
+        android:src="@drawable/ic_app_icon"
         android:transitionName="main_app_icon"
         app:layout_constraintBottom_toTopOf="@id/determinateBar"
         app:layout_constraintEnd_toEndOf="parent"

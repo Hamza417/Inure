@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +26,10 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
         }
     }
 
+    private val error: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
     fun getMenuItems(): LiveData<List<Pair<Int, String>>> {
         return menuItems
     }
@@ -33,10 +38,19 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
         return menuOptions
     }
 
+    fun getError(): LiveData<String> {
+        return error
+    }
+
     fun loadOptions() {
         viewModelScope.launch(Dispatchers.Default) {
 
             val context = getApplication<Application>().applicationContext
+
+            if (!PackageUtils.isPackageInstalled(applicationInfo.packageName, context.packageManager)) {
+                error.postValue(context.getString(R.string.app_not_installed, applicationInfo.packageName))
+                return@launch
+            }
 
             val list = arrayListOf<Pair<Int, String>>()
 

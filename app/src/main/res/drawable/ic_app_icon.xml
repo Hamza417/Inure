@@ -2,16 +2,16 @@
     xmlns:aapt="http://schemas.android.com/aapt"
     android:width="24dp"
     android:height="24dp"
-    android:viewportWidth="512"
-    android:viewportHeight="512">
+    android:viewportWidth="48"
+    android:viewportHeight="48">
     <path
         android:fillType="evenOdd"
-        android:pathData="M105,30h69a75,75 0,0 1,75 75v69a75,75 0,0 1,-75 75L105,249a75,75 0,0 1,-75 -75L30,105A75,75 0,0 1,105 30ZM339,30h69a75,75 0,0 1,75 75v69a75,75 0,0 1,-75 75L339,249a75,75 0,0 1,-75 -75L264,105A75,75 0,0 1,339 30ZM105,264h69a75,75 0,0 1,75 75v69a75,75 0,0 1,-75 75L105,483a75,75 0,0 1,-75 -75L30,339A75,75 0,0 1,105 264ZM389.876,273.074q159.57,42.952 42.757,160.3t-159.57,-42.953Q230.307,230.121 389.876,273.074Z">
+        android:pathData="M12,6h5.5c3.3,0 5.9,2.7 5.9,5.9v5.5c0,3.3 -2.7,5.9 -5.9,5.9H12c-3.3,0 -5.9,-2.7 -5.9,-5.9V12C6,8.7 8.7,6 12,6zM30.5,6H36C39.3,6 42,8.7 42,12v5.5c0,3.3 -2.7,5.9 -5.9,5.9h-5.5c-3.3,0 -5.9,-2.7 -5.9,-5.9V12C24.6,8.7 27.3,6 30.5,6L30.5,6zM12,24.6h5.5c3.3,0 5.9,2.7 5.9,5.9V36c0,3.3 -2.7,5.9 -5.9,5.9H12C8.7,42 6,39.3 6,36v-5.5C6,27.3 8.7,24.6 12,24.6zM34.6,25.2c8.5,2.3 9.6,6.5 3.4,12.8s-10.4,5.1 -12.7,-3.4C23,26.1 26.1,23 34.6,25.2z">
         <aapt:attr name="android:fillColor">
             <gradient
                 android:endX="30"
-                android:endY="483"
-                android:startX="483"
+                android:endY="48"
+                android:startX="48"
                 android:startY="30"
                 android:type="linear">
                 <item

@@ -30,7 +30,9 @@ class ErrorPopup : ScopedBottomSheetFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        errorDialogCallbacks!!.onDismiss()
+        if (!requireActivity().isDestroyed) {
+            errorDialogCallbacks?.onDismiss()
+        }
     }
 
     fun setOnErrorDialogCallbackListener(errorDialogCallbacks: ErrorDialogCallbacks) {
