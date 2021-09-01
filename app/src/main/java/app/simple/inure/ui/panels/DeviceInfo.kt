@@ -144,8 +144,20 @@ class DeviceInfo : ScopedFragment() {
             withContext(Dispatchers.Default) {
                 osVersion = SDKHelper.getSdkTitle(Build.VERSION.SDK_INT)
                 securityUpdate = Build.VERSION.SECURITY_PATCH
-                root = RootBeer(requireContext()).checkSuExists().toString()
-                busyBox = RootBeer(requireContext()).checkForBusyBoxBinary().toString()
+
+                with(RootBeer(requireContext())) {
+                    root = if (isRooted) {
+                        getString(R.string.available)
+                    } else {
+                        getString(R.string.not_available)
+                    }
+
+                    busyBox = if (checkForBusyBoxBinary()) {
+                        getString(R.string.available)
+                    } else {
+                        getString(R.string.not_available)
+                    }
+                }
             }
 
             this@DeviceInfo.osVersion.text = osVersion
