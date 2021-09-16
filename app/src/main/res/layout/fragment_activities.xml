@@ -69,6 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        app:isFastScrollRequired="false"
         android:layoutAnimation="@anim/list_animation_controller"
         app:statusBarPaddingRequired="false" />
 

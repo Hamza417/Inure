@@ -18,6 +18,7 @@ import app.simple.inure.util.StatusBarHeight
 class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
 
     private var manuallyAnimated = false
+    private var fastScroll = true
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
@@ -25,6 +26,8 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
                 if (getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {
                     setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
                 }
+
+                fastScroll = getBoolean(R.styleable.CustomRecyclerView_isFastScrollRequired, true)
 
                 manuallyAnimated = getBoolean(R.styleable.CustomRecyclerView_manuallyAnimated, false)
             } finally {
@@ -109,7 +112,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
          * Setup fast scroller only when adapter is large enough
          * to require a fast scroller
          */
-        if (adapter!!.itemCount > 25) {
+        if (adapter!!.itemCount > 25 && fastScroll) {
             setupFastScroller()
         }
     }

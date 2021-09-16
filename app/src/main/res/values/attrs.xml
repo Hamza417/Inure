@@ -66,6 +66,7 @@
     <declare-styleable name="CustomRecyclerView">
         <attr name="statusBarPaddingRequired" format="boolean" />
         <attr name="manuallyAnimated" format="boolean" />
+        <attr name="isFastScrollRequired" format="boolean" />
     </declare-styleable>
 
     <!-- These are the standard attributes that make up a complete theme. -->

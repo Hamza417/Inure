@@ -17,14 +17,20 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/configuration_root.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_main_settings.xml" value="0.2" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_usage_settings.xml" value="0.2" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_activities.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_app_info.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_code_viewer.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_configuration.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_features.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_font_viewer.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_html_viewer.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_markdown_viewer.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_permissions.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_preference.xml" value="0.23055555555555557" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_provider.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_receivers.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_services.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_splash_screen.xml" value="0.22870370370370371" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_terminal.xml" value="0.21" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_text_viewer.xml" value="0.2361111111111111" />

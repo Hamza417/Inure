@@ -33,10 +33,10 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:text="@string/permissions"
-            app:layout_constraintBottom_toTopOf="@id/total_permissions"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/total_permissions"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView8"
             app:layout_constraintTop_toTopOf="parent" />
@@ -71,6 +71,7 @@
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
         android:paddingVertical="@dimen/header_padding"
+        app:isFastScrollRequired="false"
         app:statusBarPaddingRequired="false" />
 
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
