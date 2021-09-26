@@ -44,6 +44,7 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
     private val intVolumeMin = 0
     private val floatVolumeMax = 1f
     private val floatVolumeMin = 0f
+    private val durationSmoother = 1000
 
     private var wasPlaying = false
 
@@ -210,10 +211,10 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
         close.postValue(true)
     }
 
-    override fun onPrepared(mp: MediaPlayer?) {
+    override fun onPrepared(mp: MediaPlayer) {
         if (requestAudioFocus()) {
-            mp?.start()
-            duration.postValue(mp?.duration)
+            mp.start()
+            duration.postValue(mp.duration.times(durationSmoother))
             postProgressCallbacks()
             state.postValue(true)
         }
@@ -229,7 +230,7 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
 
     private val progressRunnable: Runnable = object : Runnable {
         override fun run() {
-            progress.postValue(mediaPlayer.currentPosition)
+            progress.postValue(mediaPlayer.currentPosition.times(durationSmoother))
             handler.postDelayed(this, 1000L)
         }
     }

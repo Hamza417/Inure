@@ -41,6 +41,8 @@ class AudioPlayer : ScopedBottomSheetFragment() {
     private lateinit var mediaPlayerViewModelFactory: MediaPlayerViewModelFactory
     private var animation: ObjectAnimator? = null
 
+    private val durationSmoother = 1000
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_audio_player, container, false)
 
@@ -74,12 +76,12 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
         playerViewModel.getDuration().observe(viewLifecycleOwner, {
             seekBar.max = it
-            duration.text = NumberUtils.getFormattedTime(it.toLong())
+            duration.text = NumberUtils.getFormattedTime(it.toLong().div(durationSmoother))
         })
 
         playerViewModel.getProgress().observe(viewLifecycleOwner, {
             setSeekbarProgress(it)
-            progress.text = NumberUtils.getFormattedTime(it.toLong())
+            progress.text = NumberUtils.getFormattedTime(it.toLong().div(durationSmoother))
         })
 
         playerViewModel.getMetadata().observe(viewLifecycleOwner, {
@@ -106,7 +108,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    this@AudioPlayer.progress.text = NumberUtils.getFormattedTime(progress.toLong())
+                    this@AudioPlayer.progress.text = NumberUtils.getFormattedTime(progress.toLong().div(durationSmoother))
                 }
             }
 
@@ -116,7 +118,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                playerViewModel.seek(seekBar.progress)
+                playerViewModel.seek(seekBar.progress.div(durationSmoother))
             }
         })
 
@@ -140,7 +142,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
     private fun setSeekbarProgress(seekbarProgress: Int) {
         animation = ObjectAnimator.ofInt(seekBar, "progress", seekbarProgress)
-        animation!!.duration = 1000L
+        animation!!.duration = 500L
         animation!!.interpolator = LinearOutSlowInInterpolator()
         animation!!.start()
     }
