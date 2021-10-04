@@ -67,7 +67,7 @@ class Home : ScopedFragment() {
                           params.bottomMargin)
 
         scrollView.setPadding(scrollView.paddingLeft,
-                              scrollView.paddingTop + params.topMargin + params.height + params.bottomMargin * 2,
+                              scrollView.paddingTop + params.topMargin + params.height + params.bottomMargin * 2 + 25,
                               scrollView.paddingRight,
                               scrollView.paddingBottom)
 

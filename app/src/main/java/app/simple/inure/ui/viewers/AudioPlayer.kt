@@ -130,7 +130,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
             playerViewModel.changePlayerState()
         }
 
-        playerViewModel.getCloseEvent().observe(this, {
+        playerViewModel.getCloseEvent().observe(viewLifecycleOwner, {
             dismiss()
         })
     }
