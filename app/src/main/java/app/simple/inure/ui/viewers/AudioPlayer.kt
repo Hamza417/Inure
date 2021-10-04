@@ -1,11 +1,15 @@
 package app.simple.inure.ui.viewers
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.content.res.ResourcesCompat
@@ -65,6 +69,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         return view
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -73,6 +78,33 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         playerContainer.radius = AppearancePreferences.getCornerRadius().toFloat()
 
         ViewUtils.addShadow(playerContainer)
+
+        art.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    art.animate()
+                            .scaleX(0.8F)
+                            .scaleY(0.8F)
+                            .setInterpolator(DecelerateInterpolator(1.5F))
+                            .start()
+                }
+                MotionEvent.ACTION_UP -> {
+                    art.animate()
+                            .scaleX(1.0F)
+                            .scaleY(1.0F)
+                            .setInterpolator(DecelerateInterpolator(1.5F))
+                            .start()
+
+                    kotlin.runCatching {
+                        (art.drawable as AnimatedVectorDrawable).start()
+                    }.getOrElse {
+                        it.printStackTrace()
+                    }
+                }
+            }
+
+            true
+        }
 
         playerViewModel.getDuration().observe(viewLifecycleOwner, {
             seekBar.max = it

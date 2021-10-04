@@ -47,9 +47,7 @@ class TextViewerData(private val applicationInfo: ApplicationInfo, private val p
                     }
                 }
             }.getOrElse {
-                text.postValue(
-                    it.stackTraceToString()
-                )
+                text.postValue(it.stackTraceToString())
             }
         }
     }

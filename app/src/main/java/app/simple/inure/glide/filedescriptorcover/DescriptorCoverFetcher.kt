@@ -16,10 +16,9 @@ class DescriptorCoverFetcher(private val descriptorCoverModel: DescriptorCoverMo
         var file: AssetFileDescriptor? = null
 
         try {
-            file = descriptorCoverModel.context.contentResolver.openAssetFileDescriptor(
-                descriptorCoverModel.fileUri,
-                "r"
-            )
+            file = descriptorCoverModel.context.contentResolver
+                    .openAssetFileDescriptor(descriptorCoverModel.fileUri, "r")
+
             mediaMetadataRetriever.setDataSource(file?.fileDescriptor)
             callback.onDataReady(ByteArrayInputStream(mediaMetadataRetriever.embeddedPicture))
         } catch (e: IOException) {
