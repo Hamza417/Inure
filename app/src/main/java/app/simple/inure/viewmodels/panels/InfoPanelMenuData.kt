@@ -12,7 +12,6 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class InfoPanelMenuData(application: Application, val applicationInfo: ApplicationInfo) : AndroidViewModel(application) {
     private val menuItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
         MutableLiveData<List<Pair<Int, String>>>().also {
@@ -55,31 +54,39 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
             val list = arrayListOf<Pair<Int, String>>()
 
             if (ConfigurationPreferences.isUsingRoot()) {
-                if (checkIfAppIsLaunchable()) {
+                if (checkIfAppIsLaunchable() && isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_launch, context.getString(R.string.launch)))
                 }
 
                 list.add(Pair(R.drawable.ic_send, context.getString(R.string.send)))
-                list.add(Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)))
 
-                if (getApplication<Application>().packageManager.getApplicationInfo(applicationInfo.packageName, 0).enabled) {
-                    list.add(Pair(R.drawable.ic_disable, context.getString(R.string.disable)))
-                } else {
-                    list.add(Pair(R.drawable.ic_check, context.getString(R.string.enable)))
+                if (isNotThisApp()) {
+                    list.add(Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)))
+
+                    if (getApplication<Application>().packageManager.getApplicationInfo(applicationInfo.packageName, 0).enabled) {
+                        list.add(Pair(R.drawable.ic_disable, context.getString(R.string.disable)))
+                    } else {
+                        list.add(Pair(R.drawable.ic_check, context.getString(R.string.enable)))
+                    }
+
+                    list.add(Pair(R.drawable.ic_close, context.getString(R.string.force_stop)))
+                    list.add(Pair(R.drawable.ic_delete_sweep, context.getString(R.string.clear_data)))
+                    list.add(Pair(R.drawable.ic_broom, context.getString(R.string.clear_cache)))
                 }
 
-                list.add(Pair(R.drawable.ic_close, context.getString(R.string.force_stop)))
-                list.add(Pair(R.drawable.ic_delete_sweep, context.getString(R.string.clear_data)))
-                list.add(Pair(R.drawable.ic_broom, context.getString(R.string.clear_cache)))
                 list.add(Pair(R.drawable.ic_double_arrow, context.getString(R.string.open_in_settings)))
 
             } else {
                 if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
-                    if (checkIfAppIsLaunchable()) {
+                    if (checkIfAppIsLaunchable() && isNotThisApp()) {
                         list.add(Pair(R.drawable.ic_launch, context.getString(R.string.launch)))
                     }
+
                     list.add(Pair(R.drawable.ic_send, context.getString(R.string.send)))
-                    list.add(Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)))
+
+                    if (isNotThisApp()) {
+                        list.add(Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)))
+                    }
                 } else {
                     if (checkIfAppIsLaunchable()) {
                         list.add(Pair(R.drawable.ic_launch, context.getString(R.string.launch)))
@@ -119,5 +126,9 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
 
     private fun checkIfAppIsLaunchable(): Boolean {
         return getApplication<Application>().packageManager.getLaunchIntentForPackage(applicationInfo.packageName) != null
+    }
+
+    private fun isNotThisApp(): Boolean {
+        return applicationInfo.packageName != getApplication<Application>().packageName
     }
 }
