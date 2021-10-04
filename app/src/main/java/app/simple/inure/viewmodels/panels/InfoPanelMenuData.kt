@@ -125,7 +125,8 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
     }
 
     private fun checkIfAppIsLaunchable(): Boolean {
-        return getApplication<Application>().packageManager.getLaunchIntentForPackage(applicationInfo.packageName) != null
+        return getApplication<Application>().packageManager
+                .getLaunchIntentForPackage(applicationInfo.packageName) != null
     }
 
     private fun isNotThisApp(): Boolean {

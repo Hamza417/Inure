@@ -30,6 +30,7 @@ class Activities : ScopedFragment() {
     private lateinit var totalActivities: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var adapterActivities: AdapterActivities
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_activities, container, false)
@@ -50,11 +51,12 @@ class Activities : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getActivities().observe(viewLifecycleOwner, {
-            recyclerView.adapter = AdapterActivities(applicationInfo, it)
+            adapterActivities = AdapterActivities(applicationInfo, it)
+            recyclerView.adapter = adapterActivities
 
             totalActivities.text = getString(R.string.total, it.size)
 
-            (recyclerView.adapter as AdapterActivities).setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
+            adapterActivities.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
                 override fun onActivityClicked(androidComponent: AndroidComponent, packageId: String) {
                     clearExitTransition()
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
@@ -62,9 +64,10 @@ class Activities : ScopedFragment() {
                                                 "activity_info")
                 }
 
-                override fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View) {
-                    val v = PopupActivitiesMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_activities_menu,
-                                                                                              PopupLinearLayout(requireContext())), icon)
+                override fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, name: String) {
+                    val v = PopupActivitiesMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_activities_menu, PopupLinearLayout(requireContext())),
+                                                icon,
+                                                isComponentEnabled)
 
                     v.setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
@@ -77,6 +80,32 @@ class Activities : ScopedFragment() {
                                 getString(R.string.force_launch_with_action) -> {
                                     IntentAction.newInstance(applicationInfo, packageId)
                                             .show(childFragmentManager, "intent_action")
+                                }
+                                getString(R.string.enable) -> {
+                                    val shell = ShellExecutorDialog.newInstance("pm enable ${applicationInfo.packageName}/$name")
+
+                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                        override fun onCommandExecuted(result: String) {
+                                            if (result == "Success") {
+                                                adapterActivities.notifyDataSetChanged()
+                                            }
+                                        }
+                                    })
+
+                                    shell.show(childFragmentManager, "shell_executor")
+                                }
+                                getString(R.string.disable) -> {
+                                    val shell = ShellExecutorDialog.newInstance("pm disable ${applicationInfo.packageName}/$name")
+
+                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                        override fun onCommandExecuted(result: String) {
+                                            if (result == "Success") {
+                                                adapterActivities.notifyDataSetChanged()
+                                            }
+                                        }
+                                    })
+
+                                    shell.show(childFragmentManager, "shell_executor")
                                 }
                             }
                         }

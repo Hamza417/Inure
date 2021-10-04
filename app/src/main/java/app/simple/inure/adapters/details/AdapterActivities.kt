@@ -19,6 +19,7 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
 
     private lateinit var activitiesCallbacks: ActivitiesCallbacks
     private val isRootMode = ConfigurationPreferences.isUsingRoot()
+    private var isComponentEnabled = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_activities, parent, false))
@@ -34,19 +35,22 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
             holder.itemView.context.getString(R.string.not_exported)
         }
 
-        holder.activityStatus.text = holder.itemView.context.getString(R.string.activity_status,
+        holder.activityStatus.text =
+            holder.itemView.context
+                    .getString(R.string.activity_status,
+                               if (activities[position].exported) {
+                                   holder.itemView.context.getString(R.string.exported)
+                               } else {
+                                   holder.itemView.context.getString(R.string.not_exported)
+                               },
 
-                                                                       if (activities[position].exported) {
-                                                                           holder.itemView.context.getString(R.string.exported)
-                                                                       } else {
-                                                                           holder.itemView.context.getString(R.string.not_exported)
-                                                                       },
-
-                                                                       if (ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[position].name)) {
-                                                                           holder.itemView.context.getString(R.string.enabled)
-                                                                       } else {
-                                                                           holder.itemView.context.getString(R.string.disabled)
-                                                                       })
+                               if (ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[position].name)) {
+                                   isComponentEnabled = true
+                                   holder.itemView.context.getString(R.string.enabled)
+                               } else {
+                                   isComponentEnabled = false
+                                   holder.itemView.context.getString(R.string.disabled)
+                               })
 
         holder.launch.setOnClickListener {
             ActivityUtils.launchPackage(holder.itemView.context, applicationInfo.packageName, activities[position].name)
@@ -69,7 +73,11 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
 
         if (isRootMode) {
             holder.container.setOnLongClickListener {
-                activitiesCallbacks.onActivityLongPressed(activities[position].name, applicationInfo, it)
+                activitiesCallbacks.onActivityLongPressed(activities[position].name,
+                                                          applicationInfo,
+                                                          it,
+                                                          isComponentEnabled,
+                                                          activities[position].name.substring(activities[position].name.lastIndexOf(".")))
                 true
             }
         }
@@ -99,7 +107,7 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
 
         interface ActivitiesCallbacks {
             fun onActivityClicked(androidComponent: AndroidComponent, packageId: String)
-            fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View)
+            fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, name: String)
         }
     }
 }
