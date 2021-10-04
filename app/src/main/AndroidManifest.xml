@@ -128,7 +128,7 @@
             android:exported="true"
             android:label="@string/audio_player"
             android:configChanges="orientation|screenSize|uiMode"
-            android:theme="@style/Theme.Transparent">
+            android:theme="@style/Inure.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
