@@ -4,18 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import app.simple.inure.BuildConfig
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
-import com.topjohnwu.superuser.Shell
+import app.simple.inure.viewmodels.dialogs.ShellExecutorViewModel
+import app.simple.inure.viewmodels.factory.ShellExecutorViewModelFactory
 
 class ShellExecutorDialog : ScopedBottomSheetFragment() {
 
     private lateinit var command: TypeFaceTextView
     private lateinit var result: TypeFaceEditText
+    private lateinit var shellExecutorViewModel: ShellExecutorViewModel
+    private lateinit var shellExecutorViewModelFactory: ShellExecutorViewModelFactory
     private var commandResultCallbacks: CommandResultCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -23,6 +25,9 @@ class ShellExecutorDialog : ScopedBottomSheetFragment() {
 
         command = view.findViewById(R.id.shell_command)
         result = view.findViewById(R.id.shell_result)
+
+        shellExecutorViewModelFactory = ShellExecutorViewModelFactory(requireArguments().getString("command")!!, requireActivity().application)
+        shellExecutorViewModel = ViewModelProvider(this, shellExecutorViewModelFactory).get(ShellExecutorViewModel::class.java)
 
         return view
     }
@@ -32,43 +37,21 @@ class ShellExecutorDialog : ScopedBottomSheetFragment() {
 
         command.text = requireArguments().getString("command")!!.replace("&", "\n")
 
-        kotlin.runCatching {
-            Shell.enableVerboseLogging = BuildConfig.DEBUG
-            Shell.setDefaultBuilder(Shell.Builder.create()
-                                            .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                            .setTimeout(10)
-            )
-            Shell.su(requireArguments().getString("command")!!).submit {
-                kotlin.runCatching {
-                    for (i in it.out) {
-                        updateResult("\n" + i)
-                        if (i.contains("Exception")) {
-                            throw InureShellException("Execution Failed...")
-                        }
-                    }
-                }.onSuccess {
-                    result.append("\n${getString(R.string.done)}")
-                    commandResultCallbacks?.onCommandExecuted(getString(R.string.done))
-                }.getOrElse {
-                    updateResult("\n" + it.message!!)
-                }
-            }
+        shellExecutorViewModel.getResults().observe(viewLifecycleOwner, {
+            updateResult(it)
+        })
 
-        }.onFailure {
-            updateResult("\n" + it.message!!)
-        }.getOrElse {
-            updateResult("\n" + it.message!!)
-        }
+        shellExecutorViewModel.getSuccessStatus().observe(viewLifecycleOwner, {
+            if (it.contains("Done")) {
+                result.append("\n${getString(R.string.done)}")
+                commandResultCallbacks?.onCommandExecuted(getString(R.string.done))
+            }
+        })
     }
 
     private fun updateResult(output: String) {
         this@ShellExecutorDialog.result.append(output)
         commandResultCallbacks?.onCommandExecuted(output)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Shell.getShell().close()
     }
 
     fun setOnCommandResultListener(commandResultCallbacks: CommandResultCallbacks) {

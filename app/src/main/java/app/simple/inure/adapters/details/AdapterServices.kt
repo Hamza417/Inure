@@ -10,9 +10,13 @@ import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.preferences.ConfigurationPreferences
 import com.jaredrummler.apkparser.model.AndroidComponent
 
 class AdapterServices(private val services: List<AndroidComponent>, private val applicationInfo: ApplicationInfo) : RecyclerView.Adapter<AdapterServices.Holder>() {
+
+    private lateinit var servicesCallbacks: ServicesCallbacks
+    private val isRootMode = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_services, parent, false))
@@ -36,6 +40,17 @@ class AdapterServices(private val services: List<AndroidComponent>, private val 
             } else {
                 holder.itemView.context.getString(R.string.disabled)
             })
+
+        if (isRootMode) {
+            holder.container.setOnLongClickListener {
+                servicesCallbacks.onServiceLongPressed(services[holder.absoluteAdapterPosition].name,
+                                                       applicationInfo,
+                                                       it,
+                                                       ServicesUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[holder.absoluteAdapterPosition].name),
+                                                       holder.absoluteAdapterPosition)
+                true
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -47,5 +62,15 @@ class AdapterServices(private val services: List<AndroidComponent>, private val 
         val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_process)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_service_status)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_services_container)
+    }
+
+    fun setOnServiceCallbackListener(servicesCallbacks: ServicesCallbacks) {
+        this.servicesCallbacks = servicesCallbacks
+    }
+
+    companion object {
+        interface ServicesCallbacks {
+            fun onServiceLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+        }
     }
 }

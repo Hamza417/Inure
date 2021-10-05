@@ -9,10 +9,14 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
+import app.simple.inure.decorations.popup.PopupLinearLayout
+import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.viewers.PopupServicesMenu
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
@@ -20,6 +24,7 @@ class Services : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var total: TypeFaceTextView
+    private lateinit var adapterServices: AdapterServices
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
@@ -41,8 +46,50 @@ class Services : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getServices().observe(viewLifecycleOwner, {
-            recyclerView.adapter = AdapterServices(it, applicationInfo)
+            adapterServices = AdapterServices(it, applicationInfo)
+            recyclerView.adapter = adapterServices
             total.text = getString(R.string.total, it.size)
+
+            adapterServices.setOnServiceCallbackListener(object : AdapterServices.Companion.ServicesCallbacks {
+                override fun onServiceLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
+                    val v = PopupServicesMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_services_menu, PopupLinearLayout(requireContext())),
+                                              icon,
+                                              isComponentEnabled)
+
+                    v.setOnMenuClickListener(object : PopupMenuCallback {
+                        override fun onMenuItemClicked(source: String) {
+                            when (source) {
+                                getString(R.string.enable) -> {
+                                    val shell = ShellExecutorDialog.newInstance("pm enable ${applicationInfo.packageName}/$packageId")
+
+                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                        override fun onCommandExecuted(result: String) {
+                                            if (result.contains("Done!")) {
+                                                adapterServices.notifyItemChanged(position)
+                                            }
+                                        }
+                                    })
+
+                                    shell.show(childFragmentManager, "shell_executor")
+                                }
+                                getString(R.string.disable) -> {
+                                    val shell = ShellExecutorDialog.newInstance("pm disable ${applicationInfo.packageName}/$packageId")
+
+                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                        override fun onCommandExecuted(result: String) {
+                                            if (result.contains("Done!")) {
+                                                adapterServices.notifyItemChanged(position)
+                                            }
+                                        }
+                                    })
+
+                                    shell.show(childFragmentManager, "shell_executor")
+                                }
+                            }
+                        }
+                    })
+                }
+            })
         })
 
         componentsViewModel.getError().observe(viewLifecycleOwner, {
