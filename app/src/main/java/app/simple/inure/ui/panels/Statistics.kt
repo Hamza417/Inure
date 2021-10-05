@@ -1,7 +1,6 @@
 package app.simple.inure.ui.panels
 
 import android.content.SharedPreferences
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -53,7 +52,7 @@ class Statistics : ScopedFragment() {
                 }
 
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    openAppInfo(packageInfo.applicationInfo, icon)
+                    openAppInfo(packageInfo, icon)
                 }
 
                 override fun onAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
@@ -63,10 +62,10 @@ class Statistics : ScopedFragment() {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.app_information) -> {
-                                    openAppInfo(packageInfo.applicationInfo, icon)
+                                    openAppInfo(packageInfo, icon)
                                 }
                                 getString(R.string.send) -> {
-                                    Preparing.newInstance(packageInfo.applicationInfo)
+                                    Preparing.newInstance(packageInfo)
                                             .show(parentFragmentManager, "send_app")
                                 }
                             }
@@ -85,7 +84,7 @@ class Statistics : ScopedFragment() {
         })
     }
 
-    private fun openAppInfo(applicationInfo: ApplicationInfo, icon: ImageView) {
+    private fun openAppInfo(applicationInfo: PackageInfo, icon: ImageView) {
         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                     AppInfo.newInstance(applicationInfo, icon.transitionName),
                                     icon, "app_info")

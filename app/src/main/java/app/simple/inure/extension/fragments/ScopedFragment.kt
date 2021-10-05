@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -26,9 +27,7 @@ import kotlinx.coroutines.CoroutineScope
  * It is recommended to read this code before implementing to know
  * its purpose and importance
  */
-abstract class ScopedFragment :
-    Fragment(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     /**
      * Use this to launch app uninstall intent and listen to the results
@@ -47,7 +46,7 @@ abstract class ScopedFragment :
      *
      * @throws UninitializedPropertyAccessException
      */
-    lateinit var applicationInfo: ApplicationInfo
+    lateinit var packageInfo: PackageInfo
 
     /**
      * [postponeEnterTransition] here and initialize all the

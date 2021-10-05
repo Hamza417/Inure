@@ -1,14 +1,14 @@
 package app.simple.inure.viewmodels.factory
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import androidx.annotation.Nullable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.viewmodels.viewers.XMLViewerData
 
 class XmlDataFactory(
-        val applicationInfo: ApplicationInfo,
+        val packageInfo: PackageInfo,
         private val isManifest: Boolean,
         @Nullable private val pathToXml: String,
         val application: Application,
@@ -19,7 +19,7 @@ class XmlDataFactory(
         @Suppress("UNCHECKED_CAST") // Cast is checked
         when {
             modelClass.isAssignableFrom(XMLViewerData::class.java) -> {
-                return XMLViewerData(applicationInfo, isManifest, pathToXml, application, accentColor) as T
+                return XMLViewerData(packageInfo, isManifest, pathToXml, application, accentColor) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope, Wrong Viewmodel!!")

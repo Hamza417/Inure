@@ -2,7 +2,7 @@ package app.simple.inure.ui.app
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -55,20 +55,20 @@ class Apps : ScopedFragment() {
             }
 
             appsAdapter.setOnItemClickListener(object : AppsAdapterCallbacks {
-                override fun onAppClicked(applicationInfo: ApplicationInfo, icon: ImageView) {
-                    openAppInfo(applicationInfo, icon)
+                override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                    openAppInfo(packageInfo, icon)
                 }
 
-                override fun onAppLongPress(applicationInfo: ApplicationInfo, anchor: View, icon: ImageView, position: Int) {
+                override fun onAppLongPress(packageInfo: PackageInfo, anchor: View, icon: ImageView, position: Int) {
                     val popupMenu = PopupMainList(anchor)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.app_information) -> {
-                                    openAppInfo(applicationInfo, icon)
+                                    openAppInfo(packageInfo, icon)
                                 }
                                 getString(R.string.send) -> {
-                                    Preparing.newInstance(applicationInfo)
+                                    Preparing.newInstance(packageInfo)
                                             .show(parentFragmentManager, "send_app")
                                 }
                             }
@@ -99,9 +99,9 @@ class Apps : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun openAppInfo(applicationInfo: ApplicationInfo, icon: ImageView) {
+    private fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                    AppInfo.newInstance(applicationInfo, icon.transitionName),
+                                    AppInfo.newInstance(packageInfo, icon.transitionName),
                                     icon, "app_info")
     }
 

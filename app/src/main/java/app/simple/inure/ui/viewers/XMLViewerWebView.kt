@@ -3,7 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -67,9 +67,9 @@ class XMLViewerWebView : ScopedFragment() {
 
         manifest.enableWithWebClient()
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable("application_info")!!
 
-        applicationInfoFactory = XmlDataFactory(applicationInfo, requireArguments().getBoolean("is_manifest"),
+        applicationInfoFactory = XmlDataFactory(packageInfo, requireArguments().getBoolean("is_manifest"),
                                                 requireArguments().getString("path_to_xml")!!,
                                                 requireActivity().application,
                                                 requireContext().resolveAttrColor(R.attr.colorAppAccent))
@@ -107,7 +107,7 @@ class XMLViewerWebView : ScopedFragment() {
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {
-                            val fileName: String = applicationInfo.packageName + "_" + name.text
+                            val fileName: String = packageInfo.packageName + "_" + name.text
                             exportManifest.launch(fileName)
                         }
                     }
@@ -122,7 +122,7 @@ class XMLViewerWebView : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo?, isManifest: Boolean, pathToXml: String?): XMLViewerWebView {
+        fun newInstance(applicationInfo: PackageInfo, isManifest: Boolean, pathToXml: String?): XMLViewerWebView {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             args.putBoolean("is_manifest", isManifest)

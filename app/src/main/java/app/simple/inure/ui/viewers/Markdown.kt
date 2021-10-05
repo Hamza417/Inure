@@ -3,7 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +16,7 @@ import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -64,10 +65,10 @@ class Markdown : ScopedFragment() {
         codeView = view.findViewById(R.id.code_viewer)
         path = view.findViewById(R.id.code_name)
         options = view.findViewById(R.id.code_viewer_options)
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         textDataFactory = TextDataFactory(
-            applicationInfo,
+            packageInfo,
             requireArguments().getString("path")!!,
             requireActivity().application,
         )
@@ -110,7 +111,7 @@ class Markdown : ScopedFragment() {
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {
-                            val fileName: String = applicationInfo.packageName + "_" + path.text
+                            val fileName: String = packageInfo.packageName + "_" + path.text
                             exportText.launch(fileName)
                         }
                     }
@@ -138,9 +139,9 @@ class Markdown : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo, path: String): Markdown {
+        fun newInstance(applicationInfo: PackageInfo, path: String): Markdown {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
             args.putString("path", path)
             val fragment = Markdown()
             fragment.arguments = args

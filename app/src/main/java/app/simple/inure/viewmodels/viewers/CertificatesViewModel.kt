@@ -1,23 +1,20 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
+import android.content.pm.PackageInfo
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.SignatureUtils
+import app.simple.inure.apk.utils.SignatureUtils.getApplicationSignature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.ByteArrayInputStream
 import java.security.MessageDigest
-import java.security.cert.CertificateFactory
-import java.security.cert.X509Certificate
 
-class CertificatesViewModel(application: Application, val applicationInfo: ApplicationInfo) : AndroidViewModel(application) {
+class CertificatesViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
     private val error: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -42,24 +39,19 @@ class CertificatesViewModel(application: Application, val applicationInfo: Appli
             kotlin.runCatching {
                 val context = getApplication<Application>().applicationContext
 
-                val pm = getApplication<Application>().packageManager.getPackageInfo(applicationInfo.packageName, PackageManager.GET_SIGNATURES)
-
-                val sign = pm.signatures[0]
-
-                val x509Certificate = CertificateFactory.getInstance("X.509")
-                        .generateCertificate(ByteArrayInputStream(sign.toByteArray())) as X509Certificate
+                val pair = packageInfo.getApplicationSignature(context)!!
 
                 val arrayList = arrayListOf(
-                    Pair(context.getString(R.string.sign_algorithm), x509Certificate.sigAlgName),
-                    Pair(context.getString(R.string.sign_algorithm_oid), x509Certificate.sigAlgOID),
-                    Pair(context.getString(R.string.certificate_md5), SignatureUtils.convertToHex(MessageDigest.getInstance("md5").digest(sign.toByteArray()))),
-                    Pair(context.getString(R.string.certificate_sha1), SignatureUtils.convertToHex(MessageDigest.getInstance("sha1").digest(sign.toByteArray()))),
-                    Pair(context.getString(R.string.certificate_sha256), SignatureUtils.convertToHex(MessageDigest.getInstance("sha256").digest(sign.toByteArray()))),
-                    Pair(context.getString(R.string.public_key), x509Certificate.publicKey.toString()),
-                    Pair(context.getString(R.string.valid_from), x509Certificate.notBefore.toString()),
-                    Pair(context.getString(R.string.valid_to), x509Certificate.notAfter.toString()),
-                    Pair(context.getString(R.string.issuer), x509Certificate.issuerX500Principal.name),
-                    Pair("X.509", x509Certificate.toString())
+                    Pair(context.getString(R.string.sign_algorithm), pair.first.sigAlgName),
+                    Pair(context.getString(R.string.sign_algorithm_oid), pair.first.sigAlgOID),
+                    Pair(context.getString(R.string.certificate_md5), SignatureUtils.convertToHex(MessageDigest.getInstance("md5").digest(pair.second.toByteArray()))),
+                    Pair(context.getString(R.string.certificate_sha1), SignatureUtils.convertToHex(MessageDigest.getInstance("sha1").digest(pair.second.toByteArray()))),
+                    Pair(context.getString(R.string.certificate_sha256), SignatureUtils.convertToHex(MessageDigest.getInstance("sha256").digest(pair.second.toByteArray()))),
+                    Pair(context.getString(R.string.public_key), pair.first.publicKey.toString()),
+                    Pair(context.getString(R.string.valid_from), pair.first.notBefore.toString()),
+                    Pair(context.getString(R.string.valid_to), pair.first.notAfter.toString()),
+                    Pair(context.getString(R.string.issuer), pair.first.issuerX500Principal?.name),
+                    Pair("X.509", pair.first.toString())
                 )
 
                 this@CertificatesViewModel.certificate.postValue(arrayList)

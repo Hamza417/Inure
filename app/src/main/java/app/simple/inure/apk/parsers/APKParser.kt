@@ -1,6 +1,7 @@
 package app.simple.inure.apk.parsers
 
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.CertificateParseException
 import app.simple.inure.exceptions.DexClassesNotFoundException
@@ -54,7 +55,7 @@ object APKParser {
     /**
      * Fetch the list of activities from an APK file
      */
-    fun ApplicationInfo.getActivities(): MutableList<AndroidComponent>? {
+    fun PackageInfo.getActivities(): MutableList<AndroidComponent>? {
         kotlin.runCatching {
             ApkParser.create(this).use {
                 return it.androidManifest.activities
@@ -144,14 +145,14 @@ object APKParser {
     /**
      * Fetch the install location of an APK file
      */
-    fun ApplicationInfo.getGlEsVersion(): String {
+    fun PackageInfo.getGlEsVersion(): String {
         kotlin.runCatching {
             ApkParser.create(this).use {
                 return it.androidManifest.apkMeta
                         .glEsVersion.toString()
             }
         }.onFailure {
-            ApkFile(sourceDir).use {
+            ApkFile(this.applicationInfo.sourceDir).use {
                 return it.apkMeta.glEsVersion.toString()
             }
         }.getOrElse {
@@ -162,7 +163,7 @@ object APKParser {
     /**
      * Fetch the certificate data from an APK file
      */
-    fun ApplicationInfo.getCertificates(): CertificateMeta {
+    fun PackageInfo.getCertificates(): CertificateMeta {
         kotlin.runCatching {
             ApkParser.create(this).use {
                 return it.certificateMeta
@@ -176,7 +177,7 @@ object APKParser {
      * Fetch the list of broadcast receivers from
      * an APK file
      */
-    fun ApplicationInfo.getReceivers(): MutableList<AndroidComponent>? {
+    fun PackageInfo.getReceivers(): MutableList<AndroidComponent>? {
         kotlin.runCatching {
             ApkParser.create(this).use {
                 return it.androidManifest.receivers
@@ -238,8 +239,8 @@ object APKParser {
     /**
      * Get list of all dex classes
      */
-    fun ApplicationInfo.getDexClasses(): ArrayList<DexClass> {
-        ApkFile(sourceDir).use {
+    fun PackageInfo.getDexClasses(): ArrayList<DexClass> {
+        ApkFile(this.applicationInfo.sourceDir).use {
             return it.dexClasses!!.toList() as ArrayList<DexClass>
         }
     }

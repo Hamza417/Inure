@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +13,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Resources : ScopedFragment() {
@@ -21,16 +21,16 @@ class Resources : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var total: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
-    private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_resources, container, false)
 
         recyclerView = view.findViewById(R.id.resources_recycler_view)
         total = view.findViewById(R.id.total)
-        applicationInfo = requireArguments().getParcelable("application_info")!!
-        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
+        packageInfo = requireArguments().getParcelable("application_info")!!
+        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
 
         return view
     }
@@ -52,11 +52,11 @@ class Resources : ScopedFragment() {
 
                     if (ConfigurationPreferences.isXmlViewerTextView()) {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    XMLViewerTextView.newInstance(applicationInfo, false, path),
+                                                    XMLViewerTextView.newInstance(packageInfo, false, path),
                                                     "tv_xml")
                     } else {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    XMLViewerWebView.newInstance(applicationInfo, false, path),
+                                                    XMLViewerWebView.newInstance(packageInfo, false, path),
                                                     "wv_xml")
                     }
                 }
@@ -65,7 +65,7 @@ class Resources : ScopedFragment() {
                     clearExitTransition()
 
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                TextViewer.newInstance(applicationInfo, path),
+                                                TextViewer.newInstance(packageInfo, path),
                                                 "txt_tv_xml")
                 }
             })
@@ -73,7 +73,7 @@ class Resources : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Resources {
+        fun newInstance(applicationInfo: PackageInfo): Resources {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             val fragment = Resources()

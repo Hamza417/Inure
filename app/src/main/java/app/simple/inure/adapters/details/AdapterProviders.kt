@@ -1,6 +1,6 @@
 package app.simple.inure.adapters.details
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,7 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import com.jaredrummler.apkparser.model.AndroidComponent
 
-class AdapterProviders(private val services: List<AndroidComponent>, private val applicationInfo: ApplicationInfo)
+class AdapterProviders(private val providers: List<AndroidComponent>, private val packageInfo: PackageInfo)
     : RecyclerView.Adapter<AdapterProviders.Holder>() {
 
     private lateinit var providersCallbacks: ProvidersCallbacks
@@ -22,36 +22,38 @@ class AdapterProviders(private val services: List<AndroidComponent>, private val
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.name.text = services[position].name.substring(services[position].name.lastIndexOf(".") + 1)
-        holder.process.text = services[position].name
+        holder.name.text = providers[position].name.substring(providers[position].name.lastIndexOf(".") + 1)
+        holder.process.text = providers[position].name
 
         holder.status.text = holder.itemView.context.getString(
             R.string.activity_status,
 
-            if (services[position].exported) {
+            if (providers[position].exported) {
                 holder.itemView.context.getString(R.string.exported)
             } else {
                 holder.itemView.context.getString(R.string.not_exported)
             },
 
-            if (ProvidersUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[position].name)) {
+            if (ProvidersUtils.isEnabled(holder.itemView.context, packageInfo.packageName, providers[position].name)) {
                 holder.itemView.context.getString(R.string.enabled)
             } else {
                 holder.itemView.context.getString(R.string.disabled)
             })
 
         holder.container.setOnLongClickListener {
-            providersCallbacks.onProvidersLongPressed(services[holder.absoluteAdapterPosition].name,
-                                                      applicationInfo,
-                                                      it,
-                                                      ProvidersUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[holder.absoluteAdapterPosition].name),
-                                                      holder.absoluteAdapterPosition)
+            providersCallbacks
+                    .onProvidersLongPressed(
+                        providers[holder.absoluteAdapterPosition].name,
+                        packageInfo,
+                        it,
+                        ProvidersUtils.isEnabled(holder.itemView.context, packageInfo.packageName, providers[holder.absoluteAdapterPosition].name),
+                        holder.absoluteAdapterPosition)
             true
         }
     }
 
     override fun getItemCount(): Int {
-        return services.size
+        return providers.size
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
@@ -67,7 +69,7 @@ class AdapterProviders(private val services: List<AndroidComponent>, private val
 
     companion object {
         interface ProvidersCallbacks {
-            fun onProvidersLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+            fun onProvidersLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
         }
     }
 }

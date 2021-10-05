@@ -2,6 +2,7 @@ package app.simple.inure.util
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import java.util.*
@@ -9,25 +10,25 @@ import java.util.*
 object Sort {
 
     /**
-     * Sorts the [ApplicationInfo] [ArrayList] by
+     * Sorts the [PackageInfo] [ArrayList] by
      * [ApplicationInfo.name]
      */
     const val NAME = "name"
 
     /**
-     * Sorts the [ApplicationInfo] [ArrayList] by
-     * [ApplicationInfo.packageName]
+     * Sorts the [PackageInfo] [ArrayList] by
+     * [PackageInfo.packageName]
      */
     const val PACKAGE_NAME = "package_name"
 
     /**
-     * Sorts the [ApplicationInfo] [ArrayList] by
+     * Sorts the [PackageInfo] [ArrayList] by
      * apps directory size
      */
     const val SIZE = "size"
 
     /**
-     * Sorts the [ApplicationInfo] [ArrayList] by
+     * Sorts the [PackageInfo] [ArrayList] by
      * apps install date
      */
     const val INSTALL_DATE = "install_date"
@@ -41,7 +42,7 @@ object Sort {
      * @throws IllegalArgumentException if the [type] parameter
      *                                  is specified correctly
      */
-    fun ArrayList<ApplicationInfo>.getSortedList(type: String, context: Context) {
+    fun ArrayList<PackageInfo>.getSortedList(type: String, context: Context) {
         when (type) {
             NAME -> {
                 this.sortByName()
@@ -50,10 +51,10 @@ object Sort {
                 this.sortByPackageName()
             }
             SIZE -> {
-                this.sortBySize(context)
+                this.sortBySize()
             }
             INSTALL_DATE -> {
-                this.sortByInstallDate(context)
+                this.sortByInstallDate()
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -64,14 +65,14 @@ object Sort {
     /**
      * sort application list name
      */
-    private fun ArrayList<ApplicationInfo>.sortByName() {
+    private fun ArrayList<PackageInfo>.sortByName() {
         return if (MainPreferences.isReverseSorting()) {
             this.sortByDescending {
-                it.name.lowercase(Locale.getDefault())
+                it.applicationInfo.name.lowercase(Locale.getDefault())
             }
         } else {
             this.sortBy {
-                it.name.lowercase(Locale.getDefault())
+                it.applicationInfo.name.lowercase(Locale.getDefault())
             }
         }
     }
@@ -79,14 +80,14 @@ object Sort {
     /**
      * sort application list package name
      */
-    private fun ArrayList<ApplicationInfo>.sortBySize(context: Context) {
+    private fun ArrayList<PackageInfo>.sortBySize() {
         return if (MainPreferences.isReverseSorting()) {
             this.sortByDescending {
-                it.sourceDir.getDirectoryLength()
+                it.applicationInfo.sourceDir.getDirectoryLength()
             }
         } else {
             this.sortBy {
-                it.sourceDir.getDirectoryLength()
+                it.applicationInfo.sourceDir.getDirectoryLength()
             }
         }
     }
@@ -94,7 +95,7 @@ object Sort {
     /**
      * sort application list size
      */
-    private fun ArrayList<ApplicationInfo>.sortByPackageName() {
+    private fun ArrayList<PackageInfo>.sortByPackageName() {
         return if (MainPreferences.isReverseSorting()) {
             this.sortByDescending {
                 it.packageName.lowercase(Locale.getDefault())
@@ -109,14 +110,14 @@ object Sort {
     /**
      * sort application list alphabetically
      */
-    private fun ArrayList<ApplicationInfo>.sortByInstallDate(context: Context) {
+    private fun ArrayList<PackageInfo>.sortByInstallDate() {
         return if (MainPreferences.isReverseSorting()) {
             this.sortByDescending {
-                context.packageManager.getPackageInfo(it.packageName, 0).firstInstallTime
+                it.firstInstallTime
             }
         } else {
             this.sortBy {
-                context.packageManager.getPackageInfo(it.packageName, 0).firstInstallTime
+                it.firstInstallTime
             }
         }
     }

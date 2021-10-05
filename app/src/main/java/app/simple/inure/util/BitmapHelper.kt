@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.BlurMaskFilter.Blur
 import android.graphics.Matrix.ScaleToFit
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.PictureDrawable
 import androidx.core.content.ContextCompat
 
@@ -70,5 +71,13 @@ object BitmapHelper {
         val canvas = Canvas(bitmap)
         canvas.drawPicture(pd.picture)
         return bitmap
+    }
+
+    fun getBitmapFromDrawable(drawable: Drawable): Bitmap {
+        val bmp = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bmp)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bmp
     }
 }

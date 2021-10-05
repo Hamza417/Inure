@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,13 +13,13 @@ import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.DexDataViewModel
 
 class Dexs : ScopedFragment() {
 
     private lateinit var dexDataViewModel: DexDataViewModel
-    private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var total: TypeFaceTextView
 
@@ -29,9 +29,9 @@ class Dexs : ScopedFragment() {
         recyclerView = view.findViewById(R.id.dexs_recycler_view)
         total = view.findViewById(R.id.total_dexs)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
-        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
-        dexDataViewModel = ViewModelProvider(this, applicationInfoFactory).get(DexDataViewModel::class.java)
+        packageInfo = requireArguments().getParcelable("application_info")!!
+        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        dexDataViewModel = ViewModelProvider(this, packageInfoFactory).get(DexDataViewModel::class.java)
 
         startPostponedEnterTransition()
 
@@ -61,7 +61,7 @@ class Dexs : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Dexs {
+        fun newInstance(applicationInfo: PackageInfo): Dexs {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             val fragment = Dexs()

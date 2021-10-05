@@ -1,11 +1,13 @@
 package app.simple.inure.glide.util
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.widget.ImageView
 import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.glide.graphics.AppGraphicsModel
 import app.simple.inure.glide.icon.AppIcon
 import app.simple.inure.glide.modules.GlideApp
+import app.simple.inure.glide.receivers.ReceiverIconModel
 import com.bumptech.glide.Glide
 import org.jetbrains.annotations.NotNull
 
@@ -13,7 +15,6 @@ object ImageLoader {
     /**
      * Loads app icon asynchronously
      *
-     * @param context context of the given environment
      * @param packageName is package id of the app whose icon needs to be loaded
      */
     fun ImageView.loadAppIcon(packageName: String) {
@@ -42,6 +43,12 @@ object ImageLoader {
                 .dontTransform()
                 .dontAnimate()
                 .load(AppGraphicsModel(path, filePath))
+                .into(this)
+    }
+
+    fun ImageView.loadReceiverIcon(activityInfo: ActivityInfo) {
+        GlideApp.with(this)
+                .load(ReceiverIconModel(activityInfo, this.context))
                 .into(this)
     }
 }

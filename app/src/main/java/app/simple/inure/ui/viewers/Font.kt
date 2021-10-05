@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -31,11 +32,11 @@ class Font : ScopedFragment() {
         fontEditText = view.findViewById(R.id.ttf_viewer)
         fontName = view.findViewById(R.id.ttf_name)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         fontViewModelFactory = FontViewModelFactory(requireActivity().application,
                                                     requireArguments().getString("path")!!,
-                                                    applicationInfo,
+                                                    packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
         viewModel = ViewModelProvider(this, fontViewModelFactory).get(FontData::class.java)
@@ -67,10 +68,10 @@ class Font : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo, path: String): Font {
+        fun newInstance(applicationInfo: PackageInfo, path: String): Font {
             val args = Bundle()
             args.putString("path", path)
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
             val fragment = Font()
             fragment.arguments = args
             return fragment

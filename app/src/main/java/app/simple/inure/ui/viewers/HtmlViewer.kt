@@ -3,7 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -64,10 +65,10 @@ class HtmlViewer : ScopedFragment() {
         html = view.findViewById(R.id.html_viewer)
         path = view.findViewById(R.id.html_name)
         options = view.findViewById(R.id.html_viewer_options)
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         textDataFactory = TextDataFactory(
-            applicationInfo,
+            packageInfo,
             requireArguments().getString("path")!!,
             requireActivity().application,
         )
@@ -113,7 +114,7 @@ class HtmlViewer : ScopedFragment() {
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {
-                            val fileName: String = applicationInfo.packageName + "_" + path.text
+                            val fileName: String = packageInfo.packageName + "_" + path.text
                             exportText.launch(fileName)
                         }
                     }
@@ -123,9 +124,9 @@ class HtmlViewer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo, path: String): HtmlViewer {
+        fun newInstance(applicationInfo: PackageInfo, path: String): HtmlViewer {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
             args.putString("path", path)
             val fragment = HtmlViewer()
             fragment.arguments = args

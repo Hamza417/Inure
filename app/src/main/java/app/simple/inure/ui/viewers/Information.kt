@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,7 @@ import app.simple.inure.adapters.details.AdapterInformation
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.AppInformationViewModel
 
 class Information : ScopedFragment() {
@@ -22,7 +22,7 @@ class Information : ScopedFragment() {
     private lateinit var progress: ProgressBar
 
     private lateinit var viewModel: AppInformationViewModel
-    private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.fragment_information, container, false)
@@ -31,10 +31,10 @@ class Information : ScopedFragment() {
         back = view.findViewById(R.id.app_info_back_button)
         progress = view.findViewById(R.id.information_data_progress)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable("application_info")!!
 
-        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
-        viewModel = ViewModelProvider(this, applicationInfoFactory).get(AppInformationViewModel::class.java)
+        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        viewModel = ViewModelProvider(this, packageInfoFactory).get(AppInformationViewModel::class.java)
 
         return view
     }
@@ -64,7 +64,7 @@ class Information : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Information {
+        fun newInstance(applicationInfo: PackageInfo): Information {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             val fragment = Information()

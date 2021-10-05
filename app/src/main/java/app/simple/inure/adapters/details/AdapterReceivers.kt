@@ -1,64 +1,73 @@
 package app.simple.inure.adapters.details
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
-import com.jaredrummler.apkparser.model.AndroidComponent
+import app.simple.inure.glide.util.ImageLoader.loadReceiverIcon
+import app.simple.inure.model.AppReceiversModel
 
-class AdapterReceivers(private val services: List<AndroidComponent>, private val applicationInfo: ApplicationInfo)
+class AdapterReceivers(private val receivers: MutableList<AppReceiversModel>, private val packageInfo: PackageInfo)
     : RecyclerView.Adapter<AdapterReceivers.Holder>() {
 
     private lateinit var receiversCallbacks: ReceiversCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_services, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_receivers, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.name.text = services[position].name.substring(services[position].name.lastIndexOf(".") + 1)
-        holder.process.text = services[position].name
+        holder.icon.loadReceiverIcon(receivers[position].activityInfo)
+
+        holder.name.text = receivers[position].name.substring(receivers[position].name.lastIndexOf(".") + 1)
+        holder.process.text = receivers[position].name
 
         holder.status.text = holder.itemView.context.getString(
             R.string.activity_status,
 
-            if (services[position].exported) {
+            if (receivers[position].exported) {
                 holder.itemView.context.getString(R.string.exported)
             } else {
                 holder.itemView.context.getString(R.string.not_exported)
             },
 
-            if (ReceiversUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[position].name)) {
+            if (ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[position].name)) {
                 holder.itemView.context.getString(R.string.enabled)
             } else {
                 holder.itemView.context.getString(R.string.disabled)
             })
 
+        holder.status.append(receivers[position].status)
+
         holder.container.setOnLongClickListener {
-            receiversCallbacks.onReceiversLongPressed(services[holder.absoluteAdapterPosition].name,
-                                                      applicationInfo,
-                                                      it,
-                                                      ReceiversUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[holder.absoluteAdapterPosition].name),
-                                                      holder.absoluteAdapterPosition)
+            receiversCallbacks
+                    .onReceiversLongPressed(
+                        receivers[holder.absoluteAdapterPosition].name,
+                        packageInfo,
+                        it,
+                        ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[holder.absoluteAdapterPosition].name),
+                        holder.absoluteAdapterPosition)
             true
         }
     }
 
     override fun getItemCount(): Int {
-        return services.size
+        return receivers.size
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_name)
-        val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_process)
-        val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_service_status)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_services_container)
+        val icon: ImageView = itemView.findViewById(R.id.adapter_receiver_icon)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_name)
+        val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_process)
+        val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_status)
+        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_receiver_container)
     }
 
     fun setOnReceiversCallbackListener(receiversCallbacks: ReceiversCallbacks) {
@@ -67,7 +76,7 @@ class AdapterReceivers(private val services: List<AndroidComponent>, private val
 
     companion object {
         interface ReceiversCallbacks {
-            fun onReceiversLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+            fun onReceiversLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
         }
     }
 }

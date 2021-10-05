@@ -1,6 +1,6 @@
 package app.simple.inure.dialogs.miscellaneous
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +15,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.dialogs.FilePreparingViewModel
-import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import java.net.URLConnection
 
 class Preparing : ScopedBottomSheetFragment() {
@@ -24,7 +24,7 @@ class Preparing : ScopedBottomSheetFragment() {
     private lateinit var updates: TypeFaceTextView
     private lateinit var progress: TypeFaceTextView
     private lateinit var filePreparingViewModel: FilePreparingViewModel
-    private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_send_prepare, container, false)
@@ -32,10 +32,10 @@ class Preparing : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.preparing_loader_indicator)
         updates = view.findViewById(R.id.preparing_updates)
         progress = view.findViewById(R.id.preparing_progress)
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable("application_info")!!
 
-        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
-        filePreparingViewModel = ViewModelProvider(this, applicationInfoFactory).get(FilePreparingViewModel::class.java)
+        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        filePreparingViewModel = ViewModelProvider(this, packageInfoFactory).get(FilePreparingViewModel::class.java)
 
         return view
     }
@@ -71,7 +71,7 @@ class Preparing : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Preparing {
+        fun newInstance(applicationInfo: PackageInfo): Preparing {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             val fragment = Preparing()

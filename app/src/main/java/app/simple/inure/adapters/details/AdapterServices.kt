@@ -1,6 +1,6 @@
 package app.simple.inure.adapters.details
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.ConfigurationPreferences
 import com.jaredrummler.apkparser.model.AndroidComponent
 
-class AdapterServices(private val services: List<AndroidComponent>, private val applicationInfo: ApplicationInfo) : RecyclerView.Adapter<AdapterServices.Holder>() {
+class AdapterServices(private val services: List<AndroidComponent>, private val packageInfo: PackageInfo) : RecyclerView.Adapter<AdapterServices.Holder>() {
 
     private lateinit var servicesCallbacks: ServicesCallbacks
     private val isRootMode = ConfigurationPreferences.isUsingRoot()
@@ -35,7 +35,7 @@ class AdapterServices(private val services: List<AndroidComponent>, private val 
                 holder.itemView.context.getString(R.string.not_exported)
             },
 
-            if (ServicesUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[position].name)) {
+            if (ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
                 holder.itemView.context.getString(R.string.enabled)
             } else {
                 holder.itemView.context.getString(R.string.disabled)
@@ -43,11 +43,13 @@ class AdapterServices(private val services: List<AndroidComponent>, private val 
 
         if (isRootMode) {
             holder.container.setOnLongClickListener {
-                servicesCallbacks.onServiceLongPressed(services[holder.absoluteAdapterPosition].name,
-                                                       applicationInfo,
-                                                       it,
-                                                       ServicesUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[holder.absoluteAdapterPosition].name),
-                                                       holder.absoluteAdapterPosition)
+                servicesCallbacks
+                        .onServiceLongPressed(
+                            services[holder.absoluteAdapterPosition].name,
+                            packageInfo,
+                            it,
+                            ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[holder.absoluteAdapterPosition].name),
+                            holder.absoluteAdapterPosition)
                 true
             }
         }
@@ -70,7 +72,7 @@ class AdapterServices(private val services: List<AndroidComponent>, private val 
 
     companion object {
         interface ServicesCallbacks {
-            fun onServiceLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+            fun onServiceLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
         }
     }
 }

@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.model.PermissionInfo
 import app.simple.inure.popups.viewers.PopupPermissions
-import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Permissions : ScopedFragment() {
@@ -25,7 +25,7 @@ class Permissions : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var totalPermissions: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
-    private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var adapterPermissions: AdapterPermissions
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,9 +34,9 @@ class Permissions : ScopedFragment() {
         recyclerView = view.findViewById(R.id.permissions_recycler_view)
         totalPermissions = view.findViewById(R.id.total_permissions)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
-        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
+        packageInfo = requireArguments().getParcelable("application_info")!!
+        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
 
         startPostponedEnterTransition()
 
@@ -61,7 +61,7 @@ class Permissions : ScopedFragment() {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.revoke) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm revoke ${applicationInfo.packageName} ${permissionInfo.name}")
+                                    val shell = ShellExecutorDialog.newInstance("pm revoke ${packageInfo.packageName} ${permissionInfo.name}")
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
                                             if (result.contains(getString(R.string.done))) {
@@ -72,7 +72,7 @@ class Permissions : ScopedFragment() {
                                     shell.show(childFragmentManager, "shell_executor")
                                 }
                                 getString(R.string.grant) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm grant ${applicationInfo.packageName} ${permissionInfo.name}")
+                                    val shell = ShellExecutorDialog.newInstance("pm grant ${packageInfo.packageName} ${permissionInfo.name}")
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
                                             if (result.contains(getString(R.string.done))) {
@@ -103,7 +103,7 @@ class Permissions : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Permissions {
+        fun newInstance(applicationInfo: PackageInfo): Permissions {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             val fragment = Permissions()

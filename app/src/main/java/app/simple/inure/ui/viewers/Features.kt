@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterFeatures
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Features : ScopedFragment() {
@@ -21,16 +22,16 @@ class Features : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var total: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
-    private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_features, container, false)
 
         recyclerView = view.findViewById(R.id.features_recycler_view)
         total = view.findViewById(R.id.total)
-        applicationInfo = requireArguments().getParcelable<ApplicationInfo>("application_info")!!
-        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
+        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
 
         return view
     }
@@ -59,9 +60,9 @@ class Features : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Features {
+        fun newInstance(packageInfo: PackageInfo): Features {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = Features()
             fragment.arguments = args
             return fragment

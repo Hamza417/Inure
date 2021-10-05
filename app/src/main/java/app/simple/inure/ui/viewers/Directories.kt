@@ -1,11 +1,12 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -25,7 +26,7 @@ class Directories : ScopedFragment() {
         dataDir = view.findViewById(R.id.sub_directory_data)
         back = view.findViewById(R.id.app_info_back_button)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable("application_info")!!
 
         return view
     }
@@ -35,8 +36,8 @@ class Directories : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        apkDir.text = applicationInfo.sourceDir
-        dataDir.text = applicationInfo.dataDir
+        apkDir.text = packageInfo.applicationInfo.sourceDir
+        dataDir.text = packageInfo.applicationInfo.dataDir
 
         dataDir.makeLinks(Pair(dataDir.text.toString(), View.OnClickListener {
             kotlin.runCatching {
@@ -52,9 +53,9 @@ class Directories : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Directories {
+        fun newInstance(packageInfo: PackageInfo): Directories {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = Directories()
             fragment.arguments = args
             return fragment

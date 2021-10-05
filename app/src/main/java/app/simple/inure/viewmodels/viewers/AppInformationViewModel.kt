@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 
-class AppInformationViewModel(application: Application, val applicationInfo: ApplicationInfo) : AndroidViewModel(application) {
+class AppInformationViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
     private val information: MutableLiveData<ArrayList<Pair<String, String>>> by lazy {
         MutableLiveData<ArrayList<Pair<String, String>>>().also {
@@ -45,12 +45,12 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
 
     private fun loadInformation() {
         val context = getApplication<Application>().applicationContext
-        val pi = context.packageManager.getPackageInfo(applicationInfo.packageName, PackageManager.GET_META_DATA)
+        val pi = context.packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA)
 
         progress.postValue(0)
 
-        val version = PackageUtils.getApplicationVersion(context, applicationInfo)
-        val versionCode = PackageUtils.getApplicationVersionCode(context, applicationInfo)
+        val version = PackageUtils.getApplicationVersion(context, packageInfo)
+        val versionCode = PackageUtils.getApplicationVersionCode(context, packageInfo)
 
         progress.postValue(11)
 
@@ -69,7 +69,7 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
                 PackageInfo.INSTALL_LOCATION_INTERNAL_ONLY -> context.getString(R.string.internal)
                 PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL -> context.getString(R.string.prefer_external)
                 else -> {
-                    if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+                    if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
                         context.getString(R.string.system)
                     } else {
                         context.getString(R.string.not_available)
@@ -83,10 +83,10 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
         progress.postValue(33)
 
         val glesVersion = kotlin.runCatching {
-            if (applicationInfo.getGlEsVersion().isEmpty()) {
+            if (packageInfo.getGlEsVersion().isEmpty()) {
                 context.getString(R.string.not_available)
             } else {
-                applicationInfo.getGlEsVersion()
+                packageInfo.getGlEsVersion()
             }
         }.getOrElse {
             context.getString(R.string.not_available)
@@ -94,14 +94,14 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
 
         progress.postValue(44)
 
-        val uid = applicationInfo.uid.toString()
-        val installDate = applicationInfo.getApplicationInstallTime(context)
-        val updateDate = applicationInfo.getApplicationLastUpdateTime(context)
+        val uid = packageInfo.applicationInfo.uid.toString()
+        val installDate = packageInfo.getApplicationInstallTime(context)
+        val updateDate = packageInfo.getApplicationLastUpdateTime(context)
 
         progress.postValue(55)
 
         val method = kotlin.runCatching {
-            val p0 = applicationInfo.getDexData()!!
+            val p0 = packageInfo.applicationInfo.getDexData()!!
             var count = 0
 
             for (i in p0) {
@@ -123,7 +123,7 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 "${pi.applicationInfo.minSdkVersion}, ${SDKHelper.getSdkTitle(pi.applicationInfo.minSdkVersion)}"
             } else {
-                when (val apkMeta: Any? = applicationInfo.getApkMeta()) {
+                when (val apkMeta: Any? = packageInfo.applicationInfo.getApkMeta()) {
                     is ApkMeta -> {
                         "${apkMeta.minSdkVersion}, ${SDKHelper.getSdkTitle(apkMeta.minSdkVersion)}"
                     }
@@ -149,7 +149,7 @@ class AppInformationViewModel(application: Application, val applicationInfo: App
 
         progress.postValue(88)
 
-        val applicationType = if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+        val applicationType = if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
             context.getString(R.string.system)
         } else {
             context.getString(R.string.user)

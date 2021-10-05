@@ -1,6 +1,6 @@
 package app.simple.inure.ui.subviewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +30,7 @@ class ActivityInfo : ScopedFragment() {
         intentCategories = view.findViewById(R.id.activity_info_categories)
         backButton = view.findViewById(R.id.activity_info_back_button)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable("application_info")!!
 
         startPostponedEnterTransition()
 
@@ -47,7 +47,7 @@ class ActivityInfo : ScopedFragment() {
             var categories = ""
 
             withContext(Dispatchers.Default) {
-                val list = applicationInfo.getActivities()!!
+                val list = packageInfo.getActivities()!!
 
                 for (activities in list) {
                     if (activities.name == requireArguments().getString("package_id")) {
@@ -86,7 +86,7 @@ class ActivityInfo : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageId: String, applicationInfo: ApplicationInfo): ActivityInfo {
+        fun newInstance(packageId: String, applicationInfo: PackageInfo): ActivityInfo {
             val args = Bundle()
             args.putString("package_id", packageId)
             args.putParcelable("application_info", applicationInfo)

@@ -2,6 +2,7 @@ package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.graphics.Paint
 import android.os.Handler
 import android.os.Looper
@@ -27,7 +28,7 @@ import java.util.*
 
 class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
-    var apps = arrayListOf<ApplicationInfo>()
+    var apps = arrayListOf<PackageInfo>()
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -53,16 +54,16 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
 
             holder.icon.transitionName = "app_$position"
             holder.icon.loadAppIcon(apps[position].packageName)
-            holder.name.text = apps[position].name
+            holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
 
-            if (apps[position].enabled) {
+            if (apps[position].applicationInfo.enabled) {
                 holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             } else {
                 holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
 
-            holder.packageType.text = if ((apps[position].flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+            holder.packageType.text = if ((apps[position].applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
                 holder.packageType.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, 0, 0)
                 holder.itemView.context.getString(R.string.user)
             } else {
@@ -70,7 +71,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
                 holder.itemView.context.getString(R.string.system)
             }
 
-            holder.packageSize.text = apps[position].sourceDir.toSize()
+            holder.packageSize.text = apps[position].applicationInfo.sourceDir.toSize()
 
             holder.container.setOnClickListener {
                 appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
@@ -139,6 +140,6 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
     }
 
     override fun getPopupText(position: Int): String {
-        return apps[position].name.substring(0, 1).uppercase(Locale.ROOT)
+        return apps[position].applicationInfo.name.substring(0, 1).uppercase(Locale.ROOT)
     }
 }

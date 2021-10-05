@@ -1,7 +1,7 @@
 package app.simple.inure.dialogs.miscellaneous
 
 import android.annotation.SuppressLint
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -61,7 +61,7 @@ class IntentAction : ScopedDialogFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo, packageId: String): IntentAction {
+        fun newInstance(applicationInfo: PackageInfo, packageId: String): IntentAction {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             args.putString("packageId", packageId)

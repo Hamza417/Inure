@@ -2,6 +2,7 @@ package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ import app.simple.inure.util.FileSizeHelper.toSize
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.Holder>() {
 
-    var apps = arrayListOf<ApplicationInfo>()
+    var apps = arrayListOf<PackageInfo>()
     var searchKeyword = ""
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     private var xOff = 0f
@@ -34,10 +35,10 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.Holder>() {
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = "app_$position"
         holder.icon.loadAppIcon(apps[position].packageName)
-        holder.name.text = apps[position].name
+        holder.name.text = apps[position].applicationInfo.name
         holder.packageId.text = apps[position].packageName
 
-        holder.packageType.text = if ((apps[position].flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+        holder.packageType.text = if ((apps[position].applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
             holder.packageType.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person, 0, 0, 0)
             holder.itemView.context.getString(R.string.user)
         } else {
@@ -45,7 +46,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.Holder>() {
             holder.itemView.context.getString(R.string.system)
         }
 
-        holder.packageSize.text = apps[position].sourceDir.toSize()
+        holder.packageSize.text = apps[position].applicationInfo.sourceDir.toSize()
 
         holder.container.setOnClickListener {
             appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)

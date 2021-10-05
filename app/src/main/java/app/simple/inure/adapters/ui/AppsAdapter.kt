@@ -1,7 +1,7 @@
 package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +20,7 @@ import app.simple.inure.util.AdapterUtils.searchHighlighter
 class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>(), PopupTextProvider {
 
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
-    var apps = arrayListOf<ApplicationInfo>()
+    var apps = arrayListOf<PackageInfo>()
     var searchKeyword: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -32,7 +32,7 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>(), PopupTextProvide
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = "app_$position"
         holder.icon.loadAppIcon(apps[position].packageName)
-        holder.name.text = apps[position].name
+        holder.name.text = apps[position].applicationInfo.name
         holder.packageId.text = apps[position].packageName
 
         if (searchKeyword.isNotEmpty()) {
@@ -71,6 +71,6 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>(), PopupTextProvide
     }
 
     override fun getPopupText(position: Int): String {
-        return apps[position].name.substring(0, 1)
+        return apps[position].applicationInfo.name.substring(0, 1)
     }
 }

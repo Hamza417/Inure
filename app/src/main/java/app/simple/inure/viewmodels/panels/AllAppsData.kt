@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -18,8 +19,8 @@ import java.util.stream.Collectors
 
 class AllAppsData(application: Application) : AndroidViewModel(application) {
 
-    val appData: MutableLiveData<ArrayList<ApplicationInfo>> by lazy {
-        MutableLiveData<ArrayList<ApplicationInfo>>().also {
+    val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
             loadAppData()
         }
     }
@@ -28,7 +29,7 @@ class AllAppsData(application: Application) : AndroidViewModel(application) {
         MutableLiveData<AppsEvent<Boolean>>()
     }
 
-    fun getAppData(): LiveData<ArrayList<ApplicationInfo>> {
+    fun getAppData(): LiveData<ArrayList<PackageInfo>> {
         return appData
     }
 
@@ -36,23 +37,23 @@ class AllAppsData(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = getApplication<Application>()
                     .applicationContext.packageManager
-                    .getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
+                    .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
             when (MainPreferences.getListAppCategory()) {
                 AppCategoryPopup.SYSTEM -> {
                     apps = apps.stream().filter { p ->
-                        p.flags and ApplicationInfo.FLAG_SYSTEM != 0
-                    }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
                 AppCategoryPopup.USER -> {
                     apps = apps.stream().filter { p ->
-                        p.flags and ApplicationInfo.FLAG_SYSTEM == 0
-                    }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
             }
 
             for (i in apps.indices) {
-                apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
+                apps[i].applicationInfo.name = getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
 
             apps.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)

@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterActivities
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -19,7 +20,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.viewers.PopupActivitiesMenu
 import app.simple.inure.ui.subviewers.ActivityInfo
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 import com.jaredrummler.apkparser.model.AndroidComponent
 
@@ -28,7 +29,7 @@ class Activities : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var totalActivities: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
-    private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var adapterActivities: AdapterActivities
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,10 +37,10 @@ class Activities : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.activities_recycler_view)
         totalActivities = view.findViewById(R.id.total_activities)
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
+        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
 
         return view
     }
@@ -50,7 +51,7 @@ class Activities : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getActivities().observe(viewLifecycleOwner, {
-            adapterActivities = AdapterActivities(applicationInfo, it)
+            adapterActivities = AdapterActivities(packageInfo, it)
             recyclerView.adapter = adapterActivities
 
             totalActivities.text = getString(R.string.total, it.size)
@@ -59,11 +60,11 @@ class Activities : ScopedFragment() {
                 override fun onActivityClicked(androidComponent: AndroidComponent, packageId: String) {
                     clearExitTransition()
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                ActivityInfo.newInstance(packageId, applicationInfo),
+                                                ActivityInfo.newInstance(packageId, packageInfo),
                                                 "activity_info")
                 }
 
-                override fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
+                override fun onActivityLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
                     val v = PopupActivitiesMenu(icon,
                                                 isComponentEnabled)
 
@@ -71,16 +72,16 @@ class Activities : ScopedFragment() {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.force_launch) -> {
-                                    ShellExecutorDialog.newInstance("am start -n ${applicationInfo.packageName}/$packageId " +
+                                    ShellExecutorDialog.newInstance("am start -n ${packageInfo.packageName}/$packageId " +
                                                                             "-a android.intent.action.MAIN")
                                             .show(childFragmentManager, "shell_executor")
                                 }
                                 getString(R.string.force_launch_with_action) -> {
-                                    IntentAction.newInstance(applicationInfo, packageId)
+                                    IntentAction.newInstance(packageInfo, packageId)
                                             .show(childFragmentManager, "intent_action")
                                 }
                                 getString(R.string.enable) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm enable ${applicationInfo.packageName}/$packageId")
+                                    val shell = ShellExecutorDialog.newInstance("pm enable ${packageInfo.packageName}/$packageId")
 
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
@@ -93,7 +94,7 @@ class Activities : ScopedFragment() {
                                     shell.show(childFragmentManager, "shell_executor")
                                 }
                                 getString(R.string.disable) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm disable ${applicationInfo.packageName}/$packageId")
+                                    val shell = ShellExecutorDialog.newInstance("pm disable ${packageInfo.packageName}/$packageId")
 
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
@@ -126,9 +127,9 @@ class Activities : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Activities {
+        fun newInstance(packageInfo: PackageInfo): Activities {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = Activities()
             fragment.arguments = args
             return fragment

@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getPackageSize
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.Pie
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -43,7 +44,7 @@ class Storage : ScopedFragment() {
         back = view.findViewById(R.id.app_info_back_button)
         pie = view.findViewById(R.id.storage_apk_size_pie)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         return view
     }
@@ -54,7 +55,7 @@ class Storage : ScopedFragment() {
         startPostponedEnterTransition()
 
         model.getTotalAppSize().observe(requireActivity(), {
-            val x = applicationInfo.sourceDir.getDirectoryLength().toDouble() / it.toDouble() * 100.0
+            val x = packageInfo.applicationInfo.sourceDir.getDirectoryLength().toDouble() / it.toDouble() * 100.0
             pie.value = (x * (360.0 / 100.0)).toFloat()
         })
 
@@ -66,11 +67,11 @@ class Storage : ScopedFragment() {
             var dataSize: String
 
             withContext(Dispatchers.Default) {
-                val packageSize = applicationInfo.getPackageSize(requireContext())
+                val packageSize = packageInfo.getPackageSize(requireContext())
 
                 apkSize = packageSize.codeSize.toSize()
-                splitsSize = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && applicationInfo.splitSourceDirs.isNotNull()) {
-                    "${applicationInfo.splitSourceDirs.getDirectorySize()} (${applicationInfo.splitNames.size} ${getString(R.string.files)})"
+                splitsSize = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
+                    "${packageInfo.applicationInfo.splitSourceDirs.getDirectorySize()} (${packageInfo.splitNames.size} ${getString(R.string.files)})"
                 } else getString(R.string.not_available)
                 cacheSize = packageSize.cacheSize.toSize()
                 dataSize = packageSize.dataSize.toSize()
@@ -89,9 +90,9 @@ class Storage : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Storage {
+        fun newInstance(applicationInfo: PackageInfo): Storage {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
             val fragment = Storage()
             fragment.arguments = args
             return fragment

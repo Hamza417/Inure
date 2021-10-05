@@ -1,7 +1,7 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.graphics.Color
 import android.text.Html
 import android.text.Spannable
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class XMLViewerData(val applicationInfo: ApplicationInfo, private val isManifest: Boolean, private val pathToXml: String, application: Application, val accentColor: Int)
+class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolean, private val pathToXml: String, application: Application, val accentColor: Int)
     : AndroidViewModel(application) {
 
     private val error: MutableLiveData<String> by lazy {
@@ -80,9 +80,9 @@ class XMLViewerData(val applicationInfo: ApplicationInfo, private val isManifest
                 val formattedContent: SpannableString
 
                 val code: String = if (isManifest) {
-                    applicationInfo.extractManifest()!!
+                    packageInfo.applicationInfo.extractManifest()!!
                 } else {
-                    applicationInfo.getTransBinaryXml(pathToXml)
+                    packageInfo.applicationInfo.getTransBinaryXml(pathToXml)
                 }
 
                 if (code.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
@@ -116,9 +116,9 @@ class XMLViewerData(val applicationInfo: ApplicationInfo, private val isManifest
 
             kotlin.runCatching {
                 val code = if (isManifest) {
-                    applicationInfo.extractManifest()!!
+                    packageInfo.applicationInfo.extractManifest()!!
                 } else {
-                    applicationInfo.getTransBinaryXml(pathToXml)
+                    packageInfo.applicationInfo.getTransBinaryXml(pathToXml)
                 }
 
                 val data = String.format(

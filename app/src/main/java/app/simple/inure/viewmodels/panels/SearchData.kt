@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -25,8 +26,8 @@ class SearchData(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private val appData: MutableLiveData<ArrayList<ApplicationInfo>> by lazy {
-        MutableLiveData<ArrayList<ApplicationInfo>>().also {
+    private val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
             loadSearchData()
         }
     }
@@ -40,14 +41,14 @@ class SearchData(application: Application) : AndroidViewModel(application) {
         searchKeywords.postValue(keywords)
     }
 
-    fun getSearchData(): LiveData<ArrayList<ApplicationInfo>> {
+    fun getSearchData(): LiveData<ArrayList<PackageInfo>> {
         return appData
     }
 
     fun loadSearchData() {
         viewModelScope.launch(Dispatchers.Default) {
 
-            val apps = getApplication<Application>().applicationContext.packageManager.getInstalledApplications(PackageManager.GET_META_DATA) as ArrayList
+            val apps = getApplication<Application>().applicationContext.packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
             if (searchKeywords.value.isNullOrEmpty()) {
                 appData.postValue(arrayListOf())
@@ -55,25 +56,25 @@ class SearchData(application: Application) : AndroidViewModel(application) {
             }
 
             for (i in apps.indices) {
-                apps[i].name = getApplicationName(getApplication<Application>().applicationContext, apps[i])
+                apps[i].applicationInfo.name = getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
 
-            var filtered: ArrayList<ApplicationInfo> =
+            var filtered: ArrayList<PackageInfo> =
                 apps.stream().filter { p ->
-                    p.name.contains(searchKeywords.value!!, true)
+                    p.applicationInfo.name.contains(searchKeywords.value!!, true)
                             || p.packageName.contains(searchKeywords.value!!, true)
-                }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             when (MainPreferences.getListAppCategory()) {
                 AppCategoryPopup.SYSTEM -> {
                     filtered = filtered.stream().filter { p ->
-                        p.flags and ApplicationInfo.FLAG_SYSTEM != 0
-                    }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
                 AppCategoryPopup.USER -> {
                     filtered = filtered.stream().filter { p ->
-                        p.flags and ApplicationInfo.FLAG_SYSTEM == 0
-                    }.collect(Collectors.toList()) as ArrayList<ApplicationInfo>
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
             }
 

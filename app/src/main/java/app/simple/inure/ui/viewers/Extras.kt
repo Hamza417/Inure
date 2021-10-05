@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterExtras
 import app.simple.inure.apk.parsers.APKParser
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Extras : ScopedFragment() {
@@ -21,17 +22,17 @@ class Extras : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var total: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
-    private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_extras, container, false)
 
         recyclerView = view.findViewById(R.id.extras_recycler_view)
         total = view.findViewById(R.id.total)
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(ApkDataViewModel::class.java)
+        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
 
         return view
     }
@@ -42,7 +43,7 @@ class Extras : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getExtras().observe(viewLifecycleOwner, {
-            val adapterExtras = AdapterExtras(APKParser.getExtraFiles(applicationInfo.sourceDir))
+            val adapterExtras = AdapterExtras(APKParser.getExtraFiles(packageInfo.applicationInfo.sourceDir))
 
             recyclerView.adapter = adapterExtras
             total.text = getString(R.string.total, adapterExtras.list.size)
@@ -54,12 +55,12 @@ class Extras : ScopedFragment() {
                     when {
                         path.endsWith(".ttf") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Font.newInstance(applicationInfo, path),
+                                                        Font.newInstance(packageInfo, path),
                                                         "ttf_viewer")
                         }
                         path.endsWith(".html") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        HtmlViewer.newInstance(applicationInfo, path),
+                                                        HtmlViewer.newInstance(packageInfo, path),
                                                         "html_viewer")
                         }
                         /**
@@ -71,17 +72,17 @@ class Extras : ScopedFragment() {
                                 path.endsWith(".proto") ||
                                 path.endsWith(".js") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        TextViewer.newInstance(applicationInfo, path),
+                                                        TextViewer.newInstance(packageInfo, path),
                                                         "text_viewer")
                         }
                         path.endsWith(".md") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Markdown.newInstance(applicationInfo, path),
+                                                        Markdown.newInstance(packageInfo, path),
                                                         "md_viewer")
                         }
                         else -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        TextViewer.newInstance(applicationInfo, path),
+                                                        TextViewer.newInstance(packageInfo, path),
                                                         "text_viewer")
                         }
                     }
@@ -93,7 +94,7 @@ class Extras : ScopedFragment() {
                     when {
                         path.endsWith(".ttf") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Font.newInstance(applicationInfo, path),
+                                                        Font.newInstance(packageInfo, path),
                                                         "ttf_viewer")
                         }
                         path.endsWith(".html") ||
@@ -104,12 +105,12 @@ class Extras : ScopedFragment() {
                                 path.endsWith(".js") ||
                                 path.endsWith(".md") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        TextViewer.newInstance(applicationInfo, path),
+                                                        TextViewer.newInstance(packageInfo, path),
                                                         "text_viewer")
                         }
                         else -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        TextViewer.newInstance(applicationInfo, path),
+                                                        TextViewer.newInstance(packageInfo, path),
                                                         "text_viewer")
                         }
                     }
@@ -119,9 +120,9 @@ class Extras : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Extras {
+        fun newInstance(applicationInfo: PackageInfo): Extras {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
             val fragment = Extras()
             fragment.arguments = args
             return fragment

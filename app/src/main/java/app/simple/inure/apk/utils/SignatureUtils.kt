@@ -1,9 +1,13 @@
 package app.simple.inure.apk.utils
 
+import android.content.Context
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.pm.Signature
+import android.os.Build
 import app.simple.inure.model.Tuple
 import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.security.cert.CertificateException
@@ -12,9 +16,45 @@ import java.security.cert.X509Certificate
 import kotlin.experimental.and
 
 object SignatureUtils {
+
+    fun PackageInfo.getApplicationSignature(context: Context): Pair<X509Certificate, Signature>? {
+        try {
+            val arrayOfSignatures: Array<Signature> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.apkContentsSigners
+            } else {
+                @Suppress("deprecation", "PackageManagerGetSignatures")
+                context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
+            }
+
+            for (signature in arrayOfSignatures) {
+                /**
+                 * Get the X.509 certificate.
+                 */
+                val rawCert = signature.toByteArray()
+                val certStream: InputStream = ByteArrayInputStream(rawCert)
+
+                try {
+                    val certFactory: CertificateFactory = CertificateFactory.getInstance("X.509")
+                    return Pair(certFactory.generateCertificate(certStream) as X509Certificate, signature)
+                } catch (e: CertificateException) {
+                    e.printStackTrace()
+                }
+            }
+        } catch (e: PackageManager.NameNotFoundException) {
+            return null
+        }
+
+        return null
+    }
+
+    /**
+     * @deprecated use [getApplicationSignature]
+     */
+    @Deprecated("")
     fun apkPro(p: PackageInfo): Tuple<String, String> {
+        @Suppress("deprecation")
         val z = p.signatures
-        var string = ""
+        var string: String
         var x509Certificate: X509Certificate
         val tuple = Tuple("", "")
         try {
@@ -49,7 +89,11 @@ object SignatureUtils {
         return buf.toString()
     }
 
-    fun signCert(sign: Signature): String? {
+    /**
+     * @deprecated use [getApplicationSignature]
+     */
+    @Deprecated("")
+    fun signCert(sign: Signature): String {
         var s = ""
         s = try {
             val cert = CertificateFactory.getInstance("X.509")

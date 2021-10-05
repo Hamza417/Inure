@@ -1,7 +1,7 @@
 package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -14,7 +14,7 @@ import java.io.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-class FilePreparingViewModel(application: Application, val applicationInfo: ApplicationInfo) : AndroidViewModel(application) {
+class FilePreparingViewModel(application: Application, private val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
     private var zipOutputStream: ZipOutputStream? = null
     private var fileOutputStream: FileOutputStream? = null
@@ -61,24 +61,24 @@ class FilePreparingViewModel(application: Application, val applicationInfo: Appl
 
                     status.postValue(getApplication<Application>().getString(R.string.cache_dir))
 
-                    if (applicationInfo.splitSourceDirs.isNotNull()) {
+                    if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
 
                         status.postValue(getApplication<Application>().getString(R.string.split_apk_detected))
 
-                        file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + applicationInfo.name + ".zip")
+                        file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + packageInfo.applicationInfo.name + ".zip")
 
                         status.postValue(getApplication<Application>().getString(R.string.creating_split_package))
 
-                        val list = arrayOfNulls<String>(applicationInfo.splitSourceDirs.size + 1)
-                        var length = File(applicationInfo.sourceDir).length()
+                        val list = arrayOfNulls<String>(packageInfo.applicationInfo.splitSourceDirs.size + 1)
+                        var length = File(packageInfo.applicationInfo.sourceDir).length()
 
-                        for (i in applicationInfo.splitSourceDirs.indices) {
-                            list[i] = applicationInfo.splitSourceDirs[i]
-                            length += File(applicationInfo.splitSourceDirs[i]).length()
+                        for (i in packageInfo.applicationInfo.splitSourceDirs.indices) {
+                            list[i] = packageInfo.applicationInfo.splitSourceDirs[i]
+                            length += File(packageInfo.applicationInfo.splitSourceDirs[i]).length()
                         }
 
                         if (!file.exists() || file.length() < length) {
-                            list[list.size - 1] = applicationInfo.sourceDir
+                            list[list.size - 1] = packageInfo.applicationInfo.sourceDir
                             createZip(list.requireNoNulls(), file, length)
                         } else {
                             this@FilePreparingViewModel.file.postValue(file)
@@ -86,10 +86,10 @@ class FilePreparingViewModel(application: Application, val applicationInfo: Appl
 
                     } else {
                         status.postValue(getApplication<Application>().getString(R.string.preparing_apk_file))
-                        file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + applicationInfo.name + ".apk")
+                        file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + packageInfo.applicationInfo.name + ".apk")
 
-                        if (!file.exists() || file.length() < File(applicationInfo.sourceDir).length()) {
-                            applicationInfo.sourceDir.copyTo(file)
+                        if (!file.exists() || file.length() < File(packageInfo.applicationInfo.sourceDir).length()) {
+                            packageInfo.applicationInfo.sourceDir.copyTo(file)
                         } else {
                             this@FilePreparingViewModel.file.postValue(file)
                         }

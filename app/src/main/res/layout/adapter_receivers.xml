@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_receiver_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/adapter_receiver_icon"
+        android:layout_width="@dimen/app_icon_dimension"
+        android:layout_height="@dimen/app_icon_dimension"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="vertical">
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/adapter_receiver_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp"
+            app:appFontStyle="bold" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/adapter_receiver_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="?attr/colorAppAccent"
+            android:textSize="14sp"
+            app:appFontStyle="regular" />
+
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:id="@+id/adapter_receiver_process"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textTertiary"
+            android:textSize="14sp"
+            app:appFontStyle="regular" />
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

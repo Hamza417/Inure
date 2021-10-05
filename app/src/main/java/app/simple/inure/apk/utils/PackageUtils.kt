@@ -1,6 +1,5 @@
 package app.simple.inure.apk.utils
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.usage.StorageStatsManager
@@ -15,12 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
 import app.simple.inure.model.PackageSizes
 import app.simple.inure.util.DateUtils
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 import java.lang.reflect.Method
-import java.security.cert.CertificateException
-import java.security.cert.CertificateFactory
-import java.security.cert.X509Certificate
 
 
 object PackageUtils {
@@ -49,7 +43,7 @@ object PackageUtils {
      *        information
      * @return app's version name as [String]
      */
-    fun getApplicationVersion(context: Context, applicationInfo: ApplicationInfo): String {
+    fun getApplicationVersion(context: Context, applicationInfo: PackageInfo): String {
         return try {
             context.packageManager.getPackageInfo(applicationInfo.packageName, PackageManager.GET_META_DATA).versionName
         } catch (e: PackageManager.NameNotFoundException) {
@@ -62,53 +56,21 @@ object PackageUtils {
     /**
      * Fetches the app's version code from the package id of the application
      * @param context of the given environment
-     * @param applicationInfo is [ApplicationInfo] object containing app's
+     * @param packageInfo is [ApplicationInfo] object containing app's
      *        information
      * @return app's version code as [String]
      */
-    fun getApplicationVersionCode(context: Context, applicationInfo: ApplicationInfo): String {
+    fun getApplicationVersionCode(context: Context, packageInfo: PackageInfo): String {
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                context.packageManager.getPackageInfo(applicationInfo.packageName, 0).longVersionCode.toString()
+                context.packageManager.getPackageInfo(packageInfo.packageName, 0).longVersionCode.toString()
             } else {
                 @Suppress("deprecation")
-                context.packageManager.getPackageInfo(applicationInfo.packageName, 0).versionCode.toString()
+                context.packageManager.getPackageInfo(packageInfo.packageName, 0).versionCode.toString()
             }
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
         }
-    }
-
-
-    @SuppressLint("PackageManagerGetSignatures")
-    fun ApplicationInfo.getApplicationSignature(context: Context): X509Certificate? {
-        try {
-            val arrSignatures: Array<Signature> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.apkContentsSigners
-            } else {
-                @Suppress("deprecation")
-                context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
-            }
-
-            for (sig in arrSignatures) {
-                /**
-                 * Get the X.509 certificate.
-                 */
-                val rawCert = sig.toByteArray()
-                val certStream: InputStream = ByteArrayInputStream(rawCert)
-
-                try {
-                    val certFactory: CertificateFactory = CertificateFactory.getInstance("X509")
-                    return certFactory.generateCertificate(certStream) as X509Certificate
-                } catch (e: CertificateException) {
-                    e.printStackTrace()
-                }
-            }
-        } catch (e: PackageManager.NameNotFoundException) {
-            return null
-        }
-
-        return null
     }
 
     /**
@@ -116,7 +78,7 @@ object PackageUtils {
      * @param context of the given environment
      * @return app's install date as [String]
      */
-    fun ApplicationInfo.getApplicationInstallTime(context: Context): String {
+    fun PackageInfo.getApplicationInstallTime(context: Context): String {
         return try {
             DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).firstInstallTime)
         } catch (e: PackageManager.NameNotFoundException) {
@@ -130,7 +92,7 @@ object PackageUtils {
      *
      * @return app's last update date as [String]
      */
-    fun ApplicationInfo.getApplicationLastUpdateTime(context: Context): String {
+    fun PackageInfo.getApplicationLastUpdateTime(context: Context): String {
         return try {
             DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).lastUpdateTime)
         } catch (e: PackageManager.NameNotFoundException) {
@@ -138,7 +100,7 @@ object PackageUtils {
         }
     }
 
-    fun ApplicationInfo.launchThisPackage(activity: Activity) {
+    fun PackageInfo.launchThisPackage(activity: Activity) {
         try {
             val intent = activity.packageManager.getLaunchIntentForPackage(this.packageName)
             intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -153,9 +115,9 @@ object PackageUtils {
      * this function kills an app using app's package id as
      * identifier, system apps will not be killed.
      */
-    fun ApplicationInfo.killThisApp(activity: Activity) {
+    fun PackageInfo.killThisApp(activity: Activity) {
         val mActivityManager = activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        if (this.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
+        if (this.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
             Toast.makeText(activity.baseContext, activity.baseContext.getString(R.string.warning_kill_system_app), Toast.LENGTH_SHORT)
                     .show()
         } else {
@@ -165,7 +127,7 @@ object PackageUtils {
         }
     }
 
-    fun ApplicationInfo.isPackageInstalled(packageManager: PackageManager): Boolean {
+    fun PackageInfo.isPackageInstalled(packageManager: PackageManager): Boolean {
         return try {
             packageManager.getPackageInfo(packageName, 0)
             true
@@ -183,7 +145,7 @@ object PackageUtils {
      * @param appUninstallObserver reference of the current [ActivityResultLauncher]
      */
     @Suppress("deprecation")
-    fun ApplicationInfo.uninstallThisPackage(appUninstallObserver: ActivityResultLauncher<Intent>, position: Int) {
+    fun PackageInfo.uninstallThisPackage(appUninstallObserver: ActivityResultLauncher<Intent>, position: Int) {
         val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
         intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
         intent.data = Uri.parse("package:${this.packageName}")
@@ -204,11 +166,11 @@ object PackageUtils {
      * Fetches the directory size of this installed application
      * @return [Long] and should be formatted manually
      */
-    fun ApplicationInfo.getPackageSize(context: Context): PackageSizes {
+    fun PackageInfo.getPackageSize(context: Context): PackageSizes {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val storageStatsManager = context.getSystemService(Context.STORAGE_STATS_SERVICE) as StorageStatsManager
             return try {
-                val storageStats = storageStatsManager.queryStatsForUid(this.storageUuid, this.uid)
+                val storageStats = storageStatsManager.queryStatsForUid(this.applicationInfo.storageUuid, this.applicationInfo.uid)
                 val cacheSize = storageStats.cacheBytes
                 val dataSize = storageStats.dataBytes
                 val apkSize = storageStats.appBytes

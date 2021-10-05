@@ -1,7 +1,7 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +15,7 @@ import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-class TextViewerData(private val applicationInfo: ApplicationInfo, private val path: String, application: Application)
+class TextViewerData(private val packageInfo: PackageInfo, private val path: String, application: Application)
     : AndroidViewModel(application) {
 
     private val text: MutableLiveData<String> by lazy {
@@ -32,7 +32,7 @@ class TextViewerData(private val applicationInfo: ApplicationInfo, private val p
         viewModelScope.launch(Dispatchers.IO) {
             delay(1000L)
             kotlin.runCatching {
-                ZipFile(applicationInfo.sourceDir).use { zipFile ->
+                ZipFile(packageInfo.applicationInfo.sourceDir).use { zipFile ->
                     val entries: Enumeration<out ZipEntry?> = zipFile.entries()
 
                     while (entries.hasMoreElements()) {

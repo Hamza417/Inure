@@ -1,7 +1,7 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.graphics.Typeface
 import android.text.Spanned
 import androidx.lifecycle.AndroidViewModel
@@ -15,7 +15,7 @@ import app.simple.inure.util.TextViewUtils.toHtmlSpanned
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FontData(application: Application, val path: String, val applicationInfo: ApplicationInfo, val color: Int) : AndroidViewModel(application) {
+class FontData(application: Application, val path: String, val packageInfo: PackageInfo, val color: Int) : AndroidViewModel(application) {
 
     private val quote: MutableLiveData<Spanned> by lazy {
         MutableLiveData<Spanned>().also {
@@ -49,9 +49,10 @@ class FontData(application: Application, val path: String, val applicationInfo: 
 
     private fun setFont() {
         viewModelScope.launch(Dispatchers.IO) {
-            val typeFace = TTFHelper.getTTFFile(
-                path,
-                applicationInfo, getApplication())
+            val typeFace = TTFHelper
+                    .getTTFFile(
+                        path,
+                        packageInfo, getApplication())
 
             this@FontData.typeface.postValue(typeFace)
         }

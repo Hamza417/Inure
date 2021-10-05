@@ -1,6 +1,6 @@
 package app.simple.inure.adapters.details
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import app.simple.inure.util.ViewUtils.makeInvisible
 import app.simple.inure.util.ViewUtils.makeVisible
 import com.jaredrummler.apkparser.model.AndroidComponent
 
-class AdapterActivities(private val applicationInfo: ApplicationInfo, private val activities: List<AndroidComponent>)
+class AdapterActivities(private val applicationInfo: PackageInfo, private val activities: List<AndroidComponent>)
     : RecyclerView.Adapter<AdapterActivities.Holder>() {
 
     private lateinit var activitiesCallbacks: ActivitiesCallbacks
@@ -68,11 +68,12 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
 
         if (isRootMode) {
             holder.container.setOnLongClickListener {
-                activitiesCallbacks.onActivityLongPressed(activities[holder.absoluteAdapterPosition].name,
-                                                          applicationInfo,
-                                                          it,
-                                                          ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name),
-                                                          holder.absoluteAdapterPosition)
+                activitiesCallbacks
+                        .onActivityLongPressed(activities[holder.absoluteAdapterPosition].name,
+                                               applicationInfo,
+                                               it,
+                                               ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name),
+                                               holder.absoluteAdapterPosition)
                 true
             }
         }
@@ -102,7 +103,7 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
 
         interface ActivitiesCallbacks {
             fun onActivityClicked(androidComponent: AndroidComponent, packageId: String)
-            fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+            fun onActivityLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
         }
     }
 }

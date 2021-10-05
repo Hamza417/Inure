@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +13,7 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class InfoPanelMenuData(application: Application, val applicationInfo: ApplicationInfo) : AndroidViewModel(application) {
+class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
     private val menuItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
         MutableLiveData<List<Pair<Int, String>>>().also {
             loadItems()
@@ -46,8 +47,8 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
 
             val context = getApplication<Application>().applicationContext
 
-            if (!PackageUtils.isPackageInstalled(applicationInfo.packageName, context.packageManager)) {
-                error.postValue(context.getString(R.string.app_not_installed, applicationInfo.packageName))
+            if (!PackageUtils.isPackageInstalled(packageInfo.packageName, context.packageManager)) {
+                error.postValue(context.getString(R.string.app_not_installed, packageInfo.packageName))
                 return@launch
             }
 
@@ -63,7 +64,7 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
                 if (isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)))
 
-                    if (getApplication<Application>().packageManager.getApplicationInfo(applicationInfo.packageName, 0).enabled) {
+                    if (getApplication<Application>().packageManager.getApplicationInfo(packageInfo.packageName, 0).enabled) {
                         list.add(Pair(R.drawable.ic_disable, context.getString(R.string.disable)))
                     } else {
                         list.add(Pair(R.drawable.ic_check, context.getString(R.string.enable)))
@@ -77,7 +78,7 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
                 list.add(Pair(R.drawable.ic_double_arrow, context.getString(R.string.open_in_settings)))
 
             } else {
-                if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
+                if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
                     if (checkIfAppIsLaunchable() && isNotThisApp()) {
                         list.add(Pair(R.drawable.ic_launch, context.getString(R.string.launch)))
                     }
@@ -126,10 +127,10 @@ class InfoPanelMenuData(application: Application, val applicationInfo: Applicati
 
     private fun checkIfAppIsLaunchable(): Boolean {
         return getApplication<Application>().packageManager
-                .getLaunchIntentForPackage(applicationInfo.packageName) != null
+                .getLaunchIntentForPackage(packageInfo.packageName) != null
     }
 
     private fun isNotThisApp(): Boolean {
-        return applicationInfo.packageName != getApplication<Application>().packageName
+        return packageInfo.packageName != getApplication<Application>().packageName
     }
 }

@@ -43,4 +43,9 @@ object StringUtils {
             return this.toSpannable()
         }
     }
+
+    fun checkStringBuilderEnd(builder: StringBuilder) {
+        val length = builder.length
+        if (length > 2) builder.delete(builder.length - 2, builder.length)
+    }
 }

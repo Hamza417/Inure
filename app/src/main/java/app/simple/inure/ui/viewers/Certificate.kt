@@ -1,6 +1,6 @@
 package app.simple.inure.ui.viewers
 
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,24 +11,24 @@ import app.simple.inure.adapters.details.AdapterInformation
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
+import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 
 class Certificate : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var viewModel: CertificatesViewModel
-    private lateinit var applicationInfoFactory: ApplicationInfoFactory
+    private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_certificate, container, false)
 
         recyclerView = view.findViewById(R.id.certificate_data_recycler_view)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable("application_info")!!
 
-        applicationInfoFactory = ApplicationInfoFactory(requireActivity().application, applicationInfo)
-        viewModel = ViewModelProvider(this, applicationInfoFactory).get(CertificatesViewModel::class.java)
+        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        viewModel = ViewModelProvider(this, packageInfoFactory).get(CertificatesViewModel::class.java)
 
         return view
     }
@@ -54,7 +54,7 @@ class Certificate : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo): Certificate {
+        fun newInstance(applicationInfo: PackageInfo): Certificate {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             val fragment = Certificate()

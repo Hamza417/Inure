@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Inure</string>
     <string name="unknown">Unknown</string>
     <string name="not_available">N/A</string>
@@ -86,7 +86,7 @@
     <string name="sign_algorithm">Sign Algorithm</string>
     <string name="valid_from">Valid from</string>
     <string name="certificate_md5">Certificate MD5</string>
-    <string name="certificate_sha1">Certificate SHA1</string>
+    <string name="certificate_sha1" tools:ignore="Typos">Certificate SHA1</string>
     <string name="certificate_sha256">Certificate SHA256</string>
     <string name="issuer">Issuer</string>
     <string name="sign_algorithm_oid">Sign Algorithm OID</string>
@@ -245,4 +245,24 @@
     <string name="app_not_installed">%1$s : Package/App not found or not installed.</string>
     <string name="available">Available</string>
     <string name="backup">Backup</string>
+    <string name="no_permission_required">No permission required</string>
+    <string name="multiple">Multiple</string>
+    <string name="single_instance">Single Instance</string>
+    <string name="single_task">Single Task</string>
+    <string name="single_top">Single Top</string>
+    <string name="unspecified">Unspecified</string>
+    <string name="behind">Behind</string>
+    <string name="full_sensor">Full Sensor</string>
+    <string name="full_user">Full User</string>
+    <string name="locked">Locked</string>
+    <string name="no_sensor">No Sensor</string>
+    <string name="landscape">Landscape</string>
+    <string name="portrait">Portrait</string>
+    <string name="reverse_portrait">Reverse Portrait</string>
+    <string name="reverse_landscape">Reverse Landscape</string>
+    <string name="sensor_landscape">Sensor Landscape</string>
+    <string name="sensor_portrait">Sensor Portrait</string>
+    <string name="sensor">Sensor</string>
+    <string name="user_landscape">User Landscape</string>
+    <string name="user_portrait">User Portrait</string>
 </resources>

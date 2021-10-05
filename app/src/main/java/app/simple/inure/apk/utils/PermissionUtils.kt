@@ -44,6 +44,7 @@ object PermissionUtils {
             PermissionInfo.PROTECTION_SIGNATURE -> protection = context.getString(R.string.signature)
             PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> protection = context.getString(R.string.signature_or_system)
         }
+
         if (flags and PermissionInfo.PROTECTION_FLAG_PRIVILEGED != 0) {
             protection += " | " + context.getString(R.string.privileged)
         }

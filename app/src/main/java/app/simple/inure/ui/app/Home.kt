@@ -205,7 +205,7 @@ class Home : ScopedFragment() {
 
     private fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                    AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
+                                    AppInfo.newInstance(packageInfo, icon.transitionName),
                                     icon, "app_info")
     }
 
@@ -216,11 +216,11 @@ class Home : ScopedFragment() {
                 when (source) {
                     getString(R.string.app_information) -> {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    AppInfo.newInstance(packageInfo.applicationInfo, icon.transitionName),
+                                                    AppInfo.newInstance(packageInfo, icon.transitionName),
                                                     icon, "app_info")
                     }
                     getString(R.string.send) -> {
-                        Preparing.newInstance(packageInfo.applicationInfo)
+                        Preparing.newInstance(packageInfo)
                                 .show(parentFragmentManager, "send_app")
                     }
                 }

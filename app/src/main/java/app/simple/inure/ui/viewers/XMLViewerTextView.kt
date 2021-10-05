@@ -3,7 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -67,10 +68,10 @@ class XMLViewerTextView : ScopedFragment() {
         options = view.findViewById(R.id.xml_viewer_options)
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        applicationInfoFactory = XmlDataFactory(applicationInfo, requireArguments().getBoolean("is_manifest"),
-                                                requireArguments().getString("path_to_xml")!!,
+        applicationInfoFactory = XmlDataFactory(packageInfo, requireArguments().getBoolean(BundleConstants.isManifest),
+                                                requireArguments().getString(BundleConstants.pathToXml)!!,
                                                 requireActivity().application,
                                                 requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
@@ -116,7 +117,7 @@ class XMLViewerTextView : ScopedFragment() {
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {
-                            val fileName: String = applicationInfo.packageName + "_" + name.text
+                            val fileName: String = packageInfo.packageName + "_" + name.text
                             exportManifest.launch(fileName)
                         }
                     }
@@ -131,11 +132,11 @@ class XMLViewerTextView : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo?, isManifest: Boolean, pathToXml: String?): XMLViewerTextView {
+        fun newInstance(packageInfo: PackageInfo, isManifest: Boolean, pathToXml: String?): XMLViewerTextView {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
-            args.putBoolean("is_manifest", isManifest)
-            args.putString("path_to_xml", pathToXml)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putBoolean(BundleConstants.isManifest, isManifest)
+            args.putString(BundleConstants.pathToXml, pathToXml)
             val fragment = XMLViewerTextView()
             fragment.arguments = args
             return fragment

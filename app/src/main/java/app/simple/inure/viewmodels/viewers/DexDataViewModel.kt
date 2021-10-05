@@ -1,7 +1,7 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.bean.DexClass
 
-class DexDataViewModel(application: Application, private val applicationInfo: ApplicationInfo) : AndroidViewModel(application) {
+class DexDataViewModel(application: Application, private val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
     private val dexData: MutableLiveData<ArrayList<DexClass>> by lazy {
         MutableLiveData<ArrayList<DexClass>>().also {
@@ -34,7 +34,7 @@ class DexDataViewModel(application: Application, private val applicationInfo: Ap
     private fun loadDexData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                dexData.postValue(applicationInfo.getDexClasses())
+                dexData.postValue(packageInfo.getDexClasses())
             }.getOrElse {
                 error.postValue(it.message!!)
             }

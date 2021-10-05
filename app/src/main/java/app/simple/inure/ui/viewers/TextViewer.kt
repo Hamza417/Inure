@@ -3,7 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -65,10 +65,10 @@ class TextViewer : ScopedFragment() {
         options = view.findViewById(R.id.txt_viewer_options)
         scrollView = view.findViewById(R.id.text_viewer_scroll_view)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable("application_info")!!
 
         textDataFactory = TextDataFactory(
-            applicationInfo,
+            packageInfo,
             requireArguments().getString("path")!!,
             requireActivity().application,
         )
@@ -111,7 +111,7 @@ class TextViewer : ScopedFragment() {
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {
-                            val fileName: String = applicationInfo.packageName + "_" + path.text
+                            val fileName: String = packageInfo.packageName + "_" + path.text
                             exportText.launch(fileName)
                         }
                     }
@@ -121,7 +121,7 @@ class TextViewer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: ApplicationInfo, path: String): TextViewer {
+        fun newInstance(applicationInfo: PackageInfo, path: String): TextViewer {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             args.putString("path", path)
