@@ -83,7 +83,7 @@
         <activity
             android:name=".activities.association.ApkInstallerAssociationActivity"
             android:exported="true"
-            android:label="Installer">
+            android:label="Package Installer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

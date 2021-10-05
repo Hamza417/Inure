@@ -85,9 +85,12 @@
     <string name="dangerous">Dangerous</string>
     <string name="sign_algorithm">Sign Algorithm</string>
     <string name="valid_from">Valid from</string>
-    <string name="certificate_base64_md5">Certificate Base64 MD5</string>
     <string name="certificate_md5">Certificate MD5</string>
+    <string name="certificate_sha1">Certificate SHA1</string>
+    <string name="certificate_sha256">Certificate SHA256</string>
+    <string name="issuer">Issuer</string>
     <string name="sign_algorithm_oid">Sign Algorithm OID</string>
+    <string name="public_key">Public Key</string>
     <string name="information">Information</string>
     <string name="us_xml_viewer_desc">Use TextView based Xml Viewer instead of using WebView to view Xml resource files.</string>
     <string name="use_textview_xml_viewer">Use TextView Xml Viewer</string>
