@@ -241,4 +241,5 @@
     <string name="yearly">Yearly</string>
     <string name="app_not_installed">%1$s : Package/App not found or not installed.</string>
     <string name="available">Available</string>
+    <string name="backup">Backup</string>
 </resources>

@@ -9,6 +9,7 @@ import app.simple.inure.util.NullSafety.isNull
 class AudioAssociationActivity : TransparentBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (savedInstanceState.isNull()) {
             kotlin.runCatching {
                 AudioPlayer.newInstance(intent.data!!)
