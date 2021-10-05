@@ -64,7 +64,7 @@ class Activities : ScopedFragment() {
                                                 "activity_info")
                 }
 
-                override fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, name: String) {
+                override fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
                     val v = PopupActivitiesMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_activities_menu, PopupLinearLayout(requireContext())),
                                                 icon,
                                                 isComponentEnabled)
@@ -82,12 +82,12 @@ class Activities : ScopedFragment() {
                                             .show(childFragmentManager, "intent_action")
                                 }
                                 getString(R.string.enable) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm enable ${applicationInfo.packageName}/$name")
+                                    val shell = ShellExecutorDialog.newInstance("pm enable ${applicationInfo.packageName}/$packageId")
 
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
-                                            if (result == "Success") {
-                                                adapterActivities.notifyDataSetChanged()
+                                            if (result.contains("Done!")) {
+                                                adapterActivities.notifyItemChanged(position)
                                             }
                                         }
                                     })
@@ -95,12 +95,12 @@ class Activities : ScopedFragment() {
                                     shell.show(childFragmentManager, "shell_executor")
                                 }
                                 getString(R.string.disable) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm disable ${applicationInfo.packageName}/$name")
+                                    val shell = ShellExecutorDialog.newInstance("pm disable ${applicationInfo.packageName}/$packageId")
 
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
-                                            if (result == "Success") {
-                                                adapterActivities.notifyDataSetChanged()
+                                            if (result.contains("Done!")) {
+                                                adapterActivities.notifyItemChanged(position)
                                             }
                                         }
                                     })

@@ -11,73 +11,73 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
+import app.simple.inure.util.ViewUtils.makeInvisible
 import app.simple.inure.util.ViewUtils.makeVisible
 import com.jaredrummler.apkparser.model.AndroidComponent
+import kotlin.system.measureTimeMillis
 
 class AdapterActivities(private val applicationInfo: ApplicationInfo, private val activities: List<AndroidComponent>)
     : RecyclerView.Adapter<AdapterActivities.Holder>() {
 
     private lateinit var activitiesCallbacks: ActivitiesCallbacks
     private val isRootMode = ConfigurationPreferences.isUsingRoot()
-    private var isComponentEnabled = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_activities, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.name.text = activities[position].name.substring(activities[position].name.lastIndexOf(".") + 1)
+        holder.name.text = activities[holder.absoluteAdapterPosition].name.substring(activities[holder.absoluteAdapterPosition].name.lastIndexOf(".") + 1)
         holder.activityPackageID.text = activities[position].name
 
-        holder.activityStatus.text = if (activities[position].exported) {
-            holder.itemView.context.getString(R.string.exported)
-        } else {
-            holder.itemView.context.getString(R.string.not_exported)
-        }
+        println(measureTimeMillis {
+            ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name)
+        })
 
         holder.activityStatus.text =
             holder.itemView.context
                     .getString(R.string.activity_status,
-                               if (activities[position].exported) {
+                               if (activities[holder.absoluteAdapterPosition].exported) {
                                    holder.itemView.context.getString(R.string.exported)
                                } else {
                                    holder.itemView.context.getString(R.string.not_exported)
                                },
 
-                               if (ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[position].name)) {
-                                   isComponentEnabled = true
+                               if (ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
                                    holder.itemView.context.getString(R.string.enabled)
                                } else {
-                                   isComponentEnabled = false
                                    holder.itemView.context.getString(R.string.disabled)
                                })
 
         holder.launch.setOnClickListener {
-            ActivityUtils.launchPackage(holder.itemView.context, applicationInfo.packageName, activities[position].name)
+            ActivityUtils.launchPackage(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name)
         }
 
         for (a in activities[position].intentFilters) {
             for (b in a.categories) {
                 if (b == categoryLauncher || b == categoryLeanback) {
-                    if (ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[position].name)) {
+                    if (ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
                         holder.launch.makeVisible()
                         holder.divider.makeVisible()
+                    } else {
+                        holder.launch.makeInvisible()
+                        holder.divider.makeInvisible()
                     }
                 }
             }
         }
 
         holder.container.setOnClickListener {
-            activitiesCallbacks.onActivityClicked(activities[position], activities[position].name)
+            activitiesCallbacks.onActivityClicked(activities[holder.absoluteAdapterPosition], activities[holder.absoluteAdapterPosition].name)
         }
 
         if (isRootMode) {
             holder.container.setOnLongClickListener {
-                activitiesCallbacks.onActivityLongPressed(activities[position].name,
+                activitiesCallbacks.onActivityLongPressed(activities[holder.absoluteAdapterPosition].name,
                                                           applicationInfo,
                                                           it,
-                                                          isComponentEnabled,
-                                                          activities[position].name.substring(activities[position].name.lastIndexOf(".")))
+                                                          ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name),
+                                                          holder.absoluteAdapterPosition)
                 true
             }
         }
@@ -107,7 +107,7 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
 
         interface ActivitiesCallbacks {
             fun onActivityClicked(androidComponent: AndroidComponent, packageId: String)
-            fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, name: String)
+            fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int)
         }
     }
 }
