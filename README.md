@@ -12,7 +12,7 @@ An elegant Android app manager, currently in development
 
 ## Development Status
 
-App is almost ready, there are few tweaks and features I have to add and then it will be available for early access
+High priority features
 
 - [ ] Apps Backup feature
 - [ ] Dedicated app installer
