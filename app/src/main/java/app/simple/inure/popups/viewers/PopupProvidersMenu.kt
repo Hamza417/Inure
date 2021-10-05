@@ -8,24 +8,25 @@ import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.model.PermissionInfo
 
-class PopupPermissions(view: View, permissionInfo: PermissionInfo) : BasePopupWindow() {
+class PopupProvidersMenu(view: View, isComponentEnabled: Boolean) : BasePopupWindow() {
 
     private lateinit var popupMainMenuCallbacks: PopupMenuCallback
+    private var componentState: DynamicRippleTextView
 
     init {
-        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_permission_menu, PopupLinearLayout(view.context))
-        val context = contentView.context
-        val revoke = contentView.findViewById<DynamicRippleTextView>(R.id.popup_revoke)
+        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_providers_menu, PopupLinearLayout(view.context))
+        val context = view.context
 
-        revoke.text = if (permissionInfo.isGranted) {
-            context.getString(R.string.revoke)
+        componentState = contentView.findViewById(R.id.popup_component_state_toggle)
+
+        componentState.text = if (isComponentEnabled) {
+            context.getString(R.string.disable)
         } else {
-            context.getString(R.string.grant)
+            context.getString(R.string.enable)
+        }.also {
+            componentState.onClick(it)
         }
-
-        revoke.onClick(revoke.text.toString())
 
         init(contentView, view, Gravity.END)
 

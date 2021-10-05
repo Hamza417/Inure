@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterProviders
+import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.viewers.PopupProvidersMenu
 import app.simple.inure.viewmodels.factory.ApplicationInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
@@ -19,6 +22,7 @@ class Providers : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var total: TypeFaceTextView
+    private lateinit var adapterProviders: AdapterProviders
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var applicationInfoFactory: ApplicationInfoFactory
 
@@ -40,8 +44,48 @@ class Providers : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getProviders().observe(viewLifecycleOwner, {
-            recyclerView.adapter = AdapterProviders(it, applicationInfo)
+            adapterProviders = AdapterProviders(it, applicationInfo)
+            recyclerView.adapter = adapterProviders
             total.text = getString(R.string.total, it.size)
+
+            adapterProviders.setOnProvidersCallbackListener(object : AdapterProviders.Companion.ProvidersCallbacks {
+                override fun onProvidersLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
+                    val v = PopupProvidersMenu(icon, isComponentEnabled)
+
+                    v.setOnMenuClickListener(object : PopupMenuCallback {
+                        override fun onMenuItemClicked(source: String) {
+                            when (source) {
+                                getString(R.string.enable) -> {
+                                    val shell = ShellExecutorDialog.newInstance("pm enable ${applicationInfo.packageName}/$packageId")
+
+                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                        override fun onCommandExecuted(result: String) {
+                                            if (result.contains("Done!")) {
+                                                adapterProviders.notifyItemChanged(position)
+                                            }
+                                        }
+                                    })
+
+                                    shell.show(childFragmentManager, "shell_executor")
+                                }
+                                getString(R.string.disable) -> {
+                                    val shell = ShellExecutorDialog.newInstance("pm disable ${applicationInfo.packageName}/$packageId")
+
+                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
+                                        override fun onCommandExecuted(result: String) {
+                                            if (result.contains("Done!")) {
+                                                adapterProviders.notifyItemChanged(position)
+                                            }
+                                        }
+                                    })
+
+                                    shell.show(childFragmentManager, "shell_executor")
+                                }
+                            }
+                        }
+                    })
+                }
+            })
         })
 
         componentsViewModel.getError().observe(viewLifecycleOwner, {

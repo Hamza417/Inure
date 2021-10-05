@@ -14,7 +14,6 @@ import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ViewUtils.makeInvisible
 import app.simple.inure.util.ViewUtils.makeVisible
 import com.jaredrummler.apkparser.model.AndroidComponent
-import kotlin.system.measureTimeMillis
 
 class AdapterActivities(private val applicationInfo: ApplicationInfo, private val activities: List<AndroidComponent>)
     : RecyclerView.Adapter<AdapterActivities.Holder>() {
@@ -29,10 +28,6 @@ class AdapterActivities(private val applicationInfo: ApplicationInfo, private va
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = activities[holder.absoluteAdapterPosition].name.substring(activities[holder.absoluteAdapterPosition].name.lastIndexOf(".") + 1)
         holder.activityPackageID.text = activities[position].name
-
-        println(measureTimeMillis {
-            ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name)
-        })
 
         holder.activityStatus.text =
             holder.itemView.context

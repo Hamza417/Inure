@@ -14,7 +14,8 @@ object ProvidersUtils {
         return when (context.packageManager.getComponentEnabledSetting(componentName)) {
             PackageManager.COMPONENT_ENABLED_STATE_DISABLED -> false
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED -> true
-            PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ->       // We need to get the application info to get the component's default state
+            PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ->
+                // We need to get the application info to get the component's default state
                 try {
                     val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         context.packageManager.getPackageInfo(packageName, PackageManager.GET_PROVIDERS
@@ -39,11 +40,9 @@ object ProvidersUtils {
                         }
                     }
 
-                    // the component is not declared in the AndroidManifest
-                    false
+                    false // the component is not declared in the AndroidManifest
                 } catch (e: PackageManager.NameNotFoundException) {
-                    // the package isn't installed on the device
-                    false
+                    false // the package isn't installed on the device
                 }
 
             else -> {
@@ -71,11 +70,9 @@ object ProvidersUtils {
                         }
                     }
 
-                    // the component is not declared in the AndroidManifest
-                    false
+                    false // the component is not declared in the AndroidManifest
                 } catch (e: PackageManager.NameNotFoundException) {
-                    // the package isn't installed on the device
-                    false
+                    false  // the package isn't installed on the device
                 }
             }
         }

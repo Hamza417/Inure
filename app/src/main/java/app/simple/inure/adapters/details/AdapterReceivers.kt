@@ -61,7 +61,7 @@ class AdapterReceivers(private val services: List<AndroidComponent>, private val
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_services_container)
     }
 
-    fun setOnServiceCallbackListener(receiversCallbacks: ReceiversCallbacks) {
+    fun setOnReceiversCallbackListener(receiversCallbacks: ReceiversCallbacks) {
         this.receiversCallbacks = receiversCallbacks
     }
 

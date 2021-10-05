@@ -50,7 +50,7 @@ class Receivers : ScopedFragment() {
             recyclerView.adapter = adapterReceivers
             total.text = getString(R.string.total, it.size)
 
-            adapterReceivers.setOnServiceCallbackListener(object : AdapterReceivers.Companion.ReceiversCallbacks {
+            adapterReceivers.setOnReceiversCallbackListener(object : AdapterReceivers.Companion.ReceiversCallbacks {
                 override fun onReceiversLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
                     val v = PopupReceiversMenu(icon, isComponentEnabled)
 

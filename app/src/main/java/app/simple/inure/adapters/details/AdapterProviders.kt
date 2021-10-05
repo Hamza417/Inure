@@ -15,6 +15,8 @@ import com.jaredrummler.apkparser.model.AndroidComponent
 class AdapterProviders(private val services: List<AndroidComponent>, private val applicationInfo: ApplicationInfo)
     : RecyclerView.Adapter<AdapterProviders.Holder>() {
 
+    private lateinit var providersCallbacks: ProvidersCallbacks
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_services, parent, false))
     }
@@ -37,6 +39,15 @@ class AdapterProviders(private val services: List<AndroidComponent>, private val
             } else {
                 holder.itemView.context.getString(R.string.disabled)
             })
+
+        holder.container.setOnLongClickListener {
+            providersCallbacks.onProvidersLongPressed(services[holder.absoluteAdapterPosition].name,
+                                                      applicationInfo,
+                                                      it,
+                                                      ProvidersUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[holder.absoluteAdapterPosition].name),
+                                                      holder.absoluteAdapterPosition)
+            true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -48,5 +59,15 @@ class AdapterProviders(private val services: List<AndroidComponent>, private val
         val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_process)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_service_status)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_services_container)
+    }
+
+    fun setOnProvidersCallbackListener(providersCallbacks: ProvidersCallbacks) {
+        this.providersCallbacks = providersCallbacks
+    }
+
+    companion object {
+        interface ProvidersCallbacks {
+            fun onProvidersLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+        }
     }
 }
