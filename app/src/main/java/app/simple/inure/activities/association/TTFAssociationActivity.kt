@@ -28,7 +28,11 @@ class TTFAssociationActivity : BaseActivity() {
         fontEditText = findViewById(R.id.ttf_viewer)
         fontName = findViewById(R.id.ttf_name)
 
-        fontName.text = DocumentFile.fromSingleUri(this, intent!!.data!!)!!.name
+        fontName.text = kotlin.runCatching {
+            DocumentFile.fromSingleUri(this, intent!!.data!!)!!.name
+        }.getOrElse {
+            getString(R.string.not_available)
+        }
 
         lifecycleScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
@@ -41,7 +45,7 @@ class TTFAssociationActivity : BaseActivity() {
                 }
             }.onFailure {
                 withContext(Dispatchers.Main) {
-                    val e = ErrorPopup.newInstance(it.message!!)
+                    val e = ErrorPopup.newInstance(it.stackTraceToString())
                     e.show(supportFragmentManager, "error_dialog")
                     e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
                         override fun onDismiss() {

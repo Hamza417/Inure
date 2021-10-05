@@ -35,7 +35,11 @@ class TextAssociationActivity : BaseActivity() {
         path = findViewById(R.id.txt_name)
         close = findViewById(R.id.close)
 
-        path.text = DocumentFile.fromSingleUri(this, intent!!.data!!)!!.name
+        path.text = kotlin.runCatching {
+            DocumentFile.fromSingleUri(this, intent!!.data!!)!!.name
+        }.getOrElse {
+            getString(R.string.not_available)
+        }
 
         lifecycleScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
@@ -51,7 +55,7 @@ class TextAssociationActivity : BaseActivity() {
                 }
             }.getOrElse {
                 withContext(Dispatchers.Main) {
-                    val e = ErrorPopup.newInstance(it.message!!)
+                    val e = ErrorPopup.newInstance(it.stackTraceToString())
                     e.show(supportFragmentManager, "error_dialog")
                     e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
                         override fun onDismiss() {

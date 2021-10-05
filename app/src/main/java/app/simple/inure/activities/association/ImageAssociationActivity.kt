@@ -38,7 +38,11 @@ class ImageAssociationActivity : BaseActivity() {
 
         image.swipeToDismissEnabled = false
 
-        name.text = DocumentFile.fromSingleUri(this, intent!!.data!!)!!.name
+        name.text = kotlin.runCatching {
+            DocumentFile.fromSingleUri(this, intent!!.data!!)!!.name
+        }.getOrElse {
+            getString(R.string.not_available)
+        }
 
         image.setOnClickListener {
             isFullScreen = if (isFullScreen) {
