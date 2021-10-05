@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.usagestats.PopupAppsCategoryUsageStats
@@ -43,19 +42,15 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         setIntervalText()
 
         sort.setOnClickListener {
-            PopupUsageStatsSorting(layoutInflater.inflate(R.layout.popup_usage_stats_sorting,
-                                                          DynamicCornerLinearLayout(requireContext())),
-                                   it)
+            PopupUsageStatsSorting(it)
         }
 
         category.setOnClickListener {
-            PopupAppsCategoryUsageStats(layoutInflater.inflate(R.layout.popup_apps_category, DynamicCornerLinearLayout(requireContext())),
-                                        it)
+            PopupAppsCategoryUsageStats(it)
         }
 
         interval.setOnClickListener {
-            PopupUsageIntervals(layoutInflater.inflate(R.layout.popup_data_interval, DynamicCornerLinearLayout(requireContext())),
-                                it)
+            PopupUsageIntervals(it)
         }
 
         settings.setOnClickListener {

@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -106,10 +105,7 @@ class XMLViewerTextView : ScopedFragment() {
         })
 
         options.setOnClickListener {
-            val p = PopupXmlViewer(LayoutInflater.from(requireContext())
-                                           .inflate(R.layout.popup_xml_options,
-                                                    PopupLinearLayout(requireContext()),
-                                                    true), it)
+            val p = PopupXmlViewer(it)
 
             p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {

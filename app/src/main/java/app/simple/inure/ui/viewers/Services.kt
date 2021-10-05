@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -52,9 +51,7 @@ class Services : ScopedFragment() {
 
             adapterServices.setOnServiceCallbackListener(object : AdapterServices.Companion.ServicesCallbacks {
                 override fun onServiceLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
-                    val v = PopupServicesMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_services_menu, PopupLinearLayout(requireContext())),
-                                              icon,
-                                              isComponentEnabled)
+                    val v = PopupServicesMenu(icon, isComponentEnabled)
 
                     v.setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {

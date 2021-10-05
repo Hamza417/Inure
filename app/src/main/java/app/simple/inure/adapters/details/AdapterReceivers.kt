@@ -15,6 +15,8 @@ import com.jaredrummler.apkparser.model.AndroidComponent
 class AdapterReceivers(private val services: List<AndroidComponent>, private val applicationInfo: ApplicationInfo)
     : RecyclerView.Adapter<AdapterReceivers.Holder>() {
 
+    private lateinit var receiversCallbacks: ReceiversCallbacks
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_services, parent, false))
     }
@@ -37,6 +39,15 @@ class AdapterReceivers(private val services: List<AndroidComponent>, private val
             } else {
                 holder.itemView.context.getString(R.string.disabled)
             })
+
+        holder.container.setOnLongClickListener {
+            receiversCallbacks.onReceiversLongPressed(services[holder.absoluteAdapterPosition].name,
+                                                      applicationInfo,
+                                                      it,
+                                                      ReceiversUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, services[holder.absoluteAdapterPosition].name),
+                                                      holder.absoluteAdapterPosition)
+            true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -48,5 +59,15 @@ class AdapterReceivers(private val services: List<AndroidComponent>, private val
         val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_process)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_service_status)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_services_container)
+    }
+
+    fun setOnServiceCallbackListener(receiversCallbacks: ReceiversCallbacks) {
+        this.receiversCallbacks = receiversCallbacks
+    }
+
+    companion object {
+        interface ReceiversCallbacks {
+            fun onReceiversLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+        }
     }
 }

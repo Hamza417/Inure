@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.R
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.dialogs.appearance.AccentColor
@@ -47,9 +46,7 @@ class AppearanceScreen : ScopedFragment() {
         setAppThemeText()
 
         appTheme.setOnClickListener {
-            PopupAppTheme(layoutInflater.inflate(R.layout.popup_application_theme,
-                                                 PopupLinearLayout(requireContext()),
-                                                 true), it)
+            PopupAppTheme(it)
         }
 
         accent.setOnClickListener {

@@ -1,18 +1,20 @@
 package app.simple.inure.popups.dialogs
 
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.BasePopupWindow
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 
-class AppCategoryPopup(contentView: View, view: View) : BasePopupWindow() {
+class AppCategoryPopup(view: View) : BasePopupWindow() {
 
     private lateinit var popupMenuCallback: PopupMenuCallback
 
     init {
-
+        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_apps_category, PopupLinearLayout(view.context))
         init(contentView, view)
 
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_category_system).onClick(SYSTEM)

@@ -1,20 +1,21 @@
 package app.simple.inure.popups.viewers
 
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.BasePopupWindow
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 
-class PopupActivitiesMenu(contentView: View, view: View, isComponentEnabled: Boolean) : BasePopupWindow() {
+class PopupActivitiesMenu(view: View, isComponentEnabled: Boolean) : BasePopupWindow() {
 
     private lateinit var popupMainMenuCallbacks: PopupMenuCallback
     private var componentState: DynamicRippleTextView
 
     init {
-        init(contentView, view, Gravity.END)
-
+        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_activities_menu, PopupLinearLayout(view.context))
         val context = contentView.context
 
         componentState = contentView.findViewById(R.id.popup_component_state_toggle)
@@ -29,6 +30,8 @@ class PopupActivitiesMenu(contentView: View, view: View, isComponentEnabled: Boo
 
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_launch).onClick(context.getString(R.string.force_launch))
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_launch_with_action).onClick(context.getString(R.string.force_launch_with_action))
+
+        init(contentView, view, Gravity.END)
 
         setOnDismissListener {
             popupMainMenuCallbacks.onDismiss()

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterActivities
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -65,8 +64,7 @@ class Activities : ScopedFragment() {
                 }
 
                 override fun onActivityLongPressed(packageId: String, applicationInfo: ApplicationInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
-                    val v = PopupActivitiesMenu(LayoutInflater.from(requireContext()).inflate(R.layout.popup_activities_menu, PopupLinearLayout(requireContext())),
-                                                icon,
+                    val v = PopupActivitiesMenu(icon,
                                                 isComponentEnabled)
 
                     v.setOnMenuClickListener(object : PopupMenuCallback {

@@ -1,22 +1,23 @@
 package app.simple.inure.popups.dialogs
 
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.BasePopupWindow
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort
 
-class SortingStylePopup(contentView: View, view: View)
-    : BasePopupWindow() {
+class SortingStylePopup(view: View) : BasePopupWindow() {
 
     private lateinit var popupMenuCallback: PopupMenuCallback
 
     init {
-
+        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_sorting_style, PopupLinearLayout(view.context))
         init(contentView, view)
 
         val name = contentView.findViewById<DynamicRippleTextView>(R.id.sort_name)

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -56,9 +55,7 @@ class Permissions : ScopedFragment() {
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
                 override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
 
-                    val popup = PopupPermissions(layoutInflater.inflate(R.layout.popup_permission_options,
-                                                                        PopupLinearLayout(requireContext()),
-                                                                        true), container, permissionInfo)
+                    val popup = PopupPermissions(container, permissionInfo)
 
                     popup.setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {

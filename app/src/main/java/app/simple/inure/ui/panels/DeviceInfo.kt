@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
@@ -78,10 +77,7 @@ class DeviceInfo : ScopedFragment() {
         setEverything()
 
         popup.setOnClickListener {
-            val popupMenu = PopupAnalytics(layoutInflater.inflate(R.layout.popup_analytics,
-                                                                  PopupLinearLayout(requireContext()),
-                                                                  true),
-                                           it)
+            val popupMenu = PopupAnalytics(it)
 
             popupMenu.setOnPopupMenuCallback(object : PopupMenuCallback {
                 override fun onMenuItemClicked(source: String) {

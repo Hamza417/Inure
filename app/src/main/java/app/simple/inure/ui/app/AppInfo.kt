@@ -19,7 +19,6 @@ import app.simple.inure.adapters.menus.AdapterMenu
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -188,7 +187,7 @@ class AppInfo : ScopedFragment() {
                         }
                         getString(R.string.uninstall) -> {
                             if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
-                                val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                                val popupMenu = PopupSure(icon)
                                 popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
                                     override fun onMenuItemClicked(source: String) {
                                         when (source) {
@@ -210,7 +209,7 @@ class AppInfo : ScopedFragment() {
                                 })
                             } else {
                                 if (ConfigurationPreferences.isUsingRoot()) {
-                                    val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                                    val popupMenu = PopupSure(icon)
                                     popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
                                         override fun onMenuItemClicked(source: String) {
                                             when (source) {
@@ -240,7 +239,7 @@ class AppInfo : ScopedFragment() {
                                     .show(childFragmentManager, "prepare_send_files")
                         }
                         getString(R.string.clear_data) -> {
-                            val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                            val popupMenu = PopupSure(icon)
                             popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
                                 override fun onMenuItemClicked(source: String) {
                                     when (source) {
@@ -253,7 +252,7 @@ class AppInfo : ScopedFragment() {
                             })
                         }
                         getString(R.string.clear_cache) -> {
-                            val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                            val popupMenu = PopupSure(icon)
                             popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
                                 override fun onMenuItemClicked(source: String) {
                                     when (source) {
@@ -272,7 +271,7 @@ class AppInfo : ScopedFragment() {
                             })
                         }
                         getString(R.string.force_stop) -> {
-                            val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                            val popupMenu = PopupSure(icon)
                             popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
                                 override fun onMenuItemClicked(source: String) {
                                     when (source) {
@@ -285,7 +284,7 @@ class AppInfo : ScopedFragment() {
                             })
                         }
                         getString(R.string.disable) -> {
-                            val popupMenu = PopupSure(layoutInflater.inflate(R.layout.popup_sure, PopupLinearLayout(requireContext()), true), icon)
+                            val popupMenu = PopupSure(icon)
                             popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
                                 override fun onMenuItemClicked(source: String) {
                                     when (source) {

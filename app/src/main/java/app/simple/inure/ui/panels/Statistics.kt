@@ -12,7 +12,6 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.StatisticsAdapter
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.Preparing
@@ -58,17 +57,16 @@ class Statistics : ScopedFragment() {
                 }
 
                 override fun onAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
-                                                  packageInfo.applicationInfo, anchor)
+                    val popupMenu = PopupMainList(anchor)
 
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo) {
+                        override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.app_information) -> {
-                                    openAppInfo(applicationInfo, icon)
+                                    openAppInfo(packageInfo.applicationInfo, icon)
                                 }
                                 getString(R.string.send) -> {
-                                    Preparing.newInstance(applicationInfo)
+                                    Preparing.newInstance(packageInfo.applicationInfo)
                                             .show(parentFragmentManager, "send_app")
                                 }
                             }

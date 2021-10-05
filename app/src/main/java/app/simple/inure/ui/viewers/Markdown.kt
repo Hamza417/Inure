@@ -16,7 +16,6 @@ import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -100,10 +99,7 @@ class Markdown : ScopedFragment() {
         })
 
         options.setOnClickListener {
-            val p = PopupXmlViewer(LayoutInflater.from(requireContext())
-                                           .inflate(R.layout.popup_xml_options,
-                                                    PopupLinearLayout(requireContext()),
-                                                    true), it)
+            val p = PopupXmlViewer(it)
 
             p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {

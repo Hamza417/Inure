@@ -1,20 +1,21 @@
 package app.simple.inure.popups.viewers
 
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.BasePopupWindow
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.model.PermissionInfo
 
-class PopupPermissions(contentView: View, view: View, val permissionInfo: PermissionInfo) : BasePopupWindow() {
+class PopupPermissions(view: View, permissionInfo: PermissionInfo) : BasePopupWindow() {
 
     private lateinit var popupMainMenuCallbacks: PopupMenuCallback
 
     init {
-        init(contentView, view, Gravity.END)
-
+        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_services_menu, PopupLinearLayout(view.context))
         val context = contentView.context
         val revoke = contentView.findViewById<DynamicRippleTextView>(R.id.popup_revoke)
 
@@ -25,6 +26,8 @@ class PopupPermissions(contentView: View, view: View, val permissionInfo: Permis
         }
 
         revoke.onClick(revoke.text.toString())
+
+        init(contentView, view, Gravity.END)
 
         setOnDismissListener {
             popupMainMenuCallbacks.onDismiss()

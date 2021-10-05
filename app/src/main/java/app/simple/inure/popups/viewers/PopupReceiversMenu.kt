@@ -1,4 +1,4 @@
-package app.simple.inure.popups.app
+package app.simple.inure.popups.viewers
 
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -9,21 +9,30 @@ import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 
-class PopupSure(view: View) : BasePopupWindow() {
+class PopupReceiversMenu(view: View, isComponentEnabled: Boolean) : BasePopupWindow() {
 
     private lateinit var popupMainMenuCallbacks: PopupMenuCallback
+    private var componentState: DynamicRippleTextView
 
     init {
-        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_sure, PopupLinearLayout(view.context))
-        val context = contentView.context
+        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_receivers_menu, PopupLinearLayout(view.context))
+        val context = view.context
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.sure_affirmative).onClick(context.getString(R.string.yes))
+        componentState = contentView.findViewById(R.id.popup_component_state_toggle)
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.sure_negative).setOnClickListener {
-            dismiss()
+        componentState.text = if (isComponentEnabled) {
+            context.getString(R.string.disable)
+        } else {
+            context.getString(R.string.enable)
+        }.also {
+            componentState.onClick(it)
         }
 
-        init(contentView, view, Gravity.TOP and Gravity.END)
+        init(contentView, view, Gravity.END)
+
+        setOnDismissListener {
+            popupMainMenuCallbacks.onDismiss()
+        }
     }
 
     private fun DynamicRippleTextView.onClick(string: String) {

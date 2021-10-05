@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomWebView
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -97,10 +96,7 @@ class XMLViewerWebView : ScopedFragment() {
         })
 
         options.setOnClickListener {
-            val p = PopupXmlViewer(LayoutInflater.from(requireContext())
-                                           .inflate(R.layout.popup_xml_options,
-                                                    PopupLinearLayout(requireContext()),
-                                                    true), it)
+            val p = PopupXmlViewer(it)
 
             p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {

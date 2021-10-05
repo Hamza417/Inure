@@ -1,19 +1,23 @@
 package app.simple.inure.popups.app
 
+import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.BasePopupWindow
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 
-class PopupXmlViewer(contentView: View, view: View) : BasePopupWindow() {
+class PopupXmlViewer(view: View) : BasePopupWindow() {
 
     private lateinit var popupXmlCallbacks: PopupXmlCallbacks
 
     init {
-        init(contentView, view)
+        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_xml_viewer_menu, PopupLinearLayout(view.context))
 
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_xml_copy).onClick(contentView.context.getString(R.string.copy))
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_xml_save).onClick(contentView.context.getString(R.string.save))
+
+        init(contentView, view)
     }
 
     private fun DynamicRippleTextView.onClick(s: String) {

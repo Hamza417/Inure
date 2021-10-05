@@ -17,7 +17,6 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.killThisApp
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
@@ -91,10 +90,9 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                 }
 
                 override fun onAppLongPress(applicationInfo: ApplicationInfo, anchor: View, icon: ImageView, position: Int) {
-                    val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
-                                                  applicationInfo, anchor)
+                    val popupMenu = PopupMainList(anchor)
                     popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo) {
+                        override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.app_information) -> {
                                     openAppInfo(applicationInfo, icon)

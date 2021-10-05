@@ -1,14 +1,17 @@
 package app.simple.inure.popups.usagestats
 
+import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
 import app.simple.inure.decorations.popup.BasePopupWindow
+import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.util.UsageInterval
 
-class PopupUsageIntervals(contentView: View, view: View) : BasePopupWindow() {
+class PopupUsageIntervals(view: View) : BasePopupWindow() {
     init {
+        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_usage_stats_interval, PopupLinearLayout(view.context))
         init(contentView, view)
 
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_interval_today).setOnClickListener {

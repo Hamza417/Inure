@@ -1,6 +1,5 @@
 package app.simple.inure.ui.app
 
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +18,6 @@ import app.simple.inure.adapters.home.AdapterHomeRecentlyUpdated
 import app.simple.inure.adapters.menus.AdapterHomeMenu
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
-import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomHorizontalRecyclerView
@@ -212,10 +210,9 @@ class Home : ScopedFragment() {
     }
 
     private fun openAppMenu(packageInfo: PackageInfo, icon: ImageView, anchor: View) {
-        val popupMenu = PopupMainList(layoutInflater.inflate(R.layout.popup_main_list, PopupLinearLayout(requireContext()), true),
-                                      packageInfo.applicationInfo, anchor)
+        val popupMenu = PopupMainList(anchor)
         popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
-            override fun onMenuItemClicked(source: String, applicationInfo: ApplicationInfo) {
+            override fun onMenuItemClicked(source: String) {
                 when (source) {
                     getString(R.string.app_information) -> {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
