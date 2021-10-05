@@ -3,12 +3,35 @@
 An elegant Android app manager, currently in development
 
 <br>
-<br/>
 
 ## Stats
 
 [![AndroidWeekly](https://androidweekly.net/issues/issue-465/badge)](https://androidweekly.net/issues/issue-465)
 <br>
+<br>
+
+## Development Status
+
+App is almost ready, there are few tweaks and features I have to add and then it will be available for early access
+
+- [ ] Apps Backup feature
+- [ ] Dedicated app installer
+- [ ] External APK information
+- [ ] Proper analytics panel
+- [ ] App directories panel
+- [ ] APK browser for apps that are not yet installed
+
+Low priotiy features
+
+- [ ] Code highlights for all languages an Android app possibly contains
+- [ ] Dedicated TextEditor
+- [ ] ImageViewer scalable zoom support
+- [ ] APK data extraction
+
+<br>
+
+*This list will be updated as the development progresses*
+
 <br>
 
 ## Screenshots
