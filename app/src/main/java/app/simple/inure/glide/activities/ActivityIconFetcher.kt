@@ -1,4 +1,4 @@
-package app.simple.inure.glide.receivers
+package app.simple.inure.glide.activities
 
 import android.graphics.Bitmap
 import app.simple.inure.util.BitmapHelper
@@ -7,14 +7,14 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 
 
-class ReceiverDrawableFetcher internal constructor(private val receiverIconModel: ReceiverIconModel) : DataFetcher<Bitmap> {
+class ActivityIconFetcher internal constructor(private val activityIconModel: ActivityIconModel) : DataFetcher<Bitmap> {
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in Bitmap>) {
         kotlin.runCatching {
             callback.onDataReady(
                 BitmapHelper
                         .getBitmapFromDrawable(
-                            receiverIconModel.activityInfo.loadIcon(
-                                receiverIconModel.context.packageManager)))
+                            activityIconModel.activityInfo.loadIcon(
+                                activityIconModel.context.packageManager)))
 
         }.getOrElse {
             callback.onLoadFailed(it as Exception)

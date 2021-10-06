@@ -3,19 +3,19 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.apk.parsers.APKParser.getActivities
 import app.simple.inure.apk.parsers.APKParser.getFeatures
 import app.simple.inure.apk.parsers.APKParser.getPermissions
 import app.simple.inure.apk.parsers.APKParser.getProviders
 import app.simple.inure.apk.parsers.APKParser.getServices
 import app.simple.inure.apk.utils.MetaUtils
-import app.simple.inure.model.AppReceiversModel
+import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.model.PermissionInfo
 import app.simple.inure.model.UsesFeatures
 import com.jaredrummler.apkparser.model.AndroidComponent
@@ -32,14 +32,14 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         MutableLiveData<String>()
     }
 
-    private val activities: MutableLiveData<MutableList<AndroidComponent>> by lazy {
-        MutableLiveData<MutableList<AndroidComponent>>().also {
+    private val activities: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
+        MutableLiveData<MutableList<ActivityInfoModel>>().also {
             getActivitiesData()
         }
     }
 
-    private val receivers: MutableLiveData<MutableList<AppReceiversModel>> by lazy {
-        MutableLiveData<MutableList<AppReceiversModel>>().also {
+    private val receivers: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
+        MutableLiveData<MutableList<ActivityInfoModel>>().also {
             getReceiversData()
         }
     }
@@ -90,11 +90,11 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         return error
     }
 
-    fun getActivities(): LiveData<MutableList<AndroidComponent>> {
+    fun getActivities(): LiveData<MutableList<ActivityInfoModel>> {
         return activities
     }
 
-    fun getReceivers(): LiveData<MutableList<AppReceiversModel>> {
+    fun getReceivers(): LiveData<MutableList<ActivityInfoModel>> {
         return receivers
     }
 
@@ -129,11 +129,36 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
     private fun getActivitiesData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                activities.postValue(packageInfo.getActivities()!!.apply {
-                    sortBy {
-                        it.name.substring(it.name.lastIndexOf("."))
+                val list = arrayListOf<ActivityInfoModel>()
+
+                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS
+                } else {
+                    @Suppress("deprecation")
+                    PackageManager.GET_ACTIVITIES or PackageManager.GET_DISABLED_COMPONENTS
+                }
+
+                for (ai in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, flags).activities) {
+                    val activityInfoModel = ActivityInfoModel()
+
+                    activityInfoModel.activityInfo = ai
+                    activityInfoModel.name = ai.name
+                    activityInfoModel.target = ai.targetActivity ?: getApplication<Application>().getString(R.string.not_available)
+                    activityInfoModel.exported = ai.exported
+                    activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
+
+                    with(StringBuilder()) {
+                        append(" | ")
+                        append(MetaUtils.getLaunchMode(ai.launchMode, getApplication()))
+                        append(" | ")
+                        append(MetaUtils.getOrientationString(ai.screenOrientation, getApplication()))
+                        activityInfoModel.status = this.toString()
                     }
-                })
+
+                    list.add(activityInfoModel)
+                }
+
+                activities.postValue(list)
             }.getOrElse {
                 delay(delay)
                 error.postValue(it.message)
@@ -144,25 +169,26 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
     private fun getReceiversData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                val list = arrayListOf<AppReceiversModel>()
+                val list = arrayListOf<ActivityInfoModel>()
 
                 for (ai in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_RECEIVERS).receivers) {
-                    val appReceiversModel = AppReceiversModel()
+                    val activityInfoModel = ActivityInfoModel()
 
-                    appReceiversModel.activityInfo = ai
-                    appReceiversModel.name = ai.name
-                    appReceiversModel.exported = ai.exported
-                    appReceiversModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
+                    activityInfoModel.activityInfo = ai
+                    activityInfoModel.name = ai.name
+                    activityInfoModel.target = ai.targetActivity ?: getApplication<Application>().getString(R.string.not_available)
+                    activityInfoModel.exported = ai.exported
+                    activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
 
                     with(StringBuilder()) {
                         append(" | ")
                         append(MetaUtils.getLaunchMode(ai.launchMode, getApplication()))
                         append(" | ")
                         append(MetaUtils.getOrientationString(ai.screenOrientation, getApplication()))
-                        appReceiversModel.status = this.toString()
+                        activityInfoModel.status = this.toString()
                     }
 
-                    list.add(appReceiversModel)
+                    list.add(activityInfoModel)
                 }
 
                 receivers.postValue(list)

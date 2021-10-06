@@ -17,12 +17,13 @@ import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.IntentAction
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.popups.viewers.PopupActivitiesMenu
 import app.simple.inure.ui.subviewers.ActivityInfo
+import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
-import com.jaredrummler.apkparser.model.AndroidComponent
 
 class Activities : ScopedFragment() {
 
@@ -50,14 +51,14 @@ class Activities : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        componentsViewModel.getActivities().observe(viewLifecycleOwner, {
+        componentsViewModel.getActivities().observe(viewLifecycleOwner, { it ->
             adapterActivities = AdapterActivities(packageInfo, it)
             recyclerView.adapter = adapterActivities
 
             totalActivities.text = getString(R.string.total, it.size)
 
             adapterActivities.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
-                override fun onActivityClicked(androidComponent: AndroidComponent, packageId: String) {
+                override fun onActivityClicked(androidComponent: ActivityInfoModel, packageId: String) {
                     clearExitTransition()
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                 ActivityInfo.newInstance(packageId, packageInfo),
@@ -109,6 +110,15 @@ class Activities : ScopedFragment() {
                             }
                         }
                     })
+                }
+
+                override fun onLaunchClicked(packageName: String, name: String) {
+                    kotlin.runCatching {
+                        ActivityUtils.launchPackage(requireContext(), packageName, name)
+                    }.getOrElse {
+                        ErrorPopup.newInstance(it.message ?: getString(R.string.unknown))
+                                .show(childFragmentManager, "error_dialog")
+                    }
                 }
             })
         })

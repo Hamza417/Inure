@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.ComponentInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import app.simple.inure.util.NullSafety.isNotNull
 
@@ -15,16 +14,12 @@ object ActivityUtils {
     /**
      * Launch a given activity class
      */
+    @Throws
     fun launchPackage(context: Context, packageName: String, packageId: String) {
-        kotlin.runCatching {
-            val launchIntent = Intent(Intent.ACTION_MAIN)
-            launchIntent.addCategory(Intent.CATEGORY_LAUNCHER)
-            launchIntent.component = ComponentName(packageName, packageId)
-            startActivity(context, launchIntent, null)
-        }.getOrElse {
-            // TODO - create a error report window instead of using toast
-            Toast.makeText(context, it.localizedMessage, Toast.LENGTH_SHORT).show()
-        }
+        val launchIntent = Intent(Intent.ACTION_MAIN)
+        launchIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+        launchIntent.component = ComponentName(packageName, packageId)
+        startActivity(context, launchIntent, null)
     }
 
     /**

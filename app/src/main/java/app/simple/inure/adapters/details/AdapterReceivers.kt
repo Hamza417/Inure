@@ -11,10 +11,10 @@ import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.glide.util.ImageLoader.loadReceiverIcon
-import app.simple.inure.model.AppReceiversModel
+import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
+import app.simple.inure.model.ActivityInfoModel
 
-class AdapterReceivers(private val receivers: MutableList<AppReceiversModel>, private val packageInfo: PackageInfo)
+class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, private val packageInfo: PackageInfo)
     : RecyclerView.Adapter<AdapterReceivers.Holder>() {
 
     private lateinit var receiversCallbacks: ReceiversCallbacks
@@ -24,7 +24,7 @@ class AdapterReceivers(private val receivers: MutableList<AppReceiversModel>, pr
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.icon.loadReceiverIcon(receivers[position].activityInfo)
+        holder.icon.loadIconFromActivityInfo(receivers[position].activityInfo)
 
         holder.name.text = receivers[position].name.substring(receivers[position].name.lastIndexOf(".") + 1)
         holder.process.text = receivers[position].name

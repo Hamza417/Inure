@@ -4,18 +4,20 @@ import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
+import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ViewUtils.makeInvisible
 import app.simple.inure.util.ViewUtils.makeVisible
-import com.jaredrummler.apkparser.model.AndroidComponent
 
-class AdapterActivities(private val applicationInfo: PackageInfo, private val activities: List<AndroidComponent>)
+class AdapterActivities(private val packageInfo: PackageInfo, private val activities: MutableList<ActivityInfoModel>)
     : RecyclerView.Adapter<AdapterActivities.Holder>() {
 
     private lateinit var activitiesCallbacks: ActivitiesCallbacks
@@ -29,6 +31,8 @@ class AdapterActivities(private val applicationInfo: PackageInfo, private val ac
         holder.name.text = activities[holder.absoluteAdapterPosition].name.substring(activities[holder.absoluteAdapterPosition].name.lastIndexOf(".") + 1)
         holder.activityPackageID.text = activities[position].name
 
+        holder.icon.loadIconFromActivityInfo(activities[position].activityInfo)
+
         holder.activityStatus.text =
             holder.itemView.context
                     .getString(R.string.activity_status,
@@ -38,28 +42,27 @@ class AdapterActivities(private val applicationInfo: PackageInfo, private val ac
                                    holder.itemView.context.getString(R.string.not_exported)
                                },
 
-                               if (ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
+                               if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
                                    holder.itemView.context.getString(R.string.enabled)
                                } else {
                                    holder.itemView.context.getString(R.string.disabled)
                                })
 
         holder.launch.setOnClickListener {
-            ActivityUtils.launchPackage(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name)
+            activitiesCallbacks.onLaunchClicked(packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)
         }
 
-        for (a in activities[position].intentFilters) {
-            for (b in a.categories) {
-                if (b == categoryLauncher || b == categoryLeanback) {
-                    if (ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
-                        holder.launch.makeVisible()
-                        holder.divider.makeVisible()
-                    } else {
-                        holder.launch.makeInvisible()
-                        holder.divider.makeInvisible()
-                    }
-                }
+        if (activities[position].exported) {
+            if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
+                holder.launch.makeVisible()
+                holder.divider.makeVisible()
+            } else {
+                holder.launch.makeInvisible()
+                holder.divider.makeInvisible()
             }
+        } else {
+            holder.launch.makeInvisible()
+            holder.divider.makeInvisible()
         }
 
         holder.container.setOnClickListener {
@@ -70,9 +73,9 @@ class AdapterActivities(private val applicationInfo: PackageInfo, private val ac
             holder.container.setOnLongClickListener {
                 activitiesCallbacks
                         .onActivityLongPressed(activities[holder.absoluteAdapterPosition].name,
-                                               applicationInfo,
+                                               packageInfo,
                                                it,
-                                               ActivityUtils.isEnabled(holder.itemView.context, applicationInfo.packageName, activities[holder.absoluteAdapterPosition].name),
+                                               ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name),
                                                holder.absoluteAdapterPosition)
                 true
             }
@@ -84,6 +87,7 @@ class AdapterActivities(private val applicationInfo: PackageInfo, private val ac
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+        val icon: ImageView = itemView.findViewById(R.id.adapter_activity_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_name)
         val activityStatus: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_status)
         val activityPackageID: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_package)
@@ -97,13 +101,14 @@ class AdapterActivities(private val applicationInfo: PackageInfo, private val ac
     }
 
     companion object {
-        private const val intentMain = "android.intent.action.MAIN"
-        private const val categoryLauncher = "android.intent.category.LAUNCHER"
-        private const val categoryLeanback = "android.intent.category.LEANBACK_LAUNCHER"
+        // private const val intentMain = "android.intent.action.MAIN"
+        // private const val categoryLauncher = "android.intent.category.LAUNCHER"
+        // private const val categoryLeanback = "android.intent.category.LEANBACK_LAUNCHER"
 
         interface ActivitiesCallbacks {
-            fun onActivityClicked(androidComponent: AndroidComponent, packageId: String)
+            fun onActivityClicked(androidComponent: ActivityInfoModel, packageId: String)
             fun onActivityLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+            fun onLaunchClicked(packageName: String, name: String)
         }
     }
 }
