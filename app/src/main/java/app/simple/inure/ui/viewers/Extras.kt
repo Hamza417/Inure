@@ -65,10 +65,11 @@ class Extras : ScopedFragment() {
                         }
                         /**
                          * TODO - Add a delicious looking code viewer
+                         *
+                         * JSON done
                          */
                         path.endsWith(".java") ||
                                 path.endsWith(".css") ||
-                                path.endsWith(".json") ||
                                 path.endsWith(".proto") ||
                                 path.endsWith(".js") -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
@@ -79,6 +80,11 @@ class Extras : ScopedFragment() {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Markdown.newInstance(packageInfo, path),
                                                         "md_viewer")
+                        }
+                        path.endsWith(".json") -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        JSONViewer.newInstance(packageInfo, path),
+                                                        "json_viewer")
                         }
                         else -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,

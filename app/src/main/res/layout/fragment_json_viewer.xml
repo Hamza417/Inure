@@ -1,0 +1,40 @@
+<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/json_nested_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:background="@color/mainBackground"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical">
+
+        <include layout="@layout/header_json_viewer" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider" />
+
+        <app.simple.inure.decorations.views.TypeFaceEditText
+            android:id="@+id/json_viewer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:padding="10dp"
+            android:textColor="@color/textSecondary"
+            android:textCursorDrawable="@drawable/text_cursor"
+            android:textColorHighlight="?attr/colorAppAccentLight"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="regular" />
+
+
+    </LinearLayout>
+</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
