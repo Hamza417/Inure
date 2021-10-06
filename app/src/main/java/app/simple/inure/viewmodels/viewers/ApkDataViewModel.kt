@@ -11,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.parsers.APKParser.getFeatures
-import app.simple.inure.apk.parsers.APKParser.getPermissions
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.model.*
 import com.jaredrummler.apkparser.model.AndroidComponent
@@ -241,18 +240,17 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
     private fun loadPermissionData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                val permissionsList = packageInfo.applicationInfo.getPermissions()
-                val packageInfo = getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)
+                val appPackageInfo = getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)
                 val permissions = arrayListOf<PermissionInfo>()
 
-                for (x in permissionsList.indices) {
-                    for (y in packageInfo.requestedPermissions.indices) {
-                        if (permissionsList[x] == packageInfo.requestedPermissions[y]) {
-                            if (packageInfo.requestedPermissionsFlags[y] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
-                                permissions.add(PermissionInfo(true, permissionsList[x]))
-                            } else {
-                                permissions.add(PermissionInfo(false, permissionsList[x]))
-                            }
+                for (permission in appPackageInfo.requestedPermissions) {
+                    for (flags in appPackageInfo.requestedPermissionsFlags) {
+                        if (flags and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
+                            permissions.add(PermissionInfo(true, permission))
+                            break
+                        } else {
+                            permissions.add(PermissionInfo(false, permission))
+                            break
                         }
                     }
                 }

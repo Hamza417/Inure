@@ -114,7 +114,7 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
      * status is changed such as in situation when permission status is
      * revoked or granted.
      *
-     * @param position items's position in the list whose status
+     * @param position item's position in the list whose status
      *                 is being changed
      * @param grantedStatus status of the permission if it is granted or not
      */
