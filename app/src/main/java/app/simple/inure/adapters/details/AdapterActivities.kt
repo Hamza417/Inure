@@ -8,7 +8,6 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
@@ -43,7 +42,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
                 holder.itemView.context.getString(R.string.not_exported)
             },
 
-            if (ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[position].name)) {
+            if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[position].name)) {
                 holder.itemView.context.getString(R.string.enabled)
             } else {
                 holder.itemView.context.getString(R.string.disabled)

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
@@ -40,7 +39,7 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
                 holder.itemView.context.getString(R.string.not_exported)
             },
 
-            if (ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
+            if (ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
                 holder.itemView.context.getString(R.string.enabled)
             } else {
                 holder.itemView.context.getString(R.string.disabled)
