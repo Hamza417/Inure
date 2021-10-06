@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.dialogs.appearance.AccentColor
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -23,8 +24,8 @@ class AppearanceScreen : ScopedFragment() {
     private lateinit var accent: DynamicRippleRelativeLayout
     private lateinit var typeface: DynamicRippleRelativeLayout
     private lateinit var roundedCorner: DynamicRippleRelativeLayout
-
     private lateinit var appTheme: DynamicRippleTextView
+    private lateinit var iconShadows: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_appearances, container, false)
@@ -35,6 +36,8 @@ class AppearanceScreen : ScopedFragment() {
 
         appTheme = view.findViewById(R.id.popup_application_theme)
 
+        iconShadows = view.findViewById(R.id.appearance_icons_shadow_switch)
+
         startPostponedEnterTransition()
 
         return view
@@ -44,6 +47,7 @@ class AppearanceScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setAppThemeText()
+        iconShadows.setChecked(AppearancePreferences.isIconShadowsOn())
 
         appTheme.setOnClickListener {
             PopupAppTheme(it)
@@ -60,6 +64,10 @@ class AppearanceScreen : ScopedFragment() {
 
         roundedCorner.setOnClickListener {
             RoundedCorner.newInstance().show(childFragmentManager, "rounded_corner")
+        }
+
+        iconShadows.setOnSwitchCheckedChangeListener {
+            AppearancePreferences.setIconShadows(it)
         }
     }
 

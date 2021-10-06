@@ -9,6 +9,7 @@ import app.simple.inure.util.TypeFace
 object AppearancePreferences {
 
     private const val appCornerRadius = "corner_radius"
+    private const val iconShadows = "icon_shadows"
     const val accentColor = "app_accent_color"
     const val appFont = "type_face"
     const val appTheme = "app_theme"
@@ -51,5 +52,15 @@ object AppearancePreferences {
 
     fun getAppTheme(): Int {
         return getSharedPreferences().getInt(appTheme, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setIconShadows(boolean: Boolean) {
+        getSharedPreferences().edit().putBoolean(iconShadows, boolean).apply()
+    }
+
+    fun isIconShadowsOn(): Boolean {
+        return getSharedPreferences().getBoolean(iconShadows, true)
     }
 }
