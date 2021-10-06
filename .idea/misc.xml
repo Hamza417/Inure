@@ -12,11 +12,12 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/seekbar_thumb.xml" value="0.24074074074074073" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/activity_image.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/activity_text.xml" value="0.24010416666666667" />
-        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_activities.xml" value="0.22" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_activities.xml" value="0.25" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_all_apps.xml" value="0.2364102564102564" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_all_apps_small_details.xml" value="0.23055555555555557" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_home_menu.xml" value="0.2222222222222222" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_information.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_providers.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_receivers.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_services.xml" value="0.2364102564102564" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_usage_stats.xml" value="0.23055555555555557" />

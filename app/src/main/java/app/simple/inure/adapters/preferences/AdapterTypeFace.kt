@@ -16,8 +16,8 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.TypeFace
-import app.simple.inure.util.ViewUtils.makeInvisible
-import app.simple.inure.util.ViewUtils.makeVisible
+import app.simple.inure.util.ViewUtils.invisible
+import app.simple.inure.util.ViewUtils.visible
 
 class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
 
@@ -41,10 +41,10 @@ class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
         holder.textView.text = list[position].typefaceName
 
         if (AppearancePreferences.getAppFont() == list[position].name) {
-            holder.icon.makeVisible()
+            holder.icon.visible()
             holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textPrimary))
         } else {
-            holder.icon.makeInvisible()
+            holder.icon.invisible()
             holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textTertiary))
         }
 

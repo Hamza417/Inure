@@ -4,16 +4,18 @@ import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.ServicesUtils
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
+import app.simple.inure.model.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
-import com.jaredrummler.apkparser.model.AndroidComponent
 
-class AdapterServices(private val services: List<AndroidComponent>, private val packageInfo: PackageInfo) : RecyclerView.Adapter<AdapterServices.Holder>() {
+class AdapterServices(private val services: MutableList<ServiceInfoModel>, private val packageInfo: PackageInfo) : RecyclerView.Adapter<AdapterServices.Holder>() {
 
     private lateinit var servicesCallbacks: ServicesCallbacks
     private val isRootMode = ConfigurationPreferences.isUsingRoot()
@@ -23,23 +25,12 @@ class AdapterServices(private val services: List<AndroidComponent>, private val 
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.icon.loadIconFromServiceInfo(services[position].serviceInfo)
+
         holder.name.text = services[position].name.substring(services[position].name.lastIndexOf(".") + 1)
         holder.process.text = services[position].name
 
-        holder.status.text = holder.itemView.context.getString(
-            R.string.activity_status,
-
-            if (services[position].exported) {
-                holder.itemView.context.getString(R.string.exported)
-            } else {
-                holder.itemView.context.getString(R.string.not_exported)
-            },
-
-            if (ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
-                holder.itemView.context.getString(R.string.enabled)
-            } else {
-                holder.itemView.context.getString(R.string.disabled)
-            })
+        holder.status.text = services[position].status
 
         if (isRootMode) {
             holder.container.setOnLongClickListener {
@@ -60,10 +51,11 @@ class AdapterServices(private val services: List<AndroidComponent>, private val 
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+        val icon: ImageView = itemView.findViewById(R.id.adapter_services_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_name)
-        val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_process)
-        val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_service_status)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_services_container)
+        val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_package)
+        val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_status)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_services_container)
     }
 
     fun setOnServiceCallbackListener(servicesCallbacks: ServicesCallbacks) {

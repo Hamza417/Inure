@@ -2,14 +2,14 @@
 <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/adapter_services_container"
+    android:id="@+id/adapter_providers_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/adapter_services_icon"
+        android:id="@+id/adapter_providers_icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +18,7 @@
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/adapter_services_name"
+        android:id="@+id/adapter_providers_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -28,13 +28,13 @@
         android:textColor="@color/textPrimary"
         android:textSize="16sp"
         app:appFontStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/adapter_services_status"
+        app:layout_constraintBottom_toTopOf="@id/adapter_providers_status"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adapter_services_icon"
+        app:layout_constraintStart_toEndOf="@+id/adapter_providers_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/adapter_services_status"
+        android:id="@+id/adapter_providers_status"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -43,13 +43,28 @@
         android:textColor="?attr/colorAppAccent"
         android:textSize="14sp"
         app:appFontStyle="regular"
-        app:layout_constraintBottom_toTopOf="@id/adapter_services_package"
+        app:layout_constraintBottom_toTopOf="@id/adapter_providers_authority"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adapter_services_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_services_name" />
+        app:layout_constraintStart_toEndOf="@+id/adapter_providers_icon"
+        app:layout_constraintTop_toBottomOf="@id/adapter_providers_name" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/adapter_services_package"
+        android:id="@+id/adapter_providers_authority"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/textTertiary"
+        android:textSize="14sp"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toTopOf="@id/adapter_providers_package"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_providers_icon"
+        app:layout_constraintTop_toBottomOf="@id/adapter_providers_status" />
+
+    <app.simple.inure.decorations.views.TypeFaceTextView
+        android:id="@+id/adapter_providers_package"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -60,7 +75,7 @@
         app:appFontStyle="regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adapter_services_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_activity_status" />
+        app:layout_constraintStart_toEndOf="@+id/adapter_providers_icon"
+        app:layout_constraintTop_toBottomOf="@id/adapter_providers_authority" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

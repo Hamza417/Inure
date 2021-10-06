@@ -43,15 +43,15 @@ object ViewUtils {
     /**
      * Makes the view go away
      */
-    fun View.makeGoAway() {
+    fun View.gone() {
         this.isClickable = false
         this.visibility = View.GONE
     }
 
     /**
-     * Makes the view go away
+     * Makes the view invisible
      */
-    fun View.makeInvisible() {
+    fun View.invisible() {
         this.isClickable = false
         this.visibility = View.INVISIBLE
     }
@@ -59,7 +59,7 @@ object ViewUtils {
     /**
      * Makes the view come back
      */
-    fun View.makeVisible() {
+    fun View.visible() {
         this.isClickable = true
         this.visibility = View.VISIBLE
     }

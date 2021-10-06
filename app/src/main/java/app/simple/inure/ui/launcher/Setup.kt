@@ -23,8 +23,8 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.ViewUtils.makeInvisible
-import app.simple.inure.util.ViewUtils.makeVisible
+import app.simple.inure.util.ViewUtils.invisible
+import app.simple.inure.util.ViewUtils.visible
 
 class Setup : ScopedFragment() {
 
@@ -136,9 +136,9 @@ class Setup : ScopedFragment() {
 
     private fun showStartAppButton() {
         if (checkForPermission() && !requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty()) {
-            startApp.makeVisible()
+            startApp.visible()
         } else {
-            startApp.makeInvisible()
+            startApp.invisible()
         }
     }
 

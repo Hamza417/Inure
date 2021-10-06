@@ -14,8 +14,8 @@ import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
-import app.simple.inure.util.ViewUtils.makeInvisible
-import app.simple.inure.util.ViewUtils.makeVisible
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 
 class AdapterActivities(private val packageInfo: PackageInfo, private val activities: MutableList<ActivityInfoModel>)
     : RecyclerView.Adapter<AdapterActivities.Holder>() {
@@ -33,20 +33,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
 
         holder.icon.loadIconFromActivityInfo(activities[position].activityInfo)
 
-        holder.activityStatus.text =
-            holder.itemView.context
-                    .getString(R.string.activity_status,
-                               if (activities[holder.absoluteAdapterPosition].exported) {
-                                   holder.itemView.context.getString(R.string.exported)
-                               } else {
-                                   holder.itemView.context.getString(R.string.not_exported)
-                               },
-
-                               if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
-                                   holder.itemView.context.getString(R.string.enabled)
-                               } else {
-                                   holder.itemView.context.getString(R.string.disabled)
-                               })
+        holder.activityStatus.text = activities[position].status
 
         holder.launch.setOnClickListener {
             activitiesCallbacks.onLaunchClicked(packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)
@@ -54,15 +41,15 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
 
         if (activities[position].exported) {
             if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
-                holder.launch.makeVisible()
-                holder.divider.makeVisible()
+                holder.launch.visible()
+                holder.divider.visible()
             } else {
-                holder.launch.makeInvisible()
-                holder.divider.makeInvisible()
+                holder.launch.gone()
+                holder.divider.gone()
             }
         } else {
-            holder.launch.makeInvisible()
-            holder.divider.makeInvisible()
+            holder.launch.gone()
+            holder.divider.gone()
         }
 
         holder.container.setOnClickListener {
@@ -72,11 +59,12 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         if (isRootMode) {
             holder.container.setOnLongClickListener {
                 activitiesCallbacks
-                        .onActivityLongPressed(activities[holder.absoluteAdapterPosition].name,
-                                               packageInfo,
-                                               it,
-                                               ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name),
-                                               holder.absoluteAdapterPosition)
+                        .onActivityLongPressed(
+                            activities[holder.absoluteAdapterPosition].name,
+                            packageInfo,
+                            it,
+                            ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name),
+                            holder.absoluteAdapterPosition)
                 true
             }
         }

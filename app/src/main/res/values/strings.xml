@@ -265,4 +265,20 @@
     <string name="sensor">Sensor</string>
     <string name="user_landscape">User Landscape</string>
     <string name="user_portrait">User Portrait</string>
+    <string name="data_sync">Data Sync</string>
+    <string name="media_playback">Media Playback</string>
+    <string name="phone_call">Phone Call</string>
+    <string name="location">Location</string>
+    <string name="connected_devices">Connected Devices</string>
+    <string name="media_projection">Media Projection</string>
+    <string name="camera">Camera</string>
+    <string name="microphone">Microphone</string>
+    <string name="non_foreground">Non Foreground</string>
+    <string name="stop_with_task">Stop with Task</string>
+    <string name="isolated_process">Isolated Process</string>
+    <string name="external_service">External Service</string>
+    <string name="app_zygote">App Zygote</string>
+    <string name="visible_to_instant_apps">Visible to Instant Apps</string>
+    <string name="single_user">Single User</string>
+    <string name="unknown_flag">Unknown Flag</string>
 </resources>

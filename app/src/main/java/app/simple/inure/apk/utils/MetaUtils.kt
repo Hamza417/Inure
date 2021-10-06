@@ -62,4 +62,32 @@ object MetaUtils {
         val result = builder.toString()
         return if (result == "") "null" else result
     }
+
+    fun getForegroundServiceType(type: Int, context: Context): String {
+        return when (type) {
+            0 -> context.getString(R.string.non_foreground)
+            1 shl 0 -> context.getString(R.string.data_sync)
+            1 shl 1 -> context.getString(R.string.media_playback)
+            1 shl 2 -> context.getString(R.string.phone_call)
+            1 shl 3 -> context.getString(R.string.location)
+            1 shl 4 -> context.getString(R.string.connected_devices)
+            1 shl 5 -> context.getString(R.string.media_projection)
+            1 shl 6 -> context.getString(R.string.camera)
+            1 shl 7 -> context.getString(R.string.microphone)
+            -1 -> context.getString(R.string.manifest)
+            else -> context.getString(R.string.non_foreground)
+        }
+    }
+
+    fun getServiceFlags(type: Int, context: Context): String {
+        return when (type) {
+            0x0001 -> context.getString(R.string.stop_with_task)
+            0x0002 -> context.getString(R.string.isolated_process)
+            0x0004 -> context.getString(R.string.external_service)
+            0x0008 -> context.getString(R.string.app_zygote)
+            0x100000 -> context.getString(R.string.visible_to_instant_apps)
+            0x40000000 -> context.getString(R.string.single_user)
+            else -> context.getString(R.string.unknown_flag)
+        }
+    }
 }

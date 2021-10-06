@@ -21,7 +21,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.NullSafety.isNull
-import app.simple.inure.util.ViewUtils.makeInvisible
+import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.viewmodels.factory.XmlDataFactory
 import app.simple.inure.viewmodels.viewers.XMLViewerData
 import java.io.IOException
@@ -91,7 +91,7 @@ class XMLViewerWebView : ScopedFragment() {
                 manifest.restoreState(savedInstanceState!!)
             }
             this@XMLViewerWebView.name.text = requireArguments().getString("path_to_xml")!!
-            progress.makeInvisible()
+            progress.invisible()
             code = it
         })
 

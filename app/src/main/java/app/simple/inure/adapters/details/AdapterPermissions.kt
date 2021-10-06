@@ -17,8 +17,8 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.StringUtils.optimizeToColoredString
-import app.simple.inure.util.ViewUtils.makeGoAway
-import app.simple.inure.util.ViewUtils.makeVisible
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 
 class AdapterPermissions(private val permissions: MutableList<app.simple.inure.model.PermissionInfo>)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
@@ -45,13 +45,13 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
             /* ----------------------------------------------------------------- */
 
             holder.status.setTextColor(holder.itemView.context.resolveAttrColor(R.attr.colorAppAccent))
-            holder.desc.makeVisible()
+            holder.desc.visible()
 
         }.getOrElse {
             holder.name.text = permissions[position].name.optimizeToColoredString(holder.itemView.context, ".")
             holder.status.text = holder.itemView.context.getString(R.string.permission_info_not_available)
             holder.status.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textSecondary))
-            holder.desc.makeGoAway()
+            holder.desc.gone()
         }
 
         if (isRootMode) {

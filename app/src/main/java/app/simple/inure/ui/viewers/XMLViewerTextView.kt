@@ -24,8 +24,8 @@ import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
-import app.simple.inure.util.ViewUtils.makeInvisible
-import app.simple.inure.util.ViewUtils.makeVisible
+import app.simple.inure.util.ViewUtils.invisible
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.XmlDataFactory
 import app.simple.inure.viewmodels.viewers.XMLViewerData
 import java.io.IOException
@@ -90,12 +90,12 @@ class XMLViewerTextView : ScopedFragment() {
         componentsViewModel.getSpanned().observe(viewLifecycleOwner, {
             text.setText(it)
             name.text = requireArguments().getString("path_to_xml")!!
-            progress.makeInvisible()
-            options.makeVisible()
+            progress.invisible()
+            options.visible()
         })
 
         componentsViewModel.getError().observe(viewLifecycleOwner, {
-            progress.makeInvisible()
+            progress.invisible()
             val e = ErrorPopup.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
