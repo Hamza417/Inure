@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
@@ -30,7 +31,22 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
         holder.name.text = services[position].name.substring(services[position].name.lastIndexOf(".") + 1)
         holder.process.text = services[position].name
 
-        holder.status.text = services[position].status
+        holder.status.text = holder.itemView.context.getString(
+            R.string.activity_status,
+
+            if (services[position].isExported) {
+                holder.itemView.context.getString(R.string.exported)
+            } else {
+                holder.itemView.context.getString(R.string.not_exported)
+            },
+
+            if (ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
+                holder.itemView.context.getString(R.string.enabled)
+            } else {
+                holder.itemView.context.getString(R.string.disabled)
+            })
+
+        holder.status.append(services[position].status)
 
         if (isRootMode) {
             holder.container.setOnLongClickListener {

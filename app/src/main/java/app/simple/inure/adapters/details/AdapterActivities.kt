@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
@@ -33,7 +34,22 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
 
         holder.icon.loadIconFromActivityInfo(activities[position].activityInfo)
 
-        holder.activityStatus.text = activities[position].status
+        holder.status.text = holder.itemView.context.getString(
+            R.string.activity_status,
+
+            if (activities[position].exported) {
+                holder.itemView.context.getString(R.string.exported)
+            } else {
+                holder.itemView.context.getString(R.string.not_exported)
+            },
+
+            if (ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[position].name)) {
+                holder.itemView.context.getString(R.string.enabled)
+            } else {
+                holder.itemView.context.getString(R.string.disabled)
+            })
+
+        holder.status.append(activities[position].status)
 
         holder.launch.setOnClickListener {
             activitiesCallbacks.onLaunchClicked(packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)
@@ -77,7 +93,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_activity_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_name)
-        val activityStatus: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_status)
+        val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_status)
         val activityPackageID: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_package)
         val divider: View = itemView.findViewById(R.id.divider01)
         val launch: View = itemView.findViewById(R.id.adapter_activity_launch_button)

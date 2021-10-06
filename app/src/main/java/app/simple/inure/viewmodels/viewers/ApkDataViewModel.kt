@@ -13,10 +13,7 @@ import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.parsers.APKParser.getFeatures
 import app.simple.inure.apk.parsers.APKParser.getPermissions
 import app.simple.inure.apk.utils.MetaUtils
-import app.simple.inure.apk.utils.ReceiversUtils
-import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.model.*
-import app.simple.inure.util.ActivityUtils
 import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -147,9 +144,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                     activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
 
                     with(StringBuilder()) {
-                        append(if (ai.exported) getApplication<Application>().getString(R.string.exported) else getApplication<Application>().getString(R.string.not_exported))
-                        append(" | ")
-                        append(if (ActivityUtils.isEnabled(getApplication(), ai.packageName, ai.name)) getApplication<Application>().getString(R.string.enabled) else getApplication<Application>().getString(R.string.disabled))
                         append(" | ")
                         append(MetaUtils.getLaunchMode(ai.launchMode, getApplication()))
                         append(" | ")
@@ -191,9 +185,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                     activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
 
                     with(StringBuilder()) {
-                        append(if (ai.exported) getApplication<Application>().getString(R.string.exported) else getApplication<Application>().getString(R.string.not_exported))
-                        append(" | ")
-                        append(if (ReceiversUtils.isEnabled(getApplication(), ai.packageName, ai.name)) getApplication<Application>().getString(R.string.enabled) else getApplication<Application>().getString(R.string.disabled))
                         append(" | ")
                         append(MetaUtils.getLaunchMode(ai.launchMode, getApplication()))
                         append(" | ")
@@ -301,9 +292,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                     providerInfoModel.permissions = pi.readPermission + pi.writePermission
 
                     with(StringBuilder()) {
-                        append(if (pi.exported) getApplication<Application>().getString(R.string.exported) else getApplication<Application>().getString(R.string.not_exported))
-                        append(" | ")
-                        append(if (ReceiversUtils.isEnabled(getApplication(), pi.packageName, pi.name)) getApplication<Application>().getString(R.string.enabled) else getApplication<Application>().getString(R.string.disabled))
                         append(" | ")
                         append(MetaUtils.getServiceFlags(pi.flags, getApplication()))
 
@@ -355,9 +343,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                     serviceInfoModel.permissions = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
 
                     with(StringBuilder()) {
-                        append(if (ai.exported) getApplication<Application>().getString(R.string.exported) else getApplication<Application>().getString(R.string.not_exported))
-                        append(" | ")
-                        append(if (ServicesUtils.isEnabled(getApplication(), ai.packageName, ai.name)) getApplication<Application>().getString(R.string.enabled) else getApplication<Application>().getString(R.string.disabled))
                         append(" | ")
                         append(MetaUtils.getForegroundServiceType(serviceInfoModel.foregroundType, getApplication()))
                         append(" | ")

@@ -26,7 +26,7 @@ class Directories : ScopedFragment() {
         dataDir = view.findViewById(R.id.sub_directory_data)
         back = view.findViewById(R.id.app_info_back_button)
 
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         return view
     }

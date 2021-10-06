@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.ProvidersUtils
+import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -29,7 +30,23 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
         holder.name.text = providers[position].name.substring(providers[position].name.lastIndexOf(".") + 1)
         holder.process.text = providers[position].name
 
-        holder.status.text = providers[position].status
+        holder.status.text = holder.itemView.context.getString(
+            R.string.activity_status,
+
+            if (providers[position].isExported) {
+                holder.itemView.context.getString(R.string.exported)
+            } else {
+                holder.itemView.context.getString(R.string.not_exported)
+            },
+
+            if (ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, providers[position].name)) {
+                holder.itemView.context.getString(R.string.enabled)
+            } else {
+                holder.itemView.context.getString(R.string.disabled)
+            })
+
+        holder.status.append(providers[position].status)
+
         holder.authority.text = providers[position].authority
 
         holder.container.setOnLongClickListener {
