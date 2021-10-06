@@ -1,25 +1,31 @@
 package app.simple.inure.adapters.details
 
+import android.content.pm.FeatureInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.model.UsesFeatures
 
-class AdapterFeatures(private val featuresList: MutableList<UsesFeatures>) : RecyclerView.Adapter<AdapterFeatures.Holder>() {
+class AdapterFeatures(private val features: MutableList<FeatureInfo>) : RecyclerView.Adapter<AdapterFeatures.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_features, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.name.text = featuresList[position].name
 
-        holder.required.text = if (featuresList[position].isRequired) {
+        if (features[position].name.isNullOrEmpty()) {
+            holder.name.text = MetaUtils.getOpenGL(features[position].reqGlEsVersion)
+        } else {
+            holder.name.text = features[position].name
+        }
+
+        holder.required.text = if (features[position].flags and FeatureInfo.FLAG_REQUIRED != 0) {
             holder.itemView.context.getString(R.string.required)
         } else {
             holder.itemView.context.getString(R.string.not_required)
@@ -27,7 +33,7 @@ class AdapterFeatures(private val featuresList: MutableList<UsesFeatures>) : Rec
     }
 
     override fun getItemCount(): Int {
-        return featuresList.size
+        return features.size
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

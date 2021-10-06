@@ -101,6 +101,22 @@ object MetaUtils {
         return builder.toString()
     }
 
+    fun getOpenGL(reqGL: Int): String {
+        val builder = StringBuilder()
+
+        with(builder) {
+            append("OpenGL ES ")
+
+            if (reqGL != 0) {
+                append((reqGL shr 16).toShort().toString() + "." + reqGL.toShort()) //Integer.toString((reqGL & 0xffff0000) >> 16);
+            } else {
+                append("1") // Lack of property means OpenGL ES version 1
+            }
+        }
+
+        return builder.toString()
+    }
+
     private fun StringBuilder.createString(string: String) {
         if (isNotEmpty()) {
             append(" | $string")

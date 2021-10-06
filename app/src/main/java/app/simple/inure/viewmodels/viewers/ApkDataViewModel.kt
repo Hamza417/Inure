@@ -1,6 +1,7 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
+import android.content.pm.FeatureInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
@@ -10,7 +11,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.apk.parsers.APKParser.getFeatures
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.model.*
 import com.jaredrummler.apkparser.model.AndroidComponent
@@ -45,8 +45,8 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         }
     }
 
-    private val features: MutableLiveData<MutableList<UsesFeatures>> by lazy {
-        MutableLiveData<MutableList<UsesFeatures>>().also {
+    private val features: MutableLiveData<MutableList<FeatureInfo>> by lazy {
+        MutableLiveData<MutableList<FeatureInfo>>().also {
             getFeaturesData()
         }
     }
@@ -97,7 +97,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         return extras
     }
 
-    fun getFeatures(): LiveData<MutableList<UsesFeatures>> {
+    fun getFeatures(): LiveData<MutableList<FeatureInfo>> {
         return features
     }
 
@@ -215,11 +215,20 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
     private fun getFeaturesData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                features.postValue(packageInfo.applicationInfo.getFeatures().apply {
-                    sortBy {
-                        it.name
-                    }
-                })
+                val list = arrayListOf<FeatureInfo>()
+
+                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    PackageManager.GET_CONFIGURATIONS or PackageManager.MATCH_DISABLED_COMPONENTS
+                } else {
+                    @Suppress("deprecation")
+                    PackageManager.GET_CONFIGURATIONS or PackageManager.GET_DISABLED_COMPONENTS
+                }
+
+                for (featureInfo in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, flags).reqFeatures) {
+                    list.add(featureInfo)
+                }
+
+                features.postValue(list)
             }.getOrElse {
                 delay(delay)
                 error.postValue(it.message)
@@ -329,22 +338,22 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                     PackageManager.GET_SERVICES or PackageManager.GET_DISABLED_COMPONENTS
                 }
 
-                for (ai in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, flags).services) {
+                for (info in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, flags).services) {
                     val serviceInfoModel = ServiceInfoModel()
 
-                    serviceInfoModel.serviceInfo = ai
-                    serviceInfoModel.name = ai.name
-                    serviceInfoModel.isExported = ai.exported
-                    serviceInfoModel.flags = ai.flags
-                    serviceInfoModel.name = ai.name
-                    serviceInfoModel.foregroundType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ai.foregroundServiceType else -3
-                    serviceInfoModel.permissions = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
+                    serviceInfoModel.serviceInfo = info
+                    serviceInfoModel.name = info.name
+                    serviceInfoModel.isExported = info.exported
+                    serviceInfoModel.flags = info.flags
+                    serviceInfoModel.name = info.name
+                    serviceInfoModel.foregroundType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) info.foregroundServiceType else -3
+                    serviceInfoModel.permissions = info.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
 
                     with(StringBuilder()) {
                         append(" | ")
                         append(MetaUtils.getForegroundServiceType(serviceInfoModel.foregroundType, getApplication()))
                         append(" | ")
-                        append(MetaUtils.getServiceFlags(ai.flags, getApplication()))
+                        append(MetaUtils.getServiceFlags(info.flags, getApplication()))
 
                         serviceInfoModel.status = this.toString()
                     }
