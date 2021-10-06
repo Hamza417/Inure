@@ -64,30 +64,48 @@ object MetaUtils {
     }
 
     fun getForegroundServiceType(type: Int, context: Context): String {
-        return when (type) {
-            0 -> context.getString(R.string.non_foreground)
-            1 shl 0 -> context.getString(R.string.data_sync)
-            1 shl 1 -> context.getString(R.string.media_playback)
-            1 shl 2 -> context.getString(R.string.phone_call)
-            1 shl 3 -> context.getString(R.string.location)
-            1 shl 4 -> context.getString(R.string.connected_devices)
-            1 shl 5 -> context.getString(R.string.media_projection)
-            1 shl 6 -> context.getString(R.string.camera)
-            1 shl 7 -> context.getString(R.string.microphone)
-            -1 -> context.getString(R.string.manifest)
-            else -> context.getString(R.string.non_foreground)
+        val builder = StringBuilder()
+
+        with(builder) {
+            if ((0 and type) == 0) createString(context.getString(R.string.non_foreground))
+            if ((1 shl 0 and type) == 1 shl 0) createString(context.getString(R.string.data_sync))
+            if ((1 shl 1 and type) == 1 shl 1) createString(context.getString(R.string.media_playback))
+            if ((1 shl 2 and type) == 1 shl 2) createString(context.getString(R.string.phone_call))
+            if ((1 shl 3 and type) == 1 shl 3) createString(context.getString(R.string.location))
+            if ((1 shl 4 and type) == 1 shl 4) createString(context.getString(R.string.connected_devices))
+            if ((1 shl 5 and type) == 1 shl 5) createString(context.getString(R.string.media_projection))
+            if ((1 shl 6 and type) == 1 shl 6) createString(context.getString(R.string.camera))
+            if ((1 shl 7 and type) == 1 shl 7) createString(context.getString(R.string.microphone))
+            if ((1 shl -1 and type) == 1 shl -1) createString(context.getString(R.string.manifest))
         }
+
+        return builder.toString()
     }
 
     fun getServiceFlags(type: Int, context: Context): String {
-        return when (type) {
-            0x0001 -> context.getString(R.string.stop_with_task)
-            0x0002 -> context.getString(R.string.isolated_process)
-            0x0004 -> context.getString(R.string.external_service)
-            0x0008 -> context.getString(R.string.app_zygote)
-            0x100000 -> context.getString(R.string.visible_to_instant_apps)
-            0x40000000 -> context.getString(R.string.single_user)
-            else -> context.getString(R.string.unknown_flag)
+        val builder = StringBuilder()
+
+        with(builder) {
+            if (type and 0x0001 != 0) createString(context.getString(R.string.stop_with_task))
+            if (type and 0x0002 != 0) createString(context.getString(R.string.isolated_process))
+            if (type and 0x0004 != 0) createString(context.getString(R.string.external_service))
+            if (type and 0x0008 != 0) createString(context.getString(R.string.app_zygote))
+            if (type and 0x10000 != 0) createString(context.getString(R.string.visible_to_instant_apps))
+            if (type and 0x40000000 != 0) createString(context.getString(R.string.single_user))
+
+            if (isBlank()) {
+                append(context.getString(R.string.no_flags))
+            }
+        }
+
+        return builder.toString()
+    }
+
+    private fun StringBuilder.createString(string: String) {
+        if (isNotEmpty()) {
+            append(" | $string")
+        } else {
+            append(string)
         }
     }
 }

@@ -280,5 +280,5 @@
     <string name="app_zygote">App Zygote</string>
     <string name="visible_to_instant_apps">Visible to Instant Apps</string>
     <string name="single_user">Single User</string>
-    <string name="unknown_flag">Unknown Flag</string>
+    <string name="no_flags">No Flags</string>
 </resources>
