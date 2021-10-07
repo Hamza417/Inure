@@ -15,6 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
+import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
@@ -33,6 +35,7 @@ class JSONViewer : ScopedFragment() {
     private lateinit var json: TypeFaceEditText
     private lateinit var name: TypeFaceTextView
     private lateinit var loader: ProgressBar
+    private lateinit var scrollView: PaddingAwareNestedScrollView
     private lateinit var options: DynamicRippleImageButton
     private lateinit var jsonViewModelFactory: JSONViewModelFactory
     private lateinit var jsonViewerViewModel: JSONViewerViewModel
@@ -62,6 +65,7 @@ class JSONViewer : ScopedFragment() {
 
         json = view.findViewById(R.id.json_viewer)
         name = view.findViewById(R.id.json_name)
+        scrollView = view.findViewById(R.id.json_nested_scroll_view)
         loader = view.findViewById(R.id.json_loader)
         options = view.findViewById(R.id.json_viewer_options)
 
@@ -76,6 +80,8 @@ class JSONViewer : ScopedFragment() {
         jsonViewerViewModel = ViewModelProvider(this, jsonViewModelFactory).get(JSONViewerViewModel::class.java)
 
         startPostponedEnterTransition()
+
+        FastScrollerBuilder(scrollView).useMd2Style().build()
 
         return view
     }

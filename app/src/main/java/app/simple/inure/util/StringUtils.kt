@@ -1,6 +1,7 @@
 package app.simple.inure.util
 
 import android.content.Context
+import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -10,6 +11,10 @@ import app.simple.inure.R
 import java.util.*
 
 object StringUtils {
+
+    /**
+     * Capitalized the first letter of any [String]
+     */
     fun String.capitalizeFirstLetter(): String {
         return try {
             this.substring(0, 1).uppercase(Locale.ROOT) + this.substring(1)
@@ -41,6 +46,50 @@ object StringUtils {
             return spannable
         }.getOrElse {
             return this.toSpannable()
+        }
+    }
+
+    /**
+     * Highlights the specified extension with a color
+     * to make them and easily recognizable in a longer
+     * lists
+     *
+     * String should be a path containing proper extension
+     * in a expected format like this <path>.extension else
+     * the default string will be returned without any
+     * spanning.
+     *
+     * @return [Spannable]
+     */
+    fun String.highlightExtensions(): Spannable {
+        kotlin.runCatching {
+            val spannable: Spannable = SpannableString(this)
+            spannable.setSpan(ForegroundColorSpan(getExtensionHardcodedColors(this)),
+                              this.lastIndexOf("."),
+                              this.length,
+                              Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            return spannable
+        }.getOrElse {
+            return this.toSpannable()
+        }
+    }
+
+    private fun getExtensionHardcodedColors(path: String): Int {
+        return when {
+            path.endsWith(".json") -> Color.parseColor("#3498db")
+            path.endsWith(".css") -> Color.parseColor("#af7ac5")
+            path.endsWith(".html") -> Color.parseColor("#48c9b0")
+            path.endsWith(".properties") -> Color.parseColor("#f4d03f")
+            path.endsWith(".js") -> Color.parseColor("#99a3a4")
+            path.endsWith(".tsv") -> Color.parseColor("#af7ac5")
+            path.endsWith(".txt") -> Color.parseColor("#D35400")
+            path.endsWith(".proto") -> Color.parseColor("#e59866")
+            path.endsWith(".java") -> Color.parseColor("#e74c3c")
+            path.endsWith(".bin") -> Color.parseColor("#28b463")
+            path.endsWith(".ttf") -> Color.parseColor("#1f618d")
+            path.endsWith(".md") -> Color.parseColor("#2e4053")
+            path.endsWith(".pdf") -> Color.parseColor("#b03a2e")
+            else -> Color.BLACK
         }
     }
 
