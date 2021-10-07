@@ -15,7 +15,7 @@ import app.simple.inure.util.TextViewUtils.toHtmlSpanned
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FontData(application: Application, val path: String, val packageInfo: PackageInfo, val color: Int) : AndroidViewModel(application) {
+class FontViewModel(application: Application, val path: String, val packageInfo: PackageInfo, val color: Int) : AndroidViewModel(application) {
 
     private val quote: MutableLiveData<Spanned> by lazy {
         MutableLiveData<Spanned>().also {
@@ -54,7 +54,7 @@ class FontData(application: Application, val path: String, val packageInfo: Pack
                         path,
                         packageInfo, getApplication())
 
-            this@FontData.typeface.postValue(typeFace)
+            this@FontViewModel.typeface.postValue(typeFace)
         }
     }
 }

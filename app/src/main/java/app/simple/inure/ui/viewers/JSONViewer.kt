@@ -26,7 +26,7 @@ import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.factory.JSONViewModelFactory
+import app.simple.inure.viewmodels.factory.CodeViewModelFactory
 import app.simple.inure.viewmodels.viewers.JSONViewerViewModel
 import java.io.IOException
 
@@ -37,7 +37,7 @@ class JSONViewer : ScopedFragment() {
     private lateinit var loader: ProgressBar
     private lateinit var scrollView: PaddingAwareNestedScrollView
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var jsonViewModelFactory: JSONViewModelFactory
+    private lateinit var codeViewModelFactory: CodeViewModelFactory
     private lateinit var jsonViewerViewModel: JSONViewerViewModel
 
     private var path: String? = null
@@ -72,12 +72,12 @@ class JSONViewer : ScopedFragment() {
         path = requireArguments().getString(BundleConstants.pathToJSON)!!
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        jsonViewModelFactory = JSONViewModelFactory(requireActivity().application,
+        codeViewModelFactory = CodeViewModelFactory(requireActivity().application,
                                                     packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent),
                                                     path!!)
 
-        jsonViewerViewModel = ViewModelProvider(this, jsonViewModelFactory).get(JSONViewerViewModel::class.java)
+        jsonViewerViewModel = ViewModelProvider(this, codeViewModelFactory).get(JSONViewerViewModel::class.java)
 
         startPostponedEnterTransition()
 

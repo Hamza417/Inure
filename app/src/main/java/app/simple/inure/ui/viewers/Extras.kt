@@ -13,6 +13,7 @@ import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.viewers.PopupExtrasMenu
 import app.simple.inure.util.FragmentHelper
@@ -26,7 +27,7 @@ class Extras : ScopedFragment() {
     private lateinit var options: DynamicRippleImageButton
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
-    private lateinit var adapterExtras: AdapterExtras
+    private var adapterExtras: AdapterExtras? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_extras, container, false)
@@ -52,7 +53,7 @@ class Extras : ScopedFragment() {
 
             recyclerView.adapter = adapterExtras
 
-            adapterExtras.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
+            adapterExtras?.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
                 override fun onExtrasClicked(path: String) {
                     clearEnterTransition()
                     clearExitTransition()
@@ -128,6 +129,16 @@ class Extras : ScopedFragment() {
             })
         })
 
+        componentsViewModel.getError().observe(viewLifecycleOwner, {
+            val e = ErrorPopup.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
+                }
+            })
+        })
+
         options.setOnClickListener {
             PopupExtrasMenu(it)
         }
@@ -141,7 +152,7 @@ class Extras : ScopedFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        adapterExtras.unregister()
+        adapterExtras?.unregister()
     }
 
     companion object {

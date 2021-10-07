@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterResources
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
-import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.FragmentHelper
@@ -19,7 +19,6 @@ import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 class Resources : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var total: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
@@ -27,7 +26,6 @@ class Resources : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_resources, container, false)
 
         recyclerView = view.findViewById(R.id.resources_recycler_view)
-        total = view.findViewById(R.id.total)
         packageInfo = requireArguments().getParcelable("application_info")!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
@@ -44,7 +42,6 @@ class Resources : ScopedFragment() {
             val adapterResources = AdapterResources(it)
 
             recyclerView.adapter = adapterResources
-            total.text = getString(R.string.total, adapterResources.list.size)
 
             adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
                 override fun onResourceClicked(path: String) {
@@ -67,6 +64,16 @@ class Resources : ScopedFragment() {
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                 TextViewer.newInstance(packageInfo, path),
                                                 "txt_tv_xml")
+                }
+            })
+        })
+
+        componentsViewModel.getError().observe(viewLifecycleOwner, {
+            val e = ErrorPopup.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
                 }
             })
         })

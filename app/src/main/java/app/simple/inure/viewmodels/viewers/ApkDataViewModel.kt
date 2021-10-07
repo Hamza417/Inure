@@ -17,6 +17,7 @@ import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.FileNotFoundException
 import java.util.*
 
 class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
@@ -204,11 +205,22 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private fun getExtrasData() {
         viewModelScope.launch(Dispatchers.Default) {
-            extras.postValue(APKParser.getExtraFiles(packageInfo.applicationInfo.sourceDir).apply {
-                sortBy {
-                    it.lowercase(Locale.getDefault())
+            kotlin.runCatching {
+                with(APKParser.getExtraFiles(packageInfo.applicationInfo.sourceDir)) {
+                    if (size == 0) {
+                        throw FileNotFoundException("This package does not contain any extra files.")
+                    } else {
+                        extras.postValue(apply {
+                            sortBy {
+                                it.lowercase(Locale.getDefault())
+                            }
+                        })
+                    }
                 }
-            })
+            }.getOrElse {
+                delay(delay)
+                error.postValue(it.message)
+            }
         }
     }
 
@@ -238,11 +250,22 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private fun getGraphicsData() {
         viewModelScope.launch(Dispatchers.Default) {
-            graphics.postValue(APKParser.getGraphicsFiles(packageInfo.applicationInfo.sourceDir).apply {
-                sortBy {
-                    it.lowercase(Locale.getDefault())
+            kotlin.runCatching {
+                with(APKParser.getGraphicsFiles(packageInfo.applicationInfo.sourceDir)) {
+                    if (size == 0) {
+                        throw FileNotFoundException("This package does not contain any graphical files.")
+                    } else {
+                        graphics.postValue(apply {
+                            sortBy {
+                                it.lowercase(Locale.getDefault())
+                            }
+                        })
+                    }
                 }
-            })
+            }.getOrElse {
+                delay(delay)
+                error.postValue(it.message)
+            }
         }
     }
 
@@ -318,11 +341,22 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private fun getResourceData() {
         viewModelScope.launch(Dispatchers.Default) {
-            resources.postValue(APKParser.getXmlFiles(packageInfo.applicationInfo.sourceDir).apply {
-                sortBy {
-                    it.lowercase(Locale.getDefault())
+            kotlin.runCatching {
+                with(APKParser.getXmlFiles(packageInfo.applicationInfo.sourceDir)) {
+                    if (size == 0) {
+                        throw FileNotFoundException("This package does not contain any xml resource files.")
+                    } else {
+                        resources.postValue(apply {
+                            sortBy {
+                                it.lowercase(Locale.getDefault())
+                            }
+                        })
+                    }
                 }
-            })
+            }.getOrElse {
+                delay(delay)
+                error.postValue(it.message)
+            }
         }
     }
 

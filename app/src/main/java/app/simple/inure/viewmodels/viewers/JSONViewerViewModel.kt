@@ -88,8 +88,7 @@ class JSONViewerViewModel(application: Application, private val accentColor: Int
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    private suspend fun getJsonFile(): String? {
-        delay(1000L)
+    private fun getJsonFile(): String? {
         ZipFile(packageInfo.applicationInfo.sourceDir).use { zipFile ->
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
 

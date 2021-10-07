@@ -11,6 +11,7 @@ import app.simple.inure.adapters.details.AdapterGraphics
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.FragmentHelper
@@ -64,6 +65,16 @@ class Graphics : ScopedFragment() {
                                                     XMLViewerWebView.newInstance(packageInfo, false, filePath),
                                                     "wv_xml")
                     }
+                }
+            })
+        })
+
+        componentsViewModel.getError().observe(viewLifecycleOwner, {
+            val e = ErrorPopup.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
                 }
             })
         })

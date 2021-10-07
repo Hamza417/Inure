@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.viewmodels.viewers.JSONViewerViewModel
 
-class JSONViewModelFactory(private val application: Application, private val packageInfo: PackageInfo, private val accentColor: Int, private val path: String)
+class CodeViewModelFactory(private val application: Application, private val packageInfo: PackageInfo, private val accentColor: Int, private val path: String)
     : ViewModelProvider.AndroidViewModelFactory(application) {
 
     @Suppress("UNCHECKED_CAST")

@@ -19,11 +19,15 @@
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:background="@android:color/transparent"
+            android:drawablePadding="@dimen/dialog_padding"
+            android:drawableTint="?attr/colorAppAccent"
             android:text="@string/error"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/info_text_large"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_error" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:id="@+id/print_error"

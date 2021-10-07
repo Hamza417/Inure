@@ -15,14 +15,14 @@ import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.viewmodels.factory.FontViewModelFactory
-import app.simple.inure.viewmodels.viewers.FontData
+import app.simple.inure.viewmodels.viewers.FontViewModel
 
 class Font : ScopedFragment() {
 
     private lateinit var scrollView: PaddingAwareNestedScrollView
     private lateinit var fontEditText: EditText
     private lateinit var fontName: TypeFaceTextView
-    private lateinit var viewModel: FontData
+    private lateinit var viewModel: FontViewModel
     private lateinit var fontViewModelFactory: FontViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,7 +39,7 @@ class Font : ScopedFragment() {
                                                     packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
-        viewModel = ViewModelProvider(this, fontViewModelFactory).get(FontData::class.java)
+        viewModel = ViewModelProvider(this, fontViewModelFactory).get(FontViewModel::class.java)
 
         FastScrollerBuilder(scrollView).useMd2Style().build()
 
