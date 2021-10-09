@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +17,7 @@ import app.simple.inure.adapters.home.AdapterHomeFrequentlyUsed
 import app.simple.inure.adapters.home.AdapterHomeRecentlyInstalled
 import app.simple.inure.adapters.home.AdapterHomeRecentlyUpdated
 import app.simple.inure.adapters.menus.AdapterHomeMenu
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
-import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
+import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomHorizontalRecyclerView
@@ -30,13 +30,13 @@ import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.StatusBarHeight
+import app.simple.inure.util.ViewUtils
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
 class Home : ScopedFragment() {
 
-    private lateinit var scrollView: PaddingAwareNestedScrollView
-    private lateinit var header: DynamicCornerLinearLayout
+    private lateinit var scrollView: NestedScrollView
+    private lateinit var header: PaddingAwareLinearLayout
     private lateinit var navigationRecyclerView: RecyclerView
     private lateinit var recentlyInstalledRecyclerView: CustomHorizontalRecyclerView
     private lateinit var recentlyUpdatedRecyclerView: CustomHorizontalRecyclerView
@@ -58,16 +58,7 @@ class Home : ScopedFragment() {
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
 
-        val params = header.layoutParams as ViewGroup.MarginLayoutParams
-        params.setMargins(params.leftMargin,
-                          StatusBarHeight.getStatusBarHeight(resources) + params.topMargin,
-                          params.rightMargin,
-                          params.bottomMargin)
-
-        scrollView.setPadding(scrollView.paddingLeft,
-                              scrollView.paddingTop + params.topMargin + params.height + params.bottomMargin * 2 + 25,
-                              scrollView.paddingRight,
-                              scrollView.paddingBottom)
+        ViewUtils.addShadow(header)
 
         return view
     }
