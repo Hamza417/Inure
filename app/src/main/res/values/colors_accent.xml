@@ -9,13 +9,25 @@
     <color name="green">#16A085</color>
     <color name="orange">#D35400</color>
     <color name="purple">#6C3483</color>
-    <color name="brown">#FF5100</color>
+    <color name="yellow">#F39C12</color>
     <color name="caribbeanGreen">#00D390</color>
     <color name="persianGreen">#00B2AA</color>
     <color name="amaranth">#E4354A</color>
-    <color name="yellow">#FF9800</color>
+    <color name="indian_red">#CD5C5C</color>
+    <color name="light_coral">#F08080</color>
+    <color name="pink_flare">#dec3c3</color>
+    <color name="makeup_tan">#DDAF94</color>
+    <color name="egg_yellow">#FFDF6C</color>
+    <color name="medium_green">#4D774E</color>
+    <color name="olive">#A3BCB6</color>
+    <color name="copperfield">#cb936d</color>
+    <color name="mineral_green">#465754</color>
+    <color name="lochinvar">#5e887c</color>
+    <color name="beach_grey">#7f7d7e</color>
+    <color name="cashmere">#E6BEA5</color>
+    <color name="grape">#4d5198</color>
 
-    <color name="inure_light">#FFffbf65</color>
+    <color name="inure_light">#FFAA91</color>
     <color name="blue_light">#85C1E9</color>
     <color name="blueGrey_light">#34495E</color>
     <color name="darkBlue_light">#5D6D7E</color>
@@ -23,9 +35,22 @@
     <color name="green_light">#1ABC9C</color>
     <color name="orange_light">#E67E22</color>
     <color name="purple_light">#A569BD</color>
-    <color name="brown_light">#FF7241</color>
+    <color name="yellow_light">#F8C471</color>
     <color name="caribbeanGreenLight">#65FFCE</color>
     <color name="persianGreen_light">#38D9D2</color>
     <color name="amaranth_light">#F75D70</color>
-    <color name="yellow_light">#FFB649</color>
+    <color name="indian_red_light">#E37B7B</color>
+    <color name="light_coral_light">#FD9A9A</color>
+    <color name="pink_flare_light">#e7d3d3</color>
+    <color name="makeup_tan_light">#EDC2A8</color>
+    <color name="egg_yellow_light">#FDE17D</color>
+    <color name="medium_green_light">#588259</color>
+    <color name="olive_light">#A3BCB6</color>
+    <color name="copperfield_light">#DEA57E</color>
+    <color name="mineral_green_light">#5D716D</color>
+    <color name="lochinvar_light">#71A093</color>
+    <color name="beach_grey_light">#979596</color>
+    <color name="cashmere_light">#EFD1BE</color>
+    <color name="grape_light">#7C81CF</color>
+
 </resources>

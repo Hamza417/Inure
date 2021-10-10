@@ -21,7 +21,7 @@ import app.simple.inure.util.ColorUtils;
 
 public class Utils {
     
-    static final int alpha = 70;
+    public static final int alpha = 70;
     
     static void animateBackground(int endColor, View view) {
         view.clearAnimation();

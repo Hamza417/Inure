@@ -36,9 +36,9 @@
         <item name="colorAppAccentLight">@color/darkBlue_light</item>
     </style>
 
-    <style name="Brown_Transparent" parent="Inure.Transparent">
-        <item name="colorAppAccent">@color/brown</item>
-        <item name="colorAppAccentLight">@color/brown_light</item>
+    <style name="Yellow_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/yellow</item>
+        <item name="colorAppAccentLight">@color/yellow_light</item>
     </style>
 
     <style name="CaribbeanGreen_Transparent" parent="Inure.Transparent">
@@ -56,8 +56,68 @@
         <item name="colorAppAccentLight">@color/amaranth_light</item>
     </style>
 
-    <style name="Yellow_Transparent" parent="Inure.Transparent">
-        <item name="colorAppAccent">@color/yellow</item>
-        <item name="colorAppAccentLight">@color/yellow_light</item>
+    <style name="IndianRed_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/indian_red</item>
+        <item name="colorAppAccentLight">@color/indian_red_light</item>
+    </style>
+
+    <style name="LightCoral_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/light_coral</item>
+        <item name="colorAppAccentLight">@color/light_coral_light</item>
+    </style>
+
+    <style name="PinkFlare_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/pink_flare</item>
+        <item name="colorAppAccentLight">@color/pink_flare_light</item>
+    </style>
+
+    <style name="MakeupTan_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/makeup_tan</item>
+        <item name="colorAppAccentLight">@color/makeup_tan_light</item>
+    </style>
+
+    <style name="EggYellow_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/egg_yellow</item>
+        <item name="colorAppAccentLight">@color/egg_yellow_light</item>
+    </style>
+
+    <style name="MediumGreen_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/medium_green</item>
+        <item name="colorAppAccentLight">@color/medium_green_light</item>
+    </style>
+
+    <style name="Olive_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/olive</item>
+        <item name="colorAppAccentLight">@color/olive_light</item>
+    </style>
+
+    <style name="Copperfield_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/copperfield</item>
+        <item name="colorAppAccentLight">@color/copperfield_light</item>
+    </style>
+
+    <style name="MineralGreen_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/mineral_green</item>
+        <item name="colorAppAccentLight">@color/mineral_green_light</item>
+    </style>
+
+    <style name="Lochinvar_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/lochinvar</item>
+        <item name="colorAppAccentLight">@color/lochinvar_light</item>
+    </style>
+
+    <style name="BeachGrey_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/beach_grey</item>
+        <item name="colorAppAccentLight">@color/beach_grey_light</item>
+    </style>
+
+    <style name="Cashmere_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/cashmere</item>
+        <item name="colorAppAccentLight">@color/cashmere_light</item>
+    </style>
+
+    <style name="Grape_Transparent" parent="Inure">
+        <item name="colorAppAccent">@color/grape</item>
+        <item name="colorAppAccentLight">@color/grape_light</item>
     </style>
 </resources>

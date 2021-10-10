@@ -66,8 +66,8 @@ open class BaseActivity : AppCompatActivity() {
             ContextCompat.getColor(baseContext, R.color.purple) -> {
                 setTheme(R.style.Purple)
             }
-            ContextCompat.getColor(baseContext, R.color.brown) -> {
-                setTheme(R.style.Brown)
+            ContextCompat.getColor(baseContext, R.color.yellow) -> {
+                setTheme(R.style.Yellow)
             }
             ContextCompat.getColor(baseContext, R.color.caribbeanGreen) -> {
                 setTheme(R.style.CaribbeanGreen)
@@ -78,8 +78,44 @@ open class BaseActivity : AppCompatActivity() {
             ContextCompat.getColor(baseContext, R.color.amaranth) -> {
                 setTheme(R.style.Amaranth)
             }
-            ContextCompat.getColor(baseContext, R.color.yellow) -> {
-                setTheme(R.style.Yellow)
+            ContextCompat.getColor(baseContext, R.color.indian_red) -> {
+                setTheme(R.style.IndianRed)
+            }
+            ContextCompat.getColor(baseContext, R.color.light_coral) -> {
+                setTheme(R.style.LightCoral)
+            }
+            ContextCompat.getColor(baseContext, R.color.pink_flare) -> {
+                setTheme(R.style.PinkFlare)
+            }
+            ContextCompat.getColor(baseContext, R.color.makeup_tan) -> {
+                setTheme(R.style.MakeupTan)
+            }
+            ContextCompat.getColor(baseContext, R.color.egg_yellow) -> {
+                setTheme(R.style.EggYellow)
+            }
+            ContextCompat.getColor(baseContext, R.color.medium_green) -> {
+                setTheme(R.style.MediumGreen)
+            }
+            ContextCompat.getColor(baseContext, R.color.olive) -> {
+                setTheme(R.style.Olive)
+            }
+            ContextCompat.getColor(baseContext, R.color.copperfield) -> {
+                setTheme(R.style.Copperfield)
+            }
+            ContextCompat.getColor(baseContext, R.color.mineral_green) -> {
+                setTheme(R.style.MineralGreen)
+            }
+            ContextCompat.getColor(baseContext, R.color.lochinvar) -> {
+                setTheme(R.style.Lochinvar)
+            }
+            ContextCompat.getColor(baseContext, R.color.beach_grey) -> {
+                setTheme(R.style.BeachGrey)
+            }
+            ContextCompat.getColor(baseContext, R.color.cashmere) -> {
+                setTheme(R.style.Cashmere)
+            }
+            ContextCompat.getColor(baseContext, R.color.grape) -> {
+                setTheme(R.style.Grape)
             }
             else -> {
                 setTheme(R.style.Inure)

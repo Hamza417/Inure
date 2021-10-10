@@ -18,8 +18,8 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.TypeFaceTextView
-import app.simple.inure.dialogs.appearance.AccentColor
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
@@ -105,7 +105,7 @@ class Setup : ScopedFragment() {
         }
 
         accent.setOnClickListener {
-            AccentColor.newInstance().show(childFragmentManager, "accent_color")
+            FragmentHelper.openFragment(parentFragmentManager, AccentColor.newInstance(), "accent_color")
         }
 
         typeface.setOnClickListener {

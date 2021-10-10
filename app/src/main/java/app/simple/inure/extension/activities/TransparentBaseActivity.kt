@@ -66,8 +66,8 @@ open class TransparentBaseActivity : AppCompatActivity() {
             ContextCompat.getColor(baseContext, R.color.purple) -> {
                 setTheme(R.style.Purple_Transparent)
             }
-            ContextCompat.getColor(baseContext, R.color.brown) -> {
-                setTheme(R.style.Brown_Transparent)
+            ContextCompat.getColor(baseContext, R.color.yellow) -> {
+                setTheme(R.style.Yellow_Transparent)
             }
             ContextCompat.getColor(baseContext, R.color.caribbeanGreen) -> {
                 setTheme(R.style.CaribbeanGreen_Transparent)
@@ -78,8 +78,44 @@ open class TransparentBaseActivity : AppCompatActivity() {
             ContextCompat.getColor(baseContext, R.color.amaranth) -> {
                 setTheme(R.style.Amaranth_Transparent)
             }
-            ContextCompat.getColor(baseContext, R.color.yellow) -> {
-                setTheme(R.style.Yellow_Transparent)
+            ContextCompat.getColor(baseContext, R.color.indian_red) -> {
+                setTheme(R.style.IndianRed_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.light_coral) -> {
+                setTheme(R.style.LightCoral_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.pink_flare) -> {
+                setTheme(R.style.PinkFlare_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.makeup_tan) -> {
+                setTheme(R.style.MakeupTan_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.egg_yellow) -> {
+                setTheme(R.style.EggYellow_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.medium_green) -> {
+                setTheme(R.style.MediumGreen_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.olive) -> {
+                setTheme(R.style.Olive_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.copperfield) -> {
+                setTheme(R.style.Copperfield_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.mineral_green) -> {
+                setTheme(R.style.MineralGreen_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.lochinvar) -> {
+                setTheme(R.style.Lochinvar_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.beach_grey) -> {
+                setTheme(R.style.BeachGrey_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.cashmere) -> {
+                setTheme(R.style.Cashmere_Transparent)
+            }
+            ContextCompat.getColor(baseContext, R.color.grape) -> {
+                setTheme(R.style.Grape_Transparent)
             }
             else -> {
                 setTheme(R.style.Inure_Transparent)

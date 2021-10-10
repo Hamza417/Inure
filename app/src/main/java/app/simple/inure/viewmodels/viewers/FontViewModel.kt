@@ -18,9 +18,7 @@ import kotlinx.coroutines.launch
 class FontViewModel(application: Application, val path: String, val packageInfo: PackageInfo, val color: Int) : AndroidViewModel(application) {
 
     private val quote: MutableLiveData<Spanned> by lazy {
-        MutableLiveData<Spanned>().also {
-            setQuote()
-        }
+        MutableLiveData<Spanned>()
     }
 
     private val typeface: MutableLiveData<Typeface> by lazy {
@@ -38,13 +36,11 @@ class FontViewModel(application: Application, val path: String, val packageInfo:
     }
 
     private fun setQuote() {
-        viewModelScope.launch(Dispatchers.Default) {
-            val spanned = Quotes.quotes.random().replace(
-                "%%%", color.toHexColor())
-                    .toHtmlSpanned()
+        val spanned = Quotes.quotes.random().replace(
+            "%%%", color.toHexColor())
+                .toHtmlSpanned()
 
-            quote.postValue(spanned)
-        }
+        quote.postValue(spanned)
     }
 
     private fun setFont() {
@@ -55,6 +51,8 @@ class FontViewModel(application: Application, val path: String, val packageInfo:
                         packageInfo, getApplication())
 
             this@FontViewModel.typeface.postValue(typeFace)
+
+            setQuote()
         }
     }
 }

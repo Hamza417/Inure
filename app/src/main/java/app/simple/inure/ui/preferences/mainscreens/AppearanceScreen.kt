@@ -10,11 +10,11 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
-import app.simple.inure.dialogs.appearance.AccentColor
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAppTheme
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ThemeSetter
@@ -54,7 +54,7 @@ class AppearanceScreen : ScopedFragment() {
         }
 
         accent.setOnClickListener {
-            AccentColor.newInstance().show(childFragmentManager, "accent_color")
+            FragmentHelper.openFragment(parentFragmentManager, AccentColor.newInstance(), "accent_color")
         }
 
         typeface.setOnClickListener {

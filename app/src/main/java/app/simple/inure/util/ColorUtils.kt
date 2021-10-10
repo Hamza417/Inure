@@ -22,6 +22,6 @@ object ColorUtils {
     }
 
     fun Int.toHexColor(): String {
-        return java.lang.String.format("#%06X", 0xFFFFFF and this)
+        return String.format("#%06X", 0xFFFFFF and this)
     }
 }
