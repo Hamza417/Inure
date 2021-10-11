@@ -116,8 +116,14 @@
         <item name="colorAppAccentLight">@color/cashmere_light</item>
     </style>
 
-    <style name="Grape_Transparent" parent="Inure">
+    <style name="Grape_Transparent" parent="Inure.Transparent">
         <item name="colorAppAccent">@color/grape</item>
         <item name="colorAppAccentLight">@color/grape_light</item>
     </style>
+
+    <style name="RomanSilver_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@color/roman_silver</item>
+        <item name="colorAppAccentLight">@color/roman_silver_light</item>
+    </style>
+
 </resources>

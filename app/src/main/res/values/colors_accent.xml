@@ -26,6 +26,7 @@
     <color name="beach_grey">#7f7d7e</color>
     <color name="cashmere">#E6BEA5</color>
     <color name="grape">#4d5198</color>
+    <color name="roman_silver">#7D8491</color>
 
     <color name="inure_light">#FFAA91</color>
     <color name="blue_light">#85C1E9</color>
@@ -52,5 +53,6 @@
     <color name="beach_grey_light">#979596</color>
     <color name="cashmere_light">#EFD1BE</color>
     <color name="grape_light">#7C81CF</color>
+    <color name="roman_silver_light">#9BA3B3</color>
 
 </resources>

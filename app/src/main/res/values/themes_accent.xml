@@ -121,4 +121,9 @@
         <item name="colorAppAccentLight">@color/grape_light</item>
     </style>
 
+    <style name="RomanSilver" parent="Inure">
+        <item name="colorAppAccent">@color/roman_silver</item>
+        <item name="colorAppAccentLight">@color/roman_silver_light</item>
+    </style>
+
 </resources>

@@ -117,6 +117,9 @@ open class TransparentBaseActivity : AppCompatActivity() {
             ContextCompat.getColor(baseContext, R.color.grape) -> {
                 setTheme(R.style.Grape_Transparent)
             }
+            ContextCompat.getColor(baseContext, R.color.roman_silver) -> {
+                setTheme(R.style.RomanSilver_Transparent)
+            }
             else -> {
                 setTheme(R.style.Inure_Transparent)
                 AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))

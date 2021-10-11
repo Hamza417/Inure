@@ -19,7 +19,7 @@ class AccentColor : ScopedFragment() {
     private lateinit var adapterAccentColor: AdapterAccentColor
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = layoutInflater.inflate(R.layout.fragment_color_accent, container, false)
+        val view = layoutInflater.inflate(R.layout.fragment_accent_color, container, false)
 
         recyclerView = view.findViewById(R.id.accent_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -51,6 +51,7 @@ class AccentColor : ScopedFragment() {
             Pair(ContextCompat.getColor(requireContext(), R.color.beach_grey), "Beach Grey"),
             Pair(ContextCompat.getColor(requireContext(), R.color.cashmere), "Cashmere"),
             Pair(ContextCompat.getColor(requireContext(), R.color.grape), "Grape"),
+            Pair(ContextCompat.getColor(requireContext(), R.color.roman_silver), "Roman Silver"),
         )
 
         adapterAccentColor = AdapterAccentColor(list)

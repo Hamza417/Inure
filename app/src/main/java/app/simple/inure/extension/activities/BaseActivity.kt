@@ -117,6 +117,9 @@ open class BaseActivity : AppCompatActivity() {
             ContextCompat.getColor(baseContext, R.color.grape) -> {
                 setTheme(R.style.Grape)
             }
+            ContextCompat.getColor(baseContext, R.color.roman_silver) -> {
+                setTheme(R.style.RomanSilver)
+            }
             else -> {
                 setTheme(R.style.Inure)
                 AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))
