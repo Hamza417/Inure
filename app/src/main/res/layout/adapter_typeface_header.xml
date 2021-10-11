@@ -13,13 +13,13 @@
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
-        android:text="@string/accent_colors"
+        android:text="@string/app_typeface"
         android:textColor="?attr/colorAppAccent"
         android:textSize="36sp"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.views.TypeFaceTextView
-        android:id="@+id/adapter_accent_total"
+        android:id="@+id/adapter_type_face_total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

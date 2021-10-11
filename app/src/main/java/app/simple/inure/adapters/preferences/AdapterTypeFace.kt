@@ -15,46 +15,72 @@ import app.simple.inure.R
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 
-class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
+class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private lateinit var adapterTypeFaceCallbacks: AdapterTypeFaceCallbacks
-    private var list = TypeFace.list
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        list.sortBy {
-            it.typefaceName
-        }
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_type_face, parent, false))
+    private var list = TypeFace.list.apply {
+        sortBy { it.typefaceName }
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        try {
-            holder.textView.typeface = ResourcesCompat.getFont(holder.itemView.context, list[position].typeFaceResId)
-        } catch (e: Resources.NotFoundException) {
-            holder.textView.typeface = Typeface.DEFAULT_BOLD
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
+        return when (viewType) {
+            VerticalListViewHolder.TYPE_ITEM -> {
+                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_type_face, parent, false))
+            }
+            VerticalListViewHolder.TYPE_HEADER -> {
+                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_typeface_header, parent, false))
+            }
+            else -> {
+                throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")
+            }
         }
+    }
 
-        holder.textView.text = list[position].typefaceName
+    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
 
-        if (AppearancePreferences.getAppFont() == list[position].name) {
-            holder.icon.visible()
-            holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textPrimary))
-        } else {
-            holder.icon.invisible()
-            holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textTertiary))
-        }
+        val position = position_ - 1
 
-        holder.container.setOnClickListener {
-            adapterTypeFaceCallbacks.onTypeFaceClicked(list[position].name)
+        when (holder) {
+            is Holder -> {
+                try {
+                    holder.textView.typeface = ResourcesCompat.getFont(holder.itemView.context, list[position].typeFaceResId)
+                } catch (e: Resources.NotFoundException) {
+                    holder.textView.typeface = Typeface.DEFAULT_BOLD
+                }
+
+                holder.textView.text = list[position].typefaceName
+
+                if (AppearancePreferences.getAppFont() == list[position].name) {
+                    holder.icon.visible()
+                    holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textPrimary))
+                } else {
+                    holder.icon.invisible()
+                    holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textTertiary))
+                }
+
+                holder.container.setOnClickListener {
+                    adapterTypeFaceCallbacks.onTypeFaceClicked(list[position].name)
+                }
+            }
+            is Header -> {
+                holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return list.size.plus(1)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position.isZero()) {
+            VerticalListViewHolder.TYPE_HEADER
+        } else VerticalListViewHolder.TYPE_ITEM
     }
 
     fun setOnTypeFaceClickListener(adapterTypeFaceCallbacks: AdapterTypeFaceCallbacks) {
@@ -65,5 +91,9 @@ class AdapterTypeFace : RecyclerView.Adapter<AdapterTypeFace.Holder>() {
         val textView: TextView = itemView.findViewById(R.id.adapter_typeface_textview)
         val icon: ImageView = itemView.findViewById(R.id.adapter_typeface_check_icon)
         val container: LinearLayout = itemView.findViewById(R.id.adapter_typeface_container)
+    }
+
+    inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
+        val total: TextView = itemView.findViewById(R.id.adapter_type_face_total)
     }
 }
