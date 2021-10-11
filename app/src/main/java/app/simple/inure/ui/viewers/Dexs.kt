@@ -1,7 +1,6 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterDexData
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
@@ -21,13 +19,11 @@ class Dexs : ScopedFragment() {
     private lateinit var dexDataViewModel: DexDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var total: TypeFaceTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_dex_data, container, false)
 
         recyclerView = view.findViewById(R.id.dexs_recycler_view)
-        total = view.findViewById(R.id.total_dexs)
 
         packageInfo = requireArguments().getParcelable("application_info")!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
@@ -43,7 +39,6 @@ class Dexs : ScopedFragment() {
 
         dexDataViewModel.getDexClasses().observe(viewLifecycleOwner, {
             val adapter = AdapterDexData(it)
-            total.text = it.size.toString()
             recyclerView.adapter = adapter
         })
 
@@ -55,8 +50,6 @@ class Dexs : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-            total.text = getString(R.string.failed)
-            total.setTextColor(Color.RED)
         })
     }
 

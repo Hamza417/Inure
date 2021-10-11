@@ -1,7 +1,6 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -23,7 +21,6 @@ import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 class Services : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var total: TypeFaceTextView
     private lateinit var adapterServices: AdapterServices
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -32,7 +29,6 @@ class Services : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_services, container, false)
 
         recyclerView = view.findViewById(R.id.services_recycler_view)
-        total = view.findViewById(R.id.total)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
@@ -48,7 +44,6 @@ class Services : ScopedFragment() {
         componentsViewModel.getServices().observe(viewLifecycleOwner, {
             adapterServices = AdapterServices(it, packageInfo)
             recyclerView.adapter = adapterServices
-            total.text = getString(R.string.total, it.size)
 
             adapterServices.setOnServiceCallbackListener(object : AdapterServices.Companion.ServicesCallbacks {
                 override fun onServiceLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
@@ -98,8 +93,6 @@ class Services : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-            total.text = getString(R.string.failed)
-            total.setTextColor(Color.RED)
         })
     }
 

@@ -1,7 +1,6 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import app.simple.inure.adapters.details.AdapterActivities
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.IntentAction
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
@@ -28,7 +26,6 @@ import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 class Activities : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var totalActivities: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var adapterActivities: AdapterActivities
@@ -37,7 +34,6 @@ class Activities : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_activities, container, false)
 
         recyclerView = view.findViewById(R.id.activities_recycler_view)
-        totalActivities = view.findViewById(R.id.total_activities)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
@@ -54,8 +50,6 @@ class Activities : ScopedFragment() {
         componentsViewModel.getActivities().observe(viewLifecycleOwner, { it ->
             adapterActivities = AdapterActivities(packageInfo, it)
             recyclerView.adapter = adapterActivities
-
-            totalActivities.text = getString(R.string.total, it.size)
 
             adapterActivities.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
                 override fun onActivityClicked(androidComponent: ActivityInfoModel, packageId: String) {
@@ -131,8 +125,6 @@ class Activities : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-            totalActivities.text = getString(R.string.failed)
-            totalActivities.setTextColor(Color.RED)
         })
     }
 

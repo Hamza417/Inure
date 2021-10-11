@@ -85,7 +85,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val color: DynamicCornerAccentColor = itemView.findViewById(R.id.adapter_palette_color)
-        val tick: ImageView = itemView.findViewById(R.id.adapter_palette_tick)
+        val tick: ImageView = itemView.findViewById(R.id.adapter_accent_check_icon)
         val name: TextView = itemView.findViewById(R.id.color_name)
         val hex: TextView = itemView.findViewById(R.id.color_hex)
         val container: LinearLayout = itemView.findViewById(R.id.color_container)

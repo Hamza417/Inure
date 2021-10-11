@@ -1,7 +1,6 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import app.simple.inure.adapters.details.AdapterReceivers
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -23,7 +21,6 @@ import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 class Receivers : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var total: TypeFaceTextView
     private lateinit var adapterReceivers: AdapterReceivers
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -32,7 +29,6 @@ class Receivers : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_receivers, container, false)
 
         recyclerView = view.findViewById(R.id.broadcast_recycler_view)
-        total = view.findViewById(R.id.total)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
@@ -49,7 +45,6 @@ class Receivers : ScopedFragment() {
         componentsViewModel.getReceivers().observe(viewLifecycleOwner, {
             adapterReceivers = AdapterReceivers(it, packageInfo)
             recyclerView.adapter = adapterReceivers
-            total.text = getString(R.string.total, it.size)
 
             adapterReceivers.setOnReceiversCallbackListener(object : AdapterReceivers.Companion.ReceiversCallbacks {
                 override fun onReceiversLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
@@ -99,8 +94,6 @@ class Receivers : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-            total.text = getString(R.string.failed)
-            total.setTextColor(Color.RED)
         })
     }
 

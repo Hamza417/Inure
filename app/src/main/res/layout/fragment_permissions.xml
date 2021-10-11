@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -20,44 +20,22 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_permission"
             android:transitionName="@string/permissions"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
             android:id="@+id/typeFaceTextView2"
             android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:text="@string/permissions"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/total_permissions"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView8"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:appFontStyle="bold" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
-            android:id="@+id/total_permissions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/loading"
-            android:textColor="@color/textTertiary"
-            android:textSize="@dimen/info_text_small"
-            app:appFontStyle="medium"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView8"
-            app:layout_constraintTop_toBottomOf="@+id/typeFaceTextView2" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

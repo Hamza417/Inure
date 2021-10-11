@@ -1,7 +1,6 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -23,7 +21,6 @@ import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 class Permissions : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var totalPermissions: TypeFaceTextView
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var adapterPermissions: AdapterPermissions
@@ -32,7 +29,6 @@ class Permissions : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_permissions, container, false)
 
         recyclerView = view.findViewById(R.id.permissions_recycler_view)
-        totalPermissions = view.findViewById(R.id.total_permissions)
 
         packageInfo = requireArguments().getParcelable("application_info")!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
@@ -50,7 +46,6 @@ class Permissions : ScopedFragment() {
             adapterPermissions = AdapterPermissions(it)
             recyclerView.adapter = adapterPermissions
             recyclerView.setHasFixedSize(false)
-            totalPermissions.text = getString(R.string.total, it.size)
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
                 override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
@@ -97,8 +92,6 @@ class Permissions : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-            totalPermissions.text = getString(R.string.failed)
-            totalPermissions.setTextColor(Color.RED)
         })
     }
 

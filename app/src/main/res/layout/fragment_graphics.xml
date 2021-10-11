@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -20,9 +20,6 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_graphics"
             android:transitionName="@string/graphics"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
@@ -32,32 +29,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
+            android:layout_weight="1"
             android:text="@string/graphics"
-            app:layout_constraintBottom_toTopOf="@id/total"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView8"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:appFontStyle="bold" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
-            android:id="@+id/total"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/loading"
-            android:textColor="@color/textTertiary"
-            android:textSize="@dimen/info_text_small"
-            app:appFontStyle="medium"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView8"
-            app:layout_constraintTop_toBottomOf="@+id/typeFaceTextView2" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

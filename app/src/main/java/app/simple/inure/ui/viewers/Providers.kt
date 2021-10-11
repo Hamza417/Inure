@@ -10,7 +10,6 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterProviders
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -21,7 +20,6 @@ import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 class Providers : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var total: TypeFaceTextView
     private lateinit var adapterProviders: AdapterProviders
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -30,7 +28,6 @@ class Providers : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_provider, container, false)
 
         recyclerView = view.findViewById(R.id.providers_recycler_view)
-        total = view.findViewById(R.id.total)
         packageInfo = requireArguments().getParcelable("application_info")!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
@@ -46,7 +43,6 @@ class Providers : ScopedFragment() {
         componentsViewModel.getProviders().observe(viewLifecycleOwner, {
             adapterProviders = AdapterProviders(it, packageInfo)
             recyclerView.adapter = adapterProviders
-            total.text = getString(R.string.total, it.size)
 
             adapterProviders.setOnProvidersCallbackListener(object : AdapterProviders.Companion.ProvidersCallbacks {
                 override fun onProvidersLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
@@ -96,7 +92,6 @@ class Providers : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-            total.text = getString(R.string.failed)
         })
     }
 
