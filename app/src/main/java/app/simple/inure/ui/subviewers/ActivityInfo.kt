@@ -1,36 +1,43 @@
 package app.simple.inure.ui.subviewers
 
-import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.apk.parsers.APKParser.getActivities
+import app.simple.inure.adapters.details.AdapterInformation
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import app.simple.inure.model.ActivityInfoModel
+import app.simple.inure.viewmodels.factory.MetaInfoFactory
+import app.simple.inure.viewmodels.subviewers.ActivityInfoViewModel
 
 class ActivityInfo : ScopedFragment() {
 
     private lateinit var name: TypeFaceTextView
-    private lateinit var intentActions: TypeFaceTextView
-    private lateinit var intentCategories: TypeFaceTextView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var backButton: DynamicRippleImageButton
+    private lateinit var activityInfoViewModel: ActivityInfoViewModel
+    private lateinit var metaInfoFactory: MetaInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_activity_details, container, false)
 
         name = view.findViewById(R.id.activity_name)
-        intentActions = view.findViewById(R.id.activity_info_actions)
-        intentCategories = view.findViewById(R.id.activity_info_categories)
+        recyclerView = view.findViewById(R.id.activity_info_recycler_view)
         backButton = view.findViewById(R.id.activity_info_back_button)
 
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        with(requireArguments().getString(BundleConstants.packageId)!!) {
+            //packageInfo = requireContext().packageManager.getPackageInfo(this, PackageManager.GET_ACTIVITIES)
+            name.text = this
+            metaInfoFactory = MetaInfoFactory(requireActivity().application, this, requireArguments().getParcelable(BundleConstants.activityInfo)!!)
+        }
+
+        activityInfoViewModel = ViewModelProvider(this, metaInfoFactory).get(ActivityInfoViewModel::class.java)
 
         startPostponedEnterTransition()
 
@@ -40,45 +47,9 @@ class ActivityInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        name.text = requireArguments().getString("package_id")!!
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            var actions = ""
-            var categories = ""
-
-            withContext(Dispatchers.Default) {
-                val list = packageInfo.getActivities()!!
-
-                for (activities in list) {
-                    if (activities.name == requireArguments().getString("package_id")) {
-                        for (i in activities.intentFilters) {
-                            for (j in i.actions.indices) {
-                                if (!actions.contains(i.actions[j])) {
-                                    actions = if (actions.isEmpty()) {
-                                        StringBuilder().append(i.actions[j]).toString()
-                                    } else {
-                                        StringBuilder().append(actions).append("\n").append(i.actions[j]).toString()
-                                    }
-                                }
-                            }
-
-                            for (j in i.categories.indices) {
-                                if (!categories.contains(i.categories[j])) {
-                                    categories = if (categories.isEmpty()) {
-                                        StringBuilder().append(i.categories[j]).toString()
-                                    } else {
-                                        StringBuilder().append(categories).append("\n").append(i.categories[j]).toString()
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            this@ActivityInfo.intentActions.text = if (actions.isEmpty()) getString(R.string.not_available) else actions
-            this@ActivityInfo.intentCategories.text = if (categories.isEmpty()) getString(R.string.not_available) else categories
-        }
+        activityInfoViewModel.getActivityInfo().observe(viewLifecycleOwner, {
+            recyclerView.adapter = AdapterInformation(it)
+        })
 
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
@@ -86,10 +57,10 @@ class ActivityInfo : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageId: String, applicationInfo: PackageInfo): ActivityInfo {
+        fun newInstance(packageId: String, activityInfoModel: ActivityInfoModel): ActivityInfo {
             val args = Bundle()
-            args.putString("package_id", packageId)
-            args.putParcelable("application_info", applicationInfo)
+            args.putString(BundleConstants.packageId, packageId)
+            args.putParcelable(BundleConstants.activityInfo, activityInfoModel)
             val fragment = ActivityInfo()
             fragment.arguments = args
             return fragment

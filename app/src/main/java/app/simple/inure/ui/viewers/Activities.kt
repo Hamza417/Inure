@@ -52,10 +52,10 @@ class Activities : ScopedFragment() {
             recyclerView.adapter = adapterActivities
 
             adapterActivities.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
-                override fun onActivityClicked(androidComponent: ActivityInfoModel, packageId: String) {
+                override fun onActivityClicked(activityInfoModel: ActivityInfoModel, packageId: String) {
                     clearExitTransition()
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                ActivityInfo.newInstance(packageId, packageInfo),
+                                                ActivityInfo.newInstance(packageId, activityInfoModel),
                                                 "activity_info")
                 }
 

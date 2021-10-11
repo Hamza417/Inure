@@ -90,9 +90,9 @@ class Apps : ScopedFragment() {
             })
         })
 
-        model.appLoaded.observe(viewLifecycleOwner, {
-            it.getContentIfNotHandledOrReturnNull()?.let {
-                Log.d("Apps", if(it) "Apps Loaded" else "Failed")
+        model.appLoaded.observe(viewLifecycleOwner, { appsEvent ->
+            appsEvent.getContentIfNotHandledOrReturnNull()?.let {
+                Log.d("Apps", if (it) "Apps Loaded" else "Failed")
             }
         })
 

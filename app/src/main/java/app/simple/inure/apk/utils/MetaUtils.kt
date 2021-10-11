@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.view.WindowManager
 import app.simple.inure.R
-import app.simple.inure.util.StringUtils
 
 object MetaUtils {
     fun getLaunchMode(mode: Int, context: Context): String {
@@ -17,7 +16,7 @@ object MetaUtils {
         }
     }
 
-    fun getOrientationString(orientation: Int, context: Context): String {
+    fun getOrientation(orientation: Int, context: Context): String {
         return when (orientation) {
             ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED -> context.getString(R.string.unspecified)
             ActivityInfo.SCREEN_ORIENTATION_BEHIND -> context.getString(R.string.behind)
@@ -35,32 +34,36 @@ object MetaUtils {
             ActivityInfo.SCREEN_ORIENTATION_SENSOR -> context.getString(R.string.sensor)
             ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE -> context.getString(R.string.user_landscape)
             ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT -> context.getString(R.string.user_portrait)
-            else -> context.getString(R.string.not_available)
+            else -> context.getString(R.string.unspecified)
         }
     }
 
     @Suppress("deprecation")
-    fun getSoftInputString(flag: Int): String {
+    fun getSoftInputString(flag: Int, context: Context): String {
         val builder = StringBuilder()
 
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING != 0) builder.append("Adjust Nothing, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN != 0) builder.append("Adjust pan, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE != 0) builder.append("Adjust resize, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED != 0) builder.append("Adjust unspecified, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN != 0) builder.append("Always hidden, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE != 0) builder.append("Always visible, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN != 0) builder.append("Hidden, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE != 0) builder.append("Visible, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED != 0) builder.append("Unchanged, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED != 0) builder.append("Unspecified, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION != 0) builder.append("ForwardNav, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_MASK_ADJUST != 0) builder.append("Mask adjust, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_MASK_STATE != 0) builder.append("Mask state, ")
-        if (flag and WindowManager.LayoutParams.SOFT_INPUT_MODE_CHANGED != 0) builder.append("Mode changed, ")
+        with(builder) {
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING != 0) createString(context.getString(R.string.adjust_nothing))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN != 0) createString(context.getString(R.string.adjust_pan))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE != 0) createString(context.getString(R.string.adjust_resize))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED != 0) createString(context.getString(R.string.adjust_unspecified))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN != 0) createString(context.getString(R.string.always_hidden))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE != 0) createString(context.getString(R.string.always_visible))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN != 0) createString(context.getString(R.string.hidden))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE != 0) createString(context.getString(R.string.visible))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED != 0) createString(context.getString(R.string.unchanged))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED != 0) createString(context.getString(R.string.unspecified))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION != 0) createString(context.getString(R.string.forward_navigation))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_MASK_ADJUST != 0) createString(context.getString(R.string.mask_adjust))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_MASK_STATE != 0) createString(context.getString(R.string.mask_state))
+            if (flag and WindowManager.LayoutParams.SOFT_INPUT_MODE_CHANGED != 0) createString(context.getString(R.string.mode_changed))
 
-        StringUtils.checkStringBuilderEnd(builder)
-        val result = builder.toString()
-        return if (result == "") "null" else result
+            if (isBlank()) {
+                append(context.getString(R.string.unspecified))
+            }
+        }
+
+        return builder.toString()
     }
 
     fun getForegroundServiceType(type: Int, context: Context): String {
@@ -99,6 +102,35 @@ object MetaUtils {
         }
 
         return builder.toString()
+    }
+
+    fun getColorMode(mode: Int, context: Context): String {
+        return when (mode) {
+            -1 -> context.getString(R.string.not_supported)
+            ActivityInfo.COLOR_MODE_DEFAULT -> context.getString(R.string.default_, "(6 or 8 Bit)")
+            ActivityInfo.COLOR_MODE_WIDE_COLOR_GAMUT -> context.getString(R.string.wide_color_gamut, "(10 bit)")
+            ActivityInfo.COLOR_MODE_HDR -> "HDR"
+            else -> context.getString(R.string.unspecified)
+        }
+    }
+
+    fun getDocumentLaunchMode(mode: Int, context: Context): String {
+        return when (mode) {
+            ActivityInfo.DOCUMENT_LAUNCH_NONE -> context.getString(R.string.none)
+            ActivityInfo.DOCUMENT_LAUNCH_ALWAYS -> context.getString(R.string.always)
+            ActivityInfo.DOCUMENT_LAUNCH_INTO_EXISTING -> context.getString(R.string.into_existing)
+            ActivityInfo.DOCUMENT_LAUNCH_NEVER -> context.getString(R.string.never)
+            else -> context.getString(R.string.unspecified)
+        }
+    }
+
+    fun getPersistableMode(mode: Int, context: Context): String {
+        return when (mode) {
+            ActivityInfo.PERSIST_NEVER -> context.getString(R.string.never)
+            ActivityInfo.PERSIST_ROOT_ONLY -> context.getString(R.string.root_only)
+            ActivityInfo.PERSIST_ACROSS_REBOOTS -> context.getString(R.string.across_reboots)
+            else -> context.getString(R.string.unspecified)
+        }
     }
 
     fun getOpenGL(reqGL: Int): String {

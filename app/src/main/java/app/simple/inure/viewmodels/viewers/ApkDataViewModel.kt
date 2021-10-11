@@ -147,7 +147,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                         append(" | ")
                         append(MetaUtils.getLaunchMode(ai.launchMode, getApplication()))
                         append(" | ")
-                        append(MetaUtils.getOrientationString(ai.screenOrientation, getApplication()))
+                        append(MetaUtils.getOrientation(ai.screenOrientation, getApplication()))
 
                         activityInfoModel.status = this.toString()
                     }
@@ -188,7 +188,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                         append(" | ")
                         append(MetaUtils.getLaunchMode(ai.launchMode, getApplication()))
                         append(" | ")
-                        append(MetaUtils.getOrientationString(ai.screenOrientation, getApplication()))
+                        append(MetaUtils.getOrientation(ai.screenOrientation, getApplication()))
                         activityInfoModel.status = this.toString()
                     }
 
