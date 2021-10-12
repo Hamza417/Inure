@@ -48,6 +48,8 @@
         android:layout_height="match_parent"
         android:layoutAnimation="@anim/list_animation_controller"
         android:paddingVertical="@dimen/header_padding"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         app:isFastScrollRequired="false"
         app:statusBarPaddingRequired="false" />
 

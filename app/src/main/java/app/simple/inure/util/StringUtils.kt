@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import androidx.core.content.ContextCompat
 import androidx.core.text.toSpannable
 import app.simple.inure.R
+import app.simple.inure.preferences.AppearancePreferences
 import java.util.*
 
 object StringUtils {
@@ -47,6 +48,34 @@ object StringUtils {
         }.getOrElse {
             return this.toSpannable()
         }
+    }
+
+    /**
+     * Change string color to app's accent color.
+     *
+     * @return [Spannable]
+     */
+    fun String.applyAccentColor(): Spannable {
+        val spannable: Spannable = SpannableString(this)
+        spannable.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()),
+                          0,
+                          this.length,
+                          Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        return spannable
+    }
+
+    /**
+     * Change string color to app's accent color.
+     *
+     * @return [Spannable]
+     */
+    fun String.applySecondaryTextColor(context: Context): Spannable {
+        val spannable: Spannable = SpannableString(this)
+        spannable.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.textSecondary)),
+                          0,
+                          this.length,
+                          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        return spannable
     }
 
     /**

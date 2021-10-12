@@ -39,7 +39,7 @@ object MetaUtils {
     }
 
     @Suppress("deprecation")
-    fun getSoftInputString(flag: Int, context: Context): String {
+    fun getSoftInputMode(flag: Int, context: Context): String {
         val builder = StringBuilder()
 
         with(builder) {

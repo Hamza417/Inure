@@ -351,4 +351,6 @@
     <string name="layout_direction">Layout Direction</string>
     <string name="font_scale">Font Scale</string>
     <string name="configuration_changes">Configuration Changes</string>
+    <string name="task_affinity">Task Affinity</string>
+    <string name="parent_activity">Parent Activity</string>
 </resources>

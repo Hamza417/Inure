@@ -2,13 +2,16 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.text.Spannable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.utils.SignatureUtils
+import app.simple.inure.apk.utils.SignatureUtils.convertToHex
 import app.simple.inure.apk.utils.SignatureUtils.getApplicationSignature
+import app.simple.inure.util.StringUtils.applyAccentColor
+import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -20,8 +23,8 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
         MutableLiveData<String>()
     }
 
-    private val certificate: MutableLiveData<ArrayList<Pair<String, String>>> by lazy {
-        MutableLiveData<ArrayList<Pair<String, String>>>().also {
+    private val certificate: MutableLiveData<ArrayList<Pair<String, Spannable>>> by lazy {
+        MutableLiveData<ArrayList<Pair<String, Spannable>>>().also {
             loadCertificatesData()
         }
     }
@@ -30,7 +33,7 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
         return error
     }
 
-    fun getCertificateData(): LiveData<ArrayList<Pair<String, String>>> {
+    fun getCertificateData(): LiveData<ArrayList<Pair<String, Spannable>>> {
         return certificate
     }
 
@@ -42,16 +45,16 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
                 val pair = packageInfo.getApplicationSignature(context)!!
 
                 val arrayList = arrayListOf(
-                    Pair(context.getString(R.string.sign_algorithm), pair.first.sigAlgName),
-                    Pair(context.getString(R.string.sign_algorithm_oid), pair.first.sigAlgOID),
-                    Pair(context.getString(R.string.certificate_md5), SignatureUtils.convertToHex(MessageDigest.getInstance("md5").digest(pair.second.toByteArray()))),
-                    Pair(context.getString(R.string.certificate_sha1), SignatureUtils.convertToHex(MessageDigest.getInstance("sha1").digest(pair.second.toByteArray()))),
-                    Pair(context.getString(R.string.certificate_sha256), SignatureUtils.convertToHex(MessageDigest.getInstance("sha256").digest(pair.second.toByteArray()))),
-                    Pair(context.getString(R.string.public_key), pair.first.publicKey.toString()),
-                    Pair(context.getString(R.string.valid_from), pair.first.notBefore.toString()),
-                    Pair(context.getString(R.string.valid_to), pair.first.notAfter.toString()),
-                    Pair(context.getString(R.string.issuer), pair.first.issuerX500Principal?.name),
-                    Pair("X.509", pair.first.toString())
+                    Pair(context.getString(R.string.sign_algorithm), pair.first.sigAlgName.applySecondaryTextColor(context)),
+                    Pair(context.getString(R.string.sign_algorithm_oid), pair.first.sigAlgOID.applySecondaryTextColor(context)),
+                    Pair(context.getString(R.string.certificate_md5), convertToHex(MessageDigest.getInstance("md5").digest(pair.second.toByteArray())).applySecondaryTextColor(context)),
+                    Pair(context.getString(R.string.certificate_sha1), convertToHex(MessageDigest.getInstance("sha1").digest(pair.second.toByteArray())).applySecondaryTextColor(context)),
+                    Pair(context.getString(R.string.certificate_sha256), convertToHex(MessageDigest.getInstance("sha256").digest(pair.second.toByteArray())).applySecondaryTextColor(context)),
+                    Pair(context.getString(R.string.public_key), pair.first.publicKey.toString().applySecondaryTextColor(context)),
+                    Pair(context.getString(R.string.valid_from), pair.first.notBefore.toString().applyAccentColor()),
+                    Pair(context.getString(R.string.valid_to), pair.first.notAfter.toString().applyAccentColor()),
+                    Pair(context.getString(R.string.issuer), pair.first.issuerX500Principal?.name!!.applyAccentColor()),
+                    Pair("X.509", pair.first.toString().applySecondaryTextColor(context))
                 )
 
                 this@CertificatesViewModel.certificate.postValue(arrayList)

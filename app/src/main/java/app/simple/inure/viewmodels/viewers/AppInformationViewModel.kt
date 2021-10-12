@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.text.Spannable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +17,8 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.util.SDKHelper
+import app.simple.inure.util.StringUtils.applyAccentColor
+import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import com.jaredrummler.apkparser.model.ApkMeta
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,8 +26,8 @@ import java.text.NumberFormat
 
 class AppInformationViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
-    private val information: MutableLiveData<ArrayList<Pair<String, String>>> by lazy {
-        MutableLiveData<ArrayList<Pair<String, String>>>().also {
+    private val information: MutableLiveData<ArrayList<Pair<String, Spannable>>> by lazy {
+        MutableLiveData<ArrayList<Pair<String, Spannable>>>().also {
             viewModelScope.launch(Dispatchers.IO) {
                 loadInformation()
             }
@@ -35,7 +38,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         MutableLiveData<Int>()
     }
 
-    fun getInformation(): LiveData<ArrayList<Pair<String, String>>> {
+    fun getInformation(): LiveData<ArrayList<Pair<String, Spannable>>> {
         return information
     }
 
@@ -158,18 +161,18 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         progress.postValue(99)
 
         val data = arrayListOf(
-            Pair(context.getString(R.string.version), version),
-            Pair(context.getString(R.string.version_code), versionCode),
-            Pair(context.getString(R.string.install_location), installLocation),
-            Pair(context.getString(R.string.gles_version), glesVersion),
-            Pair(context.getString(R.string.uid), uid),
-            Pair(context.getString(R.string.install_date), installDate),
-            Pair(context.getString(R.string.update_date), updateDate),
-            Pair(context.getString(R.string.minimum_sdk), minSdk),
-            Pair(context.getString(R.string.target_sdk), targetSdk),
-            Pair(context.getString(R.string.method_count), method),
-            Pair(context.getString(R.string.apex), apex),
-            Pair(context.getString(R.string.application_type), applicationType),
+            Pair(context.getString(R.string.version), version.applySecondaryTextColor(context)),
+            Pair(context.getString(R.string.version_code), versionCode.applySecondaryTextColor(context)),
+            Pair(context.getString(R.string.install_location), installLocation.applySecondaryTextColor(context)),
+            Pair(context.getString(R.string.gles_version), glesVersion.applySecondaryTextColor(context)),
+            Pair(context.getString(R.string.uid), uid.applySecondaryTextColor(context)),
+            Pair(context.getString(R.string.install_date), installDate.applyAccentColor()),
+            Pair(context.getString(R.string.update_date), updateDate.applyAccentColor()),
+            Pair(context.getString(R.string.minimum_sdk), minSdk.applyAccentColor()),
+            Pair(context.getString(R.string.target_sdk), targetSdk.applyAccentColor()),
+            Pair(context.getString(R.string.method_count), method.applySecondaryTextColor(context)),
+            Pair(context.getString(R.string.apex), apex.applySecondaryTextColor(context)),
+            Pair(context.getString(R.string.application_type), applicationType.applyAccentColor()),
         )
 
         information.postValue(data)

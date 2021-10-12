@@ -18,10 +18,9 @@
 
     <app.simple.inure.decorations.views.TypeFaceTextView
         android:id="@+id/information_data"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textColor="@color/textSecondary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 

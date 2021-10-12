@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.details
 
+import android.text.Spannable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 
-class AdapterInformation(private val list: ArrayList<Pair<String, String>>) : RecyclerView.Adapter<AdapterInformation.Holder>() {
+class AdapterInformation(private val list: ArrayList<Pair<String, Spannable>>) : RecyclerView.Adapter<AdapterInformation.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_information, parent, false))
