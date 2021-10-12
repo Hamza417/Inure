@@ -16,7 +16,7 @@ import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActivityInfoViewModel(application: Application, private val activityInfoModel: ActivityInfoModel, private val packageId: String, val packageInfo: PackageInfo) : AndroidViewModel(application) {
+class ActivityInfoViewModel(application: Application, private val activityInfoModel: ActivityInfoModel, val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
     private val activityInfo: MutableLiveData<ArrayList<Pair<String, Spannable>>> by lazy {
         MutableLiveData<ArrayList<Pair<String, Spannable>>>().also {

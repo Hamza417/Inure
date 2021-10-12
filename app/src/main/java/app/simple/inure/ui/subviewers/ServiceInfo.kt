@@ -13,17 +13,17 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.model.ActivityInfoModel
-import app.simple.inure.viewmodels.subfactory.ActivityInfoFactory
-import app.simple.inure.viewmodels.subviewers.ActivityInfoViewModel
+import app.simple.inure.model.ServiceInfoModel
+import app.simple.inure.viewmodels.subfactory.ServiceInfoFactory
+import app.simple.inure.viewmodels.subviewers.ServiceInfoViewModel
 
-class ActivityInfo : ScopedFragment() {
+class ServiceInfo : ScopedFragment() {
 
     private lateinit var name: TypeFaceTextView
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var backButton: DynamicRippleImageButton
-    private lateinit var activityInfoViewModel: ActivityInfoViewModel
-    private lateinit var activityInfoFactory: ActivityInfoFactory
+    private lateinit var serviceInfoViewModel: ServiceInfoViewModel
+    private lateinit var serviceInfoFactory: ServiceInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_activity_details, container, false)
@@ -32,13 +32,13 @@ class ActivityInfo : ScopedFragment() {
         recyclerView = view.findViewById(R.id.activity_info_recycler_view)
         backButton = view.findViewById(R.id.activity_info_back_button)
 
-        with(requireArguments().getString(BundleConstants.packageId)!!) {
+        with(requireArguments().getParcelable<ServiceInfoModel>(BundleConstants.serviceInfo)!!) {
             packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-            name.text = this
-            activityInfoFactory = ActivityInfoFactory(requireActivity().application, requireArguments().getParcelable(BundleConstants.activityInfo)!!, packageInfo)
+            this@ServiceInfo.name.text = name
+            serviceInfoFactory = ServiceInfoFactory(requireActivity().application, this, packageInfo)
         }
 
-        activityInfoViewModel = ViewModelProvider(this, activityInfoFactory).get(ActivityInfoViewModel::class.java)
+        serviceInfoViewModel = ViewModelProvider(this, serviceInfoFactory).get(ServiceInfoViewModel::class.java)
 
         startPostponedEnterTransition()
 
@@ -48,7 +48,7 @@ class ActivityInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activityInfoViewModel.getActivityInfo().observe(viewLifecycleOwner, {
+        serviceInfoViewModel.getServicesInfo().observe(viewLifecycleOwner, {
             recyclerView.adapter = AdapterInformation(it)
         })
 
@@ -58,12 +58,11 @@ class ActivityInfo : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageId: String, activityInfoModel: ActivityInfoModel, packageInfo: PackageInfo): ActivityInfo {
+        fun newInstance(serviceInfoModel: ServiceInfoModel, packageInfo: PackageInfo): ServiceInfo {
             val args = Bundle()
-            args.putString(BundleConstants.packageId, packageId)
-            args.putParcelable(BundleConstants.activityInfo, activityInfoModel)
+            args.putParcelable(BundleConstants.serviceInfo, serviceInfoModel)
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            val fragment = ActivityInfo()
+            val fragment = ServiceInfo()
             fragment.arguments = args
             return fragment
         }

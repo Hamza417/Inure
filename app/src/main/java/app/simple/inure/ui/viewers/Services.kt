@@ -14,7 +14,10 @@ import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.model.ServiceInfoModel
 import app.simple.inure.popups.viewers.PopupServicesMenu
+import app.simple.inure.ui.subviewers.ServiceInfo
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
@@ -46,6 +49,13 @@ class Services : ScopedFragment() {
             recyclerView.adapter = adapterServices
 
             adapterServices.setOnServiceCallbackListener(object : AdapterServices.Companion.ServicesCallbacks {
+                override fun onServiceClicked(serviceInfoModel: ServiceInfoModel) {
+                    clearExitTransition()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                ServiceInfo.newInstance(serviceInfoModel, packageInfo),
+                                                "services_info")
+                }
+
                 override fun onServiceLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
                     val v = PopupServicesMenu(icon, isComponentEnabled)
 

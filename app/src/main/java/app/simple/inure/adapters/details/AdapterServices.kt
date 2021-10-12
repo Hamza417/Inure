@@ -59,6 +59,11 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
                 true
             }
         }
+
+        holder.container.setOnClickListener {
+            servicesCallbacks
+                    .onServiceClicked(services[position])
+        }
     }
 
     override fun getItemCount(): Int {
@@ -79,6 +84,7 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
 
     companion object {
         interface ServicesCallbacks {
+            fun onServiceClicked(serviceInfoModel: ServiceInfoModel)
             fun onServiceLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
         }
     }
