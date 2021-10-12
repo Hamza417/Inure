@@ -2,10 +2,10 @@ package app.simple.inure.glide.transformation
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.IntDef
+import androidx.core.content.ContextCompat
 import androidx.renderscript.Allocation
 import androidx.renderscript.Element
 import androidx.renderscript.RenderScript
@@ -120,11 +120,7 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
      * @return      returns self
      */
     fun setShadowColourRes(@ColorRes res: Int): BlurShadow {
-        colour = if (Build.VERSION.SDK_INT < 23) {
-            @Suppress("deprecation") context.resources.getColor(res)
-        } else {
-            context.resources.getColor(res, null)
-        }
+        colour = ContextCompat.getColor(context, res)
         return this
     }
 

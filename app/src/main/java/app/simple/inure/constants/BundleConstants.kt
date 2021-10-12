@@ -3,6 +3,7 @@ package app.simple.inure.constants
 object BundleConstants {
     const val packageInfo = "package_info"
     const val activityInfo = "activity_info"
+    const val providerInfo = "provider_info"
     const val serviceInfo = "service_info"
     const val packageId = "package_id"
     const val isManifest = "is_manifest"

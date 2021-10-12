@@ -14,7 +14,10 @@ import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.popups.viewers.PopupReceiversMenu
+import app.simple.inure.ui.subviewers.ActivityInfo
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
@@ -47,7 +50,14 @@ class Receivers : ScopedFragment() {
             recyclerView.adapter = adapterReceivers
 
             adapterReceivers.setOnReceiversCallbackListener(object : AdapterReceivers.Companion.ReceiversCallbacks {
-                override fun onReceiversLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
+                override fun onReceiverClicked(activityInfoModel: ActivityInfoModel) {
+                    clearExitTransition()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                ActivityInfo.newInstance(activityInfoModel, packageInfo),
+                                                "activity_info")
+                }
+
+                override fun onReceiverLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
                     val v = PopupReceiversMenu(icon, isComponentEnabled)
 
                     v.setOnMenuClickListener(object : PopupMenuCallback {

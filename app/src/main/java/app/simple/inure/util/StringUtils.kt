@@ -126,4 +126,12 @@ object StringUtils {
         val length = builder.length
         if (length > 2) builder.delete(builder.length - 2, builder.length)
     }
+
+    fun StringBuilder.createString(string: String) {
+        if (isNotEmpty()) {
+            append(" | $string")
+        } else {
+            append(string)
+        }
+    }
 }

@@ -48,13 +48,18 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
 
         holder.container.setOnLongClickListener {
             receiversCallbacks
-                    .onReceiversLongPressed(
+                    .onReceiverLongPressed(
                         receivers[holder.absoluteAdapterPosition].name,
                         packageInfo,
                         it,
                         ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[holder.absoluteAdapterPosition].name),
                         holder.absoluteAdapterPosition)
             true
+        }
+
+        holder.container.setOnClickListener {
+            receiversCallbacks
+                    .onReceiverClicked(receivers[holder.absoluteAdapterPosition])
         }
     }
 
@@ -76,7 +81,8 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
 
     companion object {
         interface ReceiversCallbacks {
-            fun onReceiversLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+            fun onReceiverClicked(activityInfoModel: ActivityInfoModel)
+            fun onReceiverLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
         }
     }
 }

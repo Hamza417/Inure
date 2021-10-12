@@ -34,8 +34,6 @@ class ServiceInfoViewModel(application: Application, private val serviceInfoMode
                 getFlags()
             ))
         }
-
-        serviceInfoModel
     }
 
     private fun getForegroundService(): Pair<String, Spannable> {

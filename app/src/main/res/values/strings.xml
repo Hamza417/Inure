@@ -354,4 +354,6 @@
     <string name="task_affinity">Task Affinity</string>
     <string name="parent_activity">Parent Activity</string>
     <string name="foreground_service_type">Foreground Service Type</string>
+    <string name="authority">Authority</string>
+    <string name="init_order">Init Order</string>
 </resources>

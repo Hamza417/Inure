@@ -13,7 +13,10 @@ import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.model.ProviderInfoModel
 import app.simple.inure.popups.viewers.PopupProvidersMenu
+import app.simple.inure.ui.subviewers.ProviderInfo
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
@@ -45,6 +48,13 @@ class Providers : ScopedFragment() {
             recyclerView.adapter = adapterProviders
 
             adapterProviders.setOnProvidersCallbackListener(object : AdapterProviders.Companion.ProvidersCallbacks {
+                override fun onProvidersClicked(providerInfoModel: ProviderInfoModel) {
+                    clearExitTransition()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                ProviderInfo.newInstance(providerInfoModel, packageInfo),
+                                                "provider_info")
+                }
+
                 override fun onProvidersLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
                     val v = PopupProvidersMenu(icon, isComponentEnabled)
 

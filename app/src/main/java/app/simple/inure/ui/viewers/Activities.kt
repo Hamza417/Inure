@@ -55,7 +55,7 @@ class Activities : ScopedFragment() {
                 override fun onActivityClicked(activityInfoModel: ActivityInfoModel, packageId: String) {
                     clearExitTransition()
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                ActivityInfo.newInstance(packageId, activityInfoModel, packageInfo),
+                                                ActivityInfo.newInstance(activityInfoModel, packageInfo),
                                                 "activity_info")
                 }
 

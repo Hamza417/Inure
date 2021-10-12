@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.view.WindowManager
 import app.simple.inure.R
+import app.simple.inure.util.StringUtils.createString
 
 object MetaUtils {
     fun getLaunchMode(mode: Int, context: Context): String {
@@ -215,11 +216,5 @@ object MetaUtils {
         return builder.toString()
     }
 
-    private fun StringBuilder.createString(string: String) {
-        if (isNotEmpty()) {
-            append(" | $string")
-        } else {
-            append(string)
-        }
-    }
+
 }

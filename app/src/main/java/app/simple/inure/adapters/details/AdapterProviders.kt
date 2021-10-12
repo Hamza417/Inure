@@ -58,6 +58,11 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
                         holder.absoluteAdapterPosition)
             true
         }
+
+        holder.container.setOnClickListener {
+            providersCallbacks
+                    .onProvidersClicked(providers[holder.absoluteAdapterPosition])
+        }
     }
 
     override fun getItemCount(): Int {
@@ -79,6 +84,7 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
 
     companion object {
         interface ProvidersCallbacks {
+            fun onProvidersClicked(providerInfoModel: ProviderInfoModel)
             fun onProvidersLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
         }
     }
