@@ -1,5 +1,6 @@
 package app.simple.inure.ui.subviewers
 
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,9 +33,9 @@ class ActivityInfo : ScopedFragment() {
         backButton = view.findViewById(R.id.activity_info_back_button)
 
         with(requireArguments().getString(BundleConstants.packageId)!!) {
-            //packageInfo = requireContext().packageManager.getPackageInfo(this, PackageManager.GET_ACTIVITIES)
+            packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
             name.text = this
-            metaInfoFactory = MetaInfoFactory(requireActivity().application, this, requireArguments().getParcelable(BundleConstants.activityInfo)!!)
+            metaInfoFactory = MetaInfoFactory(requireActivity().application, this, requireArguments().getParcelable(BundleConstants.activityInfo)!!, packageInfo)
         }
 
         activityInfoViewModel = ViewModelProvider(this, metaInfoFactory).get(ActivityInfoViewModel::class.java)
@@ -57,10 +58,11 @@ class ActivityInfo : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageId: String, activityInfoModel: ActivityInfoModel): ActivityInfo {
+        fun newInstance(packageId: String, activityInfoModel: ActivityInfoModel, packageInfo: PackageInfo): ActivityInfo {
             val args = Bundle()
             args.putString(BundleConstants.packageId, packageId)
             args.putParcelable(BundleConstants.activityInfo, activityInfoModel)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = ActivityInfo()
             fragment.arguments = args
             return fragment

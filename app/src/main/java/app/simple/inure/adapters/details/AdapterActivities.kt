@@ -109,7 +109,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         // private const val categoryLeanback = "android.intent.category.LEANBACK_LAUNCHER"
 
         interface ActivitiesCallbacks {
-            fun onActivityClicked(androidComponent: ActivityInfoModel, packageId: String)
+            fun onActivityClicked(activityInfoModel: ActivityInfoModel, packageId: String)
             fun onActivityLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
             fun onLaunchClicked(packageName: String, name: String)
         }

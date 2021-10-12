@@ -1,6 +1,7 @@
 package app.simple.inure.viewmodels.subviewers
 
 import android.app.Application
+import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -12,7 +13,7 @@ import app.simple.inure.model.ActivityInfoModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActivityInfoViewModel(application: Application, private val activityInfoModel: ActivityInfoModel, private val packageId: String) : AndroidViewModel(application) {
+class ActivityInfoViewModel(application: Application, private val activityInfoModel: ActivityInfoModel, private val packageId: String, val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
     private val activityInfo: MutableLiveData<ArrayList<Pair<String, String>>> by lazy {
         MutableLiveData<ArrayList<Pair<String, String>>>().also {
@@ -32,11 +33,13 @@ class ActivityInfoViewModel(application: Application, private val activityInfoMo
                 getSoftInputMode(),
                 getColorMode(),
                 getDocumentLaunchMode(),
-                getPersistableMode()
+                getPersistableMode(),
+                getFlags(),
+                getConfigurationsChanges()
             ))
         }
 
-        activityInfoModel.activityInfo.taskAffinity
+        activityInfoModel.activityInfo.configChanges
     }
 
     private fun getLaunchMode(): Pair<String, String> {
@@ -71,6 +74,16 @@ class ActivityInfoViewModel(application: Application, private val activityInfoMo
 
     private fun getPersistableMode(): Pair<String, String> {
         return Pair(getApplication<Application>().getString(R.string.persistable_mode),
-                    MetaUtils.getDocumentLaunchMode(activityInfoModel.activityInfo.persistableMode, getApplication()))
+                    MetaUtils.getPersistableMode(activityInfoModel.activityInfo.persistableMode, getApplication()))
+    }
+
+    private fun getFlags(): Pair<String, String> {
+        return Pair(getApplication<Application>().getString(R.string.flags),
+                    MetaUtils.getFlags(activityInfoModel.activityInfo.flags, getApplication()))
+    }
+
+    private fun getConfigurationsChanges(): Pair<String, String> {
+        return Pair(getApplication<Application>().getString(R.string.configuration_changes),
+                    MetaUtils.getConfigurationsChanges(activityInfoModel.activityInfo.configChanges, getApplication()))
     }
 }

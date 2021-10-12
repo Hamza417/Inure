@@ -133,6 +133,72 @@ object MetaUtils {
         }
     }
 
+    fun getFlags(flag: Int, context: Context): String {
+        val builder = StringBuilder()
+
+        with(builder) {
+            if (flag and ActivityInfo.FLAG_MULTIPROCESS != 0) createString(context.getString(R.string.multi_process))
+            if (flag and ActivityInfo.FLAG_FINISH_ON_TASK_LAUNCH != 0) createString(context.getString(R.string.finish_on_task_launch))
+            if (flag and ActivityInfo.FLAG_CLEAR_TASK_ON_LAUNCH != 0) createString(context.getString(R.string.clear_on_task_launch))
+            if (flag and ActivityInfo.FLAG_ALWAYS_RETAIN_TASK_STATE != 0) createString(context.getString(R.string.always_retain_task_state))
+            if (flag and ActivityInfo.FLAG_STATE_NOT_NEEDED != 0) createString(context.getString(R.string.state_not_needed))
+            if (flag and ActivityInfo.FLAG_EXCLUDE_FROM_RECENTS != 0) createString(context.getString(R.string.exclude_from_recents))
+            if (flag and ActivityInfo.FLAG_ALLOW_TASK_REPARENTING != 0) createString(context.getString(R.string.allow_task_reparenting))
+            if (flag and ActivityInfo.FLAG_NO_HISTORY != 0) createString(context.getString(R.string.no_history))
+            if (flag and ActivityInfo.FLAG_FINISH_ON_CLOSE_SYSTEM_DIALOGS != 0) createString(context.getString(R.string.finish_on_close_system_dialogs))
+            if (flag and ActivityInfo.FLAG_HARDWARE_ACCELERATED != 0) createString(context.getString(R.string.hardware_accl))
+            if (flag and 0x0400 != 0) createString(context.getString(R.string.show_for_all_users))
+            if (flag and ActivityInfo.FLAG_IMMERSIVE != 0) createString(context.getString(R.string.immersive))
+            if (flag and ActivityInfo.FLAG_RELINQUISH_TASK_IDENTITY != 0) createString(context.getString(R.string.relinquish_task_identity))
+            if (flag and ActivityInfo.FLAG_AUTO_REMOVE_FROM_RECENTS != 0) createString(context.getString(R.string.auto_remove_from_recents))
+            if (flag and ActivityInfo.FLAG_RESUME_WHILE_PAUSING != 0) createString(context.getString(R.string.resume_while_pausing))
+            if (flag and ActivityInfo.FLAG_ENABLE_VR_MODE != 0) createString(context.getString(R.string.vr_mode))
+            if (flag and 0x400000 != 0) createString(context.getString(R.string.picture_in_picture))
+            if (flag and 0x800000 != 0) createString(context.getString(R.string.show_when_locked))
+            if (flag and 0x1000000 != 0) createString(context.getString(R.string.turn_screen_on))
+            if (flag and 0x1000000 != 0) createString(context.getString(R.string.turn_screen_on))
+            if (flag and ActivityInfo.FLAG_PREFER_MINIMAL_POST_PROCESSING != 0) createString(context.getString(R.string.prefer_minimal_post_processing))
+            if (flag and 0x20000000 != 0) createString(context.getString(R.string.system_user_only))
+            if (flag and ActivityInfo.FLAG_SINGLE_USER != 0) createString(context.getString(R.string.single_user))
+            if (flag and -0x80000000 != 0) createString(context.getString(R.string.allow_embedded))
+
+            if (isBlank()) {
+                append(context.getString(R.string.no_flags))
+            }
+        }
+
+        return builder.toString()
+    }
+
+    fun getConfigurationsChanges(config: Int, context: Context): String {
+        val builder = StringBuilder()
+
+        with(builder) {
+            if (config and ActivityInfo.CONFIG_MCC != 0) createString("MCC")
+            if (config and ActivityInfo.CONFIG_MNC != 0) createString("MNC")
+            if (config and ActivityInfo.CONFIG_LOCALE != 0) createString(context.getString(R.string.locale))
+            if (config and ActivityInfo.CONFIG_TOUCHSCREEN != 0) createString(context.getString(R.string.touchscreen))
+            if (config and ActivityInfo.CONFIG_KEYBOARD != 0) createString(context.getString(R.string.keyboard))
+            if (config and ActivityInfo.CONFIG_KEYBOARD_HIDDEN != 0) createString(context.getString(R.string.keyboard_hidden))
+            if (config and ActivityInfo.CONFIG_NAVIGATION != 0) createString(context.getString(R.string.navigation))
+            if (config and ActivityInfo.CONFIG_ORIENTATION != 0) createString(context.getString(R.string.orientation))
+            if (config and ActivityInfo.CONFIG_SCREEN_LAYOUT != 0) createString(context.getString(R.string.screen_layout))
+            if (config and ActivityInfo.CONFIG_UI_MODE != 0) createString(context.getString(R.string.ui_mode))
+            if (config and ActivityInfo.CONFIG_SCREEN_SIZE != 0) createString(context.getString(R.string.screen_size))
+            if (config and ActivityInfo.CONFIG_SMALLEST_SCREEN_SIZE != 0) createString(context.getString(R.string.smallest_screen_size))
+            if (config and ActivityInfo.CONFIG_DENSITY != 0) createString(context.getString(R.string.density))
+            if (config and ActivityInfo.CONFIG_LAYOUT_DIRECTION != 0) createString(context.getString(R.string.layout_direction))
+            if (config and ActivityInfo.CONFIG_COLOR_MODE != 0) createString(context.getString(R.string.color_mode))
+            if (config and ActivityInfo.CONFIG_FONT_SCALE != 0) createString(context.getString(R.string.font_scale))
+
+            if (isBlank()) {
+                append(context.getString(R.string.no_flags))
+            }
+        }
+
+        return builder.toString()
+    }
+
     fun getOpenGL(reqGL: Int): String {
         val builder = StringBuilder()
 
