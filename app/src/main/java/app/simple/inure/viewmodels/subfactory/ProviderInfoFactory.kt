@@ -13,7 +13,7 @@ class ProviderInfoFactory(private val application: Application, private val prov
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         when {
             modelClass.isAssignableFrom(ProviderInfoViewModel::class.java) -> {
-                return ProviderInfoViewModel(application, providerInfoModel, packageInfo) as T
+                return ProviderInfoViewModel(application, providerInfoModel) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope, Wrong Viewmodel!!")

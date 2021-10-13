@@ -1,7 +1,6 @@
 package app.simple.inure.viewmodels.subviewers
 
 import android.app.Application
-import android.content.pm.PackageInfo
 import android.text.Spannable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -15,7 +14,7 @@ import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ProviderInfoViewModel(application: Application, private val providerInfoModel: ProviderInfoModel, private val packageInfo: PackageInfo) : AndroidViewModel(application) {
+class ProviderInfoViewModel(application: Application, private val providerInfoModel: ProviderInfoModel) : AndroidViewModel(application) {
 
     private val providerInfo: MutableLiveData<ArrayList<Pair<String, Spannable>>> by lazy {
         MutableLiveData<ArrayList<Pair<String, Spannable>>>().also {

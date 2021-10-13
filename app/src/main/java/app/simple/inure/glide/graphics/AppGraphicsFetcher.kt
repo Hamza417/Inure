@@ -1,6 +1,8 @@
 package app.simple.inure.glide.graphics
 
+import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
+import android.os.Build
 import app.simple.inure.util.BitmapHelper.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
@@ -24,13 +26,22 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
                 if (name == appGraphicsModel.filePath) {
                     if (name.endsWith(".svg")) {
                         val bitmap = ZipFile(appGraphicsModel.path).getInputStream(entry).use {
-                            SVG.getFromInputStream(it).renderToPicture().toBitmap()
+                            val svg = SVG.getFromInputStream(it)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                Bitmap.createBitmap(svg.renderToPicture(), 500, 500, Bitmap.Config.ARGB_8888)
+                            } else {
+                                svg.documentWidth = 150F
+                                svg.documentHeight = 150F
+                                svg.renderToPicture().toBitmap()
+                            }
                         }
                         bitmap!!.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)
                         ByteArrayInputStream(byteArrayOutputStream.toByteArray()).use {
                             callback.onDataReady(it)
                         }
                         bitmap.recycle()
+
+                        break
                     } else {
                         ZipFile(appGraphicsModel.path).use { file ->
                             file.getInputStream(entry).use { inputStream ->
@@ -39,6 +50,8 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
                                 }
                             }
                         }
+
+                        break
                     }
                 }
             }
