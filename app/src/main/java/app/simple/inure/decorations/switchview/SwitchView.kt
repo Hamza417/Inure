@@ -37,9 +37,11 @@ class SwitchView @JvmOverloads constructor(
         view.setOnClickListener {
             isChecked = if (isChecked) {
                 animateUnchecked()
+                switchCallbacks?.onCheckedChanged(false)
                 false
             } else {
                 animateChecked()
+                switchCallbacks?.onCheckedChanged(true)
                 true
             }
         }
@@ -88,7 +90,6 @@ class SwitchView @JvmOverloads constructor(
                 .start()
 
         Utils.animateBackground(ContextCompat.getColor(context, R.color.switchTrackOff), track)
-        switchCallbacks?.onCheckedChanged(false)
         animateElevation(0F)
     }
 
@@ -105,7 +106,6 @@ class SwitchView @JvmOverloads constructor(
                 .start()
 
         Utils.animateBackground(context.resolveAttrColor(R.attr.colorAppAccent), track)
-        switchCallbacks?.onCheckedChanged(true)
         animateElevation(25F)
     }
 

@@ -356,4 +356,6 @@
     <string name="foreground_service_type">Foreground Service Type</string>
     <string name="authority">Authority</string>
     <string name="init_order">Init Order</string>
+    <string name="mandatory">Mandatory</string>
+    <string name="optional">Optional</string>
 </resources>

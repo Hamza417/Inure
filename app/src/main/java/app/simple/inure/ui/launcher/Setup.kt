@@ -14,17 +14,24 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.AppOpsManagerCompat
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
+import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Setup : ScopedFragment() {
 
@@ -34,6 +41,7 @@ class Setup : ScopedFragment() {
     private lateinit var accent: DynamicRippleLinearLayout
     private lateinit var usageStatus: TypeFaceTextView
     private lateinit var storageStatus: TypeFaceTextView
+    private lateinit var rootSwitchView: SwitchView
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
 
@@ -48,6 +56,7 @@ class Setup : ScopedFragment() {
         accent = view.findViewById(R.id.setup_accent_color)
         usageStatus = view.findViewById(R.id.status_usage_access)
         storageStatus = view.findViewById(R.id.status_storage_access)
+        rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
         startApp = view.findViewById(R.id.start_app_now)
         skip = view.findViewById(R.id.skip_setup)
 
@@ -82,6 +91,8 @@ class Setup : ScopedFragment() {
 
         startPostponedEnterTransition()
 
+        rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
+
         usageAccess.setOnClickListener {
             startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
         }
@@ -110,6 +121,24 @@ class Setup : ScopedFragment() {
 
         typeface.setOnClickListener {
             FragmentHelper.openFragment(parentFragmentManager, AppearanceTypeFace.newInstance(), "typeface")
+        }
+
+        rootSwitchView.setOnSwitchCheckedChangeListener {
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                if (it && Shell.rootAccess()) {
+                    ConfigurationPreferences.setUsingRoot(true)
+
+                    withContext(Dispatchers.Main) {
+                        rootSwitchView.setChecked(true)
+                    }
+                } else {
+                    ConfigurationPreferences.setUsingRoot(false)
+
+                    withContext(Dispatchers.Main) {
+                        rootSwitchView.setChecked(false)
+                    }
+                }
+            }
         }
     }
 

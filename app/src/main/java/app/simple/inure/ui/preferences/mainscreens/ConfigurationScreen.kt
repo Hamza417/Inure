@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ConfigurationScreen : ScopedFragment() {
 
@@ -66,10 +70,20 @@ class ConfigurationScreen : ScopedFragment() {
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener {
-            if (it && Shell.getShell().isRoot) {
-                ConfigurationPreferences.setUsingRoot(true)
-            } else {
-                ConfigurationPreferences.setUsingRoot(false)
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                if (it && Shell.rootAccess()) {
+                    ConfigurationPreferences.setUsingRoot(true)
+
+                    withContext(Dispatchers.Main) {
+                        rootSwitchView.setChecked(true)
+                    }
+                } else {
+                    ConfigurationPreferences.setUsingRoot(false)
+
+                    withContext(Dispatchers.Main) {
+                        rootSwitchView.setChecked(false)
+                    }
+                }
             }
         }
 

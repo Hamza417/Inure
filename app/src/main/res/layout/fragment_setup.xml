@@ -12,12 +12,21 @@
 
         <include layout="@layout/header_setup" />
 
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/header_padding"
+            android:layout_marginTop="30dp"
+            android:paddingHorizontal="@dimen/analytics_item_padding"
+            android:text="@string/mandatory"
+            android:textColor="?attr/colorAppAccent"
+            app:appFontStyle="medium" />
+
         <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
             android:id="@+id/grant_usage_access"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/header_padding"
-            android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:padding="@dimen/analytics_item_padding">
 
@@ -87,6 +96,16 @@
 
         </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
 
+        <app.simple.inure.decorations.views.TypeFaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/header_padding"
+            android:layout_marginTop="30dp"
+            android:paddingHorizontal="@dimen/analytics_item_padding"
+            android:text="@string/optional"
+            android:textColor="?attr/colorAppAccent"
+            app:appFontStyle="medium" />
+
         <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
             android:id="@+id/setup_typeface"
             android:layout_width="match_parent"
@@ -141,6 +160,58 @@
 
         </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/configuration_root_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/header_padding"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="@dimen/analytics_item_padding">
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/typeFaceTextView07"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_root_methods"
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView15"
+                app:layout_constraintEnd_toStartOf="@+id/configuration_root_switch_view"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <app.simple.inure.decorations.views.TypeFaceTextView
+                android:id="@+id/typeFaceTextView15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:text="@string/root_desc"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/configuration_root_switch_view"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/typeFaceTextView07" />
+
+            <app.simple.inure.decorations.switchview.SwitchView
+                android:id="@+id/configuration_root_switch_view"
+                android:layout_width="@dimen/switch_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -174,6 +245,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
