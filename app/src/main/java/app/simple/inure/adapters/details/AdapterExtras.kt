@@ -12,6 +12,7 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.StringUtils.highlightExtensions
+import app.simple.inure.util.StringUtils.optimizeToColoredString
 
 
 class AdapterExtras(val list: MutableList<String>) : RecyclerView.Adapter<AdapterExtras.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -30,9 +31,9 @@ class AdapterExtras(val list: MutableList<String>) : RecyclerView.Adapter<Adapte
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.extra.text = if (isHighlighted) {
-            list[position].highlightExtensions()
+            list[position].optimizeToColoredString(holder.itemView.context, "/").highlightExtensions()
         } else {
-            list[position]
+            list[position].optimizeToColoredString(holder.itemView.context, "/")
         }
 
         holder.extra.setOnClickListener {

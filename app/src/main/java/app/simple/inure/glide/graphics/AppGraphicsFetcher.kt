@@ -22,10 +22,10 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
             while (entries.hasMoreElements()) {
                 val entry: ZipEntry? = entries.nextElement()
-                val name: String = entry!!.name
-                if (name == appGraphicsModel.filePath) {
-                    if (name.endsWith(".svg")) {
+                if (entry!!.name == appGraphicsModel.filePath) {
+                    if (entry.name.endsWith(".svg")) {
                         val bitmap = ZipFile(appGraphicsModel.path).getInputStream(entry).use {
+                            // TODO - fix resource leak here
                             val svg = SVG.getFromInputStream(it)
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                 Bitmap.createBitmap(svg.renderToPicture(), 500, 500, Bitmap.Config.ARGB_8888)
@@ -35,10 +35,13 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
                                 svg.renderToPicture().toBitmap()
                             }
                         }
+
                         bitmap!!.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)
+
                         ByteArrayInputStream(byteArrayOutputStream.toByteArray()).use {
                             callback.onDataReady(it)
                         }
+
                         bitmap.recycle()
 
                         break

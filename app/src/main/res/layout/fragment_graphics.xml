@@ -35,6 +35,24 @@
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/graphics_filter"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/ic_filter_list"
+            android:tint="?attr/colorAppAccent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/graphics_options"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/ic_more_vert"
+            android:tint="?attr/colorAppAccent" />
+
     </LinearLayout>
 
     <View

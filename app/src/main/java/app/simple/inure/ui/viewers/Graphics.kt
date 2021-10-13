@@ -9,9 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterGraphics
 import app.simple.inure.apk.parsers.APKParser
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.viewers.PopupGraphicsMenu
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
@@ -19,13 +21,16 @@ import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Graphics : ScopedFragment() {
 
+    private lateinit var options: DynamicRippleImageButton
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private var adapterGraphics: AdapterGraphics? = null
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_graphics, container, false)
 
+        options = view.findViewById(R.id.graphics_options)
         recyclerView = view.findViewById(R.id.graphics_recycler_view)
         packageInfo = requireArguments().getParcelable("application_info")!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
@@ -40,11 +45,11 @@ class Graphics : ScopedFragment() {
         startPostponedEnterTransition()
 
         componentsViewModel.getGraphics().observe(viewLifecycleOwner, {
-            val adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, APKParser.getGraphicsFiles(packageInfo.applicationInfo.sourceDir))
+            adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, APKParser.getGraphicsFiles(packageInfo.applicationInfo.sourceDir))
 
             recyclerView.adapter = adapterGraphics
 
-            adapterGraphics.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
+            adapterGraphics!!.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
                 override fun onGraphicsClicked(path: String, filePath: String, view: ViewGroup, xOff: Float, yOff: Float) {
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                 ImageViewer.newInstance(packageInfo.applicationInfo.sourceDir, filePath),
@@ -74,6 +79,15 @@ class Graphics : ScopedFragment() {
                 }
             })
         })
+
+        options.setOnClickListener {
+            PopupGraphicsMenu(it)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        adapterGraphics?.unregister()
     }
 
     companion object {

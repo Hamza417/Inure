@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.details
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -12,13 +13,22 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
+import app.simple.inure.preferences.GraphicsPreferences
+import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.StringUtils.highlightExtensions
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 
-class AdapterGraphics(val path: String, val list: MutableList<String>) : RecyclerView.Adapter<AdapterGraphics.Holder>() {
+class AdapterGraphics(val path: String, val list: MutableList<String>) : RecyclerView.Adapter<AdapterGraphics.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var graphicsCallbacks: GraphicsCallbacks
     private var xOff = 0f
     private var yOff = 0f
+    private var isHighlighted: Boolean = GraphicsPreferences.isExtensionsHighlighted()
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_graphics, parent, false))
@@ -26,7 +36,12 @@ class AdapterGraphics(val path: String, val list: MutableList<String>) : Recycle
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.xml.text = list[position].optimizeToColoredString(holder.itemView.context, "/")
+        holder.xml.text = if (isHighlighted) {
+            list[position].optimizeToColoredString(holder.itemView.context, "/").highlightExtensions()
+        } else {
+            list[position].optimizeToColoredString(holder.itemView.context, "/")
+        }
+
         holder.graphics.loadGraphics(path, list[position])
 
         holder.container.setOnTouchListener { _, event ->
@@ -57,10 +72,25 @@ class AdapterGraphics(val path: String, val list: MutableList<String>) : Recycle
         this.graphicsCallbacks = resourceCallbacks
     }
 
+    fun unregister() {
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_graphics_container)
         val graphics: ImageView = itemView.findViewById(R.id.adapter_graphics_iv)
         val xml: TypeFaceTextView = itemView.findViewById(R.id.adapter_graphics_name)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            GraphicsPreferences.extensionHighlight -> {
+                isHighlighted = GraphicsPreferences.isExtensionsHighlighted().also {
+                    notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     interface GraphicsCallbacks {

@@ -90,10 +90,10 @@ object StringUtils {
      *
      * @return [Spannable]
      */
-    fun String.highlightExtensions(): Spannable {
+    fun Spannable.highlightExtensions(): Spannable {
         kotlin.runCatching {
             val spannable: Spannable = SpannableString(this)
-            spannable.setSpan(ForegroundColorSpan(getExtensionHardcodedColors(this)),
+            spannable.setSpan(ForegroundColorSpan(getExtensionHardcodedColors(this.toString())),
                               this.lastIndexOf("."),
                               this.length,
                               Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -118,6 +118,12 @@ object StringUtils {
             path.endsWith(".ttf") -> Color.parseColor("#1f618d")
             path.endsWith(".md") -> Color.parseColor("#2e4053")
             path.endsWith(".pdf") -> Color.parseColor("#b03a2e")
+            path.endsWith(".svg") -> Color.parseColor("#45b39d")
+            path.endsWith(".png") -> Color.parseColor("#F5B041")
+            path.endsWith(".jpg") -> Color.parseColor("#e67e22")
+            path.endsWith(".jpeg") -> Color.parseColor("#707b7c")
+            path.endsWith(".gif") -> Color.parseColor("#808b96")
+            path.endsWith(".webp") -> Color.parseColor("#196f3d")
             else -> Color.BLACK
         }
     }
