@@ -27,7 +27,7 @@
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold" />
 
-        <CheckBox
+        <app.simple.inure.decorations.views.CustomCheckBox
             android:id="@+id/graphics_highlight_checkbox"
             android:layout_width="40dp"
             android:layout_height="40dp"
