@@ -107,9 +107,7 @@ class JSONViewer : ScopedFragment() {
         })
 
         options.setOnClickListener {
-            val p = PopupXmlViewer(it)
-
-            p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
+            PopupXmlViewer(it).setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {
                     when (source) {
                         getString(R.string.copy) -> {
