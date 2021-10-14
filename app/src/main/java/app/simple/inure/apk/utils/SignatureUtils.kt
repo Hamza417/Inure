@@ -17,34 +17,26 @@ import kotlin.experimental.and
 
 object SignatureUtils {
 
-    fun PackageInfo.getApplicationSignature(context: Context): Pair<X509Certificate, Signature>? {
-        try {
-            val arrayOfSignatures: Array<Signature> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.apkContentsSigners
-            } else {
-                @Suppress("deprecation", "PackageManagerGetSignatures")
-                context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
-            }
-
-            for (signature in arrayOfSignatures) {
-                /**
-                 * Get the X.509 certificate.
-                 */
-                val rawCert = signature.toByteArray()
-                val certStream: InputStream = ByteArrayInputStream(rawCert)
-
-                try {
-                    val certFactory: CertificateFactory = CertificateFactory.getInstance("X.509")
-                    return Pair(certFactory.generateCertificate(certStream) as X509Certificate, signature)
-                } catch (e: CertificateException) {
-                    e.printStackTrace()
-                }
-            }
-        } catch (e: PackageManager.NameNotFoundException) {
-            return null
+    fun PackageInfo.getApplicationSignature(context: Context): Pair<X509Certificate, Signature> {
+        val arrayOfSignatures: Array<Signature> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.apkContentsSigners
+        } else {
+            @Suppress("deprecation", "PackageManagerGetSignatures")
+            context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
         }
 
-        return null
+        for (signature in arrayOfSignatures) {
+            /**
+             * Get the X.509 certificate.
+             */
+            val rawCert = signature.toByteArray()
+            val certStream: InputStream = ByteArrayInputStream(rawCert)
+
+            val certFactory: CertificateFactory = CertificateFactory.getInstance("X.509")
+            return Pair(certFactory.generateCertificate(certStream) as X509Certificate, signature)
+        }
+
+        throw CertificateException("Certificate not found.")
     }
 
     /**

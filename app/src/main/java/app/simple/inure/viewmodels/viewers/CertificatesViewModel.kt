@@ -42,7 +42,7 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
             kotlin.runCatching {
                 val context = getApplication<Application>().applicationContext
 
-                val pair = packageInfo.getApplicationSignature(context)!!
+                val pair = packageInfo.getApplicationSignature(context)
 
                 val arrayList = arrayListOf(
                     Pair(context.getString(R.string.sign_algorithm), pair.first.sigAlgName.applySecondaryTextColor(context)),
@@ -59,7 +59,7 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
 
                 this@CertificatesViewModel.certificate.postValue(arrayList)
             }.getOrElse {
-                delay(1000L)
+                delay(500L)
                 error.postValue(it.message)
             }
         }
