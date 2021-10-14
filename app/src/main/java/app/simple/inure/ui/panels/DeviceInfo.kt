@@ -3,8 +3,6 @@ package app.simple.inure.ui.panels
 import android.app.ActivityManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
-import android.hardware.Sensor
-import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +17,9 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAnalytics
+import app.simple.inure.ui.viewers.Sensors
 import app.simple.inure.util.FileSizeHelper.toSize
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.viewmodels.panels.AppsAnalyticsData
 import com.scottyab.rootbeer.RootBeer
@@ -38,7 +38,7 @@ class DeviceInfo : ScopedFragment() {
     private lateinit var usedRam: TypeFaceTextView
     private lateinit var totalUserApps: TypeFaceTextView
     private lateinit var totalSystemApps: TypeFaceTextView
-    private lateinit var availableSensors: TypeFaceTextView
+    private lateinit var sensors: TypeFaceTextView
 
     private lateinit var ramIndicator: CustomProgressBar
     private lateinit var totalUserAppsIndicator: CustomProgressBar
@@ -59,7 +59,7 @@ class DeviceInfo : ScopedFragment() {
         usedRam = view.findViewById(R.id.analytics_total_used)
         totalUserApps = view.findViewById(R.id.analytics_total_user_apps)
         totalSystemApps = view.findViewById(R.id.analytics_total_system_apps)
-        availableSensors = view.findViewById(R.id.analytics_all_sensors)
+        sensors = view.findViewById(R.id.sensors)
         popup = view.findViewById(R.id.analytics_options_button)
 
         ramIndicator = view.findViewById(R.id.analytics_ram_progress_bar)
@@ -89,13 +89,19 @@ class DeviceInfo : ScopedFragment() {
                 }
             })
         }
+
+        sensors.setOnClickListener {
+            clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        Sensors.newInstance(),
+                                        "sensor_info")
+        }
     }
 
     private fun setEverything() {
         setDeviceAnalytics()
         setRamAnalytics()
         setAppsAnalytics()
-        setSensors()
     }
 
     private fun setAppsAnalytics() {
@@ -182,20 +188,6 @@ class DeviceInfo : ScopedFragment() {
 
             availableRam.text = available.toSize()
             usedRam.text = used.toSize()
-        }
-    }
-
-    private fun setSensors() {
-        val sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
-
-        val mutableList = sensorManager.getSensorList(Sensor.TYPE_ALL)
-
-        for (x in mutableList.indices) {
-            if (x == 0) {
-                availableSensors.text = mutableList[x].name
-            } else {
-                availableSensors.text = java.lang.StringBuilder().append(availableSensors.text).append("\n").append(mutableList[x].name)
-            }
         }
     }
 

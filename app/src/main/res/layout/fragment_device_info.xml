@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/analytics_item_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +19,18 @@
 
         <include layout="@layout/analytics_apps" />
 
-        <include layout="@layout/analytics_sensor" />
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/sensors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="@dimen/analytics_item_padding"
+            android:text="@string/sensors"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/textHeading"
+            android:textSize="@dimen/analytics_main_heading_text_size"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_arrow_right" />
 
     </LinearLayout>
 

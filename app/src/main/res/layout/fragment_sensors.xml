@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/mainBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
         android:padding="@dimen/header_padding">
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/app_info_back_button"
+            android:id="@+id/sensors_back_button"
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
@@ -30,19 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:text="@string/app_information"
+            android:text="@string/sensors"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
-            android:transitionName="@string/app_information"
             app:appFontStyle="bold" />
-
-        <app.simple.inure.decorations.views.CustomProgressBar
-            android:id="@+id/information_data_progress"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="@dimen/panel_icon_size"
-            android:layout_height="@dimen/panel_icon_size"
-            android:indeterminateTint="?attr/colorAppAccent"
-            android:padding="10dp" />
 
     </LinearLayout>
 
@@ -52,7 +42,7 @@
         android:background="@color/divider" />
 
     <app.simple.inure.decorations.views.CustomVerticalRecyclerView
-        android:id="@+id/information_data_recycler_view"
+        android:id="@+id/sensors_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
