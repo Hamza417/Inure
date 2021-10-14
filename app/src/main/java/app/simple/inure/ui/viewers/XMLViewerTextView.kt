@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +17,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.decorations.views.TypeFaceEditText
 import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
@@ -34,7 +34,7 @@ class XMLViewerTextView : ScopedFragment() {
 
     private lateinit var text: TypeFaceEditText
     private lateinit var name: TypeFaceTextView
-    private lateinit var progress: ProgressBar
+    private lateinit var progress: CustomProgressBar
     private lateinit var options: DynamicRippleImageButton
     private lateinit var scrollView: PaddingAwareNestedScrollView
 
@@ -90,7 +90,7 @@ class XMLViewerTextView : ScopedFragment() {
         componentsViewModel.getSpanned().observe(viewLifecycleOwner, {
             text.setText(it)
             name.text = requireArguments().getString("path_to_xml")!!
-            progress.invisible()
+            progress.hide()
             options.visible()
         })
 

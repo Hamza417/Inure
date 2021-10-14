@@ -28,7 +28,7 @@
         android:textSize="18sp"
         app:appFontStyle="bold" />
 
-    <ProgressBar
+    <app.simple.inure.decorations.views.CustomProgressBar
         android:id="@+id/json_loader"
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="@dimen/panel_icon_size"

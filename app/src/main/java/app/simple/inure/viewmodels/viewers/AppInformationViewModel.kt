@@ -34,28 +34,16 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
     }
 
-    private val progress: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
-    }
-
     fun getInformation(): LiveData<ArrayList<Pair<String, Spannable>>> {
         return information
-    }
-
-    fun getProgress(): LiveData<Int> {
-        return progress
     }
 
     private fun loadInformation() {
         val context = getApplication<Application>().applicationContext
         val pi = context.packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA)
 
-        progress.postValue(0)
-
         val version = PackageUtils.getApplicationVersion(context, packageInfo)
         val versionCode = PackageUtils.getApplicationVersionCode(context, packageInfo)
-
-        progress.postValue(11)
 
         val apex = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             if (pi.isApex)
@@ -63,8 +51,6 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         } else {
             context.getString(R.string.not_available)
         }
-
-        progress.postValue(22)
 
         val installLocation = kotlin.runCatching {
             when (pi.installLocation) {
@@ -83,8 +69,6 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             context.getString(R.string.not_available)
         }
 
-        progress.postValue(33)
-
         val glesVersion = kotlin.runCatching {
             if (packageInfo.getGlEsVersion().isEmpty()) {
                 context.getString(R.string.not_available)
@@ -95,13 +79,9 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             context.getString(R.string.not_available)
         }
 
-        progress.postValue(44)
-
         val uid = packageInfo.applicationInfo.uid.toString()
         val installDate = packageInfo.getApplicationInstallTime(context)
         val updateDate = packageInfo.getApplicationLastUpdateTime(context)
-
-        progress.postValue(55)
 
         val method = kotlin.runCatching {
             val p0 = packageInfo.applicationInfo.getDexData()!!
@@ -119,8 +99,6 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }.getOrElse {
             it.message!!
         }
-
-        progress.postValue(66)
 
         val minSdk = kotlin.runCatching {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -142,23 +120,17 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             context.getString(R.string.dex_error)
         }
 
-        progress.postValue(77)
-
         val targetSdk = kotlin.runCatching {
             "${pi.applicationInfo.targetSdkVersion}, ${SDKHelper.getSdkTitle(pi.applicationInfo.targetSdkVersion)}"
         }.getOrElse {
             it.message!!
         }
 
-        progress.postValue(88)
-
         val applicationType = if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
             context.getString(R.string.system)
         } else {
             context.getString(R.string.user)
         }
-
-        progress.postValue(99)
 
         val data = arrayListOf(
             Pair(context.getString(R.string.version), version.applySecondaryTextColor(context)),

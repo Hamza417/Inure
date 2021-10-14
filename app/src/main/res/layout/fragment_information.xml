@@ -26,25 +26,25 @@
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.views.TypeFaceTextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:text="@string/app_information"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
             android:transitionName="@string/app_information"
             app:appFontStyle="bold" />
 
-    </LinearLayout>
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/information_data_progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/panel_icon_size"
+            android:layout_height="@dimen/panel_icon_size"
+            android:indeterminateTint="?attr/colorAppAccent"
+            android:padding="10dp" />
 
-    <ProgressBar
-        android:id="@+id/information_data_progress"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:progressBackgroundTint="@android:color/transparent"
-        android:progressTint="?attr/colorAppAccent"
-        tools:ignore="PxUsage" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -58,4 +58,5 @@
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
         app:statusBarPaddingRequired="false" />
+
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

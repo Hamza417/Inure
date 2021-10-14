@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterInformation
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
@@ -19,7 +19,7 @@ class Information : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var back: DynamicRippleImageButton
-    private lateinit var progress: ProgressBar
+    private lateinit var progress: CustomProgressBar
 
     private lateinit var viewModel: AppInformationViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -45,17 +45,9 @@ class Information : ScopedFragment() {
         startPostponedEnterTransition()
 
         viewModel.getInformation().observe(viewLifecycleOwner, {
-            progress.animate().alpha(0F).setDuration(1000L).start()
+            progress.hide()
             val adapterInformation = AdapterInformation(it)
             recyclerView.adapter = adapterInformation
-        })
-
-        viewModel.getProgress().observe(viewLifecycleOwner, {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                progress.setProgress(it, true)
-            } else {
-                progress.progress = it
-            }
         })
 
         back.setOnClickListener {

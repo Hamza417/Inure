@@ -35,6 +35,6 @@
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular" />
 
-
     </LinearLayout>
+
 </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
