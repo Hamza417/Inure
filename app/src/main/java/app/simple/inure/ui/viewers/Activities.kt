@@ -1,5 +1,6 @@
 package app.simple.inure.ui.viewers
 
+import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,8 +41,6 @@ class Activities : ScopedFragment() {
     private lateinit var activitiesViewModel: ActivitiesViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var adapterActivities: AdapterActivities
-
-    private var isSearchVisible = !ActivitiesPreferences.isActivitySearchVisible()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_activities, container, false)
@@ -154,7 +153,7 @@ class Activities : ScopedFragment() {
         })
 
         search.setOnClickListener {
-            searchBoxState()
+            ActivitiesPreferences.setActivitySearch(!ActivitiesPreferences.isActivitySearchVisible())
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
@@ -163,18 +162,22 @@ class Activities : ScopedFragment() {
     }
 
     private fun searchBoxState() {
-        isSearchVisible = if (isSearchVisible) {
-            search.setImageResource(R.drawable.ic_search)
-            title.visible(true)
-            searchBox.gone()
-            ActivitiesPreferences.setActivitySearch(false)
-            false
-        } else {
+        if (ActivitiesPreferences.isActivitySearchVisible()) {
             search.setImageResource(R.drawable.ic_close)
             title.gone()
             searchBox.visible(true)
-            ActivitiesPreferences.setActivitySearch(true)
-            true
+        } else {
+            search.setImageResource(R.drawable.ic_search)
+            title.visible(true)
+            searchBox.gone()
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            ActivitiesPreferences.activitySearch -> {
+                searchBoxState()
+            }
         }
     }
 

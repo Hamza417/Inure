@@ -2,7 +2,7 @@ package app.simple.inure.preferences
 
 object ActivitiesPreferences {
 
-    private const val activitySearch = "activities_search"
+    const val activitySearch = "activities_search"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
