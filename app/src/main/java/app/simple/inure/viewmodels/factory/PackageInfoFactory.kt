@@ -41,6 +41,9 @@ class PackageInfoFactory(private val application: Application, private val packa
             modelClass.isAssignableFrom(GraphicsViewModel::class.java) -> {
                 return GraphicsViewModel(application, packageInfo) as T
             }
+            modelClass.isAssignableFrom(PermissionsViewModel::class.java) -> {
+                return PermissionsViewModel(application, packageInfo) as T
+            }
             else -> {
                 /**
                  * This viewmodel factory is specific to

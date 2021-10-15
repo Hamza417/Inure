@@ -6,11 +6,11 @@ object ActivitiesPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setActivitySearch(boolean: Boolean) {
+    fun setSearchVisibility(boolean: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(activitySearch, boolean).apply()
     }
 
-    fun isActivitySearchVisible(): Boolean {
+    fun isSearchVisible(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(activitySearch, false)
     }
 }

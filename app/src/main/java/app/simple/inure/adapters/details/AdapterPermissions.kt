@@ -15,12 +15,13 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
-class AdapterPermissions(private val permissions: MutableList<app.simple.inure.model.PermissionInfo>)
+class AdapterPermissions(private val permissions: MutableList<app.simple.inure.model.PermissionInfo>, private val keyword: String)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
     private lateinit var permissionCallbacks: PermissionCallbacks
@@ -58,6 +59,10 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
             holder.container.setOnClickListener {
                 permissionCallbacks.onPermissionClicked(it, permissions[position], position)
             }
+        }
+
+        if (keyword.isNotBlank()) {
+            AdapterUtils.searchHighlighter(holder.name, keyword)
         }
     }
 

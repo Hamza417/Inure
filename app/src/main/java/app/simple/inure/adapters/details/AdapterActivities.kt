@@ -85,7 +85,9 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
             }
         }
 
-        AdapterUtils.searchHighlighter(holder.name, keyword)
+        if (keyword.isNotBlank()) {
+            AdapterUtils.searchHighlighter(holder.name, keyword)
+        }
     }
 
     override fun getItemCount(): Int {

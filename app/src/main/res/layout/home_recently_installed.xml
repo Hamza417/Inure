@@ -7,11 +7,13 @@
     android:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/recently_installed_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="25dp"
         android:paddingTop="@dimen/header_padding"
+        app:drawableEndCompat="@drawable/ic_arrow_right"
         android:text="@string/recently_installed"
         android:textColor="@color/textSecondary"
         android:textSize="@dimen/home_heading_text_size"

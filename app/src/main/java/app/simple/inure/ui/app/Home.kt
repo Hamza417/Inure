@@ -136,7 +136,6 @@ class Home : ScopedFragment() {
             postponeEnterTransition()
 
             navigationRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
-            navigationRecyclerView.setHasFixedSize(true)
 
             val adapter = AdapterHomeMenu(it)
 

@@ -35,7 +35,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
         return when (viewType) {
             TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
-                               .inflate(R.layout.adapter_all_apps_header, parent, false))
+                               .inflate(R.layout.adapter_header_all_apps, parent, false))
             }
             TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)

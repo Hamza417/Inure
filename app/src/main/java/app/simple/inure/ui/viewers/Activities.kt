@@ -146,7 +146,7 @@ class Activities : ScopedFragment() {
         })
 
         search.setOnClickListener {
-            ActivitiesPreferences.setActivitySearch(!ActivitiesPreferences.isActivitySearchVisible())
+            ActivitiesPreferences.setSearchVisibility(!ActivitiesPreferences.isSearchVisible())
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
@@ -157,7 +157,7 @@ class Activities : ScopedFragment() {
     }
 
     private fun searchBoxState() {
-        if (ActivitiesPreferences.isActivitySearchVisible()) {
+        if (ActivitiesPreferences.isSearchVisible()) {
             search.setImageResource(R.drawable.ic_close)
             title.gone()
             searchBox.visible(true)

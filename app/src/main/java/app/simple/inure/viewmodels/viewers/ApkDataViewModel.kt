@@ -13,7 +13,9 @@ import app.simple.inure.R
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.constants.Misc.delay
-import app.simple.inure.model.*
+import app.simple.inure.model.ActivityInfoModel
+import app.simple.inure.model.ProviderInfoModel
+import app.simple.inure.model.ServiceInfoModel
 import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -36,12 +38,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
     private val features: MutableLiveData<MutableList<FeatureInfo>> by lazy {
         MutableLiveData<MutableList<FeatureInfo>>().also {
             getFeaturesData()
-        }
-    }
-
-    private val permissions: MutableLiveData<MutableList<PermissionInfo>> by lazy {
-        MutableLiveData<MutableList<PermissionInfo>>().also {
-            loadPermissionData()
         }
     }
 
@@ -73,10 +69,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     fun getFeatures(): LiveData<MutableList<FeatureInfo>> {
         return features
-    }
-
-    fun getPermissions(): LiveData<MutableList<PermissionInfo>> {
-        return permissions
     }
 
     fun getProviders(): LiveData<MutableList<ProviderInfoModel>> {
@@ -148,36 +140,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                 }
 
                 features.postValue(list)
-            }.getOrElse {
-                delay(delay)
-                error.postValue(it.message)
-            }
-        }
-    }
-
-    private fun loadPermissionData() {
-        viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                val appPackageInfo = getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)
-                val permissions = arrayListOf<PermissionInfo>()
-
-                for (permission in appPackageInfo.requestedPermissions) {
-                    for (flags in appPackageInfo.requestedPermissionsFlags) {
-                        if (flags and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
-                            permissions.add(PermissionInfo(true, permission))
-                            break
-                        } else {
-                            permissions.add(PermissionInfo(false, permission))
-                            break
-                        }
-                    }
-                }
-
-                this@ApkDataViewModel.permissions.postValue(permissions.apply {
-                    sortBy {
-                        it.name.lowercase(Locale.getDefault())
-                    }
-                })
             }.getOrElse {
                 delay(delay)
                 error.postValue(it.message)
