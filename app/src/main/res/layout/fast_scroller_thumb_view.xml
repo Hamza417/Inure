@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/fast_scroller_thumb_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

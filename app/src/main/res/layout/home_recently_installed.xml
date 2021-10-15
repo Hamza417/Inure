@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="25dp"

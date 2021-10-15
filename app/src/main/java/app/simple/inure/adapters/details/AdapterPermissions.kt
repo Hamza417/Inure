@@ -12,8 +12,8 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.apk.utils.PermissionUtils.protectionToString
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.StringUtils.optimizeToColoredString
@@ -45,7 +45,7 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
             /* ----------------------------------------------------------------- */
 
             holder.status.setTextColor(holder.itemView.context.resolveAttrColor(R.attr.colorAppAccent))
-            holder.desc.visible()
+            holder.desc.visible(false)
 
         }.getOrElse {
             holder.name.text = permissions[position].name.optimizeToColoredString(holder.itemView.context, ".")

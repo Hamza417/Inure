@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_all_app_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         app:layout_constraintTop_toTopOf="@+id/adapter_all_app_icon"
         app:layout_constraintVertical_bias="0.0" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_all_app_package_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_name" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_all_app_package_size"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
         app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_package_id" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_all_app_type"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -7,7 +7,7 @@
     tools:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/analytics_item_padding"
@@ -18,7 +18,7 @@
         android:textSize="@dimen/analytics_main_heading_text_size"
         app:appFontStyle="bold" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/analytics_item_padding"
@@ -34,7 +34,7 @@
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/analytics_item_padding">
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/analytics_total_user_apps"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
 
     </LinearLayout>
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/analytics_info_heading_text_margin_top"
@@ -74,7 +74,7 @@
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/analytics_item_padding">
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/analytics_total_system_apps"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

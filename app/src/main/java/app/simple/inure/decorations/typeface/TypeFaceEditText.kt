@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.views
+package app.simple.inure.decorations.typeface
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,7 @@ import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.TypeFace
 
-class TypeFaceEditText : AppCompatEditText {
+open class TypeFaceEditText : AppCompatEditText {
     constructor(context: Context?) : super(context!!) {
         init(null)
     }

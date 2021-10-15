@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.viewmodels.dialogs.FilePreparingViewModel
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
-import app.simple.inure.viewmodels.viewers.ApkDataViewModel
-import app.simple.inure.viewmodels.viewers.AppInformationViewModel
-import app.simple.inure.viewmodels.viewers.CertificatesViewModel
-import app.simple.inure.viewmodels.viewers.DexDataViewModel
+import app.simple.inure.viewmodels.viewers.*
 
 class PackageInfoFactory(private val application: Application, private val packageInfo: PackageInfo)
     : ViewModelProvider.AndroidViewModelFactory(application) {
@@ -34,6 +31,9 @@ class PackageInfoFactory(private val application: Application, private val packa
             }
             modelClass.isAssignableFrom(DexDataViewModel::class.java) -> {
                 return DexDataViewModel(application, packageInfo) as T
+            }
+            modelClass.isAssignableFrom(ActivitiesViewModel::class.java) -> {
+                return ActivitiesViewModel(application, packageInfo) as T
             }
             else -> {
                 /**

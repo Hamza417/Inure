@@ -10,8 +10,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences

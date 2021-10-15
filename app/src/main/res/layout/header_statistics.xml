@@ -17,7 +17,7 @@
         android:transitionName="@string/usage_statistics"
         tools:ignore="ContentDescription" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/header_name"
         android:layout_width="0dp"
         android:layout_weight="1"

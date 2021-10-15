@@ -56,10 +56,10 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
                 holder.textView.text = list[position].typefaceName
 
                 if (AppearancePreferences.getAppFont() == list[position].name) {
-                    holder.icon.visible()
+                    holder.icon.visible(false)
                     holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textPrimary))
                 } else {
-                    holder.icon.invisible()
+                    holder.icon.invisible(false)
                     holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textTertiary))
                 }
 

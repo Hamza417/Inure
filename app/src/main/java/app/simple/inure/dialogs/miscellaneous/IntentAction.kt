@@ -9,8 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.decorations.views.TypeFaceTextInputEditText
-import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.decorations.typeface.TypeFaceTextInputEditText
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedDialogFragment
 
 class IntentAction : ScopedDialogFragment() {
@@ -26,7 +26,7 @@ class IntentAction : ScopedDialogFragment() {
         action = view.findViewById(R.id.intent_action_edit_text)
         launch = view.findViewById(R.id.launch_intent_action)
 
-        applicationInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable("application_info")!!
 
         return view
     }
@@ -35,7 +35,7 @@ class IntentAction : ScopedDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        command.text = "am start -n ${applicationInfo.packageName}/${requireArguments().getString("packageId")} " +
+        command.text = "am start -n ${packageInfo.packageName}/${requireArguments().getString("packageId")} " +
                 "-a android.intent.action.MAIN"
 
         action.addTextChangedListener(object : TextWatcher {
@@ -44,7 +44,7 @@ class IntentAction : ScopedDialogFragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                command.text = "am start -n ${applicationInfo.packageName}/" +
+                command.text = "am start -n ${packageInfo.packageName}/" +
                         "${requireArguments().getString("packageId")!!} " +
                         "-a \"${s.toString()}\""
             }
@@ -61,9 +61,9 @@ class IntentAction : ScopedDialogFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo, packageId: String): IntentAction {
+        fun newInstance(packageInfo: PackageInfo, packageId: String): IntentAction {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable("application_info", packageInfo)
             args.putString("packageId", packageId)
             val fragment = IntentAction()
             fragment.arguments = args

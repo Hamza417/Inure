@@ -1,17 +1,12 @@
 package app.simple.inure.decorations.views
 
-import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
-import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.visible
 
 class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : ProgressBar(context, attrs, defStyleAttr) {
@@ -50,56 +45,6 @@ class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: Attri
         } else {
             progressTintList = ColorStateList.valueOf(color)
         }
-    }
-
-    fun hide() {
-        animate()
-                .alpha(0F)
-                .setInterpolator(AccelerateInterpolator())
-                .setDuration(duration)
-                .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator?) {
-                        /* no-op */
-                    }
-
-                    override fun onAnimationEnd(animation: Animator?) {
-                        gone()
-                    }
-
-                    override fun onAnimationCancel(animation: Animator?) {
-                        /* no-op */
-                    }
-
-                    override fun onAnimationRepeat(animation: Animator?) {
-                        /* no-op */
-                    }
-                })
-                .start()
-    }
-
-    fun show() {
-        animate()
-                .alpha(1F)
-                .setInterpolator(DecelerateInterpolator())
-                .setDuration(duration)
-                .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator?) {
-                        visible()
-                    }
-
-                    override fun onAnimationEnd(animation: Animator?) {
-                        /* no-op */
-                    }
-
-                    override fun onAnimationCancel(animation: Animator?) {
-                        /* no-op */
-                    }
-
-                    override fun onAnimationRepeat(animation: Animator?) {
-                        /* no-op */
-                    }
-                })
-                .start()
     }
 
     override fun onDetachedFromWindow() {

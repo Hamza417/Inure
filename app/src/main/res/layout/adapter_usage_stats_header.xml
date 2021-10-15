@@ -24,7 +24,7 @@
             android:src="@drawable/ic_stats"
             android:transitionName="@string/usage_statistics" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
 
     </LinearLayout>
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_total_apps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
-import app.simple.inure.decorations.views.TypeFaceTextView
 
 class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Adapter<AdapterSensors.Holder>() {
 

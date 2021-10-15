@@ -23,7 +23,7 @@
             android:transitionName="@string/services"
             app:tint="?attr/colorAppAccent" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -50,7 +50,7 @@
             android:orientation="vertical"
             android:padding="30dp">
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,21 +58,21 @@
                 android:text="@string/apk_base_package"
                 app:appFontStyle="bold" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/sub_directory_base_package"
                 style="@style/InfoTextSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:appFontStyle="regular" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/data"
                 app:appFontStyle="bold" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/sub_directory_data"
                 style="@style/InfoTextSmall"
                 android:layout_width="wrap_content"

@@ -8,8 +8,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.HorizontalListViewHolder
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 
 class AdapterHomeRecentlyUpdated(private val list: ArrayList<PackageInfo>) : RecyclerView.Adapter<AdapterHomeRecentlyUpdated.Holder>() {

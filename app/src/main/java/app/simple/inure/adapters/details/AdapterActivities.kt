@@ -8,16 +8,17 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
+import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
-class AdapterActivities(private val packageInfo: PackageInfo, private val activities: MutableList<ActivityInfoModel>)
+class AdapterActivities(private val packageInfo: PackageInfo, private val activities: MutableList<ActivityInfoModel>, private val keyword: String = "")
     : RecyclerView.Adapter<AdapterActivities.Holder>() {
 
     private lateinit var activitiesCallbacks: ActivitiesCallbacks
@@ -56,8 +57,8 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
 
         if (activities[position].exported) {
             if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
-                holder.launch.visible()
-                holder.divider.visible()
+                holder.launch.visible(false)
+                holder.divider.visible(false)
             } else {
                 holder.launch.gone()
                 holder.divider.gone()
@@ -83,6 +84,8 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
                 true
             }
         }
+
+        AdapterUtils.searchHighlighter(holder.name, holder.itemView.context, keyword)
     }
 
     override fun getItemCount(): Int {

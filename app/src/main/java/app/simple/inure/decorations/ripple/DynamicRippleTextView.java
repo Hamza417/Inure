@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import app.simple.inure.decorations.views.TypeFaceTextView;
+import app.simple.inure.decorations.typeface.TypeFaceTextView;
 
 /**
  * {@link androidx.appcompat.widget.AppCompatTextView} but with animated

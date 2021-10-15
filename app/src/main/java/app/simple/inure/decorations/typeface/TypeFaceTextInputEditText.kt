@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.views
+package app.simple.inure.decorations.typeface
 
 import android.content.Context
 import android.util.AttributeSet

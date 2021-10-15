@@ -22,7 +22,7 @@ import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog

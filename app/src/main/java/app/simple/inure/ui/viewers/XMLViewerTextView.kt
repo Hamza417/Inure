@@ -17,14 +17,14 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceEditText
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.decorations.views.TypeFaceEditText
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
-import app.simple.inure.util.ViewUtils.invisible
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.XmlDataFactory
 import app.simple.inure.viewmodels.viewers.XMLViewerData
@@ -90,12 +90,12 @@ class XMLViewerTextView : ScopedFragment() {
         componentsViewModel.getSpanned().observe(viewLifecycleOwner, {
             text.setText(it)
             name.text = requireArguments().getString("path_to_xml")!!
-            progress.hide()
-            options.visible()
+            progress.gone()
+            options.visible(true)
         })
 
         componentsViewModel.getError().observe(viewLifecycleOwner, {
-            progress.invisible()
+            progress.gone()
             val e = ErrorPopup.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {

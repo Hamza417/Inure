@@ -2,6 +2,7 @@ package app.simple.inure.extension.fragments
 
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -20,7 +21,7 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
      *
      * @throws UninitializedPropertyAccessException
      */
-    lateinit var applicationInfo: ApplicationInfo
+    lateinit var packageInfo: PackageInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

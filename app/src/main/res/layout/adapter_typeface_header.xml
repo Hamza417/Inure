@@ -7,7 +7,7 @@
     android:layout_margin="@dimen/header_padding"
     android:padding="@dimen/popup_padding">
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
@@ -18,7 +18,7 @@
         android:textSize="36sp"
         app:appFontStyle="bold" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_type_face_total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

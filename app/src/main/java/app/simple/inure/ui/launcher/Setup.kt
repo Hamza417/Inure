@@ -19,7 +19,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
-import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
@@ -165,9 +165,9 @@ class Setup : ScopedFragment() {
 
     private fun showStartAppButton() {
         if (checkForPermission() && !requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty()) {
-            startApp.visible()
+            startApp.visible(true)
         } else {
-            startApp.invisible()
+            startApp.invisible(true)
         }
     }
 

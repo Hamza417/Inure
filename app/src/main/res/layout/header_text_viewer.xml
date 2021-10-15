@@ -17,7 +17,7 @@
         app:tint="?attr/colorAppAccent"
         tools:ignore="ContentDescription" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/txt_name"
         android:layout_width="0dp"
         android:layout_weight="1"

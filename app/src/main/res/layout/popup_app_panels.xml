@@ -21,7 +21,7 @@
             android:src="@drawable/ic_app_icon"
             tools:ignore="ContentDescription" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/menu_analytics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:padding="5dp"
             tools:ignore="ContentDescription" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -78,7 +78,7 @@
             android:src="@drawable/ic_stats"
             tools:ignore="ContentDescription" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

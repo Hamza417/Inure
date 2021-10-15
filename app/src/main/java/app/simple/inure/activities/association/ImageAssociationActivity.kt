@@ -6,7 +6,7 @@ import androidx.documentfile.provider.DocumentFile
 import app.simple.inure.R
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extension.activities.BaseActivity
 import com.bumptech.glide.Glide

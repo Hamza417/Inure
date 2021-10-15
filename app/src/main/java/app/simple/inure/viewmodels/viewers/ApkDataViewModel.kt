@@ -28,12 +28,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         MutableLiveData<String>()
     }
 
-    private val activities: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
-        MutableLiveData<MutableList<ActivityInfoModel>>().also {
-            getActivitiesData()
-        }
-    }
-
     private val receivers: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
         MutableLiveData<MutableList<ActivityInfoModel>>().also {
             getReceiversData()
@@ -86,10 +80,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         return error
     }
 
-    fun getActivities(): LiveData<MutableList<ActivityInfoModel>> {
-        return activities
-    }
-
     fun getReceivers(): LiveData<MutableList<ActivityInfoModel>> {
         return receivers
     }
@@ -120,47 +110,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     fun getServices(): LiveData<MutableList<ServiceInfoModel>> {
         return services
-    }
-
-    private fun getActivitiesData() {
-        viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                val list = arrayListOf<ActivityInfoModel>()
-
-                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS
-                } else {
-                    @Suppress("deprecation")
-                    PackageManager.GET_ACTIVITIES or PackageManager.GET_DISABLED_COMPONENTS
-                }
-
-                for (ai in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, flags).activities) {
-                    val activityInfoModel = ActivityInfoModel()
-
-                    activityInfoModel.activityInfo = ai
-                    activityInfoModel.name = ai.name
-                    activityInfoModel.target = ai.targetActivity ?: getApplication<Application>().getString(R.string.not_available)
-                    activityInfoModel.exported = ai.exported
-                    activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
-
-                    with(StringBuilder()) {
-                        append(" | ")
-                        append(MetaUtils.getLaunchMode(ai.launchMode, getApplication()))
-                        append(" | ")
-                        append(MetaUtils.getOrientation(ai.screenOrientation, getApplication()))
-
-                        activityInfoModel.status = this.toString()
-                    }
-
-                    list.add(activityInfoModel)
-                }
-
-                activities.postValue(list)
-            }.getOrElse {
-                delay(delay)
-                error.postValue(it.message)
-            }
-        }
     }
 
     private fun getReceiversData() {

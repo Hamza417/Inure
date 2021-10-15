@@ -1,8 +1,11 @@
 package app.simple.inure.util
 
+import android.animation.Animator
 import android.content.Context
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AccelerateInterpolator
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
@@ -44,23 +47,81 @@ object ViewUtils {
      * Makes the view go away
      */
     fun View.gone() {
-        this.isClickable = false
+        clearAnimation()
         this.visibility = View.GONE
     }
 
     /**
-     * Makes the view invisible
+     * Makes the view go away
+     *
+     * @param animate adds animation to the process
      */
-    fun View.invisible() {
-        this.isClickable = false
-        this.visibility = View.INVISIBLE
+    fun View.invisible(animate: Boolean) {
+        if (animate) {
+            clearAnimation()
+            this.animate()
+                    .scaleY(0F)
+                    .scaleX(0F)
+                    .alpha(0F)
+                    .setInterpolator(AccelerateInterpolator())
+                    .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
+                    .setListener(object : Animator.AnimatorListener {
+                        override fun onAnimationStart(animation: Animator?) {
+                            /* no-op */
+                        }
+
+                        override fun onAnimationEnd(animation: Animator?) {
+                            this@invisible.visibility = View.INVISIBLE
+                        }
+
+                        override fun onAnimationCancel(animation: Animator?) {
+                            /* no-op */
+                        }
+
+                        override fun onAnimationRepeat(animation: Animator?) {
+                            /* no-op */
+                        }
+                    })
+                    .start()
+        } else {
+            this.visibility = View.INVISIBLE
+        }
     }
 
     /**
      * Makes the view come back
+     *
+     * @param animate adds animation to the process
      */
-    fun View.visible() {
-        this.isClickable = true
-        this.visibility = View.VISIBLE
+    fun View.visible(animate: Boolean) {
+        if (animate) {
+            clearAnimation()
+            this.animate()
+                    .scaleY(1F)
+                    .scaleX(1F)
+                    .alpha(1F)
+                    .setInterpolator(LinearOutSlowInInterpolator())
+                    .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
+                    .setListener(object : Animator.AnimatorListener {
+                        override fun onAnimationStart(animation: Animator?) {
+                            this@visible.visibility = View.VISIBLE
+                        }
+
+                        override fun onAnimationEnd(animation: Animator?) {
+                            /* no-op */
+                        }
+
+                        override fun onAnimationCancel(animation: Animator?) {
+                            /* no-op */
+                        }
+
+                        override fun onAnimationRepeat(animation: Animator?) {
+                            /* no-op */
+                        }
+                    })
+                    .start()
+        } else {
+            this.visibility = View.VISIBLE
+        }
     }
 }

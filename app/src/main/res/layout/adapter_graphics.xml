@@ -15,7 +15,7 @@
         android:layout_height="60dp"
         tools:ignore="ContentDescription" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_graphics_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

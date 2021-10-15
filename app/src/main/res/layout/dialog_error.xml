@@ -16,7 +16,7 @@
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -29,7 +29,7 @@
             app:appFontStyle="bold"
             app:drawableStartCompat="@drawable/ic_error" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/print_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

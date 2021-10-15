@@ -12,7 +12,7 @@
 
         <include layout="@layout/header_setup" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/header_padding"
@@ -30,7 +30,7 @@
             android:orientation="vertical"
             android:padding="@dimen/analytics_item_padding">
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/grant_usage_access_permission"
@@ -38,7 +38,7 @@
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/status_usage_access"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="regular" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -67,7 +67,7 @@
             android:orientation="vertical"
             android:padding="@dimen/analytics_item_padding">
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/grant_storage_access_permission"
@@ -75,7 +75,7 @@
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/status_storage_access"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="regular" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -96,7 +96,7 @@
 
         </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/header_padding"
@@ -114,7 +114,7 @@
             android:orientation="vertical"
             android:padding="@dimen/analytics_item_padding">
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_typeface"
@@ -122,7 +122,7 @@
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -141,7 +141,7 @@
             android:orientation="vertical"
             android:padding="@dimen/analytics_item_padding">
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/accent_colors"
@@ -149,7 +149,7 @@
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -169,7 +169,7 @@
             android:clipToPadding="false"
             android:padding="@dimen/analytics_item_padding">
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/typeFaceTextView07"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/typeFaceTextView15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -16,7 +16,7 @@
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/app_corner_radius_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

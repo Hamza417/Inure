@@ -22,7 +22,7 @@
         android:layout_marginHorizontal="10dp"
         android:orientation="vertical">
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/adapter_receiver_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:textSize="16sp"
             app:appFontStyle="bold" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/adapter_receiver_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             android:textSize="14sp"
             app:appFontStyle="regular" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/adapter_receiver_process"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

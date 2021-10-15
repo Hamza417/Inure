@@ -7,7 +7,7 @@
     android:backgroundTint="@color/dialogBackground"
     tools:parentTag="app.simple.inure.decorations.corners.DynamicCornerLinearLayout">
 
-    <app.simple.inure.decorations.views.TypeFaceEditText
+    <app.simple.inure.decorations.typeface.TypeFaceEditText
         android:id="@+id/search_view_text_input_layout"
         android:layout_width="0dp"
         android:layout_height="50dp"

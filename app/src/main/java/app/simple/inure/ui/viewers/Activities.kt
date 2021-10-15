@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterActivities
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.popup.PopupMenuCallback
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.IntentAction
@@ -17,27 +21,41 @@ import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.popups.viewers.PopupActivitiesMenu
+import app.simple.inure.preferences.ActivitiesPreferences
 import app.simple.inure.ui.subviewers.ActivityInfo
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
-import app.simple.inure.viewmodels.viewers.ApkDataViewModel
+import app.simple.inure.viewmodels.viewers.ActivitiesViewModel
 
 class Activities : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var componentsViewModel: ApkDataViewModel
+    private lateinit var search: DynamicRippleImageButton
+    private lateinit var title: TypeFaceTextView
+    private lateinit var searchBox: TypeFaceEditTextSearch
+    private lateinit var activitiesViewModel: ActivitiesViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var adapterActivities: AdapterActivities
+
+    private var isSearchVisible = !ActivitiesPreferences.isActivitySearchVisible()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_activities, container, false)
 
         recyclerView = view.findViewById(R.id.activities_recycler_view)
+        search = view.findViewById(R.id.activities_search_btn)
+        searchBox = view.findViewById(R.id.activities_search)
+        title = view.findViewById(R.id.activities_title)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
-        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
+        activitiesViewModel = ViewModelProvider(this, packageInfoFactory).get(ActivitiesViewModel::class.java)
+
+        searchBoxState()
 
         return view
     }
@@ -47,9 +65,15 @@ class Activities : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        componentsViewModel.getActivities().observe(viewLifecycleOwner, { it ->
-            adapterActivities = AdapterActivities(packageInfo, it)
-            recyclerView.adapter = adapterActivities
+        activitiesViewModel.getActivities().observe(viewLifecycleOwner, { it ->
+            adapterActivities = AdapterActivities(packageInfo, it, searchBox.text.toString())
+
+            if (recyclerView.adapter.isNull()) {
+                recyclerView.adapter = adapterActivities
+            } else {
+                recyclerView.layoutAnimation = null
+                recyclerView.adapter = adapterActivities
+            }
 
             adapterActivities.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
                 override fun onActivityClicked(activityInfoModel: ActivityInfoModel, packageId: String) {
@@ -117,15 +141,41 @@ class Activities : ScopedFragment() {
             })
         })
 
-        componentsViewModel.getError().observe(viewLifecycleOwner, {
-            val e = ErrorPopup.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
+        activitiesViewModel.getError().observe(viewLifecycleOwner, {
+            with(ErrorPopup.newInstance(it)) {
+                setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                    override fun onDismiss() {
+                        requireActivity().onBackPressed()
+                    }
+                })
+
+                show(childFragmentManager, "error_dialog")
+            }
         })
+
+        search.setOnClickListener {
+            searchBoxState()
+        }
+
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            activitiesViewModel.getActivitiesData(text.toString())
+        }
+    }
+
+    private fun searchBoxState() {
+        isSearchVisible = if (isSearchVisible) {
+            search.setImageResource(R.drawable.ic_search)
+            title.visible(true)
+            searchBox.gone()
+            ActivitiesPreferences.setActivitySearch(false)
+            false
+        } else {
+            search.setImageResource(R.drawable.ic_close)
+            title.gone()
+            searchBox.visible(true)
+            ActivitiesPreferences.setActivitySearch(true)
+            true
+        }
     }
 
     companion object {

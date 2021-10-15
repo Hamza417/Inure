@@ -17,13 +17,14 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceEditText
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.decorations.views.TypeFaceEditText
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.CodeViewModelFactory
 import app.simple.inure.viewmodels.viewers.JSONViewerViewModel
@@ -92,8 +93,8 @@ class JSONViewer : ScopedFragment() {
 
         jsonViewerViewModel.getSpanned().observe(viewLifecycleOwner, {
             json.setText(it)
-            progressBar.hide()
-            options.visible()
+            progressBar.gone()
+            options.visible(true)
         })
 
         jsonViewerViewModel.getError().observe(viewLifecycleOwner, {

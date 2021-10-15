@@ -12,6 +12,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.AppInformationViewModel
 
@@ -45,7 +46,7 @@ class Information : ScopedFragment() {
         startPostponedEnterTransition()
 
         viewModel.getInformation().observe(viewLifecycleOwner, {
-            progress.hide()
+            progress.gone()
             val adapterInformation = AdapterInformation(it)
             recyclerView.adapter = adapterInformation
         })

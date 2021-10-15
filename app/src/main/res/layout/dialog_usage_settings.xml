@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -55,7 +55,7 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

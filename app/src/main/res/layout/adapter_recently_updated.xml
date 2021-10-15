@@ -14,7 +14,7 @@
         android:layout_height="@dimen/app_icon_dimension"
         tools:ignore="ContentDescription" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/recently_app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

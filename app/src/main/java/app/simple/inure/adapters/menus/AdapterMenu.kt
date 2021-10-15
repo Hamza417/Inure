@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
-import app.simple.inure.decorations.views.TypeFaceTextView
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 
 class AdapterMenu(private val list: List<Pair<Int, String>>) : RecyclerView.Adapter<AdapterMenu.Holder>() {
 

@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <app.simple.inure.decorations.views.TypeFaceTextView
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -54,7 +54,7 @@
 
             </LinearLayout>
 
-            <app.simple.inure.decorations.views.TypeFaceTextView
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/mime_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <app.simple.inure.decorations.views.TypeFaceTextView
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/mime_artist"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                         android:textSize="@dimen/info_text_small"
                         app:appFontStyle="medium" />
 
-                    <app.simple.inure.decorations.views.TypeFaceTextView
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/mime_album"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                         android:textSize="@dimen/info_text_small"
                         app:appFontStyle="medium" />
 
-                    <app.simple.inure.decorations.views.TypeFaceTextView
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/mime_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                 android:clipToPadding="false"
                 android:orientation="horizontal">
 
-                <app.simple.inure.decorations.views.TypeFaceTextView
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/current_time_mime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                     android:splitTrack="false"
                     android:thumb="@drawable/seekbar_thumb" />
 
-                <app.simple.inure.decorations.views.TypeFaceTextView
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/current_duration_mime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

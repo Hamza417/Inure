@@ -22,7 +22,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/color_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold" />
 
-        <app.simple.inure.decorations.views.TypeFaceTextView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/color_hex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

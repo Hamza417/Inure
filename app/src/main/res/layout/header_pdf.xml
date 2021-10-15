@@ -20,7 +20,7 @@
         app:tint="?attr/colorAppAccent"
         tools:ignore="ContentDescription" />
 
-    <app.simple.inure.decorations.views.TypeFaceTextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/pdf_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

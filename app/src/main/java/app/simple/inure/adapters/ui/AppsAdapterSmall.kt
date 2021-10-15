@@ -16,10 +16,10 @@ import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder.Companion.TYPE_HEADER
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder.Companion.TYPE_ITEM
-import app.simple.inure.decorations.views.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
