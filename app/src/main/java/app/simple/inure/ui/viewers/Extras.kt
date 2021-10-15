@@ -64,7 +64,6 @@ class Extras : ScopedFragment() {
 
         extrasViewModel.getExtras().observe(viewLifecycleOwner, {
             adapterExtras = AdapterExtras(it, searchBox.text.toString())
-
             recyclerView.adapter = adapterExtras
 
             adapterExtras?.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
@@ -144,13 +143,15 @@ class Extras : ScopedFragment() {
         })
 
         extrasViewModel.getError().observe(viewLifecycleOwner, {
-            val e = ErrorPopup.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
+            with(ErrorPopup.newInstance(it)) {
+                setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                    override fun onDismiss() {
+                        requireActivity().onBackPressed()
+                    }
+                })
+
+                show(childFragmentManager, "error_dialog")
+            }
         })
 
         options.setOnClickListener {
@@ -168,7 +169,9 @@ class Extras : ScopedFragment() {
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
-            extrasViewModel.getExtrasData(text.toString())
+            if (searchBox.isFocused) {
+                extrasViewModel.getExtrasData(text.toString())
+            }
         }
     }
 

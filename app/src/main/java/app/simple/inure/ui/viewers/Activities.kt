@@ -26,7 +26,6 @@ import app.simple.inure.preferences.ActivitiesPreferences
 import app.simple.inure.ui.subviewers.ActivityInfo
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
@@ -40,7 +39,7 @@ class Activities : ScopedFragment() {
     private lateinit var searchBox: TypeFaceEditTextSearch
     private lateinit var activitiesViewModel: ActivitiesViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
-    private lateinit var adapterActivities: AdapterActivities
+    private var adapterActivities: AdapterActivities? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_activities, container, false)
@@ -66,15 +65,9 @@ class Activities : ScopedFragment() {
 
         activitiesViewModel.getActivities().observe(viewLifecycleOwner, { it ->
             adapterActivities = AdapterActivities(packageInfo, it, searchBox.text.toString())
+            recyclerView.adapter = adapterActivities
 
-            if (recyclerView.adapter.isNull()) {
-                recyclerView.adapter = adapterActivities
-            } else {
-                recyclerView.layoutAnimation = null
-                recyclerView.adapter = adapterActivities
-            }
-
-            adapterActivities.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
+            adapterActivities?.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
                 override fun onActivityClicked(activityInfoModel: ActivityInfoModel, packageId: String) {
                     clearExitTransition()
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
@@ -104,7 +97,7 @@ class Activities : ScopedFragment() {
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
                                             if (result.contains("Done!")) {
-                                                adapterActivities.notifyItemChanged(position)
+                                                adapterActivities?.notifyItemChanged(position)
                                             }
                                         }
                                     })
@@ -117,7 +110,7 @@ class Activities : ScopedFragment() {
                                     shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                         override fun onCommandExecuted(result: String) {
                                             if (result.contains("Done!")) {
-                                                adapterActivities.notifyItemChanged(position)
+                                                adapterActivities?.notifyItemChanged(position)
                                             }
                                         }
                                     })
@@ -157,7 +150,9 @@ class Activities : ScopedFragment() {
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
-            activitiesViewModel.getActivitiesData(text.toString())
+            if (searchBox.isFocused) {
+                activitiesViewModel.getActivitiesData(text.toString())
+            }
         }
     }
 

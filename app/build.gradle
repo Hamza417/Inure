@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdkVersion 30
 
-    def appVersionCode = 7
+    def appVersionCode = 8
     def appVersionName = "inure_build_${appVersionCode}"
 
     defaultConfig {

@@ -18,7 +18,7 @@ import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
-class AdapterActivities(private val packageInfo: PackageInfo, private val activities: MutableList<ActivityInfoModel>, private val keyword: String = "")
+class AdapterActivities(private val packageInfo: PackageInfo, private val activities: MutableList<ActivityInfoModel>, val keyword: String)
     : RecyclerView.Adapter<AdapterActivities.Holder>() {
 
     private lateinit var activitiesCallbacks: ActivitiesCallbacks

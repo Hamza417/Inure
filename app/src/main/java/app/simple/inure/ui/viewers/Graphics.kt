@@ -60,7 +60,6 @@ class Graphics : ScopedFragment() {
 
         graphicsViewModel.getGraphics().observe(viewLifecycleOwner, {
             adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, it, searchBox.text.toString())
-
             recyclerView.adapter = adapterGraphics
 
             adapterGraphics!!.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
@@ -105,7 +104,9 @@ class Graphics : ScopedFragment() {
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
-            graphicsViewModel.getGraphicsData(text.toString())
+            if (searchBox.isFocused) {
+                graphicsViewModel.getGraphicsData(text.toString())
+            }
         }
     }
 
