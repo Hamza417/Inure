@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull
 object GraphicsPreferences {
 
     const val extensionHighlight = "highlight_extensions_in_graphics"
+    const val graphicsSearch = "graphics_search"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -14,6 +15,16 @@ object GraphicsPreferences {
 
     fun isExtensionsHighlighted(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(extensionHighlight, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setSearchVisibility(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(graphicsSearch, boolean).apply()
+    }
+
+    fun isSearchVisible(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(graphicsSearch, false)
     }
 
 }

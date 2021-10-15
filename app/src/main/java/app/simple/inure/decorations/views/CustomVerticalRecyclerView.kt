@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
 
 /**
@@ -101,8 +102,13 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
     }
 
     override fun setAdapter(adapter: Adapter<*>?) {
-        super.setAdapter(adapter)
         adapter?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
+
+        if (this.adapter.isNotNull()) {
+            layoutAnimation = null
+        }
+
+        super.setAdapter(adapter)
 
         if (!manuallyAnimated) {
             scheduleLayoutAnimation()

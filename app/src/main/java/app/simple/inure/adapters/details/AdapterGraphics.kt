@@ -15,10 +15,11 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.StringUtils.highlightExtensions
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 
-class AdapterGraphics(val path: String, val list: MutableList<String>) : RecyclerView.Adapter<AdapterGraphics.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class AdapterGraphics(val path: String, val list: MutableList<String>, val keyword: String) : RecyclerView.Adapter<AdapterGraphics.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var graphicsCallbacks: GraphicsCallbacks
     private var xOff = 0f
@@ -36,13 +37,13 @@ class AdapterGraphics(val path: String, val list: MutableList<String>) : Recycle
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.xml.text = if (isHighlighted) {
+        holder.name.text = if (isHighlighted) {
             list[position].optimizeToColoredString(holder.itemView.context, "/").highlightExtensions()
         } else {
             list[position].optimizeToColoredString(holder.itemView.context, "/")
         }
 
-        holder.graphics.loadGraphics(path, list[position])
+        holder.image.loadGraphics(path, list[position])
 
         holder.container.setOnTouchListener { _, event ->
             when (event!!.action) {
@@ -62,6 +63,10 @@ class AdapterGraphics(val path: String, val list: MutableList<String>) : Recycle
             graphicsCallbacks.onGraphicsLongPressed(list[position])
             true
         }
+
+        if (keyword.isNotBlank()) {
+            AdapterUtils.searchHighlighter(holder.name, keyword)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -78,8 +83,8 @@ class AdapterGraphics(val path: String, val list: MutableList<String>) : Recycle
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_graphics_container)
-        val graphics: ImageView = itemView.findViewById(R.id.adapter_graphics_iv)
-        val xml: TypeFaceTextView = itemView.findViewById(R.id.adapter_graphics_name)
+        val image: ImageView = itemView.findViewById(R.id.adapter_graphics_iv)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_graphics_name)
     }
 
     @SuppressLint("NotifyDataSetChanged")

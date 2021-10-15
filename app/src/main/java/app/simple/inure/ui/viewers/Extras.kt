@@ -21,7 +21,6 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.viewers.PopupExtrasMenu
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
@@ -65,10 +64,6 @@ class Extras : ScopedFragment() {
 
         extrasViewModel.getExtras().observe(viewLifecycleOwner, {
             adapterExtras = AdapterExtras(it, searchBox.text.toString())
-
-            if (recyclerView.adapter.isNotNull()) {
-                recyclerView.layoutAnimation = null
-            }
 
             recyclerView.adapter = adapterExtras
 

@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
@@ -24,7 +26,7 @@
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/typeFaceTextView2"
+            android:id="@+id/graphics_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -40,7 +42,7 @@
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="8dp"
             android:src="@drawable/ic_filter_list"
             android:tint="?attr/colorAppAccent" />
 
@@ -49,9 +51,32 @@
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="15dp"
+            android:layout_marginHorizontal="8dp"
             android:src="@drawable/ic_more_vert"
             android:tint="?attr/colorAppAccent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/graphics_search_btn"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_search"
+            android:tint="?attr/colorAppAccent" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
+            android:id="@+id/graphics_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/header_padding"
+            android:textColor="@color/textSecondary"
+            android:textColorHighlight="?attr/colorAppAccentLight"
+            android:textColorHint="@color/textTertiary"
+            android:textCursorDrawable="@drawable/text_cursor"
+            android:visibility="gone"
+            app:appFontStyle="regular" />
 
     </LinearLayout>
 

@@ -278,7 +278,7 @@ object APKParser {
     /**
      * Get list of all raster image files within an APK file
      */
-    fun getGraphicsFiles(path: String?): MutableList<String> {
+    fun getGraphicsFiles(path: String?, keyword: String): MutableList<String> {
         val graphicsFiles: MutableList<String> = ArrayList()
         var zipFile: ZipFile? = null
         try {
@@ -293,7 +293,10 @@ object APKParser {
                     || name.endsWith(".gif")
                     || name.endsWith(".webp")
                     || name.endsWith(".svg")) {
-                    graphicsFiles.add(name)
+
+                    if (name.lowercase().contains(keyword.lowercase())) {
+                        graphicsFiles.add(name)
+                    }
                 }
             }
         } catch (e: IOException) {

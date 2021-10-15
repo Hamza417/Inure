@@ -39,12 +39,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         }
     }
 
-    private val graphics: MutableLiveData<MutableList<String>> by lazy {
-        MutableLiveData<MutableList<String>>().also {
-            getGraphicsData()
-        }
-    }
-
     private val permissions: MutableLiveData<MutableList<PermissionInfo>> by lazy {
         MutableLiveData<MutableList<PermissionInfo>>().also {
             loadPermissionData()
@@ -79,10 +73,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     fun getFeatures(): LiveData<MutableList<FeatureInfo>> {
         return features
-    }
-
-    fun getGraphics(): LiveData<MutableList<String>> {
-        return graphics
     }
 
     fun getPermissions(): LiveData<MutableList<PermissionInfo>> {
@@ -158,27 +148,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                 }
 
                 features.postValue(list)
-            }.getOrElse {
-                delay(delay)
-                error.postValue(it.message)
-            }
-        }
-    }
-
-    private fun getGraphicsData() {
-        viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                with(APKParser.getGraphicsFiles(packageInfo.applicationInfo.sourceDir)) {
-                    if (size == 0) {
-                        throw FileNotFoundException("This package does not contain any graphical files.")
-                    } else {
-                        graphics.postValue(apply {
-                            sortBy {
-                                it.lowercase(Locale.getDefault())
-                            }
-                        })
-                    }
-                }
             }.getOrElse {
                 delay(delay)
                 error.postValue(it.message)
