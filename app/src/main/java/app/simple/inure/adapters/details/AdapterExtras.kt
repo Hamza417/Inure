@@ -11,11 +11,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.StringUtils.highlightExtensions
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 
 
-class AdapterExtras(val list: MutableList<String>) : RecyclerView.Adapter<AdapterExtras.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class AdapterExtras(val list: MutableList<String>, val keyword: String) : RecyclerView.Adapter<AdapterExtras.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var extrasCallbacks: ExtrasCallbacks
     private var isHighlighted = ExtrasPreferences.isExtensionsHighlighted()
@@ -43,6 +44,10 @@ class AdapterExtras(val list: MutableList<String>) : RecyclerView.Adapter<Adapte
         holder.extra.setOnLongClickListener {
             extrasCallbacks.onExtrasLongClicked(list[position])
             true
+        }
+
+        if (keyword.isNotBlank()) {
+            AdapterUtils.searchHighlighter(holder.extra, keyword)
         }
     }
 

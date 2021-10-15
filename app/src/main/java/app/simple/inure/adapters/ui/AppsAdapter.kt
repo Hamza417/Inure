@@ -36,8 +36,8 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>(), PopupTextProvide
         holder.packageId.text = apps[position].packageName
 
         if (searchKeyword.isNotEmpty()) {
-            searchHighlighter(holder.name, holder.itemView.context, searchKeyword)
-            searchHighlighter(holder.packageId, holder.itemView.context, searchKeyword)
+            searchHighlighter(holder.name, searchKeyword)
+            searchHighlighter(holder.packageId, searchKeyword)
         }
 
         holder.container.setOnClickListener {

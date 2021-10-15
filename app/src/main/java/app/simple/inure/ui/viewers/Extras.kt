@@ -1,31 +1,41 @@
 package app.simple.inure.ui.viewers
 
+import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterExtras
-import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.viewers.PopupExtrasMenu
+import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
-import app.simple.inure.viewmodels.viewers.ApkDataViewModel
+import app.simple.inure.viewmodels.viewers.ExtrasViewModel
 
 class Extras : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var filter: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var componentsViewModel: ApkDataViewModel
+    private lateinit var search: DynamicRippleImageButton
+    private lateinit var title: TypeFaceTextView
+    private lateinit var searchBox: TypeFaceEditTextSearch
+    private lateinit var extrasViewModel: ExtrasViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private var adapterExtras: AdapterExtras? = null
 
@@ -35,10 +45,15 @@ class Extras : ScopedFragment() {
         recyclerView = view.findViewById(R.id.extras_recycler_view)
         filter = view.findViewById(R.id.extras_filter)
         options = view.findViewById(R.id.extras_options)
+        search = view.findViewById(R.id.extras_search_btn)
+        searchBox = view.findViewById(R.id.extras_search)
+        title = view.findViewById(R.id.extras_title)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
-        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
+        extrasViewModel = ViewModelProvider(this, packageInfoFactory).get(ExtrasViewModel::class.java)
+
+        searchBoxState()
 
         return view
     }
@@ -48,8 +63,12 @@ class Extras : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        componentsViewModel.getExtras().observe(viewLifecycleOwner, {
-            adapterExtras = AdapterExtras(APKParser.getExtraFiles(packageInfo.applicationInfo.sourceDir))
+        extrasViewModel.getExtras().observe(viewLifecycleOwner, {
+            adapterExtras = AdapterExtras(it, searchBox.text.toString())
+
+            if (recyclerView.adapter.isNotNull()) {
+                recyclerView.layoutAnimation = null
+            }
 
             recyclerView.adapter = adapterExtras
 
@@ -129,7 +148,7 @@ class Extras : ScopedFragment() {
             })
         })
 
-        componentsViewModel.getError().observe(viewLifecycleOwner, {
+        extrasViewModel.getError().observe(viewLifecycleOwner, {
             val e = ErrorPopup.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
@@ -147,6 +166,34 @@ class Extras : ScopedFragment() {
             Toast.makeText(requireContext(), "Currently thinking which approach would be better, " +
                     "bit flags or boolean for filtering the list. " +
                     "Will be implemented later.", Toast.LENGTH_SHORT).show()
+        }
+
+        search.setOnClickListener {
+            ExtrasPreferences.setSearchVisibility(!ExtrasPreferences.isSearchVisible())
+        }
+
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            extrasViewModel.getExtrasData(text.toString())
+        }
+    }
+
+    private fun searchBoxState() {
+        if (ExtrasPreferences.isSearchVisible()) {
+            search.setImageResource(R.drawable.ic_close)
+            title.gone()
+            searchBox.visible(true)
+        } else {
+            search.setImageResource(R.drawable.ic_search)
+            title.visible(true)
+            searchBox.gone()
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            ExtrasPreferences.extrasSearch -> {
+                searchBoxState()
+            }
         }
     }
 

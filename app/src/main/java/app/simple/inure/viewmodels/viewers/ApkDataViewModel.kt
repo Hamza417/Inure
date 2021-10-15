@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.MetaUtils
+import app.simple.inure.constants.Misc.delay
 import app.simple.inure.model.*
 import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +23,6 @@ import java.util.*
 
 class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
-    private val delay = 500L
-
     private val error: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -31,12 +30,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
     private val receivers: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
         MutableLiveData<MutableList<ActivityInfoModel>>().also {
             getReceiversData()
-        }
-    }
-
-    private val extras: MutableLiveData<MutableList<String>> by lazy {
-        MutableLiveData<MutableList<String>>().also {
-            getExtrasData()
         }
     }
 
@@ -82,10 +75,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     fun getReceivers(): LiveData<MutableList<ActivityInfoModel>> {
         return receivers
-    }
-
-    fun getExtras(): LiveData<MutableList<String>> {
-        return extras
     }
 
     fun getFeatures(): LiveData<MutableList<FeatureInfo>> {
@@ -145,27 +134,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                 }
 
                 receivers.postValue(list)
-            }.getOrElse {
-                delay(delay)
-                error.postValue(it.message)
-            }
-        }
-    }
-
-    private fun getExtrasData() {
-        viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                with(APKParser.getExtraFiles(packageInfo.applicationInfo.sourceDir)) {
-                    if (size == 0) {
-                        throw FileNotFoundException("This package does not contain any extra files.")
-                    } else {
-                        extras.postValue(apply {
-                            sortBy {
-                                it.lowercase(Locale.getDefault())
-                            }
-                        })
-                    }
-                }
             }.getOrElse {
                 delay(delay)
                 error.postValue(it.message)

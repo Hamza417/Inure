@@ -53,8 +53,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.Holder>() {
         }
 
         if (searchKeyword.isNotEmpty()) {
-            AdapterUtils.searchHighlighter(holder.name, holder.itemView.context, searchKeyword)
-            AdapterUtils.searchHighlighter(holder.packageId, holder.itemView.context, searchKeyword)
+            AdapterUtils.searchHighlighter(holder.name, searchKeyword)
+            AdapterUtils.searchHighlighter(holder.packageId, searchKeyword)
         }
 
         holder.container.setOnLongClickListener {
