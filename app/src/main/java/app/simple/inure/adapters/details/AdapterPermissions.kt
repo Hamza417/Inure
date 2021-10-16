@@ -56,8 +56,9 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
         }
 
         if (isRootMode) {
-            holder.container.setOnClickListener {
+            holder.container.setOnLongClickListener {
                 permissionCallbacks.onPermissionClicked(it, permissions[position], position)
+                true
             }
         }
 
