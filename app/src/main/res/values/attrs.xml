@@ -80,4 +80,11 @@
         <attr name="listViewStyle" format="reference" />
 
     </declare-styleable>
+
+    <declare-styleable name="LoaderImageView">
+        <attr name="loaderStyle" format="string">
+            <flag name="rotary" value="0" />
+            <flag name="still" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>

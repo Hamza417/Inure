@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.FrameLayout
 import app.simple.inure.R
@@ -24,6 +26,8 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
      * @throws UninitializedPropertyAccessException
      */
     lateinit var packageInfo: PackageInfo
+
+    open val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

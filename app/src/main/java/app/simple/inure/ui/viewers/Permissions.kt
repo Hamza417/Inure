@@ -15,8 +15,8 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.details.PermissionStatusDialog
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
-import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.model.PermissionInfo
 import app.simple.inure.popups.viewers.PopupPermissions
@@ -68,27 +68,14 @@ class Permissions : ScopedFragment() {
                     popup.setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
-                                getString(R.string.revoke) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm revoke ${packageInfo.packageName} ${permissionInfo.name}")
-                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
-                                        override fun onCommandExecuted(result: String) {
-                                            if (result.contains(getString(R.string.done))) {
-                                                adapterPermissions.permissionStatusChanged(position, false)
-                                            }
+                                getString(R.string.revoke), getString(R.string.grant) -> {
+                                    val p = PermissionStatusDialog.newInstance(packageInfo, permissionInfo)
+                                    p.show(childFragmentManager, "permission_status")
+                                    p.setOnPermissionStatusCallbackListener(object : PermissionStatusDialog.Companion.PermissionStatusCallbacks {
+                                        override fun onSuccess(grantedStatus: Boolean) {
+                                            adapterPermissions.permissionStatusChanged(position, grantedStatus)
                                         }
                                     })
-                                    shell.show(childFragmentManager, "shell_executor")
-                                }
-                                getString(R.string.grant) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm grant ${packageInfo.packageName} ${permissionInfo.name}")
-                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
-                                        override fun onCommandExecuted(result: String) {
-                                            if (result.contains(getString(R.string.done))) {
-                                                adapterPermissions.permissionStatusChanged(position, true)
-                                            }
-                                        }
-                                    })
-                                    shell.show(childFragmentManager, "shell_executor")
                                 }
                             }
                         }
