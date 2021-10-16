@@ -9,12 +9,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.R
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.constants.Misc.delay
-import app.simple.inure.model.ActivityInfoModel
-import app.simple.inure.model.ProviderInfoModel
 import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -28,21 +24,9 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         MutableLiveData<String>()
     }
 
-    private val receivers: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
-        MutableLiveData<MutableList<ActivityInfoModel>>().also {
-            getReceiversData()
-        }
-    }
-
     private val features: MutableLiveData<MutableList<FeatureInfo>> by lazy {
         MutableLiveData<MutableList<FeatureInfo>>().also {
             getFeaturesData()
-        }
-    }
-
-    private val providers: MutableLiveData<MutableList<ProviderInfoModel>> by lazy {
-        MutableLiveData<MutableList<ProviderInfoModel>>().also {
-            getProvidersData()
         }
     }
 
@@ -56,60 +40,12 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         return error
     }
 
-    fun getReceivers(): LiveData<MutableList<ActivityInfoModel>> {
-        return receivers
-    }
-
     fun getFeatures(): LiveData<MutableList<FeatureInfo>> {
         return features
     }
 
-    fun getProviders(): LiveData<MutableList<ProviderInfoModel>> {
-        return providers
-    }
-
     fun getResources(): LiveData<MutableList<String>> {
         return resources
-    }
-
-    private fun getReceiversData() {
-        viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                val list = arrayListOf<ActivityInfoModel>()
-
-                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    PackageManager.GET_RECEIVERS or PackageManager.MATCH_DISABLED_COMPONENTS
-                } else {
-                    @Suppress("deprecation")
-                    PackageManager.GET_RECEIVERS or PackageManager.GET_DISABLED_COMPONENTS
-                }
-
-                for (ai in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, flags).receivers) {
-                    val activityInfoModel = ActivityInfoModel()
-
-                    activityInfoModel.activityInfo = ai
-                    activityInfoModel.name = ai.name
-                    activityInfoModel.target = ai.targetActivity ?: getApplication<Application>().getString(R.string.not_available)
-                    activityInfoModel.exported = ai.exported
-                    activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
-
-                    with(StringBuilder()) {
-                        append(" | ")
-                        append(MetaUtils.getLaunchMode(ai.launchMode, getApplication()))
-                        append(" | ")
-                        append(MetaUtils.getOrientation(ai.screenOrientation, getApplication()))
-                        activityInfoModel.status = this.toString()
-                    }
-
-                    list.add(activityInfoModel)
-                }
-
-                receivers.postValue(list)
-            }.getOrElse {
-                delay(delay)
-                error.postValue(it.message)
-            }
-        }
     }
 
     private fun getFeaturesData() {
@@ -129,46 +65,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                 }
 
                 features.postValue(list)
-            }.getOrElse {
-                delay(delay)
-                error.postValue(it.message)
-            }
-        }
-    }
-
-    private fun getProvidersData() {
-        viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                val list = arrayListOf<ProviderInfoModel>()
-
-                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    PackageManager.GET_PROVIDERS or PackageManager.MATCH_DISABLED_COMPONENTS
-                } else {
-                    @Suppress("deprecation")
-                    PackageManager.GET_PROVIDERS or PackageManager.GET_DISABLED_COMPONENTS
-                }
-
-                for (pi in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, flags).providers) {
-                    val providerInfoModel = ProviderInfoModel()
-
-
-                    providerInfoModel.providerInfo = pi
-                    providerInfoModel.name = pi.name
-                    providerInfoModel.authority = pi.authority
-                    providerInfoModel.isExported = pi.exported
-                    providerInfoModel.permissions = pi.readPermission + pi.writePermission
-
-                    with(StringBuilder()) {
-                        append(" | ")
-                        append(MetaUtils.getServiceFlags(pi.flags, getApplication()))
-
-                        providerInfoModel.status = this.toString()
-                    }
-
-                    list.add(providerInfoModel)
-                }
-
-                providers.postValue(list)
             }.getOrElse {
                 delay(delay)
                 error.postValue(it.message)

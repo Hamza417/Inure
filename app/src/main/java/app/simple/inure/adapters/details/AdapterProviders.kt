@@ -13,8 +13,9 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
 import app.simple.inure.model.ProviderInfoModel
+import app.simple.inure.util.AdapterUtils
 
-class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, private val packageInfo: PackageInfo)
+class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, private val packageInfo: PackageInfo, val keyword: String)
     : RecyclerView.Adapter<AdapterProviders.Holder>() {
 
     private lateinit var providersCallbacks: ProvidersCallbacks
@@ -27,7 +28,7 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
         holder.icon.loadIconFromProviderInfo(providers[position].providerInfo)
 
         holder.name.text = providers[position].name.substring(providers[position].name.lastIndexOf(".") + 1)
-        holder.process.text = providers[position].name
+        holder.packageId.text = providers[position].name
 
         holder.status.text = holder.itemView.context.getString(
             R.string.activity_status,
@@ -63,6 +64,11 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
             providersCallbacks
                     .onProvidersClicked(providers[holder.absoluteAdapterPosition])
         }
+
+        if (keyword.isNotBlank()) {
+            AdapterUtils.searchHighlighter(holder.name, keyword)
+            AdapterUtils.searchHighlighter(holder.packageId, keyword)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -72,7 +78,7 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_providers_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_name)
-        val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_package)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_package)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_status)
         val authority: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_authority)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_providers_container)

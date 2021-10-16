@@ -1,39 +1,59 @@
 package app.simple.inure.ui.viewers
 
+import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterProviders
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.popup.PopupMenuCallback
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.model.ProviderInfoModel
 import app.simple.inure.popups.viewers.PopupProvidersMenu
+import app.simple.inure.preferences.ProvidersPreferences
 import app.simple.inure.ui.subviewers.ProviderInfo
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
-import app.simple.inure.viewmodels.viewers.ApkDataViewModel
+import app.simple.inure.viewmodels.viewers.ProvidersViewModel
 
 class Providers : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var search: DynamicRippleImageButton
+    private lateinit var title: TypeFaceTextView
+    private lateinit var searchBox: TypeFaceEditTextSearch
+
     private lateinit var adapterProviders: AdapterProviders
-    private lateinit var componentsViewModel: ApkDataViewModel
+    private lateinit var providersViewModel: ProvidersViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_provider, container, false)
 
         recyclerView = view.findViewById(R.id.providers_recycler_view)
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        search = view.findViewById(R.id.providers_search_btn)
+        searchBox = view.findViewById(R.id.providers_search)
+        title = view.findViewById(R.id.providers_title)
+
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
-        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
+        providersViewModel = ViewModelProvider(this, packageInfoFactory).get(ProvidersViewModel::class.java)
+
+        startPostponedEnterTransition()
+        searchBoxState()
 
         return view
     }
@@ -41,10 +61,8 @@ class Providers : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        startPostponedEnterTransition()
-
-        componentsViewModel.getProviders().observe(viewLifecycleOwner, {
-            adapterProviders = AdapterProviders(it, packageInfo)
+        providersViewModel.getProviders().observe(viewLifecycleOwner, {
+            adapterProviders = AdapterProviders(it, packageInfo, searchBox.text.toString())
             recyclerView.adapter = adapterProviders
 
             adapterProviders.setOnProvidersCallbackListener(object : AdapterProviders.Companion.ProvidersCallbacks {
@@ -94,7 +112,7 @@ class Providers : ScopedFragment() {
             })
         })
 
-        componentsViewModel.getError().observe(viewLifecycleOwner, {
+        providersViewModel.getError().observe(viewLifecycleOwner, {
             val e = ErrorPopup.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
@@ -103,12 +121,44 @@ class Providers : ScopedFragment() {
                 }
             })
         })
+
+        search.setOnClickListener {
+            ProvidersPreferences.setSearchVisibility(!ProvidersPreferences.isSearchVisible())
+        }
+
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            if (searchBox.isFocused) {
+                providersViewModel.getProvidersData(text.toString())
+            }
+        }
+    }
+
+    private fun searchBoxState() {
+        if (ProvidersPreferences.isSearchVisible()) {
+            search.setImageResource(R.drawable.ic_close)
+            title.gone()
+            searchBox.visible(true)
+        } else {
+            search.setImageResource(R.drawable.ic_search)
+            title.visible(true)
+            searchBox.gone()
+        }
+
+        searchBox.toggleInput()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            ProvidersPreferences.providersSearch -> {
+                searchBoxState()
+            }
+        }
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo): Providers {
+        fun newInstance(packageInfo: PackageInfo): Providers {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = Providers()
             fragment.arguments = args
             return fragment

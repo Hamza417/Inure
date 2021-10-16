@@ -13,8 +13,9 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.model.ActivityInfoModel
+import app.simple.inure.util.AdapterUtils
 
-class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, private val packageInfo: PackageInfo)
+class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, private val packageInfo: PackageInfo, val keyword: String)
     : RecyclerView.Adapter<AdapterReceivers.Holder>() {
 
     private lateinit var receiversCallbacks: ReceiversCallbacks
@@ -27,7 +28,7 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
         holder.icon.loadIconFromActivityInfo(receivers[position].activityInfo)
 
         holder.name.text = receivers[position].name.substring(receivers[position].name.lastIndexOf(".") + 1)
-        holder.process.text = receivers[position].name
+        holder.packageId.text = receivers[position].name
 
         holder.status.text = holder.itemView.context.getString(
             R.string.activity_status,
@@ -61,6 +62,11 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
             receiversCallbacks
                     .onReceiverClicked(receivers[holder.absoluteAdapterPosition])
         }
+
+        if (keyword.isNotBlank()) {
+            AdapterUtils.searchHighlighter(holder.name, keyword)
+            AdapterUtils.searchHighlighter(holder.packageId, keyword)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -70,7 +76,7 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_receiver_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_name)
-        val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_process)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_process)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_status)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_receiver_container)
     }

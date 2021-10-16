@@ -47,6 +47,12 @@ class PackageInfoFactory(private val application: Application, private val packa
             modelClass.isAssignableFrom(ServicesViewModel::class.java) -> {
                 return ServicesViewModel(application, packageInfo) as T
             }
+            modelClass.isAssignableFrom(ProvidersViewModel::class.java) -> {
+                return ProvidersViewModel(application, packageInfo) as T
+            }
+            modelClass.isAssignableFrom(ReceiversViewModel::class.java) -> {
+                return ReceiversViewModel(application, packageInfo) as T
+            }
             else -> {
                 /**
                  * This viewmodel factory is specific to

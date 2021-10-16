@@ -98,15 +98,13 @@ class Permissions : ScopedFragment() {
         })
 
         permissionsViewModel.getError().observe(viewLifecycleOwner, {
-            with(ErrorPopup.newInstance(it)) {
-                setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
-                    override fun onDismiss() {
-                        requireActivity().onBackPressed()
-                    }
-                })
-
-                show(childFragmentManager, "error_dialog")
-            }
+            val e = ErrorPopup.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
+                }
+            })
         })
 
         search.setOnClickListener {

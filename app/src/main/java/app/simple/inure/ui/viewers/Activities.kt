@@ -37,6 +37,7 @@ class Activities : ScopedFragment() {
     private lateinit var search: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
     private lateinit var searchBox: TypeFaceEditTextSearch
+
     private lateinit var activitiesViewModel: ActivitiesViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private var adapterActivities: AdapterActivities? = null
@@ -48,8 +49,8 @@ class Activities : ScopedFragment() {
         search = view.findViewById(R.id.activities_search_btn)
         searchBox = view.findViewById(R.id.activities_search)
         title = view.findViewById(R.id.activities_title)
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
         activitiesViewModel = ViewModelProvider(this, packageInfoFactory).get(ActivitiesViewModel::class.java)
 
@@ -134,15 +135,13 @@ class Activities : ScopedFragment() {
         })
 
         activitiesViewModel.getError().observe(viewLifecycleOwner, {
-            with(ErrorPopup.newInstance(it)) {
-                setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
-                    override fun onDismiss() {
-                        requireActivity().onBackPressed()
-                    }
-                })
-
-                show(childFragmentManager, "error_dialog")
-            }
+            val e = ErrorPopup.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
+                }
+            })
         })
 
         search.setOnClickListener {
