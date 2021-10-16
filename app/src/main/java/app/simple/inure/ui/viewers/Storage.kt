@@ -18,7 +18,7 @@ import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FileSizeHelper.getDirectorySize
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.viewmodels.viewers.AppSize
+import app.simple.inure.viewmodels.viewers.AppSizeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,7 +32,7 @@ class Storage : ScopedFragment() {
     private lateinit var back: DynamicRippleImageButton
     private lateinit var pie: Pie
 
-    private val model: AppSize by viewModels()
+    private val model: AppSizeViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.fragment_storage, container, false)

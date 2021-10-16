@@ -16,13 +16,19 @@ import kotlinx.coroutines.launch
 class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
     private val menuItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
         MutableLiveData<List<Pair<Int, String>>>().also {
-            loadItems()
+            loadMetaOptions()
         }
     }
 
     private val menuOptions: MutableLiveData<List<Pair<Int, String>>> by lazy {
         MutableLiveData<List<Pair<Int, String>>>().also {
-            loadOptions()
+            loadActionOptions()
+        }
+    }
+
+    private val miscellaneousItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
+        MutableLiveData<List<Pair<Int, String>>>().also {
+            loadMiscellaneousItems()
         }
     }
 
@@ -38,11 +44,15 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
         return menuOptions
     }
 
+    fun getMiscellaneousItems(): LiveData<List<Pair<Int, String>>> {
+        return miscellaneousItems
+    }
+
     fun getError(): LiveData<String> {
         return error
     }
 
-    fun loadOptions() {
+    fun loadActionOptions() {
         viewModelScope.launch(Dispatchers.Default) {
 
             val context = getApplication<Application>().applicationContext
@@ -102,7 +112,7 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
-    private fun loadItems() {
+    fun loadMetaOptions() {
         viewModelScope.launch(Dispatchers.Default) {
             val context = getApplication<Application>().applicationContext
 
@@ -122,6 +132,18 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
             )
 
             menuItems.postValue(list)
+        }
+    }
+
+    fun loadMiscellaneousItems() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val context = getApplication<Application>().applicationContext
+
+            val list = listOf(
+                Pair(R.drawable.ic_backup, context.getString(R.string.extract)),
+            )
+
+            miscellaneousItems.postValue(list)
         }
     }
 

@@ -9,4 +9,5 @@ object BundleConstants {
     const val isManifest = "is_manifest"
     const val pathToXml = "path_to_xml"
     const val pathToJSON = "path_to_json"
+    const val transitionName = "transition_name"
 }

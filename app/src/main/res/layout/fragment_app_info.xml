@@ -8,6 +8,7 @@
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
@@ -17,12 +18,27 @@
 
         <include layout="@layout/sub_app_options" />
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/divider" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/fold_app_info_menu"
+                android:layout_width="@dimen/folding_arrow_size"
+                android:layout_height="@dimen/folding_arrow_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_arrow_drop_down_24dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/divider" />
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/app_info_menu"
@@ -33,11 +49,27 @@
             android:overScrollMode="never"
             android:scrollbars="none" />
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginHorizontal="10dp"
-            android:background="@color/divider" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/fold_app_info_actions"
+                android:layout_width="@dimen/folding_arrow_size"
+                android:layout_height="@dimen/folding_arrow_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_arrow_drop_down_24dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/divider" />
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/app_info_options"
@@ -48,11 +80,36 @@
             android:overScrollMode="never"
             android:scrollbars="none" />
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginHorizontal="10dp"
-            android:background="@color/divider" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/fold_app_info_misc"
+                android:layout_width="@dimen/folding_arrow_size"
+                android:layout_height="@dimen/folding_arrow_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_arrow_drop_down_24dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/divider" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/app_info_miscellaneous"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layoutAnimation="@anim/grid_list_animation_controller"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 

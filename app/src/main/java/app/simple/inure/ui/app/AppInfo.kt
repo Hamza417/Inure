@@ -1,6 +1,7 @@
 package app.simple.inure.ui.app
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.res.Configuration
@@ -20,7 +21,9 @@ import app.simple.inure.adapters.menus.AdapterMenu
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.popup.PopupMenuCallback
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
@@ -29,9 +32,12 @@ import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.popups.app.PopupSure
+import app.simple.inure.preferences.AppInfoPanelPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.panels.AllAppsData
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
@@ -46,10 +52,14 @@ class AppInfo : ScopedFragment() {
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var storage: DynamicRippleTextView
     private lateinit var directories: DynamicRippleTextView
-    private lateinit var menu: RecyclerView
-    private lateinit var options: RecyclerView
+    private lateinit var meta: RecyclerView
+    private lateinit var actions: RecyclerView
+    private lateinit var miscellaneous: RecyclerView
 
-    private lateinit var adapterMenu: AdapterMenu
+    private lateinit var foldMetaDataMenu: DynamicRippleImageButton
+    private lateinit var foldActionsMenu: DynamicRippleImageButton
+    private lateinit var foldMiscMenu: DynamicRippleImageButton
+
     private lateinit var componentsViewModel: InfoPanelMenuData
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var allAppsData: AllAppsData
@@ -65,10 +75,15 @@ class AppInfo : ScopedFragment() {
         appInformation = view.findViewById(R.id.app_info_information_tv)
         storage = view.findViewById(R.id.app_info_storage_tv)
         directories = view.findViewById(R.id.app_info_directories_tv)
-        menu = view.findViewById(R.id.app_info_menu)
-        options = view.findViewById(R.id.app_info_options)
+        meta = view.findViewById(R.id.app_info_menu)
+        actions = view.findViewById(R.id.app_info_options)
+        miscellaneous = view.findViewById(R.id.app_info_miscellaneous)
 
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        foldMetaDataMenu = view.findViewById(R.id.fold_app_info_menu)
+        foldActionsMenu = view.findViewById(R.id.fold_app_info_actions)
+        foldMiscMenu = view.findViewById(R.id.fold_app_info_misc)
+
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         spanCount = if (this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             3
@@ -80,6 +95,10 @@ class AppInfo : ScopedFragment() {
         componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(InfoPanelMenuData::class.java)
         allAppsData = ViewModelProvider(requireActivity()).get(AllAppsData::class.java)
 
+        metaMenuState()
+        actionMenuState()
+        miscMenuState()
+
         return view
     }
 
@@ -89,11 +108,18 @@ class AppInfo : ScopedFragment() {
         componentsViewModel.getMenuItems().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
-            adapterMenu = AdapterMenu(it)
+            if (AppInfoPanelPreferences.isMetaMenuFolded()) {
+                (view.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
+                }
+                return@observe
+            }
+
+            val adapterMenu = AdapterMenu(it)
             adapterMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-            menu.layoutManager = GridLayoutManager(requireContext(), spanCount)
-            menu.adapter = adapterMenu
-            menu.scheduleLayoutAnimation()
+            meta.layoutManager = GridLayoutManager(requireContext(), spanCount)
+            meta.adapter = adapterMenu
+            meta.scheduleLayoutAnimation()
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -174,10 +200,13 @@ class AppInfo : ScopedFragment() {
         })
 
         componentsViewModel.getMenuOptions().observe(requireActivity(), {
+
+            if (AppInfoPanelPreferences.isActionMenuFolded()) return@observe
+
             val adapterAppInfoMenu = AdapterMenu(it)
-            options.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
-            options.adapter = adapterAppInfoMenu
-            options.scheduleLayoutAnimation()
+            actions.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
+            actions.adapter = adapterAppInfoMenu
+            actions.scheduleLayoutAnimation()
 
             adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
@@ -294,7 +323,7 @@ class AppInfo : ScopedFragment() {
                                             f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                                 override fun onCommandExecuted(result: String) {
                                                     if (result.contains("disabled")) {
-                                                        componentsViewModel.loadOptions()
+                                                        componentsViewModel.loadActionOptions()
                                                     }
                                                 }
                                             })
@@ -311,7 +340,7 @@ class AppInfo : ScopedFragment() {
                             f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
                                 override fun onCommandExecuted(result: String) {
                                     if (result.contains("enabled")) {
-                                        componentsViewModel.loadOptions()
+                                        componentsViewModel.loadActionOptions()
                                     }
                                 }
                             })
@@ -324,6 +353,22 @@ class AppInfo : ScopedFragment() {
                             })
                         }
                     }
+                }
+            })
+        })
+
+        componentsViewModel.getMiscellaneousItems().observe(viewLifecycleOwner, {
+
+            if (AppInfoPanelPreferences.isMiscMenuFolded()) return@observe
+
+            val adapterAppInfoMenu = AdapterMenu(it)
+            miscellaneous.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
+            miscellaneous.adapter = adapterAppInfoMenu
+            miscellaneous.scheduleLayoutAnimation()
+
+            adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
+                override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
+
                 }
             })
         })
@@ -364,6 +409,18 @@ class AppInfo : ScopedFragment() {
                          Directories.newInstance(packageInfo),
                          getString(R.string.directories))
         }
+
+        foldMetaDataMenu.setOnClickListener {
+            AppInfoPanelPreferences.setMetaMenuFold(!AppInfoPanelPreferences.isMetaMenuFolded())
+        }
+
+        foldActionsMenu.setOnClickListener {
+            AppInfoPanelPreferences.setActionMenuFold(!AppInfoPanelPreferences.isActionMenuFolded())
+        }
+
+        foldMiscMenu.setOnClickListener {
+            AppInfoPanelPreferences.setMiscMenuFold(!AppInfoPanelPreferences.isMiscMenuFolded())
+        }
     }
 
     override fun onAppUninstalled(result: Boolean) {
@@ -383,16 +440,66 @@ class AppInfo : ScopedFragment() {
         }
     }
 
+    private fun metaMenuState() {
+        if (AppInfoPanelPreferences.isMetaMenuFolded()) {
+            meta.gone()
+            meta.adapter = null
+            foldMetaDataMenu.animate().rotation(-90F).start()
+        } else {
+            componentsViewModel.loadMetaOptions()
+            meta.visible(false)
+            foldMetaDataMenu.animate().rotation(0F).start()
+        }
+    }
+
+    private fun actionMenuState() {
+        if (AppInfoPanelPreferences.isActionMenuFolded()) {
+            actions.gone()
+            actions.adapter = null
+            foldActionsMenu.animate().rotation(-90F).start()
+        } else {
+            componentsViewModel.loadActionOptions()
+            actions.visible(false)
+            foldActionsMenu.animate().rotation(0F).start()
+        }
+    }
+
+    private fun miscMenuState() {
+        if (AppInfoPanelPreferences.isMiscMenuFolded()) {
+            miscellaneous.gone()
+            miscellaneous.adapter = null
+            foldMiscMenu.animate().rotation(-90F).start()
+        } else {
+            componentsViewModel.loadMiscellaneousItems()
+            miscellaneous.visible(false)
+            foldMiscMenu.animate().rotation(0F).start()
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            AppInfoPanelPreferences.metaMenuState -> {
+                metaMenuState()
+            }
+            AppInfoPanelPreferences.actionMenuState -> {
+                actionMenuState()
+            }
+            AppInfoPanelPreferences.miscMenuState -> {
+                miscMenuState()
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo, transitionName: String): AppInfo {
+        fun newInstance(packageInfo: PackageInfo, transitionName: String): AppInfo {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
-            args.putString("transition_name", transitionName)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putString(BundleConstants.transitionName, transitionName)
             val fragment = AppInfo()
             fragment.arguments = args
             return fragment

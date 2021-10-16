@@ -57,4 +57,5 @@
     <dimen name="header_viewer_icon_size">30dp</dimen>
     <dimen name="app_name_text_size">16sp</dimen>
     <dimen name="app_package_text_size">11sp</dimen>
+    <dimen name="folding_arrow_size">30dp</dimen>
 </resources>

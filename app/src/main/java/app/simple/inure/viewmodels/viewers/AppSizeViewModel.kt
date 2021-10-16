@@ -10,7 +10,7 @@ import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AppSize(application: Application) : AndroidViewModel(application) {
+class AppSizeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val totalAppSize: MutableLiveData<Long> by lazy {
         MutableLiveData<Long>().also {

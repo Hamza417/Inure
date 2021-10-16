@@ -12,14 +12,15 @@
         android:id="@+id/adapter_receiver_icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"
+        android:layout_gravity="center_vertical"
         tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
         android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
