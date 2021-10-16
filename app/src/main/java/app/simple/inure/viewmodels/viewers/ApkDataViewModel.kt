@@ -15,7 +15,6 @@ import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.constants.Misc.delay
 import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.model.ProviderInfoModel
-import app.simple.inure.model.ServiceInfoModel
 import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -53,12 +52,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         }
     }
 
-    private val services: MutableLiveData<MutableList<ServiceInfoModel>> by lazy {
-        MutableLiveData<MutableList<ServiceInfoModel>>().also {
-            getServicesData()
-        }
-    }
-
     fun getError(): LiveData<String> {
         return error
     }
@@ -77,10 +70,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     fun getResources(): LiveData<MutableList<String>> {
         return resources
-    }
-
-    fun getServices(): LiveData<MutableList<ServiceInfoModel>> {
-        return services
     }
 
     private fun getReceiversData() {
@@ -201,49 +190,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                         })
                     }
                 }
-            }.getOrElse {
-                delay(delay)
-                error.postValue(it.message)
-            }
-        }
-    }
-
-    private fun getServicesData() {
-        viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                val list = arrayListOf<ServiceInfoModel>()
-
-                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    PackageManager.GET_SERVICES or PackageManager.MATCH_DISABLED_COMPONENTS
-                } else {
-                    @Suppress("deprecation")
-                    PackageManager.GET_SERVICES or PackageManager.GET_DISABLED_COMPONENTS
-                }
-
-                for (info in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, flags).services) {
-                    val serviceInfoModel = ServiceInfoModel()
-
-                    serviceInfoModel.serviceInfo = info
-                    serviceInfoModel.name = info.name
-                    serviceInfoModel.isExported = info.exported
-                    serviceInfoModel.flags = info.flags
-                    serviceInfoModel.name = info.name
-                    serviceInfoModel.foregroundType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) info.foregroundServiceType else -3
-                    serviceInfoModel.permissions = info.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
-
-                    with(StringBuilder()) {
-                        append(" | ")
-                        append(MetaUtils.getForegroundServiceType(serviceInfoModel.foregroundType, getApplication()))
-                        append(" | ")
-                        append(MetaUtils.getServiceFlags(info.flags, getApplication()))
-
-                        serviceInfoModel.status = this.toString()
-                    }
-
-                    list.add(serviceInfoModel)
-                }
-
-                services.postValue(list)
             }.getOrElse {
                 delay(delay)
                 error.postValue(it.message)

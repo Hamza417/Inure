@@ -185,6 +185,8 @@ class Extras : ScopedFragment() {
             title.visible(true)
             searchBox.gone()
         }
+
+        searchBox.toggleInput()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

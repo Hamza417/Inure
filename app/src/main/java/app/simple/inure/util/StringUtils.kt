@@ -124,6 +124,7 @@ object StringUtils {
             path.endsWith(".jpeg") -> Color.parseColor("#707b7c")
             path.endsWith(".gif") -> Color.parseColor("#808b96")
             path.endsWith(".webp") -> Color.parseColor("#196f3d")
+            path.endsWith(".ini") -> Color.parseColor("#d68910")
             else -> Color.BLACK
         }
     }

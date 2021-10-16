@@ -337,7 +337,8 @@ object APKParser {
                     || name.endsWith(".bin")
                     || name.endsWith(".ttf")
                     || name.endsWith(".md")
-                    || name.endsWith(".pdf")) {
+                    || name.endsWith(".pdf")
+                    || name.endsWith(".ini")) {
 
                     if (name.lowercase().contains(keyword.lowercase())) {
                         graphicsFiles.add(name)

@@ -14,8 +14,9 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.model.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.AdapterUtils
 
-class AdapterServices(private val services: MutableList<ServiceInfoModel>, private val packageInfo: PackageInfo) : RecyclerView.Adapter<AdapterServices.Holder>() {
+class AdapterServices(private val services: MutableList<ServiceInfoModel>, private val packageInfo: PackageInfo, private val keyword: String) : RecyclerView.Adapter<AdapterServices.Holder>() {
 
     private lateinit var servicesCallbacks: ServicesCallbacks
     private val isRootMode = ConfigurationPreferences.isUsingRoot()
@@ -28,7 +29,7 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
         holder.icon.loadIconFromServiceInfo(services[position].serviceInfo)
 
         holder.name.text = services[position].name.substring(services[position].name.lastIndexOf(".") + 1)
-        holder.process.text = services[position].name
+        holder.packageId.text = services[position].name
 
         holder.status.text = holder.itemView.context.getString(
             R.string.activity_status,
@@ -64,6 +65,11 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
             servicesCallbacks
                     .onServiceClicked(services[position])
         }
+
+        if (keyword.isNotBlank()) {
+            AdapterUtils.searchHighlighter(holder.name, keyword)
+            AdapterUtils.searchHighlighter(holder.packageId, keyword)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -73,7 +79,7 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_services_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_name)
-        val process: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_package)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_package)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_status)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_services_container)
     }
