@@ -16,6 +16,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.details.ComponentStateDialog
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.IntentAction
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
@@ -55,14 +56,13 @@ class Activities : ScopedFragment() {
         activitiesViewModel = ViewModelProvider(this, packageInfoFactory).get(ActivitiesViewModel::class.java)
 
         searchBoxState()
+        startPostponedEnterTransition()
 
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        startPostponedEnterTransition()
 
         activitiesViewModel.getActivities().observe(viewLifecycleOwner, { it ->
             adapterActivities = AdapterActivities(packageInfo, it, searchBox.text.toString())
@@ -77,8 +77,7 @@ class Activities : ScopedFragment() {
                 }
 
                 override fun onActivityLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
-                    val v = PopupActivitiesMenu(icon,
-                                                isComponentEnabled)
+                    val v = PopupActivitiesMenu(icon, isComponentEnabled)
 
                     v.setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
@@ -92,31 +91,14 @@ class Activities : ScopedFragment() {
                                     IntentAction.newInstance(packageInfo, packageId)
                                             .show(childFragmentManager, "intent_action")
                                 }
-                                getString(R.string.enable) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm enable ${packageInfo.packageName}/$packageId")
-
-                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
-                                        override fun onCommandExecuted(result: String) {
-                                            if (result.contains("Done!")) {
-                                                adapterActivities?.notifyItemChanged(position)
-                                            }
+                                getString(R.string.enable), getString(R.string.disable) -> {
+                                    val p = ComponentStateDialog.newInstance(packageInfo, packageId, isComponentEnabled)
+                                    p.setOnComponentStateChangeListener(object : ComponentStateDialog.Companion.ComponentStatusCallbacks {
+                                        override fun onSuccess() {
+                                            adapterActivities?.notifyItemChanged(position)
                                         }
                                     })
-
-                                    shell.show(childFragmentManager, "shell_executor")
-                                }
-                                getString(R.string.disable) -> {
-                                    val shell = ShellExecutorDialog.newInstance("pm disable ${packageInfo.packageName}/$packageId")
-
-                                    shell.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
-                                        override fun onCommandExecuted(result: String) {
-                                            if (result.contains("Done!")) {
-                                                adapterActivities?.notifyItemChanged(position)
-                                            }
-                                        }
-                                    })
-
-                                    shell.show(childFragmentManager, "shell_executor")
+                                    p.show(childFragmentManager, "component_state")
                                 }
                             }
                         }

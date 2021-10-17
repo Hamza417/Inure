@@ -16,7 +16,7 @@ class CodeViewModelFactory(private val application: Application, private val pac
                 return JSONViewerViewModel(application, accentColor, packageInfo, path) as T
             }
             else -> {
-                throw IllegalArgumentException("Nope, Wrong Viewmodel!!")
+                throw IllegalArgumentException("Wrong Viewmodel!!")
             }
         }
     }
