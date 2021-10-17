@@ -163,7 +163,11 @@ class Extras : ScopedFragment() {
         }
 
         search.setOnClickListener {
-            ExtrasPreferences.setSearchVisibility(!ExtrasPreferences.isSearchVisible())
+            if (searchBox.text.isNullOrEmpty()) {
+                ExtrasPreferences.setSearchVisibility(!ExtrasPreferences.isSearchVisible())
+            } else {
+                searchBox.text?.clear()
+            }
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
@@ -178,13 +182,13 @@ class Extras : ScopedFragment() {
             search.setImageResource(R.drawable.ic_close)
             title.gone()
             searchBox.visible(true)
+            searchBox.showInput()
         } else {
             search.setImageResource(R.drawable.ic_search)
             title.visible(true)
             searchBox.gone()
+            searchBox.hideInput()
         }
-
-        searchBox.toggleInput()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

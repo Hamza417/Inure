@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:clipChildren="false"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
+        android:background="@color/mainBackground"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="horizontal"
-        android:padding="@dimen/header_padding">
+        android:padding="@dimen/header_padding"
+        android:translationZ="1dp">
 
         <ImageView
             android:id="@+id/imageView8"
@@ -69,6 +74,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
+            android:elevation="@dimen/dialog_elevation"
             android:maxLines="1"
             android:paddingHorizontal="@dimen/header_padding"
             android:textColor="@color/textSecondary"
@@ -78,7 +84,7 @@
             android:visibility="gone"
             app:appFontStyle="regular" />
 
-    </LinearLayout>
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -93,4 +99,4 @@
         android:layoutAnimation="@anim/list_animation_controller"
         app:statusBarPaddingRequired="false" />
 
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+</LinearLayout>

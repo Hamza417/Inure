@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:clipChildren="false"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:background="@color/mainBackground"
+        android:translationZ="1dp"
         android:animateLayoutChanges="true"
         android:padding="@dimen/header_padding">
 
@@ -51,6 +56,7 @@
             android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:maxLines="1"
+            android:elevation="@dimen/dialog_elevation"
             android:paddingHorizontal="@dimen/header_padding"
             android:textColor="@color/textSecondary"
             android:textColorHighlight="?attr/colorAppAccentLight"
@@ -59,7 +65,7 @@
             android:visibility="gone"
             app:appFontStyle="regular" />
 
-    </LinearLayout>
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -76,4 +82,4 @@
         app:isFastScrollRequired="false"
         app:statusBarPaddingRequired="false" />
 
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+</LinearLayout>

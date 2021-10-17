@@ -98,7 +98,11 @@ class Graphics : ScopedFragment() {
         }
 
         search.setOnClickListener {
-            GraphicsPreferences.setSearchVisibility(!GraphicsPreferences.isSearchVisible())
+            if (searchBox.text.isNullOrEmpty()) {
+                GraphicsPreferences.setSearchVisibility(!GraphicsPreferences.isSearchVisible())
+            } else {
+                searchBox.text?.clear()
+            }
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
@@ -113,13 +117,13 @@ class Graphics : ScopedFragment() {
             search.setImageResource(R.drawable.ic_close)
             title.gone()
             searchBox.visible(true)
+            searchBox.showInput()
         } else {
             search.setImageResource(R.drawable.ic_search)
             title.visible(true)
             searchBox.gone()
+            searchBox.hideInput()
         }
-
-        searchBox.toggleInput()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

@@ -104,7 +104,11 @@ class Permissions : ScopedFragment() {
         })
 
         search.setOnClickListener {
-            PermissionPreferences.setSearchVisibility(!PermissionPreferences.isSearchVisible())
+            if (searchBox.text.isNullOrEmpty()) {
+                PermissionPreferences.setSearchVisibility(!PermissionPreferences.isSearchVisible())
+            } else {
+                searchBox.text?.clear()
+            }
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
@@ -119,13 +123,13 @@ class Permissions : ScopedFragment() {
             search.setImageResource(R.drawable.ic_close)
             title.gone()
             searchBox.visible(true)
+            searchBox.showInput()
         } else {
             search.setImageResource(R.drawable.ic_search)
             title.visible(true)
             searchBox.gone()
+            searchBox.hideInput()
         }
-
-        searchBox.toggleInput()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
