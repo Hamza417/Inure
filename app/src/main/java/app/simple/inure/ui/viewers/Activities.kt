@@ -16,10 +16,10 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.details.ActivityLauncherDialog
 import app.simple.inure.dialogs.details.ComponentStateDialog
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.IntentAction
-import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.popups.viewers.PopupActivitiesMenu
@@ -83,9 +83,8 @@ class Activities : ScopedFragment() {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.force_launch) -> {
-                                    ShellExecutorDialog.newInstance("am start -n ${packageInfo.packageName}/$packageId " +
-                                                                            "-a android.intent.action.MAIN")
-                                            .show(childFragmentManager, "shell_executor")
+                                    ActivityLauncherDialog.newInstance(packageInfo, packageId)
+                                            .show(childFragmentManager, "activity_launcher")
                                 }
                                 getString(R.string.force_launch_with_action) -> {
                                     IntentAction.newInstance(packageInfo, packageId)

@@ -359,4 +359,6 @@
     <string name="mandatory">Mandatory</string>
     <string name="optional">Optional</string>
     <string name="extract">Extract</string>
+    <string name="launched">Launched</string>
+    <string name="launching">Launching</string>
 </resources>

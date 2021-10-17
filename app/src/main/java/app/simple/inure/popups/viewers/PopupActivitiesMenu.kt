@@ -8,11 +8,14 @@ import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.util.ViewUtils.gone
 
 class PopupActivitiesMenu(view: View, isComponentEnabled: Boolean) : BasePopupWindow() {
 
     private lateinit var popupMainMenuCallbacks: PopupMenuCallback
     private var componentState: DynamicRippleTextView
+    private var forceLaunch: DynamicRippleTextView
+    private var forceLaunchWithAction: DynamicRippleTextView
 
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_activities_menu, PopupLinearLayout(view.context))
@@ -28,8 +31,16 @@ class PopupActivitiesMenu(view: View, isComponentEnabled: Boolean) : BasePopupWi
             componentState.onClick(it)
         }
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_launch).onClick(context.getString(R.string.force_launch))
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_launch_with_action).onClick(context.getString(R.string.force_launch_with_action))
+        forceLaunch = contentView.findViewById(R.id.popup_launch)
+        forceLaunchWithAction = contentView.findViewById(R.id.popup_launch_with_action)
+
+        forceLaunch.onClick(context.getString(R.string.force_launch))
+        forceLaunchWithAction.onClick(context.getString(R.string.force_launch_with_action))
+
+        if (!isComponentEnabled) {
+            forceLaunch.gone()
+            forceLaunchWithAction.gone()
+        }
 
         init(contentView, view, Gravity.END)
 

@@ -8,6 +8,6 @@ class ApkInstallerAssociationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)?.parentFile
+        println(DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)?.name)
     }
 }
