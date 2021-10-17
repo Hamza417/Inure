@@ -20,9 +20,12 @@ class PermissionStatusDialog : ScopedBottomSheetFragment() {
     private lateinit var loader: LoaderImageView
     private lateinit var status: TypeFaceTextView
 
+    private lateinit var permissionInfo: PermissionInfo
     private lateinit var permissionStatusFactory: PermissionStatusFactory
     private lateinit var permissionStatusViewModel: PermissionStatusViewModel
     private var permissionStatusCallbacks: PermissionStatusCallbacks? = null
+
+    private var mode: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_permission_status, container, false)
@@ -30,9 +33,16 @@ class PermissionStatusDialog : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.loader)
         status = view.findViewById(R.id.permission_status_result)
 
+        permissionInfo = requireArguments().getParcelable(BundleConstants.permissionInfo)!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
+        mode = requireArguments().getString(BundleConstants.permissionMode)
+
         permissionStatusFactory = PermissionStatusFactory(requireActivity().application,
-                                                          requireArguments().getParcelable(BundleConstants.packageInfo)!!,
-                                                          requireArguments().getParcelable(BundleConstants.permissionInfo)!!)
+                                                          packageInfo,
+                                                          permissionInfo,
+                                                          mode)
+
+        println(mode)
 
         permissionStatusViewModel = ViewModelProvider(this, permissionStatusFactory).get(PermissionStatusViewModel::class.java)
 
@@ -46,7 +56,7 @@ class PermissionStatusDialog : ScopedBottomSheetFragment() {
             when (it) {
                 "Done" -> {
                     loader.loaded()
-                    with(requireArguments().getParcelable<PermissionInfo>(BundleConstants.permissionInfo)!!.isGranted) {
+                    with(mode == getString(R.string.revoke)) {
                         if (this) {
                             status.setText(R.string.rejected)
                         } else {
@@ -74,10 +84,11 @@ class PermissionStatusDialog : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, permissionInfo: PermissionInfo): PermissionStatusDialog {
+        fun newInstance(packageInfo: PackageInfo, permissionInfo: PermissionInfo, mode: String): PermissionStatusDialog {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putParcelable(BundleConstants.permissionInfo, permissionInfo)
+            args.putString(BundleConstants.permissionMode, mode)
             val fragment = PermissionStatusDialog()
             fragment.arguments = args
             return fragment

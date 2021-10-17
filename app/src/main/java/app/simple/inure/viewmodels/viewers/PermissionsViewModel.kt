@@ -40,18 +40,14 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                 val appPackageInfo = getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)
                 val permissions = arrayListOf<PermissionInfo>()
 
-                for (permission in appPackageInfo.requestedPermissions) {
-                    for (flags in appPackageInfo.requestedPermissionsFlags) {
-                        if (flags and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
-                            if (permission.lowercase().contains(keyword.lowercase())) {
-                                permissions.add(PermissionInfo(true, permission))
-                            }
-                            break
-                        } else {
-                            if (permission.lowercase().contains(keyword.lowercase())) {
-                                permissions.add(PermissionInfo(false, permission))
-                            }
-                            break
+                for (count in appPackageInfo.requestedPermissions.indices) {
+                    if (appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
+                        if (appPackageInfo.requestedPermissions[count].lowercase().contains(keyword.lowercase())) {
+                            permissions.add(PermissionInfo(true, appPackageInfo.requestedPermissions[count]))
+                        }
+                    } else {
+                        if (appPackageInfo.requestedPermissions[count].lowercase().contains(keyword.lowercase())) {
+                            permissions.add(PermissionInfo(false, appPackageInfo.requestedPermissions[count]))
                         }
                     }
                 }

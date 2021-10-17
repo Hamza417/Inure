@@ -68,8 +68,17 @@ class Permissions : ScopedFragment() {
                     popup.setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
-                                getString(R.string.revoke), getString(R.string.grant) -> {
-                                    val p = PermissionStatusDialog.newInstance(packageInfo, permissionInfo)
+                                getString(R.string.revoke) -> {
+                                    val p = PermissionStatusDialog.newInstance(packageInfo, permissionInfo, getString(R.string.revoke))
+                                    p.show(childFragmentManager, "permission_status")
+                                    p.setOnPermissionStatusCallbackListener(object : PermissionStatusDialog.Companion.PermissionStatusCallbacks {
+                                        override fun onSuccess(grantedStatus: Boolean) {
+                                            adapterPermissions.permissionStatusChanged(position, grantedStatus)
+                                        }
+                                    })
+                                }
+                                getString(R.string.grant) -> {
+                                    val p = PermissionStatusDialog.newInstance(packageInfo, permissionInfo, getString(R.string.grant))
                                     p.show(childFragmentManager, "permission_status")
                                     p.setOnPermissionStatusCallbackListener(object : PermissionStatusDialog.Companion.PermissionStatusCallbacks {
                                         override fun onSuccess(grantedStatus: Boolean) {

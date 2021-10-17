@@ -11,4 +11,5 @@ object BundleConstants {
     const val pathToXml = "path_to_xml"
     const val pathToJSON = "path_to_json"
     const val transitionName = "transition_name"
+    const val permissionMode = "permission_mode"
 }

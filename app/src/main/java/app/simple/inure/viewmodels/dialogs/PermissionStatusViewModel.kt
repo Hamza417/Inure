@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
+import app.simple.inure.R
 import app.simple.inure.constants.Misc
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.model.PermissionInfo
@@ -15,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PermissionStatusViewModel(application: Application, val packageInfo: PackageInfo, val permissionInfo: PermissionInfo) : AndroidViewModel(application) {
+class PermissionStatusViewModel(application: Application, val packageInfo: PackageInfo, val permissionInfo: PermissionInfo, val mode: String?) : AndroidViewModel(application) {
 
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -45,7 +46,9 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
                                                 .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
                                                 .setTimeout(10))
 
-                Shell.su("pm ${if (permissionInfo.isGranted) "revoke" else "grant"} ${packageInfo.packageName} ${permissionInfo.name}").submit { shellResult ->
+                val mode = if (mode == getApplication<Application>().getString(R.string.revoke)) "revoke" else "grant"
+
+                Shell.su("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
