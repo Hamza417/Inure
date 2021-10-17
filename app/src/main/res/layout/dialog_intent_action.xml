@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/dialogBackground"
@@ -18,34 +17,19 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
+        android:id="@+id/intent_action_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/dialog_padding"
-        android:animateLayoutChanges="true"
+        android:layout_height="50dp"
+        android:maxLines="4"
         android:hint="@string/action"
-        app:boxStrokeColor="?attr/colorAppAccent"
-        app:boxStrokeWidth="1px"
-        app:boxStrokeWidthFocused="2px"
-        app:errorEnabled="false"
-        app:errorIconTint="@android:color/holo_red_dark"
-        app:errorTextColor="@android:color/holo_red_dark"
-        app:hintAnimationEnabled="true"
-        app:hintEnabled="true"
-        app:hintTextColor="?attr/colorAppAccent"
-        tools:ignore="PxUsage">
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextInputEditText
-            android:id="@+id/intent_action_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="4"
-            android:paddingHorizontal="@dimen/dialog_padding"
-            android:textColor="@color/textPrimary"
-            app:appFontStyle="medium" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:textColorHint="@color/textTertiary"
+        android:textColorHighlight="?attr/colorAppAccentLight"
+        android:textCursorDrawable="@drawable/text_cursor"
+        android:layout_marginVertical="@dimen/dialog_padding"
+        android:paddingHorizontal="@dimen/dialog_padding"
+        android:textColor="@color/textPrimary"
+        app:appFontStyle="medium" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/intent_command"

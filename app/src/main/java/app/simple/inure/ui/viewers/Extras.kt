@@ -13,7 +13,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterExtras
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
+import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
@@ -33,7 +33,7 @@ class Extras : ScopedFragment() {
     private lateinit var options: DynamicRippleImageButton
     private lateinit var search: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextSearch
+    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
     private lateinit var extrasViewModel: ExtrasViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private var adapterExtras: AdapterExtras? = null

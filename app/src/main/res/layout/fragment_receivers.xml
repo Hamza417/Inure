@@ -44,7 +44,7 @@
             android:src="@drawable/ic_search"
             android:tint="?attr/colorAppAccent" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
+        <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
             android:id="@+id/receivers_search"
             android:layout_width="0dp"
             android:layout_height="match_parent"

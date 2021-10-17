@@ -13,7 +13,7 @@ import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
+import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.details.ComponentStateDialog
@@ -34,7 +34,7 @@ class Services : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextSearch
+    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
 
     private var adapterServices: AdapterServices? = null
     private lateinit var servicesViewModel: ServicesViewModel

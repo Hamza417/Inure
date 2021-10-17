@@ -12,7 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
+import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.details.PermissionStatusDialog
@@ -31,7 +31,7 @@ class Permissions : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextSearch
+    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
     private lateinit var permissionsViewModel: PermissionsViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var adapterPermissions: AdapterPermissions

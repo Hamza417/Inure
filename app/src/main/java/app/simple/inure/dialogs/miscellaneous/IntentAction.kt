@@ -11,10 +11,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.typeface.TypeFaceTextInputEditText
+import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extension.fragments.ScopedDialogFragment
+import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.dialogs.ActivityLauncherViewModel
@@ -23,7 +24,7 @@ import app.simple.inure.viewmodels.factory.ActivityLaunchFactory
 class IntentAction : ScopedDialogFragment() {
 
     private lateinit var command: TypeFaceTextView
-    private lateinit var action: TypeFaceTextInputEditText
+    private lateinit var action: TypeFaceEditTextDynamicCorner
     private lateinit var launch: TypeFaceTextView
     private lateinit var loader: CustomProgressBar
 
@@ -62,8 +63,13 @@ class IntentAction : ScopedDialogFragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                command.text = "am start -n ${packageInfo.packageName}/" +
-                        "$packageId -a \"${s.toString()}\""
+                if (count.isZero()) {
+                    command.text = "am start -n ${packageInfo.packageName}/${packageId} " +
+                            "-a \"android.intent.action.MAIN\""
+                } else {
+                    command.text = "am start -n ${packageInfo.packageName}/" +
+                            "$packageId -a \"${s.toString()}\""
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {

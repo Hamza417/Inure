@@ -5,12 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         android:animateLayoutChanges="true"
         android:padding="@dimen/header_padding">
 
@@ -44,13 +48,14 @@
             android:src="@drawable/ic_search"
             android:tint="?attr/colorAppAccent" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceEditTextSearch
+        <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
             android:id="@+id/permissions_search"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:maxLines="1"
+            android:elevation="25dp"
             android:paddingHorizontal="@dimen/header_padding"
             android:textColor="@color/textSecondary"
             android:textColorHighlight="?attr/colorAppAccentLight"
