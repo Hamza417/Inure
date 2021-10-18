@@ -7,6 +7,7 @@ import app.simple.inure.exceptions.CertificateParseException
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.exceptions.InureXmlParserException
 import app.simple.inure.model.UsesFeatures
+import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import com.jaredrummler.apkparser.ApkParser
 import com.jaredrummler.apkparser.model.AndroidComponent
@@ -317,31 +318,46 @@ object APKParser {
      * Get list of all raster image files within an APK file
      */
     fun getExtraFiles(path: String?, keyword: String): MutableList<String> {
+
+        val json = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.json)
+        val css = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.css)
+        val html = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.html)
+        val properties = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.properties)
+        val js = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.js)
+        val tsv = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.tsv)
+        val txt = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.txt)
+        val proto = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.proto)
+        val java = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.java)
+        val bin = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.bin)
+        val ttf = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.ttf)
+        val md = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.md)
+        val ini = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.ini)
+
         val graphicsFiles: MutableList<String> = ArrayList()
         var zipFile: ZipFile? = null
+
         try {
             zipFile = ZipFile(path)
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
             while (entries.hasMoreElements()) {
                 val entry: ZipEntry? = entries.nextElement()
                 val name: String = entry!!.name
-                if (name.endsWith(".json")
-                    || name.endsWith(".css")
-                    || name.endsWith(".html")
-                    || name.endsWith(".properties")
-                    || name.endsWith(".js")
-                    || name.endsWith(".tsv")
-                    || name.endsWith(".txt")
-                    || name.endsWith(".proto")
-                    || name.endsWith(".java")
-                    || name.endsWith(".bin")
-                    || name.endsWith(".ttf")
-                    || name.endsWith(".md")
-                    || name.endsWith(".pdf")
-                    || name.endsWith(".ini")) {
 
-                    if (name.lowercase().contains(keyword.lowercase())) {
-                        graphicsFiles.add(name)
+                if (name.lowercase().contains(keyword.lowercase())) {
+                    when {
+                        name.endsWith(".json") -> if (json) graphicsFiles.add(name)
+                        name.endsWith(".css") -> if (css) graphicsFiles.add(name)
+                        name.endsWith(".html") -> if (html) graphicsFiles.add(name)
+                        name.endsWith(".properties") -> if (properties) graphicsFiles.add(name)
+                        name.endsWith(".js") -> if (js) graphicsFiles.add(name)
+                        name.endsWith(".tsv") -> if (tsv) graphicsFiles.add(name)
+                        name.endsWith(".txt") -> if (txt) graphicsFiles.add(name)
+                        name.endsWith(".proto") -> if (proto) graphicsFiles.add(name)
+                        name.endsWith(".java") -> if (java) graphicsFiles.add(name)
+                        name.endsWith(".bin") -> if (bin) graphicsFiles.add(name)
+                        name.endsWith(".ttf") -> if (ttf) graphicsFiles.add(name)
+                        name.endsWith(".md") -> if (md) graphicsFiles.add(name)
+                        name.endsWith(".ini") -> if (ini) graphicsFiles.add(name)
                     }
                 }
             }

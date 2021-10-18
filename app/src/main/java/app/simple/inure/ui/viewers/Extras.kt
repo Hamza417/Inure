@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -18,6 +17,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.viewers.PopupExtrasFilter
 import app.simple.inure.popups.viewers.PopupExtrasMenu
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.util.FragmentHelper
@@ -157,9 +157,7 @@ class Extras : ScopedFragment() {
         }
 
         filter.setOnClickListener {
-            Toast.makeText(requireContext(), "Currently thinking which approach would be better, " +
-                    "bit flags or boolean for filtering the list. " +
-                    "Will be implemented later.", Toast.LENGTH_SHORT).show()
+            PopupExtrasFilter(it)
         }
 
         search.setOnClickListener {
@@ -172,7 +170,7 @@ class Extras : ScopedFragment() {
 
         searchBox.doOnTextChanged { text, _, _, _ ->
             if (searchBox.isFocused) {
-                extrasViewModel.getExtrasData(text.toString())
+                extrasViewModel.keyword = text.toString()
             }
         }
     }
