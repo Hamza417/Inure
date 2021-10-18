@@ -3,6 +3,7 @@ package app.simple.inure.decorations.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.EdgeEffect
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
 
     private var manuallyAnimated = false
     private var fastScroll = true
-    private var isLandscape = false
+    private var isEdgeColorRequired = true
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
@@ -31,7 +32,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
 
                 fastScroll = getBoolean(R.styleable.CustomRecyclerView_isFastScrollRequired, true)
                 manuallyAnimated = getBoolean(R.styleable.CustomRecyclerView_manuallyAnimated, false)
-                isLandscape = StatusBarHeight.isLandscape(context)
+                isEdgeColorRequired = getBoolean(R.styleable.CustomRecyclerView_isEdgeColorRequired, true)
             } finally {
                 recycle()
             }
@@ -46,11 +47,13 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
                     override fun onPull(deltaDistance: Float) {
                         super.onPull(deltaDistance)
                         handlePull(deltaDistance)
+                        setEdgeColor()
                     }
 
                     override fun onPull(deltaDistance: Float, displacement: Float) {
                         super.onPull(deltaDistance, displacement)
                         handlePull(deltaDistance)
+                        setEdgeColor()
                     }
 
                     private fun handlePull(deltaDistance: Float) {
@@ -62,13 +65,13 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
                         val rotationDelta = sign * deltaDistance * overScrollRotationMagnitude
 
                         /**
-                         * This value decide how fast the recycler view views should move when
+                         * This value decides how fast the recycler view views should move when
                          * they're being overscrolled. Often it is determined using the area of the
                          * recycler view because its length is how far the finger can move hence
                          * the overscroll value.
                          */
-                        val overscrollLengthConst = if (isLandscape) recyclerView.height else recyclerView.height / 2
-                        val translationYDelta = sign * overscrollLengthConst * deltaDistance * overScrollTranslationMagnitude
+                        // val overscrollLengthConst = if (isLandscape) recyclerView.height else recyclerView.height / 2
+                        val translationYDelta = sign * recyclerView.height / 2 * deltaDistance * overScrollTranslationMagnitude
 
                         recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
                             holder.rotation.cancel()
@@ -80,6 +83,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
 
                     override fun onRelease() {
                         super.onRelease()
+                        setEdgeColor()
                         /**
                          * The finger is lifted. This is when we should start the animations to bring
                          * the view property values back to their resting states.
@@ -92,6 +96,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
 
                     override fun onAbsorb(velocity: Int) {
                         super.onAbsorb(velocity)
+                        setEdgeColor()
                         val sign = if (direction == DIRECTION_BOTTOM) -1 else 1
 
                         /**
@@ -102,6 +107,17 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
                             holder.translationY
                                     .setStartVelocity(translationVelocity)
                                     .start()
+                        }
+                    }
+
+                    /**
+                     * Have to call from all [EdgeEffect.onPull], [EdgeEffect.onRelease],
+                     * [EdgeEffect.onAbsorb] functions to make sure the edge colors don't appear
+                     * on non-required places. This is how it is but works.
+                     */
+                    private fun setEdgeColor() {
+                        if (!isEdgeColorRequired) {
+                            color = ContextCompat.getColor(context, R.color.mainBackground)
                         }
                     }
                 }

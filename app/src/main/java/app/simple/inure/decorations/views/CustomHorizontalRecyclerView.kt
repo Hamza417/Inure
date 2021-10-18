@@ -78,17 +78,16 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
                          * This is called on every touch event while the list is scrolled with a finger.
                          * simply update the view properties without animation.
                          */
-                        println(direction)
                         val sign = if (direction == DIRECTION_RIGHT) 1 else -1
                         val rotationDelta = sign * deltaDistance * overScrollRotationMagnitude
 
                         /**
-                         * This value decide how fast the recycler view views should move when
+                         * This value decides how fast the recycler view views should move when
                          * they're being overscrolled. Often it is determined using the area of the
                          * recycler view because its length is how far the finger can move hence
                          * the overscroll value.
                          */
-                        val overscrollLengthConst = if (isLandscape) recyclerView.height else recyclerView.height * 2
+                        val overscrollLengthConst = if (isLandscape) recyclerView.width / 2 else recyclerView.width
                         val translationXDelta = sign * overscrollLengthConst * deltaDistance * overScrollTranslationMagnitude
 
                         recyclerView.forEachVisibleHolder { holder: HorizontalListViewHolder ->

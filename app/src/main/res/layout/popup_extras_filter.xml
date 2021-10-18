@@ -16,6 +16,7 @@
         android:fadingEdge="vertical"
         android:fadingEdgeLength="20dp"
         android:requiresFadingEdge="vertical"
+        app:isEdgeColorRequired="false"
         app:isFastScrollRequired="false"
         app:manuallyAnimated="true"
         app:statusBarPaddingRequired="false" />
