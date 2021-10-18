@@ -23,6 +23,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomHorizontalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.app.PopupAnalytics
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.ui.panels.DeviceInfo
 import app.simple.inure.ui.panels.Search
@@ -43,6 +44,7 @@ class Home : ScopedFragment() {
     private lateinit var frequentlyUsedRecyclerView: CustomHorizontalRecyclerView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
+    private lateinit var options: DynamicRippleImageButton
 
     private val homeViewModel: HomeViewModel by viewModels()
 
@@ -57,6 +59,7 @@ class Home : ScopedFragment() {
         frequentlyUsedRecyclerView = view.findViewById(R.id.frequently_used_recycler_view)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
+        options = view.findViewById(R.id.home_header_option_button)
 
         ViewUtils.addShadow(header)
 
@@ -190,6 +193,20 @@ class Home : ScopedFragment() {
                                               MainPreferencesScreen.newInstance(),
                                               view.findViewById(R.id.imageView3),
                                               "preferences_screen")
+        }
+
+        options.setOnClickListener {
+            val p = PopupAnalytics(it)
+
+            p.setOnPopupMenuCallback(object : PopupMenuCallback {
+                override fun onMenuItemClicked(source: String) {
+                    when (source) {
+                        getString(R.string.refresh) -> {
+                            homeViewModel.refresh()
+                        }
+                    }
+                }
+            })
         }
     }
 

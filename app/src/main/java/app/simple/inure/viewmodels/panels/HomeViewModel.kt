@@ -151,4 +151,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             menuItems.postValue(list)
         }
     }
+
+    fun refresh() {
+        loadRecentlyInstalledAppData()
+        loadFrequentlyUsed()
+        loadRecentlyUpdatedAppData()
+    }
 }

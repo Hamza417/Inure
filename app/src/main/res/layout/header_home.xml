@@ -52,4 +52,14 @@
         android:src="@drawable/ic_settings"
         android:tint="@color/iconRegular" />
 
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/home_header_option_button"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/configuration_button"
+        android:src="@drawable/ic_more_vert"
+        android:tint="@color/iconRegular" />
+
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
