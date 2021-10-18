@@ -36,6 +36,7 @@ import app.simple.inure.preferences.AppInfoPanelPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
+import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
@@ -368,7 +369,17 @@ class AppInfo : ScopedFragment() {
 
             adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
-
+                    when (source) {
+                        getString(R.string.play_store) -> {
+                            MarketUtils.openAppOnPlayStore(requireContext(), packageInfo.packageName)
+                        }
+                        getString(R.string.amazon) -> {
+                            MarketUtils.openAppOnAmazonStore(requireContext(), packageInfo.packageName)
+                        }
+                        getString(R.string.fdroid) -> {
+                            MarketUtils.openAppOnFdroid(requireContext(), packageInfo.packageName)
+                        }
+                    }
                 }
             })
         })

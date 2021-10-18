@@ -139,9 +139,21 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
         viewModelScope.launch(Dispatchers.Default) {
             val context = getApplication<Application>().applicationContext
 
-            val list = listOf(
-                Pair(R.drawable.ic_backup, context.getString(R.string.extract)),
-            )
+            val list = arrayListOf<Pair<Int, String>>()
+
+            list.add(Pair(R.drawable.ic_backup, context.getString(R.string.extract)))
+
+            if (PackageUtils.isPackageInstalled("com.android.vending", getApplication<Application>().packageManager)) {
+                list.add(Pair(R.drawable.ic_play_store, context.getString(R.string.play_store)))
+            }
+
+            if (PackageUtils.isPackageInstalled("com.amazon.venezia", getApplication<Application>().packageManager)) {
+                list.add(Pair(R.drawable.ic_amazon, context.getString(R.string.amazon)))
+            }
+
+            if (PackageUtils.isPackageInstalled("org.fdroid.fdroid", getApplication<Application>().packageManager)) {
+                list.add(Pair(R.drawable.ic_fdroid, context.getString(R.string.fdroid)))
+            }
 
             miscellaneousItems.postValue(list)
         }

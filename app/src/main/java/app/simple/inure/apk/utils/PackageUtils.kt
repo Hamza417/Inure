@@ -37,6 +37,21 @@ object PackageUtils {
     }
 
     /**
+     * Fetches the app's name from the package id of the same application
+     * @param context of the given environment
+     * @param packageName is [ApplicationInfo.packageName] app's package name
+     * @return app's name as [String]
+     */
+    fun getApplicationName(context: Context, packageName: String): String? {
+        return try {
+            val p0 = context.packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+            return context.packageManager.getApplicationLabel(p0).toString()
+        } catch (e: PackageManager.NameNotFoundException) {
+            context.getString(R.string.unknown)
+        }
+    }
+
+    /**
      * Fetches the app's version name from the package id of the application
      * @param context of the given environment
      * @param applicationInfo is [ApplicationInfo] object containing app's

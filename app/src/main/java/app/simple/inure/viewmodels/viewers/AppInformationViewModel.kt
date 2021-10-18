@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.os.Build
 import android.text.Spannable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -39,6 +40,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
     private fun loadInformation() {
         information.postValue(arrayListOf(
+            getPackageName(),
             getVersion(),
             getVersionCode(),
             getInstallLocation(),
@@ -51,7 +53,13 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             getMethodCount(),
             getApex(),
             getApplicationType(),
+            getInstallerName()
         ))
+    }
+
+    private fun getPackageName(): Pair<String, Spannable> {
+        return Pair(getApplication<Application>().getString(R.string.package_name),
+                    packageInfo.packageName.applySecondaryTextColor(getApplication()))
     }
 
     private fun getVersion(): Pair<String, Spannable> {
@@ -118,7 +126,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
     private fun getMinSDK(): Pair<String, Spannable> {
         val minSdk = kotlin.runCatching {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 "${packageInfo.applicationInfo.minSdkVersion}, ${SDKHelper.getSdkTitle(packageInfo.applicationInfo.minSdkVersion)}"
             } else {
                 when (val apkMeta: Any? = packageInfo.applicationInfo.getApkMeta()) {
@@ -175,7 +183,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
     }
 
     private fun getApex(): Pair<String, Spannable> {
-        val apex = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+        val apex = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (packageInfo.isApex)
                 getApplication<Application>().getString(R.string.yes) else getApplication<Application>().getString(R.string.no)
         } else {
@@ -195,5 +203,23 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
         return Pair(getApplication<Application>().getString(R.string.application_type),
                     applicationType.applySecondaryTextColor(getApplication()))
+    }
+
+    private fun getInstallerName(): Pair<String, Spannable> {
+        @Suppress("deprecation")
+        val name = kotlin.runCatching {
+            val p0 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                getApplication<Application>().packageManager.getInstallSourceInfo(packageInfo.packageName).installingPackageName
+            } else {
+                getApplication<Application>().packageManager.getInstallerPackageName(packageInfo.packageName)
+            }
+
+            PackageUtils.getApplicationName(getApplication(), p0!!)
+        }.getOrElse {
+            getApplication<Application>().getString(R.string.not_available)
+        }
+
+        return Pair(getApplication<Application>().getString(R.string.installer),
+                    name!!.applySecondaryTextColor(getApplication()))
     }
 }

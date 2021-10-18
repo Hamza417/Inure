@@ -11,4 +11,7 @@
     <string name="static_identifier">Static</string>
     <string name="time_placeholder">--:--</string>
     <string name="audio_file_info">%1$s • %2$s • %3$s</string>
+    <string name="play_store">Play Store</string>
+    <string name="amazon">Amazon App Store</string>
+    <string name="fdroid">F-Droid</string>
 </resources>
