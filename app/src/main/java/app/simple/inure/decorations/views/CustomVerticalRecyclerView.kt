@@ -20,6 +20,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
 
     private var manuallyAnimated = false
     private var fastScroll = true
+    private var isLandscape = false
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
@@ -29,8 +30,8 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
                 }
 
                 fastScroll = getBoolean(R.styleable.CustomRecyclerView_isFastScrollRequired, true)
-
                 manuallyAnimated = getBoolean(R.styleable.CustomRecyclerView_manuallyAnimated, false)
+                isLandscape = StatusBarHeight.isLandscape(context)
             } finally {
                 recycle()
             }
@@ -41,7 +42,6 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
 
         this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
             override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {
-
                 return object : EdgeEffect(recyclerView.context) {
                     override fun onPull(deltaDistance: Float) {
                         super.onPull(deltaDistance)
@@ -60,7 +60,15 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
                          */
                         val sign = if (direction == DIRECTION_BOTTOM) -1 else 1
                         val rotationDelta = sign * deltaDistance * overScrollRotationMagnitude
-                        val translationYDelta = sign * recyclerView.width * deltaDistance * overScrollTranslationMagnitude
+
+                        /**
+                         * This value decide how fast the recycler view views should move when
+                         * they're being overscrolled. Often it is determined using the area of the
+                         * recycler view because its length is how far the finger can move hence
+                         * the overscroll value.
+                         */
+                        val overscrollLengthConst = if (isLandscape) recyclerView.height else recyclerView.height / 2
+                        val translationYDelta = sign * overscrollLengthConst * deltaDistance * overScrollTranslationMagnitude
 
                         recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
                             holder.rotation.cancel()

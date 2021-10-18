@@ -15,12 +15,16 @@ import app.simple.inure.util.StatusBarHeight
  */
 class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
 
+    private var isLandscape = false
+
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
             try {
                 if (getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {
                     setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
                 }
+
+                isLandscape = StatusBarHeight.isLandscape(context)
             } finally {
                 recycle()
             }
@@ -77,7 +81,15 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
                         println(direction)
                         val sign = if (direction == DIRECTION_RIGHT) 1 else -1
                         val rotationDelta = sign * deltaDistance * overScrollRotationMagnitude
-                        val translationXDelta = sign * recyclerView.height * deltaDistance * overScrollTranslationMagnitude
+
+                        /**
+                         * This value decide how fast the recycler view views should move when
+                         * they're being overscrolled. Often it is determined using the area of the
+                         * recycler view because its length is how far the finger can move hence
+                         * the overscroll value.
+                         */
+                        val overscrollLengthConst = if (isLandscape) recyclerView.height else recyclerView.height * 2
+                        val translationXDelta = sign * overscrollLengthConst * deltaDistance * overScrollTranslationMagnitude
 
                         recyclerView.forEachVisibleHolder { holder: HorizontalListViewHolder ->
                             holder.rotation.cancel()

@@ -1,10 +1,13 @@
 package app.simple.inure.util;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.util.TypedValue;
+import android.view.Surface;
 import android.view.Window;
+import android.view.WindowManager;
 
 import app.simple.inure.R;
 
@@ -89,5 +92,29 @@ public class StatusBarHeight {
             return resources.getInteger(resourceId);
         }
         return 0;
+    }
+    
+    public static int getRotation(Context context) {
+        final int rotation = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+        
+        if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
+            return Configuration.ORIENTATION_PORTRAIT;
+        }
+        
+        if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) {
+            return Configuration.ORIENTATION_LANDSCAPE;
+        }
+        
+        return -1;
+    }
+    
+    public static boolean isLandscape(Context context) {
+        final int rotation = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+        
+        if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
+            return false;
+        }
+        
+        return rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270;
     }
 }
