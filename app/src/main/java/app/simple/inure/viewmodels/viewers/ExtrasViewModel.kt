@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -46,20 +47,22 @@ class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : 
         return error
     }
 
-    fun getExtrasData() {
+    private fun getExtrasData() {
         viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                with(APKParser.getExtraFiles(packageInfo.applicationInfo.sourceDir, keyword)) {
-                    extras.postValue(apply {
-                        sortBy {
-                            it.lowercase(Locale.getDefault())
-                        }
-                    })
+            println(measureTimeMillis {
+                kotlin.runCatching {
+                    with(APKParser.getExtraFiles(packageInfo.applicationInfo.sourceDir, keyword)) {
+                        extras.postValue(apply {
+                            sortBy {
+                                it.lowercase(Locale.getDefault())
+                            }
+                        })
+                    }
+                }.getOrElse {
+                    delay(delay)
+                    error.postValue(it.message)
                 }
-            }.getOrElse {
-                delay(delay)
-                error.postValue(it.message)
-            }
+            })
         }
     }
 

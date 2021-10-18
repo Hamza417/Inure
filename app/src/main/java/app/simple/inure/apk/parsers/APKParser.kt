@@ -364,11 +364,8 @@ object APKParser {
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
-            if (zipFile != null) {
-                try {
-                    zipFile.close()
-                } catch (ignored: IOException) {
-                }
+            kotlin.runCatching {
+                zipFile?.close()
             }
         }
         graphicsFiles.sort()

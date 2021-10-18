@@ -21,6 +21,7 @@ import app.simple.inure.popups.viewers.PopupExtrasFilter
 import app.simple.inure.popups.viewers.PopupExtrasMenu
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
@@ -63,83 +64,87 @@ class Extras : ScopedFragment() {
         startPostponedEnterTransition()
 
         extrasViewModel.getExtras().observe(viewLifecycleOwner, {
-            adapterExtras = AdapterExtras(it, searchBox.text.toString())
-            recyclerView.adapter = adapterExtras
+            if (recyclerView.adapter.isNull()) {
+                adapterExtras = AdapterExtras(it, searchBox.text.toString())
+                recyclerView.adapter = adapterExtras
 
-            adapterExtras?.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
-                override fun onExtrasClicked(path: String) {
-                    clearEnterTransition()
-                    clearExitTransition()
-                    when {
-                        path.endsWith(".ttf") -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Font.newInstance(packageInfo, path),
-                                                        "ttf_viewer")
-                        }
-                        path.endsWith(".html") -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        HtmlViewer.newInstance(packageInfo, path),
-                                                        "html_viewer")
-                        }
-                        /**
-                         * TODO - Add a delicious looking code viewer
-                         *
-                         * JSON done
-                         */
-                        path.endsWith(".java") ||
-                                path.endsWith(".css") ||
-                                path.endsWith(".proto") ||
-                                path.endsWith(".js") -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        TextViewer.newInstance(packageInfo, path),
-                                                        "text_viewer")
-                        }
-                        path.endsWith(".md") -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Markdown.newInstance(packageInfo, path),
-                                                        "md_viewer")
-                        }
-                        path.endsWith(".json") -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        JSONViewer.newInstance(packageInfo, path),
-                                                        "json_viewer")
-                        }
-                        else -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        TextViewer.newInstance(packageInfo, path),
-                                                        "text_viewer")
+                adapterExtras?.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
+                    override fun onExtrasClicked(path: String) {
+                        clearEnterTransition()
+                        clearExitTransition()
+                        when {
+                            path.endsWith(".ttf") -> {
+                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                            Font.newInstance(packageInfo, path),
+                                                            "ttf_viewer")
+                            }
+                            path.endsWith(".html") -> {
+                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                            HtmlViewer.newInstance(packageInfo, path),
+                                                            "html_viewer")
+                            }
+                            /**
+                             * TODO - Add a delicious looking code viewer
+                             *
+                             * JSON done
+                             */
+                            path.endsWith(".java") ||
+                                    path.endsWith(".css") ||
+                                    path.endsWith(".proto") ||
+                                    path.endsWith(".js") -> {
+                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                            TextViewer.newInstance(packageInfo, path),
+                                                            "text_viewer")
+                            }
+                            path.endsWith(".md") -> {
+                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                            Markdown.newInstance(packageInfo, path),
+                                                            "md_viewer")
+                            }
+                            path.endsWith(".json") -> {
+                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                            JSONViewer.newInstance(packageInfo, path),
+                                                            "json_viewer")
+                            }
+                            else -> {
+                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                            TextViewer.newInstance(packageInfo, path),
+                                                            "text_viewer")
+                            }
                         }
                     }
-                }
 
-                override fun onExtrasLongClicked(path: String) {
-                    clearEnterTransition()
-                    clearExitTransition()
-                    when {
-                        path.endsWith(".ttf") -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Font.newInstance(packageInfo, path),
-                                                        "ttf_viewer")
-                        }
-                        path.endsWith(".html") ||
-                                path.endsWith(".java") ||
-                                path.endsWith(".css") ||
-                                path.endsWith(".json") ||
-                                path.endsWith(".proto") ||
-                                path.endsWith(".js") ||
-                                path.endsWith(".md") -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        TextViewer.newInstance(packageInfo, path),
-                                                        "text_viewer")
-                        }
-                        else -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        TextViewer.newInstance(packageInfo, path),
-                                                        "text_viewer")
+                    override fun onExtrasLongClicked(path: String) {
+                        clearEnterTransition()
+                        clearExitTransition()
+                        when {
+                            path.endsWith(".ttf") -> {
+                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                            Font.newInstance(packageInfo, path),
+                                                            "ttf_viewer")
+                            }
+                            path.endsWith(".html") ||
+                                    path.endsWith(".java") ||
+                                    path.endsWith(".css") ||
+                                    path.endsWith(".json") ||
+                                    path.endsWith(".proto") ||
+                                    path.endsWith(".js") ||
+                                    path.endsWith(".md") -> {
+                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                            TextViewer.newInstance(packageInfo, path),
+                                                            "text_viewer")
+                            }
+                            else -> {
+                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                            TextViewer.newInstance(packageInfo, path),
+                                                            "text_viewer")
+                            }
                         }
                     }
-                }
-            })
+                })
+            } else {
+                adapterExtras?.updateData(it, searchBox.text.toString())
+            }
         })
 
         extrasViewModel.getError().observe(viewLifecycleOwner, {
