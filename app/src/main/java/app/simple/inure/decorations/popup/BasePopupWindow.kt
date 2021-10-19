@@ -49,9 +49,7 @@ open class BasePopupWindow : PopupWindow() {
 
         ViewUtils.addShadow(contentView)
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            overlapAnchor = false
-        }
+        overlapAnchor = true
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             setIsClippedToScreen(false)

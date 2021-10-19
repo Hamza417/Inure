@@ -1,4 +1,4 @@
-package app.simple.inure.signature
+package app.simple.inure.util
 
 import java.security.MessageDigest
 

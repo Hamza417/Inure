@@ -101,7 +101,7 @@
     <string name="app_info">App Info</string>
     <string name="uses_feature">Uses Features</string>
     <string name="gles_version">GLES Version</string>
-    <string name="error">Error encountered!</string>
+    <string name="error">Error</string>
     <string name="required">Required</string>
     <string name="not_required">Not Required</string>
     <string name="bounce_scrolling">Bounce Scrolling</string>
@@ -323,9 +323,9 @@
     <string name="allow_task_reparenting">Allow Task Reparenting</string>
     <string name="no_history">No History</string>
     <string name="finish_on_close_system_dialogs">Finish on Close System Dialogs</string>
-    <string name="hardware_accl">Hardware Accelrated</string>
+    <string name="hardware_accl">Hardware Accelerated</string>
     <string name="show_for_all_users">Show for All Users</string>
-    <string name="relinquish_task_identity">Reliquish Task Identity</string>
+    <string name="relinquish_task_identity">Relinquish Task Identity</string>
     <string name="auto_remove_from_recents">Auto Remove from Recents</string>
     <string name="resume_while_pausing">Resume while Pausing</string>
     <string name="vr_mode">VR Mode</string>

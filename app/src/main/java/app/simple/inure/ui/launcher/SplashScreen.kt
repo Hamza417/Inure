@@ -18,12 +18,16 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.ui.app.Home
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.viewmodels.panels.AllAppsData
+import app.simple.inure.viewmodels.panels.UsageStatsData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashScreen : ScopedFragment() {
 
     private lateinit var icon: ImageView
+
+    private var isAppDataLoaded = false
+    private var isUsageDataLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -65,12 +69,25 @@ class SplashScreen : ScopedFragment() {
 
     private fun proceed() {
         val allAppsData: AllAppsData = ViewModelProvider(requireActivity()).get(AllAppsData::class.java)
+        val usageStatsData = ViewModelProvider(requireActivity()).get(UsageStatsData::class.java)
 
         allAppsData.getAppData().observe(viewLifecycleOwner, {
+            isAppDataLoaded = true
+            openApp()
+        })
+
+        usageStatsData.usageData.observe(viewLifecycleOwner, {
+            isUsageDataLoaded = true
+            openApp()
+        })
+    }
+
+    private fun openApp() {
+        if (isAppDataLoaded && isUsageDataLoaded) {
             openFragment(
                 requireActivity().supportFragmentManager,
                 Home.newInstance(), requireView().findViewById(R.id.imageView))
-        })
+        }
     }
 
     private fun checkForPermission(): Boolean {
