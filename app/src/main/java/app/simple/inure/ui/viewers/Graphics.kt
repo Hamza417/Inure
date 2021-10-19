@@ -10,16 +10,19 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterGraphics
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.viewers.PopupGraphicsFilter
 import app.simple.inure.popups.viewers.PopupGraphicsMenu
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.factory.PackageInfoFactory
@@ -31,6 +34,7 @@ class Graphics : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
+    private lateinit var filter: DynamicRippleImageButton
     private lateinit var searchBox: TypeFaceEditTextDynamicCorner
     private var adapterGraphics: AdapterGraphics? = null
     private lateinit var graphicsViewModel: GraphicsViewModel
@@ -44,11 +48,13 @@ class Graphics : ScopedFragment() {
         search = view.findViewById(R.id.graphics_search_btn)
         searchBox = view.findViewById(R.id.graphics_search)
         title = view.findViewById(R.id.graphics_title)
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        filter = view.findViewById(R.id.graphics_filter)
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
         graphicsViewModel = ViewModelProvider(this, packageInfoFactory).get(GraphicsViewModel::class.java)
 
         searchBoxState()
+        startPostponedEnterTransition()
 
         return view
     }
@@ -56,31 +62,33 @@ class Graphics : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        startPostponedEnterTransition()
-
         graphicsViewModel.getGraphics().observe(viewLifecycleOwner, {
-            adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, it, searchBox.text.toString())
-            recyclerView.adapter = adapterGraphics
+            if (recyclerView.adapter.isNull()) {
+                adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, it, searchBox.text.toString())
+                recyclerView.adapter = adapterGraphics
 
-            adapterGraphics!!.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
-                override fun onGraphicsClicked(path: String, filePath: String, view: ViewGroup, xOff: Float, yOff: Float) {
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                ImageViewer.newInstance(packageInfo.applicationInfo.sourceDir, filePath),
-                                                "image_viewer")
-                }
-
-                override fun onGraphicsLongPressed(filePath: String) {
-                    if (ConfigurationPreferences.isXmlViewerTextView()) {
+                adapterGraphics!!.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
+                    override fun onGraphicsClicked(path: String, filePath: String, view: ViewGroup, xOff: Float, yOff: Float) {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    XMLViewerTextView.newInstance(packageInfo, false, filePath),
-                                                    "tv_xml")
-                    } else {
-                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    XMLViewerWebView.newInstance(packageInfo, false, filePath),
-                                                    "wv_xml")
+                                                    ImageViewer.newInstance(packageInfo.applicationInfo.sourceDir, filePath),
+                                                    "image_viewer")
                     }
-                }
-            })
+
+                    override fun onGraphicsLongPressed(filePath: String) {
+                        if (ConfigurationPreferences.isXmlViewerTextView()) {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        XMLViewerTextView.newInstance(packageInfo, false, filePath),
+                                                        "tv_xml")
+                        } else {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        XMLViewerWebView.newInstance(packageInfo, false, filePath),
+                                                        "wv_xml")
+                        }
+                    }
+                })
+            } else {
+                adapterGraphics?.updateData(it, keyword = searchBox.text.toString())
+            }
         })
 
         graphicsViewModel.getError().observe(viewLifecycleOwner, {
@@ -92,6 +100,10 @@ class Graphics : ScopedFragment() {
                 }
             })
         })
+
+        filter.setOnClickListener {
+            PopupGraphicsFilter(it)
+        }
 
         options.setOnClickListener {
             PopupGraphicsMenu(it)
@@ -107,7 +119,7 @@ class Graphics : ScopedFragment() {
 
         searchBox.doOnTextChanged { text, _, _, _ ->
             if (searchBox.isFocused) {
-                graphicsViewModel.getGraphicsData(text.toString())
+                graphicsViewModel.keyword = text.toString()
             }
         }
     }
@@ -140,9 +152,9 @@ class Graphics : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo): Graphics {
+        fun newInstance(packageInfo: PackageInfo): Graphics {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = Graphics()
             fragment.arguments = args
             return fragment

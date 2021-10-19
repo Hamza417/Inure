@@ -8,6 +8,7 @@ import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.exceptions.InureXmlParserException
 import app.simple.inure.model.UsesFeatures
 import app.simple.inure.preferences.ExtrasPreferences
+import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import com.jaredrummler.apkparser.ApkParser
 import com.jaredrummler.apkparser.model.AndroidComponent
@@ -280,23 +281,32 @@ object APKParser {
      * Get list of all raster image files within an APK file
      */
     fun getGraphicsFiles(path: String?, keyword: String): MutableList<String> {
+
+        val png = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.png)
+        val jpg = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.jpg)
+        val jpeg = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.jpeg)
+        val gif = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.gif)
+        val webp = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.webp)
+        val svg = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.svg)
+
         val graphicsFiles: MutableList<String> = ArrayList()
         var zipFile: ZipFile? = null
         try {
             zipFile = ZipFile(path)
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
             while (entries.hasMoreElements()) {
+
                 val entry: ZipEntry? = entries.nextElement()
                 val name: String = entry!!.name
-                if (name.endsWith(".png")
-                    || name.endsWith(".jpg")
-                    || name.endsWith(".jpeg")
-                    || name.endsWith(".gif")
-                    || name.endsWith(".webp")
-                    || name.endsWith(".svg")) {
 
-                    if (name.lowercase().contains(keyword.lowercase())) {
-                        graphicsFiles.add(name)
+                if (name.lowercase().contains(keyword.lowercase())) {
+                    when {
+                        name.endsWith(".png") -> if (png) graphicsFiles.add(name)
+                        name.endsWith(".jpg") -> if (jpg) graphicsFiles.add(name)
+                        name.endsWith(".jpeg") -> if (jpeg) graphicsFiles.add(name)
+                        name.endsWith(".gif") -> if (gif) graphicsFiles.add(name)
+                        name.endsWith(".webp") -> if (webp) graphicsFiles.add(name)
+                        name.endsWith(".svg") -> if (svg) graphicsFiles.add(name)
                     }
                 }
             }

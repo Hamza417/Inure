@@ -48,7 +48,7 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:src="@drawable/ic_filter_list"
+            android:src="@drawable/ic_filter"
             android:tint="?attr/colorAppAccent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton

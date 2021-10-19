@@ -19,7 +19,7 @@ import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.StringUtils.highlightExtensions
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 
-class AdapterGraphics(val path: String, val list: MutableList<String>, val keyword: String) : RecyclerView.Adapter<AdapterGraphics.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class AdapterGraphics(val path: String, var list: MutableList<String>, var keyword: String) : RecyclerView.Adapter<AdapterGraphics.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var graphicsCallbacks: GraphicsCallbacks
     private var xOff = 0f
@@ -71,6 +71,13 @@ class AdapterGraphics(val path: String, val list: MutableList<String>, val keywo
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(list: MutableList<String>, keyword: String) {
+        this.keyword = keyword
+        this.list = list
+        notifyDataSetChanged()
     }
 
     fun setOnResourceClickListener(resourceCallbacks: GraphicsCallbacks) {

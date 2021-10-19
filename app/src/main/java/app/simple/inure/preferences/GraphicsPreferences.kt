@@ -7,6 +7,14 @@ object GraphicsPreferences {
     const val extensionHighlight = "highlight_extensions_in_graphics"
     const val graphicsSearch = "graphics_search"
 
+    /** Extension Tags **/
+    const val png = "png"
+    const val jpg = "jpg"
+    const val jpeg = "jpeg"
+    const val gif = "gif"
+    const val webp = "webp"
+    const val svg = "svg"
+
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setHighlightExtensions(@NotNull value: Boolean) {
@@ -25,6 +33,16 @@ object GraphicsPreferences {
 
     fun isSearchVisible(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(graphicsSearch, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setFilterVisibility(boolean: Boolean, extension: String) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(extension, boolean).apply()
+    }
+
+    fun isFilterAllowed(extension: String): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(extension, true)
     }
 
 }
