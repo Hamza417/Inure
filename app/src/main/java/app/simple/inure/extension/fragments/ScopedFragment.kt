@@ -134,6 +134,32 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
+    /**
+     * Sets fragment transitions prior to creating a new fragment.
+     * Used with shared elements
+     *
+     * @param duration duration of the transition
+     */
+    open fun setTransitions(duration: Long) {
+        /**
+         * Animations are expensive, every time a view is added into the
+         * animating view transaction time will increase a little
+         * making the interaction a little bit slow.
+         */
+        if (BehaviourPreferences.isTransitionOn()) {
+            exitTransition = Fade()
+            enterTransition = Fade()
+        } else {
+            clearExitTransition()
+            clearEnterTransition()
+        }
+
+        if (BehaviourPreferences.isAnimationOn()) {
+            sharedElementEnterTransition = DetailsTransitionArc(duration)
+            sharedElementReturnTransition = DetailsTransitionArc(duration)
+        }
+    }
+
     open fun setLinearTransitions() {
         /**
          * Animations are expensive, every time a view is added into the

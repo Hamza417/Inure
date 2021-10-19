@@ -30,6 +30,26 @@ object FragmentHelper {
     }
 
     /**
+     * Open fragment using arc animation for shared element
+     *
+     * @param fragmentManager [FragmentManager]
+     * @param fragment [Fragment]
+     * @param icon [View] that needs to be animated
+     * @param tag back stack tag for fragment
+     * @param duration duration of the transition
+     */
+    fun openFragment(fragmentManager: FragmentManager, fragment: ScopedFragment, icon: View, tag: String, duration: Long) {
+        fragment.setTransitions(duration)
+
+        fragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .addSharedElement(icon, icon.transitionName)
+                .replace(R.id.app_container, fragment, tag)
+                .addToBackStack(tag)
+                .commit()
+    }
+
+    /**
      * Open fragment using linear animation for shared element
      *
      * @param fragmentManager [FragmentManager]

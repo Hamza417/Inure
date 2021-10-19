@@ -22,6 +22,7 @@ public class DetailsTransitionArc extends TransitionSet {
     private int maximumAngle = 90;
     private int minimumHorizontalAngle = 80;
     private int minimumVerticalAngle = 15;
+    private long duration = 500L;
     
     public DetailsTransitionArc() {
         init();
@@ -31,6 +32,17 @@ public class DetailsTransitionArc extends TransitionSet {
         this.maximumAngle = maximumAngle;
         this.minimumHorizontalAngle = minimumHorizontalAngle;
         this.minimumVerticalAngle = minimumVerticalAngle;
+        init();
+    }
+    
+    /**
+     * This constructor allows the transition duration to be
+     * set dynamically given the distance that view has to travel
+     *
+     * @param duration duration of the transition
+     */
+    public DetailsTransitionArc(long duration) {
+        this.duration = duration;
         init();
     }
     
@@ -67,7 +79,7 @@ public class DetailsTransitionArc extends TransitionSet {
         addTransition(new ChangeBounds())
                 .addTransition(new ChangeTransform())
                 .addTransition(new ChangeImageTransform())
-                .setDuration(500L)
+                .setDuration(duration)
                 .setInterpolator(new LinearOutSlowInInterpolator())
                 .setPathMotion(arcMotion);
     }

@@ -39,6 +39,7 @@ class Home : ScopedFragment() {
     private lateinit var scrollView: NestedScrollView
     private lateinit var header: PaddingAwareLinearLayout
     private lateinit var navigationRecyclerView: RecyclerView
+    private lateinit var icon: ImageView
     private lateinit var recentlyInstalledRecyclerView: CustomHorizontalRecyclerView
     private lateinit var recentlyUpdatedRecyclerView: CustomHorizontalRecyclerView
     private lateinit var frequentlyUsedRecyclerView: CustomHorizontalRecyclerView
@@ -54,6 +55,7 @@ class Home : ScopedFragment() {
         scrollView = view.findViewById(R.id.home_scroll_view)
         header = view.findViewById(R.id.home_header)
         navigationRecyclerView = view.findViewById(R.id.home_menu)
+        icon = view.findViewById(R.id.header_icon)
         recentlyInstalledRecyclerView = view.findViewById(R.id.recently_installed_recycler_view)
         recentlyUpdatedRecyclerView = view.findViewById(R.id.recently_updated_recycler_view)
         frequentlyUsedRecyclerView = view.findViewById(R.id.frequently_used_recycler_view)
@@ -61,13 +63,13 @@ class Home : ScopedFragment() {
         settings = view.findViewById(R.id.home_header_pref_button)
         options = view.findViewById(R.id.home_header_option_button)
 
-        ViewUtils.addShadow(header)
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ViewUtils.addShadow(header)
 
         homeViewModel.getRecentApps().observe(viewLifecycleOwner, {
             postponeEnterTransition()
@@ -191,7 +193,7 @@ class Home : ScopedFragment() {
         settings.setOnClickListener {
             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                               MainPreferencesScreen.newInstance(),
-                                              view.findViewById(R.id.imageView3),
+                                              icon,
                                               "preferences_screen")
         }
 

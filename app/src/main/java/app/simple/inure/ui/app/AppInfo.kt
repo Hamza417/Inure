@@ -200,7 +200,7 @@ class AppInfo : ScopedFragment() {
             })
         })
 
-        componentsViewModel.getMenuOptions().observe(requireActivity(), {
+        componentsViewModel.getMenuOptions().observe(viewLifecycleOwner, {
 
             if (AppInfoPanelPreferences.isActionMenuFolded()) return@observe
 
