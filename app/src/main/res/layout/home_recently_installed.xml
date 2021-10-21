@@ -11,24 +11,24 @@
         android:id="@+id/recently_installed_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="25dp"
-        android:paddingTop="@dimen/header_padding"
-        app:drawableEndCompat="@drawable/ic_arrow_right"
+        android:paddingHorizontal="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:paddingVertical="@dimen/header_padding"
         android:text="@string/recently_installed"
         android:textColor="@color/textSecondary"
         android:textSize="@dimen/home_heading_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:drawableEndCompat="@drawable/ic_arrow_right" />
 
     <app.simple.inure.decorations.views.CustomHorizontalRecyclerView
         android:id="@+id/recently_installed_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
-        android:paddingHorizontal="@dimen/dialog_padding"
-        android:nestedScrollingEnabled="true"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/horizontal_list_controller"
-        android:paddingVertical="@dimen/dialog_padding"
+        android:nestedScrollingEnabled="true"
+        android:paddingHorizontal="@dimen/dialog_padding"
         app:statusBarPaddingRequired="false" />
 
 </merge>

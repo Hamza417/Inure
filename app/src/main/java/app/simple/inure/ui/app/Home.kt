@@ -20,15 +20,13 @@ import app.simple.inure.adapters.menus.AdapterHomeMenu
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.CustomHorizontalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAnalytics
 import app.simple.inure.popups.app.PopupMainList
-import app.simple.inure.ui.panels.DeviceInfo
-import app.simple.inure.ui.panels.Search
-import app.simple.inure.ui.panels.Statistics
-import app.simple.inure.ui.panels.Terminal
+import app.simple.inure.ui.panels.*
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils
@@ -43,6 +41,7 @@ class Home : ScopedFragment() {
     private lateinit var recentlyInstalledRecyclerView: CustomHorizontalRecyclerView
     private lateinit var recentlyUpdatedRecyclerView: CustomHorizontalRecyclerView
     private lateinit var frequentlyUsedRecyclerView: CustomHorizontalRecyclerView
+    private lateinit var recentlyInstalled: DynamicRippleTextView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
@@ -59,6 +58,7 @@ class Home : ScopedFragment() {
         recentlyInstalledRecyclerView = view.findViewById(R.id.recently_installed_recycler_view)
         recentlyUpdatedRecyclerView = view.findViewById(R.id.recently_updated_recycler_view)
         frequentlyUsedRecyclerView = view.findViewById(R.id.frequently_used_recycler_view)
+        recentlyInstalled = view.findViewById(R.id.recently_installed_tv)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
         options = view.findViewById(R.id.home_header_option_button)
@@ -209,6 +209,14 @@ class Home : ScopedFragment() {
                     }
                 }
             })
+        }
+
+        recentlyInstalled.setOnClickListener {
+            clearEnterTransition()
+            clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        RecentlyInstalled.newInstance(true),
+                                        "recently_installed")
         }
     }
 
