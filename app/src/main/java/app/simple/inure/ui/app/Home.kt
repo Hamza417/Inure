@@ -26,8 +26,14 @@ import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAnalytics
 import app.simple.inure.popups.app.PopupMainList
-import app.simple.inure.ui.panels.*
+import app.simple.inure.ui.panels.DeviceInfo
+import app.simple.inure.ui.panels.Search
+import app.simple.inure.ui.panels.Statistics
+import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.ui.viewers.MostUsed
+import app.simple.inure.ui.viewers.RecentlyInstalled
+import app.simple.inure.ui.viewers.RecentlyUpdated
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.viewmodels.panels.HomeViewModel
@@ -43,6 +49,7 @@ class Home : ScopedFragment() {
     private lateinit var frequentlyUsedRecyclerView: CustomHorizontalRecyclerView
     private lateinit var recentlyInstalled: DynamicRippleTextView
     private lateinit var recentlyUpdated: DynamicRippleTextView
+    private lateinit var mostUsed: DynamicRippleTextView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
@@ -61,6 +68,7 @@ class Home : ScopedFragment() {
         frequentlyUsedRecyclerView = view.findViewById(R.id.frequently_used_recycler_view)
         recentlyInstalled = view.findViewById(R.id.recently_installed_tv)
         recentlyUpdated = view.findViewById(R.id.recently_updated_tv)
+        mostUsed = view.findViewById(R.id.most_used_tv)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
         options = view.findViewById(R.id.home_header_option_button)
@@ -227,6 +235,14 @@ class Home : ScopedFragment() {
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         RecentlyUpdated.newInstance(),
                                         "recently_updated")
+        }
+
+        mostUsed.setOnClickListener {
+            clearEnterTransition()
+            clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        MostUsed.newInstance(),
+                                        "most_used")
         }
     }
 

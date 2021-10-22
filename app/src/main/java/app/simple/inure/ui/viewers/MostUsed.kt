@@ -1,4 +1,4 @@
-package app.simple.inure.ui.panels
+package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
 import android.os.Bundle
@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.adapters.home.AdapterRecentlyInstalled
+import app.simple.inure.adapters.home.AdapterMostUsed
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomVerticalRecyclerView
@@ -21,20 +21,19 @@ import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
-class RecentlyInstalled : ScopedFragment() {
+class MostUsed : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var back: DynamicRippleImageButton
-
-    private var appsAdapterSmall: AdapterRecentlyInstalled? = null
+    private lateinit var adapterMostUsed: AdapterMostUsed
 
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_recently_installed, container, false)
+        val view = inflater.inflate(R.layout.fragment_most_used, container, false)
 
-        recyclerView = view.findViewById(R.id.recently_installed_recycler_view)
-        back = view.findViewById(R.id.recently_installed_back_button)
+        recyclerView = view.findViewById(R.id.most_used_recycler_view)
+        back = view.findViewById(R.id.most_used_back_button)
 
         return view
     }
@@ -42,19 +41,18 @@ class RecentlyInstalled : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel.getRecentApps().observe(viewLifecycleOwner, {
+        homeViewModel.frequentlyUsed.observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
-            appsAdapterSmall = AdapterRecentlyInstalled()
-            appsAdapterSmall?.apps = it
-
-            recyclerView.adapter = appsAdapterSmall
+            adapterMostUsed = AdapterMostUsed()
+            adapterMostUsed.apps = it
+            recyclerView.adapter = adapterMostUsed
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
-            appsAdapterSmall?.setOnItemClickListener(object : AppsAdapterCallbacks {
+            adapterMostUsed.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
@@ -76,11 +74,11 @@ class RecentlyInstalled : ScopedFragment() {
                     })
                 }
             })
-        })
 
-        back.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
+            back.setOnClickListener {
+                requireActivity().onBackPressed()
+            }
+        })
     }
 
     private fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
@@ -90,9 +88,9 @@ class RecentlyInstalled : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(b: Boolean): RecentlyInstalled {
+        fun newInstance(): MostUsed {
             val args = Bundle()
-            val fragment = RecentlyInstalled()
+            val fragment = MostUsed()
             fragment.arguments = args
             return fragment
         }

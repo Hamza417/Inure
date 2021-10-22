@@ -363,6 +363,6 @@
     <string name="launching">Launching</string>
     <string name="date_format">Date Format</string>
     <string name="desc_date_format">Edit/Change format of the dates show throughout the app.</string>
-    <string name="cheatsheet">Cheetsheet</string>
+    <string name="cheatsheet">Cheatsheet</string>
     <string name="format">Format</string>
 </resources>

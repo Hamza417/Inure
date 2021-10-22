@@ -15,7 +15,6 @@ import app.simple.inure.model.PackageStats
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {

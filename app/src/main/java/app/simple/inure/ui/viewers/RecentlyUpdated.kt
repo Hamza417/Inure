@@ -1,4 +1,4 @@
-package app.simple.inure.ui.panels
+package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
 import android.os.Bundle
