@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
-        android:paddingTop="@dimen/popup_padding"
+        android:paddingVertical="@dimen/popup_padding"
         android:clipToPadding="false">
 
         <LinearLayout

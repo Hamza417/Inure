@@ -365,4 +365,5 @@
     <string name="desc_date_format">Edit/Change format of the dates show throughout the app.</string>
     <string name="cheatsheet">Cheatsheet</string>
     <string name="format">Format</string>
+    <string name="reset">Reset</string>
 </resources>

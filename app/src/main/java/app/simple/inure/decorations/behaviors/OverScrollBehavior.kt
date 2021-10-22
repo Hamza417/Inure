@@ -32,6 +32,9 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
         private var overScrollY = 0F
     }
 
+    /**
+     * Do not remove these
+     */
     constructor(context: Context, attributeSet: AttributeSet) : this()
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
@@ -84,6 +87,9 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
         moveToDefPosition(target)
     }
 
+    /**
+     * Not needed as of now
+     */
     override fun onNestedPreFling(coordinatorLayout: CoordinatorLayout, child: View, target: View, velocityX: Float, velocityY: Float): Boolean {
         /**
          * Scroll view by inertia when current position equals to 0,
@@ -93,11 +99,12 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
         if (overScrollY == 0F) {
             return false
         }
+
         /**
          * Smooth animate to 0 when user fling view
          */
-        moveToDefPosition(target)
-        return true
+        // moveToDefPosition(target)
+        return false
     }
 
     /**

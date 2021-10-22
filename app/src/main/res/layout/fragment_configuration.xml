@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"

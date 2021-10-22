@@ -23,8 +23,8 @@
         android:layout_height="50dp"
         android:layout_marginVertical="@dimen/dialog_padding"
         android:hint="@string/format"
-        android:maxLines="1"
         android:maxLength="30"
+        android:maxLines="1"
         android:paddingHorizontal="@dimen/dialog_padding"
         android:textColor="@color/textPrimary"
         android:textColorHighlight="?attr/colorAppAccentLight"
@@ -35,16 +35,38 @@
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/date_format_update"
         android:layout_width="match_parent"
+        app:drawableStartCompat="@drawable/ic_arrow_right"
+        app:drawableTint="@color/iconSecondary"
+        android:gravity="center_vertical"
         android:layout_height="wrap_content"
         android:textColor="@color/textSecondary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
+        android:animateLayoutChanges="true"
+        android:layout_marginTop="@dimen/dialog_padding"
         android:orientation="horizontal">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/date_format_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/reset"
+            android:textColor="?attr/colorAppAccent"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/date_format_cheatsheet"

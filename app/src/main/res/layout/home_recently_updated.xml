@@ -11,7 +11,7 @@
         android:id="@+id/recently_updated_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
+        android:layout_marginHorizontal="@dimen/popup_padding"
         android:paddingHorizontal="@dimen/popup_padding"
         android:layout_marginTop="@dimen/popup_padding"
         android:paddingVertical="@dimen/header_padding"

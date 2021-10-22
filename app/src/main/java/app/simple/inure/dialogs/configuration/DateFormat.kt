@@ -24,6 +24,7 @@ class DateFormat : ScopedDialogFragment() {
     private lateinit var format: TypeFaceEditTextDynamicCorner
     private lateinit var update: TypeFaceTextView
     private lateinit var save: DynamicRippleTextView
+    private lateinit var reset: DynamicRippleTextView
     private lateinit var cheatsheet: DynamicRippleTextView
 
     private val date = System.currentTimeMillis()
@@ -34,6 +35,7 @@ class DateFormat : ScopedDialogFragment() {
         format = view.findViewById(R.id.date_format_edit_text)
         update = view.findViewById(R.id.date_format_update)
         save = view.findViewById(R.id.date_format_save)
+        reset = view.findViewById(R.id.date_format_default)
         cheatsheet = view.findViewById(R.id.date_format_cheatsheet)
 
         return view
@@ -64,6 +66,13 @@ class DateFormat : ScopedDialogFragment() {
             val uri: Uri = Uri.parse("https://developer.android.com/reference/kotlin/java/text/SimpleDateFormat")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
+        }
+
+        reset.setOnClickListener {
+            with("EEE, yyyy MMM dd, hh:mm a") {
+                ConfigurationPreferences.setDateFormat(this)
+                format.setText(this)
+            }
         }
     }
 
