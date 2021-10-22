@@ -60,4 +60,5 @@
     <dimen name="folding_arrow_size">30dp</dimen>
     <dimen name="loader_size">30dp</dimen>
     <dimen name="desc_text_size">12sp</dimen>
+    <dimen name="header_elevation">1dp</dimen>
 </resources>

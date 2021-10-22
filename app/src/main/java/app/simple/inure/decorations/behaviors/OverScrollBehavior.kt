@@ -8,62 +8,63 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
-import app.simple.inure.util.NullSafety.isNotNull
 
+@Suppress("unused")
 class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
 
-    private var springAnimation: SpringAnimation? = null
+    /**
+     * Used to store all [SpringAnimation] objects used to animate
+     * sub views inside the NestedScrollView so that they can be
+     * cancelled accordingly once they are not needed.
+     *
+     * Cancel the views in [onStartNestedScroll] and once all
+     * the animations are cancelled, clear the list since
+     * these objects will then be obsolete and to avoid any
+     * exceptions.
+     *
+     * Add all newly created animation objects in [moveToDefPosition]
+     * called inside [onStopNestedScroll] on [onNestedPreFling].
+     */
+    private val animationObjects = arrayListOf<SpringAnimation>()
 
     companion object {
         private const val OVER_SCROLL_AREA = 1.5F
         private var overScrollY = 0F
     }
 
-    constructor(context: Context, attributeSet: AttributeSet) : this() {
-        unused(context, attributeSet)
-    }
+    constructor(context: Context, attributeSet: AttributeSet) : this()
 
-    /**
-     * This is an useless method only here is to suppress
-     * the lint warning of variable not used
-     *
-     * Removing them will cause the app to crash
-     */
-    private fun unused(context: Context, attributeSet: AttributeSet): Boolean {
-        return context == attributeSet
-    }
-
-    override fun onStartNestedScroll(
-            coordinatorLayout: CoordinatorLayout,
-            child: View,
-            directTargetChild: View,
-            target: View,
-            axes: Int,
-            type: Int,
-    ): Boolean {
-        overScrollY = 0F
+    override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
         val group = target as ViewGroup
         val count = group.childCount
-        if (springAnimation.isNotNull()) springAnimation!!.cancel()
-        for (i in 0 until count) {
-            val view = group.getChildAt(i)
-            view.clearAnimation()
+
+        /**
+         * Cancel all [SpringAnimation] animations
+         */
+        for (animation in animationObjects) {
+            animation.cancel()
         }
+
+        /**
+         * Unnecessary but added as a precautionary measure,
+         * clear any animation running over the views
+         */
+        for (i in 0 until count) {
+            with(group.getChildAt(i)) {
+                clearAnimation()
+                overScrollY = translationY
+            }
+        }
+
+        /**
+         * Clear obsolete [SpringAnimation] objects
+         * from the list
+         */
+        animationObjects.clear()
         return true
     }
 
-    override fun onNestedScroll(
-            coordinatorLayout: CoordinatorLayout,
-            child: View,
-            target: View,
-            dxConsumed: Int,
-            dyConsumed: Int,
-            dxUnconsumed: Int,
-            dyUnconsumed: Int,
-            type: Int,
-            consumed: IntArray,
-    ) {
-
+    override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int, consumed: IntArray) {
         overScrollY -= dyUnconsumed / OVER_SCROLL_AREA
         val group = target as ViewGroup
         val count = group.childCount
@@ -73,28 +74,28 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
         }
     }
 
-    override fun onStopNestedScroll(
-            coordinatorLayout: CoordinatorLayout,
-            child: View,
-            target: View,
-            type: Int,
-    ) {
-        // Smooth animate to 0 when the user stops scrolling
+    override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, type: Int) {
+        /**
+         * Smooth animate to 0 when the user stops scrolling.
+         *
+         * This is where the list will starts to go back once
+         * the finger is lifted from the screen.
+         */
         moveToDefPosition(target)
     }
 
-    override fun onNestedPreFling(
-            coordinatorLayout: CoordinatorLayout,
-            child: View,
-            target: View,
-            velocityX: Float,
-            velocityY: Float,
-    ): Boolean {
-        // Scroll view by inertia when current position equals to 0
+    override fun onNestedPreFling(coordinatorLayout: CoordinatorLayout, child: View, target: View, velocityX: Float, velocityY: Float): Boolean {
+        /**
+         * Scroll view by inertia when current position equals to 0,
+         * equivalent to not scrolling view when [View.TRANSLATION_Y]
+         * value is already 0 or view has not been overscrolled
+         */
         if (overScrollY == 0F) {
             return false
         }
-        // Smooth animate to 0 when user fling view
+        /**
+         * Smooth animate to 0 when user fling view
+         */
         moveToDefPosition(target)
         return true
     }
@@ -112,13 +113,20 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
         for (i in 0 until count) {
             val view = group.getChildAt(i)
 
-            springAnimation = SpringAnimation(view, DynamicAnimation.TRANSLATION_Y)
-            springAnimation!!.spring = SpringForce()
+            val springAnimation = SpringAnimation(view, DynamicAnimation.TRANSLATION_Y)
+            springAnimation.spring = SpringForce()
                     .setFinalPosition(0f)
                     .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY)
                     .setStiffness(SpringForce.STIFFNESS_LOW)
 
-            springAnimation!!.start()
+            springAnimation.start()
+
+            /**
+             * Add [SpringAnimation] objects in the list
+             * so that they can be cancelled later if
+             * needed.
+             */
+            animationObjects.add(springAnimation)
         }
     }
 }

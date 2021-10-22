@@ -1,4 +1,4 @@
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,47 +6,55 @@
     android:background="@color/mainBackground"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingBottom="50dp"
-    app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
+    android:orientation="vertical">
 
-    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/mainBackground"
+        android:elevation="@dimen/header_elevation"
+        android:padding="@dimen/header_padding">
+
+        <ImageView
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:src="@drawable/ic_behaviour"
+            android:transitionName="@string/behaviour"
+            app:tint="?attr/colorAppAccent"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/behaviour"
+            android:textColor="?attr/colorAppAccent"
+            android:textSize="@dimen/header_font_size"
+            app:appFontStyle="bold" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/header_padding">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="@dimen/header_icon_size"
-                android:layout_height="@dimen/header_icon_size"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/header_padding"
-                android:src="@drawable/ic_behaviour"
-                android:transitionName="@string/behaviour"
-                app:tint="?attr/colorAppAccent"
-                tools:ignore="ContentDescription" />
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/behaviour"
-                android:textColor="?attr/colorAppAccent"
-                android:textSize="@dimen/header_font_size"
-                app:appFontStyle="bold" />
+                android:layout_height="1px"
+                android:background="@color/divider" />
+
+            <include layout="@layout/appearance_behavior" />
 
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/divider" />
-
-        <include layout="@layout/appearance_behavior" />
-
-    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
-</androidx.core.widget.NestedScrollView>
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
