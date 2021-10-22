@@ -30,7 +30,6 @@
             android:padding="10dp"
             android:textColor="@color/textSecondary"
             android:textCursorDrawable="@drawable/text_cursor"
-            android:textColorHighlight="?attr/colorAppAccentLight"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular" />

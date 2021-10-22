@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.decorations.corners.LayoutBackground;
+import app.simple.inure.util.ColorUtils;
 import app.simple.inure.util.ViewUtils;
 
 public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
@@ -42,6 +43,7 @@ public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
         setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.viewerBackground)));
         LayoutBackground.setBackground(getContext(), this, attrs, 2F);
         ViewUtils.INSTANCE.addShadow(this);
+        setHighlightColor(ColorUtils.INSTANCE.lightenColor(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccentLight), 0.4F));
     }
     
     @Override

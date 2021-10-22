@@ -24,7 +24,6 @@
         android:maxLines="4"
         android:hint="@string/action"
         android:textColorHint="@color/textTertiary"
-        android:textColorHighlight="?attr/colorAppAccentLight"
         android:textCursorDrawable="@drawable/text_cursor"
         android:layout_marginVertical="@dimen/dialog_padding"
         android:paddingHorizontal="@dimen/dialog_padding"

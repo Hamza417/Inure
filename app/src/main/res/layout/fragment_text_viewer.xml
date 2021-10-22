@@ -27,7 +27,6 @@
             android:inputType="textMultiLine|textNoSuggestions"
             android:padding="10dp"
             android:textColor="@color/textPrimary"
-            android:textColorHighlight="?attr/colorAppAccentLight"
             android:textCursorDrawable="@drawable/text_cursor"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"

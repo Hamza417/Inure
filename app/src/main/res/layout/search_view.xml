@@ -24,7 +24,6 @@
         android:paddingStart="10dp"
         android:paddingEnd="20dp"
         android:textCursorDrawable="@drawable/text_cursor"
-        android:textColorHighlight="?attr/colorAppAccentLight"
         android:textColor="@color/textPrimary"
         android:textColorHint="@color/textTertiary"
         app:appFontStyle="bold"
