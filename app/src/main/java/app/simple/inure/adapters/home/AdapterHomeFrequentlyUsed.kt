@@ -19,7 +19,7 @@ class AdapterHomeFrequentlyUsed(private val list: ArrayList<PackageStats>) : Rec
     private var recentlyUpdatedAppsCallbacks: RecentlyUpdatedAppsCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_recently_updated, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_recently_updated, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {

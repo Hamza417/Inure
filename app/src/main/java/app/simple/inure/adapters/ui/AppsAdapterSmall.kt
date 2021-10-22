@@ -127,7 +127,7 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_all_app_icon)
         val name: TextView = itemView.findViewById(R.id.adapter_all_app_name)
-        val packageId: TextView = itemView.findViewById(R.id.adapter_all_app_package_id)
+        val packageId: TextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
         val packageSize: TextView = itemView.findViewById(R.id.adapter_all_app_package_size)
         val packageType: TextView = itemView.findViewById(R.id.adapter_all_app_type)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)

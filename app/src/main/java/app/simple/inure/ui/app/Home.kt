@@ -42,6 +42,7 @@ class Home : ScopedFragment() {
     private lateinit var recentlyUpdatedRecyclerView: CustomHorizontalRecyclerView
     private lateinit var frequentlyUsedRecyclerView: CustomHorizontalRecyclerView
     private lateinit var recentlyInstalled: DynamicRippleTextView
+    private lateinit var recentlyUpdated: DynamicRippleTextView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
@@ -59,6 +60,7 @@ class Home : ScopedFragment() {
         recentlyUpdatedRecyclerView = view.findViewById(R.id.recently_updated_recycler_view)
         frequentlyUsedRecyclerView = view.findViewById(R.id.frequently_used_recycler_view)
         recentlyInstalled = view.findViewById(R.id.recently_installed_tv)
+        recentlyUpdated = view.findViewById(R.id.recently_updated_tv)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
         options = view.findViewById(R.id.home_header_option_button)
@@ -217,6 +219,14 @@ class Home : ScopedFragment() {
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         RecentlyInstalled.newInstance(true),
                                         "recently_installed")
+        }
+
+        recentlyUpdated.setOnClickListener {
+            clearEnterTransition()
+            clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        RecentlyUpdated.newInstance(),
+                                        "recently_updated")
         }
     }
 

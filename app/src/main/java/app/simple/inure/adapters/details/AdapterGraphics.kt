@@ -12,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.viewholders.VerticalListViewHolder
+import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
@@ -71,6 +72,11 @@ class AdapterGraphics(val path: String, var list: MutableList<String>, var keywo
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    override fun onViewRecycled(holder: Holder) {
+        super.onViewRecycled(holder)
+        GlideApp.with(holder.image).clear(holder.image)
     }
 
     @SuppressLint("NotifyDataSetChanged")

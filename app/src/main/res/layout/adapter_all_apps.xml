@@ -30,14 +30,14 @@
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/app_name_text_size"
         app:appFontStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/adapter_all_app_package_id"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_recently_app_package_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/adapter_all_app_icon"
         app:layout_constraintTop_toTopOf="@+id/adapter_all_app_icon"
         app:layout_constraintVertical_bias="0.0" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_all_app_package_id"
+        android:id="@+id/adapter_recently_app_package_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"

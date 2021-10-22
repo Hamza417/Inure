@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/recently_container"
+    android:padding="@dimen/popup_padding">
+
+    <ImageView
+        android:id="@+id/recently_app_icon"
+        android:layout_width="@dimen/app_icon_dimension"
+        android:layout_height="@dimen/app_icon_dimension"
+        tools:ignore="ContentDescription" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/recently_app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/textSecondary"
+        app:appFontStyle="bold" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

@@ -66,7 +66,7 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>(), PopupTextProvide
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_all_app_icon)
         val name: TextView = itemView.findViewById(R.id.adapter_all_app_name)
-        val packageId: TextView = itemView.findViewById(R.id.adapter_all_app_package_id)
+        val packageId: TextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
         val container: ConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
     }
 

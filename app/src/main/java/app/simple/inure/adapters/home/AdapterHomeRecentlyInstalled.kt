@@ -17,7 +17,7 @@ class AdapterHomeRecentlyInstalled(private val list: ArrayList<PackageInfo>) : R
     private var recentlyAppsCallbacks: RecentlyAppsCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_recently_installed, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_recently_installed, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
