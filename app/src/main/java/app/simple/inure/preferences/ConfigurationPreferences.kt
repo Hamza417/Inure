@@ -10,6 +10,7 @@ object ConfigurationPreferences {
     private const val isXmlViewerTextView = "is_xml_viewer_text_view"
     private const val sizeType = "size_type"
     private const val largeStrings = "load_large_strings"
+    private const val dateFormat = "app_date_format"
     const val isUsingRoot = "is_using_root"
 
     fun setKeepScreenOn(@NotNull value: Boolean) {
@@ -68,5 +69,15 @@ object ConfigurationPreferences {
 
     fun isLoadingLargeStrings(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(largeStrings, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setDateFormat(@NonNull font: String) {
+        SharedPreferences.getSharedPreferences().edit().putString(dateFormat, font).apply()
+    }
+
+    fun getDateFormat(): String {
+        return SharedPreferences.getSharedPreferences().getString(dateFormat, "EEE, yyyy MMM dd, hh:mm a")!!
     }
 }

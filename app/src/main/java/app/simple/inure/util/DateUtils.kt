@@ -8,4 +8,9 @@ object DateUtils {
         val sdf = SimpleDateFormat("EEE, yyyy MMM dd, hh:mm a", Locale.getDefault())
         return sdf.format(Date(date))
     }
+
+    fun formatDate(date: Long, pattern: String): String {
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        return sdf.format(Date(date))
+    }
 }

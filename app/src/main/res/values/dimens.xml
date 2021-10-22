@@ -59,4 +59,5 @@
     <dimen name="app_package_text_size">11sp</dimen>
     <dimen name="folding_arrow_size">30dp</dimen>
     <dimen name="loader_size">30dp</dimen>
+    <dimen name="desc_text_size">12sp</dimen>
 </resources>

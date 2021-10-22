@@ -2,4 +2,4 @@
 <layoutAnimation xmlns:android="http://schemas.android.com/apk/res/android"
     android:animation="@anim/grid_list_animation"
     android:animationOrder="normal"
-    android:delay="8%" />
+    android:delay="7.5%" />

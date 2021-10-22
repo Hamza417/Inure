@@ -16,6 +16,7 @@ import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
@@ -116,12 +117,12 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
     private fun getInstallDate(): Pair<String, Spannable> {
         return Pair(getApplication<Application>().getString(R.string.install_date),
-                    packageInfo.getApplicationInstallTime(getApplication()).applyAccentColor())
+                    packageInfo.getApplicationInstallTime(getApplication(), ConfigurationPreferences.getDateFormat()).applyAccentColor())
     }
 
     private fun getUpdateDate(): Pair<String, Spannable> {
         return Pair(getApplication<Application>().getString(R.string.update_date),
-                    packageInfo.getApplicationLastUpdateTime(getApplication()).applyAccentColor())
+                    packageInfo.getApplicationLastUpdateTime(getApplication(), ConfigurationPreferences.getDateFormat()).applyAccentColor())
     }
 
     private fun getMinSDK(): Pair<String, Spannable> {

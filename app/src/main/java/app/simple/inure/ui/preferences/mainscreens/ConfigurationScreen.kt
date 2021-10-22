@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.dialogs.configuration.DateFormat
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import com.topjohnwu.superuser.Shell
@@ -24,6 +26,7 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var useBinaryFormat: SwitchView
     private lateinit var loadLargeStrings: SwitchView
     private lateinit var rootSwitchView: SwitchView
+    private lateinit var dateFormat: DynamicRippleConstraintLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_configuration, container, false)
@@ -36,6 +39,7 @@ class ConfigurationScreen : ScopedFragment() {
         useBinaryFormat = view.findViewById(R.id.configuration_use_binary_format)
         loadLargeStrings = view.findViewById(R.id.configuration_lift_string_limit)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
+        dateFormat = view.findViewById(R.id.date_format_container)
 
         return view
     }
@@ -97,6 +101,10 @@ class ConfigurationScreen : ScopedFragment() {
             } else {
                 ConfigurationPreferences.setSizeType("si")
             }
+        }
+
+        dateFormat.setOnClickListener {
+            DateFormat.newInstance().show(childFragmentManager, "date_format")
         }
     }
 

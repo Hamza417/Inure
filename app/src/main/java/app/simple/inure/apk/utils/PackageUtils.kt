@@ -93,9 +93,9 @@ object PackageUtils {
      * @param context of the given environment
      * @return app's install date as [String]
      */
-    fun PackageInfo.getApplicationInstallTime(context: Context): String {
+    fun PackageInfo.getApplicationInstallTime(context: Context, pattern: String): String {
         return try {
-            DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).firstInstallTime)
+            DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).firstInstallTime, pattern)
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
         }
@@ -107,9 +107,9 @@ object PackageUtils {
      *
      * @return app's last update date as [String]
      */
-    fun PackageInfo.getApplicationLastUpdateTime(context: Context): String {
+    fun PackageInfo.getApplicationLastUpdateTime(context: Context, pattern: String): String {
         return try {
-            DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).lastUpdateTime)
+            DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).lastUpdateTime, pattern)
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
         }

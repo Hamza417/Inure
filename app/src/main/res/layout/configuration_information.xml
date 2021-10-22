@@ -276,4 +276,59 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+        android:id="@+id/date_format_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="@dimen/preference_icon_size"
+            android:layout_height="@dimen/preference_icon_size"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_date_format"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/iconSecondary"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView019"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="@string/date_format"
+            android:textColor="@color/textPrimary"
+            android:textSize="14sp"
+            app:appFontStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView020"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView16"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView020"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/desc_date_format"
+            android:textColor="@color/textTertiary"
+            android:textSize="@dimen/desc_text_size"
+            app:appFontStyle="regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView16"
+            app:layout_constraintTop_toBottomOf="@id/typeFaceTextView019" />
+
+    </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
+
 </merge>

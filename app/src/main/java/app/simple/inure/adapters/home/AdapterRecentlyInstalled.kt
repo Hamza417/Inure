@@ -16,6 +16,7 @@ import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.preferences.ConfigurationPreferences
 
 class AdapterRecentlyInstalled : RecyclerView.Adapter<AdapterRecentlyInstalled.Holder>() {
 
@@ -40,7 +41,7 @@ class AdapterRecentlyInstalled : RecyclerView.Adapter<AdapterRecentlyInstalled.H
             holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
 
-        holder.date.text = apps[position].getApplicationInstallTime(holder.itemView.context)
+        holder.date.text = apps[position].getApplicationInstallTime(holder.itemView.context, ConfigurationPreferences.getDateFormat())
 
         holder.container.setOnClickListener {
             appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
