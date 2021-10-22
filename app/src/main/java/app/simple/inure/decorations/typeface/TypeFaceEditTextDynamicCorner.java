@@ -1,13 +1,10 @@
 package app.simple.inure.decorations.typeface;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
@@ -46,17 +43,6 @@ public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
         setHighlightColor(ColorUtils.INSTANCE.lightenColor(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccentLight), 0.4F));
     }
     
-    @Override
-    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
-        super.onFocusChanged(focused, direction, previouslyFocusedRect);
-        if (focused) {
-            // animateElevation(25F);
-        }
-        else {
-            // animateElevation(0F);
-        }
-    }
-    
     public void toggleInput() {
         switch (getVisibility()) {
             case View.VISIBLE: {
@@ -81,15 +67,5 @@ public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
         clearFocus();
         ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-    }
-    
-    private void animateElevation(float elevation) {
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(this.getElevation(), elevation);
-        valueAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
-        valueAnimator.setDuration(getResources().getInteger(R.integer.animation_duration));
-        valueAnimator.addUpdateListener(animation -> {
-            TypeFaceEditTextDynamicCorner.this.setElevation((float) animation.getAnimatedValue());
-        });
-        valueAnimator.start();
     }
 }

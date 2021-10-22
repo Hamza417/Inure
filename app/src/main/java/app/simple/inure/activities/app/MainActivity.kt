@@ -12,6 +12,8 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // AndroidBug5497Workaround.assistActivity(this)
+
         if (savedInstanceState.isNull()) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
