@@ -76,15 +76,18 @@ public class TerminalView extends ListView {
     
     private Terminal mTerm;
     private boolean mScrolled;
+    
     private final Runnable mDamageRunnable = () -> {
         invalidateViews();
         if (SCROLL_ON_DAMAGE) {
             scrollToBottom(true);
         }
     };
+    
     private int mRows;
     private int mCols;
     private int mScrollRows;
+    
     private final BaseAdapter mAdapter = new BaseAdapter() {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -157,6 +160,7 @@ public class TerminalView extends ListView {
                 imm.showSoftInput(parent, InputMethodManager.SHOW_IMPLICIT);
             }
         };
+    
         setOnItemClickListener(mClickListener);
     }
     

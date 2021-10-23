@@ -14,6 +14,7 @@
 
     <app.simple.inure.decorations.terminal.TerminalView
         android:id="@+id/terminal_view"
+        android:listSelector="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

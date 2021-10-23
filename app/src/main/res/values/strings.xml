@@ -366,4 +366,5 @@
     <string name="cheatsheet">Cheatsheet</string>
     <string name="format">Format</string>
     <string name="reset">Reset</string>
+    <string name="restart">Restart</string>
 </resources>

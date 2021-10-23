@@ -77,9 +77,11 @@ public class Terminal {
                 return 1;
             }
         };
+    
         mNativePtr = nativeInit(mCallbacks);
         key = sNumber++;
         mTitle = TAG + " " + key;
+    
         mThread = new Thread(mTitle) {
             @Override
             public void run() {

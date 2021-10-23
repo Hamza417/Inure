@@ -44,7 +44,9 @@ class TextAssociationActivity : BaseActivity() {
         lifecycleScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 withTimeout(3000) {
-                    val string = IOUtils.toString(contentResolver.openInputStream(intent.data!!), "UTF-8")
+                    val string = contentResolver.openInputStream(intent.data!!)!!.use {
+                        IOUtils.toString(it, "UTF-8")
+                    }
 
                     withContext(Dispatchers.Main) {
                         if (string.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.terminal.TerminalView
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupTerminal
 import app.simple.inure.services.TerminalService
@@ -27,7 +27,6 @@ class Terminal : ScopedFragment() {
 
     private lateinit var terminalService: TerminalService
     private lateinit var serviceConnection: ServiceConnection
-    private var isKilled = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_terminal, container, false)
@@ -45,7 +44,13 @@ class Terminal : ScopedFragment() {
                 if (terminalService.terminals.size() > 0) {
                     terminal.terminal = terminalService.terminals.valueAt(0)
                 } else {
-                    Log.d(requireContext().packageName, "Could not create terminal")
+                    val e = ErrorPopup.newInstance("${packageInfo.packageName}: Could not create terminal")
+                    e.show(childFragmentManager, "error_dialog")
+                    e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                        override fun onDismiss() {
+                            requireActivity().onBackPressed()
+                        }
+                    })
                 }
 
                 terminal.scrollToBottom(false)
@@ -73,13 +78,11 @@ class Terminal : ScopedFragment() {
             Intent(requireContext(), TerminalService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
 
         terminalOptions.setOnClickListener {
-            val popup = PopupTerminal(it)
-
-            popup.setOnMenuClickListener(object : PopupMenuCallback {
+            PopupTerminal(it).setOnMenuClickListener(object : PopupMenuCallback {
                 override fun onMenuItemClicked(source: String) {
                     when (source) {
                         getString(R.string.kill) -> {
-                            isKilled = true
+                            terminalService.destroyTerminal(terminal.terminal.key)
                             requireActivity().onBackPressed()
                         }
                         getString(R.string.close) -> {
@@ -93,9 +96,6 @@ class Terminal : ScopedFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (isKilled) {
-            terminalService.destroyTerminal(terminal.terminal.key)
-        }
         requireActivity().unbindService(serviceConnection)
     }
 

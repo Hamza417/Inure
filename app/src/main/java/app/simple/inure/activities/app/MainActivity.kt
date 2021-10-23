@@ -7,7 +7,6 @@ import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.util.NullSafety.isNull
 
 class MainActivity : BaseActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
