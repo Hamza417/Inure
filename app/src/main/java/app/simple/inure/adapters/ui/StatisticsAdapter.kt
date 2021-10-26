@@ -10,10 +10,11 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.model.PackageStats
 import app.simple.inure.util.FileSizeHelper.toSize
@@ -27,11 +28,11 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            VerticalListViewHolder.TYPE_HEADER -> {
+            RecyclerViewConstants.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
                                .inflate(R.layout.adapter_usage_stats_header, parent, false))
             }
-            VerticalListViewHolder.TYPE_ITEM -> {
+            RecyclerViewConstants.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
                                .inflate(R.layout.adapter_usage_stats, parent, false))
             }
@@ -104,8 +105,8 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
-            VerticalListViewHolder.TYPE_HEADER
-        } else VerticalListViewHolder.TYPE_ITEM
+            RecyclerViewConstants.TYPE_HEADER
+        } else RecyclerViewConstants.TYPE_ITEM
     }
 
     override fun getPopupText(position: Int): String {

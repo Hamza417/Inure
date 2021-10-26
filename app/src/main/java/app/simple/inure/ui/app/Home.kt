@@ -17,11 +17,11 @@ import app.simple.inure.adapters.home.AdapterHomeFrequentlyUsed
 import app.simple.inure.adapters.home.AdapterHomeRecentlyInstalled
 import app.simple.inure.adapters.home.AdapterHomeRecentlyUpdated
 import app.simple.inure.adapters.menus.AdapterHomeMenu
+import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.views.CustomHorizontalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAnalytics

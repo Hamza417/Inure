@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.views
+package app.simple.inure.decorations.overscroll
 
 import android.content.Context
 import android.util.AttributeSet
@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants.flingTranslationMagnitude
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollRotationMagnitude
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollTranslationMagnitude
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
 
@@ -162,12 +164,5 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
         for (i in 0 until childCount) {
             action(getChildViewHolder(getChildAt(i)) as T)
         }
-    }
-
-    companion object {
-        private const val value = 1.0f
-        const val flingTranslationMagnitude = value
-        const val overScrollRotationMagnitude = value
-        const val overScrollTranslationMagnitude = value
     }
 }

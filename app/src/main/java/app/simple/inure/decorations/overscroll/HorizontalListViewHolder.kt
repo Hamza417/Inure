@@ -1,9 +1,11 @@
-package app.simple.inure.decorations.viewholders
+package app.simple.inure.decorations.overscroll
 
 import android.view.View
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.RecyclerView
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants.bouncyValue
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants.stiffnessValue
 
 open class HorizontalListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var currentVelocity = 0f
@@ -36,11 +38,4 @@ open class HorizontalListViewHolder(itemView: View) : RecyclerView.ViewHolder(it
                         .setDampingRatio(bouncyValue)
                         .setStiffness(stiffnessValue)
             )
-
-    companion object {
-        const val bouncyValue = SpringForce.DAMPING_RATIO_NO_BOUNCY
-        const val stiffnessValue = SpringForce.STIFFNESS_LOW
-        const val TYPE_HEADER = 0
-        const val TYPE_ITEM = 1
-    }
 }

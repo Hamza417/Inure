@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.apk.utils.PermissionUtils.protectionToString
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ColorUtils.resolveAttrColor

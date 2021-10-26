@@ -9,7 +9,7 @@
     android:clipToPadding="false"
     tools:parentTag="android.widget.FrameLayout">
 
-    <app.simple.inure.decorations.views.CustomVerticalRecyclerView
+    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
         android:id="@+id/graphics_filter_recycler_view"
         android:layout_width="200dp"
         android:layout_height="350dp"

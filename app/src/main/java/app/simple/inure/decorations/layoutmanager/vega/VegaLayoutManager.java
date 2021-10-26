@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.collection.ArrayMap;
 import androidx.recyclerview.widget.RecyclerView;
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder;
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder;
 
 public class VegaLayoutManager extends RecyclerView.LayoutManager {
     

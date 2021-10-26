@@ -21,7 +21,7 @@
         app:appFontStyle="bold"
         app:drawableEndCompat="@drawable/ic_arrow_right" />
 
-    <app.simple.inure.decorations.views.CustomHorizontalRecyclerView
+    <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
         android:id="@+id/frequently_used_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

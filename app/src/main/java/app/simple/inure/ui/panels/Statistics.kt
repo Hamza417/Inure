@@ -11,8 +11,8 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.StatisticsAdapter
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.popup.PopupMenuCallback
-import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.dialogs.usagestats.UsageStatsMenu
 import app.simple.inure.extension.fragments.ScopedFragment

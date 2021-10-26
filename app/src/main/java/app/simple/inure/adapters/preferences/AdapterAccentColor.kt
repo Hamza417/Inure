@@ -14,8 +14,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants.TYPE_HEADER
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants.TYPE_ITEM
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.Utils
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.AppearancePreferences.getCornerRadius
 import app.simple.inure.util.ColorUtils.toHexColor
@@ -29,10 +31,10 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            VerticalListViewHolder.TYPE_ITEM -> {
+            TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_accent_colors, parent, false))
             }
-            VerticalListViewHolder.TYPE_HEADER -> {
+            TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_accent_color_header, parent, false))
             }
             else -> {
@@ -79,8 +81,8 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
     override fun getItemViewType(position: Int): Int {
         return if (position.isZero()) {
-            VerticalListViewHolder.TYPE_HEADER
-        } else VerticalListViewHolder.TYPE_ITEM
+            TYPE_HEADER
+        } else TYPE_ITEM
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

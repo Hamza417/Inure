@@ -12,7 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ConditionUtils.isZero
@@ -29,10 +30,10 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            VerticalListViewHolder.TYPE_ITEM -> {
+            RecyclerViewConstants.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_type_face, parent, false))
             }
-            VerticalListViewHolder.TYPE_HEADER -> {
+            RecyclerViewConstants.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_typeface_header, parent, false))
             }
             else -> {
@@ -79,8 +80,8 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return if (position.isZero()) {
-            VerticalListViewHolder.TYPE_HEADER
-        } else VerticalListViewHolder.TYPE_ITEM
+            RecyclerViewConstants.TYPE_HEADER
+        } else RecyclerViewConstants.TYPE_ITEM
     }
 
     fun setOnTypeFaceClickListener(adapterTypeFaceCallbacks: AdapterTypeFaceCallbacks) {

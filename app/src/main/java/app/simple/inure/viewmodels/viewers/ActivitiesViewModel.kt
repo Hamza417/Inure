@@ -4,18 +4,18 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
+import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.model.ActivityInfoModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
+class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val delay = 500L
 
@@ -54,9 +54,9 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
 
                     activityInfoModel.activityInfo = ai
                     activityInfoModel.name = ai.name
-                    activityInfoModel.target = ai.targetActivity ?: getApplication<Application>().getString(R.string.not_available)
+                    activityInfoModel.target = ai.targetActivity ?: getString(R.string.not_available)
                     activityInfoModel.exported = ai.exported
-                    activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
+                    activityInfoModel.permission = ai.permission ?: getString(R.string.no_permission_required)
 
                     with(StringBuilder()) {
                         append(" | ")

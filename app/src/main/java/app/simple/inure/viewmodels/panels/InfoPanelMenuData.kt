@@ -3,17 +3,17 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
+class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
     private val menuItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
         MutableLiveData<List<Pair<Int, String>>>().also {
             loadMetaOptions()
@@ -54,8 +54,7 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
 
     fun loadActionOptions() {
         viewModelScope.launch(Dispatchers.Default) {
-
-            val context = getApplication<Application>().applicationContext
+            val context = context
 
             if (!PackageUtils.isPackageInstalled(packageInfo.packageName, context.packageManager)) {
                 error.postValue(context.getString(R.string.app_not_installed, packageInfo.packageName))
@@ -114,7 +113,7 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
 
     fun loadMetaOptions() {
         viewModelScope.launch(Dispatchers.Default) {
-            val context = getApplication<Application>().applicationContext
+            val context = context
 
             val list = listOf(
                 Pair(R.drawable.ic_permission, context.getString(R.string.permissions)),
@@ -137,7 +136,7 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
 
     fun loadMiscellaneousItems() {
         viewModelScope.launch(Dispatchers.Default) {
-            val context = getApplication<Application>().applicationContext
+            val context = context
 
             val list = arrayListOf<Pair<Int, String>>()
 

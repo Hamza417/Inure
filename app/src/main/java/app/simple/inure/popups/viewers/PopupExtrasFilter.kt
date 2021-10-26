@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
 import app.simple.inure.adapters.popups.AdapterExtrasFilter
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.popup.PopupLinearLayout
-import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 
 class PopupExtrasFilter(anchor: View) : BasePopupWindow() {
 

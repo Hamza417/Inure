@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import app.simple.inure.decorations.views.CustomCheckBox
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.util.StringUtils.highlightExtensions

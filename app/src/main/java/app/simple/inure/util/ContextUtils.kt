@@ -17,17 +17,17 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
          * rather a work around, third uses deprecated methods for
          * older APIs which can cause issues in some phones.
          *
-         * @param baseContext is base context
+         * @param context is context, obviously
          * @param languageCode is code of the language e.g. en for English
          */
-        fun updateLocale(baseContext: Context, languageCode: String): ContextWrapper {
+        fun updateLocale(context: Context, languageCode: String): ContextWrapper {
             val localeToSwitchTo = if (languageCode == "default") {
                 Locale.forLanguageTag(LocaleHelper.getSystemLanguageCode())
             } else {
                 Locale.forLanguageTag(languageCode)
             }
-            var context = baseContext
-            val resources: Resources = context.resources
+            var context1 = context
+            val resources: Resources = context1.resources
             val configuration: Configuration = resources.configuration
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 val localeList = LocaleList(localeToSwitchTo)
@@ -38,13 +38,13 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
                 configuration.locale = localeToSwitchTo
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                context = context.createConfigurationContext(configuration)
+                context1 = context1.createConfigurationContext(configuration)
             } else {
                 @Suppress("deprecation")
                 resources.updateConfiguration(configuration, resources.displayMetrics)
             }
 
-            return ContextUtils(context)
+            return ContextUtils(context1)
         }
     }
 }

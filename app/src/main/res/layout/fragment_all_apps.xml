@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.views.CustomVerticalRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/all_apps_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

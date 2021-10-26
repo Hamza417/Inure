@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 import net.dongliu.apk.parser.bean.DexClass
 
 class AdapterDexData(private val dexs: ArrayList<DexClass>) : RecyclerView.Adapter<AdapterDexData.Holder>() {

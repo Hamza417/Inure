@@ -17,10 +17,10 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.killThisApp
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
-import app.simple.inure.decorations.views.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks

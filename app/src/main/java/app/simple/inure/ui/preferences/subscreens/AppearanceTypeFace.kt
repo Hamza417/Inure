@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterTypeFace
-import app.simple.inure.decorations.views.CustomVerticalRecyclerView
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
 

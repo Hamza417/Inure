@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterFeatures
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.views.CustomVerticalRecyclerView
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.viewmodels.factory.PackageInfoFactory

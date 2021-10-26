@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.viewholders.VerticalListViewHolder
 
 class PreferencesAdapter(private val list: ArrayList<Pair<Int, String>>) : RecyclerView.Adapter<PreferencesAdapter.Holder>() {
 
