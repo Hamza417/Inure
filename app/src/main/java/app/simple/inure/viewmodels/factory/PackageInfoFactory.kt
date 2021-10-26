@@ -53,6 +53,9 @@ class PackageInfoFactory(private val application: Application, private val packa
             modelClass.isAssignableFrom(ReceiversViewModel::class.java) -> {
                 return ReceiversViewModel(application, packageInfo) as T
             }
+            modelClass.isAssignableFrom(SharedLibraryViewModel::class.java) -> {
+                return SharedLibraryViewModel(application, packageInfo) as T
+            }
             else -> {
                 /**
                  * This viewmodel factory is specific to

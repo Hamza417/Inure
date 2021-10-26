@@ -44,7 +44,7 @@ class Terminal : ScopedFragment() {
                 if (terminalService.terminals.size() > 0) {
                     terminal.terminal = terminalService.terminals.valueAt(0)
                 } else {
-                    val e = ErrorPopup.newInstance("${packageInfo.packageName}: Could not create terminal")
+                    val e = ErrorPopup.newInstance("${requireContext().packageName}: Could not create terminal")
                     e.show(childFragmentManager, "error_dialog")
                     e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
                         override fun onDismiss() {
@@ -73,6 +73,8 @@ class Terminal : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        packageInfo.applicationInfo.sharedLibraryFiles
 
         requireActivity().bindService(
             Intent(requireContext(), TerminalService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
