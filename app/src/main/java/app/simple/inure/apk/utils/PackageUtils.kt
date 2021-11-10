@@ -115,15 +115,15 @@ object PackageUtils {
         }
     }
 
-    fun PackageInfo.launchThisPackage(activity: Activity) {
-        try {
-            val intent = activity.packageManager.getLaunchIntentForPackage(this.packageName)
-            intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            activity.startActivity(intent)
-        } catch (e: NullPointerException) {
-            Toast.makeText(activity.baseContext, "No activity to be launched", Toast.LENGTH_SHORT)
-                    .show()
-        }
+    fun checkIfAppIsLaunchable(context: Context, packageName: String): Boolean {
+        return context.packageManager
+                .getLaunchIntentForPackage(packageName) != null
+    }
+
+    fun PackageInfo.launchThisPackage(context: Context) {
+        val intent = context.packageManager.getLaunchIntentForPackage(this.packageName)
+        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        context.startActivity(intent)
     }
 
     /**

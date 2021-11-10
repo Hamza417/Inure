@@ -17,6 +17,7 @@ import app.simple.inure.adapters.home.AdapterHomeFrequentlyUsed
 import app.simple.inure.adapters.home.AdapterHomeRecentlyInstalled
 import app.simple.inure.adapters.home.AdapterHomeRecentlyUpdated
 import app.simple.inure.adapters.menus.AdapterHomeMenu
+import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
@@ -253,10 +254,12 @@ class Home : ScopedFragment() {
     }
 
     private fun openAppMenu(packageInfo: PackageInfo, icon: ImageView, anchor: View) {
-        val popupMenu = PopupMainList(anchor)
-        popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
+        PopupMainList(anchor, packageInfo.packageName).setOnMenuItemClickListener(object : PopupMenuCallback {
             override fun onMenuItemClicked(source: String) {
                 when (source) {
+                    getString(R.string.launch) -> {
+                        packageInfo.launchThisPackage(requireContext())
+                    }
                     getString(R.string.app_information) -> {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     AppInfo.newInstance(packageInfo, icon.transitionName),

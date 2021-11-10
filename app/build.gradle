@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     def appVersionCode = 8
     def appVersionName = "inure_build_${appVersionCode}"
@@ -16,7 +16,7 @@ android {
         // minSdkVersion 21 is needed for pthread_mutex_timedlock and pthread_condattr_setclock
         // minSdkVersion 23 is needed for forkpty
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode appVersionCode
         versionName appVersionName
         vectorDrawables.useSupportLibrary = true
@@ -75,7 +75,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.6.0'

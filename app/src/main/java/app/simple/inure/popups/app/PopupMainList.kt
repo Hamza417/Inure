@@ -6,10 +6,13 @@ import android.view.View
 import android.widget.PopupWindow
 import android.widget.TextView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.decorations.popup.BasePopupWindow
 import app.simple.inure.decorations.popup.PopupLinearLayout
 import app.simple.inure.decorations.popup.PopupMenuCallback
-import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 
 /**
  * A customised version of popup menu that uses [PopupWindow]
@@ -19,17 +22,27 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
  * window when appears. It is highly recommended to use this
  * and ditch popup menu entirely.
  */
-class PopupMainList(anchor: View) : BasePopupWindow() {
+class PopupMainList(anchor: View, packageName: String) : BasePopupWindow() {
 
     lateinit var popupMenuCallback: PopupMenuCallback
+    private val launch: DynamicRippleTextView
 
     init {
         val contentView = LayoutInflater.from(anchor.context).inflate(R.layout.popup_main_list_menu, PopupLinearLayout(anchor.context))
 
-        init(contentView, anchor, Gravity.END)
+        contentView.findViewById<DynamicRippleTextView>(R.id.popup_app_info).onClick()
+        contentView.findViewById<DynamicRippleTextView>(R.id.popup_send).onClick()
 
-        contentView.findViewById<TypeFaceTextView>(R.id.popup_app_info).onClick()
-        contentView.findViewById<TypeFaceTextView>(R.id.popup_send).onClick()
+        launch = contentView.findViewById(R.id.popup_app_launch)
+
+        if (PackageUtils.checkIfAppIsLaunchable(contentView.context, packageName)) {
+            launch.visible(false)
+            launch.onClick()
+        } else {
+            launch.gone()
+        }
+
+        init(contentView, anchor, Gravity.END)
     }
 
     private fun TextView.onClick() {

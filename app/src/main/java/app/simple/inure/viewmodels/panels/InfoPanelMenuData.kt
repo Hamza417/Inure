@@ -64,7 +64,7 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
             val list = arrayListOf<Pair<Int, String>>()
 
             if (ConfigurationPreferences.isUsingRoot()) {
-                if (checkIfAppIsLaunchable() && isNotThisApp()) {
+                if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_launch, context.getString(R.string.launch)))
                 }
 
@@ -88,7 +88,7 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
 
             } else {
                 if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
-                    if (checkIfAppIsLaunchable() && isNotThisApp()) {
+                    if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {
                         list.add(Pair(R.drawable.ic_launch, context.getString(R.string.launch)))
                     }
 
@@ -98,7 +98,7 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
                         list.add(Pair(R.drawable.ic_delete, context.getString(R.string.uninstall)))
                     }
                 } else {
-                    if (checkIfAppIsLaunchable()) {
+                    if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName)) {
                         list.add(Pair(R.drawable.ic_launch, context.getString(R.string.launch)))
                     }
                     list.add(Pair(R.drawable.ic_send, context.getString(R.string.send)))
@@ -156,11 +156,6 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
 
             miscellaneousItems.postValue(list)
         }
-    }
-
-    private fun checkIfAppIsLaunchable(): Boolean {
-        return getApplication<Application>().packageManager
-                .getLaunchIntentForPackage(packageInfo.packageName) != null
     }
 
     private fun isNotThisApp(): Boolean {

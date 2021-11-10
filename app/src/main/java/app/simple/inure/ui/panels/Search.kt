@@ -14,9 +14,7 @@ import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.SearchAdapter
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
-import app.simple.inure.apk.utils.PackageUtils.killThisApp
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
-import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.searchview.SearchView
@@ -90,21 +88,17 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                 }
 
                 override fun onAppLongPress(packageInfo: PackageInfo, anchor: View, icon: ImageView, position: Int) {
-                    val popupMenu = PopupMainList(anchor)
-                    popupMenu.setOnMenuItemClickListener(object : PopupMenuCallback {
+                    PopupMainList(anchor, packageInfo.packageName).setOnMenuItemClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
+                                getString(R.string.launch) -> {
+                                    packageInfo.launchThisPackage(requireContext())
+                                }
                                 getString(R.string.app_information) -> {
                                     openAppInfo(packageInfo, icon)
                                 }
                                 getString(R.string.launch) -> {
                                     packageInfo.launchThisPackage(requireActivity())
-                                }
-                                getString(R.string.kill) -> {
-                                    packageInfo.killThisApp(requireActivity())
-                                }
-                                getString(R.string.uninstall) -> {
-                                    packageInfo.uninstallThisPackage(appUninstallObserver, position)
                                 }
                             }
                         }
