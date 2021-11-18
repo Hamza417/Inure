@@ -148,7 +148,7 @@ class Home : ScopedFragment() {
         homeViewModel.getMenuItems().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
-            navigationRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+            navigationRecyclerView.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
 
             val adapter = AdapterHomeMenu(it)
 

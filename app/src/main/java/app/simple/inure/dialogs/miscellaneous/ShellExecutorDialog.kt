@@ -9,8 +9,8 @@ import app.simple.inure.R
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.factories.dialog.ShellExecutorViewModelFactory
 import app.simple.inure.viewmodels.dialogs.ShellExecutorViewModel
-import app.simple.inure.viewmodels.factory.ShellExecutorViewModelFactory
 
 class ShellExecutorDialog : ScopedBottomSheetFragment() {
 

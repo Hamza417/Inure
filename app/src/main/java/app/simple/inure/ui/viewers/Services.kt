@@ -19,6 +19,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.details.ComponentStateDialog
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.model.ServiceInfoModel
 import app.simple.inure.popups.viewers.PopupServicesMenu
 import app.simple.inure.preferences.ServicesPreferences
@@ -26,7 +27,6 @@ import app.simple.inure.ui.subviewers.ServiceInfo
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ServicesViewModel
 
 class Services : ScopedFragment() {

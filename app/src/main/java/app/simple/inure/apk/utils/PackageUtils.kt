@@ -160,11 +160,10 @@ object PackageUtils {
      * @param appUninstallObserver reference of the current [ActivityResultLauncher]
      */
     @Suppress("deprecation")
-    fun PackageInfo.uninstallThisPackage(appUninstallObserver: ActivityResultLauncher<Intent>, position: Int) {
+    fun PackageInfo.uninstallThisPackage(appUninstallObserver: ActivityResultLauncher<Intent>) {
         val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
         intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
         intent.data = Uri.parse("package:${this.packageName}")
-        intent.putExtra("position", position)
         appUninstallObserver.launch(intent)
     }
 

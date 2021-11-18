@@ -2,9 +2,7 @@ package app.simple.inure.ui.app
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -20,16 +18,17 @@ import app.simple.inure.R
 import app.simple.inure.adapters.menus.AdapterMenu
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
-import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.dialogs.details.Uninstaller
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.popups.app.PopupSure
 import app.simple.inure.preferences.AppInfoPanelPreferences
@@ -39,8 +38,6 @@ import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.factory.PackageInfoFactory
-import app.simple.inure.viewmodels.panels.AllAppsData
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
 
 
@@ -63,9 +60,6 @@ class AppInfo : ScopedFragment() {
 
     private lateinit var componentsViewModel: InfoPanelMenuData
     private lateinit var packageInfoFactory: PackageInfoFactory
-    private lateinit var allAppsData: AllAppsData
-
-    private var spanCount = 3
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_app_info, container, false)
@@ -86,15 +80,8 @@ class AppInfo : ScopedFragment() {
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        spanCount = if (this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            3
-        } else {
-            6
-        }
-
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(InfoPanelMenuData::class.java)
-        allAppsData = ViewModelProvider(requireActivity()).get(AllAppsData::class.java)
 
         metaMenuState()
         actionMenuState()
@@ -118,7 +105,7 @@ class AppInfo : ScopedFragment() {
 
             val adapterMenu = AdapterMenu(it)
             adapterMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-            meta.layoutManager = GridLayoutManager(requireContext(), spanCount)
+            meta.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
             meta.adapter = adapterMenu
             meta.scheduleLayoutAnimation()
 
@@ -205,7 +192,7 @@ class AppInfo : ScopedFragment() {
             if (AppInfoPanelPreferences.isActionMenuFolded()) return@observe
 
             val adapterAppInfoMenu = AdapterMenu(it)
-            actions.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
+            actions.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
             actions.adapter = adapterAppInfoMenu
             actions.scheduleLayoutAnimation()
 
@@ -216,61 +203,28 @@ class AppInfo : ScopedFragment() {
                             packageInfo.launchThisPackage(requireActivity())
                         }
                         getString(R.string.uninstall) -> {
-                            if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
-                                val popupMenu = PopupSure(icon)
-                                popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
-                                    override fun onMenuItemClicked(source: String) {
-                                        when (source) {
-                                            getString(R.string.yes) -> {
-                                                val f = ShellExecutorDialog.newInstance("pm uninstall -k --user 0 ${packageInfo.packageName}")
+                            PopupSure(icon).setOnMenuClickListener(object : PopupMenuCallback {
+                                override fun onMenuItemClicked(source: String) {
+                                    when (source) {
+                                        getString(R.string.yes) -> {
+                                            val p = Uninstaller.newInstance(packageInfo)
 
-                                                f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
-                                                    override fun onCommandExecuted(result: String) {
-                                                        if (result == "Success") {
-                                                            onAppUninstalled(true)
-                                                        }
-                                                    }
-                                                })
-
-                                                f.show(parentFragmentManager, "shell_executor")
+                                            p.listener = {
+                                                requireActivity().supportFragmentManager.popBackStackImmediate()
                                             }
+
+                                            p.show(childFragmentManager, "uninstaller")
                                         }
                                     }
-                                })
-                            } else {
-                                if (ConfigurationPreferences.isUsingRoot()) {
-                                    val popupMenu = PopupSure(icon)
-                                    popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
-                                        override fun onMenuItemClicked(source: String) {
-                                            when (source) {
-                                                getString(R.string.yes) -> {
-                                                    val f = ShellExecutorDialog.newInstance("pm uninstall ${packageInfo.packageName}")
-
-                                                    f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
-                                                        override fun onCommandExecuted(result: String) {
-                                                            if (result == "Success") {
-                                                                onAppUninstalled(true)
-                                                            }
-                                                        }
-                                                    })
-
-                                                    f.show(parentFragmentManager, "shell_executor")
-                                                }
-                                            }
-                                        }
-                                    })
-                                } else {
-                                    packageInfo.uninstallThisPackage(appUninstallObserver, -1)
                                 }
-                            }
+                            })
                         }
                         getString(R.string.send) -> {
                             Preparing.newInstance(packageInfo)
                                     .show(childFragmentManager, "prepare_send_files")
                         }
                         getString(R.string.clear_data) -> {
-                            val popupMenu = PopupSure(icon)
-                            popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
+                            PopupSure(icon).setOnMenuClickListener(object : PopupMenuCallback {
                                 override fun onMenuItemClicked(source: String) {
                                     when (source) {
                                         getString(R.string.yes) -> {
@@ -282,8 +236,7 @@ class AppInfo : ScopedFragment() {
                             })
                         }
                         getString(R.string.clear_cache) -> {
-                            val popupMenu = PopupSure(icon)
-                            popupMenu.setOnMenuClickListener(object : PopupMenuCallback {
+                            PopupSure(icon).setOnMenuClickListener(object : PopupMenuCallback {
                                 override fun onMenuItemClicked(source: String) {
                                     when (source) {
                                         getString(R.string.yes) -> {
@@ -363,7 +316,7 @@ class AppInfo : ScopedFragment() {
             if (AppInfoPanelPreferences.isMiscMenuFolded()) return@observe
 
             val adapterAppInfoMenu = AdapterMenu(it)
-            miscellaneous.layoutManager = GridLayoutManager(requireContext(), spanCount, GridLayoutManager.VERTICAL, false)
+            miscellaneous.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
             miscellaneous.adapter = adapterAppInfoMenu
             miscellaneous.scheduleLayoutAnimation()
 
@@ -431,23 +384,6 @@ class AppInfo : ScopedFragment() {
 
         foldMiscMenu.setOnClickListener {
             AppInfoPanelPreferences.setMiscMenuFold(!AppInfoPanelPreferences.isMiscMenuFolded())
-        }
-    }
-
-    override fun onAppUninstalled(result: Boolean) {
-        if (result) {
-            with(allAppsData) {
-                loadAppData()
-
-                appLoaded.observe(viewLifecycleOwner, { appsEvent ->
-                    appsEvent.getContentIfNotHandledOrReturnNull()?.let {
-                        if (it) {
-                            requireActivity().supportFragmentManager
-                                    .popBackStack()
-                        }
-                    }
-                })
-            }
         }
     }
 

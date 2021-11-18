@@ -13,9 +13,9 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.panels.FontViewModelFactory
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.factory.FontViewModelFactory
 import app.simple.inure.viewmodels.viewers.FontViewModel
 
 class Font : ScopedFragment() {

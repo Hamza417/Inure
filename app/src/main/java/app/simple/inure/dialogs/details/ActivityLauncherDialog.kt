@@ -11,8 +11,8 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.factories.actions.ActivityLaunchFactory
 import app.simple.inure.viewmodels.dialogs.ActivityLauncherViewModel
-import app.simple.inure.viewmodels.factory.ActivityLaunchFactory
 
 class ActivityLauncherDialog : ScopedBottomSheetFragment() {
 
@@ -34,7 +34,7 @@ class ActivityLauncherDialog : ScopedBottomSheetFragment() {
         packageId = requireArguments().getString(BundleConstants.packageId)!!
 
         activityLaunchFactory = ActivityLaunchFactory(requireActivity().application, packageInfo, packageId!!)
-        activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory).get(ActivityLauncherViewModel::class.java)
+        activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory)[ActivityLauncherViewModel::class.java]
 
         return view
     }

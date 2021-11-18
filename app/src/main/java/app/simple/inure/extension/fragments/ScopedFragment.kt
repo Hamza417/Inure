@@ -1,16 +1,12 @@
 package app.simple.inure.extension.fragments
 
-import android.app.Activity
-import android.content.Intent
+import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.transition.Fade
 import app.simple.inure.decorations.transitions.DetailsTransition
@@ -28,12 +24,6 @@ import kotlinx.coroutines.CoroutineScope
  * its purpose and importance
  */
 abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
-
-    /**
-     * Use this to launch app uninstall intent and listen to the results
-     * via [onAppUninstalled] function.
-     */
-    lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
 
     /**
      * [ScopedFragment]'s own [Handler] instance
@@ -55,19 +45,6 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         postponeEnterTransition()
-
-        appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-                    onAppUninstalled(true, result.data)
-                    onAppUninstalled(true)
-                }
-                Activity.RESULT_CANCELED -> {
-                    onAppUninstalled(false, result.data)
-                    onAppUninstalled(false)
-                }
-            }
-        }
     }
 
     override fun onResume() {
@@ -87,15 +64,6 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * the fragment
      */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {}
-
-    /**
-     * Callback occurs when an app is uninstalled
-     * @param result true when app is successfully uninstalled
-     *               else false for any other result be it cancelled
-     *               or failed
-     */
-    open fun onAppUninstalled(@NonNull result: Boolean, data: Intent?) {}
-    open fun onAppUninstalled(@NonNull result: Boolean) {}
 
     /**
      * clears the [setExitTransition] for the current fragment in support
@@ -178,5 +146,16 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             sharedElementEnterTransition = DetailsTransition()
             sharedElementReturnTransition = DetailsTransition()
         }
+    }
+
+    /**
+     * Return the {@link Application} this fragment is currently associated with.
+     */
+    protected fun requireApplication(): Application {
+        return requireActivity().application
+    }
+
+    protected fun getInteger(resId: Int): Int {
+        return resources.getInteger(resId)
     }
 }

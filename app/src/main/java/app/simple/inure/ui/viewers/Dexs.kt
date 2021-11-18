@@ -11,7 +11,7 @@ import app.simple.inure.adapters.details.AdapterDexData
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.viewmodels.factory.PackageInfoFactory
+import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.DexDataViewModel
 
 class Dexs : ScopedFragment() {

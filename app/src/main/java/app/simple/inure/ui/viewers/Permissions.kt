@@ -18,12 +18,12 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.details.PermissionStatusDialog
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.model.PermissionInfo
 import app.simple.inure.popups.viewers.PopupPermissions
 import app.simple.inure.preferences.PermissionPreferences
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.PermissionsViewModel
 
 class Permissions : ScopedFragment() {

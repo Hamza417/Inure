@@ -1,4 +1,4 @@
-package app.simple.inure.viewmodels.factory
+package app.simple.inure.factories.actions
 
 import android.app.Application
 import android.content.pm.PackageInfo

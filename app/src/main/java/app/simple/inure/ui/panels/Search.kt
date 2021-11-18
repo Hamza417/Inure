@@ -1,6 +1,5 @@
 package app.simple.inure.ui.panels
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
@@ -128,12 +127,6 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                     AppInfo.newInstance(packageInfo, icon.transitionName),
                                     icon, "app_info_by_search")
-    }
-
-    override fun onAppUninstalled(result: Boolean, data: Intent?) {
-        if (result) {
-            appsAdapterSmall.notifyItemRemoved(data!!.getIntExtra("position", -1))
-        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

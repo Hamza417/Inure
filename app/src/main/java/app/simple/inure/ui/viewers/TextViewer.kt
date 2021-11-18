@@ -21,9 +21,9 @@ import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.exceptions.StringTooLargeException
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.panels.TextDataFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.viewmodels.factory.TextDataFactory
 import app.simple.inure.viewmodels.viewers.TextViewerData
 import kotlinx.coroutines.*
 import java.io.IOException

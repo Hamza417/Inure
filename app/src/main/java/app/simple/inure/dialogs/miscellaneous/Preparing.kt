@@ -13,9 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.dialogs.FilePreparingViewModel
-import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import java.net.URLConnection
 
 class Preparing : ScopedBottomSheetFragment() {

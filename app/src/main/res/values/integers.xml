@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="animation_duration">500</integer>
-    <integer name="home_navigation_span_count">3</integer>
+    <integer name="span_count">3</integer>
 </resources>

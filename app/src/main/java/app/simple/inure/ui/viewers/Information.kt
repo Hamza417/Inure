@@ -12,8 +12,8 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.AppInformationViewModel
 
 class Information : ScopedFragment() {

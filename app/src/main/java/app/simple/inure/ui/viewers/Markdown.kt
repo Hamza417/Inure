@@ -20,8 +20,8 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.panels.TextDataFactory
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.viewmodels.factory.TextDataFactory
 import app.simple.inure.viewmodels.viewers.TextViewerData
 import com.mittsu.markedview.MarkedView
 import kotlinx.coroutines.*

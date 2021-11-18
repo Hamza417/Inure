@@ -1,5 +1,6 @@
 package app.simple.inure.extension.fragments
 
+import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
@@ -66,4 +67,11 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
      * the fragment
      */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {}
+
+    /**
+     * Return the {@link Application} this fragment is currently associated with.
+     */
+    protected fun requireApplication(): Application {
+        return requireActivity().application
+    }
 }

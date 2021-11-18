@@ -13,8 +13,8 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.subpanels.ActivityInfoFactory
 import app.simple.inure.model.ActivityInfoModel
-import app.simple.inure.viewmodels.subfactory.ActivityInfoFactory
 import app.simple.inure.viewmodels.subviewers.ActivityInfoViewModel
 
 class ActivityInfo : ScopedFragment() {

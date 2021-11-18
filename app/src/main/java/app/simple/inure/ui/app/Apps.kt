@@ -1,6 +1,5 @@
 package app.simple.inure.ui.app
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
@@ -106,12 +105,6 @@ class Apps : ScopedFragment() {
         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                     AppInfo.newInstance(packageInfo, icon.transitionName),
                                     icon, "app_info")
-    }
-
-    override fun onAppUninstalled(result: Boolean, data: Intent?) {
-        if (result) {
-            appsAdapter.notifyItemRemoved(data!!.getIntExtra("position", -1))
-        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

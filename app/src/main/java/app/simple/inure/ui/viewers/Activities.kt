@@ -21,6 +21,7 @@ import app.simple.inure.dialogs.details.ComponentStateDialog
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.IntentAction
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.model.ActivityInfoModel
 import app.simple.inure.popups.viewers.PopupActivitiesMenu
 import app.simple.inure.preferences.ActivitiesPreferences
@@ -29,7 +30,6 @@ import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ActivitiesViewModel
 
 class Activities : ScopedFragment() {

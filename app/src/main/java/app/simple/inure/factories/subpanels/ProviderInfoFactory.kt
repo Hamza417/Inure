@@ -1,4 +1,4 @@
-package app.simple.inure.viewmodels.subfactory
+package app.simple.inure.factories.subpanels
 
 import android.app.Application
 import android.content.pm.PackageInfo

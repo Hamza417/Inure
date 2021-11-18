@@ -17,6 +17,7 @@ import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.popups.viewers.PopupGraphicsFilter
 import app.simple.inure.popups.viewers.PopupGraphicsMenu
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -25,7 +26,6 @@ import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.factory.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.GraphicsViewModel
 
 class Graphics : ScopedFragment() {

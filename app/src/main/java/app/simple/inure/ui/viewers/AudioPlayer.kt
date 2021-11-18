@@ -20,12 +20,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.factories.dialog.MediaPlayerViewModelFactory
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.viewmodels.dialogs.MediaPlayerViewModel
-import app.simple.inure.viewmodels.factory.MediaPlayerViewModelFactory
 import com.google.android.material.card.MaterialCardView
 
 class AudioPlayer : ScopedBottomSheetFragment() {
