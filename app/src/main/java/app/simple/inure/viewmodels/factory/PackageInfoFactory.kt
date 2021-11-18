@@ -11,7 +11,7 @@ import app.simple.inure.viewmodels.viewers.*
 class PackageInfoFactory(private val application: Application, private val packageInfo: PackageInfo)
     : ViewModelProvider.AndroidViewModelFactory(application) {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST") // Cast is checked
         when {
             modelClass.isAssignableFrom(FilePreparingViewModel::class.java) -> {

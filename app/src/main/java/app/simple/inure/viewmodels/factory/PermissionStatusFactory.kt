@@ -9,7 +9,7 @@ import app.simple.inure.viewmodels.dialogs.PermissionStatusViewModel
 
 class PermissionStatusFactory internal constructor(private val application: Application, private val packageInfo: PackageInfo, private val permissionInfo: PermissionInfo, val mode: String?) : ViewModelProvider.AndroidViewModelFactory(application) {
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when {
             modelClass.isAssignableFrom(PermissionStatusViewModel::class.java) -> {
                 return PermissionStatusViewModel(application, packageInfo, permissionInfo, mode) as T

@@ -9,7 +9,7 @@ import app.simple.inure.viewmodels.dialogs.ComponentStateViewModel
 class ComponentStateFactory(private val application: Application, private val packageInfo: PackageInfo, private val packageId: String, val mode: Boolean) : ViewModelProvider.AndroidViewModelFactory(application) {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when {
             modelClass.isAssignableFrom(ComponentStateViewModel::class.java) -> {
                 return ComponentStateViewModel(application, packageInfo, packageId, mode) as T

@@ -13,6 +13,7 @@ import androidx.renderscript.ScriptIntrinsicBlur
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.util.Util
+import com.google.android.renderscript.Toolkit
 import java.nio.ByteBuffer
 import java.security.MessageDigest
 import java.util.*
@@ -189,6 +190,7 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
         val input = Allocation.createFromBitmap(rs, bitmap, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT)
         val output = Allocation.createTyped(rs, input.type)
         val script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
+        Toolkit.blur(bitmap, radius.toInt())
         script.setRadius(radius)
         script.setInput(input)
         script.forEach(output)

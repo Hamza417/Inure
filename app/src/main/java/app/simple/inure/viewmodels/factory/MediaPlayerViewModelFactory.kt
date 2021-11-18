@@ -10,7 +10,7 @@ class MediaPlayerViewModelFactory(private val application: Application, private 
     ViewModelProvider.AndroidViewModelFactory(application) {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when {
             modelClass.isAssignableFrom(MediaPlayerViewModel::class.java) -> {
                 return MediaPlayerViewModel(application, uri) as T

@@ -7,10 +7,11 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.model.ProviderInfoModel
 import app.simple.inure.viewmodels.subviewers.ProviderInfoViewModel
 
-class ProviderInfoFactory(private val application: Application, private val providerInfoModel: ProviderInfoModel, val packageInfo: PackageInfo) : ViewModelProvider.AndroidViewModelFactory(application) {
+class ProviderInfoFactory(private val application: Application, private val providerInfoModel: ProviderInfoModel, val packageInfo: PackageInfo)
+    : ViewModelProvider.AndroidViewModelFactory(application) {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when {
             modelClass.isAssignableFrom(ProviderInfoViewModel::class.java) -> {
                 return ProviderInfoViewModel(application, providerInfoModel) as T

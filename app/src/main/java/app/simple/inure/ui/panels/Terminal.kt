@@ -74,8 +74,6 @@ class Terminal : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        packageInfo.applicationInfo.sharedLibraryFiles
-
         requireActivity().bindService(
             Intent(requireContext(), TerminalService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
 

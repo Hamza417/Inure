@@ -10,7 +10,7 @@ class CodeViewModelFactory(private val application: Application, private val pac
     : ViewModelProvider.AndroidViewModelFactory(application) {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when {
             modelClass.isAssignableFrom(JSONViewerViewModel::class.java) -> {
                 return JSONViewerViewModel(application, accentColor, packageInfo, path) as T

@@ -21,8 +21,6 @@ class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Ad
         with(holder) {
             name.text = sensors[position].name
 
-            val stringBuilder = StringBuilder()
-
             status.text = with(StringBuilder()) {
                 append(sensors[position].minDelay)
                 append(" | ")

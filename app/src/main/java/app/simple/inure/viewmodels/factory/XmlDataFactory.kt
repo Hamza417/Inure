@@ -7,15 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.viewmodels.viewers.XMLViewerData
 
-class XmlDataFactory(
-        val packageInfo: PackageInfo,
-        private val isManifest: Boolean,
-        @Nullable private val pathToXml: String,
-        val application: Application,
-        private val accentColor: Int,
-) : ViewModelProvider.AndroidViewModelFactory(application) {
+class XmlDataFactory(val packageInfo: PackageInfo, private val isManifest: Boolean, @Nullable private val pathToXml: String, val application: Application, private val accentColor: Int)
+    : ViewModelProvider.AndroidViewModelFactory(application) {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST") // Cast is checked
         when {
             modelClass.isAssignableFrom(XMLViewerData::class.java) -> {

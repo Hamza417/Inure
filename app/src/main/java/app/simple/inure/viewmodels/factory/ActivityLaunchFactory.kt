@@ -8,7 +8,7 @@ import app.simple.inure.viewmodels.dialogs.ActivityLauncherViewModel
 
 class ActivityLaunchFactory(private val application: Application, private val packageInfo: PackageInfo, private val packageId: String) : ViewModelProvider.AndroidViewModelFactory(application) {
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when {
             modelClass.isAssignableFrom(ActivityLauncherViewModel::class.java) -> {
                 return ActivityLauncherViewModel(application, packageInfo, packageId) as T

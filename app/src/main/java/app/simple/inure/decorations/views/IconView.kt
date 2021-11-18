@@ -15,12 +15,8 @@ import androidx.annotation.StyleRes
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import app.simple.inure.R
 
-class IconView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet,
-        @AttrRes defStyleAttr:
-        Int = R.attr.iconViewStyle,
-        @StyleRes defStyleRes: Int = R.style.Widget_ShadowPlay_IconView,
-) : View(context, attrs, defStyleAttr, defStyleRes) {
+class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, @AttrRes defStyleAttr: Int = R.attr.iconViewStyle, @StyleRes defStyleRes: Int = R.style.Widget_ShadowPlay_IconView)
+    : View(context, attrs, defStyleAttr, defStyleRes) {
 
     var icon: Drawable? = null
         set(value) {
@@ -156,6 +152,7 @@ class IconView @JvmOverloads constructor(
         }
 
         private var blur: ScriptIntrinsicBlur? = null
+
         fun getBlur(context: Context): ScriptIntrinsicBlur {
             if (blur == null) {
                 val rs = getRS(context)
