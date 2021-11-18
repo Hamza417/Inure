@@ -36,7 +36,6 @@ import app.simple.inure.ui.viewers.MostUsed
 import app.simple.inure.ui.viewers.RecentlyInstalled
 import app.simple.inure.ui.viewers.RecentlyUpdated
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.ViewUtils
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
 class Home : ScopedFragment() {
@@ -79,8 +78,6 @@ class Home : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        ViewUtils.addShadow(header)
 
         homeViewModel.getRecentApps().observe(viewLifecycleOwner, {
             postponeEnterTransition()
@@ -151,7 +148,7 @@ class Home : ScopedFragment() {
         homeViewModel.getMenuItems().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
-            navigationRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
+            navigationRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
 
             val adapter = AdapterHomeMenu(it)
 

@@ -4,8 +4,8 @@
     android:shareInterpolator="true">
 
     <scale
-        android:fromXScale="0.8"
-        android:fromYScale="0.8"
+        android:fromXScale="0.6"
+        android:fromYScale="0.6"
         android:pivotX="50%"
         android:pivotY="50%"
         android:toXScale="1"

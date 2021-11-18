@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/popup_padding"
     android:background="@color/mainBackground"
-    android:elevation="10dp"
     android:id="@+id/home_header"
     android:clipChildren="false"
+    android:translationZ="1dp"
     android:clipToPadding="false"
     android:orientation="horizontal">
 
