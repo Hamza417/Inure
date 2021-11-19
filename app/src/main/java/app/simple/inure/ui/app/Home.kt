@@ -25,7 +25,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
-import app.simple.inure.popups.app.PopupAnalytics
+import app.simple.inure.popups.app.PopupHome
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.ui.panels.DeviceInfo
 import app.simple.inure.ui.panels.Search
@@ -206,13 +206,17 @@ class Home : ScopedFragment() {
         }
 
         options.setOnClickListener {
-            val p = PopupAnalytics(it)
-
-            p.setOnPopupMenuCallback(object : PopupMenuCallback {
+            PopupHome(it).setOnPopupMenuCallback(object : PopupMenuCallback {
                 override fun onMenuItemClicked(source: String) {
                     when (source) {
                         getString(R.string.refresh) -> {
                             homeViewModel.refresh()
+                        }
+                        getString(R.string.preferences) -> {
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              MainPreferencesScreen.newInstance(),
+                                                              icon,
+                                                              "preferences_screen")
                         }
                     }
                 }
