@@ -27,7 +27,7 @@ open class BasePopupWindow : PopupWindow() {
     fun init(contentView: View, view: View) {
         setContentView(contentView)
         init()
-        showAsDropDown(view, (width / 1.2F * -1).toInt(), height / 8, Gravity.NO_GRAVITY)
+        showAsDropDown(view, (width / 1.2F * -1).toInt(), -height / 8, Gravity.NO_GRAVITY)
     }
 
     fun init(contentView: View, view: View, gravity: Int) {
@@ -36,8 +36,7 @@ open class BasePopupWindow : PopupWindow() {
         showAsDropDown(view, (width / 2F * -1).toInt(), 0, gravity)
     }
 
-
-    private fun init() {
+    fun init() {
         contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         contentView.clipToOutline = false
         width = contentView.measuredWidth
@@ -53,7 +52,7 @@ open class BasePopupWindow : PopupWindow() {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             setIsClippedToScreen(false)
-            setIsLaidOutInScreen(true)
+            setIsLaidOutInScreen(false)
         }
     }
 

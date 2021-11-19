@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Surface;
 import android.view.Window;
@@ -116,5 +117,11 @@ public class StatusBarHeight {
         }
         
         return rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270;
+    }
+    
+    public static int getDisplayHeight(Context context) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
     }
 }

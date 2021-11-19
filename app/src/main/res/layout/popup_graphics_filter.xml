@@ -12,7 +12,7 @@
     <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
         android:id="@+id/graphics_filter_recycler_view"
         android:layout_width="200dp"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:fadingEdge="vertical"
         android:fadingEdgeLength="20dp"
         android:requiresFadingEdge="vertical"
