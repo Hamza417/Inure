@@ -44,4 +44,5 @@
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
+
 </merge>
