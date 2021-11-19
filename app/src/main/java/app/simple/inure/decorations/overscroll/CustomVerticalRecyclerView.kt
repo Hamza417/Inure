@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.EdgeEffect
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
@@ -154,10 +153,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
      */
     fun setupFastScroller() {
         FastScrollerBuilder(this)
-                .useMd2Style()
-                .setTrackDrawable(ResourcesCompat.getDrawable(resources, R.drawable.afs_md2_track, context.theme)!!)
-                .setThumbDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_thumb, context.theme)!!)
-                .build()
+            .build()
     }
 
     private inline fun <reified T : VerticalListViewHolder> RecyclerView.forEachVisibleHolder(action: (T) -> Unit) {

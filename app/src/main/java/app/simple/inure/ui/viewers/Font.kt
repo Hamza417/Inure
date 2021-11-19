@@ -42,7 +42,7 @@ class Font : ScopedFragment() {
 
         fontViewModel = ViewModelProvider(this, fontViewModelFactory).get(FontViewModel::class.java)
 
-        FastScrollerBuilder(scrollView).useMd2Style().build()
+        FastScrollerBuilder(scrollView).setupAesthetics().build()
 
         return view
     }

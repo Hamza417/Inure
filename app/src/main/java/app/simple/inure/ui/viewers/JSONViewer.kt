@@ -81,7 +81,7 @@ class JSONViewer : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        FastScrollerBuilder(scrollView).useMd2Style().build()
+        FastScrollerBuilder(scrollView).setupAesthetics().build()
 
         return view
     }

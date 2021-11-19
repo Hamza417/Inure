@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewGroupOverlay;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -270,10 +271,17 @@ public class FastScroller {
                     }
                     setDragging(true);
                 }
-                
+    
+                mThumbView.animate()
+                        .scaleX(0.75F)
+                        .scaleY(0.75F)
+                        .setInterpolator(new DecelerateInterpolator(1.5F))
+                        .setDuration(mThumbView.getContext().getResources().getInteger(R.integer.animation_duration))
+                        .start();
+    
                 break;
             case MotionEvent.ACTION_MOVE:
-                
+        
                 if (!mDragging && isInViewTouchTarget(mTrackView, mDownX, mDownY)
                         && Math.abs(eventY - mDownY) > mTouchSlop) {
                     if (isInViewTouchTarget(mThumbView, mDownX, mDownY)) {
@@ -285,10 +293,10 @@ public class FastScroller {
                         mDragStartThumbOffset = (int) (eventY - padding.top - mThumbHeight / 2f);
                         scrollToThumbOffset(mDragStartThumbOffset);
                     }
-                    
+            
                     setDragging(true);
                 }
-                
+        
                 if (mDragging) {
                     int thumbOffset = mDragStartThumbOffset + (int) (eventY - mDragStartY);
                     scrollToThumbOffset(thumbOffset);
@@ -296,6 +304,14 @@ public class FastScroller {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+        
+                mThumbView.animate()
+                        .scaleX(1.0F)
+                        .scaleY(1.0F)
+                        .setInterpolator(new DecelerateInterpolator(1.5F))
+                        .setDuration(mThumbView.getContext().getResources().getInteger(R.integer.animation_duration))
+                        .start();
+        
                 setDragging(false);
                 break;
         }

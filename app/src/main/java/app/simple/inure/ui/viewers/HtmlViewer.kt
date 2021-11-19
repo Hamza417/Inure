@@ -77,7 +77,7 @@ class HtmlViewer : ScopedFragment() {
 
         path.text = requireArguments().getString("path")!!
 
-        FastScrollerBuilder(scrollView).useMd2Style().build()
+        FastScrollerBuilder(scrollView).setupAesthetics().build()
 
         return view
     }

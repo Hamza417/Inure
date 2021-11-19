@@ -16,7 +16,7 @@ import app.simple.inure.util.ViewUtils;
 
 public class PopupStyles {
     
-    public static Consumer <TextView> MD2 = popupView -> {
+    public static Consumer <TextView> Inure = popupView -> {
         Resources resources = popupView.getResources();
         popupView.setMinimumWidth(resources.getDimensionPixelSize(R.dimen.fs_md2_popup_min_width));
         popupView.setMinimumHeight(resources.getDimensionPixelSize(R.dimen.fs_md2_popup_min_height));

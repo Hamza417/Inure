@@ -55,7 +55,7 @@ public class FastScrollerBuilder {
     
     public FastScrollerBuilder(@NonNull ViewGroup view) {
         mView = view;
-        useMd2Style();
+        setupAesthetics();
     }
     
     @NonNull
@@ -112,11 +112,11 @@ public class FastScrollerBuilder {
     }
     
     @NonNull
-    public FastScrollerBuilder useMd2Style() {
+    public FastScrollerBuilder setupAesthetics() {
         Context context = mView.getContext();
-        mTrackDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.afs_md2_track, context.getTheme());
-        mThumbDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_thumb, context.getTheme());
-        mPopupStyle = PopupStyles.MD2;
+        mTrackDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.fast_scroller_track, context.getTheme());
+        mThumbDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.fast_scroller_thumb, context.getTheme());
+        mPopupStyle = PopupStyles.Inure;
         return this;
     }
     

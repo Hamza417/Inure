@@ -23,6 +23,6 @@ public class PaddingAwareNestedScrollView extends FastScrollNestedScrollView {
         setPadding(getPaddingLeft(),
                 StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
                 getPaddingRight(),
-                StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingBottom());
+                getPaddingBottom());
     }
 }

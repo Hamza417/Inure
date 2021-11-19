@@ -77,7 +77,7 @@ class XMLViewerTextView : ScopedFragment() {
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerData::class.java)
 
-        FastScrollerBuilder(scrollView).useMd2Style().build()
+        FastScrollerBuilder(scrollView).setupAesthetics().build()
 
         return view
     }

@@ -52,57 +52,55 @@ class FilePreparingViewModel(application: Application, private val packageInfo: 
     }
 
     private fun prepareApplicationFiles() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                runCatching {
-                    val file: File?
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                val file: File?
 
-                    File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/").mkdir()
+                File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/").mkdir()
 
-                    status.postValue(getApplication<Application>().getString(R.string.cache_dir))
+                status.postValue(getApplication<Application>().getString(R.string.cache_dir))
 
-                    if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
+                if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
 
-                        status.postValue(getApplication<Application>().getString(R.string.split_apk_detected))
+                    status.postValue(getApplication<Application>().getString(R.string.split_apk_detected))
 
-                        file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + packageInfo.applicationInfo.name + ".zip")
+                    file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + packageInfo.applicationInfo.name + ".zip")
 
-                        status.postValue(getApplication<Application>().getString(R.string.creating_split_package))
+                    status.postValue(getApplication<Application>().getString(R.string.creating_split_package))
 
-                        val list = arrayOfNulls<String>(packageInfo.applicationInfo.splitSourceDirs.size + 1)
-                        var length = File(packageInfo.applicationInfo.sourceDir).length()
+                    val list = arrayOfNulls<String>(packageInfo.applicationInfo.splitSourceDirs.size + 1)
+                    var length = File(packageInfo.applicationInfo.sourceDir).length()
 
-                        for (i in packageInfo.applicationInfo.splitSourceDirs.indices) {
-                            list[i] = packageInfo.applicationInfo.splitSourceDirs[i]
-                            length += File(packageInfo.applicationInfo.splitSourceDirs[i]).length()
-                        }
-
-                        if (!file.exists() || file.length() < length) {
-                            list[list.size - 1] = packageInfo.applicationInfo.sourceDir
-                            createZip(list.requireNoNulls(), file, length)
-                        } else {
-                            this@FilePreparingViewModel.file.postValue(file)
-                        }
-
-                    } else {
-                        status.postValue(getApplication<Application>().getString(R.string.preparing_apk_file))
-                        file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + packageInfo.applicationInfo.name + ".apk")
-
-                        if (!file.exists() || file.length() < File(packageInfo.applicationInfo.sourceDir).length()) {
-                            packageInfo.applicationInfo.sourceDir.copyTo(file)
-                        } else {
-                            this@FilePreparingViewModel.file.postValue(file)
-                        }
+                    for (i in packageInfo.applicationInfo.splitSourceDirs.indices) {
+                        list[i] = packageInfo.applicationInfo.splitSourceDirs[i]
+                        length += File(packageInfo.applicationInfo.splitSourceDirs[i]).length()
                     }
 
-                    status.postValue(getApplication<Application>().getString(R.string.done))
+                    if (!file.exists() || file.length() < length) {
+                        list[list.size - 1] = packageInfo.applicationInfo.sourceDir
+                        createZip(list.requireNoNulls(), file, length)
+                    } else {
+                        this@FilePreparingViewModel.file.postValue(file)
+                    }
 
-                    this@FilePreparingViewModel.file.postValue(file)
+                } else {
+                    status.postValue(getApplication<Application>().getString(R.string.preparing_apk_file))
+                    file = File(getApplication<Application>().getExternalFilesDir(null)!!.path + "/send_cache/" + packageInfo.applicationInfo.name + ".apk")
 
-                }.getOrElse { e ->
-                    e.printStackTrace()
-                    this@FilePreparingViewModel.file.postValue(null)
+                    if (!file.exists() || file.length() < File(packageInfo.applicationInfo.sourceDir).length()) {
+                        packageInfo.applicationInfo.sourceDir.copyTo(file)
+                    } else {
+                        this@FilePreparingViewModel.file.postValue(file)
+                    }
                 }
+
+                status.postValue(getApplication<Application>().getString(R.string.done))
+
+                this@FilePreparingViewModel.file.postValue(file)
+
+            }.getOrElse { e ->
+                e.printStackTrace()
+                this@FilePreparingViewModel.file.postValue(null)
             }
         }
     }
@@ -130,16 +128,17 @@ class FilePreparingViewModel(application: Application, private val packageInfo: 
                     progress.postValue(total * 100 / length)
                     zipOutputStream!!.write(data, 0, count)
                 }
+
+                fileInputStream?.close()
+                bufferedInputStream?.close()
             }
 
+            fileInputStream?.close()
             zipOutputStream?.flush()
             bufferedOutputStream?.flush()
             fileOutputStream?.flush()
             zipOutputStream?.close()
             bufferedOutputStream?.close()
-            fileOutputStream?.close()
-            bufferedInputStream?.close()
-            fileInputStream?.close()
 
         }.getOrElse {
 

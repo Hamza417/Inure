@@ -83,7 +83,7 @@ class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolea
                     packageInfo.applicationInfo.extractManifest()!!
                 } else {
                     packageInfo.applicationInfo.getTransBinaryXml(pathToXml)
-                }
+                }.plus("\n\n\n")
 
                 if (code.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
                     throw StringTooLargeException("String size ${code.length} is too big to render without freezing the app")
@@ -119,7 +119,7 @@ class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolea
                     packageInfo.applicationInfo.extractManifest()!!
                 } else {
                     packageInfo.applicationInfo.getTransBinaryXml(pathToXml)
-                }
+                }.plus("\n\n\n")
 
                 val data = String.format(
                     "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3" +
