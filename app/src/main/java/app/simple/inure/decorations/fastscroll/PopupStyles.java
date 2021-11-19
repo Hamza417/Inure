@@ -25,7 +25,7 @@ public class PopupStyles {
         layoutParams.setMarginEnd(resources.getDimensionPixelOffset(R.dimen.fs_md2_popup_margin_end));
         popupView.setLayoutParams(layoutParams);
         Context context = popupView.getContext();
-        popupView.setBackground(new Md2PopupBackground(context));
+        popupView.setBackground(new InurePopupBackground(context));
         popupView.setElevation(resources.getDimensionPixelOffset(R.dimen.app_views_elevation));
         ViewUtils.INSTANCE.addShadow(popupView);
         popupView.setEllipsize(TextUtils.TruncateAt.MIDDLE);

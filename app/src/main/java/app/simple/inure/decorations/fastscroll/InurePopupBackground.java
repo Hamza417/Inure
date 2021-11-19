@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 import app.simple.inure.R;
 
-class Md2PopupBackground extends Drawable {
+class InurePopupBackground extends Drawable {
     
     @NonNull
     private final Paint mPaint;
@@ -32,7 +32,7 @@ class Md2PopupBackground extends Drawable {
     @NonNull
     private final Matrix mTempMatrix = new Matrix();
     
-    public Md2PopupBackground(@NonNull Context context) {
+    public InurePopupBackground(@NonNull Context context) {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(Utils.getColorFromAttrRes(R.attr.colorAppAccent, context));
@@ -42,10 +42,14 @@ class Md2PopupBackground extends Drawable {
         mPaddingEnd = resources.getDimensionPixelOffset(R.dimen.afs_md2_popup_padding_end);
     }
     
-    private static void pathArcTo(@NonNull Path path, float centerX, float centerY, float radius,
-            float startAngle, float sweepAngle) {
-        path.arcTo(centerX - radius, centerY - radius, centerX + radius, centerY + radius,
-                startAngle, sweepAngle, false);
+    private static void pathArcTo(@NonNull Path path, float centerX, float centerY, float radius, float startAngle, float sweepAngle) {
+        path.arcTo(centerX - radius,
+                centerY - radius,
+                centerX + radius,
+                centerY + radius,
+                startAngle,
+                sweepAngle,
+                false);
     }
     
     @Override
@@ -95,6 +99,7 @@ class Md2PopupBackground extends Drawable {
         float height = bounds.height();
         float r = height / 2;
         float sqrt2 = (float) Math.sqrt(2);
+    
         // Ensure we are convex.
         width = Math.max(r + sqrt2 * r, width);
         pathArcTo(mPath, r, r, r, 90, 180);
@@ -105,11 +110,10 @@ class Md2PopupBackground extends Drawable {
         pathArcTo(mPath, o2X, r, r2, -45, 90);
         pathArcTo(mPath, o1X, r, r, 45f, 45f);
         mPath.close();
-        
+    
         if (needMirroring()) {
             mTempMatrix.setScale(-1, 1, width / 2, 0);
-        }
-        else {
+        } else {
             mTempMatrix.reset();
         }
         mTempMatrix.postTranslate(bounds.left, bounds.top);
@@ -120,8 +124,7 @@ class Md2PopupBackground extends Drawable {
     public boolean getPadding(@NonNull Rect padding) {
         if (needMirroring()) {
             padding.set(mPaddingEnd, 0, mPaddingStart, 0);
-        }
-        else {
+        } else {
             padding.set(mPaddingStart, 0, mPaddingEnd, 0);
         }
         return true;
