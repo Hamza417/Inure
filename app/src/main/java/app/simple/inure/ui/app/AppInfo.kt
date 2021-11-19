@@ -22,13 +22,9 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.action.ClearData
-import app.simple.inure.dialogs.action.ForceStop
-import app.simple.inure.dialogs.action.State
-import app.simple.inure.dialogs.action.Uninstaller
+import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.Preparing
-import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -41,7 +37,6 @@ import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.InfoPanelMenuData
-
 
 class AppInfo : ScopedFragment() {
 
@@ -83,8 +78,7 @@ class AppInfo : ScopedFragment() {
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
-        componentsViewModel =
-            ViewModelProvider(this, packageInfoFactory).get(InfoPanelMenuData::class.java)
+        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(InfoPanelMenuData::class.java)
 
         metaMenuState()
         actionMenuState()
@@ -108,8 +102,7 @@ class AppInfo : ScopedFragment() {
 
             val adapterMenu = AdapterMenu(it)
             adapterMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-            meta.layoutManager =
-                GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+            meta.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
             meta.adapter = adapterMenu
             meta.scheduleLayoutAnimation()
 
@@ -122,69 +115,43 @@ class AppInfo : ScopedFragment() {
                     when (source) {
                         getString(R.string.manifest) -> {
                             if (ConfigurationPreferences.isXmlViewerTextView()) {
-                                openFragment(requireActivity().supportFragmentManager,
-                                             XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"),
-                                             icon, "manifest")
+                                openFragment(requireActivity().supportFragmentManager, XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             } else {
-                                openFragment(requireActivity().supportFragmentManager,
-                                             XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"),
-                                             icon, "manifest")
+                                openFragment(requireActivity().supportFragmentManager, XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             }
                         }
                         getString(R.string.services) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Services.newInstance(packageInfo),
-                                         icon, "services")
+                            openFragment(requireActivity().supportFragmentManager, Services.newInstance(packageInfo), icon, "services")
                         }
                         getString(R.string.activities) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Activities.newInstance(packageInfo),
-                                         icon, "activities")
+                            openFragment(requireActivity().supportFragmentManager, Activities.newInstance(packageInfo), icon, "activities")
                         }
                         getString(R.string.providers) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Providers.newInstance(packageInfo),
-                                         icon, "providers")
+                            openFragment(requireActivity().supportFragmentManager, Providers.newInstance(packageInfo), icon, "providers")
                         }
                         getString(R.string.permissions) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Permissions.newInstance(packageInfo),
-                                         icon, "permissions")
+                            openFragment(requireActivity().supportFragmentManager, Permissions.newInstance(packageInfo), icon, "permissions")
                         }
                         getString(R.string.certificate) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Certificate.newInstance(packageInfo),
-                                         icon, "certificate")
+                            openFragment(requireActivity().supportFragmentManager, Certificate.newInstance(packageInfo), icon, "certificate")
                         }
                         getString(R.string.receivers) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Receivers.newInstance(packageInfo),
-                                         icon, "broadcasts")
+                            openFragment(requireActivity().supportFragmentManager, Receivers.newInstance(packageInfo), icon, "broadcasts")
                         }
                         getString(R.string.resources) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Resources.newInstance(packageInfo),
-                                         icon, "resources")
+                            openFragment(requireActivity().supportFragmentManager, Resources.newInstance(packageInfo), icon, "resources")
                         }
                         getString(R.string.uses_feature) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Features.newInstance(packageInfo),
-                                         icon, "uses_feature")
+                            openFragment(requireActivity().supportFragmentManager, Features.newInstance(packageInfo), icon, "uses_feature")
                         }
                         getString(R.string.graphics) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Graphics.newInstance(packageInfo),
-                                         icon, "graphics")
+                            openFragment(requireActivity().supportFragmentManager, Graphics.newInstance(packageInfo), icon, "graphics")
                         }
                         getString(R.string.extras) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Extras.newInstance(packageInfo),
-                                         icon, "extras")
+                            openFragment(requireActivity().supportFragmentManager, Extras.newInstance(packageInfo), icon, "extras")
                         }
                         getString(R.string.dex_classes) -> {
-                            openFragment(requireActivity().supportFragmentManager,
-                                         Dexs.newInstance(packageInfo),
-                                         icon, "dexs")
+                            openFragment(requireActivity().supportFragmentManager, Dexs.newInstance(packageInfo), icon, "dexs")
                         }
                     }
                 }
@@ -196,8 +163,7 @@ class AppInfo : ScopedFragment() {
             if (AppInfoPanelPreferences.isActionMenuFolded()) return@observe
 
             val adapterAppInfoMenu = AdapterMenu(it)
-            actions.layoutManager =
-                GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
+            actions.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
             actions.adapter = adapterAppInfoMenu
             actions.scheduleLayoutAnimation()
 
@@ -229,38 +195,26 @@ class AppInfo : ScopedFragment() {
                             }
                         }
                         getString(R.string.send) -> {
-                            Preparing.newInstance(packageInfo)
-                                .show(childFragmentManager, "prepare_send_files")
+                            Preparing.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")
                         }
                         getString(R.string.clear_data) -> {
                             PopupSure(icon).onSure = {
-                                ClearData.newInstance(packageInfo)
-                                    .show(parentFragmentManager, "shell_executor")
+                                ClearData.newInstance(packageInfo).show(parentFragmentManager, "shell_executor")
                             }
                         }
                         getString(R.string.clear_cache) -> {
                             PopupSure(icon).onSure = {
-                                ShellExecutorDialog.newInstance(
-                                        "rm -r -v /data/data/${packageInfo.packageName}/cache " +
-                                                "& rm -r -v /data/data/${packageInfo.packageName}/app_cache " +
-                                                "& rm -r -v /data/data/${packageInfo.packageName}/app_texture " +
-                                                "& rm -r -v /data/data/${packageInfo.packageName}/app_webview " +
-                                                "& rm -r -v /data/data/${packageInfo.packageName}/code_cache",
-                                )
-                                    .show(parentFragmentManager, "shell_executor")
+                                ClearCache.newInstance(packageInfo).show(parentFragmentManager, "clear_cache")
                             }
                         }
                         getString(R.string.force_stop) -> {
                             PopupSure(icon).onSure = {
-                                ForceStop.newInstance(packageInfo)
-                                    .show(childFragmentManager, "force_stop")
+                                ForceStop.newInstance(packageInfo).show(childFragmentManager, "force_stop")
                             }
                         }
-                        getString(R.string.disable),
-                        getString(R.string.enable) -> {
+                        getString(R.string.disable), getString(R.string.enable) -> {
                             PopupSure(icon).onSure = {
-                                val f =
-                                    State.newInstance(requireContext().packageManager.getPackageInfo(packageInfo.packageName, 0))
+                                val f = State.newInstance(requireContext().packageManager.getPackageInfo(packageInfo.packageName, 0))
 
                                 f.onSuccess = {
                                     componentsViewModel.loadActionOptions()
@@ -284,8 +238,7 @@ class AppInfo : ScopedFragment() {
             if (AppInfoPanelPreferences.isMiscMenuFolded()) return@observe
 
             val adapterAppInfoMenu = AdapterMenu(it)
-            miscellaneous.layoutManager =
-                GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
+            miscellaneous.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
             miscellaneous.adapter = adapterAppInfoMenu
             miscellaneous.scheduleLayoutAnimation()
 
@@ -324,23 +277,17 @@ class AppInfo : ScopedFragment() {
 
         appInformation.setOnClickListener {
             clearExitTransition()
-            openFragment(requireActivity().supportFragmentManager,
-                         Information.newInstance(packageInfo),
-                         "information")
+            openFragment(requireActivity().supportFragmentManager, Information.newInstance(packageInfo), "information")
         }
 
         storage.setOnClickListener {
             clearExitTransition()
-            openFragment(requireActivity().supportFragmentManager,
-                         Storage.newInstance(packageInfo),
-                         getString(R.string.storage))
+            openFragment(requireActivity().supportFragmentManager, Storage.newInstance(packageInfo), getString(R.string.storage))
         }
 
         directories.setOnClickListener {
             clearExitTransition()
-            openFragment(requireActivity().supportFragmentManager,
-                         Directories.newInstance(packageInfo),
-                         getString(R.string.directories))
+            openFragment(requireActivity().supportFragmentManager, Directories.newInstance(packageInfo), getString(R.string.directories))
         }
 
         foldMetaDataMenu.setOnClickListener {
