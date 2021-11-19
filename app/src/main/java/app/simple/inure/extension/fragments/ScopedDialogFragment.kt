@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import app.simple.inure.R
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.ViewUtils
 
 open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -41,7 +42,7 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
         window.windowManager.defaultDisplay.getMetrics(displayMetrics)
 
         if (BehaviourPreferences.isDimmingOn()) {
-            dialog?.window?.setDimAmount(0.4f)
+            dialog?.window?.setDimAmount(ViewUtils.getDimValue(requireContext()))
         } else {
             dialog?.window?.setDimAmount(0f)
         }

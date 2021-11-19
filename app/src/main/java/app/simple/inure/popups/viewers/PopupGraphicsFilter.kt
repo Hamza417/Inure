@@ -5,8 +5,8 @@ import android.view.View
 import app.simple.inure.R
 import app.simple.inure.adapters.popups.AdapterGraphicsFilter
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.popup.BasePopupWindow
-import app.simple.inure.decorations.popup.PopupLinearLayout
+import app.simple.inure.extension.popup.BasePopupWindow
+import app.simple.inure.extension.popup.PopupLinearLayout
 
 class PopupGraphicsFilter(anchor: View) : BasePopupWindow() {
 

@@ -4,10 +4,10 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
-import app.simple.inure.decorations.popup.BasePopupWindow
-import app.simple.inure.decorations.popup.PopupLinearLayout
-import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.extension.popup.BasePopupWindow
+import app.simple.inure.extension.popup.PopupLinearLayout
+import app.simple.inure.extension.popup.PopupMenuCallback
 
 class PopupProvidersMenu(view: View, isComponentEnabled: Boolean) : BasePopupWindow() {
 

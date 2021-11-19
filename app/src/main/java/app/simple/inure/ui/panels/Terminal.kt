@@ -10,11 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.terminal.TerminalView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupTerminal
 import app.simple.inure.services.TerminalService
 import app.simple.inure.services.TerminalService.ServiceBinder

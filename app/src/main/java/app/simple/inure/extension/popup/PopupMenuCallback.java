@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.popup;
+package app.simple.inure.extension.popup;
 
 import android.content.pm.ApplicationInfo;
 

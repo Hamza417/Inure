@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import app.simple.inure.R
-import app.simple.inure.decorations.popup.BasePopupWindow
-import app.simple.inure.decorations.popup.PopupLinearLayout
+import app.simple.inure.extension.popup.BasePopupWindow
+import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 
 class PopupImageViewer(view: ViewGroup, path: String, filePath: String, xOff: Float, yOff: Float) : BasePopupWindow() {

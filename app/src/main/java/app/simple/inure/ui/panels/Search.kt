@@ -15,11 +15,11 @@ import app.simple.inure.adapters.ui.SearchAdapter
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.dialogs.app.AppsListConfiguration
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.preferences.MainPreferences

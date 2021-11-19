@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="screen_dim" type="dimen" format="float">0.4</item>
+</resources>

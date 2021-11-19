@@ -2,11 +2,13 @@ package app.simple.inure.util
 
 import android.animation.Animator
 import android.content.Context
+import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
+import app.simple.inure.R.*
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 
@@ -23,12 +25,20 @@ object ViewUtils {
             val windowManager = contentView.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val layoutParams = container.layoutParams as WindowManager.LayoutParams
             layoutParams.flags = layoutParams.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
-            layoutParams.dimAmount = 0.3f
+            layoutParams.dimAmount = getDimValue(contentView.context)
             windowManager.updateViewLayout(container, layoutParams)
         }
     }
 
-    // @RequiresApi(28)
+    /**
+     * Get screen dim value based on interface theme
+     */
+    fun getDimValue(context: Context): Float {
+        val outValue = TypedValue()
+        context.resources.getValue(dimen.screen_dim, outValue, true)
+        return outValue.float
+    }
+
     /**
      * Adds outline shadows to the view using the accent color
      * of the app
@@ -60,29 +70,29 @@ object ViewUtils {
         if (animate) {
             clearAnimation()
             this.animate()
-                    .scaleY(0F)
-                    .scaleX(0F)
-                    .alpha(0F)
-                    .setInterpolator(AccelerateInterpolator())
-                    .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
-                    .setListener(object : Animator.AnimatorListener {
-                        override fun onAnimationStart(animation: Animator?) {
-                            /* no-op */
-                        }
+                .scaleY(0F)
+                .scaleX(0F)
+                .alpha(0F)
+                .setInterpolator(AccelerateInterpolator())
+                .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
+                .setListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animation: Animator?) {
+                        /* no-op */
+                    }
 
-                        override fun onAnimationEnd(animation: Animator?) {
-                            this@invisible.visibility = View.INVISIBLE
-                        }
+                    override fun onAnimationEnd(animation: Animator?) {
+                        this@invisible.visibility = View.INVISIBLE
+                    }
 
-                        override fun onAnimationCancel(animation: Animator?) {
-                            /* no-op */
-                        }
+                    override fun onAnimationCancel(animation: Animator?) {
+                        /* no-op */
+                    }
 
-                        override fun onAnimationRepeat(animation: Animator?) {
-                            /* no-op */
-                        }
-                    })
-                    .start()
+                    override fun onAnimationRepeat(animation: Animator?) {
+                        /* no-op */
+                    }
+                })
+                .start()
         } else {
             this.visibility = View.INVISIBLE
         }
@@ -97,29 +107,29 @@ object ViewUtils {
         if (animate) {
             clearAnimation()
             this.animate()
-                    .scaleY(1F)
-                    .scaleX(1F)
-                    .alpha(1F)
-                    .setInterpolator(LinearOutSlowInInterpolator())
-                    .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
-                    .setListener(object : Animator.AnimatorListener {
-                        override fun onAnimationStart(animation: Animator?) {
-                            this@visible.visibility = View.VISIBLE
-                        }
+                .scaleY(1F)
+                .scaleX(1F)
+                .alpha(1F)
+                .setInterpolator(LinearOutSlowInInterpolator())
+                .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
+                .setListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animation: Animator?) {
+                        this@visible.visibility = View.VISIBLE
+                    }
 
-                        override fun onAnimationEnd(animation: Animator?) {
-                            /* no-op */
-                        }
+                    override fun onAnimationEnd(animation: Animator?) {
+                        /* no-op */
+                    }
 
-                        override fun onAnimationCancel(animation: Animator?) {
-                            /* no-op */
-                        }
+                    override fun onAnimationCancel(animation: Animator?) {
+                        /* no-op */
+                    }
 
-                        override fun onAnimationRepeat(animation: Animator?) {
-                            /* no-op */
-                        }
-                    })
-                    .start()
+                    override fun onAnimationRepeat(animation: Animator?) {
+                        /* no-op */
+                    }
+                })
+                .start()
         } else {
             this.visibility = View.VISIBLE
         }

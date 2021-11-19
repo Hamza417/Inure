@@ -7,10 +7,10 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.decorations.popup.BasePopupWindow
-import app.simple.inure.decorations.popup.PopupLinearLayout
-import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.extension.popup.BasePopupWindow
+import app.simple.inure.extension.popup.PopupLinearLayout
+import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 

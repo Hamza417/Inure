@@ -12,6 +12,7 @@ import android.widget.FrameLayout
 import app.simple.inure.R
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.ViewUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -41,7 +42,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
         dialog?.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
 
         if (BehaviourPreferences.isDimmingOn()) {
-            dialog?.window?.setDimAmount(0.4f)
+            dialog?.window?.setDimAmount(ViewUtils.getDimValue(requireContext()))
         } else {
             dialog?.window?.setDimAmount(0f)
         }

@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.popups.dialogs.SortingStylePopup
 import app.simple.inure.preferences.MainPreferences

@@ -19,6 +19,7 @@
         android:textColor="@color/textSecondary"
         android:textSize="@dimen/home_heading_text_size"
         app:appFontStyle="bold"
+        app:drawableTint="@color/iconRegular"
         app:drawableEndCompat="@drawable/ic_arrow_right" />
 
     <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
