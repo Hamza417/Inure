@@ -23,9 +23,9 @@ object ImageLoader {
      */
     fun ImageView.loadAppIcon(packageName: String) {
         GlideApp.with(this)
-                .asBitmap()
-                .load(AppIcon(this.context, packageName))
-                .into(this)
+            .asBitmap()
+            .load(AppIcon(this.context, packageName))
+            .into(this)
     }
 
     /**
@@ -36,35 +36,38 @@ object ImageLoader {
      */
     fun ImageView.loadGraphics(@NotNull path: String, filePath: String) {
         GlideApp.with(this)
-                .asBitmap()
-                .load(AppGraphicsModel(path, filePath))
-                .into(this)
+            .asBitmap()
+            .load(AppGraphicsModel(path, filePath))
+            .into(this)
     }
 
     fun ZoomImageView.loadGraphics(context: Context, @NotNull path: String, filePath: String) {
         Glide.with(context)
-                .asBitmap()
-                .dontTransform()
-                .dontAnimate()
-                .load(AppGraphicsModel(path, filePath))
-                .into(this)
+            .asBitmap()
+            .dontTransform()
+            .dontAnimate()
+            .load(AppGraphicsModel(path, filePath))
+            .into(this)
     }
 
     fun ImageView.loadIconFromActivityInfo(activityInfo: ActivityInfo) {
         GlideApp.with(this)
-                .load(ActivityIconModel(activityInfo, this.context))
-                .into(this)
+            .asBitmap()
+            .load(ActivityIconModel(activityInfo, this.context))
+            .into(this)
     }
 
     fun ImageView.loadIconFromServiceInfo(serviceInfo: ServiceInfo) {
-        GlideApp.with(this)
-                .load(ServiceIconModel(serviceInfo, this.context))
-                .into(this)
+        GlideApp.with(this.context)
+            .asBitmap()
+            .load(ServiceIconModel(serviceInfo, this.context))
+            .into(this)
     }
 
     fun ImageView.loadIconFromProviderInfo(providerInfo: ProviderInfo) {
         GlideApp.with(this)
-                .load(ProviderIconModel(providerInfo, this.context))
-                .into(this)
+            .asBitmap()
+            .load(ProviderIconModel(providerInfo, this.context))
+            .into(this)
     }
 }

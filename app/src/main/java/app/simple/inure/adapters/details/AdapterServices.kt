@@ -11,6 +11,7 @@ import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.model.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -74,6 +75,11 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
 
     override fun getItemCount(): Int {
         return services.size
+    }
+
+    override fun onViewRecycled(holder: Holder) {
+        super.onViewRecycled(holder)
+        GlideApp.with(holder.icon.context).clear(holder.icon)
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
