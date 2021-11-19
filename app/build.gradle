@@ -10,6 +10,10 @@ android {
     def appVersionCode = 8
     def appVersionName = "inure_build_${appVersionCode}"
 
+    buildFeatures {
+        viewBinding false
+    }
+
     defaultConfig {
         applicationId "app.simple.inure"
 
@@ -53,12 +57,12 @@ android {
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_11
     }
 
     ndkVersion '23.1.7779620'
@@ -68,9 +72,8 @@ dependencies {
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.github.android:renderscript-intrinsics-replacement-toolkit:b6363490c3'
 
-// Test
+    // Test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

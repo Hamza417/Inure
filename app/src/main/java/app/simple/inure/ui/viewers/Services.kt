@@ -16,7 +16,7 @@ import app.simple.inure.decorations.popup.PopupMenuCallback
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.details.ComponentStateDialog
+import app.simple.inure.dialogs.action.ComponentStateDialog
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory

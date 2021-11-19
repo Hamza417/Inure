@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.details
+package app.simple.inure.dialogs.action
 
 import android.app.Activity
 import android.content.Intent

@@ -22,8 +22,9 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.details.ForceStop
-import app.simple.inure.dialogs.details.Uninstaller
+import app.simple.inure.dialogs.action.ForceStop
+import app.simple.inure.dialogs.action.State
+import app.simple.inure.dialogs.action.Uninstaller
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.dialogs.miscellaneous.ShellExecutorDialog
@@ -81,7 +82,8 @@ class AppInfo : ScopedFragment() {
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
-        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(InfoPanelMenuData::class.java)
+        componentsViewModel =
+            ViewModelProvider(this, packageInfoFactory).get(InfoPanelMenuData::class.java)
 
         metaMenuState()
         actionMenuState()
@@ -105,7 +107,8 @@ class AppInfo : ScopedFragment() {
 
             val adapterMenu = AdapterMenu(it)
             adapterMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-            meta.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+            meta.layoutManager =
+                GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
             meta.adapter = adapterMenu
             meta.scheduleLayoutAnimation()
 
@@ -192,7 +195,8 @@ class AppInfo : ScopedFragment() {
             if (AppInfoPanelPreferences.isActionMenuFolded()) return@observe
 
             val adapterAppInfoMenu = AdapterMenu(it)
-            actions.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
+            actions.layoutManager =
+                GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
             actions.adapter = adapterAppInfoMenu
             actions.scheduleLayoutAnimation()
 
@@ -225,59 +229,44 @@ class AppInfo : ScopedFragment() {
                         }
                         getString(R.string.send) -> {
                             Preparing.newInstance(packageInfo)
-                                    .show(childFragmentManager, "prepare_send_files")
+                                .show(childFragmentManager, "prepare_send_files")
                         }
                         getString(R.string.clear_data) -> {
                             PopupSure(icon).onSure = {
                                 ShellExecutorDialog.newInstance("pm clear ${packageInfo.packageName}")
-                                        .show(parentFragmentManager, "shell_executor")
+                                    .show(parentFragmentManager, "shell_executor")
                             }
                         }
                         getString(R.string.clear_cache) -> {
                             PopupSure(icon).onSure = {
                                 ShellExecutorDialog.newInstance(
-                                    "rm -r -v /data/data/${packageInfo.packageName}/cache " +
-                                            "& rm -r -v /data/data/${packageInfo.packageName}/app_cache " +
-                                            "& rm -r -v /data/data/${packageInfo.packageName}/app_texture " +
-                                            "& rm -r -v /data/data/${packageInfo.packageName}/app_webview " +
-                                            "& rm -r -v /data/data/${packageInfo.packageName}/code_cache",
+                                        "rm -r -v /data/data/${packageInfo.packageName}/cache " +
+                                                "& rm -r -v /data/data/${packageInfo.packageName}/app_cache " +
+                                                "& rm -r -v /data/data/${packageInfo.packageName}/app_texture " +
+                                                "& rm -r -v /data/data/${packageInfo.packageName}/app_webview " +
+                                                "& rm -r -v /data/data/${packageInfo.packageName}/code_cache",
                                 )
-                                        .show(parentFragmentManager, "shell_executor")
+                                    .show(parentFragmentManager, "shell_executor")
                             }
                         }
                         getString(R.string.force_stop) -> {
                             PopupSure(icon).onSure = {
                                 ForceStop.newInstance(packageInfo)
-                                        .show(childFragmentManager, "force_stop")
+                                    .show(childFragmentManager, "force_stop")
                             }
                         }
-                        getString(R.string.disable) -> {
-                            PopupSure(icon).onSure = {
-                                val f = ShellExecutorDialog.newInstance("pm disable ${packageInfo.packageName}")
-
-                                f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
-                                    override fun onCommandExecuted(result: String) {
-                                        if (result.contains("disabled")) {
-                                            componentsViewModel.loadActionOptions()
-                                        }
-                                    }
-                                })
-
-                                f.show(parentFragmentManager, "shell_executor")
-                            }
-                        }
+                        getString(R.string.disable),
                         getString(R.string.enable) -> {
-                            val f = ShellExecutorDialog.newInstance("pm enable ${packageInfo.packageName}")
+                            PopupSure(icon).onSure = {
+                                val f =
+                                    State.newInstance(requireContext().packageManager.getPackageInfo(packageInfo.packageName, 0))
 
-                            f.setOnCommandResultListener(object : ShellExecutorDialog.Companion.CommandResultCallbacks {
-                                override fun onCommandExecuted(result: String) {
-                                    if (result.contains("enabled")) {
-                                        componentsViewModel.loadActionOptions()
-                                    }
+                                f.onSuccess = {
+                                    componentsViewModel.loadActionOptions()
                                 }
-                            })
 
-                            f.show(parentFragmentManager, "shell_executor")
+                                f.show(childFragmentManager, "state")
+                            }
                         }
                         getString(R.string.open_in_settings) -> {
                             startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
@@ -294,7 +283,8 @@ class AppInfo : ScopedFragment() {
             if (AppInfoPanelPreferences.isMiscMenuFolded()) return@observe
 
             val adapterAppInfoMenu = AdapterMenu(it)
-            miscellaneous.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
+            miscellaneous.layoutManager =
+                GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
             miscellaneous.adapter = adapterAppInfoMenu
             miscellaneous.scheduleLayoutAnimation()
 
