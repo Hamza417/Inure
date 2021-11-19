@@ -22,6 +22,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.dialogs.action.ClearData
 import app.simple.inure.dialogs.action.ForceStop
 import app.simple.inure.dialogs.action.State
 import app.simple.inure.dialogs.action.Uninstaller
@@ -233,7 +234,7 @@ class AppInfo : ScopedFragment() {
                         }
                         getString(R.string.clear_data) -> {
                             PopupSure(icon).onSure = {
-                                ShellExecutorDialog.newInstance("pm clear ${packageInfo.packageName}")
+                                ClearData.newInstance(packageInfo)
                                     .show(parentFragmentManager, "shell_executor")
                             }
                         }

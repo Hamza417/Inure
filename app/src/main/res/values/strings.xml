@@ -371,4 +371,5 @@
     <string name="cancellled">Cancelled</string>
     <string name="waiting">Waiting</string>
     <string name="closed">Closed</string>
+    <string name="cleared">Cleared</string>
 </resources>
