@@ -370,4 +370,5 @@
     <string name="uninstalled">Uninstalled</string>
     <string name="cancellled">Cancelled</string>
     <string name="waiting">Waiting</string>
+    <string name="closed">Closed</string>
 </resources>

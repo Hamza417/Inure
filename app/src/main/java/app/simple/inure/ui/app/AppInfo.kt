@@ -22,6 +22,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.dialogs.details.ForceStop
 import app.simple.inure.dialogs.details.Uninstaller
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.dialogs.miscellaneous.Preparing
@@ -246,8 +247,8 @@ class AppInfo : ScopedFragment() {
                         }
                         getString(R.string.force_stop) -> {
                             PopupSure(icon).onSure = {
-                                ShellExecutorDialog.newInstance("am force-stop ${packageInfo.packageName}")
-                                        .show(parentFragmentManager, "shell_executor")
+                                ForceStop.newInstance(packageInfo)
+                                        .show(childFragmentManager, "force_stop")
                             }
                         }
                         getString(R.string.disable) -> {
