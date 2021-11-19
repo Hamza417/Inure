@@ -64,6 +64,8 @@ class Uninstaller : ScopedBottomSheetFragment() {
                 })
             }
         } else {
+            status.setText(R.string.waiting)
+
             appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 when (result.resultCode) {
                     Activity.RESULT_OK -> {

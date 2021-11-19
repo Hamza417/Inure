@@ -78,10 +78,10 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     private fun formUninstallCommand(): String {
-        if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
-            return "pm uninstall -k --user 0 ${packageInfo.packageName}"
+        return if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
+            "pm uninstall -k --user 0 ${packageInfo.packageName}"
         } else {
-            return "pm uninstall ${packageInfo.packageName}"
+            "pm uninstall ${packageInfo.packageName}"
         }
     }
 

@@ -24,6 +24,13 @@ public interface PopupMenuCallback {
     }
     
     /**
+     * Suitable for using with {@link app.simple.inure.popups.app.PopupSure} to quickly
+     * handle callbacks when sure is pressed.
+     */
+    default void onSureClicked() {
+    }
+    
+    /**
      * Called when popup is dismissed, use it to
      * trigger animations or any pending events
      */
