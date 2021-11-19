@@ -48,7 +48,6 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
-        android:paddingVertical="@dimen/header_padding"
         app:statusBarPaddingRequired="false" />
 
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

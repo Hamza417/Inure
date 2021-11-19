@@ -115,7 +115,7 @@ public class StatusBarHeight {
         if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
             return false;
         }
-        
+    
         return rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270;
     }
     
@@ -123,5 +123,11 @@ public class StatusBarHeight {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;
+    }
+    
+    public static int getDisplayWidth(Context context) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.widthPixels;
     }
 }

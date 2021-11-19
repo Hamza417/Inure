@@ -28,7 +28,7 @@
     <dimen name="dialog_height">400dp</dimen>
     <dimen name="panel_padding_horizontal">0dp</dimen>
     <dimen name="header_icon_size">40dp</dimen>
-    <dimen name="header_font_size">30sp</dimen>
+    <dimen name="header_font_size">32sp</dimen>
     <dimen name="analytics_item_padding">25dp</dimen>
     <dimen name="analytics_info_heading_text_margin_top">15dp</dimen>
     <dimen name="analytics_small_text_margin_top">5dp</dimen>
@@ -61,4 +61,5 @@
     <dimen name="loader_size">30dp</dimen>
     <dimen name="desc_text_size">12sp</dimen>
     <dimen name="header_elevation">1dp</dimen>
+    <dimen name="adapter_header_icon_size">50dp</dimen>
 </resources>

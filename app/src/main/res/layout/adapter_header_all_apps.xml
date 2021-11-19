@@ -6,20 +6,21 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
-    android:padding="@dimen/header_padding">
+    android:padding="@dimen/popup_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="@dimen/header_icon_size"
-            android:layout_height="@dimen/header_icon_size"
+            android:layout_width="@dimen/adapter_header_icon_size"
+            android:layout_height="@dimen/adapter_header_icon_size"
+            android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_apps"
             android:transitionName="@string/apps" />
@@ -32,7 +33,27 @@
             android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
             android:text="@string/apps"
-            android:textSize="18sp"
+            android:textSize="32sp"
+            app:appFontStyle="light" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/header_padding"
+        android:orientation="horizontal">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/adapter_total_apps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingHorizontal="@dimen/header_padding"
+            android:text="@string/apps"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp"
             app:appFontStyle="bold" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -57,16 +78,5 @@
             android:tint="@color/iconRegular" />
 
     </LinearLayout>
-
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_total_apps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_padding"
-        android:paddingHorizontal="@dimen/header_padding"
-        android:text="@string/apps"
-        android:textColor="@color/textPrimary"
-        android:textSize="16sp"
-        app:appFontStyle="bold" />
 
 </LinearLayout>
