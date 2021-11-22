@@ -22,6 +22,7 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Search
+import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.AllAppsData
 
@@ -67,11 +68,13 @@ class Apps : ScopedFragment() {
                                     packageInfo.launchThisPackage(requireContext())
                                 }
                                 getString(R.string.app_information) -> {
-                                    openAppInfo(packageInfo, icon)
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                Information.newInstance(packageInfo),
+                                                                "information")
                                 }
                                 getString(R.string.send) -> {
                                     Preparing.newInstance(packageInfo)
-                                            .show(parentFragmentManager, "send_app")
+                                        .show(parentFragmentManager, "send_app")
                                 }
                             }
                         }

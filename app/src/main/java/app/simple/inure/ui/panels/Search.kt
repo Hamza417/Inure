@@ -24,6 +24,7 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.app.AppInfo
+import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.panels.SearchData
@@ -94,7 +95,9 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                                     packageInfo.launchThisPackage(requireContext())
                                 }
                                 getString(R.string.app_information) -> {
-                                    openAppInfo(packageInfo, icon)
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                Information.newInstance(packageInfo),
+                                                                "information")
                                 }
                                 getString(R.string.launch) -> {
                                     packageInfo.launchThisPackage(requireActivity())

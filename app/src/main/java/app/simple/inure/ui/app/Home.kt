@@ -32,6 +32,7 @@ import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.ui.viewers.Information
 import app.simple.inure.ui.viewers.MostUsed
 import app.simple.inure.ui.viewers.RecentlyInstalled
 import app.simple.inure.ui.viewers.RecentlyUpdated
@@ -263,8 +264,8 @@ class Home : ScopedFragment() {
                     }
                     getString(R.string.app_information) -> {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    AppInfo.newInstance(packageInfo, icon.transitionName),
-                                                    icon, "app_info")
+                                                    Information.newInstance(packageInfo),
+                                                    "information")
                     }
                     getString(R.string.send) -> {
                         Preparing.newInstance(packageInfo)

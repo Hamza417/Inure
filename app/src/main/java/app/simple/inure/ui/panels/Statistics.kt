@@ -20,6 +20,7 @@ import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.ui.app.AppInfo
+import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.UsageStatsData
 
@@ -66,7 +67,9 @@ class Statistics : ScopedFragment() {
                                     packageInfo.launchThisPackage(requireContext())
                                 }
                                 getString(R.string.app_information) -> {
-                                    openAppInfo(packageInfo, icon)
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                Information.newInstance(packageInfo),
+                                                                "information")
                                 }
                                 getString(R.string.send) -> {
                                     Preparing.newInstance(packageInfo)

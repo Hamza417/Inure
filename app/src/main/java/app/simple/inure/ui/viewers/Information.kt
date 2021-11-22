@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterInformation
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
@@ -32,7 +33,7 @@ class Information : ScopedFragment() {
         back = view.findViewById(R.id.app_info_back_button)
         progress = view.findViewById(R.id.information_data_progress)
 
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
         viewModel = ViewModelProvider(this, packageInfoFactory).get(AppInformationViewModel::class.java)
@@ -57,9 +58,9 @@ class Information : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo): Information {
+        fun newInstance(packageInfo: PackageInfo): Information {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = Information()
             fragment.arguments = args
             return fragment

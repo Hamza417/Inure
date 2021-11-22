@@ -68,7 +68,9 @@ class RecentlyInstalled : ScopedFragment() {
                                     packageInfo.launchThisPackage(requireContext())
                                 }
                                 getString(R.string.app_information) -> {
-                                    openAppInfo(packageInfo, icon)
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                Information.newInstance(packageInfo),
+                                                                "information")
                                 }
                                 getString(R.string.send) -> {
                                     Preparing.newInstance(packageInfo)
