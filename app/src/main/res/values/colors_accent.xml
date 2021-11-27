@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Accent Colors -->
-    <color name="inure">#FFff8a68</color>
+    <color name="inure">#ff8c68</color>
     <color name="blue">#2980B9</color>
     <color name="blueGrey">#2C3E50</color>
     <color name="darkBlue">#154360</color>
@@ -28,7 +28,7 @@
     <color name="grape">#4d5198</color>
     <color name="roman_silver">#7D8491</color>
 
-    <color name="inure_light">#FFAA91</color>
+    <color name="inure_light">#ffbd65</color>
     <color name="blue_light">#85C1E9</color>
     <color name="blueGrey_light">#34495E</color>
     <color name="darkBlue_light">#5D6D7E</color>

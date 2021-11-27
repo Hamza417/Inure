@@ -37,7 +37,7 @@ class Apps : ScopedFragment() {
 
         appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
 
-        model = ViewModelProvider(requireActivity()).get(AllAppsData::class.java)
+        model = ViewModelProvider(requireActivity())[AllAppsData::class.java]
 
         return view
     }

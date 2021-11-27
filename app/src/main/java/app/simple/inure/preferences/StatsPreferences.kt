@@ -8,18 +8,18 @@ import org.jetbrains.annotations.NotNull
 
 object StatsPreferences {
     const val appsCategory = "stats_app_category"
-    const val statsInterval = "app_usage_intervals"
+    const val statsInterval = "usage_stats_intervals"
     const val statsSorting = "sorted_by"
     const val isSortingReversed = "stats_is_sorting_reversed"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setInterval(value: String) {
-        getSharedPreferences().edit().putString(statsInterval, value).apply()
+    fun setInterval(value: Int) {
+        getSharedPreferences().edit().putInt(statsInterval, value).apply()
     }
 
-    fun getInterval(): String {
-        return getSharedPreferences().getString(statsInterval, UsageInterval.WEEKlY)!!
+    fun getInterval(): Int {
+        return getSharedPreferences().getInt(statsInterval, UsageInterval.WEEKlY)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

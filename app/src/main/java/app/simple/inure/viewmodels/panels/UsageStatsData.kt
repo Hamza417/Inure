@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.app.usage.NetworkStats
 import android.app.usage.NetworkStatsManager
+import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
@@ -42,12 +43,12 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
     fun loadAppStats() {
         viewModelScope.launch(Dispatchers.Default) {
             var list = arrayListOf<PackageStats>()
-            val stats = with(UsageInterval.getTimeInterval()) {
-                usageStatsManager.queryAndAggregateUsageStats(first, second)
+            val stats: MutableList<UsageStats> = with(UsageInterval.getTimeInterval()) {
+                usageStatsManager.queryUsageStats(StatsPreferences.getInterval(), first, second)
             }
 
             var apps = getApplication<Application>()
-                    .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+                .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
 
             when (StatsPreferences.getAppsCategory()) {
                 AppCategoryPopup.SYSTEM -> {
@@ -74,7 +75,13 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
                         name = getApplication<Application>().packageManager.getApplicationLabel(this).toString()
                     }
 
-                    packageStats.totalTimeUsed += stats[app.packageName]?.totalTimeInForeground ?: 0
+                    val p0 = stats.stream().filter {
+                        it.packageName == app.packageName
+                    }.collect(Collectors.toList())
+
+                    for (o in p0) {
+                        packageStats.totalTimeUsed += o.totalTimeInForeground
+                    }
 
                     getInternetUsage(app, packageStats)
 

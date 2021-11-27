@@ -35,7 +35,7 @@ class PopupUsageIntervals(view: View) : BasePopupWindow() {
         }
     }
 
-    private fun setInterval(interval: String) {
+    private fun setInterval(interval: Int) {
         StatsPreferences.setInterval(interval).also {
             dismiss()
         }
