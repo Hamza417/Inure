@@ -10,21 +10,6 @@
     tools:parentTag="android.widget.LinearLayout">
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/popup_interval_today"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/lato_bold"
-        android:maxLines="1"
-        android:paddingHorizontal="30dp"
-        android:paddingVertical="20dp"
-        android:text="@string/today"
-        android:textColor="@color/textPrimary"
-        android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
-
-    <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_interval_daily"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

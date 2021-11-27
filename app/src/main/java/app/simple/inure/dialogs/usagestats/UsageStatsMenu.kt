@@ -88,12 +88,11 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
     private fun setIntervalText() {
         interval.text = when (StatsPreferences.getInterval()) {
-            UsageInterval.TODAY -> getString(R.string.today)
             UsageInterval.DAILY -> getString(R.string.daily)
             UsageInterval.WEEKlY -> getString(R.string.weekly)
             UsageInterval.MONTHLY -> getString(R.string.monthly)
             UsageInterval.YEARLY -> getString(R.string.yearly)
-            else -> getString(R.string.weekly)
+            else -> getString(R.string.unknown)
         }
     }
 

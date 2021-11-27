@@ -14,10 +14,6 @@ class PopupUsageIntervals(view: View) : BasePopupWindow() {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_usage_stats_interval, PopupLinearLayout(view.context))
         init(contentView, view)
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_interval_today).setOnClickListener {
-            setInterval(UsageInterval.TODAY)
-        }
-
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_interval_daily).setOnClickListener {
             setInterval(UsageInterval.DAILY)
         }

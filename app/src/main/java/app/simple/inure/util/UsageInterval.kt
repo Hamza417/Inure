@@ -7,7 +7,8 @@ import java.util.concurrent.TimeUnit
 
 object UsageInterval {
 
-    const val TODAY = 8
+    @Deprecated("Not natively supported by Android")
+    private const val TODAY = -1
     const val DAILY = UsageStatsManager.INTERVAL_DAILY
     const val WEEKlY = UsageStatsManager.INTERVAL_WEEKLY
     const val MONTHLY = UsageStatsManager.INTERVAL_MONTHLY
