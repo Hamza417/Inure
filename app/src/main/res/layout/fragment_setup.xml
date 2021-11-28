@@ -63,6 +63,7 @@
             android:id="@+id/grant_storage_access"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:layout_marginHorizontal="@dimen/header_padding"
             android:orientation="vertical"
             android:padding="@dimen/analytics_item_padding">
@@ -82,6 +83,16 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/not_granted"
                 android:textColor="?attr/colorAppAccent"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/status_storage_uri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:textColor="@color/textQuaternary"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="regular" />
 

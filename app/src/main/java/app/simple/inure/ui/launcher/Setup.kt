@@ -5,6 +5,7 @@ import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.os.Process
 import android.provider.Settings
@@ -22,10 +23,14 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.PermissionUtils.arePermissionsGranted
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 import com.topjohnwu.superuser.Shell
@@ -41,11 +46,17 @@ class Setup : ScopedFragment() {
     private lateinit var accent: DynamicRippleLinearLayout
     private lateinit var usageStatus: TypeFaceTextView
     private lateinit var storageStatus: TypeFaceTextView
+    private lateinit var storageUri: TypeFaceTextView
     private lateinit var rootSwitchView: SwitchView
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
 
-    lateinit var appStorageAccessResult: ActivityResultLauncher<Intent>
+    private lateinit var appStorageAccessResult: ActivityResultLauncher<Intent>
+
+    private val flags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
+            Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
+            Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_setup, container, false)
@@ -56,6 +67,7 @@ class Setup : ScopedFragment() {
         accent = view.findViewById(R.id.setup_accent_color)
         usageStatus = view.findViewById(R.id.status_usage_access)
         storageStatus = view.findViewById(R.id.status_storage_access)
+        storageUri = view.findViewById(R.id.status_storage_uri)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
         startApp = view.findViewById(R.id.start_app_now)
         skip = view.findViewById(R.id.skip_setup)
@@ -66,19 +78,19 @@ class Setup : ScopedFragment() {
                     val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
                             Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 
-                    result.data.also {
-                        requireActivity().contentResolver.takePersistableUriPermission(it!!.data?.normalizeScheme()!!, takeFlags)
+                    result.data?.data?.normalizeScheme().also {
+                        requireActivity().contentResolver.takePersistableUriPermission(it!!, takeFlags)
+                        MainPreferences.setStoragePermissionUri(it)
+                        showStartAppButton()
+                        setStorageStatus(it)
                     }
-
-                    showStartAppButton()
-                    setStorageStatus()
                 }
                 Activity.RESULT_CANCELED -> {
                     storageStatus.text = getString(R.string.rejected_contextual)
                     storageStatus.setTextColor(Color.RED)
 
                     showStartAppButton()
-                    setStorageStatus()
+                    setStorageStatus(null)
                 }
             }
         }
@@ -88,7 +100,6 @@ class Setup : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         startPostponedEnterTransition()
 
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
@@ -104,15 +115,15 @@ class Setup : ScopedFragment() {
         startApp.setOnClickListener {
             if (checkForPermission() && !requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty()) {
                 FragmentHelper.openFragment(
-                    requireActivity().supportFragmentManager,
-                    SplashScreen.newInstance(false), view.findViewById(R.id.imageView3))
+                        requireActivity().supportFragmentManager,
+                        SplashScreen.newInstance(false), view.findViewById(R.id.imageView3))
             }
         }
 
         skip.setOnClickListener {
             FragmentHelper.openFragment(
-                requireActivity().supportFragmentManager,
-                SplashScreen.newInstance(true), view.findViewById(R.id.imageView3))
+                    requireActivity().supportFragmentManager,
+                    SplashScreen.newInstance(true), view.findViewById(R.id.imageView3))
         }
 
         accent.setOnClickListener {
@@ -151,16 +162,12 @@ class Setup : ScopedFragment() {
             usageStatus.text = getString(R.string.not_granted)
         }
 
+        kotlin.runCatching {
+            setStorageStatus(Uri.parse(MainPreferences.getStoragePermissionUri()!!))
+        }.onFailure {
+            setStorageStatus(null)
+        }
         showStartAppButton()
-        setStorageStatus()
-    }
-
-    private fun requestStoragePermission() {
-        requireActivity().requestPermissions(
-            arrayOf(
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ), 1729) // Taxi Cab number or Hardy-Ramanujan number
     }
 
     private fun showStartAppButton() {
@@ -182,24 +189,42 @@ class Setup : ScopedFragment() {
         return mode == AppOpsManagerCompat.MODE_ALLOWED
     }
 
-    private fun setStorageStatus() {
-        if (requireActivity().contentResolver.persistedUriPermissions.isNotEmpty()) {
+    private fun setStorageStatus(uri: Uri?) {
+        if (requireContext().arePermissionsGranted(uri.toString())) {
             storageStatus.text = getString(R.string.granted)
+            storageUri.text = uri.toString()
+            storageUri.visible(false)
             storageStatus.setTextColor(requireContext().resolveAttrColor(R.attr.colorAppAccent))
             storageAccess.isClickable = false
         } else {
             storageStatus.text = getString(R.string.not_granted)
+            storageUri.gone()
+            storageAccess.isClickable = true
         }
     }
 
     private fun openDirectory() {
-        // Choose a directory using the system's file picker.
+        // read uriString from shared preferences
+        val uriString = MainPreferences.getStoragePermissionUri()
+        when {
+            uriString.isNull() -> {
+                askPermission()
+            }
+            requireContext().arePermissionsGranted(uriString!!) -> {
+                setStorageStatus(Uri.parse(uriString))
+            }
+            else -> {
+                askPermission()
+            }
+        }
+    }
+
+    /**
+     * Choose a directory using the system's file picker.
+     */
+    private fun askPermission() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-        intent.addFlags(
-            Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                    or Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
+        intent.addFlags(flags)
         appStorageAccessResult.launch(intent)
     }
 

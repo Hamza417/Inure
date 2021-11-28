@@ -1,5 +1,6 @@
 package app.simple.inure.preferences
 
+import android.net.Uri
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.popups.dialogs.AppCategoryPopup
@@ -16,6 +17,7 @@ object MainPreferences {
     private const val dayNightMode = "is_day_night_mode"
     private const val theme = "current_theme"
     private const val appLanguage = "current_language_locale"
+    private const val storagePermissionUri = "storage_permission_uri"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
@@ -96,5 +98,15 @@ object MainPreferences {
 
     fun getListAppCategory(): String {
         return getSharedPreferences().getString(listAppsCategory, AppCategoryPopup.BOTH)!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setStoragePermissionUri(@NonNull uri: Uri) {
+        getSharedPreferences().edit().putString(storagePermissionUri, uri.toString()).apply()
+    }
+
+    fun getStoragePermissionUri(): String? {
+        return getSharedPreferences().getString(storagePermissionUri, null)
     }
 }
