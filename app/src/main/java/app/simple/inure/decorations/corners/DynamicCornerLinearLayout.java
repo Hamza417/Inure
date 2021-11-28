@@ -16,9 +16,6 @@ public class DynamicCornerLinearLayout extends LinearLayout {
         init(null);
         setOrientation(LinearLayout.VERTICAL);
         setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.mainBackground)));
-    
-        int padding = getResources().getDimensionPixelSize(R.dimen.popup_padding);
-        setPadding(padding, padding, padding, padding);
     }
     
     public DynamicCornerLinearLayout(Context context, @Nullable AttributeSet attrs) {

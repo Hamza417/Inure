@@ -43,6 +43,7 @@ class DeviceInfo : ScopedFragment() {
     private lateinit var totalUserAppsIndicator: CustomProgressBar
     private lateinit var totalSystemAppsIndicator: CustomProgressBar
 
+    private lateinit var search: DynamicRippleImageButton
     private lateinit var popup: DynamicRippleImageButton
 
     private val model: AppsAnalyticsData by viewModels()
@@ -59,7 +60,8 @@ class DeviceInfo : ScopedFragment() {
         totalUserApps = view.findViewById(R.id.analytics_total_user_apps)
         totalSystemApps = view.findViewById(R.id.analytics_total_system_apps)
         sensors = view.findViewById(R.id.sensors)
-        popup = view.findViewById(R.id.analytics_options_button)
+        popup = view.findViewById(R.id.device_info_option_button)
+        search = view.findViewById(R.id.device_info_search_button)
 
         ramIndicator = view.findViewById(R.id.analytics_ram_progress_bar)
         totalUserAppsIndicator = view.findViewById(R.id.analytics_user_apps_progress_bar)
@@ -76,9 +78,7 @@ class DeviceInfo : ScopedFragment() {
         setEverything()
 
         popup.setOnClickListener {
-            val popupMenu = PopupAnalytics(it)
-
-            popupMenu.setOnPopupMenuCallback(object : PopupMenuCallback {
+            PopupAnalytics(it).setOnPopupMenuCallback(object : PopupMenuCallback {
                 override fun onMenuItemClicked(source: String) {
                     when (source) {
                         getString(R.string.refresh) -> {
@@ -87,6 +87,14 @@ class DeviceInfo : ScopedFragment() {
                     }
                 }
             })
+        }
+
+        search.setOnClickListener {
+            clearEnterTransition()
+            clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        Search.newInstance(true),
+                                        "search")
         }
 
         sensors.setOnClickListener {
