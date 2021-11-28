@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.app.AppOpsManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -47,8 +46,6 @@ class SplashScreen : ScopedFragment() {
         icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))
 
         (icon.drawable as AnimatedVectorDrawable).start()
-
-        Toast.makeText(requireContext(), requireContext().arePermissionsGranted(MainPreferences.getStoragePermissionUri()).toString(), Toast.LENGTH_SHORT).show()
 
         when {
             requireArguments().getBoolean("skip") -> {

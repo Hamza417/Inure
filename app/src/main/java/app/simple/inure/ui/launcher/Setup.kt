@@ -86,9 +86,6 @@ class Setup : ScopedFragment() {
                     }
                 }
                 Activity.RESULT_CANCELED -> {
-                    storageStatus.text = getString(R.string.rejected_contextual)
-                    storageStatus.setTextColor(Color.RED)
-
                     showStartAppButton()
                     setStorageStatus(null)
                 }
@@ -171,7 +168,7 @@ class Setup : ScopedFragment() {
     }
 
     private fun showStartAppButton() {
-        if (checkForPermission() && !requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty()) {
+        if (checkForPermission()) {
             startApp.visible(true)
         } else {
             startApp.invisible(true)
@@ -186,7 +183,7 @@ class Setup : ScopedFragment() {
             @Suppress("Deprecation")
             appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), requireContext().packageName)
         }
-        return mode == AppOpsManagerCompat.MODE_ALLOWED
+        return mode == AppOpsManagerCompat.MODE_ALLOWED && requireContext().arePermissionsGranted(MainPreferences.getStoragePermissionUri())
     }
 
     private fun setStorageStatus(uri: Uri?) {
@@ -199,6 +196,7 @@ class Setup : ScopedFragment() {
         } else {
             storageStatus.text = getString(R.string.not_granted)
             storageUri.gone()
+            storageStatus.setTextColor(Color.RED)
             storageAccess.isClickable = true
         }
     }
