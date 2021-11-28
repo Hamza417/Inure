@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/analytics_item_padding">
+    android:paddingBottom="@dimen/panel_item_padding">
 
     <include layout="@layout/header_device_info" />
 
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="@dimen/analytics_item_padding"
+                android:padding="@dimen/panel_item_padding"
                 android:text="@string/sensors"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/textHeading"

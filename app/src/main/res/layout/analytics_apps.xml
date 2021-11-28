@@ -10,8 +10,8 @@
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/analytics_item_padding"
-        android:paddingTop="@dimen/analytics_item_padding"
+        android:paddingHorizontal="@dimen/panel_item_padding"
+        android:paddingTop="@dimen/panel_item_padding"
         android:paddingBottom="@dimen/analytics_info_heading_text_margin_top"
         android:text="@string/apps_heading"
         android:textColor="@color/textHeading"
@@ -21,7 +21,7 @@
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:paddingHorizontal="@dimen/panel_item_padding"
         android:text="@string/total_user_apps"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/info_text_large"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/analytics_small_text_margin_top"
         android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/analytics_item_padding">
+        android:paddingHorizontal="@dimen/panel_item_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/analytics_total_user_apps"
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/analytics_info_heading_text_margin_top"
-        android:paddingHorizontal="@dimen/analytics_item_padding"
+        android:paddingHorizontal="@dimen/panel_item_padding"
         android:text="@string/total_system_apps"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/info_text_large"
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/analytics_small_text_margin_top"
         android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/analytics_item_padding">
+        android:paddingHorizontal="@dimen/panel_item_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/analytics_total_system_apps"

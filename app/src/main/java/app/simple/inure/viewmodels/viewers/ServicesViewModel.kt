@@ -72,6 +72,10 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                     }
                 }
 
+                list.sortBy {
+                    it.name.substring(it.name.lastIndexOf(".") + 1)
+                }
+
                 services.postValue(list)
             }.getOrElse {
                 delay(Misc.delay)

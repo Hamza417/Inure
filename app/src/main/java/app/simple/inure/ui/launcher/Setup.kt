@@ -183,7 +183,7 @@ class Setup : ScopedFragment() {
             @Suppress("Deprecation")
             appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), requireContext().packageName)
         }
-        return mode == AppOpsManagerCompat.MODE_ALLOWED && requireContext().arePermissionsGranted(MainPreferences.getStoragePermissionUri())
+        return mode == AppOpsManagerCompat.MODE_ALLOWED
     }
 
     private fun setStorageStatus(uri: Uri?) {

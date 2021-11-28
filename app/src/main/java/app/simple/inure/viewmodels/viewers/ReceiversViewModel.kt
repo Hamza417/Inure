@@ -70,6 +70,10 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
                     }
                 }
 
+                list.sortBy {
+                    it.name.substring(it.name.lastIndexOf(".") + 1)
+                }
+
                 receivers.postValue(list)
             }.getOrElse {
                 delay(Misc.delay)

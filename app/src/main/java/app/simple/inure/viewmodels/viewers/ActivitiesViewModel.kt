@@ -72,6 +72,10 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
                     }
                 }
 
+                list.sortBy {
+                    it.name.substring(it.name.lastIndexOf(".") + 1)
+                }
+
                 activities.postValue(list)
             }.getOrElse {
                 delay(delay)

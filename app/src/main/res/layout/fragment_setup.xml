@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/header_padding"
-                android:paddingHorizontal="@dimen/analytics_item_padding"
+                android:paddingHorizontal="@dimen/panel_item_padding"
                 android:layout_marginBottom="5dp"
                 android:text="@string/mandatory"
                 android:textColor="?attr/colorAppAccent"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/header_padding"
                 android:orientation="vertical"
-                android:padding="@dimen/analytics_item_padding">
+                android:padding="@dimen/panel_item_padding">
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                 android:animateLayoutChanges="true"
                 android:layout_marginHorizontal="@dimen/header_padding"
                 android:orientation="vertical"
-                android:padding="@dimen/analytics_item_padding">
+                android:padding="@dimen/panel_item_padding">
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/header_padding"
                 android:layout_marginTop="15dp"
-                android:paddingHorizontal="@dimen/analytics_item_padding"
+                android:paddingHorizontal="@dimen/panel_item_padding"
                 android:text="@string/optional"
                 android:layout_marginBottom="5dp"
                 android:textColor="?attr/colorAppAccent"
@@ -145,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/header_padding"
                 android:orientation="vertical"
-                android:padding="@dimen/analytics_item_padding">
+                android:padding="@dimen/panel_item_padding">
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/header_padding"
                 android:orientation="vertical"
-                android:padding="@dimen/analytics_item_padding">
+                android:padding="@dimen/panel_item_padding">
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"
@@ -200,7 +200,7 @@
                 android:layout_marginHorizontal="@dimen/header_padding"
                 android:clipChildren="false"
                 android:clipToPadding="false"
-                android:padding="@dimen/analytics_item_padding">
+                android:padding="@dimen/panel_item_padding">
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/typeFaceTextView07"
@@ -259,7 +259,7 @@
                     android:layout_weight="1"
                     android:clickable="false"
                     android:gravity="start"
-                    android:padding="@dimen/analytics_item_padding"
+                    android:padding="@dimen/panel_item_padding"
                     android:text="@string/start_app_now"
                     android:textColor="?attr/colorAppAccent"
                     android:textSize="@dimen/header_name_text_size"
@@ -270,7 +270,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="false"
-                    android:padding="@dimen/analytics_item_padding"
+                    android:padding="@dimen/panel_item_padding"
                     android:text="@string/skip"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/header_name_text_size"

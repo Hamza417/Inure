@@ -39,7 +39,7 @@
             android:background="@android:color/transparent"
             android:importantForAutofill="no"
             android:inputType="textMultiLine|textNoSuggestions"
-            android:padding="@dimen/analytics_item_padding"
+            android:padding="@dimen/panel_item_padding"
             android:visibility="invisible"
             android:textColor="@color/textSecondary"
             android:textColorHighlight="?attr/colorAppAccentLight"

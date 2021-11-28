@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@color/mainBackground"
     android:elevation="1dp"
-    android:padding="@dimen/dialog_padding">
+    android:padding="@dimen/header_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:text="@string/setup"
             android:textColor="@color/textPrimary"
             android:textSize="@dimen/header_font_size"
-            android:transitionName="@string/inure_setup"
+            android:transitionName="@string/setup"
             app:appFontStyle="light" />
 
         <ImageView
