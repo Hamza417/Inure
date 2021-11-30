@@ -67,7 +67,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                 features.postValue(list)
             }.getOrElse {
                 delay(delay)
-                error.postValue(it.message)
+                error.postValue(it.stackTraceToString())
             }
         }
     }
@@ -77,7 +77,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
             kotlin.runCatching {
                 with(APKParser.getXmlFiles(packageInfo.applicationInfo.sourceDir)) {
                     if (size == 0) {
-                        throw FileNotFoundException("This package does not contain any xml resource files.")
+                        throw FileNotFoundException("This package does not contain any xml resource files")
                     } else {
                         resources.postValue(apply {
                             sortBy {
@@ -88,7 +88,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                 }
             }.getOrElse {
                 delay(delay)
-                error.postValue(it.message)
+                error.postValue(it.stackTraceToString())
             }
         }
     }

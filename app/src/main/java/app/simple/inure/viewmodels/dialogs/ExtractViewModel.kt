@@ -11,8 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.NullSafety.isNotNull
-import com.anggrayudi.storage.file.CreateMode
-import com.anggrayudi.storage.file.makeFolder
+import app.simple.inure.util.PermissionUtils.arePermissionsGranted
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.BufferedInputStream
@@ -25,8 +24,6 @@ import java.util.zip.ZipOutputStream
 class ExtractViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val fileName = packageInfo.applicationInfo.name + " (" + packageInfo.versionName + ")"
-    private val uri = Uri.parse(MainPreferences.getStoragePermissionUri())
-    private val pickedDir = DocumentFile.fromTreeUri(getApplication(), uri)
 
     private var cleared = false
     private val buffer = 2048
@@ -38,7 +35,6 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
     private val success: MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {
-        pickedDir?.makeFolder(context, "Inure", CreateMode.REUSE)
         extractAppFile()
     }
 
@@ -61,6 +57,13 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
     private fun extractAppFile() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+
+                if (!context.arePermissionsGranted(MainPreferences.getStoragePermissionUri())) {
+                    throw SecurityException("Storage Permission not granted")
+                }
+
+                val uri = Uri.parse(MainPreferences.getStoragePermissionUri())
+                val pickedDir = DocumentFile.fromTreeUri(getApplication(), uri)
                 var total = 0L
                 var length = File(packageInfo.applicationInfo.sourceDir).length()
 
