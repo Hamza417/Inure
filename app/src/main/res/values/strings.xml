@@ -242,7 +242,6 @@
     <string name="yearly">Yearly</string>
     <string name="app_not_installed">%1$s : Package/App not found or not installed.</string>
     <string name="available">Available</string>
-    <string name="backup">Backup</string>
     <string name="no_permission_required">No permission required</string>
     <string name="multiple">Multiple</string>
     <string name="single_instance">Single Instance</string>

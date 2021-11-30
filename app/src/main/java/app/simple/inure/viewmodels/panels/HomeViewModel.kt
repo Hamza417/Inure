@@ -143,7 +143,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     Pair(R.drawable.ic_analytics, context.getString(R.string.analytics)),
                     Pair(R.drawable.ic_stats, context.getString(R.string.usage_statistics)),
                     Pair(R.drawable.ic_phone, context.getString(R.string.device_stats)),
-                    Pair(R.drawable.ic_backup, context.getString(R.string.backup)),
                     Pair(R.drawable.ic_log, context.getString(R.string.logs))
             )
 
