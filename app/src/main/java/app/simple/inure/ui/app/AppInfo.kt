@@ -24,7 +24,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
-import app.simple.inure.dialogs.miscellaneous.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -245,6 +244,10 @@ class AppInfo : ScopedFragment() {
             adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
                     when (source) {
+                        getString(R.string.extract) -> {
+                            Extract.newInstance(packageInfo)
+                                .show(parentFragmentManager, "extract")
+                        }
                         getString(R.string.play_store) -> {
                             MarketUtils.openAppOnPlayStore(requireContext(), packageInfo.packageName)
                         }

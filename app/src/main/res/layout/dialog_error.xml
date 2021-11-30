@@ -16,29 +16,52 @@
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:drawablePadding="@dimen/dialog_padding"
-            android:drawableTint="?attr/colorAppAccent"
-            android:text="@string/error"
-            android:textColor="?attr/colorAppAccent"
-            android:textSize="@dimen/info_text_large"
-            app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_error" />
+            android:orientation="horizontal">
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/print_error"
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawablePadding="@dimen/dialog_padding"
+                android:drawableTint="?attr/colorAppAccent"
+                android:gravity="center_vertical"
+                android:text="@string/error"
+                android:textColor="?attr/colorAppAccent"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:drawableStartCompat="@drawable/ic_error" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/copy_button"
+                android:layout_width="@dimen/small_button_size"
+                android:layout_height="@dimen/small_button_size"
+                android:layout_gravity="center_vertical"
+                android:tint="@color/iconRegular"
+                android:src="@drawable/ic_copy_all" />
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:text="@string/executing_command"
-            android:textColor="@color/textTertiary"
-            android:textSize="@dimen/info_text_small"
-            app:appFontStyle="regular" />
+            android:layout_height="wrap_content">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/print_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:text="@string/executing_command"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
+
+        </androidx.core.widget.NestedScrollView>
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

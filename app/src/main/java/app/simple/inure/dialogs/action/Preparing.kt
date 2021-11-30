@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.miscellaneous
+package app.simple.inure.dialogs.action
 
 import android.content.pm.PackageInfo
 import android.os.Bundle

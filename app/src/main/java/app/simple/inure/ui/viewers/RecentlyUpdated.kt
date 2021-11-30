@@ -13,7 +13,7 @@ import app.simple.inure.adapters.home.AdapterRecentlyUpdated
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.dialogs.miscellaneous.Preparing
+import app.simple.inure.dialogs.action.Preparing
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks

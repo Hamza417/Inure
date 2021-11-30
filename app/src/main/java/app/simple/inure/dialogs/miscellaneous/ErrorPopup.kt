@@ -1,23 +1,30 @@
 package app.simple.inure.dialogs.miscellaneous
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 
 class ErrorPopup : ScopedBottomSheetFragment() {
 
     private lateinit var error: TypeFaceTextView
+    private lateinit var copy: DynamicRippleImageButton
     private var errorDialogCallbacks: ErrorDialogCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.dialog_error, container, false)
 
         error = view.findViewById(R.id.print_error)
+        copy = view.findViewById(R.id.copy_button)
 
         return view
     }
@@ -25,6 +32,14 @@ class ErrorPopup : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         error.text = requireArguments().getString("error")!!
+
+        copy.setOnClickListener {
+            val clipBoard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("Error", error.text)
+            clipBoard.setPrimaryClip(clipData)
+
+            if (clipBoard.hasPrimaryClip()) Toast.makeText(requireContext(), R.string.copied, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {

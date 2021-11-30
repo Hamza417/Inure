@@ -77,18 +77,16 @@ class Activities : ScopedFragment() {
                 }
 
                 override fun onActivityLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
-                    val v = PopupActivitiesMenu(icon, isComponentEnabled)
-
-                    v.setOnMenuClickListener(object : PopupMenuCallback {
+                    PopupActivitiesMenu(icon, isComponentEnabled).setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.force_launch) -> {
                                     ActivityLauncherDialog.newInstance(packageInfo, packageId)
-                                            .show(childFragmentManager, "activity_launcher")
+                                        .show(childFragmentManager, "activity_launcher")
                                 }
                                 getString(R.string.force_launch_with_action) -> {
                                     IntentAction.newInstance(packageInfo, packageId)
-                                            .show(childFragmentManager, "intent_action")
+                                        .show(childFragmentManager, "intent_action")
                                 }
                                 getString(R.string.enable), getString(R.string.disable) -> {
                                     val p = ComponentStateDialog.newInstance(packageInfo, packageId, isComponentEnabled)

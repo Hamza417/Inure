@@ -2,6 +2,7 @@
 <resources>
     <dimen name="all_corner_radius">10dp</dimen>
     <dimen name="button_size">40dp</dimen>
+    <dimen name="small_button_size">30dp</dimen>
     <dimen name="popup_text_size">16sp</dimen>
     <dimen name="fast_scroller_thumb_elevation">10dp</dimen>
     <dimen name="fast_scroller_thumb_size">60dp</dimen>
