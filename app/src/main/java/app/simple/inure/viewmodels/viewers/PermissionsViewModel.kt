@@ -59,7 +59,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                 })
             }.getOrElse {
                 delay(Misc.delay)
-                error.postValue(it.message)
+                error.postValue(it.stackTraceToString())
             }
         }
     }

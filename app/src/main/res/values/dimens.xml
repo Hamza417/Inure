@@ -13,6 +13,7 @@
     <dimen name="info_text_large">18sp</dimen>
     <dimen name="info_text_large_margin_top">20dp</dimen>
     <dimen name="info_text_large_margin_bottom">10dp</dimen>
+    <dimen name="error_text_size">12sp</dimen>
     <dimen name="dialog_padding">15dp</dimen>
     <dimen name="dialog_elevation">30dp</dimen>
     <dimen name="popup_padding">10dp</dimen>

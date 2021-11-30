@@ -79,7 +79,7 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
                 activities.postValue(list)
             }.getOrElse {
                 delay(delay)
-                error.postValue(it.message)
+                error.postValue(it.stackTraceToString())
             }
         }
     }

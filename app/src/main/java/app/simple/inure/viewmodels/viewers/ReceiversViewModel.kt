@@ -77,7 +77,7 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
                 receivers.postValue(list)
             }.getOrElse {
                 delay(Misc.delay)
-                error.postValue(it.message)
+                error.postValue(it.stackTraceToString())
             }
         }
     }

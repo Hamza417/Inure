@@ -58,7 +58,7 @@ class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) 
                 }
             }.getOrElse {
                 delay(Misc.delay)
-                error.postValue(it.message)
+                error.postValue(it.stackTraceToString())
             }
         }
     }

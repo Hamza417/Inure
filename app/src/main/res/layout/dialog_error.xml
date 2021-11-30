@@ -39,6 +39,7 @@
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/copy_button"
                 android:layout_width="@dimen/small_button_size"
+                android:visibility="gone"
                 android:layout_height="@dimen/small_button_size"
                 android:layout_gravity="center_vertical"
                 android:tint="@color/iconRegular"
@@ -58,7 +59,7 @@
                 android:background="@android:color/transparent"
                 android:text="@string/executing_command"
                 android:textColor="@color/textTertiary"
-                android:textSize="@dimen/info_text_small"
+                android:textSize="@dimen/error_text_size"
                 app:appFontStyle="regular" />
 
         </androidx.core.widget.NestedScrollView>

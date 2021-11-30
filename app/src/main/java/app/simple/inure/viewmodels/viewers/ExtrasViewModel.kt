@@ -58,7 +58,7 @@ class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : 
                 }
             }.getOrElse {
                 delay(delay)
-                error.postValue(it.message)
+                error.postValue(it.stackTraceToString())
             }
         }
     }

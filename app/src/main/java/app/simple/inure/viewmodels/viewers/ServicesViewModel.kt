@@ -79,7 +79,7 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                 services.postValue(list)
             }.getOrElse {
                 delay(Misc.delay)
-                error.postValue(it.message)
+                error.postValue(it.stackTraceToString())
             }
         }
     }

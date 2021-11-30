@@ -76,7 +76,7 @@ class ProvidersViewModel(application: Application, val packageInfo: PackageInfo)
                 providers.postValue(list)
             }.getOrElse {
                 delay(Misc.delay)
-                error.postValue(it.message)
+                error.postValue(it.stackTraceToString())
             }
         }
     }
