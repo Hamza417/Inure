@@ -2,7 +2,6 @@ package app.simple.inure.ui.panels
 
 import android.app.ActivityManager
 import android.content.Context
-import android.content.pm.ApplicationInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupAnalytics
-import app.simple.inure.ui.viewers.Sensors
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.SDKHelper
@@ -35,13 +33,8 @@ class DeviceInfo : ScopedFragment() {
     private lateinit var busybox: TypeFaceTextView
     private lateinit var availableRam: TypeFaceTextView
     private lateinit var usedRam: TypeFaceTextView
-    private lateinit var totalUserApps: TypeFaceTextView
-    private lateinit var totalSystemApps: TypeFaceTextView
-    private lateinit var sensors: TypeFaceTextView
 
     private lateinit var ramIndicator: CustomProgressBar
-    private lateinit var totalUserAppsIndicator: CustomProgressBar
-    private lateinit var totalSystemAppsIndicator: CustomProgressBar
 
     private lateinit var search: DynamicRippleImageButton
     private lateinit var popup: DynamicRippleImageButton
@@ -57,15 +50,10 @@ class DeviceInfo : ScopedFragment() {
         busybox = view.findViewById(R.id.analytics_busybox)
         availableRam = view.findViewById(R.id.analytics_total_ram)
         usedRam = view.findViewById(R.id.analytics_total_used)
-        totalUserApps = view.findViewById(R.id.analytics_total_user_apps)
-        totalSystemApps = view.findViewById(R.id.analytics_total_system_apps)
-        sensors = view.findViewById(R.id.sensors)
         popup = view.findViewById(R.id.device_info_option_button)
         search = view.findViewById(R.id.device_info_search_button)
 
         ramIndicator = view.findViewById(R.id.analytics_ram_progress_bar)
-        totalUserAppsIndicator = view.findViewById(R.id.analytics_user_apps_progress_bar)
-        totalSystemAppsIndicator = view.findViewById(R.id.analytics_system_apps_progress_bar)
 
         startPostponedEnterTransition()
 
@@ -96,51 +84,11 @@ class DeviceInfo : ScopedFragment() {
                                         Search.newInstance(true),
                                         "search")
         }
-
-        sensors.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Sensors.newInstance(),
-                                        "sensor_info")
-        }
     }
 
     private fun setEverything() {
         setDeviceAnalytics()
         setRamAnalytics()
-        setAppsAnalytics()
-    }
-
-    private fun setAppsAnalytics() {
-        model.getAppData().observe(viewLifecycleOwner, {
-            viewLifecycleOwner.lifecycleScope.launch {
-                var totalApp: Int
-                var userApp = 0
-                var systemApp = 0
-
-                withContext(Dispatchers.Default) {
-                    for (i in it.indices) {
-                        if ((it[i].flags and ApplicationInfo.FLAG_SYSTEM) != 0) {
-                            systemApp += 1
-                        }
-
-                        if ((it[i].flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
-                            userApp += 1
-                        }
-                    }
-
-                    totalApp = it.size
-                }
-
-                totalUserApps.text = StringBuilder().append(userApp).append("/").append(totalApp)
-                totalSystemApps.text = StringBuilder().append(systemApp).append("/").append(totalApp)
-
-                totalSystemAppsIndicator.max = totalApp
-                totalUserAppsIndicator.max = totalApp
-                totalSystemAppsIndicator.setProgress(systemApp, animate = true, fromStart = false)
-                totalUserAppsIndicator.setProgress(userApp, animate = true, fromStart = false)
-            }
-        })
     }
 
     private fun setDeviceAnalytics() {
@@ -201,8 +149,6 @@ class DeviceInfo : ScopedFragment() {
     override fun onDestroy() {
         super.onDestroy()
         ramIndicator.clearAnimation()
-        totalSystemAppsIndicator.clearAnimation()
-        totalUserAppsIndicator.clearAnimation()
     }
 
     companion object {

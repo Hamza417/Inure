@@ -5,22 +5,21 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.model.PackageStats
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private var usageStatsManager: UsageStatsManager = getApplication<Application>()
-            .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
     private val recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {
@@ -135,15 +134,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun loadItems() {
         viewModelScope.launch(Dispatchers.Default) {
-            val context = getApplication<Application>().applicationContext
 
             val list = listOf(
-                    Pair(R.drawable.ic_apps, context.getString(R.string.apps)),
-                    Pair(R.drawable.ic_terminal, context.getString(R.string.terminal)),
-                    Pair(R.drawable.ic_analytics, context.getString(R.string.analytics)),
-                    Pair(R.drawable.ic_stats, context.getString(R.string.usage_statistics)),
-                    Pair(R.drawable.ic_phone, context.getString(R.string.device_stats)),
-                    Pair(R.drawable.ic_log, context.getString(R.string.logs))
+                    Pair(R.drawable.ic_apps, getString(R.string.apps)),
+                    Pair(R.drawable.ic_terminal, getString(R.string.terminal)),
+                    Pair(R.drawable.ic_analytics, getString(R.string.analytics)),
+                    Pair(R.drawable.ic_stats, getString(R.string.usage_statistics)),
+                    Pair(R.drawable.ic_phone, getString(R.string.device_stats)),
+                    Pair(R.drawable.ic_sensors, getString(R.string.sensors))
             )
 
             menuItems.postValue(list)

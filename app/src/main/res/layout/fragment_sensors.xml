@@ -2,37 +2,63 @@
 <app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/header_padding">
+        android:padding="@dimen/popup_padding"
+        android:background="@color/mainBackground"
+        android:id="@+id/home_header"
+        android:clipChildren="false"
+        android:translationZ="1dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal">
 
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/sensors_back_button"
-            android:layout_width="@dimen/header_icon_size"
-            android:layout_height="@dimen/header_icon_size"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/header_padding"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_arrow_back"
-            android:transitionName="@string/app_information"
-            app:tint="?attr/colorAppAccent"
-            tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/header_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/device_stats"
+            android:padding="10dp"
+            android:src="@drawable/ic_sensors"
+            android:transitionName="@string/sensors" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView02"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:text="@string/sensors"
-            android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold" />
+            android:textColor="@color/textPrimary"
+            app:appFontStyle="light" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/device_info_search_button"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/search_button"
+            android:src="@drawable/ic_search"
+            android:tint="@color/iconRegular"
+            android:transitionName="adapter_search_icon" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/device_info_option_button"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/configuration_button"
+            android:src="@drawable/ic_more_vert"
+            android:tint="@color/iconRegular" />
 
     </LinearLayout>
 

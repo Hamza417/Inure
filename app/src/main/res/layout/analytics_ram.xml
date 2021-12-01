@@ -10,9 +10,8 @@
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/panel_item_padding"
-        android:paddingTop="@dimen/panel_item_padding"
-        android:paddingBottom="@dimen/analytics_info_heading_text_margin_top"
+        android:layout_marginTop="@dimen/panel_item_padding"
+        android:layout_marginBottom="@dimen/analytics_info_heading_text_margin_top"
         android:text="@string/ram"
         android:textColor="@color/textHeading"
         android:textSize="@dimen/analytics_main_heading_text_size"
@@ -21,7 +20,6 @@
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/panel_item_padding"
         android:text="@string/total_available"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/info_text_large"
@@ -32,7 +30,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:paddingHorizontal="@dimen/panel_item_padding"
         android:textColor="@color/textSecondary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="medium" />
@@ -41,7 +38,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/analytics_info_heading_text_margin_top"
-        android:paddingHorizontal="@dimen/panel_item_padding"
         android:text="@string/total_used"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/info_text_large"
@@ -51,8 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/analytics_small_text_margin_top"
-        android:paddingHorizontal="@dimen/panel_item_padding">
+        android:layout_marginTop="@dimen/analytics_small_text_margin_top">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/analytics_total_used"

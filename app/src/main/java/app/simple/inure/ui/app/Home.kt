@@ -32,10 +32,7 @@ import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Terminal
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
-import app.simple.inure.ui.viewers.Information
-import app.simple.inure.ui.viewers.MostUsed
-import app.simple.inure.ui.viewers.RecentlyInstalled
-import app.simple.inure.ui.viewers.RecentlyUpdated
+import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
@@ -172,13 +169,18 @@ class Home : ScopedFragment() {
                         }
                         getString(R.string.usage_statistics) -> {
                             FragmentHelper.openFragment(
-                                requireActivity().supportFragmentManager,
-                                Statistics.newInstance(), icon, "stats")
+                                    requireActivity().supportFragmentManager,
+                                    Statistics.newInstance(), icon, "stats")
                         }
                         getString(R.string.device_stats) -> {
                             FragmentHelper.openFragment(
-                                requireActivity().supportFragmentManager,
-                                DeviceInfo.newInstance(), icon, "info")
+                                    requireActivity().supportFragmentManager,
+                                    DeviceInfo.newInstance(), icon, "info")
+                        }
+                        getString(R.string.sensors) -> {
+                            FragmentHelper.openFragment(
+                                    requireActivity().supportFragmentManager,
+                                    Sensors.newInstance(), icon, "sensors")
                         }
                     }
                 }
