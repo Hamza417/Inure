@@ -22,6 +22,7 @@ import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted
 import app.simple.inure.viewmodels.panels.AllAppsData
 import app.simple.inure.viewmodels.panels.UsageStatsData
+import app.simple.inure.viewmodels.viewers.SensorsViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -32,6 +33,7 @@ class SplashScreen : ScopedFragment() {
 
     private var isAppDataLoaded = false
     private var isUsageDataLoaded = false
+    private var areSensorsLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -72,8 +74,9 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun proceed() {
-        val allAppsData: AllAppsData = ViewModelProvider(requireActivity()).get(AllAppsData::class.java)
-        val usageStatsData = ViewModelProvider(requireActivity()).get(UsageStatsData::class.java)
+        val allAppsData: AllAppsData = ViewModelProvider(requireActivity())[AllAppsData::class.java]
+        val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsData::class.java]
+        val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
 
         allAppsData.getAppData().observe(viewLifecycleOwner, {
             isAppDataLoaded = true
@@ -82,6 +85,11 @@ class SplashScreen : ScopedFragment() {
 
         usageStatsData.usageData.observe(viewLifecycleOwner, {
             isUsageDataLoaded = true
+            openApp()
+        })
+
+        sensorsViewModel.getSensorsData().observe(viewLifecycleOwner, {
+            areSensorsLoaded = true
             openApp()
         })
     }

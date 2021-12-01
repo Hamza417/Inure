@@ -23,6 +23,7 @@
     <string name="appearance">Appearance</string>
     <string name="appearance_icon">Appearance Icon</string>
     <string name="total_apps">%1$s Apps</string>
+    <string name="total_sensors">%1$s Sensors</string>
     <string name="apps">Apps</string>
     <string name="configuration_button">Configuration Button</string>
     <string name="search_button">Search Button</string>

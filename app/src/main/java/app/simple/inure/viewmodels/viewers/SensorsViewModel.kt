@@ -24,7 +24,13 @@ class SensorsViewModel(application: Application) : AndroidViewModel(application)
     private fun loadSensorData() {
         viewModelScope.launch(Dispatchers.IO) {
             with(getApplication<Application>().getSystemService(Context.SENSOR_SERVICE) as SensorManager) {
-                this@SensorsViewModel.sensors.postValue(getSensorList(Sensor.TYPE_ALL))
+                val list: MutableList<Sensor> = getSensorList(Sensor.TYPE_ALL).toMutableList()
+
+                list.sortBy {
+                    it.name.lowercase()
+                }
+
+                this@SensorsViewModel.sensors.postValue(list)
             }
         }
     }

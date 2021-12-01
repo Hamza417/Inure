@@ -1,12 +1,13 @@
-package app.simple.inure.ui.viewers
+package app.simple.inure.ui.panels
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.adapters.details.AdapterSensors
+import app.simple.inure.adapters.ui.AdapterSensors
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.viewmodels.viewers.SensorsViewModel
@@ -22,8 +23,6 @@ class Sensors : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.sensors_recycler_view)
 
-        startPostponedEnterTransition()
-
         return view
     }
 
@@ -32,6 +31,11 @@ class Sensors : ScopedFragment() {
 
         sensorsViewModel.getSensorsData().observe(viewLifecycleOwner, {
             adapterSensors = AdapterSensors(it)
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+
             recyclerView.adapter = adapterSensors
         })
     }

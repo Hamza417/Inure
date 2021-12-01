@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:padding="@dimen/header_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="@dimen/adapter_header_icon_size"
+            android:layout_height="@dimen/adapter_header_icon_size"
+            android:contentDescription="@string/app_name"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_sensors"
+            android:transitionName="@string/sensors" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView02"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/header_padding"
+            android:layout_weight="1"
+            android:text="@string/sensors"
+            android:textSize="@dimen/header_font_size"
+            app:appFontStyle="light" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/header_padding"
+        android:orientation="horizontal">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/adapter_total_sesnors"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingHorizontal="@dimen/header_padding"
+            android:text="@string/apps"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp"
+            app:appFontStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>

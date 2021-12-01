@@ -47,8 +47,6 @@ class Statistics : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         usageStatsData.usageData.observe(viewLifecycleOwner, {
-            postponeEnterTransition()
-
             statisticsAdapter.setOnStatsCallbackListener(object : StatisticsAdapter.Companion.StatsAdapterCallbacks {
                 override fun onFilterPressed(view: View) {
                     UsageStatsMenu.newInstance()

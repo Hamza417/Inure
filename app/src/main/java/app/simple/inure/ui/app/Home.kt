@@ -27,12 +27,12 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
 import app.simple.inure.popups.app.PopupMainList
-import app.simple.inure.ui.panels.DeviceInfo
-import app.simple.inure.ui.panels.Search
-import app.simple.inure.ui.panels.Statistics
-import app.simple.inure.ui.panels.Terminal
+import app.simple.inure.ui.panels.*
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
-import app.simple.inure.ui.viewers.*
+import app.simple.inure.ui.viewers.Information
+import app.simple.inure.ui.viewers.MostUsed
+import app.simple.inure.ui.viewers.RecentlyInstalled
+import app.simple.inure.ui.viewers.RecentlyUpdated
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
