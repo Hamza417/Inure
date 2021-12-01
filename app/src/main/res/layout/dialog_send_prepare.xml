@@ -22,7 +22,6 @@
             android:layout_height="@dimen/button_size"
             android:padding="5dp"
             android:src="@drawable/ic_loader"
-            app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

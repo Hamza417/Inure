@@ -13,10 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
-import app.simple.inure.util.ColorUtils;
 
 public class LoaderImageView extends AppCompatImageView {
-    private TypedArray typedArray;
     
     public LoaderImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -29,13 +27,13 @@ public class LoaderImageView extends AppCompatImageView {
     }
     
     private void init(AttributeSet attrs) {
-        typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.LoaderImageView, 0, 0);
+        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.LoaderImageView, 0, 0);
         
         switch (typedArray.getInt(R.styleable.LoaderImageView_loaderStyle, 0)) {
             case 0: {
                 setImageResource(R.drawable.ic_loader);
                 startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.loader));
-                setImageTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent)));
+                // setImageTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent)));
                 break;
             }
             case 1: {
