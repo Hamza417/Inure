@@ -46,40 +46,6 @@
                 app:drawableTint="?attr/colorAppAccent"
                 app:drawableTintMode="src_in" />
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:padding="@dimen/dialog_padding"
-                android:text="@string/sorting_style"
-                android:textColor="@color/textPrimary"
-                android:textSize="6pt"
-                app:appFontStyle="bold" />
-
-            <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/dialog_apps_sorting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:drawableEnd="@drawable/ani_ic_unfold_popup"
-                android:drawablePadding="10dp"
-                android:gravity="center_vertical"
-                android:padding="@dimen/dialog_padding"
-                android:textColor="@color/textTertiary"
-                android:textSize="5pt"
-                app:appFontStyle="regular"
-                app:drawableTint="?attr/colorAppAccent" />
-
         </LinearLayout>
 
         <LinearLayout

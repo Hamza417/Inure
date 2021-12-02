@@ -13,6 +13,8 @@
     <color name="textPrimary">#E4E4E4</color>
     <color name="textSecondary">#C8C8C8</color>
     <color name="textTertiary">#AAAAAA</color>
+    <color name="textQuaternary">#9A9A9A</color>
+    <color name="textSelected">#242424</color>
 
     <color name="switchTrackOff">#2E2E2E</color>
 </resources>

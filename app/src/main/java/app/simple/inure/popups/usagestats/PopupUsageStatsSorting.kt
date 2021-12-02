@@ -12,31 +12,53 @@ import app.simple.inure.util.SortUsageStats
 
 class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
 
+    private val name: DynamicRippleTextView
+    private val time: DynamicRippleTextView
+    private val dataSent: DynamicRippleTextView
+    private val dataReceived: DynamicRippleTextView
+    private val wifiSent: DynamicRippleTextView
+    private val wifiReceived: DynamicRippleTextView
+
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_usage_stats_sorting, PopupLinearLayout(view.context))
-        init(contentView, view)
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.sort_name).setOnClickListener {
+        name = contentView.findViewById(R.id.sort_name)
+        time = contentView.findViewById(R.id.sort_time_used)
+        dataSent = contentView.findViewById(R.id.sort_data_sent)
+        dataReceived = contentView.findViewById(R.id.sort_data_received)
+        wifiSent = contentView.findViewById(R.id.sort_wifi_sent)
+        wifiReceived = contentView.findViewById(R.id.sort_wifi_received)
+
+        when (StatsPreferences.getSortedBy()) {
+            SortUsageStats.NAME -> name.isSelected = true
+            SortUsageStats.TIME -> time.isSelected = true
+            SortUsageStats.DATA_SENT -> dataSent.isSelected = true
+            SortUsageStats.DATA_RECEIVED -> dataReceived.isSelected = true
+            SortUsageStats.WIFI_SENT -> wifiSent.isSelected = true
+            SortUsageStats.WIFI_RECEIVED -> wifiReceived.isSelected = true
+        }
+
+        name.setOnClickListener {
             setOnClick(SortUsageStats.NAME)
         }
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.sort_time_used).setOnClickListener {
+        time.setOnClickListener {
             setOnClick(SortUsageStats.TIME)
         }
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.sort_data_sent).setOnClickListener {
+        dataSent.setOnClickListener {
             setOnClick(SortUsageStats.DATA_SENT)
         }
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.sort_data_received).setOnClickListener {
+        dataReceived.setOnClickListener {
             setOnClick(SortUsageStats.DATA_RECEIVED)
         }
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.sort_wifi_sent).setOnClickListener {
+        wifiSent.setOnClickListener {
             setOnClick(SortUsageStats.WIFI_SENT)
         }
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.sort_wifi_received).setOnClickListener {
+        wifiReceived.setOnClickListener {
             setOnClick(SortUsageStats.WIFI_RECEIVED)
         }
 
@@ -47,6 +69,8 @@ class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
                 StatsPreferences.setReverseSorting(isChecked)
             }
         }
+
+        init(contentView, view)
     }
 
     private fun setOnClick(source: String) {

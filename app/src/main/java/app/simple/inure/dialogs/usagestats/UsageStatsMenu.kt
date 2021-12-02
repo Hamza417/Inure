@@ -10,15 +10,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.usagestats.PopupAppsCategoryUsageStats
 import app.simple.inure.popups.usagestats.PopupUsageIntervals
-import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
-import app.simple.inure.util.SortUsageStats
 import app.simple.inure.util.UsageInterval
 
 class UsageStatsMenu : ScopedBottomSheetFragment() {
 
-    private lateinit var sort: DynamicRippleTextView
     private lateinit var category: DynamicRippleTextView
     private lateinit var settings: DynamicRippleTextView
     private lateinit var interval: DynamicRippleTextView
@@ -26,7 +23,6 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_usage_settings, container, false)
 
-        sort = view.findViewById(R.id.dialog_apps_sorting)
         category = view.findViewById(R.id.dialog_apps_category)
         settings = view.findViewById(R.id.dialog_open_apps_settings)
         interval = view.findViewById(R.id.popup_interval)
@@ -37,13 +33,8 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setSortText()
         setCategoryText()
         setIntervalText()
-
-        sort.setOnClickListener {
-            PopupUsageStatsSorting(it)
-        }
 
         category.setOnClickListener {
             PopupAppsCategoryUsageStats(it)
@@ -62,18 +53,6 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
                     .replace(R.id.app_container, fragment, "main_preferences_screen")
                     .addToBackStack(tag)
                     .commit()
-        }
-    }
-
-    private fun setSortText() {
-        sort.text = when (StatsPreferences.getSortedBy()) {
-            SortUsageStats.NAME -> getString(R.string.name)
-            SortUsageStats.TIME -> getString(R.string.time_used)
-            SortUsageStats.DATA_SENT -> getString(R.string.data_sent)
-            SortUsageStats.DATA_RECEIVED -> getString(R.string.data_received)
-            SortUsageStats.WIFI_SENT -> getString(R.string.wifi_sent)
-            SortUsageStats.WIFI_RECEIVED -> getString(R.string.wifi_received)
-            else -> getString(R.string.unknown)
         }
     }
 
@@ -98,9 +77,6 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            StatsPreferences.statsSorting -> {
-                setSortText()
-            }
             StatsPreferences.appsCategory -> {
                 setCategoryText()
             }

@@ -15,7 +15,7 @@ import app.simple.inure.adapters.ui.AppsAdapterSmall
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.Preparing
-import app.simple.inure.dialogs.app.AppsListConfiguration
+import app.simple.inure.dialogs.app.DialogAppsPreferences
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
@@ -90,7 +90,7 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onFilterPressed() {
-                    AppsListConfiguration.newInstance().show(childFragmentManager, "apps_list_config")
+                    DialogAppsPreferences.newInstance().show(childFragmentManager, "apps_list_config")
                 }
             })
         })

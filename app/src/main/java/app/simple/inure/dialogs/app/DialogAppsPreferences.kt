@@ -15,7 +15,7 @@ import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.Sort
 
-class AppsListConfiguration : ScopedBottomSheetFragment() {
+class DialogAppsPreferences : ScopedBottomSheetFragment() {
 
     private lateinit var appsCategory: DynamicRippleTextView
     private lateinit var sortingStyle: DynamicRippleTextView
@@ -97,9 +97,9 @@ class AppsListConfiguration : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(): AppsListConfiguration {
+        fun newInstance(): DialogAppsPreferences {
             val args = Bundle()
-            val fragment = AppsListConfiguration()
+            val fragment = DialogAppsPreferences()
             fragment.arguments = args
             return fragment
         }

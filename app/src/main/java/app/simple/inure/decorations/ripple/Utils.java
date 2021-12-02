@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import com.google.android.material.animation.ArgbEvaluatorCompat;
+import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
+import com.google.android.material.shape.ShapeAppearanceModel;
 
 import java.util.Arrays;
 
@@ -67,15 +70,22 @@ public class Utils {
         float[] innerRadii = new float[8];
         Arrays.fill(outerRadii, AppearancePreferences.INSTANCE.getCornerRadius() / divisiveFactor);
         Arrays.fill(innerRadii, AppearancePreferences.INSTANCE.getCornerRadius() / divisiveFactor);
-        
+    
         RoundRectShape shape = new RoundRectShape(outerRadii, null, innerRadii);
         ShapeDrawable mask = new ShapeDrawable(shape);
-        
+    
         ColorStateList stateList = ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(context, R.attr.colorAppAccent));
-        
+    
         RippleDrawable rippleDrawable = new RippleDrawable(stateList, backgroundDrawable, mask);
         rippleDrawable.setAlpha(alpha);
-        
+    
         return rippleDrawable;
+    }
+    
+    static MaterialShapeDrawable getRoundedBackground(float divisiveFactor) {
+        return new MaterialShapeDrawable(new ShapeAppearanceModel()
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius() / divisiveFactor)
+                .build());
     }
 }

@@ -18,6 +18,7 @@ import app.simple.inure.dialogs.usagestats.UsageStatsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupMainList
+import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.viewers.Information
@@ -71,11 +72,15 @@ class Statistics : ScopedFragment() {
                                 }
                                 getString(R.string.send) -> {
                                     Preparing.newInstance(packageInfo)
-                                            .show(parentFragmentManager, "send_app")
+                                        .show(parentFragmentManager, "send_app")
                                 }
                             }
                         }
                     })
+                }
+
+                override fun onSortPressed(view: View) {
+                    PopupUsageStatsSorting(view)
                 }
             })
 
