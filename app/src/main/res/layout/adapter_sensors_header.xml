@@ -20,8 +20,8 @@
             android:id="@+id/imageView4"
             android:layout_width="@dimen/adapter_header_icon_size"
             android:layout_height="@dimen/adapter_header_icon_size"
-            android:contentDescription="@string/app_name"
             android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_sensors"
             android:transitionName="@string/sensors" />
 
@@ -45,17 +45,23 @@
         android:orientation="horizontal">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/adapter_total_sesnors"
+            android:id="@+id/adapter_total_sensors"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:paddingHorizontal="@dimen/header_padding"
-            android:text="@string/apps"
+            android:text="@string/sensors"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
             app:appFontStyle="bold" />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/header_padding"
+        android:background="@color/divider" />
 
 </LinearLayout>

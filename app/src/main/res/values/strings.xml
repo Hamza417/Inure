@@ -370,4 +370,5 @@
     <string name="closed">Closed</string>
     <string name="cleared">Cleared</string>
     <string name="copied">Copied</string>
+    <string name="sensor_information">Sensor Information</string>
 </resources>

@@ -30,6 +30,10 @@ public interface PopupMenuCallback {
     default void onSureClicked() {
     }
     
+    default void onError(String error) {
+    
+    }
+    
     /**
      * Called when popup is dismissed, use it to
      * trigger animations or any pending events

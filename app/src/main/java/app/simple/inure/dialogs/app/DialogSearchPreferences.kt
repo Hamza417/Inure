@@ -11,21 +11,21 @@ import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.dialogs.AppCategoryPopup
 import app.simple.inure.popups.dialogs.SortingStylePopup
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.Sort
 
-class AppsListConfiguration : ScopedBottomSheetFragment() {
+class DialogSearchPreferences : ScopedBottomSheetFragment() {
 
     private lateinit var appsCategory: DynamicRippleTextView
     private lateinit var sortingStyle: DynamicRippleTextView
     private lateinit var openAppsSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_main_settings, container, false)
+        val view = inflater.inflate(R.layout.dialog_search_menu, container, false)
 
-        appsCategory = view.findViewById(R.id.dialog_apps_category)
-        sortingStyle = view.findViewById(R.id.dialog_apps_sorting)
+        appsCategory = view.findViewById(R.id.dialog_search_apps_category)
+        sortingStyle = view.findViewById(R.id.dialog_search_apps_sorting)
         openAppsSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
         return view
@@ -37,9 +37,9 @@ class AppsListConfiguration : ScopedBottomSheetFragment() {
         setListCategory()
 
         sortingStyle.setOnClickListener {
-            SortingStylePopup(sortingStyle, SortingStylePopup.apps).setOnMenuItemClickListener(object : PopupMenuCallback {
+            SortingStylePopup(sortingStyle, SortingStylePopup.search).setOnMenuItemClickListener(object : PopupMenuCallback {
                 override fun onMenuItemClicked(source: String) {
-                    MainPreferences.setSortStyle(source)
+                    SearchPreferences.setSortStyle(source)
                 }
             })
         }
@@ -47,11 +47,7 @@ class AppsListConfiguration : ScopedBottomSheetFragment() {
         appsCategory.setOnClickListener {
             AppCategoryPopup(appsCategory).setOnMenuItemClickListener(object : PopupMenuCallback {
                 override fun onMenuItemClicked(source: String) {
-                    MainPreferences.setListAppCategory(source)
-                }
-
-                override fun onDismiss() {
-
+                    SearchPreferences.setListAppCategory(source)
                 }
             })
         }
@@ -61,17 +57,17 @@ class AppsListConfiguration : ScopedBottomSheetFragment() {
                 ?: MainPreferencesScreen.newInstance()
 
             requireActivity().supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
-                    .replace(R.id.app_container, fragment, "main_preferences_screen")
-                    .addToBackStack(tag)
-                    .commit()
+                .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
+                .replace(R.id.app_container, fragment, "main_preferences_screen")
+                .addToBackStack(tag)
+                .commit()
         }
 
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setSortingStyle() {
-        sortingStyle.text = when (MainPreferences.getSortStyle()) {
+        sortingStyle.text = when (SearchPreferences.getSortStyle()) {
             Sort.NAME -> getString(R.string.name)
             Sort.INSTALL_DATE -> getString(R.string.install_date)
             Sort.SIZE -> getString(R.string.app_size)
@@ -81,7 +77,7 @@ class AppsListConfiguration : ScopedBottomSheetFragment() {
     }
 
     private fun setListCategory() {
-        appsCategory.text = when (MainPreferences.getListAppCategory()) {
+        appsCategory.text = when (SearchPreferences.getListAppCategory()) {
             AppCategoryPopup.SYSTEM -> getString(R.string.system)
             AppCategoryPopup.USER -> getString(R.string.user)
             AppCategoryPopup.BOTH -> getString(R.string.both)
@@ -91,15 +87,15 @@ class AppsListConfiguration : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            MainPreferences.sortStyle -> setSortingStyle()
-            MainPreferences.listAppsCategory -> setListCategory()
+            SearchPreferences.sortStyle -> setSortingStyle()
+            SearchPreferences.listAppsCategory -> setListCategory()
         }
     }
 
     companion object {
-        fun newInstance(): AppsListConfiguration {
+        fun newInstance(): DialogSearchPreferences {
             val args = Bundle()
-            val fragment = AppsListConfiguration()
+            val fragment = DialogSearchPreferences()
             fragment.arguments = args
             return fragment
         }

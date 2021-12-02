@@ -10,7 +10,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
 import app.simple.inure.popups.dialogs.AppCategoryPopup
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -65,7 +64,7 @@ class SearchData(application: Application) : AndroidViewModel(application) {
                             || p.packageName.contains(searchKeywords.value!!, true)
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
 
-            when (MainPreferences.getListAppCategory()) {
+            when (SearchPreferences.getListAppCategory()) {
                 AppCategoryPopup.SYSTEM -> {
                     filtered = filtered.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
@@ -78,7 +77,7 @@ class SearchData(application: Application) : AndroidViewModel(application) {
                 }
             }
 
-            filtered.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)
+            filtered.getSortedList(SearchPreferences.getSortStyle(), getApplication<Application>().applicationContext)
 
             appData.postValue(filtered)
         }

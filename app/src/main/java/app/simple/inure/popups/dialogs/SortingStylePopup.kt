@@ -10,9 +10,10 @@ import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort
 
-class SortingStylePopup(view: View) : BasePopupWindow() {
+class SortingStylePopup(view: View, from: String) : BasePopupWindow() {
 
     private lateinit var popupMenuCallback: PopupMenuCallback
 
@@ -31,14 +32,35 @@ class SortingStylePopup(view: View) : BasePopupWindow() {
         size.onClick(Sort.SIZE)
         installDate.onClick(Sort.INSTALL_DATE)
 
-        reversedCheckBox.isChecked = MainPreferences.isReverseSorting()
+        kotlin.runCatching {
+            reversedCheckBox.isChecked = when (from) {
+                apps -> {
+                    MainPreferences.isReverseSorting()
+                }
+                search -> {
+                    SearchPreferences.isReverseSorting()
+                }
+                else -> {
+                    throw IllegalStateException("Unknown sorting mode")
+                }
+            }
+        }.onFailure {
+            popupMenuCallback.onError(it.stackTraceToString())
+        }
 
         contentView.findViewById<DynamicRippleTextView>(R.id.sort_reversed).setOnClickListener {
             reversedCheckBox.isChecked = !reversedCheckBox.isChecked
         }
 
         reversedCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            MainPreferences.setReverseSorting(isChecked)
+            when (from) {
+                apps -> {
+                    MainPreferences.setReverseSorting(isChecked)
+                }
+                search -> {
+                    SearchPreferences.setReverseSorting(isChecked)
+                }
+            }
         }
     }
 
@@ -56,5 +78,10 @@ class SortingStylePopup(view: View) : BasePopupWindow() {
 
     fun setOnMenuItemClickListener(popupMenuCallback: PopupMenuCallback) {
         this.popupMenuCallback = popupMenuCallback
+    }
+
+    companion object {
+        const val apps = "APPS"
+        const val search = "SEARCH"
     }
 }

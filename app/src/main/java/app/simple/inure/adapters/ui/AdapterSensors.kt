@@ -77,7 +77,7 @@ class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Ad
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
-        val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_sesnors)
+        val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_sensors)
     }
 
     override fun getPopupText(position: Int): String {

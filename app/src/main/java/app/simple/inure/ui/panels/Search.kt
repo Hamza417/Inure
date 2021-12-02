@@ -17,12 +17,12 @@ import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
-import app.simple.inure.dialogs.app.AppsListConfiguration
+import app.simple.inure.dialogs.app.DialogSearchPreferences
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.PopupMainList
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
@@ -115,8 +115,8 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
             override fun onSearchMenuPressed(button: View) {
-                AppsListConfiguration.newInstance()
-                        .show(childFragmentManager, "apps_list_config")
+                DialogSearchPreferences.newInstance()
+                    .show(childFragmentManager, "search_list_config")
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
@@ -134,9 +134,9 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            MainPreferences.sortStyle,
-            MainPreferences.isSortingReversed,
-            MainPreferences.listAppsCategory,
+            SearchPreferences.sortStyle,
+            SearchPreferences.isSortingReversed,
+            SearchPreferences.listAppsCategory,
             -> {
                 searchModel.loadSearchData()
             }
