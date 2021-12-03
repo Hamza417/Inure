@@ -38,13 +38,4 @@ public class DynamicRippleTextView extends TypeFaceTextView {
         setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.textSelected)));
         setClickable(false);
     }
-    
-    @Override
-    public void setOnClickListener(@Nullable OnClickListener l) {
-        if (isSelected()) {
-            super.setOnClickListener(null);
-        } else {
-            super.setOnClickListener(l);
-        }
-    }
 }

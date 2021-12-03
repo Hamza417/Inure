@@ -84,6 +84,10 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
 
         } else if (holder is Header) {
             holder.settings.setOnClickListener {
+                statsAdapterCallbacks?.onSettngsPressed(it)
+            }
+
+            holder.filter.setOnClickListener {
                 statsAdapterCallbacks?.onFilterPressed(it)
             }
 
@@ -134,6 +138,7 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val sort: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_sort_button)
+        val filter: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_filter_button)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
     }
 
@@ -141,6 +146,7 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
         interface StatsAdapterCallbacks {
             fun onFilterPressed(view: View)
             fun onSortPressed(view: View)
+            fun onSettngsPressed(view: View)
             fun onAppClicked(packageInfo: PackageInfo, icon: ImageView)
             fun onAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup)
         }

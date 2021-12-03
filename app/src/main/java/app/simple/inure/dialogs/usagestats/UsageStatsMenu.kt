@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
-import app.simple.inure.popups.usagestats.PopupAppsCategoryUsageStats
 import app.simple.inure.popups.usagestats.PopupUsageIntervals
 import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
@@ -16,14 +15,12 @@ import app.simple.inure.util.UsageInterval
 
 class UsageStatsMenu : ScopedBottomSheetFragment() {
 
-    private lateinit var category: DynamicRippleTextView
     private lateinit var settings: DynamicRippleTextView
     private lateinit var interval: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_usage_settings, container, false)
 
-        category = view.findViewById(R.id.dialog_apps_category)
         settings = view.findViewById(R.id.dialog_open_apps_settings)
         interval = view.findViewById(R.id.popup_interval)
 
@@ -33,12 +30,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setCategoryText()
         setIntervalText()
-
-        category.setOnClickListener {
-            PopupAppsCategoryUsageStats(it)
-        }
 
         interval.setOnClickListener {
             PopupUsageIntervals(it)
@@ -56,15 +48,6 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         }
     }
 
-    private fun setCategoryText() {
-        category.text = when (StatsPreferences.getAppsCategory()) {
-            PopupAppsCategoryUsageStats.USER -> getString(R.string.user)
-            PopupAppsCategoryUsageStats.SYSTEM -> getString(R.string.system)
-            PopupAppsCategoryUsageStats.BOTH -> getString(R.string.both)
-            else -> getString(R.string.unknown)
-        }
-    }
-
     private fun setIntervalText() {
         interval.text = when (StatsPreferences.getInterval()) {
             UsageInterval.DAILY -> getString(R.string.daily)
@@ -77,9 +60,6 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            StatsPreferences.appsCategory -> {
-                setCategoryText()
-            }
             StatsPreferences.statsInterval -> {
                 setIntervalText()
             }

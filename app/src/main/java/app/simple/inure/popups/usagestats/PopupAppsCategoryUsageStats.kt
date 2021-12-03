@@ -11,13 +11,28 @@ import app.simple.inure.preferences.StatsPreferences
 
 class PopupAppsCategoryUsageStats(view: View) : BasePopupWindow() {
 
+    private val system: DynamicRippleTextView
+    private val user: DynamicRippleTextView
+    private val both: DynamicRippleTextView
+
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_apps_category, PopupLinearLayout(view.context))
-        init(contentView, view)
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_category_system).onClick(SYSTEM)
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_category_user).onClick(USER)
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_category_both).onClick(BOTH)
+        system = contentView.findViewById(R.id.popup_category_system)
+        user = contentView.findViewById(R.id.popup_category_user)
+        both = contentView.findViewById(R.id.popup_category_both)
+
+        when (StatsPreferences.getAppsCategory()) {
+            USER -> user.isSelected = true
+            SYSTEM -> system.isSelected = true
+            BOTH -> both.isSelected = true
+        }
+
+        system.onClick(SYSTEM)
+        user.onClick(USER)
+        both.onClick(BOTH)
+
+        init(contentView, view)
     }
 
     private fun TextView.onClick(category: String) {
