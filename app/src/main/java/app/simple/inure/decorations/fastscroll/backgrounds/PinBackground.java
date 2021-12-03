@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.fastscroll;
+package app.simple.inure.decorations.fastscroll.backgrounds;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -18,8 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 import app.simple.inure.R;
+import app.simple.inure.decorations.fastscroll.Utils;
 
-class InurePopupBackground extends Drawable {
+public class PinBackground extends Drawable {
     
     @NonNull
     private final Paint mPaint;
@@ -32,14 +33,14 @@ class InurePopupBackground extends Drawable {
     @NonNull
     private final Matrix mTempMatrix = new Matrix();
     
-    public InurePopupBackground(@NonNull Context context) {
+    public PinBackground(@NonNull Context context) {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(Utils.getColorFromAttrRes(R.attr.colorAppAccent, context));
         mPaint.setStyle(Paint.Style.FILL);
         Resources resources = context.getResources();
-        mPaddingStart = resources.getDimensionPixelOffset(R.dimen.afs_md2_popup_padding_start);
-        mPaddingEnd = resources.getDimensionPixelOffset(R.dimen.afs_md2_popup_padding_end);
+        mPaddingStart = resources.getDimensionPixelOffset(R.dimen.fast_scroller_padding_start);
+        mPaddingEnd = resources.getDimensionPixelOffset(R.dimen.fast_scroller_padding_end);
     }
     
     private static void pathArcTo(@NonNull Path path, float centerX, float centerY, float radius, float startAngle, float sweepAngle) {

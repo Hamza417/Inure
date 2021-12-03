@@ -53,10 +53,12 @@
     <dimen name="fs_md2_popup_min_width">78dp</dimen>
     <dimen name="fs_md2_popup_min_height">64dp</dimen>
     <dimen name="fs_md2_popup_margin_end">14dp</dimen>
-    <dimen name="afs_md2_popup_padding_start">16dp</dimen>
-    <dimen name="afs_md2_popup_padding_end">29dp</dimen>
+    <dimen name="fast_scroller_padding_start">16dp</dimen>
+    <dimen name="fast_scroller_padding_end">29dp</dimen>
+    <dimen name="fast_scroller_dimen">64dp</dimen>
     <dimen name="afs_md2_popup_elevation">3dp</dimen>
     <dimen name="fs_md2_popup_text_size">34dp</dimen>
+
     <dimen name="header_viewer_icon_size">30dp</dimen>
     <dimen name="app_name_text_size">16sp</dimen>
     <dimen name="app_package_text_size">11sp</dimen>

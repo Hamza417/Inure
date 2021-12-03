@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.core.util.Consumer;
 import app.simple.inure.R;
+import app.simple.inure.decorations.fastscroll.backgrounds.CircularBackground;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.TypeFace;
 import app.simple.inure.util.ViewUtils;
@@ -18,14 +19,14 @@ public class PopupStyles {
     
     public static Consumer <TextView> Inure = popupView -> {
         Resources resources = popupView.getResources();
-        popupView.setMinimumWidth(resources.getDimensionPixelSize(R.dimen.fs_md2_popup_min_width));
-        popupView.setMinimumHeight(resources.getDimensionPixelSize(R.dimen.fs_md2_popup_min_height));
+        popupView.setMinimumWidth(resources.getDimensionPixelSize(R.dimen.fast_scroller_dimen));
+        popupView.setMinimumHeight(resources.getDimensionPixelSize(R.dimen.fast_scroller_dimen));
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) popupView.getLayoutParams();
         layoutParams.gravity = Gravity.CENTER;
         layoutParams.setMarginEnd(resources.getDimensionPixelOffset(R.dimen.fs_md2_popup_margin_end));
         popupView.setLayoutParams(layoutParams);
         Context context = popupView.getContext();
-        popupView.setBackground(new InurePopupBackground(context));
+        popupView.setBackground(new CircularBackground(context));
         popupView.setElevation(resources.getDimensionPixelOffset(R.dimen.app_views_elevation));
         ViewUtils.INSTANCE.addShadow(popupView);
         popupView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
