@@ -6,7 +6,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.UsageInterval
 
 class PopupUsageIntervals(view: View) : BasePopupWindow() {
@@ -32,7 +32,7 @@ class PopupUsageIntervals(view: View) : BasePopupWindow() {
     }
 
     private fun setInterval(interval: Int) {
-        StatsPreferences.setInterval(interval).also {
+        StatisticsPreferences.setInterval(interval).also {
             dismiss()
         }
     }

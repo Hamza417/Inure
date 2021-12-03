@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/header_item_margin"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal">
@@ -42,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/header_padding"
+        android:layout_marginHorizontal="@dimen/header_padding"
         android:orientation="horizontal">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -50,18 +51,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:paddingHorizontal="@dimen/header_padding"
             android:text="@string/sensors"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
             app:appFontStyle="bold" />
 
-    </LinearLayout>
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/adapter_header_sort_button"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/configuration_button"
+            android:src="@drawable/ic_sort"
+            android:tint="@color/iconRegular" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="@dimen/header_padding"
-        android:background="@color/divider" />
+    </LinearLayout>
 
 </LinearLayout>

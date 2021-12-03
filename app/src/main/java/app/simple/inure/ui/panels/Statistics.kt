@@ -20,7 +20,7 @@ import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.popups.search.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
@@ -107,14 +107,14 @@ class Statistics : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            StatsPreferences.statsInterval -> {
+            StatisticsPreferences.statsInterval -> {
                 usageStatsData.loadAppStats()
             }
-            StatsPreferences.appsCategory -> {
+            StatisticsPreferences.appsCategory -> {
                 usageStatsData.loadAppStats()
             }
-            StatsPreferences.isSortingReversed,
-            StatsPreferences.statsSorting,
+            StatisticsPreferences.isSortingReversed,
+            StatisticsPreferences.statsSorting,
             -> {
                 usageStatsData.sortUsageData()
             }

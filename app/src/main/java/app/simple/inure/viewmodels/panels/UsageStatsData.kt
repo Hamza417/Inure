@@ -15,7 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.model.PackageStats
 import app.simple.inure.popups.apps.PopupAppsCategory
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.SortUsageStats.sortStats
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
@@ -44,13 +44,13 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.Default) {
             var list = arrayListOf<PackageStats>()
             val stats: MutableList<UsageStats> = with(UsageInterval.getTimeInterval()) {
-                usageStatsManager.queryUsageStats(StatsPreferences.getInterval(), first, second)
+                usageStatsManager.queryUsageStats(StatisticsPreferences.getInterval(), first, second)
             }
 
             var apps = getApplication<Application>()
                 .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
 
-            when (StatsPreferences.getAppsCategory()) {
+            when (StatisticsPreferences.getAppsCategory()) {
                 PopupAppsCategory.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0

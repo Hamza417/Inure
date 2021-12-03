@@ -33,11 +33,10 @@ public class PopupStyles {
         popupView.setGravity(Gravity.CENTER);
         popupView.setIncludeFontPadding(false);
         popupView.setSingleLine(true);
-        popupView.setTypeface(
-                TypeFace.INSTANCE.getTypeFace(
-                        AppearancePreferences.INSTANCE.getAppFont(),
-                        TypeFace.TypefaceStyle.BOLD.getStyle(),
-                        context));
+        popupView.setTypeface(TypeFace.INSTANCE.getTypeFace(
+                AppearancePreferences.INSTANCE.getAppFont(),
+                TypeFace.TypefaceStyle.BOLD.getStyle(),
+                context));
         popupView.setTextColor(Utils.getColorFromAttrRes(android.R.attr.textColorPrimaryInverse, context));
         popupView.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimensionPixelSize(R.dimen.fs_md2_popup_text_size));
     };

@@ -6,7 +6,7 @@ import app.simple.inure.util.SortUsageStats
 import app.simple.inure.util.UsageInterval
 import org.jetbrains.annotations.NotNull
 
-object StatsPreferences {
+object StatisticsPreferences {
     const val appsCategory = "stats_app_category"
     const val statsInterval = "usage_stats_intervals"
     const val statsSorting = "sorted_by"

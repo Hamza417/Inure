@@ -10,7 +10,7 @@ import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.popups.apps.PopupAppsCategory.Companion.BOTH
 import app.simple.inure.popups.apps.PopupAppsCategory.Companion.SYSTEM
 import app.simple.inure.popups.apps.PopupAppsCategory.Companion.USER
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.preferences.StatisticsPreferences
 
 class PopupAppsCategory(view: View) : BasePopupWindow() {
 
@@ -25,7 +25,7 @@ class PopupAppsCategory(view: View) : BasePopupWindow() {
         user = contentView.findViewById(R.id.popup_category_user)
         both = contentView.findViewById(R.id.popup_category_both)
 
-        when (StatsPreferences.getAppsCategory()) {
+        when (StatisticsPreferences.getAppsCategory()) {
             USER -> user.isSelected = true
             SYSTEM -> system.isSelected = true
             BOTH -> both.isSelected = true
@@ -40,7 +40,7 @@ class PopupAppsCategory(view: View) : BasePopupWindow() {
 
     private fun TextView.onClick(category: String) {
         this.setOnClickListener {
-            StatsPreferences.setAppsCategory(category)
+            StatisticsPreferences.setAppsCategory(category)
             dismiss()
         }
     }

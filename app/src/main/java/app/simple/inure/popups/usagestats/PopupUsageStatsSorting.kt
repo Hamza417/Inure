@@ -7,7 +7,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.views.CustomCheckBox
 import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.SortUsageStats
 
 class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
@@ -29,7 +29,7 @@ class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
         wifiSent = contentView.findViewById(R.id.sort_wifi_sent)
         wifiReceived = contentView.findViewById(R.id.sort_wifi_received)
 
-        when (StatsPreferences.getSortedBy()) {
+        when (StatisticsPreferences.getSortedBy()) {
             SortUsageStats.NAME -> name.isSelected = true
             SortUsageStats.TIME -> time.isSelected = true
             SortUsageStats.DATA_SENT -> dataSent.isSelected = true
@@ -63,10 +63,10 @@ class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
         }
 
         with(contentView.findViewById<CustomCheckBox>(R.id.sort_reversed_checkbox)) {
-            isChecked = StatsPreferences.isReverseSorting()
+            isChecked = StatisticsPreferences.isReverseSorting()
 
             setOnCheckedChangeListener { _, isChecked ->
-                StatsPreferences.setReverseSorting(isChecked)
+                StatisticsPreferences.setReverseSorting(isChecked)
             }
         }
 
@@ -74,7 +74,7 @@ class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
     }
 
     private fun setOnClick(source: String) {
-        StatsPreferences.setSortType(source)
+        StatisticsPreferences.setSortType(source)
         dismiss()
     }
 }

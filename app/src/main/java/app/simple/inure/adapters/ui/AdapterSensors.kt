@@ -9,16 +9,19 @@ import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 
 class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
+    private var adapterSensorCallbacks: AdapterSensorCallbacks? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewConstants.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_sensors_header, parent, false))
+                           .inflate(R.layout.adapter_header_sensors, parent, false))
             }
             RecyclerViewConstants.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
@@ -55,6 +58,10 @@ class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Ad
             }
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_sensors), sensors.size)
+
+            holder.sort.setOnClickListener {
+                adapterSensorCallbacks?.onSortPressed(it)
+            }
         }
     }
 
@@ -78,9 +85,20 @@ class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Ad
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_sensors)
+        val sort: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_sort_button)
     }
 
     override fun getPopupText(position: Int): String {
         return sensors[position].name.substring(0, 1)
+    }
+
+    fun setOnAdapterSensorCallbackListener(adapterSensorCallbacks: AdapterSensorCallbacks) {
+        this.adapterSensorCallbacks = adapterSensorCallbacks
+    }
+
+    companion object {
+        interface AdapterSensorCallbacks {
+            fun onSortPressed(view: View)
+        }
     }
 }

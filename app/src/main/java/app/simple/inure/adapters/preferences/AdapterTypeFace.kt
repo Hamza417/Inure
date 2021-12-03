@@ -34,7 +34,7 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_type_face, parent, false))
             }
             RecyclerViewConstants.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_typeface_header, parent, false))
+                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_typeface, parent, false))
             }
             else -> {
                 throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")

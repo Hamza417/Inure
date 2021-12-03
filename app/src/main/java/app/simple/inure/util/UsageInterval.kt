@@ -1,7 +1,7 @@
 package app.simple.inure.util
 
 import android.app.usage.UsageStatsManager
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.preferences.StatisticsPreferences
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -15,7 +15,7 @@ object UsageInterval {
     const val YEARLY = UsageStatsManager.INTERVAL_YEARLY
 
     fun getTimeInterval(): Pair<Long, Long> {
-        return when (StatsPreferences.getInterval()) {
+        return when (StatisticsPreferences.getInterval()) {
             TODAY -> getTodayInterval()
             DAILY -> getDailyInterval()
             WEEKlY -> getWeeklyInterval()

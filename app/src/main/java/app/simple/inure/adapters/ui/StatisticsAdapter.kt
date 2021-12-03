@@ -28,7 +28,7 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
         return when (viewType) {
             RecyclerViewConstants.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_usage_stats_header, parent, false))
+                           .inflate(R.layout.adapter_header_usage_stats, parent, false))
             }
             RecyclerViewConstants.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)

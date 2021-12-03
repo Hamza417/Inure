@@ -15,6 +15,7 @@ import androidx.core.app.AppOpsManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.app.Home
@@ -91,6 +92,11 @@ class SplashScreen : ScopedFragment() {
         sensorsViewModel.getSensorsData().observe(viewLifecycleOwner, {
             areSensorsLoaded = true
             openApp()
+        })
+
+        sensorsViewModel.getError().observe(viewLifecycleOwner, {
+            ErrorPopup.newInstance(it)
+                .show(parentFragmentManager, "error")
         })
     }
 

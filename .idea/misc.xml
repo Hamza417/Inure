@@ -44,6 +44,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_extras_filter.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_features.xml" value="0.2364102564102564" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_all_apps.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_sensors.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_home_menu.xml" value="0.2222222222222222" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_information.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_providers.xml" value="0.24010416666666667" />
@@ -147,6 +148,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_main_list_menu.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_providers_menu.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_receivers_menu.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_sensors_sort.xml" value="0.2324074074074074" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_services.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_services_menu.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_sorting_style.xml" value="0.225" />

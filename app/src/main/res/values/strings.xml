@@ -371,4 +371,7 @@
     <string name="cleared">Cleared</string>
     <string name="copied">Copied</string>
     <string name="sensor_information">Sensor Information</string>
+    <string name="power">Power</string>
+    <string name="maximum_range">Maximum Range</string>
+    <string name="resolution">Resolution</string>
 </resources>

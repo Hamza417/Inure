@@ -35,7 +35,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_accent_colors, parent, false))
             }
             TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_accent_color_header, parent, false))
+                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_accent_color, parent, false))
             }
             else -> {
                 throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")

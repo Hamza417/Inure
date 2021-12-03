@@ -23,6 +23,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
     private var manuallyAnimated = false
     private var fastScroll = true
     private var isEdgeColorRequired = true
+    private var isFastScrollerAdded = false
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
@@ -143,7 +144,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
          * Setup fast scroller only when adapter is large enough
          * to require a fast scroller
          */
-        if (adapter!!.itemCount > 25 && fastScroll) {
+        if (adapter!!.itemCount > 25 && fastScroll && !isFastScrollerAdded) {
             setupFastScroller()
         }
     }
@@ -154,6 +155,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
     fun setupFastScroller() {
         FastScrollerBuilder(this)
             .build()
+        isFastScrollerAdded = true
     }
 
     private inline fun <reified T : VerticalListViewHolder> RecyclerView.forEachVisibleHolder(action: (T) -> Unit) {

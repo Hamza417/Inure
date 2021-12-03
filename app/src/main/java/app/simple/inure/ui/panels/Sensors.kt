@@ -10,6 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterSensors
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.sensors.PopupSortingStyle
 import app.simple.inure.viewmodels.viewers.SensorsViewModel
 
 class Sensors : ScopedFragment() {
@@ -31,6 +32,12 @@ class Sensors : ScopedFragment() {
 
         sensorsViewModel.getSensorsData().observe(viewLifecycleOwner, {
             adapterSensors = AdapterSensors(it)
+
+            adapterSensors.setOnAdapterSensorCallbackListener(object : AdapterSensors.Companion.AdapterSensorCallbacks {
+                override fun onSortPressed(view: View) {
+                    PopupSortingStyle(view)
+                }
+            })
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

@@ -9,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.usagestats.PopupUsageIntervals
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.UsageInterval
 
@@ -49,7 +49,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
     }
 
     private fun setIntervalText() {
-        interval.text = when (StatsPreferences.getInterval()) {
+        interval.text = when (StatisticsPreferences.getInterval()) {
             UsageInterval.DAILY -> getString(R.string.daily)
             UsageInterval.WEEKlY -> getString(R.string.weekly)
             UsageInterval.MONTHLY -> getString(R.string.monthly)
@@ -60,7 +60,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            StatsPreferences.statsInterval -> {
+            StatisticsPreferences.statsInterval -> {
                 setIntervalText()
             }
         }

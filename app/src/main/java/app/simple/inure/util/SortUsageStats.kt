@@ -1,7 +1,7 @@
 package app.simple.inure.util
 
 import app.simple.inure.model.PackageStats
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.preferences.StatisticsPreferences
 import java.util.*
 
 object SortUsageStats {
@@ -13,7 +13,7 @@ object SortUsageStats {
     const val NAME = "name"
 
     fun ArrayList<PackageStats>.sortStats() {
-        when (StatsPreferences.getSortedBy()) {
+        when (StatisticsPreferences.getSortedBy()) {
             NAME -> {
                 sortByName()
             }
@@ -39,7 +39,7 @@ object SortUsageStats {
     }
 
     private fun ArrayList<PackageStats>.sortByName() {
-        return if (StatsPreferences.isReverseSorting()) {
+        return if (StatisticsPreferences.isReverseSorting()) {
             this.sortByDescending {
                 it.packageInfo!!.applicationInfo.name.lowercase(Locale.getDefault())
             }
@@ -51,7 +51,7 @@ object SortUsageStats {
     }
 
     private fun ArrayList<PackageStats>.sortByTime() {
-        return if (StatsPreferences.isReverseSorting()) {
+        return if (StatisticsPreferences.isReverseSorting()) {
             this.sortByDescending {
                 it.totalTimeUsed
             }
@@ -63,7 +63,7 @@ object SortUsageStats {
     }
 
     private fun ArrayList<PackageStats>.sortByDataSent() {
-        return if (StatsPreferences.isReverseSorting()) {
+        return if (StatisticsPreferences.isReverseSorting()) {
             this.sortByDescending {
                 it.dataSent
             }
@@ -75,7 +75,7 @@ object SortUsageStats {
     }
 
     private fun ArrayList<PackageStats>.sortByDataReceived() {
-        return if (StatsPreferences.isReverseSorting()) {
+        return if (StatisticsPreferences.isReverseSorting()) {
             this.sortByDescending {
                 it.dataReceived
             }
@@ -87,7 +87,7 @@ object SortUsageStats {
     }
 
     private fun ArrayList<PackageStats>.sortByWifiSent() {
-        return if (StatsPreferences.isReverseSorting()) {
+        return if (StatisticsPreferences.isReverseSorting()) {
             this.sortByDescending {
                 it.dataSentWifi
             }
@@ -99,7 +99,7 @@ object SortUsageStats {
     }
 
     private fun ArrayList<PackageStats>.sortByWifiReceived() {
-        return if (StatsPreferences.isReverseSorting()) {
+        return if (StatisticsPreferences.isReverseSorting()) {
             this.sortByDescending {
                 it.dataReceivedWifi
             }
