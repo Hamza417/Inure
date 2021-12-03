@@ -19,11 +19,15 @@ public interface AppsAdapterCallbacks {
     
     }
     
-    default void onFilterPressed() {
+    default void onFilterPressed(View view) {
     
     }
     
-    default void onSettingsPressed(@NotNull View view, @NotNull View view1) {
+    default void onSortPressed(View view) {
+    
+    }
+    
+    default void onSettingsPressed(@NotNull View view) {
     
     }
     

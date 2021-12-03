@@ -1,4 +1,4 @@
-package app.simple.inure.popups.dialogs
+package app.simple.inure.popups.search
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,75 +13,61 @@ import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort
 
-class SortingStylePopup(view: View, from: String) : BasePopupWindow() {
+class PopupSortingStyle(view: View) : BasePopupWindow() {
 
-    private lateinit var popupMenuCallback: PopupMenuCallback
+    private val name: DynamicRippleTextView
+    private val packageName: DynamicRippleTextView
+    private val size: DynamicRippleTextView
+    private val installDate: DynamicRippleTextView
+
+    private var popupMenuCallback: PopupMenuCallback? = null
 
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_sorting_style, PopupLinearLayout(view.context))
         init(contentView, view)
 
-        val name = contentView.findViewById<DynamicRippleTextView>(R.id.sort_name)
-        val packageName = contentView.findViewById<DynamicRippleTextView>(R.id.sort_package_name)
-        val size = contentView.findViewById<DynamicRippleTextView>(R.id.sort_app_size)
-        val installDate = contentView.findViewById<DynamicRippleTextView>(R.id.sort_install_date)
+        name = contentView.findViewById(R.id.sort_name)
+        packageName = contentView.findViewById(R.id.sort_package_name)
+        size = contentView.findViewById(R.id.sort_app_size)
+        installDate = contentView.findViewById(R.id.sort_install_date)
         val reversedCheckBox = contentView.findViewById<CustomCheckBox>(R.id.sort_reversed_checkbox)
+
+        when (SearchPreferences.getSortStyle()) {
+            Sort.NAME -> name.isSelected = true
+            Sort.INSTALL_DATE -> installDate.isSelected = true
+            Sort.SIZE -> size.isSelected = true
+            Sort.PACKAGE_NAME -> packageName.isSelected = true
+        }
 
         name.onClick(Sort.NAME)
         packageName.onClick(Sort.PACKAGE_NAME)
         size.onClick(Sort.SIZE)
         installDate.onClick(Sort.INSTALL_DATE)
 
-        kotlin.runCatching {
-            reversedCheckBox.isChecked = when (from) {
-                apps -> {
-                    MainPreferences.isReverseSorting()
-                }
-                search -> {
-                    SearchPreferences.isReverseSorting()
-                }
-                else -> {
-                    throw IllegalStateException("Unknown sorting mode")
-                }
-            }
-        }.onFailure {
-            popupMenuCallback.onError(it.stackTraceToString())
-        }
+        reversedCheckBox.isChecked = MainPreferences.isReverseSorting()
 
         contentView.findViewById<DynamicRippleTextView>(R.id.sort_reversed).setOnClickListener {
             reversedCheckBox.isChecked = !reversedCheckBox.isChecked
         }
 
         reversedCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            when (from) {
-                apps -> {
-                    MainPreferences.setReverseSorting(isChecked)
-                }
-                search -> {
-                    SearchPreferences.setReverseSorting(isChecked)
-                }
-            }
+            MainPreferences.setReverseSorting(isChecked)
         }
     }
 
     override fun dismiss() {
         super.dismiss()
-        popupMenuCallback.onDismiss()
+        popupMenuCallback?.onDismiss()
     }
 
     private fun TextView.onClick(style: String) {
         this.setOnClickListener {
-            popupMenuCallback.onMenuItemClicked(style)
+            SearchPreferences.setSortStyle(style)
             dismiss()
         }
     }
 
     fun setOnMenuItemClickListener(popupMenuCallback: PopupMenuCallback) {
         this.popupMenuCallback = popupMenuCallback
-    }
-
-    companion object {
-        const val apps = "APPS"
-        const val search = "SEARCH"
     }
 }

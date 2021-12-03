@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
 import app.simple.inure.events.AppsEvent
-import app.simple.inure.popups.dialogs.AppCategoryPopup
+import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -36,16 +36,16 @@ class AllAppsData(application: Application) : AndroidViewModel(application) {
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = getApplication<Application>()
-                    .applicationContext.packageManager
-                    .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+                .applicationContext.packageManager
+                .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
-            when (MainPreferences.getListAppCategory()) {
-                AppCategoryPopup.SYSTEM -> {
+            when (MainPreferences.getAppsCategory()) {
+                PopupAppsCategory.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
-                AppCategoryPopup.USER -> {
+                PopupAppsCategory.USER -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>

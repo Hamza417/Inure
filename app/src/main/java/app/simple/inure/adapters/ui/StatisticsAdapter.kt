@@ -84,7 +84,7 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
 
         } else if (holder is Header) {
             holder.settings.setOnClickListener {
-                statsAdapterCallbacks?.onSettngsPressed(it)
+                statsAdapterCallbacks?.onSettingsPressed(it)
             }
 
             holder.filter.setOnClickListener {
@@ -146,7 +146,7 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
         interface StatsAdapterCallbacks {
             fun onFilterPressed(view: View)
             fun onSortPressed(view: View)
-            fun onSettngsPressed(view: View)
+            fun onSettingsPressed(view: View)
             fun onAppClicked(packageInfo: PackageInfo, icon: ImageView)
             fun onAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup)
         }

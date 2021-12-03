@@ -1,4 +1,4 @@
-package app.simple.inure.popups.usagestats
+package app.simple.inure.popups.apps
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +7,9 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
-import app.simple.inure.preferences.StatsPreferences
+import app.simple.inure.preferences.MainPreferences
 
-class PopupAppsCategoryUsageStats(view: View) : BasePopupWindow() {
+class PopupAppsCategory(view: View) : BasePopupWindow() {
 
     private val system: DynamicRippleTextView
     private val user: DynamicRippleTextView
@@ -22,7 +22,7 @@ class PopupAppsCategoryUsageStats(view: View) : BasePopupWindow() {
         user = contentView.findViewById(R.id.popup_category_user)
         both = contentView.findViewById(R.id.popup_category_both)
 
-        when (StatsPreferences.getAppsCategory()) {
+        when (MainPreferences.getAppsCategory()) {
             USER -> user.isSelected = true
             SYSTEM -> system.isSelected = true
             BOTH -> both.isSelected = true
@@ -37,7 +37,7 @@ class PopupAppsCategoryUsageStats(view: View) : BasePopupWindow() {
 
     private fun TextView.onClick(category: String) {
         this.setOnClickListener {
-            StatsPreferences.setAppsCategory(category)
+            MainPreferences.setAppsCategory(category)
             dismiss()
         }
     }

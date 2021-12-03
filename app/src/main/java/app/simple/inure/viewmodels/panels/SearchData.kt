@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
-import app.simple.inure.popups.dialogs.AppCategoryPopup
+import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -64,13 +64,13 @@ class SearchData(application: Application) : AndroidViewModel(application) {
                             || p.packageName.contains(searchKeywords.value!!, true)
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
 
-            when (SearchPreferences.getListAppCategory()) {
-                AppCategoryPopup.SYSTEM -> {
+            when (SearchPreferences.getAppsCategory()) {
+                PopupAppsCategory.SYSTEM -> {
                     filtered = filtered.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
-                AppCategoryPopup.USER -> {
+                PopupAppsCategory.USER -> {
                     filtered = filtered.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>

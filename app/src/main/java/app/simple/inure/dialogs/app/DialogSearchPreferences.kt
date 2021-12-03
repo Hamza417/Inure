@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
-import app.simple.inure.extension.popup.PopupMenuCallback
-import app.simple.inure.popups.dialogs.AppCategoryPopup
-import app.simple.inure.popups.dialogs.SortingStylePopup
+import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.popups.search.PopupSortingStyle
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.Sort
@@ -32,24 +31,17 @@ class DialogSearchPreferences : ScopedBottomSheetFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setSortingStyle()
         setListCategory()
 
         sortingStyle.setOnClickListener {
-            SortingStylePopup(sortingStyle, SortingStylePopup.search).setOnMenuItemClickListener(object : PopupMenuCallback {
-                override fun onMenuItemClicked(source: String) {
-                    SearchPreferences.setSortStyle(source)
-                }
-            })
+            PopupSortingStyle(it)
         }
 
         appsCategory.setOnClickListener {
-            AppCategoryPopup(appsCategory).setOnMenuItemClickListener(object : PopupMenuCallback {
-                override fun onMenuItemClicked(source: String) {
-                    SearchPreferences.setListAppCategory(source)
-                }
-            })
+            app.simple.inure.popups.search.PopupAppsCategory(it)
         }
 
         openAppsSettings.setOnClickListener {
@@ -62,8 +54,6 @@ class DialogSearchPreferences : ScopedBottomSheetFragment() {
                 .addToBackStack(tag)
                 .commit()
         }
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setSortingStyle() {
@@ -77,10 +67,10 @@ class DialogSearchPreferences : ScopedBottomSheetFragment() {
     }
 
     private fun setListCategory() {
-        appsCategory.text = when (SearchPreferences.getListAppCategory()) {
-            AppCategoryPopup.SYSTEM -> getString(R.string.system)
-            AppCategoryPopup.USER -> getString(R.string.user)
-            AppCategoryPopup.BOTH -> getString(R.string.both)
+        appsCategory.text = when (SearchPreferences.getAppsCategory()) {
+            PopupAppsCategory.SYSTEM -> getString(R.string.system)
+            PopupAppsCategory.USER -> getString(R.string.user)
+            PopupAppsCategory.BOTH -> getString(R.string.both)
             else -> getString(R.string.unknown)
         }
     }

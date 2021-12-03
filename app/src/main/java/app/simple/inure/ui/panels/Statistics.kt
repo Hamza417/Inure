@@ -18,7 +18,7 @@ import app.simple.inure.dialogs.usagestats.UsageStatsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupMainList
-import app.simple.inure.popups.usagestats.PopupAppsCategoryUsageStats
+import app.simple.inure.popups.search.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.ui.app.AppInfo
@@ -80,10 +80,10 @@ class Statistics : ScopedFragment() {
                 }
 
                 override fun onFilterPressed(view: View) {
-                    PopupAppsCategoryUsageStats(view)
+                    PopupAppsCategory(view)
                 }
 
-                override fun onSettngsPressed(view: View) {
+                override fun onSettingsPressed(view: View) {
                     UsageStatsMenu.newInstance()
                         .show(childFragmentManager, "menu")
                 }

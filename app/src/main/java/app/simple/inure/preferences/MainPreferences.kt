@@ -3,7 +3,7 @@ package app.simple.inure.preferences
 import android.net.Uri
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
-import app.simple.inure.popups.dialogs.AppCategoryPopup
+import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort
 import org.jetbrains.annotations.NotNull
@@ -92,12 +92,12 @@ object MainPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setListAppCategory(@NonNull category: String) {
+    fun setAppsCategory(@NonNull category: String) {
         getSharedPreferences().edit().putString(listAppsCategory, category).apply()
     }
 
-    fun getListAppCategory(): String {
-        return getSharedPreferences().getString(listAppsCategory, AppCategoryPopup.BOTH)!!
+    fun getAppsCategory(): String {
+        return getSharedPreferences().getString(listAppsCategory, PopupAppsCategory.BOTH)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

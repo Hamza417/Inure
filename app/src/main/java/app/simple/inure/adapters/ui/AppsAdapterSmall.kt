@@ -34,11 +34,11 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
         return when (viewType) {
             RecyclerViewConstants.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
-                               .inflate(R.layout.adapter_header_all_apps, parent, false))
+                           .inflate(R.layout.adapter_header_all_apps, parent, false))
             }
             RecyclerViewConstants.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
-                               .inflate(R.layout.adapter_all_apps_small_details, parent, false))
+                           .inflate(R.layout.adapter_all_apps_small_details, parent, false))
             }
             else -> {
                 throw IllegalArgumentException("there is no type that matches the type $viewType, make sure your using types correctly")
@@ -87,8 +87,16 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
                 appsAdapterCallbacks.onSearchPressed(it)
             }
 
+            holder.filter.setOnClickListener {
+                appsAdapterCallbacks.onFilterPressed(it)
+            }
+
+            holder.sort.setOnClickListener {
+                appsAdapterCallbacks.onSortPressed(it)
+            }
+
             holder.settings.setOnClickListener {
-                appsAdapterCallbacks.onFilterPressed()
+                appsAdapterCallbacks.onSettingsPressed(it)
             }
 
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
@@ -134,6 +142,8 @@ class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTe
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+        val sort: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_sort_button)
+        val filter: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_filter_button)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
     }

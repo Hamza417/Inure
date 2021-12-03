@@ -36,6 +36,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginHorizontal="10dp"
         android:contentDescription="@string/configuration_button"
-        android:src="@drawable/ic_filter" />
+        android:src="@drawable/ic_settings" />
 
 </merge>

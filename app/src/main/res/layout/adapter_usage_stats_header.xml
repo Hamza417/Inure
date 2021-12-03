@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/header_item_margin"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal">
@@ -41,7 +41,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_padding"
+        android:layout_margin="@dimen/header_item_margin"
         android:orientation="horizontal">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -50,7 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:paddingHorizontal="@dimen/header_padding"
             android:text="@string/apps"
             android:textColor="@color/textPrimary"
             android:textSize="16sp"
@@ -83,7 +82,6 @@
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="8dp"
             android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_settings"
             android:tint="@color/iconRegular"

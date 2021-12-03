@@ -14,7 +14,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.model.PackageStats
-import app.simple.inure.popups.dialogs.AppCategoryPopup
+import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.StatsPreferences
 import app.simple.inure.util.SortUsageStats.sortStats
 import app.simple.inure.util.UsageInterval
@@ -51,12 +51,12 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
                 .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
 
             when (StatsPreferences.getAppsCategory()) {
-                AppCategoryPopup.SYSTEM -> {
+                PopupAppsCategory.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
-                AppCategoryPopup.USER -> {
+                PopupAppsCategory.USER -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>

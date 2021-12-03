@@ -20,6 +20,8 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.app.PopupMainList
+import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.viewers.Information
@@ -89,8 +91,17 @@ class Apps : ScopedFragment() {
                                                 "search")
                 }
 
-                override fun onFilterPressed() {
-                    DialogAppsPreferences.newInstance().show(childFragmentManager, "apps_list_config")
+                override fun onFilterPressed(view: View) {
+                    PopupAppsCategory(view)
+                }
+
+                override fun onSortPressed(view: View) {
+                    PopupSortingStyle(view)
+                }
+
+                override fun onSettingsPressed(view: View) {
+                    DialogAppsPreferences.newInstance()
+                        .show(childFragmentManager, "apps_list_config")
                 }
             })
         })
