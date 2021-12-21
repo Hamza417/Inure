@@ -11,8 +11,7 @@ object ApkManifestFetcher {
             while (true) {
                 val entry = zipInputStream.nextEntry ?: break
                 if (entry.name == "AndroidManifest.xml") {
-                    //                    zip.getInputStream(entry).use { input ->
-                    //                    }
+                    //  zip.getInputStream(entry).use { input -> }
                     return decompressXML(zipInputStream.readBytes())
                 }
             }
@@ -153,19 +152,22 @@ object ApkManifestFetcher {
         var off = xmlTagOff
         var indent = 0
 
-        // var startTagLineNo = -2
+        /**
+         * var startTagLineNo = -2
+         */
         while (off < xml.size) {
             val tag0 = lew(xml, off)
 
             /**
              * int tag1 = LEW(xml, off+1*4);
-             *            val lineNo = lew(xml, off + 2 * 4)
+             * val lineNo = lew(xml, off + 2 * 4)
+             * int tag3 = LEW(xml, off+3*4);
+             * val nameNsSi = lew(xml, off + 4 * 4)
              */
-            //int tag3 = LEW(xml, off+3*4);
-            //            val nameNsSi = lew(xml, off + 4 * 4)
             val nameSi = lew(xml, off + 5 * 4)
 
-            if (tag0 == startTag) { // XML START TAG
+            // XML START TAG
+            if (tag0 == startTag) {
                 //                val tag6 = lew(xml, off + 6 * 4)  // Expected to be 14001400
                 val numbAttrs = lew(xml, off + 7 * 4)  // Number of Attributes to follow
                 //int tag8 = LEW(xml, off+8*4);  // Expected to be 00000000
@@ -277,8 +279,10 @@ object ApkManifestFetcher {
      * @return Value of Little Endian 32 bit word specified
      */
     private fun lew(arr: ByteArray, off: Int): Int {
-        return (arr[off + 3] shl 24 and -0x1000000 or ((arr[off + 2] shl 16) and 0xff0000)
-                or (arr[off + 1] shl 8 and 0xff00) or (arr[off].toInt() and 0xFF))
+        return arr[off + 3] shl 24 and -0x1000000 or
+                (arr[off + 2] shl 16 and 0xff0000) or
+                (arr[off + 1] shl 8 and 0xff00) or
+                (arr[off].toInt() and 0xFF)
     } // end of LEW
 
     private infix fun Byte.shl(i: Int): Int = (this.toInt() shl i)

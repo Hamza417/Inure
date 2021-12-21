@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.ui
 
-import android.annotation.SuppressLint
 import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
@@ -19,9 +18,8 @@ import app.simple.inure.model.PackageStats
 import app.simple.inure.util.FileSizeHelper.toSize
 import java.util.concurrent.TimeUnit
 
-class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
+class StatisticsAdapter(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
-    private var data = arrayListOf<PackageStats>()
     private var statsAdapterCallbacks: StatsAdapterCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -46,14 +44,14 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
 
         if (holder is Holder) {
             holder.icon.transitionName = "stats_app_$position"
-            holder.icon.loadAppIcon(data[position].packageInfo!!.packageName)
-            holder.name.text = data[position].packageInfo!!.applicationInfo.name
-            holder.dataUp.text = data[position].dataSent.toSize()
-            holder.dataDown.text = data[position].dataReceived.toSize()
-            holder.wifiUp.text = data[position].dataSentWifi.toSize()
-            holder.wifiDown.text = data[position].dataReceivedWifi.toSize()
+            holder.icon.loadAppIcon(list[position].packageInfo!!.packageName)
+            holder.name.text = list[position].packageInfo!!.applicationInfo.name
+            holder.dataUp.text = list[position].dataSent.toSize()
+            holder.dataDown.text = list[position].dataReceived.toSize()
+            holder.wifiUp.text = list[position].dataSentWifi.toSize()
+            holder.wifiDown.text = list[position].dataReceivedWifi.toSize()
 
-            with(data[position].totalTimeUsed) {
+            with(list[position].totalTimeUsed) {
                 holder.time.apply {
                     this.text = when {
                         TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
@@ -74,11 +72,11 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
             }
 
             holder.container.setOnClickListener {
-                statsAdapterCallbacks?.onAppClicked(data[position].packageInfo!!, holder.icon)
+                statsAdapterCallbacks?.onAppClicked(list[position].packageInfo!!, holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                statsAdapterCallbacks?.onAppLongClicked(data[position].packageInfo!!, holder.icon, holder.container)
+                statsAdapterCallbacks?.onAppLongClicked(list[position].packageInfo!!, holder.icon, holder.container)
                 true
             }
 
@@ -95,12 +93,12 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
                 statsAdapterCallbacks?.onSortPressed(it)
             }
 
-            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), data.size)
+            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), list.size)
         }
     }
 
     override fun getItemCount(): Int {
-        return data.size + 1
+        return list.size + 1
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -110,14 +108,7 @@ class StatisticsAdapter : RecyclerView.Adapter<VerticalListViewHolder>(), PopupT
     }
 
     override fun getPopupText(position: Int): String {
-        return data[position].packageInfo?.applicationInfo?.name?.substring(0, 1) ?: ""
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    @Deprecated("Use ViewModel")
-    fun setData(list: ArrayList<PackageStats>) {
-        this.data = list
-        notifyDataSetChanged()
+        return list[position].packageInfo?.applicationInfo?.name?.substring(0, 1) ?: ""
     }
 
     fun setOnStatsCallbackListener(statsAdapterCallbacks: StatsAdapterCallbacks) {

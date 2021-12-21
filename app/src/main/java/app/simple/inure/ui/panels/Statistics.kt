@@ -18,7 +18,7 @@ import app.simple.inure.dialogs.usagestats.UsageStatsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupMainList
-import app.simple.inure.popups.search.PopupAppsCategory
+import app.simple.inure.popups.usagestats.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.ui.app.AppInfo
@@ -37,10 +37,7 @@ class Statistics : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.usage_rv)
 
-        statisticsAdapter = StatisticsAdapter()
-        recyclerView.adapter = statisticsAdapter
-
-        usageStatsData = ViewModelProvider(requireActivity()).get(UsageStatsData::class.java)
+        usageStatsData = ViewModelProvider(requireActivity())[UsageStatsData::class.java]
 
         return view
     }
@@ -49,6 +46,10 @@ class Statistics : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         usageStatsData.usageData.observe(viewLifecycleOwner, {
+            postponeEnterTransition()
+
+            statisticsAdapter = StatisticsAdapter(it)
+
             statisticsAdapter.setOnStatsCallbackListener(object : StatisticsAdapter.Companion.StatsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
@@ -89,9 +90,7 @@ class Statistics : ScopedFragment() {
                 }
             })
 
-            statisticsAdapter.setData(it).also {
-                recyclerView.setupFastScroller()
-            }
+            recyclerView.adapter = statisticsAdapter
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -107,15 +106,12 @@ class Statistics : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            StatisticsPreferences.statsInterval -> {
-                usageStatsData.loadAppStats()
-            }
+            StatisticsPreferences.statsInterval,
             StatisticsPreferences.appsCategory -> {
                 usageStatsData.loadAppStats()
             }
             StatisticsPreferences.isSortingReversed,
-            StatisticsPreferences.statsSorting,
-            -> {
+            StatisticsPreferences.statsSorting -> {
                 usageStatsData.sortUsageData()
             }
         }

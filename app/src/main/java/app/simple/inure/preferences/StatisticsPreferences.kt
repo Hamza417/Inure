@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull
 object StatisticsPreferences {
     const val appsCategory = "stats_app_category"
     const val statsInterval = "usage_stats_intervals"
-    const val statsSorting = "sorted_by"
+    const val statsSorting = "stats_sorted_by"
     const val isSortingReversed = "stats_is_sorting_reversed"
 
     // ---------------------------------------------------------------------------------------------------------- //

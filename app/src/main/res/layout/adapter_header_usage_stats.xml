@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/header_item_margin"
         android:clipChildren="false"
+        android:animateLayoutChanges="true"
         android:clipToPadding="false"
         android:orientation="horizontal">
 
@@ -20,8 +21,8 @@
             android:id="@+id/imageView4"
             android:layout_width="@dimen/adapter_header_icon_size"
             android:layout_height="@dimen/adapter_header_icon_size"
-            android:contentDescription="@string/app_name"
             android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_stats"
             android:transitionName="@string/usage_statistics" />
 
