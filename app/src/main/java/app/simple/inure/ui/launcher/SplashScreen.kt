@@ -3,7 +3,6 @@ package app.simple.inure.ui.launcher
 import android.annotation.SuppressLint
 import android.app.AppOpsManager
 import android.content.Context
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.os.Process
 import android.view.LayoutInflater
@@ -48,7 +47,7 @@ class SplashScreen : ScopedFragment() {
         icon = view.findViewById(R.id.imageView)
         icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))
 
-        (icon.drawable as AnimatedVectorDrawable).start()
+        // (icon.drawable as AnimatedVectorDrawable).start()
 
         when {
             requireArguments().getBoolean("skip") -> {

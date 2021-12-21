@@ -21,6 +21,7 @@ object ApkManifestFetcher {
     }
 
     fun getManifestXmlFromFile(file: File) = getManifestXmlFromInputStream(FileInputStream(file))
+
     fun getManifestXmlFromFilePath(filePath: String) =
         getManifestXmlFromInputStream(FileInputStream(File(filePath)))
 
@@ -39,7 +40,6 @@ object ApkManifestFetcher {
      */
     private var endTag = 0x00100103
 
-
     /**
      * Reference var for spacing
      * Used in prtIndent()
@@ -57,28 +57,40 @@ object ApkManifestFetcher {
 
         val resultXml = StringBuilder()
 
-        // Compressed XML file/bytes starts with 24x bytes of data,
-        // 9 32 bit words in little endian order (LSB first):
-        //   0th word is 03 00 08 00
-        //   3rd word SEEMS TO BE:  Offset at then of StringTable
-        //   4th word is: Number of strings in string table
-        // WARNING: Sometime I indiscriminently display or refer to word in
-        //   little endian storage format, or in integer format (ie MSB first).
+        /**
+         * Compressed XML file/bytes starts with 24x bytes of data,
+         * 9 32 bit words in little endian order (LSB first):
+         * 0th word is 03 00 08 00
+         * 3rd word SEEMS TO BE:  Offset at then of StringTable
+         * 4th word is: Number of strings in string table
+         *
+         * WARNING: Sometime I indiscriminately display or refer to word in
+         * little endian storage format, or in integer format (ie MSB first).
+         */
         val numbStrings = lew(xml, 4 * 4)
 
-        // StringIndexTable starts at offset 24x, an array of 32 bit LE offsets
-        // of the length/string data in the StringTable.
+        /**
+         * StringIndexTable starts at offset 24x, an array of 32 bit LE offsets
+         * of the length/string data in the StringTable.
+         */
         val sitOff = 0x24  // Offset of start of StringIndexTable
 
-        // StringTable, each string is represented with a 16 bit little endian
-        // character count, followed by that number of 16 bit (LE) (Unicode) chars.
+        /**
+         * StringTable, each string is represented with a 16 bit little endian
+         * character count, followed by that number of 16 bit (LE) (Unicode) chars.
+         */
         val stOff = sitOff + numbStrings * 4  // StringTable follows StrIndexTable
 
-        // XMLTags, The XML tag tree starts after some unknown content after the
-        // StringTable.  There is some unknown data after the StringTable, scan
-        // forward from this point to the flag for the start of an XML start tag.
+        /**
+         * XMLTags, The XML tag tree starts after some unknown content after the
+         * StringTable.  There is some unknown data after the StringTable, scan
+         * forward from this point to the flag for the start of an XML start tag.
+         */
         var xmlTagOff = lew(xml, 3 * 4)  // Start from the offset in the 3rd word.
-        // Scan forward until we find the bytes: 0x02011000(x00100102 in normal int)
+
+        /**
+         * Scan forward until we find the bytes: 0x02011000(x00100102 in normal int)
+         */
         run {
             var ii = xmlTagOff
             while (ii < xml.size - 4) {
@@ -88,48 +100,67 @@ object ApkManifestFetcher {
                 }
                 ii += 4
             }
-        } // end of hack, scanning for start of first start tag
+        }
+        /**
+         * end of hack, scanning for start of first start tag
+         */
 
-        // XML tags and attributes:
-        // Every XML start and end tag consists of 6 32 bit words:
-        //   0th word: 02011000 for startTag and 03011000 for endTag
-        //   1st word: a flag?, like 38000000
-        //   2nd word: Line of where this tag appeared in the original source file
-        //   3rd word: FFFFFFFF ??
-        //   4th word: StringIndex of NameSpace name, or FFFFFFFF for default NS
-        //   5th word: StringIndex of Element Name
-        //   (Note: 01011000 in 0th word means end of XML document, endDocTag)
+        /**
+         * XML tags and attributes:
+         * Every XML start and end tag consists of 6 32 bit words:
+         * 0th word: 02011000 for startTag and 03011000 for endTag
+         * 1st word: a flag?, like 38000000
+         * 2nd word: Line of where this tag appeared in the original source file
+         * 3rd word: FFFFFFFF ??
+         * 4th word: StringIndex of NameSpace name, or FFFFFFFF for default NS
+         * 5th word: StringIndex of Element Name
+         * (Note: 01011000 in 0th word means end of XML document, endDocTag)
+         */
 
-        // Start tags (not end tags) contain 3 more words:
-        //   6th word: 14001400 meaning??
-        //   7th word: Number of Attributes that follow this tag(follow word 8th)
-        //   8th word: 00000000 meaning??
+        /**
+         * Start tags (not end tags) contain 3 more words:
+         * 6th word: 14001400 meaning??
+         * 7th word: Number of Attributes that follow this tag(follow word 8th)
+         * 8th word: 00000000 meaning??
+         */
 
-        // Attributes consist of 5 words:
-        //   0th word: StringIndex of Attribute Name's Namespace, or FFFFFFFF
-        //   1st word: StringIndex of Attribute Name
-        //   2nd word: StringIndex of Attribute Value, or FFFFFFF if ResourceId used
-        //   3rd word: Flags?
-        //   4th word: str ind of attr value again, or ResourceId of value
+        /**
+         * Attributes consist of 5 words:
+         * 0th word: StringIndex of Attribute Name's Namespace, or FFFFFFFF
+         * 1st word: StringIndex of Attribute Name
+         * 2nd word: StringIndex of Attribute Value, or FFFFFFF if ResourceId used
+         * 3rd word: Flags?
+         * 4th word: str ind of attr value again, or ResourceId of value
+         */
 
-        //  TMP, dump string table to tr for debugging
-        //  tr.addSelect("strings", null);
-        //  for (int ii=0; ii<numbStrings; ii++) {
-        //  Length of string starts at StringTable plus offset in StrIndTable
-        //  String str = compXmlString(xml, sitOff, stOff, ii);
-        //  tr.add(String.valueOf(ii), str);
-        //  }
-        //
-        // tr.parent();
+        /**
+         * TMP, dump string table to tr for debugging
+         * tr.addSelect("strings", null);
+         * for (int ii=0; ii<numbStrings; ii++) {
+         * Length of string starts at StringTable plus offset in StrIndTable
+         * String str = compXmlString(xml, sitOff, stOff, ii);
+         * tr.add(String.valueOf(ii), str);
+         * }
+         */
 
-        // Step through the XML tree element tags and attributes
+        /**
+         * tr.parent();
+         */
+
+        /**
+         * Step through the XML tree element tags and attributes
+         */
         var off = xmlTagOff
         var indent = 0
-        //        var startTagLineNo = -2
+
+        // var startTagLineNo = -2
         while (off < xml.size) {
             val tag0 = lew(xml, off)
-            //int tag1 = LEW(xml, off+1*4);
-            //            val lineNo = lew(xml, off + 2 * 4)
+
+            /**
+             * int tag1 = LEW(xml, off+1*4);
+             *            val lineNo = lew(xml, off + 2 * 4)
+             */
             //int tag3 = LEW(xml, off+3*4);
             //            val nameNsSi = lew(xml, off + 4 * 4)
             val nameSi = lew(xml, off + 5 * 4)
@@ -187,7 +218,6 @@ object ApkManifestFetcher {
         return resultXml.toString()
     } // end of decompressXML
 
-
     /**
      * Tool Method for decompressXML();
      * Compute binary XML to its string format
@@ -207,7 +237,6 @@ object ApkManifestFetcher {
         return compXmlStringAt(xml, strOff)
     }
 
-
     /**
      * Tool Method for decompressXML();
      * Apply indentation
@@ -219,7 +248,6 @@ object ApkManifestFetcher {
     private fun prtIndent(indent: Int, str: String): String {
         return spaces.substring(0, (indent * 2).coerceAtMost(spaces.length)) + str
     }
-
 
     /**
      * Tool method for decompressXML()
@@ -239,7 +267,6 @@ object ApkManifestFetcher {
         }
         return String(chars)  // Hack, just use 8 byte chars
     } // end of compXmlStringAt
-
 
     /**
      * Return value of a Little Endian 32 bit word from the byte array

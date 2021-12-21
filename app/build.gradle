@@ -7,8 +7,8 @@ plugins {
 android {
     compileSdkVersion 31
 
-    def appVersionCode = 8
-    def appVersionName = "inure_build_${appVersionCode}"
+    def appVersionCode = 9
+    def appVersionName = "build_${appVersionCode}"
 
     buildFeatures {
         viewBinding false
@@ -45,7 +45,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {

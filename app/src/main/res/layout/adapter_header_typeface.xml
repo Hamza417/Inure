@@ -27,11 +27,19 @@
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/textSecondary"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="regular" />
+
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@color/divider" />
 
 </LinearLayout>

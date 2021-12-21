@@ -14,8 +14,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser.extractManifest
 import app.simple.inure.apk.parsers.APKParser.getTransBinaryXml
+import app.simple.inure.apk.parsers.ApkManifestFetcher
 import app.simple.inure.exceptions.StringTooLargeException
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.XMLUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -80,7 +82,14 @@ class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolea
                 val formattedContent: SpannableString
 
                 val code: String = if (isManifest) {
-                    packageInfo.applicationInfo.extractManifest()!!
+                    kotlin.runCatching {
+                        packageInfo.applicationInfo.extractManifest()!!
+                    }.getOrElse {
+                        /**
+                         * Alternate engine for parsing manifest
+                         */
+                        XMLUtils.getProperXml(ApkManifestFetcher.getManifestXmlFromFilePath(packageInfo.applicationInfo.sourceDir)!!)!!
+                    }
                 } else {
                     packageInfo.applicationInfo.getTransBinaryXml(pathToXml)
                 }
@@ -122,12 +131,12 @@ class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolea
                 }
 
                 val data = String.format(
-                    "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3" +
-                            ".org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3" +
-                            ".org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; " +
-                            "charset=utf-8\" /><p style=\"word-wrap: break-word;\"><script src=\"run_prettify.js" +
-                            "?skin=github\"></script></head><body bgcolor=\"transparent\"><pre class=\"prettyprint " +
-                            "linenums\">%s</pre></body></html>", Html.escapeHtml(code))
+                        "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3" +
+                                ".org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3" +
+                                ".org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; " +
+                                "charset=utf-8\" /><p style=\"word-wrap: break-word;\"><script src=\"run_prettify.js" +
+                                "?skin=github\"></script></head><body bgcolor=\"transparent\"><pre class=\"prettyprint " +
+                                "linenums\">%s</pre></body></html>", Html.escapeHtml(code))
 
                 string.postValue(data)
             }.getOrElse {

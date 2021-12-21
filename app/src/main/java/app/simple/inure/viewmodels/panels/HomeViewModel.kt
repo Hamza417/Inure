@@ -138,7 +138,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
             val list = listOf(
                     Pair(R.drawable.ic_apps, getString(R.string.apps)),
                     Pair(R.drawable.ic_terminal, getString(R.string.terminal)),
-                    Pair(R.drawable.ic_analytics, getString(R.string.analytics)),
+                    // Pair(R.drawable.ic_analytics, getString(R.string.analytics)),
                     Pair(R.drawable.ic_stats, getString(R.string.usage_statistics)),
                     Pair(R.drawable.ic_phone, getString(R.string.device_stats)),
                     Pair(R.drawable.ic_sensors, getString(R.string.sensors))

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Process
@@ -196,7 +195,6 @@ class Setup : ScopedFragment() {
         } else {
             storageStatus.text = getString(R.string.not_granted)
             storageUri.gone()
-            storageStatus.setTextColor(Color.RED)
             storageAccess.isClickable = true
         }
     }
