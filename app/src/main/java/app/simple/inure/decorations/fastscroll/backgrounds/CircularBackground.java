@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,6 +67,10 @@ public class CircularBackground extends Drawable {
      */
     @Override
     public void getOutline(@NonNull Outline outline) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && !path.isConvex()) {
+            super.getOutline(outline);
+            return;
+        }
         outline.setConvexPath(path);
     }
 }
