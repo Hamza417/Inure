@@ -16,6 +16,8 @@ import app.simple.inure.R;
 
 public class LoaderImageView extends AppCompatImageView {
     
+    private boolean isStillLoader = false;
+    
     public LoaderImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
@@ -33,12 +35,14 @@ public class LoaderImageView extends AppCompatImageView {
             case 0: {
                 setImageResource(R.drawable.ic_loader);
                 startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.loader));
+                isStillLoader = false;
                 // setImageTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent)));
                 break;
             }
             case 1: {
                 setImageResource(R.drawable.ic_still_loader);
                 setImageTintList(ColorStateList.valueOf(Color.parseColor("#d5d8dc")));
+                isStillLoader = true;
                 break;
             }
         }
@@ -49,12 +53,16 @@ public class LoaderImageView extends AppCompatImageView {
     
     public void loaded() {
         clearAnimation();
-        animateColor(Color.parseColor("#27ae60"));
+        if (isStillLoader) {
+            animateColor(Color.parseColor("#27ae60"));
+        }
     }
     
     public void error() {
         clearAnimation();
-        animateColor(Color.parseColor("#a93226"));
+        if (isStillLoader) {
+            animateColor(Color.parseColor("#a93226"));
+        }
     }
     
     private void animateColor(int toColor) {
