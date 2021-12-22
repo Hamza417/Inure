@@ -364,7 +364,7 @@
     <string name="reset">Reset</string>
     <string name="restart">Restart</string>
     <string name="uninstalled">Uninstalled</string>
-    <string name="cancellled">Cancelled</string>
+    <string name="cancelled">Cancelled</string>
     <string name="waiting">Waiting</string>
     <string name="closed">Closed</string>
     <string name="cleared">Cleared</string>
@@ -388,4 +388,6 @@
     <string name="desc_translate">Contribute translation the app into your regional language.</string>
     <string name="open_source_licenses">Open Source License</string>
     <string name="desc_licenses">List of licenses of the open source libraries used into development of this app.</string>
+    <string name="change_logs">Changes Logs</string>
+    <string name="desc_changelogs">Check changes and improvements in the current version of the apps and plans for the future updates.</string>
 </resources>

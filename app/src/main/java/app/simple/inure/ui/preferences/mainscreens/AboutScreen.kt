@@ -13,11 +13,13 @@ import app.simple.inure.extension.fragments.ScopedFragment
 class AboutScreen : ScopedFragment() {
 
     private lateinit var github: DynamicRippleRelativeLayout
+    private lateinit var translation: DynamicRippleRelativeLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_about, container, false)
 
         github = view.findViewById(R.id.about_github)
+        translation = view.findViewById(R.id.about_translation)
 
         return view
     }
@@ -29,6 +31,10 @@ class AboutScreen : ScopedFragment() {
         github.setOnClickListener {
             val uri: Uri = Uri.parse("https://github.com/Hamza417/Inure")
             startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }
+
+        translation.setOnClickListener {
+
         }
     }
 

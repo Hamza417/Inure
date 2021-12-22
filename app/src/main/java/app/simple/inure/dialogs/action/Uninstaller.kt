@@ -75,7 +75,7 @@ class Uninstaller : ScopedBottomSheetFragment() {
                     }
                     Activity.RESULT_CANCELED -> {
                         loader.error()
-                        status.setText(R.string.cancellled)
+                        status.setText(R.string.cancelled)
                     }
                 }
             }

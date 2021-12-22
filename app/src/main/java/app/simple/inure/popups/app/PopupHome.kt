@@ -1,5 +1,6 @@
 package app.simple.inure.popups.app
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
@@ -7,12 +8,13 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.extension.popup.PopupMenuCallback
+import kotlin.math.roundToInt
 
-class PopupHome(view: View) : BasePopupWindow() {
+class PopupHome(anchor: View) : BasePopupWindow() {
     private lateinit var popupMenuCallback: PopupMenuCallback
 
     init {
-        val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_home_menu, PopupLinearLayout(view.context))
+        val contentView = LayoutInflater.from(anchor.context).inflate(R.layout.popup_home_menu, PopupLinearLayout(anchor.context))
 
         contentView.findViewById<TypeFaceTextView>(R.id.popup_home_refresh)
             .onClick(contentView.context.getString(R.string.refresh))
@@ -20,7 +22,9 @@ class PopupHome(view: View) : BasePopupWindow() {
         contentView.findViewById<TypeFaceTextView>(R.id.popup_home_prefs)
             .onClick(contentView.context.getString(R.string.preferences))
 
-        init(contentView, view)
+        setContentView(contentView)
+        init()
+        showAsDropDown(anchor, (-width / 1.4).roundToInt(), height / 16, Gravity.NO_GRAVITY)
     }
 
     fun TypeFaceTextView.onClick(string: String) {
