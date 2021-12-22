@@ -11,6 +11,7 @@ object StatisticsPreferences {
     const val statsInterval = "usage_stats_intervals"
     const val statsSorting = "stats_sorted_by"
     const val isSortingReversed = "stats_is_sorting_reversed"
+    const val isUnusedHidden = "are_unused_app_hidden"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -50,5 +51,15 @@ object StatisticsPreferences {
 
     fun getAppsCategory(): String {
         return getSharedPreferences().getString(appsCategory, PopupAppsCategory.BOTH)!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setUnusedAppState(@NotNull value: Boolean) {
+        getSharedPreferences().edit().putBoolean(isUnusedHidden, value).apply()
+    }
+
+    fun areUnusedAppHidden(): Boolean {
+        return getSharedPreferences().getBoolean(isUnusedHidden, false)
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.usagestats.PopupUsageIntervals
 import app.simple.inure.preferences.StatisticsPreferences
@@ -17,12 +18,14 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
     private lateinit var settings: DynamicRippleTextView
     private lateinit var interval: DynamicRippleTextView
+    private lateinit var unusedAppsToggle: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_usage_settings, container, false)
 
         settings = view.findViewById(R.id.dialog_open_apps_settings)
         interval = view.findViewById(R.id.popup_interval)
+        unusedAppsToggle = view.findViewById(R.id.hide_unused_switch)
 
         return view
     }
@@ -31,9 +34,14 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setIntervalText()
+        unusedAppsToggle.setChecked(StatisticsPreferences.areUnusedAppHidden())
 
         interval.setOnClickListener {
             PopupUsageIntervals(it)
+        }
+
+        unusedAppsToggle.setOnSwitchCheckedChangeListener {
+            StatisticsPreferences.setUnusedAppState(it)
         }
 
         settings.setOnClickListener {
@@ -41,10 +49,10 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
                 ?: MainPreferencesScreen.newInstance()
 
             requireActivity().supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
-                    .replace(R.id.app_container, fragment, "main_preferences_screen")
-                    .addToBackStack(tag)
-                    .commit()
+                .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
+                .replace(R.id.app_container, fragment, "main_preferences_screen")
+                .addToBackStack(tag)
+                .commit()
         }
     }
 

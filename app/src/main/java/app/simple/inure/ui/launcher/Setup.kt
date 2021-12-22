@@ -142,7 +142,7 @@ class Setup : ScopedFragment() {
                     ConfigurationPreferences.setUsingRoot(false)
 
                     withContext(Dispatchers.Main) {
-                        rootSwitchView.setChecked(false)
+                        (false).also { rootSwitchView.setChecked(it) }
                     }
                 }
             }

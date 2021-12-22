@@ -107,6 +107,7 @@ class Statistics : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             StatisticsPreferences.statsInterval,
+            StatisticsPreferences.isUnusedHidden,
             StatisticsPreferences.appsCategory -> {
                 usageStatsData.loadAppStats()
             }

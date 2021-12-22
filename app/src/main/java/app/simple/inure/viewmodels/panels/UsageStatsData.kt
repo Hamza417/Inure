@@ -93,9 +93,11 @@ class UsageStatsData(application: Application) : AndroidViewModel(application) {
                 }
             }
 
-            list = list.filter {
-                it.totalTimeUsed != 0L
-            } as ArrayList<PackageStats>
+            if (StatisticsPreferences.areUnusedAppHidden()) {
+                list = list.filter {
+                    it.totalTimeUsed != 0L
+                } as ArrayList<PackageStats>
+            }
 
             list.sortStats()
 
