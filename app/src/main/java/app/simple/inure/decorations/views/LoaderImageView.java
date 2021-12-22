@@ -13,10 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
+import app.simple.inure.util.ColorUtils;
 
 public class LoaderImageView extends AppCompatImageView {
-    
-    private boolean isStillLoader = false;
     
     public LoaderImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -35,14 +34,11 @@ public class LoaderImageView extends AppCompatImageView {
             case 0: {
                 setImageResource(R.drawable.ic_loader);
                 startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.loader));
-                isStillLoader = false;
-                // setImageTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent)));
                 break;
             }
             case 1: {
-                setImageResource(R.drawable.ic_still_loader);
-                setImageTintList(ColorStateList.valueOf(Color.parseColor("#d5d8dc")));
-                isStillLoader = true;
+                setImageResource(R.drawable.ic_loader_still);
+                setImageTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent)));
                 break;
             }
         }
@@ -53,24 +49,29 @@ public class LoaderImageView extends AppCompatImageView {
     
     public void loaded() {
         clearAnimation();
-        if (isStillLoader) {
-            animateColor(Color.parseColor("#27ae60"));
-        }
+        animateColor(Color.parseColor("#27ae60"));
     }
     
     public void error() {
         clearAnimation();
-        if (isStillLoader) {
-            animateColor(Color.parseColor("#a93226"));
-        }
+        animateColor(Color.parseColor("#a93226"));
     }
     
     private void animateColor(int toColor) {
-        ValueAnimator valueAnimator = ValueAnimator.ofArgb(getImageTintList().getDefaultColor(), toColor);
+        ValueAnimator valueAnimator = ValueAnimator.ofArgb(getDefaultColor(), toColor);
         valueAnimator.setInterpolator(new LinearOutSlowInInterpolator());
         valueAnimator.setDuration(getResources().getInteger(R.integer.animation_duration));
         valueAnimator.addUpdateListener(animation -> setImageTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
         valueAnimator.start();
+    }
+    
+    private int getDefaultColor() {
+        try {
+            return getImageTintList().getDefaultColor();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent);
+        }
     }
     
     @Override
