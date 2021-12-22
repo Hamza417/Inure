@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Inure</string>
     <string name="unknown">Unknown</string>
     <string name="not_available">N/A</string>
     <string name="app_information">App Information</string>

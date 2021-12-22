@@ -59,6 +59,12 @@ class MainPreferencesScreen : ScopedFragment() {
                                                         imageView,
                                                         "config_prefs")
                         }
+                        getString(R.string.about) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        AboutScreen.newInstance(),
+                                                        imageView,
+                                                        "about_prefs")
+                        }
                     }
                 }
             })

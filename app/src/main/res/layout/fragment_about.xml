@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mainBackground"
+        android:elevation="@dimen/header_elevation"
+        android:orientation="horizontal"
+        android:padding="@dimen/header_padding">
+
+        <ImageView
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:src="@drawable/ic_about"
+            android:transitionName="@string/about"
+            app:tint="?attr/colorAppAccent"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/about"
+            android:textColor="?attr/colorAppAccent"
+            android:textSize="@dimen/header_font_size"
+            app:appFontStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/header_padding"
+        android:padding="@dimen/header_padding">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:text="@string/app_name_full"
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/home_heading_text_size"
+                app:appFontStyle="bold" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:text="and Tools"
+                android:textColor="@color/textTertiary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="@dimen/app_icon_dimension"
+            android:layout_height="@dimen/app_icon_dimension"
+            android:layout_gravity="center_horizontal"
+            android:clickable="false"
+            android:contentDescription="@string/app_name"
+            android:focusable="false"
+            android:padding="@dimen/header_padding"
+            android:src="@drawable/ani_ic_app_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/header_padding"
+        android:layout_marginBottom="@dimen/header_padding"
+        app:cardElevation="@dimen/app_views_elevation"
+        android:layout_weight="1">
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
