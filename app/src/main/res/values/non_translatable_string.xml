@@ -16,4 +16,5 @@
     <string name="play_store">Play Store</string>
     <string name="amazon">Amazon App Store</string>
     <string name="fdroid">F-Droid</string>
+    <string name="px">%1$s px</string>
 </resources>

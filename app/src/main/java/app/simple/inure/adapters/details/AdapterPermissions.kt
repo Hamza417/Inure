@@ -1,7 +1,6 @@
 package app.simple.inure.adapters.details
 
 import android.content.Context
-import android.content.pm.PermissionInfo
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +8,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.apk.utils.PermissionUtils.protectionToString
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.model.PermissionInfo
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ColorUtils.resolveAttrColor
@@ -21,7 +20,7 @@ import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
-class AdapterPermissions(private val permissions: MutableList<app.simple.inure.model.PermissionInfo>, private val keyword: String)
+class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, private val keyword: String)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
     private lateinit var permissionCallbacks: PermissionCallbacks
@@ -34,13 +33,9 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         runCatching {
-            val permissionInfo = permissions[position].name.getPermissionInfo(holder.itemView.context)!!
-
-            /* ----------------------------------------------------------------- */
-
-            holder.name.setPermissionName(position, holder.itemView.context, permissionInfo)
-            holder.desc.setDescriptionText(holder.itemView.context, permissionInfo)
-            holder.status.setStatusText(position, holder.itemView.context, permissionInfo)
+            holder.name.setPermissionName(position, holder.itemView.context, permissions[position])
+            holder.desc.setDescriptionText(holder.itemView.context, permissions[position])
+            holder.status.setStatusText(position, holder.itemView.context, permissions[position])
 
             /* ----------------------------------------------------------------- */
 
@@ -80,9 +75,9 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
     private fun TypeFaceTextView.setStatusText(position: Int, context: Context, permissionInfo: PermissionInfo) {
         @Suppress("deprecation")
         text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            protectionToString(permissionInfo.protection, permissionInfo.protectionFlags, context)
+            protectionToString(permissionInfo.permissionInfo.protection, permissionInfo.permissionInfo.protectionFlags, context)
         } else {
-            protectionToString(permissionInfo.protectionLevel, permissionInfo.protectionLevel, context)
+            protectionToString(permissionInfo.permissionInfo.protectionLevel, permissionInfo.permissionInfo.protectionLevel, context)
         }
 
         text = if (permissions[position].isGranted) {
@@ -94,7 +89,7 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
 
     private fun TypeFaceTextView.setDescriptionText(context: Context, permissionInfo: PermissionInfo) {
         text = kotlin.runCatching {
-            val string = permissionInfo.loadDescription(context.packageManager)
+            val string = permissionInfo.permissionInfo.loadDescription(context.packageManager)
 
             if (string.isNullOrEmpty()) {
                 throw NullPointerException("Description is either null or not available")
@@ -108,7 +103,7 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
 
     private fun TypeFaceTextView.setPermissionName(position: Int, context: Context, permissionInfo: PermissionInfo) {
         text = if (permissionLabelMode) {
-            permissionInfo.loadLabel(context.packageManager)
+            permissionInfo.label
         } else {
             permissions[position].name
         }.toString().optimizeToColoredString(context, ".")
@@ -134,7 +129,7 @@ class AdapterPermissions(private val permissions: MutableList<app.simple.inure.m
 
     companion object {
         interface PermissionCallbacks {
-            fun onPermissionClicked(container: View, permissionInfo: app.simple.inure.model.PermissionInfo, position: Int)
+            fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int)
         }
     }
 }
