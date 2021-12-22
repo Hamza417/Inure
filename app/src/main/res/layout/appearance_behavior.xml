@@ -288,4 +288,69 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/appearance_marquee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="@dimen/preference_icon_size"
+            android:layout_height="@dimen/preference_icon_size"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/typeface_icon"
+            android:src="@drawable/ic_marquee"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/iconSecondary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="@string/marquee_effect"
+            android:textColor="@color/textPrimary"
+            android:textSize="14sp"
+            app:appFontStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView18"
+            app:layout_constraintEnd_toStartOf="@+id/appearance_marquee_switch"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView11"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView18"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/desc_marquee"
+            android:textColor="@color/textTertiary"
+            android:textSize="12sp"
+            app:appFontStyle="regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/appearance_marquee_switch"
+            app:layout_constraintStart_toEndOf="@+id/imageView11"
+            app:layout_constraintTop_toBottomOf="@id/typeFaceTextView17" />
+
+        <app.simple.inure.decorations.switchview.SwitchView
+            android:id="@+id/appearance_marquee_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </merge>

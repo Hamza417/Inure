@@ -2,10 +2,12 @@ package app.simple.inure.decorations.typeface
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.os.Build
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences.getAppFont
+import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.util.TypeFace
 
 open class TypeFaceTextView : AppCompatTextView {
@@ -23,6 +25,25 @@ open class TypeFaceTextView : AppCompatTextView {
 
     private fun init() {
         typeface = TypeFace.getTypeFace(getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, 0), context)
-        isSelected = true
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (isSingleLine) {
+                if (BehaviourPreferences.isMarqueeOn()) {
+                    isSelected = true
+                } else {
+                    isSingleLine = false
+                    ellipsize = null
+                }
+            }
+        } else {
+            if (lineCount <= 1) {
+                if (BehaviourPreferences.isMarqueeOn()) {
+                    isSelected = true
+                } else {
+                    isSingleLine = false
+                    ellipsize = null
+                }
+            }
+        }
     }
 }

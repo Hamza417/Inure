@@ -5,7 +5,8 @@ object BehaviourPreferences {
     private const val dimWindows = "is_dimming_windows_on"
     private const val shadows = "are_shadows_on"
     private const val transition = "is_transition_on"
-    private const val animations = "is_animation_on"
+    private const val arcAnimation = "is_animation_on"
+    private const val marquee = "is_marquee_on"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -40,10 +41,20 @@ object BehaviourPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setAnimations(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(animations, boolean).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(arcAnimation, boolean).apply()
     }
 
     fun isAnimationOn(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(animations, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(arcAnimation, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setMarquee(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(marquee, boolean).apply()
+    }
+
+    fun isMarqueeOn(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(marquee, true)
     }
 }

@@ -15,6 +15,7 @@ class BehaviourScreen : ScopedFragment() {
     private lateinit var shadows: SwitchView
     private lateinit var transition: SwitchView
     private lateinit var animations: SwitchView
+    private lateinit var marquee: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_behaviour, container, false)
@@ -23,6 +24,7 @@ class BehaviourScreen : ScopedFragment() {
         shadows = view.findViewById(R.id.appearance_switch_shadows)
         transition = view.findViewById(R.id.appearance_transition_switch)
         animations = view.findViewById(R.id.appearance_animations_switch)
+        marquee = view.findViewById(R.id.appearance_marquee_switch)
 
         startPostponedEnterTransition()
 
@@ -36,6 +38,7 @@ class BehaviourScreen : ScopedFragment() {
         shadows.setChecked(BehaviourPreferences.areShadowsOn())
         transition.setChecked(BehaviourPreferences.isTransitionOn())
         animations.setChecked(BehaviourPreferences.isAnimationOn())
+        marquee.setChecked(BehaviourPreferences.isMarqueeOn())
 
         dimWindows.setOnSwitchCheckedChangeListener {
             BehaviourPreferences.setDimWindows(it)
@@ -51,6 +54,10 @@ class BehaviourScreen : ScopedFragment() {
 
         animations.setOnSwitchCheckedChangeListener {
             BehaviourPreferences.setAnimations(it)
+        }
+
+        marquee.setOnSwitchCheckedChangeListener {
+            BehaviourPreferences.setMarquee(it)
         }
     }
 

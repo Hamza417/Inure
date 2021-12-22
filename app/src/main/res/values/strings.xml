@@ -373,4 +373,6 @@
     <string name="power">Power</string>
     <string name="maximum_range">Maximum Range</string>
     <string name="resolution">Resolution</string>
+    <string name="marquee_effect">Marquee Effect</string>
+    <string name="desc_marquee">Horizontal scrolling effect on longer text throughout the app.\n\nDisabling this will make longer text appear in two or more lines.</string>
 </resources>
