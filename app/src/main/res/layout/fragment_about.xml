@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     android:orientation="vertical">
 
     <LinearLayout
@@ -35,69 +35,321 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="@dimen/header_padding"
-        android:padding="@dimen/header_padding">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="20dp"
+        app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:text="@string/app_name_full"
-                android:textColor="@color/textPrimary"
-                android:textSize="@dimen/home_heading_text_size"
-                app:appFontStyle="bold" />
+                android:layout_height="1px"
+                android:background="@color/divider" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/application"
+                android:textColor="?attr/colorAppAccent"
+                app:appFontStyle="medium" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="8dp"
-                android:text="and Tools"
-                android:textColor="@color/textTertiary"
-                android:textSize="@dimen/info_text_small"
-                app:appFontStyle="regular"
-                tools:ignore="HardcodedText" />
+                android:layout_marginHorizontal="10dp"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/app_version_iv"
+                    android:layout_width="@dimen/preference_icon_size"
+                    android:layout_height="@dimen/preference_icon_size"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:focusable="false"
+                    android:src="@drawable/ic_version"
+                    app:tint="@color/iconSecondary"
+                    tools:ignore="ContentDescription" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/app_version_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/app_version_iv"
+                    android:text="@string/version"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp"
+                    app:appFontStyle="bold" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/app_version_tag"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@id/app_version_iv"
+                    android:text="@string/versionName"
+                    android:textColor="@color/textTertiary"
+                    android:textSize="12sp"
+                    app:appFontStyle="regular" />
+
+            </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/legal_notes"
+                android:textColor="?attr/colorAppAccent"
+                app:appFontStyle="medium" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                android:id="@+id/appearance_app_typeface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/appearance_app_typeface_iv"
+                    android:layout_width="@dimen/preference_icon_size"
+                    android:layout_height="@dimen/preference_icon_size"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:focusable="false"
+                    android:src="@drawable/ic_law"
+                    app:tint="@color/iconSecondary"
+                    tools:ignore="ContentDescription" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/typeFaceTextView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/appearance_app_typeface_iv"
+                    android:text="@string/user_agreements"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp"
+                    app:appFontStyle="bold" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/typeFaceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/typeFaceTextView01"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@id/appearance_app_typeface_iv"
+                    android:text="@string/desc_user_agreements"
+                    android:textColor="@color/textTertiary"
+                    android:textSize="12sp"
+                    app:appFontStyle="regular" />
+
+            </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
+
+            <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                android:id="@+id/appearance_corner_radius"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="@dimen/preference_icon_size"
+                    android:layout_height="@dimen/preference_icon_size"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/credits"
+                    android:src="@drawable/ic_credits"
+                    app:tint="@color/iconSecondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/typeFaceTextView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/imageView3"
+                    android:text="@string/credits"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp"
+                    app:appFontStyle="bold" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/typeFaceTextView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/typeFaceTextView02"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_toEndOf="@id/imageView3"
+                    android:text="@string/desc_credits"
+                    android:textColor="@color/textTertiary"
+                    android:textSize="12sp"
+                    app:appFontStyle="regular" />
+
+            </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
+
+            <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                android:id="@+id/licenses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/license_icon"
+                    android:layout_width="@dimen/preference_icon_size"
+                    android:layout_height="@dimen/preference_icon_size"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/credits"
+                    android:src="@drawable/ic_licenses"
+                    app:tint="@color/iconSecondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/license_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/license_icon"
+                    android:text="@string/open_source_licenses"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp"
+                    app:appFontStyle="bold" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/license_tag"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_toEndOf="@id/license_icon"
+                    android:text="@string/desc_licenses"
+                    android:textColor="@color/textTertiary"
+                    android:textSize="12sp"
+                    app:appFontStyle="regular" />
+
+            </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/contribute"
+                android:textColor="?attr/colorAppAccent"
+                app:appFontStyle="medium" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                android:id="@+id/about_github"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="@dimen/preference_icon_size"
+                    android:layout_height="@dimen/preference_icon_size"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/typeface_icon"
+                    android:src="@drawable/ic_github"
+                    app:tint="@color/iconSecondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/typeFaceTextView05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/imageView4"
+                    android:text="GitHub"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp"
+                    app:appFontStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/typeFaceTextView06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/typeFaceTextView05"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_toEndOf="@id/imageView4"
+                    android:text="@string/desc_github"
+                    android:textColor="@color/textTertiary"
+                    android:textSize="12sp"
+                    app:appFontStyle="regular" />
+
+            </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
+
+            <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                android:id="@+id/about_translation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="@dimen/preference_icon_size"
+                    android:layout_height="@dimen/preference_icon_size"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/typeface_icon"
+                    android:src="@drawable/ic_translate"
+                    app:tint="@color/iconSecondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/translation_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/imageView5"
+                    android:text="@string/translate"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp"
+                    app:appFontStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/translation_tag"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_toEndOf="@id/imageView5"
+                    android:text="@string/desc_translate"
+                    android:textColor="@color/textTertiary"
+                    android:textSize="12sp"
+                    app:appFontStyle="regular" />
+
+            </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/app_icon"
-            android:layout_width="@dimen/app_icon_dimension"
-            android:layout_height="@dimen/app_icon_dimension"
-            android:layout_gravity="center_horizontal"
-            android:clickable="false"
-            android:contentDescription="@string/app_name"
-            android:focusable="false"
-            android:padding="@dimen/header_padding"
-            android:src="@drawable/ani_ic_app_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </LinearLayout>
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/header_padding"
-        android:layout_marginBottom="@dimen/header_padding"
-        app:cardElevation="@dimen/app_views_elevation"
-        android:layout_weight="1">
-
-
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.core.widget.NestedScrollView>
 
 </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

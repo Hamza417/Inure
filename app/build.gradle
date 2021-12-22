@@ -28,6 +28,8 @@ android {
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        resValue "string", "versionName", versionName
+
         ndkVersion '23.1.7779620'
 
         externalNativeBuild {
