@@ -54,15 +54,19 @@ open class BaseActivity : AppCompatActivity() {
 
     @Suppress("Deprecation")
     private fun makeAppFullScreen() {
-        if (Build.VERSION.SDK_INT in 21..29) {
-            window.statusBarColor = Color.TRANSPARENT
+        window.statusBarColor = Color.TRANSPARENT
+
+        if (Build.VERSION.SDK_INT in 23..29) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or SYSTEM_UI_FLAG_LAYOUT_STABLE
         } else if (Build.VERSION.SDK_INT >= 30) {
-            window.statusBarColor = Color.TRANSPARENT
             // Making status bar overlaps with the activity
             WindowCompat.setDecorFitsSystemWindows(window, false)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.navigationBarDividerColor = Color.TRANSPARENT
         }
     }
 
