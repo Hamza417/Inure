@@ -26,25 +26,22 @@ public class DynamicRippleTextView extends TypeFaceTextView {
     public DynamicRippleTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);
-    
-        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
-            LayoutBackground.setBackground(getContext(), this, attrs, Misc.roundedCornerFactor);
-            setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.highlight_color)));
-        } else {
-            setBackground(Utils.getRippleDrawable(getContext(), getBackground(), Misc.roundedCornerFactor));
-        }
     }
     
     public DynamicRippleTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setBackgroundColor(Color.TRANSPARENT);
+    }
     
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
-            LayoutBackground.setBackground(getContext(), this, attrs, Misc.roundedCornerFactor);
+            LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
             setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.highlight_color)));
         } else {
             setBackground(Utils.getRippleDrawable(getContext(), getBackground(), Misc.roundedCornerFactor));
         }
+        super.setOnClickListener(l);
     }
     
     @Override

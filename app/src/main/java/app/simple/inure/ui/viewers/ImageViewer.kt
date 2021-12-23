@@ -1,12 +1,17 @@
 package app.simple.inure.ui.viewers
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
+import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -14,7 +19,10 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
+import app.simple.inure.popups.viewers.PopupImageViewerMenu
+import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.util.NullSafety.isNotNull
+import com.google.android.material.animation.ArgbEvaluatorCompat
 import org.jetbrains.annotations.NotNull
 
 class ImageViewer : ScopedFragment() {
@@ -22,7 +30,9 @@ class ImageViewer : ScopedFragment() {
     private lateinit var image: ZoomImageView
     private lateinit var back: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
+    private lateinit var options: DynamicRippleImageButton
     private lateinit var header: PaddingAwareLinearLayout
+    private lateinit var background: FrameLayout
 
     private var isFullScreen = true
 
@@ -32,7 +42,9 @@ class ImageViewer : ScopedFragment() {
         image = view.findViewById(R.id.image_viewer)
         back = view.findViewById(R.id.image_viewer_back_button)
         name = view.findViewById(R.id.image_name)
+        options = view.findViewById(R.id.image_viewer_option)
         header = view.findViewById(R.id.header)
+        background = view.findViewById(R.id.image_viewer_container)
 
         startPostponedEnterTransition()
 
@@ -62,6 +74,10 @@ class ImageViewer : ScopedFragment() {
                 true
             }
         }
+
+        options.setOnClickListener {
+            PopupImageViewerMenu(it)
+        }
     }
 
     private fun setFullScreen(translationY: Float) {
@@ -74,7 +90,6 @@ class ImageViewer : ScopedFragment() {
         super.onSaveInstanceState(outState)
     }
 
-
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         if (savedInstanceState.isNotNull()) {
             setFullScreen(savedInstanceState!!.getFloat("translation"))
@@ -83,9 +98,24 @@ class ImageViewer : ScopedFragment() {
         super.onViewStateRestored(savedInstanceState)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            ImageViewerPreferences.isBackgroundDark -> {
+                setBackgroundColor()
+            }
+        }
+    }
+
+    private fun setBackgroundColor() {
+        val colorAnim = if (ImageViewerPreferences.isBackgroundDark()) {
+            ValueAnimator.ofObject(ArgbEvaluatorCompat(), ContextCompat.getColor(requireContext(), R.color.viewerBackground), Color.BLACK)
+        } else {
+            ValueAnimator.ofObject(ArgbEvaluatorCompat(), Color.BLACK, ContextCompat.getColor(requireContext(), R.color.viewerBackground))
+        }
+        colorAnim.duration = 1000
+        colorAnim.interpolator = LinearOutSlowInInterpolator()
+        colorAnim.addUpdateListener { animation -> image.setBackgroundColor(animation.animatedValue as Int) }
+        colorAnim.start()
     }
 
     companion object {
