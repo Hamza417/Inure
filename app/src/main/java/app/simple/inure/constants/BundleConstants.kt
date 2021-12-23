@@ -13,4 +13,5 @@ object BundleConstants {
     const val transitionName = "transition_name"
     const val permissionMode = "permission_mode"
     const val componentMode = "component_state_mode"
+    const val webPage = "web_page_name"
 }

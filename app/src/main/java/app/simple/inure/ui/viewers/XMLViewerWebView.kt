@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CustomWebView
+import app.simple.inure.decorations.views.XmlWebView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.XmlDataFactory
 import app.simple.inure.popups.app.PopupXmlViewer
@@ -29,7 +29,7 @@ import java.io.IOException
 
 class XMLViewerWebView : ScopedFragment() {
 
-    private lateinit var manifest: CustomWebView
+    private lateinit var manifest: XmlWebView
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
     private lateinit var progress: ProgressBar

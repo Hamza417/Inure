@@ -10,6 +10,7 @@ import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.constants.Misc
 import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.model.PermissionInfo
+import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -45,13 +46,24 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                 for (count in appPackageInfo.requestedPermissions.indices) {
                     val permissionInfo = PermissionInfo()
 
-                    permissionInfo.permissionInfo = appPackageInfo.requestedPermissions[count].getPermissionInfo(context)
-                    permissionInfo.label = permissionInfo.permissionInfo.loadLabel(context.packageManager).toString()
+                    kotlin.runCatching {
+                        permissionInfo.permissionInfo = appPackageInfo.requestedPermissions[count].getPermissionInfo(context)
+                        permissionInfo.label = permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
 
-                    if (isKeywordMatched(keyword, appPackageInfo.requestedPermissions[count], permissionInfo.label)) {
-                        permissionInfo.isGranted = appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0
-                        permissionInfo.name = appPackageInfo.requestedPermissions[count]
-                        permissions.add(permissionInfo)
+                        if (isKeywordMatched(keyword, appPackageInfo.requestedPermissions[count], permissionInfo.label)) {
+                            permissionInfo.isGranted = appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0
+                            permissionInfo.name = appPackageInfo.requestedPermissions[count]
+                            permissions.add(permissionInfo)
+                        }
+                    }.onFailure {
+                        permissionInfo.permissionInfo = null
+                        permissionInfo.label = appPackageInfo.requestedPermissions[count]
+
+                        if (isKeywordMatched(keyword, appPackageInfo.requestedPermissions[count])) {
+                            permissionInfo.isGranted = appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0
+                            permissionInfo.name = appPackageInfo.requestedPermissions[count]
+                            permissions.add(permissionInfo)
+                        }
                     }
                 }
 
@@ -71,5 +83,9 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
 
     private fun isKeywordMatched(keyword: String, name: String, loadLabel: String): Boolean {
         return name.lowercase().contains(keyword.lowercase()) || loadLabel.lowercase().contains(keyword.lowercase())
+    }
+
+    private fun isKeywordMatched(keyword: String, name: String): Boolean {
+        return name.lowercase().contains(keyword.lowercase())
     }
 }

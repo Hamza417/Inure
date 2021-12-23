@@ -4,10 +4,10 @@
     android:id="@+id/pref_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginHorizontal="@dimen/header_padding"
+    android:layout_marginTop="@dimen/popup_padding"
     android:orientation="horizontal"
-    android:padding="@dimen/header_padding">
+    android:padding="@dimen/popup_padding">
 
     <ImageView
         android:id="@+id/preferences_icon"

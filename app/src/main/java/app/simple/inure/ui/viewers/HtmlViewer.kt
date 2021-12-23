@@ -18,7 +18,7 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CustomWebView
+import app.simple.inure.decorations.views.XmlWebView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextDataFactory
@@ -31,7 +31,7 @@ import java.util.*
 class HtmlViewer : ScopedFragment() {
 
     private lateinit var scrollView: PaddingAwareNestedScrollView
-    private lateinit var html: CustomWebView
+    private lateinit var html: XmlWebView
     private lateinit var path: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
 

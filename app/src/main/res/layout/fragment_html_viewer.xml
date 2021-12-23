@@ -53,7 +53,7 @@
             android:layout_height="1px"
             android:background="@color/divider" />
 
-        <app.simple.inure.decorations.views.CustomWebView
+        <app.simple.inure.decorations.views.XmlWebView
             android:id="@+id/html_viewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

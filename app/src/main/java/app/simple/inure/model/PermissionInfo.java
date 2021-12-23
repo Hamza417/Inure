@@ -3,14 +3,17 @@ package app.simple.inure.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 public class PermissionInfo implements Parcelable {
     
+    @Nullable
     private android.content.pm.PermissionInfo permissionInfo;
     private boolean isGranted;
     private String name;
     private String label;
     
-    public PermissionInfo(android.content.pm.PermissionInfo permissionInfo, boolean isGranted, String name, String label) {
+    public PermissionInfo(@Nullable android.content.pm.PermissionInfo permissionInfo, boolean isGranted, String name, String label) {
         this.permissionInfo = permissionInfo;
         this.isGranted = isGranted;
         this.name = name;
@@ -82,11 +85,12 @@ public class PermissionInfo implements Parcelable {
         this.label = label;
     }
     
+    @Nullable
     public android.content.pm.PermissionInfo getPermissionInfo() {
         return permissionInfo;
     }
     
-    public void setPermissionInfo(android.content.pm.PermissionInfo permissionInfo) {
+    public void setPermissionInfo(@Nullable android.content.pm.PermissionInfo permissionInfo) {
         this.permissionInfo = permissionInfo;
     }
 }

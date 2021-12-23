@@ -44,7 +44,7 @@ object ImageLoader {
     fun ZoomImageView.loadGraphics(context: Context, @NotNull path: String, filePath: String) {
         Glide.with(context)
             .asBitmap()
-            .dontTransform()
+            .centerInside()
             .dontAnimate()
             .load(AppGraphicsModel(path, filePath))
             .into(this)

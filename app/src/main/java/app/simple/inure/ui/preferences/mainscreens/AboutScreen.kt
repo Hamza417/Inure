@@ -7,17 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.activities.app.WebPageViewerActivity
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.extension.fragments.ScopedFragment
 
 class AboutScreen : ScopedFragment() {
 
+    private lateinit var changelogs: DynamicRippleRelativeLayout
     private lateinit var github: DynamicRippleRelativeLayout
     private lateinit var translation: DynamicRippleRelativeLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_about, container, false)
 
+        changelogs = view.findViewById(R.id.changelogs)
         github = view.findViewById(R.id.about_github)
         translation = view.findViewById(R.id.about_translation)
 
@@ -35,6 +39,12 @@ class AboutScreen : ScopedFragment() {
 
         translation.setOnClickListener {
 
+        }
+
+        changelogs.setOnClickListener {
+            val intent = Intent(requireActivity(), WebPageViewerActivity::class.java)
+            intent.putExtra(BundleConstants.webPage, getString(R.string.change_logs))
+            startActivity(intent)
         }
     }
 

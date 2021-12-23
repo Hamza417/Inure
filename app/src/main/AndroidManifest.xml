@@ -40,6 +40,12 @@
         </activity>
 
         <activity
+            android:name=".activities.app.WebPageViewerActivity"
+            android:documentLaunchMode="intoExisting"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
             android:name=".activities.association.AppDetailsActivity"
             android:exported="true"
             android:label="@string/app_info">

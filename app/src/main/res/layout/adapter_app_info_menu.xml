@@ -9,12 +9,12 @@
     android:clipToPadding="false"
     android:orientation="vertical"
     android:padding="@dimen/popup_padding"
-    android:layout_margin="20dp">
+    android:layout_margin="15dp">
 
     <ImageView
         android:id="@+id/adapter_app_info_menu_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/preference_icon_size"
+        android:layout_height="@dimen/preference_icon_size"
         android:layout_gravity="center"
         app:tint="@color/iconRegular"
         tools:ignore="ContentDescription" />

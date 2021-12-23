@@ -1,4 +1,4 @@
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,12 +6,12 @@
     android:background="@color/mainBackground"
     android:orientation="vertical">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@color/mainBackground"
         android:elevation="@dimen/header_elevation"
+        android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
         <ImageView
@@ -33,7 +33,7 @@
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 
-    </LinearLayout>
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -55,4 +55,4 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+</LinearLayout>

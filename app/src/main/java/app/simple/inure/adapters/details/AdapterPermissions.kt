@@ -16,6 +16,7 @@ import app.simple.inure.model.PermissionInfo
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ColorUtils.resolveAttrColor
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -32,7 +33,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        runCatching {
+        if (permissions[position].permissionInfo.isNotNull()) {
             holder.name.setPermissionName(position, holder.itemView.context, permissions[position])
             holder.desc.setDescriptionText(holder.itemView.context, permissions[position])
             holder.status.setStatusText(position, holder.itemView.context, permissions[position])
@@ -41,8 +42,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
             holder.status.setTextColor(holder.itemView.context.resolveAttrColor(R.attr.colorAppAccent))
             holder.desc.visible(false)
-
-        }.getOrElse {
+        } else {
             holder.name.text = permissions[position].name.optimizeToColoredString(holder.itemView.context, ".")
             holder.status.text = holder.itemView.context.getString(R.string.permission_info_not_available)
             holder.status.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textSecondary))
@@ -75,9 +75,9 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
     private fun TypeFaceTextView.setStatusText(position: Int, context: Context, permissionInfo: PermissionInfo) {
         @Suppress("deprecation")
         text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            protectionToString(permissionInfo.permissionInfo.protection, permissionInfo.permissionInfo.protectionFlags, context)
+            protectionToString(permissionInfo.permissionInfo!!.protection, permissionInfo.permissionInfo!!.protectionFlags, context)
         } else {
-            protectionToString(permissionInfo.permissionInfo.protectionLevel, permissionInfo.permissionInfo.protectionLevel, context)
+            protectionToString(permissionInfo.permissionInfo!!.protectionLevel, permissionInfo.permissionInfo!!.protectionLevel, context)
         }
 
         text = if (permissions[position].isGranted) {
@@ -89,7 +89,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
     private fun TypeFaceTextView.setDescriptionText(context: Context, permissionInfo: PermissionInfo) {
         text = kotlin.runCatching {
-            val string = permissionInfo.permissionInfo.loadDescription(context.packageManager)
+            val string = permissionInfo.permissionInfo!!.loadDescription(context.packageManager)
 
             if (string.isNullOrEmpty()) {
                 throw NullPointerException("Description is either null or not available")

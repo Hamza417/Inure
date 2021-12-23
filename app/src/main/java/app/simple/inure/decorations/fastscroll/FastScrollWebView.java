@@ -1,19 +1,3 @@
-/*
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package app.simple.inure.decorations.fastscroll;
 
 import android.annotation.SuppressLint;
@@ -21,42 +5,19 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.webkit.WebView;
 
-import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StyleRes;
+import app.simple.inure.decorations.views.CustomWebView;
 
 @SuppressLint ("MissingSuperCall")
-public class FastScrollWebView extends WebView implements ViewHelperProvider {
+public class FastScrollWebView extends CustomWebView implements ViewHelperProvider {
     
     @NonNull
     private final ViewHelper mViewHelper = new ViewHelper();
     
-    public FastScrollWebView(@NonNull Context context) {
-        super(context);
-        
-        init();
-    }
-    
     public FastScrollWebView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        
-        init();
-    }
-    
-    public FastScrollWebView(@NonNull Context context, @Nullable AttributeSet attrs,
-            @AttrRes int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        
-        init();
-    }
-    
-    public FastScrollWebView(@NonNull Context context, @Nullable AttributeSet attrs,
-            @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        
         init();
     }
     

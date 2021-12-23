@@ -1,0 +1,17 @@
+<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:id="@+id/web_page_container"
+    android:scrollIndicators="none"
+    android:scrollbarSize="0dp"
+    app:layout_behavior="@string/over_scroll_behavior"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <app.simple.inure.decorations.fastscroll.FastScrollWebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
