@@ -8,6 +8,7 @@
     <color name="iconRegular">#2E2E2E</color>
     <color name="iconSecondary">#B1B1B1</color>
     <color name="viewerBackground">#FAFAFA</color>
+    <color name="highlight_color">#F6F6F6</color>
 
     <color name="textHeading">#121212</color>
     <color name="textPrimary">#2B2B2B</color>

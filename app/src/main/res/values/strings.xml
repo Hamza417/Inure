@@ -391,4 +391,7 @@
     <string name="desc_changelogs">Check changes and improvements in the current version of the apps and plans for the future updates.</string>
     <string name="accent_for_nav">Accent Color on Navigation Bar</string>
     <string name="desc_accent_on_nav">Apply accent color on Navigation Bar instead of using system specified backgrounds.</string>
+    <string name="static_backgrounds">Static Backgrounds</string>
+    <string name="desc_static_backgrounds">Replace ripple effects from all clickable icons and buttons throughout the app with static backgrounds and alternative click feedback.</string>
+    <string name="accessibility">Accessibility</string>
 </resources>

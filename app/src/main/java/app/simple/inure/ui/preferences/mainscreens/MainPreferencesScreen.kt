@@ -12,7 +12,7 @@ import app.simple.inure.adapters.preferences.PreferencesAdapter
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.viewmodels.viewers.PreferencesViewModel
+import app.simple.inure.viewmodels.panels.PreferencesViewModel
 
 class MainPreferencesScreen : ScopedFragment() {
 
@@ -58,6 +58,12 @@ class MainPreferencesScreen : ScopedFragment() {
                                                         ConfigurationScreen.newInstance(),
                                                         imageView,
                                                         "config_prefs")
+                        }
+                        getString(R.string.accessibility) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        AccessibilityScreen.newInstance(),
+                                                        imageView,
+                                                        "accessibility_prefs")
                         }
                         getString(R.string.about) -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
