@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.details
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -125,10 +124,11 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         notifyItemChanged(position)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun update() {
         permissionLabelMode = PermissionPreferences.getLabelType()
-        notifyDataSetChanged()
+        for (i in permissions.indices) {
+            notifyItemChanged(i)
+        }
     }
 
     fun setOnPermissionCallbacksListener(permissionCallbacks: PermissionCallbacks) {
