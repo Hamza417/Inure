@@ -128,10 +128,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@id/changelog_iv"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
                     android:text="@string/change_logs"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/preferences_title_text_size"
-                    app:appFontStyle="bold" />
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTint="?attr/colorAppAccent" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"
@@ -225,10 +229,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@id/imageView3"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
                     android:text="@string/credits"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/preferences_title_text_size"
-                    app:appFontStyle="bold" />
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTint="?attr/colorAppAccent" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/typeFaceTextView03"
@@ -270,10 +278,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@id/license_icon"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
                     android:text="@string/open_source_licenses"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/preferences_title_text_size"
-                    app:appFontStyle="bold" />
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTint="?attr/colorAppAccent" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"
@@ -323,10 +335,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@id/imageView4"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
                     android:text="GitHub"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/preferences_title_text_size"
                     app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_link_tiny"
+                    app:drawableTint="?attr/colorAppAccent"
                     tools:ignore="HardcodedText" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -369,10 +385,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@id/imageView5"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
                     android:text="@string/translate"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/preferences_title_text_size"
                     app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_link_tiny"
+                    app:drawableTint="?attr/colorAppAccent"
                     tools:ignore="HardcodedText" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView

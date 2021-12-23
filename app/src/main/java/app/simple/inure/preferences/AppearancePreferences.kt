@@ -10,7 +10,6 @@ object AppearancePreferences {
 
     private const val appCornerRadius = "corner_radius"
     private const val iconShadows = "icon_shadows"
-    private const val isHighlightMode = "is_highlight_mode"
     const val accentColor = "app_accent_color"
     const val appFont = "type_face"
     const val appTheme = "app_theme"
@@ -74,15 +73,5 @@ object AppearancePreferences {
 
     fun isAccentOnNavigationBar(): Boolean {
         return getSharedPreferences().getBoolean(accentOnNav, false)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setHighlightMode(boolean: Boolean) {
-        getSharedPreferences().edit().putBoolean(isHighlightMode, boolean).apply()
-    }
-
-    fun isHighlightMode(): Boolean {
-        return getSharedPreferences().getBoolean(isHighlightMode, true)
     }
 }

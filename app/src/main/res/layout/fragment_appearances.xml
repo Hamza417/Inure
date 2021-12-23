@@ -25,11 +25,11 @@
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/appearance"
             android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="@string/appearance"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
@@ -156,10 +156,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@id/imageView4"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
                     android:text="@string/accent_colors"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/preferences_title_text_size"
-                    app:appFontStyle="bold" />
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTint="?attr/colorAppAccent" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/typeFaceTextView06"
@@ -275,10 +279,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@id/appearance_app_typeface_iv"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
                     android:text="@string/app_typeface"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/preferences_title_text_size"
-                    app:appFontStyle="bold" />
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTint="?attr/colorAppAccent" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/typeFaceTextView"
@@ -322,6 +330,10 @@
                     android:text="@string/corner_radius"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/preferences_title_text_size"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    app:drawableEndCompat="@drawable/ic_dot_tiny"
+                    app:drawableTint="?attr/colorAppAccent"
                     app:appFontStyle="bold" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView

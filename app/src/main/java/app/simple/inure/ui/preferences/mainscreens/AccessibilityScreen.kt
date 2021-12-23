@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.AccessibilityPreferences
 
 class AccessibilityScreen : ScopedFragment() {
 
@@ -26,10 +26,10 @@ class AccessibilityScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        highlight.setChecked(AppearancePreferences.isHighlightMode())
+        highlight.setChecked(AccessibilityPreferences.isHighlightMode())
 
         highlight.setOnSwitchCheckedChangeListener {
-            AppearancePreferences.setHighlightMode(it)
+            AccessibilityPreferences.setHighlightMode(it)
         }
     }
 

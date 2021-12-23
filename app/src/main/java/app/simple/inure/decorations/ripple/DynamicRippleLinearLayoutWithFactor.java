@@ -13,14 +13,14 @@ import androidx.core.content.ContextCompat;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
 import app.simple.inure.decorations.corners.LayoutBackground;
-import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.AccessibilityPreferences;
 
 public class DynamicRippleLinearLayoutWithFactor extends LinearLayout {
     public DynamicRippleLinearLayoutWithFactor(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);
-        
-        if (AppearancePreferences.INSTANCE.isHighlightMode()) {
+    
+        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
             LayoutBackground.setBackground(getContext(), this, attrs, 2F);
             setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.highlight_color)));
         } else {
@@ -33,7 +33,7 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                if (AppearancePreferences.INSTANCE.isHighlightMode()) {
+                if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
                     animate()
                             .scaleY(0.8F)
                             .scaleX(0.8F)
@@ -47,7 +47,7 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout {
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP: {
-                if (AppearancePreferences.INSTANCE.isHighlightMode()) {
+                if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
                     animate()
                             .scaleY(1F)
                             .scaleX(1F)
