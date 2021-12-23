@@ -32,7 +32,7 @@
     <dimen name="panel_padding_horizontal">0dp</dimen>
     <dimen name="header_icon_size">40dp</dimen>
     <dimen name="header_font_size">32sp</dimen>
-    <dimen name="panel_item_padding">25dp</dimen>
+    <dimen name="panel_item_padding">20dp</dimen>
     <dimen name="analytics_info_heading_text_margin_top">15dp</dimen>
     <dimen name="analytics_small_text_margin_top">5dp</dimen>
     <dimen name="analytics_main_heading_text_size">36sp</dimen>

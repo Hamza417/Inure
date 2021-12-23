@@ -101,7 +101,6 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             .start()
 
         animateColorChange(ContextCompat.getColor(context, R.color.switch_off))
-        switchCallbacks?.onCheckedChanged(false)
         animateElevation(0F)
     }
 
@@ -113,7 +112,6 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             .start()
 
         animateColorChange(context.resolveAttrColor(R.attr.colorAppAccent))
-        switchCallbacks?.onCheckedChanged(true)
         animateElevation(25F)
     }
 

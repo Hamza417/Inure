@@ -167,7 +167,7 @@ class Setup : ScopedFragment() {
     }
 
     private fun showStartAppButton() {
-        if (checkForPermission()) {
+        if (checkForPermission() && requireContext().contentResolver.persistedUriPermissions.isNotEmpty()) {
             startApp.visible(true)
         } else {
             startApp.invisible(true)
