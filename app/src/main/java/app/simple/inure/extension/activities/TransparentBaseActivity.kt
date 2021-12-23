@@ -10,7 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
-import app.simple.inure.util.ThemeSetter
+import app.simple.inure.util.ThemeUtils
 
 open class TransparentBaseActivity : AppCompatActivity() {
 
@@ -37,7 +37,7 @@ open class TransparentBaseActivity : AppCompatActivity() {
         }
 
         setTheme()
-        ThemeSetter.setAppTheme(AppearancePreferences.getAppTheme())
+        ThemeUtils.setAppTheme(AppearancePreferences.getAppTheme())
     }
 
     private fun setTheme() {

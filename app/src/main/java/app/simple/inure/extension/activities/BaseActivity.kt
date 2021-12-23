@@ -19,7 +19,7 @@ import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
-import app.simple.inure.util.ThemeSetter
+import app.simple.inure.util.ThemeUtils
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -48,7 +48,8 @@ open class BaseActivity : AppCompatActivity() {
         makeAppFullScreen()
         fixNavigationBarOverlap()
         setTheme()
-        ThemeSetter.setAppTheme(AppearancePreferences.getAppTheme())
+        ThemeUtils.setAppTheme(AppearancePreferences.getAppTheme())
+        setNavColor()
     }
 
     @Suppress("Deprecation")
@@ -60,7 +61,6 @@ open class BaseActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or SYSTEM_UI_FLAG_LAYOUT_STABLE
         } else if (Build.VERSION.SDK_INT >= 30) {
             window.statusBarColor = Color.TRANSPARENT
-            window.navigationBarColor = Color.GRAY
             // Making status bar overlaps with the activity
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
@@ -186,6 +186,13 @@ open class BaseActivity : AppCompatActivity() {
                 setTheme(R.style.Inure)
                 AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))
             }
+        }
+    }
+
+    private fun setNavColor() {
+        if (AppearancePreferences.isAccentOnNavigationBar()) {
+            window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent))
+                .getColor(0, 0)
         }
     }
 }

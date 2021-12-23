@@ -4,7 +4,7 @@ import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatDelegate
 import java.util.*
 
-object ThemeSetter {
+object ThemeUtils {
     fun setAppTheme(@IntRange(from = -1, to = 4) value: Int) {
         when (value) {
             AppCompatDelegate.MODE_NIGHT_NO -> {
@@ -26,5 +26,9 @@ object ThemeSetter {
                 }
             }
         }
+    }
+
+    fun isNightTheme() {
+
     }
 }

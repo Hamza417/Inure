@@ -16,8 +16,9 @@ import app.simple.inure.popups.app.PopupAppTheme
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
+import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.ThemeSetter
+import app.simple.inure.util.ThemeUtils
 
 class AppearanceScreen : ScopedFragment() {
 
@@ -26,6 +27,7 @@ class AppearanceScreen : ScopedFragment() {
     private lateinit var roundedCorner: DynamicRippleRelativeLayout
     private lateinit var appTheme: DynamicRippleTextView
     private lateinit var iconShadows: SwitchView
+    private lateinit var accentOnNav: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_appearances, container, false)
@@ -37,6 +39,7 @@ class AppearanceScreen : ScopedFragment() {
         appTheme = view.findViewById(R.id.popup_application_theme)
 
         iconShadows = view.findViewById(R.id.appearance_icons_shadow_switch)
+        accentOnNav = view.findViewById(R.id.appearance_nav_color_switch)
 
         startPostponedEnterTransition()
 
@@ -48,6 +51,7 @@ class AppearanceScreen : ScopedFragment() {
 
         setAppThemeText()
         iconShadows.setChecked(AppearancePreferences.isIconShadowsOn())
+        accentOnNav.setChecked(AppearancePreferences.isAccentOnNavigationBar())
 
         appTheme.setOnClickListener {
             PopupAppTheme(it)
@@ -68,6 +72,10 @@ class AppearanceScreen : ScopedFragment() {
 
         iconShadows.setOnSwitchCheckedChangeListener {
             AppearancePreferences.setIconShadows(it)
+        }
+
+        accentOnNav.setOnSwitchCheckedChangeListener {
+            AppearancePreferences.setAccentOnNavigationBar(it)
         }
     }
 
@@ -92,7 +100,14 @@ class AppearanceScreen : ScopedFragment() {
         when (key) {
             AppearancePreferences.appTheme -> {
                 setAppThemeText()
-                ThemeSetter.setAppTheme(AppearancePreferences.getAppTheme())
+                ThemeUtils.setAppTheme(AppearancePreferences.getAppTheme())
+            }
+            AppearancePreferences.accentOnNav -> {
+                if (AppearancePreferences.isAccentOnNavigationBar()) {
+                    requireActivity().window.navigationBarColor = requireContext().resolveAttrColor(R.attr.colorAppAccent)
+                } else {
+                    requireActivity().recreate()
+                }
             }
         }
     }

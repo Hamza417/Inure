@@ -13,6 +13,7 @@ object AppearancePreferences {
     const val accentColor = "app_accent_color"
     const val appFont = "type_face"
     const val appTheme = "app_theme"
+    const val accentOnNav = "accent_color_on_nav_bar"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -62,5 +63,15 @@ object AppearancePreferences {
 
     fun isIconShadowsOn(): Boolean {
         return getSharedPreferences().getBoolean(iconShadows, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setAccentOnNavigationBar(boolean: Boolean) {
+        getSharedPreferences().edit().putBoolean(accentOnNav, boolean).apply()
+    }
+
+    fun isAccentOnNavigationBar(): Boolean {
+        return getSharedPreferences().getBoolean(accentOnNav, false)
     }
 }
