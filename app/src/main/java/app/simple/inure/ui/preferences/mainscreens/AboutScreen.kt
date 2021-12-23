@@ -38,7 +38,8 @@ class AboutScreen : ScopedFragment() {
         }
 
         translation.setOnClickListener {
-
+            val uri: Uri = Uri.parse("https://crowdin.com/project/inure")
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
 
         changelogs.setOnClickListener {

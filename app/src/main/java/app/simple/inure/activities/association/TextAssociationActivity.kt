@@ -28,8 +28,8 @@ class TextAssociationActivity : BaseActivity() {
     private lateinit var close: DynamicRippleImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text)
+        super.onCreate(savedInstanceState)
 
         txt = findViewById(R.id.text_viewer)
         path = findViewById(R.id.txt_name)

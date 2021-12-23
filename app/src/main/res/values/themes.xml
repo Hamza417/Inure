@@ -3,13 +3,9 @@
     <style name="Inure" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorAppAccent">@color/inure</item>
         <item name="colorAppAccentLight">@color/inure_light</item>
-
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/statusBarColor</item>
-        <item name="android:navigationBarColor">@color/statusBarColor</item>
+        <item name="android:windowLightStatusBar">@bool/is_status_light</item>
+        <item name="android:windowLightNavigationBar">@bool/is_nav_light</item>
         <item name="android:colorEdgeEffect">?attr/colorAppAccent</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="Inure.Transparent" parent="Theme.MaterialComponents.DayNight.NoActionBar">

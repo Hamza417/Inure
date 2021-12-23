@@ -22,8 +22,8 @@ class TTFAssociationActivity : BaseActivity() {
     private lateinit var fontName: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_font_viewer)
+        super.onCreate(savedInstanceState)
 
         fontEditText = findViewById(R.id.ttf_viewer)
         fontName = findViewById(R.id.ttf_name)
