@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.usagestats
+package app.simple.inure.dialogs.menus
 
 import android.content.SharedPreferences
 import android.os.Bundle

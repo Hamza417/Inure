@@ -21,7 +21,6 @@ import kotlinx.coroutines.withContext
 class ConfigurationScreen : ScopedFragment() {
 
     private lateinit var keepScreenOnSwitchView: SwitchView
-    private lateinit var permissionLabelModeSwitchView: SwitchView
     private lateinit var textViewXmlViewerSwitchView: SwitchView
     private lateinit var useBinaryFormat: SwitchView
     private lateinit var loadLargeStrings: SwitchView
@@ -34,7 +33,6 @@ class ConfigurationScreen : ScopedFragment() {
         startPostponedEnterTransition()
 
         keepScreenOnSwitchView = view.findViewById(R.id.configuration_switch_keep_screen_on)
-        permissionLabelModeSwitchView = view.findViewById(R.id.configuration_show_permission_label)
         textViewXmlViewerSwitchView = view.findViewById(R.id.configuration_use_text_view)
         useBinaryFormat = view.findViewById(R.id.configuration_use_binary_format)
         loadLargeStrings = view.findViewById(R.id.configuration_lift_string_limit)
@@ -48,7 +46,6 @@ class ConfigurationScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         keepScreenOnSwitchView.setChecked(ConfigurationPreferences.isKeepScreenOn())
-        permissionLabelModeSwitchView.setChecked(ConfigurationPreferences.getPermissionLabelMode())
         textViewXmlViewerSwitchView.setChecked(ConfigurationPreferences.isXmlViewerTextView())
         loadLargeStrings.setChecked(ConfigurationPreferences.isLoadingLargeStrings())
         useBinaryFormat.setChecked(ConfigurationPreferences.getSizeType() == "binary")
@@ -63,10 +60,6 @@ class ConfigurationScreen : ScopedFragment() {
             } else {
                 requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
-        }
-
-        permissionLabelModeSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
-            ConfigurationPreferences.setPermissionLabelMode(isChecked)
         }
 
         textViewXmlViewerSwitchView.setOnSwitchCheckedChangeListener { isChecked ->

@@ -14,7 +14,7 @@ import app.simple.inure.adapters.ui.StatisticsAdapter
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.Preparing
-import app.simple.inure.dialogs.usagestats.UsageStatsMenu
+import app.simple.inure.dialogs.menus.UsageStatsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupMainList

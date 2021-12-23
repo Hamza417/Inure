@@ -43,6 +43,15 @@
             app:appFontStyle="bold" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/permissions_option_btn"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_more_vert"
+            android:layout_marginEnd="5dp"
+            android:tint="?attr/colorAppAccent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/permissions_search_btn"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"

@@ -15,6 +15,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.PermissionStatusDialog
+import app.simple.inure.dialogs.menus.DialogPermissionPreferences
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
@@ -29,6 +30,7 @@ import app.simple.inure.viewmodels.viewers.PermissionsViewModel
 class Permissions : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var options: DynamicRippleImageButton
     private lateinit var search: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
     private lateinit var searchBox: TypeFaceEditTextDynamicCorner
@@ -40,6 +42,7 @@ class Permissions : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_permissions, container, false)
 
         recyclerView = view.findViewById(R.id.permissions_recycler_view)
+        options = view.findViewById(R.id.permissions_option_btn)
         search = view.findViewById(R.id.permissions_search_btn)
         searchBox = view.findViewById(R.id.permissions_search)
         title = view.findViewById(R.id.permission_title)
@@ -103,6 +106,11 @@ class Permissions : ScopedFragment() {
             })
         })
 
+        options.setOnClickListener {
+            DialogPermissionPreferences.newInstance()
+                .show(childFragmentManager, "permission_menu")
+        }
+
         search.setOnClickListener {
             if (searchBox.text.isNullOrEmpty()) {
                 PermissionPreferences.setSearchVisibility(!PermissionPreferences.isSearchVisible())
@@ -136,6 +144,9 @@ class Permissions : ScopedFragment() {
         when (key) {
             PermissionPreferences.permissionSearch -> {
                 searchBoxState()
+            }
+            PermissionPreferences.labelType -> {
+                adapterPermissions.update()
             }
         }
     }

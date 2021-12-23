@@ -76,8 +76,6 @@
     <string name="screen">Screen</string>
     <string name="keep_screen_on">Keep Screen On</string>
     <string name="keep_screen_on_desc">Prevents device from sleeping while the app is visible.</string>
-    <string name="show_permission_label_desc">Show labels instead of raw permission string in Permission info panel.</string>
-    <string name="show_permission_label">Show Permission Label</string>
     <string name="signature_or_system">SignatureOrSystem</string>
     <string name="signature">Signature</string>
     <string name="normal">Normal</string>
@@ -394,4 +392,7 @@
     <string name="static_backgrounds">Static Backgrounds</string>
     <string name="desc_static_backgrounds">Replace ripple effects from all clickable icons and buttons throughout the app with static backgrounds and alternative click feedback.</string>
     <string name="accessibility">Accessibility</string>
+    <string name="label_type">Label Type</string>
+    <string name="id">ID</string>
+    <string name="descriptive">Descriptive</string>
 </resources>

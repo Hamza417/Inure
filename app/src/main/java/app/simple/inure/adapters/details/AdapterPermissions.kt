@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.details
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.model.PermissionInfo
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.PermissionPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.NullSafety.isNotNull
@@ -25,7 +27,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
     private lateinit var permissionCallbacks: PermissionCallbacks
-    private val permissionLabelMode = ConfigurationPreferences.getPermissionLabelMode()
+    private var permissionLabelMode = PermissionPreferences.getLabelType()
     private val isRootMode = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -103,9 +105,9 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
     private fun TypeFaceTextView.setPermissionName(position: Int, context: Context, permissionInfo: PermissionInfo) {
         text = if (permissionLabelMode) {
-            permissionInfo.label
+            permissionInfo.name
         } else {
-            permissions[position].name
+            permissions[position].label
         }.toString().optimizeToColoredString(context, ".")
     }
 
@@ -121,6 +123,12 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
     fun permissionStatusChanged(position: Int, grantedStatus: Boolean) {
         permissions[position].isGranted = grantedStatus
         notifyItemChanged(position)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun update() {
+        permissionLabelMode = PermissionPreferences.getLabelType()
+        notifyDataSetChanged()
     }
 
     fun setOnPermissionCallbacksListener(permissionCallbacks: PermissionCallbacks) {
