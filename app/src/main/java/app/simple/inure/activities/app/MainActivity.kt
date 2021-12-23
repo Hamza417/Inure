@@ -8,7 +8,6 @@ import app.simple.inure.util.NullSafety.isNull
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
 
         // AndroidBug5497Workaround.assistActivity(this)

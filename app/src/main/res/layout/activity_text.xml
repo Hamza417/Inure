@@ -1,71 +1,79 @@
-<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/text_viewer_scroll_view"
-    android:background="@color/mainBackground"
-    android:clipToPadding="false">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/text_viewer_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/mainBackground"
+        android:clipToPadding="false">
 
-        <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/header_padding">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                android:id="@+id/close"
-                android:layout_width="@dimen/button_size"
-                android:layout_height="@dimen/button_size"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/header_padding"
-                android:src="@drawable/ic_arrow_back"
-                android:tint="?attr/colorAppAccent" />
-
-            <ImageView
-                android:id="@+id/txt_header_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/header_padding"
-                android:src="@drawable/ic_file_txt"
-                android:transitionName="@string/manifest"
-                app:tint="?attr/colorAppAccent"
-                tools:ignore="ContentDescription" />
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/txt_name"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="?attr/colorAppAccent"
-                android:textSize="18sp"
-                app:appFontStyle="bold" />
+                android:orientation="horizontal"
+                android:animateLayoutChanges="true"
+                android:padding="@dimen/header_padding">
+
+                <ImageView
+                    android:id="@+id/txt_header_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/header_padding"
+                    android:src="@drawable/ic_file_txt"
+                    android:transitionName="@string/manifest"
+                    app:tint="?attr/colorAppAccent"
+                    tools:ignore="ContentDescription" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/txt_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="?attr/colorAppAccent"
+                    android:textSize="@dimen/header_name_text_size"
+                    app:appFontStyle="bold" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/txt_viewer_options"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_more_vert"
+                    android:tint="?attr/colorAppAccent" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceEditText
+                android:id="@+id/text_viewer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/textPrimary"
+                android:textColorHighlight="?attr/colorAppAccentLight"
+                android:textCursorDrawable="@drawable/text_cursor"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/divider" />
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/text_viewer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textPrimary"
-            android:textIsSelectable="true"
-            android:textColorHighlight="?attr/colorAppAccentLight"
-            android:textCursorDrawable="@drawable/text_cursor"
-            android:padding="10dp"
-            android:textSize="@dimen/info_text_small"
-            app:appFontStyle="regular" />
-
-    </LinearLayout>
-
-</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+    </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

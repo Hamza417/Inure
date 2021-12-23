@@ -3,6 +3,7 @@ package app.simple.inure.util
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.Color
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
@@ -17,6 +18,18 @@ object ColorUtils {
     @ColorInt
     fun Context.resolveAttrColor(@AttrRes attr: Int): Int {
         val a = theme.obtainStyledAttributes(intArrayOf(attr))
+        val color: Int
+        try {
+            color = a.getColor(0, 0)
+        } finally {
+            a.recycle()
+        }
+        return color
+    }
+
+    @ColorInt
+    fun Resources.Theme.resolveAttrColor(@AttrRes attr: Int): Int {
+        val a = obtainStyledAttributes(intArrayOf(attr))
         val color: Int
         try {
             color = a.getColor(0, 0)

@@ -24,6 +24,8 @@ object ApkManifestFetcher {
     fun getManifestXmlFromFilePath(filePath: String) =
         getManifestXmlFromInputStream(FileInputStream(File(filePath)))
 
+    fun formatXML(string: String) = decompressXML(string.toByteArray())
+
     /**
      * Binary XML doc ending Tag
      */

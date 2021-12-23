@@ -13,7 +13,6 @@ class WebPageViewerActivity : BaseActivity() {
     private var source: String = "null"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
 
         source = if (intent.extras.isNotNull()) {

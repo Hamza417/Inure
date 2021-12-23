@@ -21,8 +21,8 @@ class ImageAssociationActivity : BaseActivity() {
     private var isFullScreen = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setContentView(R.layout.activity_image)
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_image)
 
         image = findViewById(R.id.image_viewer)
         back = findViewById(R.id.image_viewer_back_button)
@@ -30,9 +30,9 @@ class ImageAssociationActivity : BaseActivity() {
         header = findViewById(R.id.header)
 
         Glide.with(this)
-                .asBitmap()
-                .dontAnimate()
-                .dontTransform()
+            .asBitmap()
+            .dontAnimate()
+            .centerInside()
                 .load(intent.data)
                 .into(image)
 

@@ -124,11 +124,6 @@ class XMLViewerTextView : ScopedFragment() {
         }
     }
 
-    override fun onDestroy() {
-        text.setText("")
-        super.onDestroy()
-    }
-
     companion object {
         fun newInstance(packageInfo: PackageInfo, isManifest: Boolean, pathToXml: String?): XMLViewerTextView {
             val args = Bundle()

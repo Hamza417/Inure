@@ -1,15 +1,17 @@
 package app.simple.inure.util
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.DocumentsContract
 import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import java.io.*
+import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
-
 
 object FileUtils {
 
@@ -85,6 +87,16 @@ object FileUtils {
         } finally {
             origin!!.close()
             out!!.close()
+        }
+    }
+
+    fun Uri.getMimeType(context: Context): String? {
+        return if (ContentResolver.SCHEME_CONTENT == scheme) {
+            context.contentResolver.getType(this)
+        } else {
+            val fileExtension = MimeTypeMap.getFileExtensionFromUrl(this.toString())
+            MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                    fileExtension.lowercase(Locale.ROOT))
         }
     }
 }

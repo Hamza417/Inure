@@ -41,7 +41,7 @@
     <dimen name="header_name_text_size">18sp</dimen>
     <dimen name="panel_icon_size">40dp</dimen>
     <dimen name="adapter_typeface_normal_text_size">20sp</dimen>
-    <dimen name="quotes_text_size">30sp</dimen>
+    <dimen name="quotes_text_size">28sp</dimen>
     <dimen name="popup_padding_horizontal">30dp</dimen>
     <dimen name="popup_padding_vertical">20dp</dimen>
     <dimen name="home_heading_text_size">24sp</dimen>
