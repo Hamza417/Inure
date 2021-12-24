@@ -45,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:id="@+id/scroll_view"
         android:paddingBottom="20dp"
         app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
 

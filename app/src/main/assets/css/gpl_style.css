@@ -7,17 +7,15 @@
     0% {
         transform: scale(0.5);
         opacity: 0.0;
-        filter: blur(8px);
     }
     100% {
         transform: scale(1.0);
         opacity: 1.0;
-        filter: blur(0px);
     }
 }
 
 :root {
-    --main_heading_color: rgb(196,40,45);
+    --main_heading_color: rgb(255, 110, 64);
 }
 
 body {
@@ -72,7 +70,7 @@ li {
 }
 
 a:link {
-	color: rgb(52, 152, 219);
+	color: rgb(100, 152, 219);
 	text-decoration: none;
 	background-color: transparent;
 }

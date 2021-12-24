@@ -38,7 +38,7 @@ li {
 }
 
 li::marker {
-	color: rgb(204, 209, 209);
+	color: grey;
 }
 
 p {
