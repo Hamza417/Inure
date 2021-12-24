@@ -8,10 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.SearchAdapter
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
@@ -25,8 +24,7 @@ import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.viewmodels.panels.SearchData
-import java.util.*
+import app.simple.inure.viewmodels.panels.SearchViewModel
 
 class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -34,19 +32,20 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var appsAdapterSmall: SearchAdapter
 
-    private val searchModel: SearchData by viewModels()
+    private lateinit var searchViewModel: SearchViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.fragment_search, container, false)
 
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.search_recycler_view)
-        appsAdapterSmall = SearchAdapter()
 
         if (requireArguments().getBoolean("first_launch")) {
             startPostponedEnterTransition()
             requireArguments().putBoolean("first_launch", false)
         }
+
+        searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
 
         return view
     }
@@ -54,21 +53,12 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchModel.getSearchData().observe(viewLifecycleOwner, {
+        searchViewModel.getSearchData().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
             searchView.setNewNumber(it.size)
 
-            for (i in it.indices) {
-                if (!it[i].isPackageInstalled(requireActivity().packageManager)) {
-                    searchModel.loadSearchData()
-                    return@observe
-                }
-            }
-
-            appsAdapterSmall.apps = it
-            appsAdapterSmall.searchKeyword = searchModel.getSearchKeywords().value!!
-
+            appsAdapterSmall = SearchAdapter(it, searchViewModel.getSearchKeywords().value ?: "")
             recyclerView.adapter = appsAdapterSmall
 
             appsAdapterSmall.setOnItemClickListener(object : AppsAdapterCallbacks {
@@ -109,8 +99,8 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
-                searchModel.setSearchKeywords(keywords)
-                searchModel.loadSearchData()
+                searchViewModel.setSearchKeywords(keywords)
+                searchViewModel.loadSearchData()
             }
         })
     }
@@ -127,7 +117,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
             SearchPreferences.isSortingReversed,
             SearchPreferences.listAppsCategory,
             -> {
-                searchModel.loadSearchData()
+                searchViewModel.loadSearchData()
             }
         }
     }

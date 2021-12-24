@@ -18,17 +18,15 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.FileSizeHelper.toSize
 
-class SearchAdapter : RecyclerView.Adapter<SearchAdapter.Holder>() {
+class SearchAdapter(private var apps: ArrayList<PackageInfo>, private var searchKeyword: String = "") : RecyclerView.Adapter<SearchAdapter.Holder>() {
 
-    var apps = arrayListOf<PackageInfo>()
-    var searchKeyword = ""
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     private var xOff = 0f
     private var yOff = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
-                              .inflate(R.layout.adapter_all_apps_small_details, parent, false))
+                          .inflate(R.layout.adapter_all_apps_small_details, parent, false))
     }
 
     @SuppressLint("ClickableViewAccessibility")

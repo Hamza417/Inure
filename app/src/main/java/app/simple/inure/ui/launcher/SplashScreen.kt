@@ -21,6 +21,7 @@ import app.simple.inure.ui.app.Home
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted
 import app.simple.inure.viewmodels.panels.AllAppsData
+import app.simple.inure.viewmodels.panels.SearchViewModel
 import app.simple.inure.viewmodels.panels.UsageStatsData
 import app.simple.inure.viewmodels.viewers.SensorsViewModel
 import kotlinx.coroutines.delay
@@ -34,6 +35,7 @@ class SplashScreen : ScopedFragment() {
     private var isAppDataLoaded = false
     private var isUsageDataLoaded = false
     private var areSensorsLoaded = false
+    private var isSearchLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -77,6 +79,7 @@ class SplashScreen : ScopedFragment() {
         val allAppsData: AllAppsData = ViewModelProvider(requireActivity())[AllAppsData::class.java]
         val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsData::class.java]
         val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
+        val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
 
         allAppsData.getAppData().observe(viewLifecycleOwner, {
             isAppDataLoaded = true
@@ -93,6 +96,11 @@ class SplashScreen : ScopedFragment() {
             openApp()
         })
 
+        searchViewModel.getSearchData().observe(viewLifecycleOwner, {
+            isSearchLoaded = true
+            openApp()
+        })
+
         sensorsViewModel.getError().observe(viewLifecycleOwner, {
             ErrorPopup.newInstance(it)
                 .show(parentFragmentManager, "error")
@@ -100,7 +108,7 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun openApp() {
-        if (isAppDataLoaded && isUsageDataLoaded) {
+        if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded) {
             openFragment(
                     requireActivity().supportFragmentManager,
                     Home.newInstance(), requireView().findViewById(R.id.imageView))

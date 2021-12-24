@@ -4,7 +4,8 @@
     android:id="@+id/pref_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/header_padding"
+    android:layout_marginHorizontal="@dimen/header_padding"
+    android:layout_marginVertical="@dimen/popup_padding"
     android:orientation="horizontal"
     android:padding="@dimen/popup_padding">
 
@@ -22,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingHorizontal="20dp"
-        android:textColor="@color/textPrimary"
+        android:textColor="@color/textSecondary"
         android:textSize="20sp"
-        app:appFontStyle="medium" />
+        app:appFontStyle="bold" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

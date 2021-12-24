@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class SearchData(application: Application) : AndroidViewModel(application) {
+class SearchViewModel(application: Application) : AndroidViewModel(application) {
 
     private val searchKeywords: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
@@ -45,7 +45,7 @@ class SearchData(application: Application) : AndroidViewModel(application) {
     }
 
     fun loadSearchData() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
 
             val apps = getApplication<Application>().applicationContext.packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 

@@ -382,7 +382,7 @@
     <string name="user_agreements">User Agreements</string>
     <string name="desc_user_agreements">Read app\'s Disclaimer, Privacy Policy and Terms of Use.</string>
     <string name="translate">Translate</string>
-    <string name="desc_translate">Contribute translation the app into your regional language.</string>
+    <string name="desc_translate">Contribute in translating the app into your regional language.</string>
     <string name="open_source_licenses">Open Source License</string>
     <string name="desc_licenses">List of licenses of the open source libraries used into development of this app.</string>
     <string name="change_logs">Changes Logs</string>
