@@ -2,15 +2,18 @@ package app.simple.inure.util
 
 import android.animation.Animator
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import android.widget.LinearLayout
+import androidx.annotation.ColorInt
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.R.*
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 
@@ -38,6 +41,17 @@ object ViewUtils {
         params.setMargins(marginLeft, marginTop, marginRight, marginBottom)
         this.layoutParams = params
     }
+
+    private fun createGradientBackground(@ColorInt startColor: Int, @ColorInt endColor: Int, YOUR_COLOR: Int) =
+        GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(
+                startColor,
+                endColor
+        )).also {
+            it.shape = GradientDrawable.RECTANGLE
+            it.cornerRadius = AppearancePreferences.getCornerRadius().toFloat()
+            it.setStroke(1, YOUR_COLOR)
+        }
 
     /**
      * Get screen dim value based on interface theme

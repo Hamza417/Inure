@@ -3,7 +3,6 @@ package app.simple.inure.decorations.searchview;
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,10 +17,10 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
-import app.simple.inure.decorations.corners.DynamicCornerLinearLayout;
+import app.simple.inure.decorations.padding.PaddingAwareLinearLayout;
 import app.simple.inure.preferences.SearchPreferences;
 
-public class SearchView extends DynamicCornerLinearLayout {
+public class SearchView extends PaddingAwareLinearLayout {
     
     private EditText editText;
     private ImageButton imageButton;
@@ -34,8 +33,8 @@ public class SearchView extends DynamicCornerLinearLayout {
     }
     
     private void setProperties() {
-        setElevation(getResources().getDimensionPixelSize(R.dimen.app_views_elevation));
-        setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.mainBackground)));
+        setElevation(5);
+        setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mainBackground));
         setOrientation(LinearLayout.HORIZONTAL);
         setLayoutTransition(new LayoutTransition());
     }

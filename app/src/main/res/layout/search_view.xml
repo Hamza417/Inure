@@ -10,9 +10,9 @@
     <app.simple.inure.decorations.typeface.TypeFaceEditText
         android:id="@+id/search_view_text_input_layout"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_weight="1"
-        android:background="@android:color/transparent"
+        android:background="@color/mainBackground"
         android:drawableStart="@drawable/ic_search"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
@@ -23,18 +23,24 @@
         android:maxLines="1"
         android:paddingStart="10dp"
         android:paddingEnd="20dp"
-        android:textCursorDrawable="@drawable/text_cursor"
         android:textColor="@color/textPrimary"
         android:textColorHint="@color/textTertiary"
+        android:textCursorDrawable="@drawable/text_cursor"
         app:appFontStyle="bold"
         app:drawableTint="@color/iconSecondary" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/popup_padding"
+        android:background="@color/divider" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/search_view_menu_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginEnd="@dimen/popup_padding"
         android:contentDescription="@string/configuration_button"
         android:src="@drawable/ic_settings" />
 

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
@@ -26,7 +25,6 @@ import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.panels.SearchData
 import java.util.*
 
@@ -44,17 +42,6 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.search_recycler_view)
         appsAdapterSmall = SearchAdapter()
-
-        val params = searchView.layoutParams as MarginLayoutParams
-        params.setMargins(params.leftMargin,
-                          StatusBarHeight.getStatusBarHeight(resources) + params.topMargin,
-                          params.rightMargin,
-                          params.bottomMargin)
-
-        recyclerView.setPadding(recyclerView.paddingLeft,
-                                recyclerView.paddingTop + params.topMargin + params.height + params.bottomMargin,
-                                recyclerView.paddingRight,
-                                recyclerView.paddingBottom)
 
         if (requireArguments().getBoolean("first_launch")) {
             startPostponedEnterTransition()
