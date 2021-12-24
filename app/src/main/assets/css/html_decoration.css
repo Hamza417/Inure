@@ -16,13 +16,11 @@ body {
 }
 
 h1 {
-	color: var(--main_heading_color);
 	font-family: 'main_font';
 	text-align: left;
 }
 
 h2 {
-	color: var(--main_heading_color);
 	font-family: 'main_font';
 }
 
@@ -34,13 +32,26 @@ h4 {
 	color: rgb(16, 16, 16);
 }
 
-li::marker {
-	color: var(--main_heading_color);
-}
-
 li {
 	color: rgb(32, 32, 32);
 	text-align: left;
+}
+
+li::marker {
+	color: rgb(204, 209, 209);
+}
+
+p {
+    color: rgb(32, 32, 32);
+    text-align: left;
+}
+
+sub {
+    color: rgb(32, 32, 32);
+}
+
+ul {
+    color: rgb(32, 32, 32);
 }
 
 a:link {

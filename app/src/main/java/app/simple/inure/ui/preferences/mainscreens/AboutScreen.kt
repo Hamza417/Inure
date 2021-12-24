@@ -16,6 +16,7 @@ class AboutScreen : ScopedFragment() {
 
     private lateinit var changelogs: DynamicRippleRelativeLayout
     private lateinit var github: DynamicRippleRelativeLayout
+    private lateinit var userAgreement: DynamicRippleRelativeLayout
     private lateinit var credits: DynamicRippleRelativeLayout
     private lateinit var translation: DynamicRippleRelativeLayout
     private lateinit var licenses: DynamicRippleRelativeLayout
@@ -25,6 +26,7 @@ class AboutScreen : ScopedFragment() {
 
         changelogs = view.findViewById(R.id.changelogs)
         github = view.findViewById(R.id.about_github)
+        userAgreement = view.findViewById(R.id.user_agreement)
         credits = view.findViewById(R.id.credits)
         translation = view.findViewById(R.id.about_translation)
         licenses = view.findViewById(R.id.licenses)
@@ -62,6 +64,12 @@ class AboutScreen : ScopedFragment() {
         licenses.setOnClickListener {
             FragmentHelper.openFragment(parentFragmentManager,
                                         WebPage.newInstance(getString(R.string.open_source_licenses)),
+                                        "web_page")
+        }
+
+        userAgreement.setOnClickListener {
+            FragmentHelper.openFragment(parentFragmentManager,
+                                        WebPage.newInstance(getString(R.string.user_agreements)),
                                         "web_page")
         }
     }

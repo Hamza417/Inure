@@ -62,6 +62,14 @@ li {
 	text-align: center;
 }
 
+p {
+    color: rgb(32, 32, 32);
+}
+
+sub {
+    color: rgb(32, 32, 32);
+}
+
 a:link {
 	color: rgb(52, 152, 219);
 	text-decoration: none;
