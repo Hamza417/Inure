@@ -395,4 +395,7 @@
     <string name="label_type">Label Type</string>
     <string name="id">ID</string>
     <string name="descriptive">Descriptive</string>
+    <string name="lists">Lists</string>
+    <string name="dividers">Dividers</string>
+    <string name="desc_dividers">Use dividers between the items of every scrollable list throughout the app.</string>
 </resources>

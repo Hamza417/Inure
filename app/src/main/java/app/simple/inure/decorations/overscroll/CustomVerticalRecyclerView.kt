@@ -1,9 +1,11 @@
 package app.simple.inure.decorations.overscroll
 
 import android.content.Context
+import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
 import android.widget.EdgeEffect
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
@@ -11,6 +13,7 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.flingTranslationMagnitude
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollRotationMagnitude
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollTranslationMagnitude
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
 
@@ -42,6 +45,17 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
 
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         setHasFixedSize(true)
+
+        if (AccessibilityPreferences.isDividerEnabled()) {
+            val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+
+            divider.setDrawable(ShapeDrawable().apply {
+                intrinsicHeight = 1
+                paint.color = ContextCompat.getColor(context, R.color.divider)
+            })
+
+            addItemDecoration(divider)
+        }
 
         this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
             override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {
@@ -107,8 +121,8 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
                         val translationVelocity = sign * velocity * flingTranslationMagnitude
                         recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
                             holder.translationY
-                                    .setStartVelocity(translationVelocity)
-                                    .start()
+                                .setStartVelocity(translationVelocity)
+                                .start()
                         }
                     }
 
