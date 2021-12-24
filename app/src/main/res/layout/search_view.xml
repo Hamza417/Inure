@@ -29,6 +29,18 @@
         app:appFontStyle="bold"
         app:drawableTint="@color/iconSecondary" />
 
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/search_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/popup_padding"
+        android:text="000"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="bold"
+        android:saveEnabled="true"
+        android:textColor="@color/textQuaternary"
+        tools:ignore="HardcodedText" />
+
     <View
         android:layout_width="1px"
         android:layout_height="match_parent"

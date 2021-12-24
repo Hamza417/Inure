@@ -57,6 +57,8 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
         searchModel.getSearchData().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
+            searchView.setNewNumber(it.size)
+
             for (i in it.indices) {
                 if (!it[i].isPackageInstalled(requireActivity().packageManager)) {
                     searchModel.loadSearchData()
