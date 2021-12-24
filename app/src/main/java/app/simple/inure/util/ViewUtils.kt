@@ -4,8 +4,10 @@ import android.animation.Animator
 import android.content.Context
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
+import android.widget.LinearLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.R.*
@@ -28,6 +30,13 @@ object ViewUtils {
             layoutParams.dimAmount = getDimValue(contentView.context)
             windowManager.updateViewLayout(container, layoutParams)
         }
+    }
+
+    fun View.setMargins(marginLeft: Int, marginTop: Int, marginRight: Int, marginBottom: Int) {
+        val params: LinearLayout.LayoutParams =
+            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        params.setMargins(marginLeft, marginTop, marginRight, marginBottom)
+        this.layoutParams = params
     }
 
     /**

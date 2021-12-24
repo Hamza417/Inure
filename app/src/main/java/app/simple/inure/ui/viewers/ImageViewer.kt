@@ -19,7 +19,6 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
-import app.simple.inure.popups.viewers.PopupImageViewerMenu
 import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import com.google.android.material.animation.ArgbEvaluatorCompat
@@ -76,7 +75,7 @@ class ImageViewer : ScopedFragment() {
         }
 
         options.setOnClickListener {
-            PopupImageViewerMenu(it)
+
         }
     }
 

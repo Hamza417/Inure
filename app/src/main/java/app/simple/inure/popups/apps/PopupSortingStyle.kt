@@ -31,17 +31,17 @@ class PopupSortingStyle(view: View) : BasePopupWindow() {
         installDate = contentView.findViewById(R.id.sort_install_date)
         val reversedCheckBox = contentView.findViewById<CustomCheckBox>(R.id.sort_reversed_checkbox)
 
+        name.onClick(Sort.NAME)
+        packageName.onClick(Sort.PACKAGE_NAME)
+        size.onClick(Sort.SIZE)
+        installDate.onClick(Sort.INSTALL_DATE)
+
         when (MainPreferences.getSortStyle()) {
             Sort.NAME -> name.isSelected = true
             Sort.INSTALL_DATE -> installDate.isSelected = true
             Sort.SIZE -> size.isSelected = true
             Sort.PACKAGE_NAME -> packageName.isSelected = true
         }
-
-        name.onClick(Sort.NAME)
-        packageName.onClick(Sort.PACKAGE_NAME)
-        size.onClick(Sort.SIZE)
-        installDate.onClick(Sort.INSTALL_DATE)
 
         reversedCheckBox.isChecked = MainPreferences.isReverseSorting()
 

@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:fontFamily="@font/lato_bold"
         android:maxLines="1"
         android:paddingHorizontal="30dp"
@@ -35,6 +36,7 @@
         android:text="@string/power"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -45,6 +47,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/maximum_range"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />

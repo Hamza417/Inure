@@ -48,7 +48,11 @@ public class DynamicRippleTextView extends TypeFaceTextView {
     public void setSelected(boolean selected) {
         super.setSelected(selected);
         setBackground(Utils.getRoundedBackground(Misc.roundedCornerFactor));
-        setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.textSelected)));
+        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
+            setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+        } else {
+            setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.textSelected)));
+        }
         setClickable(false);
     }
     
@@ -57,7 +61,7 @@ public class DynamicRippleTextView extends TypeFaceTextView {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
+                if (AccessibilityPreferences.INSTANCE.isHighlightMode() && isClickable()) {
                     animate()
                             .scaleY(0.8F)
                             .scaleX(0.8F)
@@ -71,7 +75,7 @@ public class DynamicRippleTextView extends TypeFaceTextView {
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP: {
-                if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
+                if (AccessibilityPreferences.INSTANCE.isHighlightMode() && isClickable()) {
                     animate()
                             .scaleY(1F)
                             .scaleX(1F)

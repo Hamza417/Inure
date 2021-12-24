@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:focusable="true"
         android:fontFamily="@font/lato_bold"
         android:maxLines="1"
@@ -32,6 +33,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/user"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />

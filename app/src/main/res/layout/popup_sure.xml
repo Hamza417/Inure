@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:focusable="true"
         android:minWidth="100dp"
         android:fontFamily="@font/lato_bold"

@@ -17,6 +17,7 @@
         android:focusable="true"
         android:fontFamily="@font/lato_bold"
         android:maxLines="1"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/force_launch"
@@ -27,6 +28,7 @@
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_launch_with_action"
         android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"

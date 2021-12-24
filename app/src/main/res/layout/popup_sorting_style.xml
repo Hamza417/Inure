@@ -21,6 +21,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/name"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
@@ -30,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/package_name"
@@ -44,6 +46,7 @@
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:text="@string/app_size"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
