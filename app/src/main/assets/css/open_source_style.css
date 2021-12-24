@@ -1,0 +1,88 @@
+@font-face {
+	font-family: main_font;
+	src: url(file:///android_asset/fonts/jost.ttf);
+}
+
+@keyframes in {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.0;
+    }
+    100% {
+        transform: scale(1.0);
+        opacity: 1.0;
+    }
+}
+
+:root {
+    --main_heading_color: rgb(34, 153, 84);
+}
+
+body {
+	font-family: 'main_font', Helvetica, Arial, sans-serif;
+	padding: 2em;
+	text-align: center;
+	text-justify: values;
+	color: rgb(32, 32, 32);
+}
+
+h1 {
+	color: var(--main_heading_color);
+	font-family: 'main_font';
+	text-align: center;
+}
+
+.title-h1 {
+    padding-top: 28px;
+    padding-bottom: 0px;
+    color: rgb(46, 46, 46);
+}
+
+h2 {
+	color: var(--main_heading_color);
+	font-family: 'main_font';
+	margin-bottom: 0;
+    padding:0;
+}
+
+h3 {
+	color: rgb(16, 16, 16);
+}
+
+h4 {
+	color: rgb(16, 16, 16);
+}
+
+li::marker {
+	color: var(--main_heading_color);
+}
+
+li {
+	color: rgb(32, 32, 32);
+	text-align: center;
+}
+
+a:link {
+	color: rgb(52, 152, 219);
+	text-decoration: none;
+	background-color: transparent;
+}
+
+img {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 500px;
+    background: transparent;
+    box-shadow: rgba(34, 153, 84, 0.30) 0px 48px 100px 0px;
+    animation: in ease-out;
+    animation-duration: 1s;
+}
+
+hr {
+    width: 75%;
+    height: 0.5px;
+    border-width: 0px;
+    color: rgba(255, 145, 103);
+    background-color: rgba(34, 153, 84);
+}

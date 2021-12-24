@@ -40,11 +40,6 @@
         </activity>
 
         <activity
-            android:name=".activities.app.WebPageViewerActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
             android:name=".activities.association.AppDetailsActivity"
             android:exported="true"
             android:label="@string/app_info">

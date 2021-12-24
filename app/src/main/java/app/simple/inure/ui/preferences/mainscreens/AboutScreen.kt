@@ -7,23 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.activities.app.WebPageViewerActivity
-import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.ui.panels.WebPage
+import app.simple.inure.util.FragmentHelper
 
 class AboutScreen : ScopedFragment() {
 
     private lateinit var changelogs: DynamicRippleRelativeLayout
     private lateinit var github: DynamicRippleRelativeLayout
+    private lateinit var credits: DynamicRippleRelativeLayout
     private lateinit var translation: DynamicRippleRelativeLayout
+    private lateinit var licenses: DynamicRippleRelativeLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_about, container, false)
 
         changelogs = view.findViewById(R.id.changelogs)
         github = view.findViewById(R.id.about_github)
+        credits = view.findViewById(R.id.credits)
         translation = view.findViewById(R.id.about_translation)
+        licenses = view.findViewById(R.id.licenses)
 
         return view
     }
@@ -31,6 +35,13 @@ class AboutScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+
+        credits.setOnClickListener {
+            clearExitTransition()
+            FragmentHelper.openFragment(parentFragmentManager,
+                                        WebPage.newInstance(getString(R.string.credits)),
+                                        "web_page")
+        }
 
         github.setOnClickListener {
             val uri: Uri = Uri.parse("https://github.com/Hamza417/Inure")
@@ -43,9 +54,15 @@ class AboutScreen : ScopedFragment() {
         }
 
         changelogs.setOnClickListener {
-            val intent = Intent(requireActivity(), WebPageViewerActivity::class.java)
-            intent.putExtra(BundleConstants.webPage, getString(R.string.change_logs))
-            startActivity(intent)
+            FragmentHelper.openFragment(parentFragmentManager,
+                                        WebPage.newInstance(getString(R.string.change_logs)),
+                                        "web_page")
+        }
+
+        licenses.setOnClickListener {
+            FragmentHelper.openFragment(parentFragmentManager,
+                                        WebPage.newInstance(getString(R.string.open_source_licenses)),
+                                        "web_page")
         }
     }
 

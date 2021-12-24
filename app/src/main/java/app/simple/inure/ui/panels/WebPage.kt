@@ -40,6 +40,9 @@ class WebPage : ScopedFragment() {
                 getString(R.string.change_logs) -> {
                     webView.loadUrl("file:///android_asset/html/changelogs.html")
                 }
+                getString(R.string.open_source_licenses) -> {
+                    webView.loadUrl("file:///android_asset/html/open_source.html")
+                }
             }
         } else {
             webView.restoreState(savedInstanceState!!)
