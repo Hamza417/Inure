@@ -13,11 +13,9 @@ import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedDialogFragment
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import java.text.ParseException
 
 class DateFormat : ScopedDialogFragment() {
 
@@ -44,12 +42,13 @@ class DateFormat : ScopedDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        format.doOnTextChanged { text, _, _, count ->
+        format.doOnTextChanged { text, _, _, _ ->
             kotlin.runCatching {
-                if (count.isZero()) throw ParseException(getString(R.string.unknown), 0)
+                if (text.isNullOrEmpty()) throw IllegalArgumentException("missing parameters")
                 update.text = DateUtils.formatDate(date, text.toString())
                 if (save.visibility == View.GONE) save.visible(true)
             }.getOrElse {
+                it.printStackTrace()
                 update.text = it.message
                 save.gone()
             }
@@ -72,6 +71,7 @@ class DateFormat : ScopedDialogFragment() {
             with("EEE, yyyy MMM dd, hh:mm a") {
                 ConfigurationPreferences.setDateFormat(this)
                 format.setText(this)
+                format.setSelection(format.length()) //placing cursor at the end of the text
             }
         }
     }

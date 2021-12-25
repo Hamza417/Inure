@@ -25,6 +25,8 @@
         android:hint="@string/format"
         android:maxLength="30"
         android:maxLines="1"
+        android:importantForAutofill="no"
+        android:inputType="textNoSuggestions"
         android:paddingHorizontal="@dimen/dialog_padding"
         android:textColor="@color/textPrimary"
         android:textColorHint="@color/textTertiary"
