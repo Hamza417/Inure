@@ -149,6 +149,9 @@ class AppInfo : ScopedFragment() {
                         getString(R.string.extras) -> {
                             openFragment(requireActivity().supportFragmentManager, Extras.newInstance(packageInfo), icon, "extras")
                         }
+                        getString(R.string.shared_libs) -> {
+                            openFragment(requireActivity().supportFragmentManager, SharedLibs.newInstance(packageInfo), icon, "shared_libs")
+                        }
                         getString(R.string.dex_classes) -> {
                             openFragment(requireActivity().supportFragmentManager, Dexs.newInstance(packageInfo), icon, "dexs")
                         }

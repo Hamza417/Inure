@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.lifecycle.ViewModelProvider
@@ -33,6 +34,7 @@ import java.io.IOException
 class XMLViewerTextView : ScopedFragment() {
 
     private lateinit var text: TypeFaceEditText
+    private lateinit var icon: ImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var progress: CustomProgressBar
     private lateinit var options: DynamicRippleImageButton
@@ -64,6 +66,7 @@ class XMLViewerTextView : ScopedFragment() {
 
         text = view.findViewById(R.id.text_viewer)
         name = view.findViewById(R.id.xml_name)
+        icon = view.findViewById(R.id.xml_viewer_header_icon)
         progress = view.findViewById(R.id.xml_loader)
         options = view.findViewById(R.id.xml_viewer_options)
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
@@ -84,6 +87,12 @@ class XMLViewerTextView : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (requireArguments().getBoolean(BundleConstants.isManifest)) {
+            icon.setImageResource(R.drawable.ic_android)
+        } else {
+            icon.setImageResource(R.drawable.ic_file_xml)
+        }
 
         startPostponedEnterTransition()
 

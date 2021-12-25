@@ -64,9 +64,11 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_providers.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_receivers.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_recently_installed.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_resources.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_sensors.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_sensors_header.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_services.xml" value="0.2364102564102564" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_shared_libs.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_type_face.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_typeface_header.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_usage_stats.xml" value="0.23055555555555557" />
@@ -133,6 +135,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_sensors.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_services.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_setup.xml" value="0.25" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_shared_libs.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_splash_screen.xml" value="0.22870370370370371" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_statistics.xml" value="0.2364102564102564" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_terminal.xml" value="0.21" />

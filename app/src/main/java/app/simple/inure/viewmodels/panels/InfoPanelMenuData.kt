@@ -116,18 +116,19 @@ class InfoPanelMenuData(application: Application, val packageInfo: PackageInfo) 
             val context = context
 
             val list = listOf(
-                Pair(R.drawable.ic_permission, context.getString(R.string.permissions)),
-                Pair(R.drawable.ic_activities, context.getString(R.string.activities)),
-                Pair(R.drawable.ic_services, context.getString(R.string.services)),
-                Pair(R.drawable.ic_certificate, context.getString(R.string.certificate)),
-                Pair(R.drawable.ic_resources, context.getString(R.string.resources)),
-                Pair(R.drawable.ic_receivers, context.getString(R.string.receivers)),
-                Pair(R.drawable.ic_provider, context.getString(R.string.providers)),
-                Pair(R.drawable.ic_file_xml, context.getString(R.string.manifest)),
-                Pair(R.drawable.ic_anchor, context.getString(R.string.uses_feature)),
-                Pair(R.drawable.ic_graphics, context.getString(R.string.graphics)),
-                Pair(R.drawable.ic_extras, context.getString(R.string.extras)),
-                Pair(R.drawable.ic_code, context.getString(R.string.dex_classes))
+                    Pair(R.drawable.ic_permission, context.getString(R.string.permissions)),
+                    Pair(R.drawable.ic_activities, context.getString(R.string.activities)),
+                    Pair(R.drawable.ic_services, context.getString(R.string.services)),
+                    Pair(R.drawable.ic_certificate, context.getString(R.string.certificate)),
+                    Pair(R.drawable.ic_resources, context.getString(R.string.resources)),
+                    Pair(R.drawable.ic_receivers, context.getString(R.string.receivers)),
+                    Pair(R.drawable.ic_provider, context.getString(R.string.providers)),
+                    Pair(R.drawable.ic_android, context.getString(R.string.manifest)),
+                    Pair(R.drawable.ic_anchor, context.getString(R.string.uses_feature)),
+                    Pair(R.drawable.ic_graphics, context.getString(R.string.graphics)),
+                    Pair(R.drawable.ic_extras, context.getString(R.string.extras)),
+                    Pair(R.drawable.ic_shared_libs, context.getString(R.string.shared_libs)),
+                    Pair(R.drawable.ic_code, context.getString(R.string.dex_classes))
             )
 
             menuItems.postValue(list)

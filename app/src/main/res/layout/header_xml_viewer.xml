@@ -8,9 +8,9 @@
     android:padding="@dimen/header_padding">
 
     <ImageView
-        android:id="@+id/services_header_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:id="@+id/xml_viewer_header_icon"
+        android:layout_width="@dimen/small_button_size"
+        android:layout_height="@dimen/small_button_size"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/header_padding"
         android:src="@drawable/ic_file_xml"

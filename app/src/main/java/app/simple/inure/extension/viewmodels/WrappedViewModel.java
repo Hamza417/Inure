@@ -3,6 +3,7 @@ package app.simple.inure.extension.viewmodels;
 import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -23,5 +24,9 @@ public class WrappedViewModel extends AndroidViewModel {
     
     public final ContentResolver getContentResolver() {
         return getApplication().getContentResolver();
+    }
+    
+    public final PackageManager getPackageManager() {
+        return getContext().getPackageManager();
     }
 }
