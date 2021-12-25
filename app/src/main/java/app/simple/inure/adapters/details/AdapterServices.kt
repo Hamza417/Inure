@@ -13,7 +13,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
-import app.simple.inure.model.ServiceInfoModel
+import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 

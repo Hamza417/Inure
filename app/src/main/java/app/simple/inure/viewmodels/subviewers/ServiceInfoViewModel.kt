@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
-import app.simple.inure.model.ServiceInfoModel
+import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.util.StringUtils.applyAccentColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

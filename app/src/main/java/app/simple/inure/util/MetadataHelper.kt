@@ -5,7 +5,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import app.simple.inure.R
-import app.simple.inure.model.AudioMetaData
+import app.simple.inure.models.AudioMetaData
 import app.simple.inure.util.AudioUtils.toBitrate
 import java.io.IOException
 

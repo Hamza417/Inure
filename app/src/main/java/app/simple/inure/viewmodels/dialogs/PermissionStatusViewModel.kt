@@ -10,7 +10,7 @@ import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.constants.Misc
 import app.simple.inure.exceptions.InureShellException
-import app.simple.inure.model.PermissionInfo
+import app.simple.inure.models.PermissionInfo
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

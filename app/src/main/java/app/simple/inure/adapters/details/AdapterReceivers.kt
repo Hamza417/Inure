@@ -12,7 +12,7 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
-import app.simple.inure.model.ActivityInfoModel
+import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.util.AdapterUtils
 
 class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, private val packageInfo: PackageInfo, val keyword: String)

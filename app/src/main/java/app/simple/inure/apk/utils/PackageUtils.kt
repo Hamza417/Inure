@@ -12,7 +12,7 @@ import android.os.RemoteException
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
-import app.simple.inure.model.PackageSizes
+import app.simple.inure.models.PackageSizes
 import app.simple.inure.util.DateUtils
 import java.lang.reflect.Method
 

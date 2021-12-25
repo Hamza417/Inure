@@ -14,7 +14,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.model.PackageStats
+import app.simple.inure.models.PackageStats
 import app.simple.inure.util.FileSizeHelper.toSize
 import java.util.concurrent.TimeUnit
 

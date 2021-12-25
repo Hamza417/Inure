@@ -13,7 +13,7 @@ import android.net.NetworkCapabilities
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.model.PackageStats
+import app.simple.inure.models.PackageStats
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.SortUsageStats.sortStats

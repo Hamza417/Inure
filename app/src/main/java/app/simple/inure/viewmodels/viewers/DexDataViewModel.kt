@@ -6,15 +6,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.parsers.APKParser.getDexClasses
+import app.simple.inure.apk.dex.Dex
+import app.simple.inure.apk.dex.DexClass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.bean.DexClass
 
 class DexDataViewModel(application: Application, private val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
-    private val dexData: MutableLiveData<ArrayList<DexClass>> by lazy {
-        MutableLiveData<ArrayList<DexClass>>().also {
+    private val dexData: MutableLiveData<MutableList<DexClass>> by lazy {
+        MutableLiveData<MutableList<DexClass>>().also {
             loadDexData()
         }
     }
@@ -23,7 +23,7 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
         MutableLiveData<String>()
     }
 
-    fun getDexClasses(): LiveData<ArrayList<DexClass>> {
+    fun getDexClasses(): LiveData<MutableList<DexClass>> {
         return dexData
     }
 
@@ -34,7 +34,9 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
     private fun loadDexData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                dexData.postValue(packageInfo.getDexClasses())
+                Dex(packageInfo.applicationInfo.sourceDir).use {
+                    dexData.postValue(it.dexClasses.toMutableList())
+                }
             }.getOrElse {
                 error.postValue(it.message!!)
             }

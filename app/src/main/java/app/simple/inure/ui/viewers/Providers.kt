@@ -20,7 +20,7 @@ import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
-import app.simple.inure.model.ProviderInfoModel
+import app.simple.inure.models.ProviderInfoModel
 import app.simple.inure.popups.viewers.PopupProvidersMenu
 import app.simple.inure.preferences.ProvidersPreferences
 import app.simple.inure.ui.subviewers.ProviderInfo

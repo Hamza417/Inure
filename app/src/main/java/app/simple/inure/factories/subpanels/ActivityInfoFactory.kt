@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import app.simple.inure.model.ActivityInfoModel
+import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.viewmodels.subviewers.ActivityInfoViewModel
 
 class ActivityInfoFactory(private val application: Application, private val activityInfoModel: ActivityInfoModel, val packageInfo: PackageInfo)

@@ -1,4 +1,4 @@
-package app.simple.inure.model;
+package app.simple.inure.models;
 
 import android.content.pm.ProviderInfo;
 import android.os.Parcel;

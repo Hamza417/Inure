@@ -99,4 +99,15 @@ object FileUtils {
                     fileExtension.lowercase(Locale.ROOT))
         }
     }
+
+    fun convertToByteArray(file: File): ByteArray? {
+        val fileBytes = ByteArray(file.length().toInt())
+        return try {
+            FileInputStream(file).use { inputStream -> inputStream.read(fileBytes) }
+            fileBytes
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            null
+        }
+    }
 }

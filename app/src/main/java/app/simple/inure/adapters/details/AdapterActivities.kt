@@ -11,7 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
-import app.simple.inure.model.ActivityInfoModel
+import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.AdapterUtils

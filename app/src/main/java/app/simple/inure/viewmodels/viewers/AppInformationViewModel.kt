@@ -130,11 +130,8 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 "${packageInfo.applicationInfo.minSdkVersion}, ${SDKHelper.getSdkTitle(packageInfo.applicationInfo.minSdkVersion)}"
             } else {
-                when (val apkMeta: Any? = packageInfo.applicationInfo.getApkMeta()) {
+                when (val apkMeta: Any = packageInfo.applicationInfo.getApkMeta()) {
                     is ApkMeta -> {
-                        "${apkMeta.minSdkVersion}, ${SDKHelper.getSdkTitle(apkMeta.minSdkVersion)}"
-                    }
-                    is net.dongliu.apk.parser.bean.ApkMeta -> {
                         "${apkMeta.minSdkVersion}, ${SDKHelper.getSdkTitle(apkMeta.minSdkVersion)}"
                     }
                     else -> {

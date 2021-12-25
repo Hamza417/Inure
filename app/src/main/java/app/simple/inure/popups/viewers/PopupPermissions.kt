@@ -8,7 +8,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.extension.popup.PopupMenuCallback
-import app.simple.inure.model.PermissionInfo
+import app.simple.inure.models.PermissionInfo
 
 class PopupPermissions(view: View, permissionInfo: PermissionInfo) : BasePopupWindow() {
 

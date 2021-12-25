@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.model.SharedLibraryModel
+import app.simple.inure.models.SharedLibraryModel
 
 class AdapterSharedLibs(private val list: MutableList<SharedLibraryModel>) : RecyclerView.Adapter<AdapterSharedLibs.Holder>() {
 

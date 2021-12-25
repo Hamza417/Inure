@@ -12,7 +12,7 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
-import app.simple.inure.model.ProviderInfoModel
+import app.simple.inure.models.ProviderInfoModel
 import app.simple.inure.util.AdapterUtils
 
 class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, private val packageInfo: PackageInfo, val keyword: String)

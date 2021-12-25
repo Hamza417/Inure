@@ -1,6 +1,6 @@
 package app.simple.inure.util
 
-import app.simple.inure.model.PackageStats
+import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import java.util.*
 

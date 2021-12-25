@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.constants.Misc
-import app.simple.inure.model.ProviderInfoModel
+import app.simple.inure.models.ProviderInfoModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

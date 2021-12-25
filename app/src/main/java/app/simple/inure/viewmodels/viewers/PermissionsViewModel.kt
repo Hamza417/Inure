@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.constants.Misc
 import app.simple.inure.extension.viewmodels.WrappedViewModel
-import app.simple.inure.model.PermissionInfo
+import app.simple.inure.models.PermissionInfo
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

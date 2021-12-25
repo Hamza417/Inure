@@ -17,7 +17,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.model.AudioMetaData
+import app.simple.inure.models.AudioMetaData
 import app.simple.inure.util.MetadataHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

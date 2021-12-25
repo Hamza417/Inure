@@ -6,16 +6,15 @@ import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.CertificateParseException
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.exceptions.InureXmlParserException
-import app.simple.inure.model.UsesFeatures
+import app.simple.inure.models.UsesFeatures
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import com.jaredrummler.apkparser.ApkParser
 import com.jaredrummler.apkparser.model.AndroidComponent
+import com.jaredrummler.apkparser.model.ApkMeta
 import com.jaredrummler.apkparser.model.CertificateMeta
 import com.jaredrummler.apkparser.model.DexInfo
-import net.dongliu.apk.parser.ApkFile
-import net.dongliu.apk.parser.bean.DexClass
 import java.io.IOException
 import java.util.*
 import java.util.zip.ZipEntry
@@ -33,9 +32,7 @@ object APKParser {
             }
         }.onFailure { throwable ->
             throwable.printStackTrace()
-            ApkFile(sourceDir).use {
-                return it.manifestXml
-            }
+            ApkManifestFetcher.getManifestXmlFromFilePath(sourceDir)
         }.getOrElse {
             throw ApkParserException("Couldn't parse manifest file due to error : ${it.message}")
         }
@@ -87,12 +84,6 @@ object APKParser {
      */
     fun ApplicationInfo.getPermissions(): MutableList<String> {
         kotlin.runCatching {
-            ApkFile(sourceDir).use {
-                return it.apkMeta.usesPermissions
-            }
-        }.onFailure { throwable ->
-            throwable.printStackTrace()
-
             ApkParser.create(sourceDir).use {
                 return it.apkMeta.usesPermissions
             }
@@ -113,14 +104,6 @@ object APKParser {
                 }
                 return list
             }
-        }.onFailure {
-            ApkFile(sourceDir).use {
-                val list = mutableListOf<UsesFeatures>()
-                for (i in it.apkMeta.usesFeatures) {
-                    list.add(UsesFeatures(i.name, i.isRequired))
-                }
-                return list
-            }
         }.getOrElse {
             throw ApkParserException("Couldn't fetch features due to error : ${it.message}")
         }
@@ -133,11 +116,7 @@ object APKParser {
         kotlin.runCatching {
             ApkParser.create(this).use {
                 return it.androidManifest.apkMeta
-                        .installLocation.capitalizeFirstLetter()
-            }
-        }.onFailure {
-            ApkFile(sourceDir).use {
-                return it.apkMeta.installLocation.capitalizeFirstLetter()
+                    .installLocation.capitalizeFirstLetter()
             }
         }.getOrElse {
             throw Exception()
@@ -151,11 +130,7 @@ object APKParser {
         kotlin.runCatching {
             ApkParser.create(this).use {
                 return it.androidManifest.apkMeta
-                        .glEsVersion.toString()
-            }
-        }.onFailure {
-            ApkFile(this.applicationInfo.sourceDir).use {
-                return it.apkMeta.glEsVersion.toString()
+                    .glEsVersion.toString()
             }
         }.getOrElse {
             throw ApkParserException("Couldn't fetch GLES version due to error : ${it.message}")
@@ -193,14 +168,10 @@ object APKParser {
      * Fetch the list of broadcast receivers from
      * an APK file
      */
-    fun ApplicationInfo.getApkMeta(): Any? {
+    fun ApplicationInfo.getApkMeta(): ApkMeta {
         kotlin.runCatching {
             ApkParser.create(this).use {
                 return it.androidManifest.apkMeta
-            }
-        }.onFailure {
-            ApkFile(sourceDir).use {
-                return it.apkMeta
             }
         }.getOrElse {
             throw ApkParserException("Couldn't parse app info due to error : ${it.message}")
@@ -214,10 +185,6 @@ object APKParser {
     fun ApplicationInfo.getTransBinaryXml(path: String): String {
         kotlin.runCatching {
             ApkParser.create(this).use {
-                return it.transBinaryXml(path)
-            }
-        }.onFailure {
-            ApkFile(sourceDir).use {
                 return it.transBinaryXml(path)
             }
         }.getOrElse {
@@ -235,15 +202,6 @@ object APKParser {
             }
         }.getOrElse {
             throw DexClassesNotFoundException("This apk does not contain any recognizable dex classes data.")
-        }
-    }
-
-    /**
-     * Get list of all dex classes
-     */
-    fun PackageInfo.getDexClasses(): ArrayList<DexClass> {
-        ApkFile(this.applicationInfo.sourceDir).use {
-            return it.dexClasses!!.toList() as ArrayList<DexClass>
         }
     }
 

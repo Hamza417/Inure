@@ -1,4 +1,4 @@
-package app.simple.inure.model;
+package app.simple.inure.models;
 
 public class CertificateModel {
     private String category;

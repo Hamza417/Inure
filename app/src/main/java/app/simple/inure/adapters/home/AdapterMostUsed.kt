@@ -14,7 +14,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.model.PackageStats
+import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.ConfigurationPreferences
 import java.util.concurrent.TimeUnit.*
 

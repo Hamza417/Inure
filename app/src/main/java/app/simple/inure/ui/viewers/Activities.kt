@@ -22,7 +22,7 @@ import app.simple.inure.dialogs.miscellaneous.IntentAction
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
-import app.simple.inure.model.ActivityInfoModel
+import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.popups.viewers.PopupActivitiesMenu
 import app.simple.inure.preferences.ActivitiesPreferences
 import app.simple.inure.ui.subviewers.ActivityInfo

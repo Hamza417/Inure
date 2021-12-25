@@ -14,7 +14,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.subpanels.ServiceInfoFactory
-import app.simple.inure.model.ServiceInfoModel
+import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.viewmodels.subviewers.ServiceInfoViewModel
 
 class ServiceInfo : ScopedFragment() {

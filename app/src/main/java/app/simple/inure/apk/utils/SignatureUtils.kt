@@ -5,7 +5,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.os.Build
-import app.simple.inure.model.Tuple
+import app.simple.inure.models.Tuple
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.security.MessageDigest

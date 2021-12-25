@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import app.simple.inure.model.ServiceInfoModel
+import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.viewmodels.subviewers.ServiceInfoViewModel
 
 class ServiceInfoFactory(private val application: Application, private val serviceInfoModel: ServiceInfoModel, val packageInfo: PackageInfo)

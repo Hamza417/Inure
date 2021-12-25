@@ -12,7 +12,7 @@ import app.simple.inure.apk.utils.PermissionUtils.protectionToString
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.model.PermissionInfo
+import app.simple.inure.models.PermissionInfo
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.PermissionPreferences
 import app.simple.inure.util.AdapterUtils

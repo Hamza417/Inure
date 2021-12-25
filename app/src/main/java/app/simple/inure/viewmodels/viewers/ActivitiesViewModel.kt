@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.extension.viewmodels.WrappedViewModel
-import app.simple.inure.model.ActivityInfoModel
+import app.simple.inure.models.ActivityInfoModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

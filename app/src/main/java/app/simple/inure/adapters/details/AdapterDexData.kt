@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.dex.DexClass
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import net.dongliu.apk.parser.bean.DexClass
 
-class AdapterDexData(private val dexs: ArrayList<DexClass>) : RecyclerView.Adapter<AdapterDexData.Holder>() {
+class AdapterDexData(private val dexs: MutableList<DexClass>) : RecyclerView.Adapter<AdapterDexData.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_dex_data, parent, false))
