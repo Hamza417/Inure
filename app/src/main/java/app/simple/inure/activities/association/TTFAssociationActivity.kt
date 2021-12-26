@@ -42,7 +42,9 @@ class TTFAssociationActivity : BaseActivity() {
 
         lifecycleScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                val typeFace = TTFHelper.getTTFFile(contentResolver.openInputStream(intent.data!!)!!, applicationContext)
+                val typeFace = TTFHelper.getTTFFile(contentResolver.openInputStream(intent.data!!)!!,
+                                                    applicationContext,
+                                                    DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)!!.name!!)
 
                 withContext(Dispatchers.Main) {
                     fontEditText.setTypeface(typeFace, Typeface.NORMAL)

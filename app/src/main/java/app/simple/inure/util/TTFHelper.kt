@@ -33,10 +33,10 @@ object TTFHelper {
         return null
     }
 
-    fun getTTFFile(inputStream: InputStream, context: Context): Typeface? {
+    fun getTTFFile(inputStream: InputStream, context: Context, name: String): Typeface? {
         kotlin.runCatching {
             File(context.getExternalFilesDir(null)!!.path + "/font_cache/").mkdir()
-            val file = File(context.getExternalFilesDir(null)?.path + "/font_cache/" + "temp_font.ttf")
+            val file = File(context.getExternalFilesDir(null)?.path + "/font_cache/" + name)
             copyStreamToFile(inputStream, file)
             return Typeface.createFromFile(file)
         }.getOrElse {

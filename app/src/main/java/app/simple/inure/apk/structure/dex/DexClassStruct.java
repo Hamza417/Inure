@@ -1,4 +1,4 @@
-package app.simple.inure.apk.structure;
+package app.simple.inure.apk.structure.dex;
 
 public class DexClassStruct {
     /* index into typeIds for this class. u4 */

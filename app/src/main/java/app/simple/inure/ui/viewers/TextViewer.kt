@@ -19,7 +19,7 @@ import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.exceptions.StringTooLargeException
+import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextDataFactory
 import app.simple.inure.popups.app.PopupXmlViewer
@@ -90,7 +90,7 @@ class TextViewer : ScopedFragment() {
         textViewerData.getText().observe(viewLifecycleOwner, {
             runCatching {
                 if (it.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
-                    throw StringTooLargeException("String size ${it.length} is too big to render without freezing the app")
+                    throw LargeStringException("String size ${it.length} is too big to render without freezing the app")
                 }
                 txt.setText(it)
             }.getOrElse {

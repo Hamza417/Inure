@@ -15,7 +15,8 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser.extractManifest
 import app.simple.inure.apk.parsers.APKParser.getTransBinaryXml
 import app.simple.inure.apk.parsers.ApkManifestFetcher
-import app.simple.inure.exceptions.StringTooLargeException
+import app.simple.inure.apk.xml.XML
+import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.XMLUtils
 import kotlinx.coroutines.Dispatchers
@@ -91,11 +92,14 @@ class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolea
                         XMLUtils.getProperXml(ApkManifestFetcher.getManifestXmlFromFilePath(packageInfo.applicationInfo.sourceDir)!!)!!
                     }
                 } else {
-                    packageInfo.applicationInfo.getTransBinaryXml(pathToXml)
+                    XML(packageInfo.applicationInfo.sourceDir).use {
+                        it.transBinaryXml(pathToXml)
+                    }
+                    // packageInfo.applicationInfo.getTransBinaryXml(pathToXml)
                 }
 
                 if (code.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
-                    throw StringTooLargeException("String size ${code.length} is too big to render without freezing the app")
+                    throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
                 }
 
                 formattedContent = SpannableString(code)
@@ -114,6 +118,7 @@ class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolea
 
                 spanned.postValue(formattedContent)
             }.getOrElse {
+                it.printStackTrace()
                 error.postValue(it.stackTraceToString())
             }
         }

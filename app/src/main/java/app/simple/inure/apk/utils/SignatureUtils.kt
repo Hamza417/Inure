@@ -13,6 +13,7 @@ import java.security.NoSuchAlgorithmException
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
+import kotlin.Pair
 import kotlin.experimental.and
 
 object SignatureUtils {

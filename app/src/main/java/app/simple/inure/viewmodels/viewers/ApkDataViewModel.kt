@@ -11,7 +11,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.constants.Misc.delay
-import com.jaredrummler.apkparser.model.AndroidComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -89,21 +88,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
             }.getOrElse {
                 delay(delay)
                 error.postValue(it.stackTraceToString())
-            }
-        }
-    }
-
-    /**
-     * For some reason this did not work.
-     *
-     * TODO - add explanation to why
-     */
-    @Deprecated("This won't work",
-                ReplaceWith("this.apply { sortedBy { it.name.substring(it.name.lastIndexOf(\".\")) } }"))
-    private fun MutableList<AndroidComponent>.sort(): MutableList<AndroidComponent> {
-        return this.apply {
-            sortedBy {
-                it.name.substring(it.name.lastIndexOf("."))
             }
         }
     }

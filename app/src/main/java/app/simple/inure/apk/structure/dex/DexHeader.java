@@ -1,10 +1,8 @@
-package app.simple.inure.apk.structure;
+package app.simple.inure.apk.structure.dex;
 
 /**
  * dex file header.
  * see http://dexandroid.googlecode.com/svn/trunk/dalvik/libdex/DexFile.h
- *
- * @author dongliu
  */
 public class DexHeader {
     

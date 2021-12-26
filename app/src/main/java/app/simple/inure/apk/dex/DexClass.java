@@ -1,7 +1,8 @@
 package app.simple.inure.apk.dex;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import app.simple.inure.apk.structure.DexClassStruct;
+import app.simple.inure.apk.structure.dex.DexClassStruct;
 
 public class DexClass {
     /**
@@ -68,6 +69,7 @@ public class DexClass {
         return (this.accessFlags & DexClassStruct.ACC_STATIC) != 0;
     }
     
+    @NonNull
     @Override
     public String toString() {
         return classType;

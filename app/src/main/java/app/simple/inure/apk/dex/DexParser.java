@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import app.simple.inure.apk.structure.DexClassStruct;
-import app.simple.inure.apk.structure.DexHeader;
-import app.simple.inure.apk.structure.StringPool;
+import app.simple.inure.apk.structure.dex.DexClassStruct;
+import app.simple.inure.apk.structure.dex.DexHeader;
+import app.simple.inure.apk.structure.string.StringPool;
 import app.simple.inure.apk.utils.Buffers;
 import app.simple.inure.exceptions.ParserException;
 import app.simple.inure.models.StringPoolEntry;

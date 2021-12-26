@@ -11,7 +11,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.exceptions.StringTooLargeException
+import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -63,7 +63,7 @@ class JSONViewerViewModel(application: Application, private val accentColor: Int
                 val code: String = getJsonFile()!!
 
                 if (code.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
-                    throw StringTooLargeException("String size ${code.length} is too big to render without freezing the app")
+                    throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
                 }
 
                 formattedContent = SpannableString(code)

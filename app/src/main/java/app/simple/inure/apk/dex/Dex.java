@@ -87,14 +87,9 @@ public class Dex implements Closeable {
     
     @Override
     public void close() throws IOException {
-        try (Closeable superClosable = new Closeable() {
-            @Override
-            public void close() throws IOException {
-                close();
-            }
-        };
-             Closeable zipFileClosable = zipFile;
-             Closeable fileChannelClosable = fileChannel) {
+        zipFile.close();
+        if (fileChannel != null) {
+            fileChannel.close();
         }
     }
 }

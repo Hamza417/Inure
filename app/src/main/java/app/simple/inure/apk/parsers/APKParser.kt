@@ -5,7 +5,7 @@ import android.content.pm.PackageInfo
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.CertificateParseException
 import app.simple.inure.exceptions.DexClassesNotFoundException
-import app.simple.inure.exceptions.InureXmlParserException
+import app.simple.inure.exceptions.ParserException
 import app.simple.inure.models.UsesFeatures
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.preferences.GraphicsPreferences
@@ -188,7 +188,8 @@ object APKParser {
                 return it.transBinaryXml(path)
             }
         }.getOrElse {
-            throw InureXmlParserException("Couldn't parse XML file for package $packageName")
+            it.printStackTrace()
+            throw ParserException("Couldn't parse XML file for package $packageName")
         }
     }
 

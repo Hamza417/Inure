@@ -1,4 +1,4 @@
-package app.simple.inure.apk.structure;
+package app.simple.inure.apk.structure.string;
 
 public class StringPool {
     private final String[] pool;

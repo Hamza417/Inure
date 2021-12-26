@@ -15,7 +15,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
-import app.simple.inure.exceptions.StringTooLargeException
+import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -94,7 +94,7 @@ class TextAssociationActivity : BaseActivity() {
 
                     withContext(Dispatchers.Main) {
                         if (string.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
-                            throw StringTooLargeException("String size ${string.length} is too big to render without freezing the app")
+                            throw LargeStringException("String size ${string.length} is too big to render without freezing the app")
                         }
                         txt.setText(string)
                         options.visible(true)
