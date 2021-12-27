@@ -1,5 +1,8 @@
 package app.simple.inure.popups.app
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +29,7 @@ class PopupMainList(anchor: View, packageName: String) : BasePopupWindow() {
 
     lateinit var popupMenuCallback: PopupMenuCallback
     private val launch: DynamicRippleTextView
+    private val copyPackageName: DynamicRippleTextView
 
     init {
         val contentView = LayoutInflater.from(anchor.context).inflate(R.layout.popup_main_list_menu, PopupLinearLayout(anchor.context))
@@ -34,12 +38,20 @@ class PopupMainList(anchor: View, packageName: String) : BasePopupWindow() {
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_send).onClick()
 
         launch = contentView.findViewById(R.id.popup_app_launch)
+        copyPackageName = contentView.findViewById(R.id.popup_copy_package)
 
         if (PackageUtils.checkIfAppIsLaunchable(contentView.context, packageName)) {
             launch.visible(false)
             launch.onClick()
         } else {
             launch.gone()
+        }
+
+        copyPackageName.setOnClickListener {
+            val clipBoard = contentView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("Package Name", packageName)
+            clipBoard.setPrimaryClip(clipData)
+            dismiss()
         }
 
         init(contentView, anchor, Gravity.END)

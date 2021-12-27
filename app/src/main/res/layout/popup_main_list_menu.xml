@@ -9,7 +9,6 @@
     android:padding="10dp"
     tools:parentTag="android.widget.LinearLayout">
 
-
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_app_launch"
         android:layout_width="match_parent"
@@ -48,6 +47,19 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/send"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_copy_package"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/copy_package_name"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />

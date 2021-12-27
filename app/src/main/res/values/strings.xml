@@ -400,4 +400,5 @@
     <string name="desc_dividers">Use dividers between the items of every scrollable list throughout the app.</string>
     <string name="faq">FAQ</string>
     <string name="shared_libs">Shared Libs</string>
+    <string name="copy_package_name">Copy Package Name</string>
 </resources>

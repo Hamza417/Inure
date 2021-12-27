@@ -18,7 +18,7 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.FileSizeHelper.toSize
 
-class SearchAdapter(private var apps: ArrayList<PackageInfo>, private var searchKeyword: String = "") : RecyclerView.Adapter<SearchAdapter.Holder>() {
+class AdapterSearch(private var apps: ArrayList<PackageInfo>, private var searchKeyword: String = "") : RecyclerView.Adapter<AdapterSearch.Holder>() {
 
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     private var xOff = 0f

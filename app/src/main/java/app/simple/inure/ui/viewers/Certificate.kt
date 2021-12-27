@@ -12,6 +12,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.ErrorPopup
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.popups.viewers.PopupInformation
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 
 class Certificate : ScopedFragment() {
@@ -39,7 +40,15 @@ class Certificate : ScopedFragment() {
         startPostponedEnterTransition()
 
         viewModel.getCertificateData().observe(viewLifecycleOwner, {
-            recyclerView.adapter = AdapterInformation(it)
+            val adapterInformation = AdapterInformation(it)
+
+            adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {
+                override fun onInformationClicked(view: View, string: String) {
+                    PopupInformation(view, string)
+                }
+            })
+
+            recyclerView.adapter = adapterInformation
         })
 
         viewModel.getError().observe(viewLifecycleOwner, {

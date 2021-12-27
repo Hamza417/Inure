@@ -10,7 +10,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.ui.SearchAdapter
+import app.simple.inure.adapters.ui.AdapterSearch
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
@@ -30,7 +30,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var appsAdapterSmall: SearchAdapter
+    private lateinit var appsAdapterSearchSmall: AdapterSearch
 
     private lateinit var searchViewModel: SearchViewModel
 
@@ -58,10 +58,10 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
             searchView.setNewNumber(it.size)
 
-            appsAdapterSmall = SearchAdapter(it, searchViewModel.getSearchKeywords().value ?: "")
-            recyclerView.adapter = appsAdapterSmall
+            appsAdapterSearchSmall = AdapterSearch(it, searchViewModel.getSearchKeywords().value ?: "")
+            recyclerView.adapter = appsAdapterSearchSmall
 
-            appsAdapterSmall.setOnItemClickListener(object : AppsAdapterCallbacks {
+            appsAdapterSearchSmall.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
