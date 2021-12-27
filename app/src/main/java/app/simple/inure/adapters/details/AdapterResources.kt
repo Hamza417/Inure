@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 
-
-class AdapterResources(val list: MutableList<String>) : RecyclerView.Adapter<AdapterResources.Holder>() {
+class AdapterResources(private val list: MutableList<String>, private val keyword: String) : RecyclerView.Adapter<AdapterResources.Holder>() {
 
     private lateinit var resourceCallbacks: ResourceCallbacks
 
@@ -29,6 +29,8 @@ class AdapterResources(val list: MutableList<String>) : RecyclerView.Adapter<Ada
             resourceCallbacks.onResourceLongClicked(list[position])
             true
         }
+
+        if (keyword.isNotBlank()) AdapterUtils.searchHighlighter(holder.xml, keyword)
     }
 
     override fun getItemCount(): Int {

@@ -14,8 +14,6 @@ import app.simple.inure.constants.Misc.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.FileNotFoundException
-import java.util.*
 
 class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
@@ -31,7 +29,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private val resources: MutableLiveData<MutableList<String>> by lazy {
         MutableLiveData<MutableList<String>>().also {
-            getResourceData()
+            getResourceData("")
         }
     }
 
@@ -71,22 +69,13 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         }
     }
 
-    private fun getResourceData() {
+    fun getResourceData(keyWords: String) {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                with(APKParser.getXmlFiles(packageInfo.applicationInfo.sourceDir)) {
-                    if (size == 0) {
-                        throw FileNotFoundException("This package does not contain any xml resource files")
-                    } else {
-                        resources.postValue(apply {
-                            sortBy {
-                                it.lowercase(Locale.getDefault())
-                            }
-                        })
-                    }
+                with(APKParser.getXmlFiles(packageInfo.applicationInfo.sourceDir, keyWords)) {
+                    resources.postValue(this)
                 }
             }.getOrElse {
-                delay(delay)
                 error.postValue(it.stackTraceToString())
             }
         }
