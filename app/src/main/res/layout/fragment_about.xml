@@ -41,11 +41,11 @@
         android:background="@color/divider" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="20dp"
-        android:id="@+id/scroll_view"
+        android:paddingBottom="10dp"
         app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
 
         <LinearLayout
@@ -405,6 +405,56 @@
                     android:layout_marginEnd="60dp"
                     android:layout_toEndOf="@id/imageView5"
                     android:text="@string/desc_translate"
+                    android:textColor="@color/textTertiary"
+                    android:textSize="@dimen/preferences_description_text_size"
+                    app:appFontStyle="regular" />
+
+            </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
+
+            <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                android:id="@+id/about_telegram"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/telegram_icon"
+                    android:layout_width="@dimen/preference_icon_size"
+                    android:layout_height="@dimen/preference_icon_size"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:src="@drawable/ic_telegram"
+                    app:tint="@color/iconSecondary"
+                    tools:ignore="ContentDescription" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/telegram_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/telegram_icon"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/join_telegram"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/preferences_title_text_size"
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_link_tiny"
+                    app:drawableTint="?attr/colorAppAccent"
+                    tools:ignore="HardcodedText" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/telegram_tag"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_toEndOf="@id/telegram_icon"
+                    android:text="@string/desc_telegram"
                     android:textColor="@color/textTertiary"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular" />

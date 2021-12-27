@@ -50,14 +50,14 @@ class Permissions : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
         permissionsViewModel = ViewModelProvider(this, packageInfoFactory).get(PermissionsViewModel::class.java)
 
-        startPostponedEnterTransition()
-        searchBoxState()
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        searchBoxState()
+        startPostponedEnterTransition()
 
         permissionsViewModel.getPermissions().observe(viewLifecycleOwner, {
             adapterPermissions = AdapterPermissions(it, searchBox.text.toString())

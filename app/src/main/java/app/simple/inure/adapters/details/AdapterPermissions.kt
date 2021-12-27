@@ -51,9 +51,8 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         }
 
         if (isRootMode) {
-            holder.container.setOnLongClickListener {
+            holder.container.setOnClickListener {
                 permissionCallbacks.onPermissionClicked(it, permissions[position], position)
-                true
             }
         }
 
@@ -126,9 +125,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
     fun update() {
         permissionLabelMode = PermissionPreferences.getLabelType()
-        for (i in permissions.indices) {
-            notifyItemChanged(i)
-        }
+        for (i in permissions.indices) notifyItemChanged(i)
     }
 
     fun setOnPermissionCallbacksListener(permissionCallbacks: PermissionCallbacks) {

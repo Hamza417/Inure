@@ -209,4 +209,5 @@
             <action android:name="android.intent.action.ALL_APPS" />
         </intent>
     </queries>
+
 </manifest>

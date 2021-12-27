@@ -20,6 +20,7 @@ class AboutScreen : ScopedFragment() {
     private lateinit var credits: DynamicRippleRelativeLayout
     private lateinit var translation: DynamicRippleRelativeLayout
     private lateinit var licenses: DynamicRippleRelativeLayout
+    private lateinit var telegram: DynamicRippleRelativeLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_about, container, false)
@@ -30,6 +31,7 @@ class AboutScreen : ScopedFragment() {
         credits = view.findViewById(R.id.credits)
         translation = view.findViewById(R.id.about_translation)
         licenses = view.findViewById(R.id.licenses)
+        telegram = view.findViewById(R.id.about_telegram)
 
         return view
     }
@@ -71,6 +73,11 @@ class AboutScreen : ScopedFragment() {
             FragmentHelper.openFragment(parentFragmentManager,
                                         WebPage.newInstance(getString(R.string.user_agreements)),
                                         "web_page")
+        }
+
+        telegram.setOnClickListener {
+            val uri: Uri = Uri.parse("https://t.me/inure_app_manager")
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
     }
 
