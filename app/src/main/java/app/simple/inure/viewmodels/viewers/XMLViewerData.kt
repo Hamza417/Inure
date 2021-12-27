@@ -18,6 +18,7 @@ import app.simple.inure.apk.xml.XML
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.XMLUtils
+import com.jaredrummler.apkparser.ApkParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -91,8 +92,14 @@ class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolea
                         XMLUtils.getProperXml(ApkManifestFetcher.getManifestXmlFromFilePath(packageInfo.applicationInfo.sourceDir)!!)!!
                     }
                 } else {
-                    XML(packageInfo.applicationInfo.sourceDir).use {
-                        it.transBinaryXml(pathToXml)
+                    kotlin.runCatching {
+                        XML(packageInfo.applicationInfo.sourceDir).use {
+                            it.transBinaryXml(pathToXml)
+                        }
+                    }.getOrElse {
+                        ApkParser.create(packageInfo.applicationInfo.sourceDir).use {
+                            it.transBinaryXml(pathToXml)
+                        }
                     }
                 }
 
