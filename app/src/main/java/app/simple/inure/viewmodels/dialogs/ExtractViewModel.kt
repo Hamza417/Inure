@@ -82,8 +82,8 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
 
                     status.postValue(getString(R.string.creating_split_package))
 
-                    contentResolver.openOutputStream(documentFile!!.uri, "w").use {
-                        BufferedOutputStream(it).use { bufferedOutputStream ->
+                    contentResolver.openOutputStream(documentFile!!.uri, "w").use { outputStream ->
+                        BufferedOutputStream(outputStream).use { bufferedOutputStream ->
                             ZipOutputStream(bufferedOutputStream).use { zipOutputStream ->
                                 for (file in list) {
                                     val entry = ZipEntry(file?.substring(file.lastIndexOf("/") + 1))

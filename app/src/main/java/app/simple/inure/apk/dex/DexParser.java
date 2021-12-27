@@ -196,10 +196,9 @@ public class DexParser {
                 short c = Buffers.readUByte(buffer);
                 chars[i] = (char) (((a & 0x0F) << 12) | ((b & 0x3F) << 6) | (c & 0x3F));
             } else if ((a & 0xf0) == 0xf0) {
-                //throw new UTFDataFormatException();
-                
+                // throw new UTFDataFormatException();
             } else {
-                //throw new UTFDataFormatException();
+                // throw new UTFDataFormatException();
             }
             if (chars[i] == 0) {
                 // the end of string.
@@ -279,5 +278,4 @@ public class DexParser {
         
         return header;
     }
-    
 }

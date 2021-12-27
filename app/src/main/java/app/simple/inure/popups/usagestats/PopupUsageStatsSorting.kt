@@ -3,8 +3,8 @@ package app.simple.inure.popups.usagestats
 import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
+import app.simple.inure.decorations.checkbox.CheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.views.CustomCheckBox
 import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.preferences.StatisticsPreferences
@@ -62,10 +62,10 @@ class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
             setOnClick(SortUsageStats.WIFI_RECEIVED)
         }
 
-        with(contentView.findViewById<CustomCheckBox>(R.id.sort_reversed_checkbox)) {
-            isChecked = StatisticsPreferences.isReverseSorting()
+        with(contentView.findViewById<CheckBox>(R.id.sort_reversed_checkbox)) {
+            setChecked(StatisticsPreferences.isReverseSorting())
 
-            setOnCheckedChangeListener { _, isChecked ->
+            setOnCheckedChangeListener { isChecked ->
                 StatisticsPreferences.setReverseSorting(isChecked)
             }
         }

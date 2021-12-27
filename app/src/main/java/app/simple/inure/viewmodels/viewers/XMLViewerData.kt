@@ -13,7 +13,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser.extractManifest
-import app.simple.inure.apk.parsers.APKParser.getTransBinaryXml
 import app.simple.inure.apk.parsers.ApkManifestFetcher
 import app.simple.inure.apk.xml.XML
 import app.simple.inure.exceptions.LargeStringException
@@ -95,7 +94,6 @@ class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolea
                     XML(packageInfo.applicationInfo.sourceDir).use {
                         it.transBinaryXml(pathToXml)
                     }
-                    // packageInfo.applicationInfo.getTransBinaryXml(pathToXml)
                 }
 
                 if (code.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
@@ -132,7 +130,9 @@ class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolea
                 val code = if (isManifest) {
                     packageInfo.applicationInfo.extractManifest()!!
                 } else {
-                    packageInfo.applicationInfo.getTransBinaryXml(pathToXml)
+                    XML(packageInfo.applicationInfo.sourceDir).use {
+                        it.transBinaryXml(pathToXml)
+                    }
                 }
 
                 val data = String.format(

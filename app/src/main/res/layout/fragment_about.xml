@@ -152,53 +152,6 @@
 
             </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
-            <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-                android:id="@+id/faq"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:padding="15dp">
-
-                <ImageView
-                    android:id="@+id/faq_iv"
-                    android:layout_width="@dimen/preference_icon_size"
-                    android:layout_height="@dimen/preference_icon_size"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:focusable="false"
-                    android:src="@drawable/ic_faq"
-                    app:tint="@color/iconSecondary"
-                    tools:ignore="ContentDescription" />
-
-                <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:id="@+id/faq_tag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@id/faq_iv"
-                    android:drawablePadding="5dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/faq"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="@dimen/preferences_title_text_size"
-                    app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                    app:drawableTint="?attr/colorAppAccent" />
-
-                <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/faq_tag"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toEndOf="@id/faq_iv"
-                    android:text="@string/desc_changelogs"
-                    android:textColor="@color/textTertiary"
-                    android:textSize="@dimen/preferences_description_text_size"
-                    app:appFontStyle="regular" />
-
-            </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
-
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

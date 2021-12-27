@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.checkbox.CheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CustomCheckBox
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.util.StringUtils.highlightExtensions
 
@@ -23,9 +23,9 @@ class AdapterExtrasFilter : RecyclerView.Adapter<AdapterExtrasFilter.Holder>() {
     override fun onBindViewHolder(holder: Holder, position: Int) {
         with(holder) {
             extension.text = if (isHighlighted) list[position].first.toSpannable().highlightExtensions() else list[position].first
-            checkBox.isChecked = ExtrasPreferences.isFilterAllowed(list[position].second)
+            checkBox.setChecked(ExtrasPreferences.isFilterAllowed(list[position].second))
 
-            checkBox.setOnCheckedChangeListener { _, isChecked ->
+            checkBox.setOnCheckedChangeListener { isChecked ->
                 ExtrasPreferences.setFilterVisibility(isChecked, list[position].second)
             }
         }
@@ -37,7 +37,7 @@ class AdapterExtrasFilter : RecyclerView.Adapter<AdapterExtrasFilter.Holder>() {
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val extension: TypeFaceTextView = itemView.findViewById(R.id.adapter_extras_filter_extension)
-        val checkBox: CustomCheckBox = itemView.findViewById(R.id.adapter_extras_filter_checkbox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.adapter_extras_filter_checkbox)
     }
 
     companion object {

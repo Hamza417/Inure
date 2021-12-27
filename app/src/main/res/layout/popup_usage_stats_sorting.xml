@@ -114,10 +114,10 @@
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold" />
 
-        <app.simple.inure.decorations.views.CustomCheckBox
+        <app.simple.inure.decorations.checkbox.CheckBox
             android:id="@+id/sort_reversed_checkbox"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
+            android:layout_width="@dimen/checkbox_dimensions"
+            android:layout_height="@dimen/checkbox_dimensions"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="10dp" />
 

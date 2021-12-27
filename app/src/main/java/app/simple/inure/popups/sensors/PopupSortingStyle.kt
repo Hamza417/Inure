@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import app.simple.inure.R
+import app.simple.inure.decorations.checkbox.CheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.views.CustomCheckBox
 import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.preferences.SensorsPreferences
@@ -18,7 +18,7 @@ class PopupSortingStyle(view: View) : BasePopupWindow() {
     private val maximumRange: DynamicRippleTextView
     private val resolution: DynamicRippleTextView
 
-    private val descCheckBox: CustomCheckBox
+    private val descCheckBox: CheckBox
 
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_sensors_sort, PopupLinearLayout(view.context))
@@ -36,14 +36,14 @@ class PopupSortingStyle(view: View) : BasePopupWindow() {
             SensorsSort.RESOLUTION -> resolution.isSelected = true
         }
 
-        descCheckBox.isChecked = SensorsPreferences.isReverseSorting()
+        descCheckBox.setChecked(SensorsPreferences.isReverseSorting())
 
         name.onClick(SensorsSort.NAME)
         power.onClick(SensorsSort.POWER)
         maximumRange.onClick(SensorsSort.MAX_RANGE)
         resolution.onClick(SensorsSort.RESOLUTION)
 
-        descCheckBox.setOnCheckedChangeListener { _, isChecked ->
+        descCheckBox.setOnCheckedChangeListener { isChecked ->
             SensorsPreferences.setReverseSorting(isChecked)
         }
 

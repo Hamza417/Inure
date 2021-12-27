@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.CertificateParseException
 import app.simple.inure.exceptions.DexClassesNotFoundException
-import app.simple.inure.exceptions.ParserException
 import app.simple.inure.models.UsesFeatures
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.preferences.GraphicsPreferences
@@ -175,21 +174,6 @@ object APKParser {
             }
         }.getOrElse {
             throw ApkParserException("Couldn't parse app info due to error : ${it.message}")
-        }
-    }
-
-    /**
-     * Fetch the list of broadcast receivers from
-     * an APK file
-     */
-    fun ApplicationInfo.getTransBinaryXml(path: String): String {
-        kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.transBinaryXml(path)
-            }
-        }.getOrElse {
-            it.printStackTrace()
-            throw ParserException("Couldn't parse XML file for package $packageName")
         }
     }
 
