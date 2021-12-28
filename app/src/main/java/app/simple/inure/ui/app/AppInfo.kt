@@ -23,7 +23,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.*
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -35,7 +35,7 @@ import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.panels.InfoPanelMenuData
+import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
 
 class AppInfo : ScopedFragment() {
 
@@ -54,7 +54,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var foldActionsMenu: DynamicRippleImageButton
     private lateinit var foldMiscMenu: DynamicRippleImageButton
 
-    private lateinit var componentsViewModel: InfoPanelMenuData
+    private lateinit var componentsViewModel: AppInfoMenuViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -77,7 +77,7 @@ class AppInfo : ScopedFragment() {
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
-        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(InfoPanelMenuData::class.java)
+        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(AppInfoMenuViewModel::class.java)
 
         metaMenuState()
         actionMenuState()
@@ -266,9 +266,9 @@ class AppInfo : ScopedFragment() {
         })
 
         componentsViewModel.getError().observe(viewLifecycleOwner, {
-            val e = ErrorPopup.newInstance(it)
+            val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+            e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
                     requireActivity().onBackPressed()
                 }

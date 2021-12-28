@@ -9,7 +9,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 
-class DialogAppsPreferences : ScopedBottomSheetFragment() {
+class AppsMenu : ScopedBottomSheetFragment() {
 
     private lateinit var openAppsSettings: DynamicRippleTextView
 
@@ -38,9 +38,9 @@ class DialogAppsPreferences : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(): DialogAppsPreferences {
+        fun newInstance(): AppsMenu {
             val args = Bundle()
-            val fragment = DialogAppsPreferences()
+            val fragment = AppsMenu()
             fragment.arguments = args
             return fragment
         }

@@ -20,7 +20,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.CodeViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
@@ -98,9 +98,9 @@ class JSONViewer : ScopedFragment() {
         })
 
         jsonViewerViewModel.getError().observe(viewLifecycleOwner, {
-            val e = ErrorPopup.newInstance(it)
+            val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+            e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
                     requireActivity().onBackPressed()
                 }

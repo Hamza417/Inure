@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class AllAppsData(application: Application) : AndroidViewModel(application) {
+class AppsViewModel(application: Application) : AndroidViewModel(application) {
 
     val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {

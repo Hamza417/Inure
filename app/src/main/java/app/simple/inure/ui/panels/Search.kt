@@ -15,7 +15,7 @@ import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
-import app.simple.inure.dialogs.app.DialogSearchPreferences
+import app.simple.inure.dialogs.app.SearchMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
@@ -94,7 +94,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
 
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
             override fun onSearchMenuPressed(button: View) {
-                DialogSearchPreferences.newInstance()
+                SearchMenu.newInstance()
                     .show(childFragmentManager, "search_list_config")
             }
 

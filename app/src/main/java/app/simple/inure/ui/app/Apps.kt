@@ -11,11 +11,11 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.ui.AppsAdapterSmall
+import app.simple.inure.adapters.ui.AdapterAppsSimple
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.Preparing
-import app.simple.inure.dialogs.app.DialogAppsPreferences
+import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
@@ -26,20 +26,20 @@ import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.viewmodels.panels.AllAppsData
+import app.simple.inure.viewmodels.panels.AppsViewModel
 
 class Apps : ScopedFragment() {
 
     private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
-    private lateinit var appsAdapter: AppsAdapterSmall
-    private lateinit var model: AllAppsData
+    private lateinit var adapter: AdapterAppsSimple
+    private lateinit var model: AppsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
 
         appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
 
-        model = ViewModelProvider(requireActivity())[AllAppsData::class.java]
+        model = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
 
         return view
     }
@@ -48,16 +48,16 @@ class Apps : ScopedFragment() {
         model.getAppData().observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
-            appsAdapter = AppsAdapterSmall()
-            appsAdapter.apps = it
+            adapter = AdapterAppsSimple()
+            adapter.apps = it
 
-            appsListRecyclerView.adapter = appsAdapter
+            appsListRecyclerView.adapter = adapter
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
-            appsAdapter.setOnItemClickListener(object : AppsAdapterCallbacks {
+            adapter.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
@@ -100,7 +100,7 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSettingsPressed(view: View) {
-                    DialogAppsPreferences.newInstance()
+                    AppsMenu.newInstance()
                         .show(childFragmentManager, "apps_list_config")
                 }
             })

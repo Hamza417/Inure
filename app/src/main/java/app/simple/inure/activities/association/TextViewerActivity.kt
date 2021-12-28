@@ -14,7 +14,7 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.popups.app.PopupXmlViewer
@@ -29,7 +29,7 @@ import org.apache.commons.io.IOUtils
 import java.io.IOException
 import java.util.*
 
-class TextAssociationActivity : BaseActivity() {
+class TextViewerActivity : BaseActivity() {
 
     private lateinit var txt: TypeFaceEditText
     private lateinit var path: TypeFaceTextView
@@ -102,9 +102,9 @@ class TextAssociationActivity : BaseActivity() {
                 }
             }.getOrElse {
                 withContext(Dispatchers.Main) {
-                    val e = ErrorPopup.newInstance(it.stackTraceToString())
+                    val e = Error.newInstance(it.stackTraceToString())
                     e.show(supportFragmentManager, "error_dialog")
-                    e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                    e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                         override fun onDismiss() {
                             onBackPressed()
                         }

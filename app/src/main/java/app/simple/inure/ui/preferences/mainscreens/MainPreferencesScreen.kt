@@ -8,7 +8,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.adapters.preferences.PreferencesAdapter
+import app.simple.inure.adapters.preferences.AdapterPreferences
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.util.FragmentHelper
@@ -17,7 +17,7 @@ import app.simple.inure.viewmodels.panels.PreferencesViewModel
 class MainPreferencesScreen : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var preferencesAdapter: PreferencesAdapter
+    private lateinit var adapterPreferences: AdapterPreferences
 
     private val preferencesViewModel: PreferencesViewModel by viewModels()
 
@@ -36,9 +36,9 @@ class MainPreferencesScreen : ScopedFragment() {
 
             postponeEnterTransition()
 
-            preferencesAdapter = PreferencesAdapter(it)
+            adapterPreferences = AdapterPreferences(it)
 
-            preferencesAdapter.setOnPreferencesCallbackListener(object : PreferencesAdapter.Companion.PreferencesCallbacks {
+            adapterPreferences.setOnPreferencesCallbackListener(object : AdapterPreferences.Companion.PreferencesCallbacks {
                 override fun onPrefsClicked(imageView: ImageView, category: String) {
                     when (category) {
                         getString(R.string.appearance) -> {
@@ -75,7 +75,7 @@ class MainPreferencesScreen : ScopedFragment() {
                 }
             })
 
-            recyclerView.adapter = preferencesAdapter
+            recyclerView.adapter = adapterPreferences
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

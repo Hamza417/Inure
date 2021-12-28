@@ -20,7 +20,7 @@ import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.dialogs.ErrorViewModel
 
-class ErrorPopup : ScopedBottomSheetFragment() {
+class Error : ScopedBottomSheetFragment() {
 
     private lateinit var error: TypeFaceTextView
     private lateinit var copy: DynamicRippleImageButton
@@ -74,10 +74,10 @@ class ErrorPopup : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(error: String): ErrorPopup {
+        fun newInstance(error: String): Error {
             val args = Bundle()
             args.putString("error", error)
-            val fragment = ErrorPopup()
+            val fragment = Error()
             fragment.arguments = args
             return fragment
         }

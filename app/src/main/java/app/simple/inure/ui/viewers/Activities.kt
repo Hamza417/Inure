@@ -15,9 +15,9 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.action.ActivityLauncherDialog
-import app.simple.inure.dialogs.action.ComponentStateDialog
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.action.ActivityLauncher
+import app.simple.inure.dialogs.action.ComponentState
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.IntentAction
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
@@ -81,7 +81,7 @@ class Activities : ScopedFragment() {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.force_launch) -> {
-                                    ActivityLauncherDialog.newInstance(packageInfo, packageId)
+                                    ActivityLauncher.newInstance(packageInfo, packageId)
                                         .show(childFragmentManager, "activity_launcher")
                                 }
                                 getString(R.string.force_launch_with_action) -> {
@@ -89,8 +89,8 @@ class Activities : ScopedFragment() {
                                         .show(childFragmentManager, "intent_action")
                                 }
                                 getString(R.string.enable), getString(R.string.disable) -> {
-                                    val p = ComponentStateDialog.newInstance(packageInfo, packageId, isComponentEnabled)
-                                    p.setOnComponentStateChangeListener(object : ComponentStateDialog.Companion.ComponentStatusCallbacks {
+                                    val p = ComponentState.newInstance(packageInfo, packageId, isComponentEnabled)
+                                    p.setOnComponentStateChangeListener(object : ComponentState.Companion.ComponentStatusCallbacks {
                                         override fun onSuccess() {
                                             adapterActivities?.notifyItemChanged(position)
                                         }
@@ -106,7 +106,7 @@ class Activities : ScopedFragment() {
                     kotlin.runCatching {
                         ActivityUtils.launchPackage(requireContext(), packageName, name)
                     }.getOrElse {
-                        ErrorPopup.newInstance(it.message ?: getString(R.string.unknown))
+                        Error.newInstance(it.message ?: getString(R.string.unknown))
                                 .show(childFragmentManager, "error_dialog")
                     }
                 }
@@ -114,9 +114,9 @@ class Activities : ScopedFragment() {
         })
 
         activitiesViewModel.getError().observe(viewLifecycleOwner, {
-            val e = ErrorPopup.newInstance(it)
+            val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+            e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
                     requireActivity().onBackPressed()
                 }

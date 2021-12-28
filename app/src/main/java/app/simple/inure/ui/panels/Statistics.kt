@@ -10,7 +10,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.ui.StatisticsAdapter
+import app.simple.inure.adapters.ui.AdapterUsageStats
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.Preparing
@@ -24,20 +24,20 @@ import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.viewmodels.panels.UsageStatsData
+import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 
 class Statistics : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var statisticsAdapter: StatisticsAdapter
-    private lateinit var usageStatsData: UsageStatsData
+    private lateinit var adapterUsageStats: AdapterUsageStats
+    private lateinit var usageStatsViewModel: UsageStatsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_statistics, container, false)
 
         recyclerView = view.findViewById(R.id.usage_rv)
 
-        usageStatsData = ViewModelProvider(requireActivity())[UsageStatsData::class.java]
+        usageStatsViewModel = ViewModelProvider(requireActivity())[UsageStatsViewModel::class.java]
 
         return view
     }
@@ -45,12 +45,12 @@ class Statistics : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        usageStatsData.usageData.observe(viewLifecycleOwner, {
+        usageStatsViewModel.usageData.observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
-            statisticsAdapter = StatisticsAdapter(it)
+            adapterUsageStats = AdapterUsageStats(it)
 
-            statisticsAdapter.setOnStatsCallbackListener(object : StatisticsAdapter.Companion.StatsAdapterCallbacks {
+            adapterUsageStats.setOnStatsCallbackListener(object : AdapterUsageStats.Companion.StatsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
@@ -90,7 +90,7 @@ class Statistics : ScopedFragment() {
                 }
             })
 
-            recyclerView.adapter = statisticsAdapter
+            recyclerView.adapter = adapterUsageStats
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -109,11 +109,11 @@ class Statistics : ScopedFragment() {
             StatisticsPreferences.statsInterval,
             StatisticsPreferences.isUnusedHidden,
             StatisticsPreferences.appsCategory -> {
-                usageStatsData.loadAppStats()
+                usageStatsViewModel.loadAppStats()
             }
             StatisticsPreferences.isSortingReversed,
             StatisticsPreferences.statsSorting -> {
-                usageStatsData.sortUsageData()
+                usageStatsViewModel.sortUsageData()
             }
         }
     }

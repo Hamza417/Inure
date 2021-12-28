@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class XMLViewerData(val packageInfo: PackageInfo, private val isManifest: Boolean, private val pathToXml: String, application: Application, private val accentColor: Int)
+class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: Boolean, private val pathToXml: String, application: Application, private val accentColor: Int)
     : AndroidViewModel(application) {
 
     private val error: MutableLiveData<String> by lazy {

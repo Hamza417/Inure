@@ -23,13 +23,13 @@ import kotlinx.coroutines.launch
 import java.util.*
 import java.util.stream.Collectors
 
-class UsageStatsData(application: Application) : AndroidViewModel(application) {
+class UsageStatsViewModel(application: Application) : AndroidViewModel(application) {
 
     private var usageStatsManager: UsageStatsManager = getApplication<Application>()
-            .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
     private var networkStatsManager = getApplication<Application>()
-            .getSystemService(Context.NETWORK_STATS_SERVICE) as NetworkStatsManager
+        .getSystemService(Context.NETWORK_STATS_SERVICE) as NetworkStatsManager
 
     val usageData: MutableLiveData<ArrayList<PackageStats>> by lazy {
         MutableLiveData<ArrayList<PackageStats>>().also {

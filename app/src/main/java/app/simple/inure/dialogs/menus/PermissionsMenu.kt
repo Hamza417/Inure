@@ -12,7 +12,7 @@ import app.simple.inure.popups.viewers.PopupLabelType
 import app.simple.inure.preferences.PermissionPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 
-class DialogPermissionPreferences : ScopedBottomSheetFragment() {
+class PermissionsMenu : ScopedBottomSheetFragment() {
 
     private lateinit var labelType: DynamicRippleTextView
     private lateinit var appSettings: DynamicRippleTextView
@@ -64,9 +64,9 @@ class DialogPermissionPreferences : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(): DialogPermissionPreferences {
+        fun newInstance(): PermissionsMenu {
             val args = Bundle()
-            val fragment = DialogPermissionPreferences()
+            val fragment = PermissionsMenu()
             fragment.arguments = args
             return fragment
         }

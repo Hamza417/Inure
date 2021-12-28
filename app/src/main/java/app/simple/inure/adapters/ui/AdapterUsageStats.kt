@@ -18,7 +18,7 @@ import app.simple.inure.models.PackageStats
 import app.simple.inure.util.FileSizeHelper.toSize
 import java.util.concurrent.TimeUnit
 
-class StatisticsAdapter(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
+class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
     private var statsAdapterCallbacks: StatsAdapterCallbacks? = null
 

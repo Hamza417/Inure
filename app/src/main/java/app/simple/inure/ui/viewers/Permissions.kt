@@ -14,9 +14,9 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.action.PermissionStatusDialog
-import app.simple.inure.dialogs.menus.DialogPermissionPreferences
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.action.PermissionStatus
+import app.simple.inure.dialogs.menus.PermissionsMenu
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
@@ -50,14 +50,14 @@ class Permissions : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
         permissionsViewModel = ViewModelProvider(this, packageInfoFactory).get(PermissionsViewModel::class.java)
 
+        searchBoxState()
+        startPostponedEnterTransition()
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        searchBoxState()
-        startPostponedEnterTransition()
 
         permissionsViewModel.getPermissions().observe(viewLifecycleOwner, {
             adapterPermissions = AdapterPermissions(it, searchBox.text.toString())
@@ -72,18 +72,18 @@ class Permissions : ScopedFragment() {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.revoke) -> {
-                                    val p = PermissionStatusDialog.newInstance(packageInfo, permissionInfo, getString(R.string.revoke))
+                                    val p = PermissionStatus.newInstance(packageInfo, permissionInfo, getString(R.string.revoke))
                                     p.show(childFragmentManager, "permission_status")
-                                    p.setOnPermissionStatusCallbackListener(object : PermissionStatusDialog.Companion.PermissionStatusCallbacks {
+                                    p.setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
                                         override fun onSuccess(grantedStatus: Boolean) {
                                             adapterPermissions.permissionStatusChanged(position, grantedStatus)
                                         }
                                     })
                                 }
                                 getString(R.string.grant) -> {
-                                    val p = PermissionStatusDialog.newInstance(packageInfo, permissionInfo, getString(R.string.grant))
+                                    val p = PermissionStatus.newInstance(packageInfo, permissionInfo, getString(R.string.grant))
                                     p.show(childFragmentManager, "permission_status")
-                                    p.setOnPermissionStatusCallbackListener(object : PermissionStatusDialog.Companion.PermissionStatusCallbacks {
+                                    p.setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
                                         override fun onSuccess(grantedStatus: Boolean) {
                                             adapterPermissions.permissionStatusChanged(position, grantedStatus)
                                         }
@@ -97,9 +97,9 @@ class Permissions : ScopedFragment() {
         })
 
         permissionsViewModel.getError().observe(viewLifecycleOwner, {
-            val e = ErrorPopup.newInstance(it)
+            val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+            e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
                     requireActivity().onBackPressed()
                 }
@@ -107,7 +107,7 @@ class Permissions : ScopedFragment() {
         })
 
         options.setOnClickListener {
-            DialogPermissionPreferences.newInstance()
+            PermissionsMenu.newInstance()
                 .show(childFragmentManager, "permission_menu")
         }
 

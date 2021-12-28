@@ -20,9 +20,9 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.factories.panels.TextDataFactory
+import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.viewmodels.viewers.TextViewerData
+import app.simple.inure.viewmodels.viewers.TextViewerViewModel
 import com.mittsu.markedview.MarkedView
 import kotlinx.coroutines.*
 import java.io.IOException
@@ -34,8 +34,8 @@ class Markdown : ScopedFragment() {
     private lateinit var path: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
 
-    private lateinit var textViewerData: TextViewerData
-    private lateinit var textDataFactory: TextDataFactory
+    private lateinit var textViewerViewModel: TextViewerViewModel
+    private lateinit var textViewViewModelFactory: TextViewViewModelFactory
 
     private var code = ""
 
@@ -67,14 +67,14 @@ class Markdown : ScopedFragment() {
         options = view.findViewById(R.id.code_viewer_options)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        textDataFactory = TextDataFactory(
-            packageInfo,
-            requireArguments().getString("path")!!,
-            requireActivity().application,
+        textViewViewModelFactory = TextViewViewModelFactory(
+                packageInfo,
+                requireArguments().getString("path")!!,
+                requireActivity().application,
         )
 
         backPress = requireActivity().onBackPressedDispatcher
-        textViewerData = ViewModelProvider(this, textDataFactory).get(TextViewerData::class.java)
+        textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory).get(TextViewerViewModel::class.java)
 
         path.text = requireArguments().getString("path")!!
         return view
@@ -85,7 +85,7 @@ class Markdown : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        textViewerData.getText().observe(viewLifecycleOwner, {
+        textViewerViewModel.getText().observe(viewLifecycleOwner, {
             code = it
             codeView.setBackgroundColor(0)
             codeView.settings.apply {

@@ -10,7 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ExtractViewModelFactory
 import app.simple.inure.util.ViewUtils.invisible
@@ -51,7 +51,7 @@ class Extract : ScopedBottomSheetFragment() {
         })
 
         extractViewModel.getError().observe(viewLifecycleOwner, {
-            ErrorPopup.newInstance(it).show(parentFragmentManager, "error")
+            Error.newInstance(it).show(parentFragmentManager, "error")
             dismiss()
         })
 

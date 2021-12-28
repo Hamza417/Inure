@@ -14,7 +14,7 @@ import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ActivityLaunchFactory
 import app.simple.inure.viewmodels.dialogs.ActivityLauncherViewModel
 
-class ActivityLauncherDialog : ScopedBottomSheetFragment() {
+class ActivityLauncher : ScopedBottomSheetFragment() {
 
     private lateinit var loader: LoaderImageView
     private lateinit var status: TypeFaceTextView
@@ -57,11 +57,11 @@ class ActivityLauncherDialog : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, packageId: String): ActivityLauncherDialog {
+        fun newInstance(packageInfo: PackageInfo, packageId: String): ActivityLauncher {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putString(BundleConstants.packageId, packageId)
-            val fragment = ActivityLauncherDialog()
+            val fragment = ActivityLauncher()
             fragment.arguments = args
             return fragment
         }

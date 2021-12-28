@@ -14,7 +14,7 @@ import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ComponentStateFactory
 import app.simple.inure.viewmodels.dialogs.ComponentStateViewModel
 
-class ComponentStateDialog : ScopedBottomSheetFragment() {
+class ComponentState : ScopedBottomSheetFragment() {
 
     private lateinit var loader: LoaderImageView
     private lateinit var status: TypeFaceTextView
@@ -71,12 +71,12 @@ class ComponentStateDialog : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, packageId: String, isComponentEnabled: Boolean): ComponentStateDialog {
+        fun newInstance(packageInfo: PackageInfo, packageId: String, isComponentEnabled: Boolean): ComponentState {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putString(BundleConstants.packageId, packageId)
             args.putBoolean(BundleConstants.componentMode, isComponentEnabled)
-            val fragment = ComponentStateDialog()
+            val fragment = ComponentState()
             fragment.arguments = args
             return fragment
         }

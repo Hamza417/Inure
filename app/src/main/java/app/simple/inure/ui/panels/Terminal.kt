@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.terminal.TerminalView
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupTerminal
@@ -44,9 +44,9 @@ class Terminal : ScopedFragment() {
                 if (terminalService.terminals.size() > 0) {
                     terminal.terminal = terminalService.terminals.valueAt(0)
                 } else {
-                    val e = ErrorPopup.newInstance("${requireContext().packageName}: Could not create terminal")
+                    val e = Error.newInstance("${requireContext().packageName}: Could not create terminal")
                     e.show(childFragmentManager, "error_dialog")
-                    e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                    e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                         override fun onDismiss() {
                             requireActivity().onBackPressed()
                         }

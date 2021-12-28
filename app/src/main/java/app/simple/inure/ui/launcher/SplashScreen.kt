@@ -14,15 +14,15 @@ import androidx.core.app.AppOpsManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.app.Home
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted
-import app.simple.inure.viewmodels.panels.AllAppsData
+import app.simple.inure.viewmodels.panels.AppsViewModel
 import app.simple.inure.viewmodels.panels.SearchViewModel
-import app.simple.inure.viewmodels.panels.UsageStatsData
+import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 import app.simple.inure.viewmodels.viewers.SensorsViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -76,12 +76,12 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun proceed() {
-        val allAppsData: AllAppsData = ViewModelProvider(requireActivity())[AllAppsData::class.java]
-        val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsData::class.java]
+        val appsViewModel: AppsViewModel = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
+        val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsViewModel::class.java]
         val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
         val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
 
-        allAppsData.getAppData().observe(viewLifecycleOwner, {
+        appsViewModel.getAppData().observe(viewLifecycleOwner, {
             isAppDataLoaded = true
             openApp()
         })
@@ -102,7 +102,7 @@ class SplashScreen : ScopedFragment() {
         })
 
         sensorsViewModel.getError().observe(viewLifecycleOwner, {
-            ErrorPopup.newInstance(it)
+            Error.newInstance(it)
                 .show(parentFragmentManager, "error")
         })
     }

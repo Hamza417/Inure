@@ -25,7 +25,7 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.FileSizeHelper.toSize
 import java.util.*
 
-class AppsAdapterSmall : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
+class AdapterAppsSimple : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
     var apps = arrayListOf<PackageInfo>()
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks

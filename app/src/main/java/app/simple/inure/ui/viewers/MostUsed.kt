@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.adapters.home.AdapterMostUsed
+import app.simple.inure.adapters.home.AdapterFrequentlyUsed
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -26,7 +26,7 @@ class MostUsed : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var back: DynamicRippleImageButton
-    private lateinit var adapterMostUsed: AdapterMostUsed
+    private lateinit var adapterFrequentlyUsed: AdapterFrequentlyUsed
 
     private val homeViewModel: HomeViewModel by viewModels()
 
@@ -45,15 +45,15 @@ class MostUsed : ScopedFragment() {
         homeViewModel.frequentlyUsed.observe(viewLifecycleOwner, {
             postponeEnterTransition()
 
-            adapterMostUsed = AdapterMostUsed()
-            adapterMostUsed.apps = it
-            recyclerView.adapter = adapterMostUsed
+            adapterFrequentlyUsed = AdapterFrequentlyUsed()
+            adapterFrequentlyUsed.apps = it
+            recyclerView.adapter = adapterFrequentlyUsed
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
-            adapterMostUsed.setOnItemClickListener(object : AppsAdapterCallbacks {
+            adapterFrequentlyUsed.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }

@@ -10,7 +10,7 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 
-class PreferencesAdapter(private val list: ArrayList<Pair<Int, String>>) : RecyclerView.Adapter<PreferencesAdapter.Holder>() {
+class AdapterPreferences(private val list: ArrayList<Pair<Int, String>>) : RecyclerView.Adapter<AdapterPreferences.Holder>() {
 
     private var preferencesCallbacks: PreferencesCallbacks? = null
 

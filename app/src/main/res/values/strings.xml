@@ -403,4 +403,5 @@
     <string name="copy_package_name">Copy Package Name</string>
     <string name="join_telegram">Join Telegram</string>
     <string name="desc_telegram">Join app\'s group on Telegram for disucssions with other users and developer.</string>
+    <string name="batch">Batch</string>
 </resources>

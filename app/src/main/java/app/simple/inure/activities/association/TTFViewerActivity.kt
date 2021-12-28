@@ -8,7 +8,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.constants.Quotes
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ColorUtils.toHexColor
@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TTFAssociationActivity : BaseActivity() {
+class TTFViewerActivity : BaseActivity() {
 
     private lateinit var fontEditText: EditText
     private lateinit var fontName: TextView
@@ -54,9 +54,9 @@ class TTFAssociationActivity : BaseActivity() {
                 }
             }.onFailure {
                 withContext(Dispatchers.Main) {
-                    val e = ErrorPopup.newInstance(it.stackTraceToString())
+                    val e = Error.newInstance(it.stackTraceToString())
                     e.show(supportFragmentManager, "error_dialog")
-                    e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                    e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                         override fun onDismiss() {
                             onBackPressed()
                         }

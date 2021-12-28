@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.documentfile.provider.DocumentFile
 import app.simple.inure.extension.activities.BaseActivity
 
-class ApkInstallerAssociationActivity : BaseActivity() {
+class ApkInstallerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -21,14 +21,14 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.factories.panels.XmlDataFactory
+import app.simple.inure.factories.panels.XMLViewerViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.viewers.XMLViewerData
+import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
 import java.io.IOException
 
 class XMLViewerTextView : ScopedFragment() {
@@ -40,8 +40,8 @@ class XMLViewerTextView : ScopedFragment() {
     private lateinit var options: DynamicRippleImageButton
     private lateinit var scrollView: PaddingAwareNestedScrollView
 
-    private lateinit var componentsViewModel: XMLViewerData
-    private lateinit var applicationInfoFactory: XmlDataFactory
+    private lateinit var componentsViewModel: XMLViewerViewModel
+    private lateinit var applicationInfoFactory: XMLViewerViewModelFactory
 
     private val exportManifest = registerForActivityResult(CreateDocument()) { uri: Uri? ->
         if (uri == null) {
@@ -73,12 +73,12 @@ class XMLViewerTextView : ScopedFragment() {
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        applicationInfoFactory = XmlDataFactory(packageInfo, requireArguments().getBoolean(BundleConstants.isManifest),
-                                                requireArguments().getString(BundleConstants.pathToXml)!!,
-                                                requireActivity().application,
-                                                requireContext().resolveAttrColor(R.attr.colorAppAccent))
+        applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean(BundleConstants.isManifest),
+                                                           requireArguments().getString(BundleConstants.pathToXml)!!,
+                                                           requireActivity().application,
+                                                           requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerData::class.java)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
 
@@ -105,9 +105,9 @@ class XMLViewerTextView : ScopedFragment() {
 
         componentsViewModel.getError().observe(viewLifecycleOwner, {
             progress.gone()
-            val e = ErrorPopup.newInstance(it)
+            val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+            e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
                     requireActivity().onBackPressed()
                 }

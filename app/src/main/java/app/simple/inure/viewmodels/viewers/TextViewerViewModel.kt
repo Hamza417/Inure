@@ -16,7 +16,7 @@ import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-class TextViewerData(private val packageInfo: PackageInfo, private val path: String, application: Application)
+class TextViewerViewModel(private val packageInfo: PackageInfo, private val path: String, application: Application)
     : AndroidViewModel(application) {
 
     private val text: MutableLiveData<String> by lazy {

@@ -141,7 +141,8 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     // Pair(R.drawable.ic_analytics, getString(R.string.analytics)),
                     Pair(R.drawable.ic_stats, getString(R.string.usage_statistics)),
                     Pair(R.drawable.ic_phone, getString(R.string.device_stats)),
-                    Pair(R.drawable.ic_sensors, getString(R.string.sensors))
+                    Pair(R.drawable.ic_sensors, getString(R.string.sensors)),
+                    Pair(R.drawable.ic_layers, getString(R.string.batch))
             )
 
             menuItems.postValue(list)

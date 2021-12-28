@@ -14,7 +14,7 @@ import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.Sort
 
-class DialogSearchPreferences : ScopedBottomSheetFragment() {
+class SearchMenu : ScopedBottomSheetFragment() {
 
     private lateinit var appsCategory: DynamicRippleTextView
     private lateinit var sortingStyle: DynamicRippleTextView
@@ -83,9 +83,9 @@ class DialogSearchPreferences : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(): DialogSearchPreferences {
+        fun newInstance(): SearchMenu {
             val args = Bundle()
-            val fragment = DialogSearchPreferences()
+            val fragment = SearchMenu()
             fragment.arguments = args
             return fragment
         }

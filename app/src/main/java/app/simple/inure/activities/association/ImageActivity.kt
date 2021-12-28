@@ -11,7 +11,7 @@ import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extension.activities.BaseActivity
 import com.bumptech.glide.Glide
 
-class ImageAssociationActivity : BaseActivity() {
+class ImageActivity : BaseActivity() {
 
     private lateinit var image: ZoomImageView
     private lateinit var back: DynamicRippleImageButton

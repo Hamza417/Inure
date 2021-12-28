@@ -19,11 +19,11 @@ import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.XmlWebView
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.factories.panels.TextDataFactory
+import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.viewmodels.viewers.TextViewerData
+import app.simple.inure.viewmodels.viewers.TextViewerViewModel
 import kotlinx.coroutines.*
 import java.io.IOException
 import java.util.*
@@ -35,8 +35,8 @@ class HtmlViewer : ScopedFragment() {
     private lateinit var path: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
 
-    private lateinit var textViewerData: TextViewerData
-    private lateinit var textDataFactory: TextDataFactory
+    private lateinit var textViewerViewModel: TextViewerViewModel
+    private lateinit var textViewViewModelFactory: TextViewViewModelFactory
 
     private var htmlTxt: String = ""
 
@@ -67,13 +67,13 @@ class HtmlViewer : ScopedFragment() {
         options = view.findViewById(R.id.html_viewer_options)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        textDataFactory = TextDataFactory(
-            packageInfo,
-            requireArguments().getString("path")!!,
-            requireActivity().application,
+        textViewViewModelFactory = TextViewViewModelFactory(
+                packageInfo,
+                requireArguments().getString("path")!!,
+                requireActivity().application,
         )
 
-        textViewerData = ViewModelProvider(this, textDataFactory).get(TextViewerData::class.java)
+        textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory).get(TextViewerViewModel::class.java)
 
         path.text = requireArguments().getString("path")!!
 
@@ -87,14 +87,14 @@ class HtmlViewer : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        textViewerData.getText().observe(viewLifecycleOwner, {
+        textViewerViewModel.getText().observe(viewLifecycleOwner, {
             runCatching {
                 htmlTxt = it
                 html.loadData(it, "text/html", "UTF-8")
             }.getOrElse {
-                val e = ErrorPopup.newInstance(it.message!!)
+                val e = Error.newInstance(it.message!!)
                 e.show(childFragmentManager, "error_dialog")
-                e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+                e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                     override fun onDismiss() {
                         requireActivity().onBackPressed()
                     }

@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.miscellaneous.ErrorPopup
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.dialog.MediaPlayerViewModelFactory
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
@@ -124,9 +124,9 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         })
 
         playerViewModel.getError().observe(viewLifecycleOwner, {
-            val e = ErrorPopup.newInstance(it)
+            val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : ErrorPopup.Companion.ErrorDialogCallbacks {
+            e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
                     dismiss()
                 }

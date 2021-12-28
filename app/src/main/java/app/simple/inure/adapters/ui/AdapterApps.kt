@@ -17,7 +17,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.util.AdapterUtils.searchHighlighter
 
-class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>(), PopupTextProvider {
+class AdapterApps : RecyclerView.Adapter<AdapterApps.Holder>(), PopupTextProvider {
 
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
     var apps = arrayListOf<PackageInfo>()
@@ -25,7 +25,7 @@ class AppsAdapter : RecyclerView.Adapter<AppsAdapter.Holder>(), PopupTextProvide
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
-                              .inflate(R.layout.adapter_all_apps, parent, false))
+                          .inflate(R.layout.adapter_all_apps, parent, false))
     }
 
     @SuppressLint("ClickableViewAccessibility")

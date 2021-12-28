@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -19,7 +18,6 @@ import app.simple.inure.popups.app.PopupAnalytics
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.SDKHelper
-import app.simple.inure.viewmodels.panels.AppsAnalyticsData
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,8 +36,6 @@ class DeviceInfo : ScopedFragment() {
 
     private lateinit var search: DynamicRippleImageButton
     private lateinit var popup: DynamicRippleImageButton
-
-    private val model: AppsAnalyticsData by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_device_info, container, false)

@@ -78,7 +78,7 @@
         </activity>
 
         <activity
-            android:name=".activities.association.ApkInstallerAssociationActivity"
+            android:name=".activities.association.ApkInstallerActivity"
             android:exported="true"
             android:enabled="false"
             android:label="Package Installer">
@@ -99,7 +99,7 @@
         </activity>
 
         <activity
-            android:name=".activities.association.ImageAssociationActivity"
+            android:name=".activities.association.ImageActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:documentLaunchMode="intoExisting"
@@ -119,7 +119,7 @@
         </activity>
 
         <activity
-            android:name=".activities.association.AudioAssociationActivity"
+            android:name=".activities.association.AudioPlayerActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:configChanges="orientation|screenSize|uiMode"
@@ -141,7 +141,7 @@
         </activity>
 
         <activity
-            android:name=".activities.association.TextAssociationActivity"
+            android:name=".activities.association.TextViewerActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:documentLaunchMode="intoExisting"
@@ -168,7 +168,7 @@
         </activity>
 
         <activity
-            android:name=".activities.association.TTFAssociationActivity"
+            android:name=".activities.association.TTFViewerActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:documentLaunchMode="intoExisting"

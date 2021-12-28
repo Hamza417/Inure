@@ -18,12 +18,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.XmlWebView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.factories.panels.XmlDataFactory
+import app.simple.inure.factories.panels.XMLViewerViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.viewmodels.viewers.XMLViewerData
+import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
 import java.io.IOException
 
 
@@ -36,8 +36,8 @@ class XMLViewerWebView : ScopedFragment() {
 
     private var code = ""
 
-    private lateinit var componentsViewModel: XMLViewerData
-    private lateinit var applicationInfoFactory: XmlDataFactory
+    private lateinit var componentsViewModel: XMLViewerViewModel
+    private lateinit var applicationInfoFactory: XMLViewerViewModelFactory
 
     private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
         if (uri == null) {
@@ -69,12 +69,12 @@ class XMLViewerWebView : ScopedFragment() {
 
         packageInfo = requireArguments().getParcelable("application_info")!!
 
-        applicationInfoFactory = XmlDataFactory(packageInfo, requireArguments().getBoolean("is_manifest"),
-                                                requireArguments().getString("path_to_xml")!!,
-                                                requireActivity().application,
-                                                requireContext().resolveAttrColor(R.attr.colorAppAccent))
+        applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean("is_manifest"),
+                                                           requireArguments().getString("path_to_xml")!!,
+                                                           requireActivity().application,
+                                                           requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerData::class.java)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)
 
         return view
     }

@@ -18,7 +18,7 @@ import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.ConfigurationPreferences
 import java.util.concurrent.TimeUnit.*
 
-class AdapterMostUsed : RecyclerView.Adapter<AdapterMostUsed.Holder>() {
+class AdapterFrequentlyUsed : RecyclerView.Adapter<AdapterFrequentlyUsed.Holder>() {
 
     var apps = arrayListOf<PackageStats>()
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
@@ -27,7 +27,7 @@ class AdapterMostUsed : RecyclerView.Adapter<AdapterMostUsed.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
-                              .inflate(R.layout.adapter_recently_installed, parent, false))
+                          .inflate(R.layout.adapter_recently_installed, parent, false))
     }
 
     @SuppressLint("ClickableViewAccessibility")

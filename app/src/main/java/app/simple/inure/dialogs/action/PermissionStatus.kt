@@ -15,7 +15,7 @@ import app.simple.inure.factories.actions.PermissionStatusFactory
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.viewmodels.dialogs.PermissionStatusViewModel
 
-class PermissionStatusDialog : ScopedBottomSheetFragment() {
+class PermissionStatus : ScopedBottomSheetFragment() {
 
     private lateinit var loader: LoaderImageView
     private lateinit var status: TypeFaceTextView
@@ -84,12 +84,12 @@ class PermissionStatusDialog : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, permissionInfo: PermissionInfo, mode: String): PermissionStatusDialog {
+        fun newInstance(packageInfo: PackageInfo, permissionInfo: PermissionInfo, mode: String): PermissionStatus {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putParcelable(BundleConstants.permissionInfo, permissionInfo)
             args.putString(BundleConstants.permissionMode, mode)
-            val fragment = PermissionStatusDialog()
+            val fragment = PermissionStatus()
             fragment.arguments = args
             return fragment
         }
