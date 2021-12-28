@@ -7,7 +7,7 @@ import android.graphics.Matrix.ScaleToFit
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.PictureDrawable
 import androidx.core.content.ContextCompat
-
+import app.simple.inure.constants.Misc
 
 object BitmapHelper {
     private const val shadowColor = -4671304
@@ -79,5 +79,13 @@ object BitmapHelper {
         drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
         return bmp
+    }
+
+    fun Drawable.toBitmap(dimension: Int = Misc.appIconsDimension): Bitmap? {
+        val bitmap = Bitmap.createBitmap(dimension, dimension, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        setBounds(0, 0, dimension, dimension)
+        draw(canvas)
+        return bitmap
     }
 }

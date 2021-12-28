@@ -33,7 +33,6 @@ public class CircularBackground extends Drawable {
     public void draw(@NonNull Canvas canvas) {
         Rect bounds = getBounds();
         path.addArc(0, 0, bounds.width(), bounds.height(), 0, 360);
-        
         canvas.drawPath(path, paint);
     }
     
@@ -52,7 +51,7 @@ public class CircularBackground extends Drawable {
     
     @Override
     public int getOpacity() {
-        return PixelFormat.TRANSLUCENT;
+        return PixelFormat.OPAQUE;
     }
     
     @Override
@@ -62,15 +61,17 @@ public class CircularBackground extends Drawable {
     
     /**
      * For elevation shadows
-     *
-     * @param outline
      */
     @Override
     public void getOutline(@NonNull Outline outline) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && !path.isConvex()) {
-            super.getOutline(outline);
-            return;
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                outline.setPath(path);
+            } else {
+                outline.setConvexPath(path);
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
         }
-        outline.setConvexPath(path);
     }
 }

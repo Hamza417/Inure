@@ -170,7 +170,7 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
             val scaleFactor = MAX_BLUR_RADIUS / blurRadius
             val scaledWidth = 1.coerceAtLeast((source.width.toFloat() * scaleFactor).roundToInt())
             val scaledHeight = 1.coerceAtLeast((source.height.toFloat() * scaleFactor).roundToInt())
-            val scaled = Bitmap.createScaledBitmap(source, scaledWidth, scaledHeight, true)
+            val scaled = Bitmap.createScaledBitmap(source, source.width, source.height, true)
             //Apply Blur
             shadow = if (AppearancePreferences.isIconShadowsOn()) {
                 Toolkit.blur(scaled, MAX_BLUR_RADIUS.toInt())
@@ -223,7 +223,7 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
         const val MAX_BLUR_RADIUS = 25.0f
         const val DEFAULT_SHADOW_SIZE = 20.0F
         private const val SHADOW_SCALE_RGB = 0.85f
-        private const val SHADOW_SCALE_ALPHA = 0.6f
+        private const val SHADOW_SCALE_ALPHA = 0.8f
         const val EAST = 0
         const val NORTHEAST = 1
         const val NORTH = 2

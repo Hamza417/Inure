@@ -1,7 +1,7 @@
 package app.simple.inure.glide.services
 
 import android.graphics.Bitmap
-import app.simple.inure.util.BitmapHelper
+import app.simple.inure.util.BitmapHelper.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
@@ -9,12 +9,8 @@ import com.bumptech.glide.load.data.DataFetcher
 class ServiceIconFetcher internal constructor(private val serviceIconModel: ServiceIconModel) : DataFetcher<Bitmap> {
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in Bitmap>) {
         kotlin.runCatching {
-            callback.onDataReady(
-                BitmapHelper
-                        .getBitmapFromDrawable(
-                            serviceIconModel.serviceInfo.loadIcon(
-                                serviceIconModel.context.packageManager)))
-
+            callback.onDataReady(serviceIconModel.serviceInfo.loadIcon(
+                    serviceIconModel.context.packageManager).toBitmap())
         }.getOrElse {
             callback.onLoadFailed(it as Exception)
         }

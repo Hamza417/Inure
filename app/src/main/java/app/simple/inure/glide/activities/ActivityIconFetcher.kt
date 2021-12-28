@@ -1,21 +1,16 @@
 package app.simple.inure.glide.activities
 
 import android.graphics.Bitmap
-import app.simple.inure.util.BitmapHelper
+import app.simple.inure.util.BitmapHelper.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 
-
 class ActivityIconFetcher internal constructor(private val activityIconModel: ActivityIconModel) : DataFetcher<Bitmap> {
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in Bitmap>) {
         kotlin.runCatching {
-            callback.onDataReady(
-                BitmapHelper
-                        .getBitmapFromDrawable(
-                            activityIconModel.activityInfo.loadIcon(
-                                activityIconModel.context.packageManager)))
-
+            callback.onDataReady(activityIconModel.activityInfo.loadIcon(
+                    activityIconModel.context.packageManager).toBitmap())
         }.getOrElse {
             callback.onLoadFailed(it as Exception)
         }
@@ -36,6 +31,5 @@ class ActivityIconFetcher internal constructor(private val activityIconModel: Ac
     override fun getDataSource(): DataSource {
         return DataSource.LOCAL
     }
-
 
 }

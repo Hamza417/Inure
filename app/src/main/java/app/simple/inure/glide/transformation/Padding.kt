@@ -2,7 +2,6 @@ package app.simple.inure.glide.transformation
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
@@ -79,12 +78,7 @@ class Padding : BitmapTransformation {
      * @return      returns self
      */
     fun setColourRes(@ColorRes res: Int, context: Context): Padding {
-        if (Build.VERSION.SDK_INT < 23) {
-            @Suppress("deprecation")
-            colour = context.resources.getColor(res)
-        } else {
-            colour = context.resources.getColor(res, null)
-        }
+        colour = context.resources.getColor(res, null)
         return this
     }
 

@@ -36,10 +36,10 @@ class AppIconModule : AppGlideModule() {
         requestOptions.error(R.drawable.ic_app_icon)
 
         requestOptions.transform(
-                Padding(
-                        BlurShadow.DEFAULT_SHADOW_SIZE.toInt()), BlurShadow(context)
+                Padding(BlurShadow.MAX_BLUR_RADIUS.toInt()),
+                BlurShadow(context)
                     .setElevation(25F)
-                    .setBlurRadius(BlurShadow.DEFAULT_SHADOW_SIZE))
+                    .setBlurRadius(BlurShadow.MAX_BLUR_RADIUS))
 
         builder.setDefaultRequestOptions(requestOptions)
     }
