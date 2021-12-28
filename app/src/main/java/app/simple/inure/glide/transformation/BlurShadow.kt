@@ -10,9 +10,11 @@ import androidx.renderscript.Allocation
 import androidx.renderscript.Element
 import androidx.renderscript.RenderScript
 import androidx.renderscript.ScriptIntrinsicBlur
+import app.simple.inure.preferences.AppearancePreferences
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.util.Util
+import com.google.android.renderscript.Toolkit
 import java.nio.ByteBuffer
 import java.security.MessageDigest
 import java.util.*
@@ -140,7 +142,7 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
 
     override fun transform(pool: BitmapPool, source: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
         val bitmap = Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
-        var shadow = Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
+        val shadow: Bitmap
 
         //Calculate Shadow Offset
         val shadowX = elevation * cos(Math.toRadians(angle.toDouble())).toFloat()
@@ -157,7 +159,11 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
 
         if (blurRadius <= RENDERSCRIPT_MAX_BLUR_RADIUS) {
             //Apply Blur
-            blur(source, shadow, blurRadius)
+            shadow = if (AppearancePreferences.isIconShadowsOn()) {
+                Toolkit.blur(source, blurRadius.toInt())
+            } else {
+                Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
+            }
             //Draw to Canvas
             val canvas = Canvas(bitmap)
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
@@ -170,10 +176,13 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
             val scaledHeight = 1.coerceAtLeast((source.height.toFloat() * scaleFactor).roundToInt())
             val scaled = Bitmap.createScaledBitmap(source, scaledWidth, scaledHeight, true)
             //Apply Blur
-            blur(scaled, scaled, RENDERSCRIPT_MAX_BLUR_RADIUS)
+            shadow = if (AppearancePreferences.isIconShadowsOn()) {
+                Toolkit.blur(scaled, RENDERSCRIPT_MAX_BLUR_RADIUS.toInt())
+            } else {
+                Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
+            }
             //Draw to Canvas
             val canvas = Canvas(bitmap)
-            shadow = Bitmap.createScaledBitmap(scaled, source.width, source.height, true)
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
             canvas.drawBitmap(shadow, shadowX, shadowY, shadowPaint)
             canvas.drawBitmap(source, 0f, 0f, null)
@@ -184,6 +193,7 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
         return bitmap
     }
 
+    @Deprecated("Using Toolkit now")
     private fun blur(bitmap: Bitmap, copyTo: Bitmap, radius: Float) {
         val rs = RenderScript.create(context)
         val input = Allocation.createFromBitmap(rs, bitmap, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT)
@@ -210,14 +220,14 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
         val messages = ArrayList<ByteArray>()
         messages.add(ID_BYTES)
         messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE)
-                             .putFloat(blurRadius).array())
+                         .putFloat(blurRadius).array())
         messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE)
-                             .putFloat(elevation).array())
+                         .putFloat(elevation).array())
         messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE).putFloat(angle)
-                             .array())
+                         .array())
         messages.add(ByteBuffer.allocate(Integer.SIZE / java.lang.Byte.SIZE).putInt(colour).array())
         messages.add(ByteBuffer.allocate(java.lang.Long.SIZE).putLong(System.currentTimeMillis())
-                             .array())
+                         .array())
         for (c in messages.indices) {
             messageDigest.update(messages[c])
         }
@@ -226,7 +236,7 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
     companion object {
         private const val ID = "app.simple.inure.glide.transformations.Shadow"
         private val ID_BYTES = ID.toByteArray()
-        private const val RENDERSCRIPT_MAX_BLUR_RADIUS = 25.0f
+        const val RENDERSCRIPT_MAX_BLUR_RADIUS = 25.0f
         const val RENDERSCRIPT_DEFAULT_SHADOW_SIZE = 20.0F
         private const val SHADOW_SCALE_RGB = 0.85f
         private const val SHADOW_SCALE_ALPHA = 0.6f

@@ -277,7 +277,7 @@
     <string name="no_flags">No Flags</string>
     <string name="icons">Icons</string>
     <string name="icon_shadows">Icon\'s Shadow Effect</string>
-    <string name="icon_shadow_desc">Enable or disable the shadow/elevation effects from app icons throughout the app.\n\nDisabling this option will make the icons flat. Requires restart.</string>
+    <string name="icon_shadow_desc">Enable or disable the shadow/elevation effects from app icons throughout the app.\n\nDisabling this option will make the icons appear flat.</string>
     <string name="highlight_extensions">Highlight Extensions</string>
     <string name="launch_mode">Launch Mode</string>
     <string name="orientation">Orientation</string>
@@ -402,6 +402,6 @@
     <string name="shared_libs">Shared Libs</string>
     <string name="copy_package_name">Copy Package Name</string>
     <string name="join_telegram">Join Telegram</string>
-    <string name="desc_telegram">Join app\'s group on Telegram for disucssions with other users and developer.</string>
+    <string name="desc_telegram">Join app\'s group on Telegram for discussions with other users and developer.</string>
     <string name="batch">Batch</string>
 </resources>

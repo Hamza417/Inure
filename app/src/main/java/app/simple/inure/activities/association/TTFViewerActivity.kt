@@ -56,7 +56,7 @@ class TTFViewerActivity : BaseActivity() {
                 withContext(Dispatchers.Main) {
                     val e = Error.newInstance(it.stackTraceToString())
                     e.show(supportFragmentManager, "error_dialog")
-                    e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
+                    e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
                         override fun onDismiss() {
                             onBackPressed()
                         }

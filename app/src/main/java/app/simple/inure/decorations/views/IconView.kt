@@ -4,15 +4,14 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.drawable.Drawable
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.renderscript.Element
+import androidx.renderscript.RenderScript
+import androidx.renderscript.ScriptIntrinsicBlur
 import app.simple.inure.R
 
 class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, @AttrRes defStyleAttr: Int = R.attr.iconViewStyle, @StyleRes defStyleRes: Int = R.style.Widget_ShadowPlay_IconView)
@@ -67,9 +66,9 @@ class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, 
         scaleDown = a.getFloat(R.styleable.IconView_scaleDown, scaleDown).coerceIn(0f, 1f)
 
         bigBlurRadius = a.getFloat(R.styleable.IconView_bigBlurRadius, bigBlurRadius)
-                .coerceIn(0f, 25f)
+            .coerceIn(0f, 25f)
         smallBlurRadius = a.getFloat(R.styleable.IconView_smallBlurRadius, smallBlurRadius)
-                .coerceIn(0f, 25f)
+            .coerceIn(0f, 25f)
 
         padding = bigBlurRadius.toInt()
 
@@ -106,14 +105,14 @@ class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, 
         if (icon == null || shadowBounds.width() == 0f) return
         if (bigBlurShadow == null) {
             bigBlurShadow = Bitmap.createBitmap(shadowBounds.width().toInt(), shadowBounds.height()
-                    .toInt(), ARGB_8888)
+                .toInt(), ARGB_8888)
         } else {
             bigBlurShadow?.eraseColor(Color.TRANSPARENT)
         }
         if (smallBlurShadow == null) {
             smallBlurShadow = Bitmap.createBitmap(shadowBounds.width()
-                                                          .toInt(), shadowBounds.height()
-                                                          .toInt(), ARGB_8888)
+                                                      .toInt(), shadowBounds.height()
+                                                      .toInt(), ARGB_8888)
         } else {
             smallBlurShadow?.eraseColor(Color.TRANSPARENT)
         }
@@ -128,8 +127,8 @@ class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, 
         icon?.draw(canvas)
         val rs = getRS(context)
         val blur = getBlur(context)
-        val input = Allocation.createFromBitmap(rs, bitmap)
-        val output = Allocation.createTyped(rs, input.type)
+        val input = androidx.renderscript.Allocation.createFromBitmap(rs, bitmap)
+        val output = androidx.renderscript.Allocation.createTyped(rs, input.type)
         blur.setRadius(blurRadius.coerceIn(0f, 25f))
         blur.setInput(input)
         blur.forEach(output)

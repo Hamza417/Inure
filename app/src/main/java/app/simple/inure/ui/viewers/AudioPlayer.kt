@@ -126,7 +126,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         playerViewModel.getError().observe(viewLifecycleOwner, {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : app.simple.inure.dialogs.miscellaneous.ErrorPopup.Companion.Error.Companion.ErrorDialogCallbacks {
+            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
                     dismiss()
                 }
