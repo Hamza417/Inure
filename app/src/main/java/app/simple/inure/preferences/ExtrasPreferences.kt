@@ -21,6 +21,7 @@ object ExtrasPreferences {
     const val ttf = "ttf"
     const val md = "md"
     const val ini = "ini"
+    const val version = "version"
 
     // ---------------------------------------------------------------------------------------------------------- //
 

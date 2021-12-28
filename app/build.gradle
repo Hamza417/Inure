@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdkVersion 31
 
-    def appVersionCode = 13
+    def appVersionCode = 14
     def appVersionName = "build_${appVersionCode} (alpha)"
 
     buildFeatures {
@@ -24,8 +24,6 @@ android {
         versionCode appVersionCode
         versionName appVersionName
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 21
-        renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         resValue "string", "versionName", versionName

@@ -164,8 +164,8 @@ class Home : ScopedFragment() {
                         }
                         getString(R.string.terminal) -> {
                             FragmentHelper.openFragment(
-                                requireActivity().supportFragmentManager,
-                                Terminal.newInstance(), icon, "terminal")
+                                    requireActivity().supportFragmentManager,
+                                    Terminal.newInstance(), icon, "terminal")
                         }
                         getString(R.string.usage_statistics) -> {
                             FragmentHelper.openFragment(
@@ -181,6 +181,9 @@ class Home : ScopedFragment() {
                             FragmentHelper.openFragment(
                                     requireActivity().supportFragmentManager,
                                     Sensors.newInstance(), icon, "sensors")
+                        }
+                        getString(R.string.batch) -> {
+                            Toast.makeText(requireContext(), "Still in development. Likely to be available to test in next update.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -271,7 +274,7 @@ class Home : ScopedFragment() {
                     }
                     getString(R.string.send) -> {
                         Preparing.newInstance(packageInfo)
-                                .show(parentFragmentManager, "send_app")
+                            .show(parentFragmentManager, "send_app")
                     }
                 }
             }

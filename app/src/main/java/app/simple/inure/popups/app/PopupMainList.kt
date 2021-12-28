@@ -40,7 +40,7 @@ class PopupMainList(anchor: View, packageName: String) : BasePopupWindow() {
         launch = contentView.findViewById(R.id.popup_app_launch)
         copyPackageName = contentView.findViewById(R.id.popup_copy_package)
 
-        if (PackageUtils.checkIfAppIsLaunchable(contentView.context, packageName)) {
+        if (PackageUtils.checkIfAppIsLaunchable(contentView.context, packageName) && packageName != anchor.context.packageName) {
             launch.visible(false)
             launch.onClick()
         } else {

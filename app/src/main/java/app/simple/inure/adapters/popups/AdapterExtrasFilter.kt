@@ -42,19 +42,20 @@ class AdapterExtrasFilter : RecyclerView.Adapter<AdapterExtrasFilter.Holder>() {
 
     companion object {
         val list = arrayListOf(
-            Pair(".json", ExtrasPreferences.json),
-            Pair(".html", ExtrasPreferences.html),
-            Pair(".css", ExtrasPreferences.css),
-            Pair(".properties", ExtrasPreferences.properties),
-            Pair(".js", ExtrasPreferences.js),
-            Pair(".tsv", ExtrasPreferences.tsv),
-            Pair(".txt", ExtrasPreferences.txt),
-            Pair(".proto", ExtrasPreferences.proto),
-            Pair(".java", ExtrasPreferences.java),
-            Pair(".bin", ExtrasPreferences.bin),
-            Pair(".ttf", ExtrasPreferences.ttf),
-            Pair(".md", ExtrasPreferences.md),
-            Pair(".ini", ExtrasPreferences.ini)
+                Pair(".json", ExtrasPreferences.json),
+                Pair(".html", ExtrasPreferences.html),
+                Pair(".css", ExtrasPreferences.css),
+                Pair(".properties", ExtrasPreferences.properties),
+                Pair(".js", ExtrasPreferences.js),
+                Pair(".tsv", ExtrasPreferences.tsv),
+                Pair(".txt", ExtrasPreferences.txt),
+                Pair(".proto", ExtrasPreferences.proto),
+                Pair(".java", ExtrasPreferences.java),
+                Pair(".bin", ExtrasPreferences.bin),
+                Pair(".ttf", ExtrasPreferences.ttf),
+                Pair(".md", ExtrasPreferences.md),
+                Pair(".ini", ExtrasPreferences.ini),
+                Pair(".version", ExtrasPreferences.version)
         )
     }
 }

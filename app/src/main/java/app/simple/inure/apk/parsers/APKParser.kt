@@ -288,8 +288,9 @@ object APKParser {
         val ttf = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.ttf)
         val md = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.md)
         val ini = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.ini)
+        val version = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.version)
 
-        val graphicsFiles: MutableList<String> = ArrayList()
+        val extraFiles: MutableList<String> = ArrayList()
         var zipFile: ZipFile? = null
 
         try {
@@ -301,19 +302,20 @@ object APKParser {
 
                 if (name.lowercase().contains(keyword.lowercase())) {
                     when {
-                        name.endsWith(".json") -> if (json) graphicsFiles.add(name)
-                        name.endsWith(".css") -> if (css) graphicsFiles.add(name)
-                        name.endsWith(".html") -> if (html) graphicsFiles.add(name)
-                        name.endsWith(".properties") -> if (properties) graphicsFiles.add(name)
-                        name.endsWith(".js") -> if (js) graphicsFiles.add(name)
-                        name.endsWith(".tsv") -> if (tsv) graphicsFiles.add(name)
-                        name.endsWith(".txt") -> if (txt) graphicsFiles.add(name)
-                        name.endsWith(".proto") -> if (proto) graphicsFiles.add(name)
-                        name.endsWith(".java") -> if (java) graphicsFiles.add(name)
-                        name.endsWith(".bin") -> if (bin) graphicsFiles.add(name)
-                        name.endsWith(".ttf") -> if (ttf) graphicsFiles.add(name)
-                        name.endsWith(".md") -> if (md) graphicsFiles.add(name)
-                        name.endsWith(".ini") -> if (ini) graphicsFiles.add(name)
+                        name.endsWith(".json") -> if (json) extraFiles.add(name)
+                        name.endsWith(".css") -> if (css) extraFiles.add(name)
+                        name.endsWith(".html") -> if (html) extraFiles.add(name)
+                        name.endsWith(".properties") -> if (properties) extraFiles.add(name)
+                        name.endsWith(".js") -> if (js) extraFiles.add(name)
+                        name.endsWith(".tsv") -> if (tsv) extraFiles.add(name)
+                        name.endsWith(".txt") -> if (txt) extraFiles.add(name)
+                        name.endsWith(".proto") -> if (proto) extraFiles.add(name)
+                        name.endsWith(".java") -> if (java) extraFiles.add(name)
+                        name.endsWith(".bin") -> if (bin) extraFiles.add(name)
+                        name.endsWith(".ttf") -> if (ttf) extraFiles.add(name)
+                        name.endsWith(".md") -> if (md) extraFiles.add(name)
+                        name.endsWith(".ini") -> if (ini) extraFiles.add(name)
+                        name.endsWith(".version") -> if (version) extraFiles.add(name)
                     }
                 }
             }
@@ -324,7 +326,11 @@ object APKParser {
                 zipFile?.close()
             }
         }
-        graphicsFiles.sort()
-        return graphicsFiles
+
+        extraFiles.sortBy {
+            it.lowercase()
+        }
+
+        return extraFiles
     }
 }

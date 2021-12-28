@@ -9,10 +9,8 @@ import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.renderscript.Element
-import androidx.renderscript.RenderScript
-import androidx.renderscript.ScriptIntrinsicBlur
 import app.simple.inure.R
+import com.google.android.renderscript.Toolkit
 
 class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, @AttrRes defStyleAttr: Int = R.attr.iconViewStyle, @StyleRes defStyleRes: Int = R.style.Widget_ShadowPlay_IconView)
     : View(context, attrs, defStyleAttr, defStyleRes) {
@@ -104,15 +102,16 @@ class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, 
     private fun createShadows() {
         if (icon == null || shadowBounds.width() == 0f) return
         if (bigBlurShadow == null) {
-            bigBlurShadow = Bitmap.createBitmap(shadowBounds.width().toInt(), shadowBounds.height()
-                .toInt(), ARGB_8888)
+            bigBlurShadow = Bitmap.createBitmap(shadowBounds.width().toInt(),
+                                                shadowBounds.height().toInt(),
+                                                ARGB_8888)
         } else {
             bigBlurShadow?.eraseColor(Color.TRANSPARENT)
         }
         if (smallBlurShadow == null) {
-            smallBlurShadow = Bitmap.createBitmap(shadowBounds.width()
-                                                      .toInt(), shadowBounds.height()
-                                                      .toInt(), ARGB_8888)
+            smallBlurShadow = Bitmap.createBitmap(shadowBounds.width().toInt(),
+                                                  shadowBounds.height().toInt(),
+                                                  ARGB_8888)
         } else {
             smallBlurShadow?.eraseColor(Color.TRANSPARENT)
         }
@@ -122,42 +121,14 @@ class IconView @JvmOverloads constructor(context: Context, attrs: AttributeSet, 
     }
 
     private fun createShadow(bitmap: Bitmap?, canvas: Canvas, blurRadius: Float) {
-        canvas.setBitmap(bitmap)
+        canvas.setBitmap(Toolkit.blur(bitmap!!, blurRadius.toInt()))
         canvas.translate(padding - iconBounds.left.toFloat(), padding - iconBounds.top.toFloat())
         icon?.draw(canvas)
-        val rs = getRS(context)
-        val blur = getBlur(context)
-        val input = androidx.renderscript.Allocation.createFromBitmap(rs, bitmap)
-        val output = androidx.renderscript.Allocation.createTyped(rs, input.type)
-        blur.setRadius(blurRadius.coerceIn(0f, 25f))
-        blur.setInput(input)
-        blur.forEach(output)
-        output.copyTo(bitmap)
-        input.destroy()
-        output.destroy()
     }
 
     companion object {
         private const val SHADOW_SCALE_RGB = 0.85f
         private const val SHADOW_SCALE_ALPHA = 0.6f
         private val fastOutSlowInInterpolator = FastOutSlowInInterpolator()
-
-        private var rs: RenderScript? = null
-        fun getRS(context: Context): RenderScript {
-            if (rs == null) {
-                rs = RenderScript.create(context.applicationContext)
-            }
-            return rs!!
-        }
-
-        private var blur: ScriptIntrinsicBlur? = null
-
-        fun getBlur(context: Context): ScriptIntrinsicBlur {
-            if (blur == null) {
-                val rs = getRS(context)
-                blur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
-            }
-            return blur!!
-        }
     }
 }

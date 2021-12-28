@@ -44,6 +44,7 @@
         android:layout_width="match_parent"
         android:id="@+id/scroll_view"
         android:layout_height="match_parent"
+        android:paddingBottom="10dp"
         app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
 
         <LinearLayout

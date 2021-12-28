@@ -37,9 +37,9 @@ class AppIconModule : AppGlideModule() {
 
         requestOptions.transform(
                 Padding(
-                        BlurShadow.RENDERSCRIPT_DEFAULT_SHADOW_SIZE.toInt()), BlurShadow(context)
+                        BlurShadow.DEFAULT_SHADOW_SIZE.toInt()), BlurShadow(context)
                     .setElevation(25F)
-                    .setBlurRadius(BlurShadow.RENDERSCRIPT_DEFAULT_SHADOW_SIZE))
+                    .setBlurRadius(BlurShadow.DEFAULT_SHADOW_SIZE))
 
         builder.setDefaultRequestOptions(requestOptions)
     }

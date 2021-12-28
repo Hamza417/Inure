@@ -6,10 +6,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.IntDef
 import androidx.core.content.ContextCompat
-import androidx.renderscript.Allocation
-import androidx.renderscript.Element
-import androidx.renderscript.RenderScript
-import androidx.renderscript.ScriptIntrinsicBlur
 import app.simple.inure.preferences.AppearancePreferences
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
@@ -157,7 +153,7 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
         shadowPaint.isAntiAlias = true
         //shadowPaint.colorFilter = PorterDuffColorFilter(colour, PorterDuff.Mode.SRC_IN)
 
-        if (blurRadius <= RENDERSCRIPT_MAX_BLUR_RADIUS) {
+        if (blurRadius <= MAX_BLUR_RADIUS) {
             //Apply Blur
             shadow = if (AppearancePreferences.isIconShadowsOn()) {
                 Toolkit.blur(source, blurRadius.toInt())
@@ -171,13 +167,13 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
             canvas.drawBitmap(source, 0f, 0f, null)
         } else {
             //Scale
-            val scaleFactor = RENDERSCRIPT_MAX_BLUR_RADIUS / blurRadius
+            val scaleFactor = MAX_BLUR_RADIUS / blurRadius
             val scaledWidth = 1.coerceAtLeast((source.width.toFloat() * scaleFactor).roundToInt())
             val scaledHeight = 1.coerceAtLeast((source.height.toFloat() * scaleFactor).roundToInt())
             val scaled = Bitmap.createScaledBitmap(source, scaledWidth, scaledHeight, true)
             //Apply Blur
             shadow = if (AppearancePreferences.isIconShadowsOn()) {
-                Toolkit.blur(scaled, RENDERSCRIPT_MAX_BLUR_RADIUS.toInt())
+                Toolkit.blur(scaled, MAX_BLUR_RADIUS.toInt())
             } else {
                 Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
             }
@@ -191,18 +187,6 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
         //Output
         shadow.recycle()
         return bitmap
-    }
-
-    @Deprecated("Using Toolkit now")
-    private fun blur(bitmap: Bitmap, copyTo: Bitmap, radius: Float) {
-        val rs = RenderScript.create(context)
-        val input = Allocation.createFromBitmap(rs, bitmap, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT)
-        val output = Allocation.createTyped(rs, input.type)
-        val script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
-        script.setRadius(radius)
-        script.setInput(input)
-        script.forEach(output)
-        output.copyTo(copyTo)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -236,8 +220,8 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
     companion object {
         private const val ID = "app.simple.inure.glide.transformations.Shadow"
         private val ID_BYTES = ID.toByteArray()
-        const val RENDERSCRIPT_MAX_BLUR_RADIUS = 25.0f
-        const val RENDERSCRIPT_DEFAULT_SHADOW_SIZE = 20.0F
+        const val MAX_BLUR_RADIUS = 25.0f
+        const val DEFAULT_SHADOW_SIZE = 20.0F
         private const val SHADOW_SCALE_RGB = 0.85f
         private const val SHADOW_SCALE_ALPHA = 0.6f
         const val EAST = 0
