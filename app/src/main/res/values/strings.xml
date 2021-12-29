@@ -404,4 +404,5 @@
     <string name="join_telegram">Join Telegram</string>
     <string name="desc_telegram">Join app\'s group on Telegram for discussions with other users and developer.</string>
     <string name="batch">Batch</string>
+    <string name="verifying_license">Verifying License</string>
 </resources>
