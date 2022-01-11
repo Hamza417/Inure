@@ -21,6 +21,7 @@
 
 <ul>
     <li>Bounce scroll effect for all non-list scrollable views.</li>
+    <li>Redesigned <b>Change Logs</b> panel.</li>
 </ul>
 
 <h4>Bug Fixes</h4>
@@ -32,132 +33,160 @@
 
 <br>
 <hr>
+<sub>(Previous Versions)</sub>
+<br>
+<br>
 
-<h2>Build14</h2>
+<div class="wrap-collapsible">
+    <input id="build_14" class="toggle" type="checkbox">
+    <label for="build_14" class="lbl-toggle">Build14</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
 
-<h4>User Interface</h4>
+            <ul>
+                <li>Added option to copy information from <b>Certificate</b> and <b>Information</b>
+                    panel.
+                </li>
+                <li>Added option to copy package name in long press menu.</li>
+                <li>Added search option in <b>Resources</b> panel.</li>
+                <li>Added app's Telegram group link in <b>About</b> panel.</li>
+            </ul>
 
-<ul>
-    <li>Added option to copy information from <b>Certificate</b> and <b>Information</b> panel.</li>
-    <li>Added option to copy package name in long press menu.</li>
-    <li>Added search option in <b>Resources</b> panel.</li>
-    <li>Added app's Telegram group link in <b>About</b> panel.</li>
-</ul>
+            <h4>Bug Fixes</h4>
 
-<h4>Bug Fixes</h4>
+            <ul>
+                <li>Fixed system app not getting uninstalled on root mode.</li>
+                <li>Workarounds for unexpected chunk type error.</li>
+                <li>Fixed darker ripple color on first click.</li>
+            </ul>
 
-<ul>
-    <li>Fixed system app not getting uninstalled on root mode.</li>
-    <li>Workarounds for unexpected chunk type error.</li>
-    <li>Fixed darker ripple color on first click.</li>
-</ul>
+            <h4>Improvements</h4>
 
-<h4>Improvements</h4>
+            <ul>
+                <li>Migrated to Toolkit API to use intrinsic blur after deprecation of RenderScript
+                    API. In some
+                    devices you may see much smoother scrolling of lists and faster icon rendering.
+                </li>
+            </ul>
 
-<ul>
-    <li>Migrated to Toolkit API to use intrinsic blur after deprecation of RenderScript API. In some
-        devices you may see much smoother scrolling of lists and faster icon rendering.
-    </li>
-</ul>
+            <h4>Removed</h4>
 
-<h4>Removed</h4>
-
-<ul>
-    <li>RenderScript API.</li>
-</ul>
+            <ul>
+                <li>RenderScript API.</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <br>
-<hr>
 
-<h2>Build13</h2>
+<div class="wrap-collapsible">
+    <input id="build_13" class="toggle" type="checkbox">
+    <label for="build_13" class="lbl-toggle">Build13</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
 
-<h4>User Interface</h4>
+            <ul>
+                <li>Added <b>Credits</b> in <b>About</b> panel.</li>
+                <li>Added <b>Open Source Licenses</b> in <b>About</b> panel.</li>
+                <li>Added <b>SharedLibs</b> option in <b>App Info</b> panel.</li>
+                <li>Added custom <b>CheckBox</b>.</li>
+            </ul>
 
-<ul>
-    <li>Added <b>Credits</b> in <b>About</b> panel.</li>
-    <li>Added <b>Open Source Licenses</b> in <b>About</b> panel.</li>
-    <li>Added <b>SharedLibs</b> option in <b>App Info</b> panel.</li>
-    <li>Added custom <b>CheckBox</b>.</li>
-</ul>
+            <h4>Bug Fixes</h4>
 
-<h4>Bug Fixes</h4>
+            <ul>
+                <li>Fixed various issues with <b>Date Format</b> dialog.</li>
+            </ul>
 
-<ul>
-    <li>Fixed various issues with <b>Date Format</b> dialog.</li>
-</ul>
+            <h4>Improvements</h4>
 
-<h4>Improvements</h4>
+            <ul>
+                <li>Removed separate activity for viewing web pages making navigation more
+                    streamlined.
+                </li>
+                <li>Updated WebView framework to force app's accent color on web pages in the app.
+                </li>
+                <li>Reduce spacing between items in preference panels.</li>
+                <li>Added native engine for parsing Dex files.</li>
+                <li>Added native engine for parsing XML files.</li>
+                <li>Viewing XML as TXT now decodes the file before showing.</li>
+            </ul>
 
-<ul>
-    <li>Removed separate activity for viewing web pages making navigation more streamlined.</li>
-    <li>Updated WebView framework to force app's accent color on web pages in the app.</li>
-    <li>Reduce spacing between items in preference panels.</li>
-    <li>Added native engine for parsing Dex files.</li>
-    <li>Added native engine for parsing XML files.</li>
-    <li>Viewing XML as TXT now decodes the file before showing.</li>
-</ul>
+            <h4>Removed</h4>
 
-<h4>Removed</h4>
-
-<ul>
-    <li>Removed <i>ApkParse</i> library due to issues with it's BSD 2 clause and app's GPLv3
-        license.
-    </li>
-</ul>
+            <ul>
+                <li>Removed <i>ApkParse</i> library due to issues with it's BSD 2 clause and app's
+                    GPLv3
+                    license.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <br>
-<hr>
 
-<h2>Build12</h2>
+<div class="wrap-collapsible">
+    <input id="build_12" class="toggle" type="checkbox">
+    <label for="build_12" class="lbl-toggle">Build12</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
 
-<h4>User Interface</h4>
+            <ul>
+                <li>Added option to use <b>Accent Color</b> on <b>Navigation Bar</b> as well.</li>
+                <li>Added <b>Accessibility</b> in <b>Preferences</b> panel.</li>
+                <li>Added indicators on items in <b>Preference</b> panel to hint what they will do
+                    upon clicking.
+                </li>
+                <li>Added dialog menu in permissions panel.</li>
+                <li>Updated <b>Search Box</b> design</li>
+                <li>Added search result count in <b>Search</b> panel</li>
+                <li>Removed <i>Overshoot</i> interpolator from panel switching animation.</li>
+            </ul>
 
-<ul>
-    <li>Added option to use <b>Accent Color</b> on <b>Navigation Bar</b> as well.</li>
-    <li>Added <b>Accessibility</b> in <b>Preferences</b> panel.</li>
-    <li>Added indicators on items in <b>Preference</b> panel to hint what they will do upon
-        clicking.
-    </li>
-    <li>Added dialog menu in permissions panel.</li>
-    <li>Updated <b>Search Box</b> design</li>
-    <li>Added search result count in <b>Search</b> panel</li>
-    <li>Removed <i>Overshoot</i> interpolator from panel switching animation.</li>
-</ul>
+            <h4>User Experience</h4>
 
-<h4>User Experience</h4>
+            <uL>
+                <li>Added option to highlight all clickable icons and buttons of the app with grey
+                    backgrounds.
+                </li>
+                <li>Added option to add dividers between the list items.</li>
+                <li>Moved permission label toggle into <b>Permissions</b> panel.</li>
+                <li>Updated manifest icon.</li>
+            </uL>
 
-<uL>
-    <li>Added option to highlight all clickable icons and buttons of the app with grey backgrounds.
-    </li>
-    <li>Added option to add dividers between the list items.</li>
-    <li>Moved permission label toggle into <b>Permissions</b> panel.</li>
-    <li>Updated manifest icon.</li>
-</uL>
+            <h4>Bug Fixes</h4>
 
-<h4>Bug Fixes</h4>
+            <ul>
+                <li>Fixed shadow behind the status bar.</li>
+                <li>Fixed white navigation bar issue.</li>
+                <li>Fixed text not showing in <b>TTF viewer</b>.</li>
+                <li>Fixed bright switch color issue in <b>Dark</b> mode.</li>
+                <li>Fixed app freezing when <b>Use Root Method</b> is unchecked.</li>
+                <li>Fixed status bar becoming black after going back from <b>Image Viewer</b></li>
+            </ul>
 
-<ul>
-    <li>Fixed shadow behind the status bar.</li>
-    <li>Fixed white navigation bar issue.</li>
-    <li>Fixed text not showing in <b>TTF viewer</b>.</li>
-    <li>Fixed bright switch color issue in <b>Dark</b> mode.</li>
-    <li>Fixed app freezing when <b>Use Root Method</b> is unchecked.</li>
-    <li>Fixed status bar becoming black after going back from <b>Image Viewer</b></li>
-</ul>
+            <h4>Improvements</h4>
 
-<h4>Improvements</h4>
+            <ul>
+                <li>Improved <b>Text Viewer</b> and added option to save or copy the text.</li>
+                <li>Improved setup panel.</li>
+                <li>Improved search panel data loading framework, reduces lag significantly while
+                    opening <b>Search</b>.
+                </li>
+            </ul>
 
-<ul>
-    <li>Improved <b>Text Viewer</b> and added option to save or copy the text.</li>
-    <li>Improved setup panel.</li>
-    <li>Improved search panel data loading framework, reduces lag significantly while opening <b>Search</b>.
-    </li>
-</ul>
+            <h4>Adjustments</h4>
 
-<h4>Adjustments</h4>
-
-<ul>
-    <li>Text style adjustments for <b>Preferences</b> panel</li>
-</ul>
+            <ul>
+                <li>Text style adjustments for <b>Preferences</b> panel</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 </body>

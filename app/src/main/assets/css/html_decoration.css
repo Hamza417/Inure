@@ -59,3 +59,70 @@ a:link {
 	text-decoration: none;
 	background-color: transparent;
 }
+
+hr {
+    height: 0.5px;
+    border-width: 0px;
+    background-color: grey;
+}
+
+/* Collapsible */
+
+input[type='checkbox'] {
+	display: none;
+}
+
+.wrap-collapsible {
+
+}
+
+.lbl-toggle {
+	display: block;
+	font-weight: bold;
+	font-family: main_font;
+	font-size: 1.5rem;
+	text-align: left;
+	cursor: pointer;
+	border-radius: 7px;
+	transition: all 0.5s ease-out;
+}
+
+.lbl-toggle::before {
+	content: ' ';
+	display: inline-block;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 5px solid currentColor;
+	vertical-align: middle;
+	margin-right: .7rem;
+	transform: translateY(-2px);
+	transition: transform .5s ease-out;
+}
+
+.toggle:checked+.lbl-toggle::before {
+	transform: rotate(90deg) translateX(-3px);
+}
+
+.collapsible-content {
+	max-height: 0px;
+	overflow: hidden;
+	transition: max-height 0.5s ease-out;
+}
+
+.toggle:checked+.lbl-toggle+.collapsible-content {
+	max-height: 2000px;
+}
+
+.toggle:checked+.lbl-toggle {
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.collapsible-content .content-inner {
+	background: transparent;
+	padding: 1rem .5rem;
+}
+
+.collapsible-content p {
+	margin-bottom: 0;
+}
