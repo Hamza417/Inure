@@ -40,21 +40,26 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:id="@+id/scroll_view"
-        android:layout_height="match_parent"
-        android:paddingBottom="10dp"
-        app:layout_behavior="app.simple.inure.decorations.behaviors.OverScrollBehavior">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:paddingBottom="10dp"
+            app:layout_behavior="@string/over_scroll_behavior">
 
-            <include layout="@layout/appearance_behavior" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                <include layout="@layout/appearance_behavior" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

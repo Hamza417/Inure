@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
@@ -8,40 +9,49 @@
 
     <include layout="@layout/header_home" />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/home_scroll_view"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipChildren="false"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/popup_padding">
+        android:clipToPadding="false">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/home_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/popup_padding"
+            app:layout_behavior="@string/over_scroll_behavior">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginBottom="@dimen/popup_padding"
-                android:background="@color/divider" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/home_menu"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never" />
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
 
-            <include layout="@layout/home_recently_installed" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginBottom="@dimen/popup_padding"
+                    android:background="@color/divider" />
 
-            <include layout="@layout/home_recently_updated" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
 
-            <include layout="@layout/home_frequently_used" />
+                <include layout="@layout/home_recently_installed" />
 
-        </LinearLayout>
+                <include layout="@layout/home_recently_updated" />
 
-    </androidx.core.widget.NestedScrollView>
+                <include layout="@layout/home_frequently_used" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>
