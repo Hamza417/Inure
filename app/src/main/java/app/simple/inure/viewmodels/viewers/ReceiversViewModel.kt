@@ -55,7 +55,7 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
                     activityInfoModel.name = ai.name
                     activityInfoModel.target = ai.targetActivity ?: getApplication<Application>().getString(R.string.not_available)
                     activityInfoModel.exported = ai.exported
-                    activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
+                    activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permissions_required)
 
                     with(StringBuilder()) {
                         append(" | ")

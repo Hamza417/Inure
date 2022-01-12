@@ -56,7 +56,7 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
                     activityInfoModel.name = ai.name
                     activityInfoModel.target = ai.targetActivity ?: getString(R.string.not_available)
                     activityInfoModel.exported = ai.exported
-                    activityInfoModel.permission = ai.permission ?: getString(R.string.no_permission_required)
+                    activityInfoModel.permission = ai.permission ?: getString(R.string.no_permissions_required)
 
                     with(StringBuilder()) {
                         append(" | ")

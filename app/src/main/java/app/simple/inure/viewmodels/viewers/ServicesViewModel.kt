@@ -56,7 +56,7 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                     serviceInfoModel.isExported = info.exported
                     serviceInfoModel.flags = info.flags
                     serviceInfoModel.foregroundType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) info.foregroundServiceType else -3
-                    serviceInfoModel.permissions = info.permission ?: getApplication<Application>().getString(R.string.no_permission_required)
+                    serviceInfoModel.permissions = info.permission ?: getApplication<Application>().getString(R.string.no_permissions_required)
 
                     with(StringBuilder()) {
                         append(" | ")

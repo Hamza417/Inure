@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Build
 import android.text.Spannable
 import androidx.lifecycle.LiveData
@@ -41,20 +42,23 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
     private fun loadInformation() {
         information.postValue(arrayListOf(
-            getPackageName(),
-            getVersion(),
-            getVersionCode(),
-            getInstallLocation(),
-            getGlesVersion(),
-            getUID(),
-            getInstallDate(),
-            getUpdateDate(),
-            getMinSDK(),
-            getTargetSDK(),
-            getMethodCount(),
-            getApex(),
-            getApplicationType(),
-            getInstallerName()
+                getPackageName(),
+                getVersion(),
+                getVersionCode(),
+                getInstallLocation(),
+                getGlesVersion(),
+                getUID(),
+                getInstallDate(),
+                getUpdateDate(),
+                getMinSDK(),
+                getTargetSDK(),
+                getMethodCount(),
+                getApex(),
+                getApplicationType(),
+                getInstallerName(),
+                getRequestedPermissions(),
+                getFeatures(),
+                getSplitNames()
         ))
     }
 
@@ -219,5 +223,80 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
         return Pair(getString(R.string.installer),
                     name!!.applySecondaryTextColor(context))
+    }
+
+    private fun getRequestedPermissions(): Pair<String, Spannable> {
+        val appPackageInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)
+        appPackageInfo.requestedPermissions.sort()
+
+        val permissions = StringBuilder()
+
+        try {
+            for (permission in appPackageInfo.requestedPermissions) {
+                if (permissions.isEmpty()) {
+                    permissions.append(permission)
+                } else {
+                    permissions.append("\n")
+                    permissions.append(permission)
+                }
+            }
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
+            permissions.append(getString(R.string.no_permissions_required))
+        }
+
+        return Pair(getString(R.string.permissions),
+                    permissions.toString().applySecondaryTextColor(context))
+    }
+
+    private fun getSplitNames(): Pair<String, Spannable> {
+        val names = StringBuilder()
+
+        try {
+            for (name in packageInfo.splitNames) {
+                if (names.isEmpty()) {
+                    names.append(name)
+                } else {
+                    names.append("\n")
+                    names.append(name)
+                }
+            }
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
+            names.append(getString(R.string.not_available))
+        }
+
+        return Pair(getString(R.string.split_packages),
+                    names.toString().applySecondaryTextColor(context))
+    }
+
+    private fun getFeatures(): Pair<String, Spannable> {
+        val features = StringBuilder()
+
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            PackageManager.GET_CONFIGURATIONS or PackageManager.MATCH_DISABLED_COMPONENTS
+        } else {
+            @Suppress("deprecation")
+            PackageManager.GET_CONFIGURATIONS or PackageManager.GET_DISABLED_COMPONENTS
+        }
+
+        val p0 = packageManager.getPackageInfo(packageInfo.packageName, flags)
+
+        try {
+            for (feature in p0.reqFeatures) {
+                if (features.isEmpty()) {
+                    features.append(feature.name)
+                } else {
+                    features.append("\n")
+                    features.append(feature.name)
+                }
+            }
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
+            features.append(getString(R.string.not_available))
+        }
+
+        return Pair(getString(R.string.uses_feature),
+                    features.toString().applySecondaryTextColor(context))
     }
 }

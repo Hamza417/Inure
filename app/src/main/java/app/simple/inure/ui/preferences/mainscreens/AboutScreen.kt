@@ -58,18 +58,21 @@ class AboutScreen : ScopedFragment() {
         }
 
         changelogs.setOnClickListener {
+            clearTransitions()
             FragmentHelper.openFragment(parentFragmentManager,
                                         WebPage.newInstance(getString(R.string.change_logs)),
                                         "web_page")
         }
 
         licenses.setOnClickListener {
+            clearTransitions()
             FragmentHelper.openFragment(parentFragmentManager,
                                         WebPage.newInstance(getString(R.string.open_source_licenses)),
                                         "web_page")
         }
 
         userAgreement.setOnClickListener {
+            clearTransitions()
             FragmentHelper.openFragment(parentFragmentManager,
                                         WebPage.newInstance(getString(R.string.user_agreements)),
                                         "web_page")
