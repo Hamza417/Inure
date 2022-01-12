@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.StatusBarHeight;
 
 public class PaddingAwareLinearLayout extends LinearLayout {
@@ -19,6 +20,10 @@ public class PaddingAwareLinearLayout extends LinearLayout {
     }
     
     private void init() {
+        if (AppearancePreferences.INSTANCE.isTransparentStatusDisabled()) {
+            return;
+        }
+    
         setPadding(getPaddingLeft(),
                 StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
                 getPaddingRight(),

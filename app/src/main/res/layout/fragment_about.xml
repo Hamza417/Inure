@@ -35,11 +35,6 @@
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider" />
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -56,6 +51,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"

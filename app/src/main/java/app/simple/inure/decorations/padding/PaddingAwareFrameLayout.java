@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.StatusBarHeight;
 
 public class PaddingAwareFrameLayout extends FrameLayout {
@@ -20,6 +21,10 @@ public class PaddingAwareFrameLayout extends FrameLayout {
     }
     
     private void init() {
+        if (AppearancePreferences.INSTANCE.isTransparentStatusDisabled()) {
+            return;
+        }
+    
         setPadding(getPaddingLeft(),
                 StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
                 getPaddingRight(),

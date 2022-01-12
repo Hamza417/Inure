@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.StatusBarHeight;
 
 public class PaddingAwareConstraintLayout extends ConstraintLayout {
@@ -19,6 +20,10 @@ public class PaddingAwareConstraintLayout extends ConstraintLayout {
     }
     
     private void init() {
+        if (AppearancePreferences.INSTANCE.isTransparentStatusDisabled()) {
+            return;
+        }
+    
         setPadding(getPaddingLeft(),
                 StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
                 getPaddingRight(),

@@ -46,8 +46,11 @@ open class BaseActivity : AppCompatActivity() {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        makeAppFullScreen()
-        fixNavigationBarOverlap()
+        if (!AppearancePreferences.isTransparentStatusDisabled()) {
+            makeAppFullScreen()
+            fixNavigationBarOverlap()
+        }
+
         setTheme()
         ThemeUtils.setAppTheme(AppearancePreferences.getAppTheme())
         setNavColor()

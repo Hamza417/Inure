@@ -10,10 +10,12 @@ object AppearancePreferences {
 
     private const val appCornerRadius = "corner_radius"
     private const val iconShadows = "icon_shadows"
+
     const val accentColor = "app_accent_color"
     const val appFont = "type_face"
     const val appTheme = "app_theme"
     const val accentOnNav = "accent_color_on_nav_bar"
+    const val transparentStatus = "is_transparent_status_disabled"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -73,5 +75,15 @@ object AppearancePreferences {
 
     fun isAccentOnNavigationBar(): Boolean {
         return getSharedPreferences().getBoolean(accentOnNav, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setTransparentStatusState(boolean: Boolean) {
+        getSharedPreferences().edit().putBoolean(transparentStatus, boolean).apply()
+    }
+
+    fun isTransparentStatusDisabled(): Boolean {
+        return getSharedPreferences().getBoolean(transparentStatus, false)
     }
 }

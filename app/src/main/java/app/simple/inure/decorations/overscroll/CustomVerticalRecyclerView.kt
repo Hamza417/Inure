@@ -14,6 +14,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants.flingTransl
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollRotationMagnitude
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollTranslationMagnitude
 import app.simple.inure.preferences.AccessibilityPreferences
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
 
@@ -32,7 +33,9 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Recyc
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
             try {
                 if (getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {
-                    setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
+                    if (!AppearancePreferences.isTransparentStatusDisabled()) {
+                        setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
+                    }
                 }
 
                 fastScroll = getBoolean(R.styleable.CustomRecyclerView_isFastScrollRequired, true)

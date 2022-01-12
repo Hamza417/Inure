@@ -1,6 +1,8 @@
 package app.simple.inure.ui.preferences.mainscreens
 
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAppTheme
@@ -18,6 +21,7 @@ import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.TextViewUtils.makeLinks
 import app.simple.inure.util.ThemeUtils
 
 class AppearanceScreen : ScopedFragment() {
@@ -28,6 +32,9 @@ class AppearanceScreen : ScopedFragment() {
     private lateinit var appTheme: DynamicRippleTextView
     private lateinit var iconShadows: SwitchView
     private lateinit var accentOnNav: SwitchView
+    private lateinit var transparentStatus: SwitchView
+
+    private lateinit var descTransparentStatus: TypeFaceTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_appearances, container, false)
@@ -40,6 +47,9 @@ class AppearanceScreen : ScopedFragment() {
 
         iconShadows = view.findViewById(R.id.appearance_icons_shadow_switch)
         accentOnNav = view.findViewById(R.id.appearance_nav_color_switch)
+        transparentStatus = view.findViewById(R.id.appearance_transparent_status_switch)
+
+        descTransparentStatus = view.findViewById(R.id.transparent_status_desc)
 
         startPostponedEnterTransition()
 
@@ -52,6 +62,7 @@ class AppearanceScreen : ScopedFragment() {
         setAppThemeText()
         iconShadows.setChecked(AppearancePreferences.isIconShadowsOn())
         accentOnNav.setChecked(AppearancePreferences.isAccentOnNavigationBar())
+        transparentStatus.setChecked(AppearancePreferences.isTransparentStatusDisabled())
 
         appTheme.setOnClickListener {
             PopupAppTheme(it)
@@ -77,6 +88,15 @@ class AppearanceScreen : ScopedFragment() {
         accentOnNav.setOnSwitchCheckedChangeListener {
             AppearancePreferences.setAccentOnNavigationBar(it)
         }
+
+        transparentStatus.setOnSwitchCheckedChangeListener {
+            AppearancePreferences.setTransparentStatusState(it)
+        }
+
+        descTransparentStatus.makeLinks(Pair("AndroidBug #5497", View.OnClickListener {
+            val uri: Uri = Uri.parse("https://issuetracker.google.com/issues/36911528")
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }))
     }
 
     private fun setAppThemeText() {
@@ -108,6 +128,9 @@ class AppearanceScreen : ScopedFragment() {
                 } else {
                     requireActivity().recreate()
                 }
+            }
+            AppearancePreferences.transparentStatus -> {
+                requireActivity().recreate()
             }
         }
     }

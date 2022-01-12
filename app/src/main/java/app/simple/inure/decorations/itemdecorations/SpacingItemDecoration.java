@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.itemdecoration;
+package app.simple.inure.decorations.itemdecorations;
 
 import android.graphics.Rect;
 import android.view.View;

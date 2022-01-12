@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.StatusBarHeight;
 
 public class PaddingAwareNestedScrollView extends FastScrollNestedScrollView {
@@ -20,6 +21,10 @@ public class PaddingAwareNestedScrollView extends FastScrollNestedScrollView {
     }
     
     private void init() {
+        if (AppearancePreferences.INSTANCE.isTransparentStatusDisabled()) {
+            return;
+        }
+    
         setPadding(getPaddingLeft(),
                 StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
                 getPaddingRight(),
