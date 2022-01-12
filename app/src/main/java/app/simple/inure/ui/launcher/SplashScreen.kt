@@ -111,7 +111,8 @@ class SplashScreen : ScopedFragment() {
         if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded) {
             openFragment(
                     requireActivity().supportFragmentManager,
-                    Home.newInstance(), requireView().findViewById(R.id.imageView))
+                    Home.newInstance(),
+                    requireView().findViewById(R.id.imageView))
         }
     }
 

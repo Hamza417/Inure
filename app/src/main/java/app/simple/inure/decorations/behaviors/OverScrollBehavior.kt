@@ -9,8 +9,7 @@ import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 
-@Suppress("unused")
-class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
+class OverScrollBehavior(context: Context, attributeSet: AttributeSet) : CoordinatorLayout.Behavior<View>(context, attributeSet) {
 
     /**
      * Used to store all [SpringAnimation] objects used to animate
@@ -32,12 +31,13 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
         private var overScrollY = 0F
     }
 
-    /**
-     * Do not remove these
-     */
-    constructor(context: Context, attributeSet: AttributeSet) : this()
+    override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout,
+                                     child: View,
+                                     directTargetChild: View,
+                                     target: View,
+                                     axes: Int,
+                                     type: Int): Boolean {
 
-    override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
         val group = target as ViewGroup
         val count = group.childCount
 
@@ -67,7 +67,16 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
         return true
     }
 
-    override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int, consumed: IntArray) {
+    override fun onNestedScroll(coordinatorLayout: CoordinatorLayout,
+                                child: View,
+                                target: View,
+                                dxConsumed: Int,
+                                dyConsumed: Int,
+                                dxUnconsumed: Int,
+                                dyUnconsumed: Int,
+                                type: Int,
+                                consumed: IntArray) {
+
         overScrollY -= dyUnconsumed / OVER_SCROLL_AREA
         val group = target as ViewGroup
         val count = group.childCount
@@ -77,7 +86,11 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
         }
     }
 
-    override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, type: Int) {
+    override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout,
+                                    child: View,
+                                    target: View,
+                                    type: Int) {
+
         /**
          * Smooth animate to 0 when the user stops scrolling.
          *
@@ -90,7 +103,12 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
     /**
      * Not needed as of now
      */
-    override fun onNestedPreFling(coordinatorLayout: CoordinatorLayout, child: View, target: View, velocityX: Float, velocityY: Float): Boolean {
+    override fun onNestedPreFling(coordinatorLayout: CoordinatorLayout,
+                                  child: View,
+                                  target: View,
+                                  velocityX: Float,
+                                  velocityY: Float): Boolean {
+
         /**
          * Scroll view by inertia when current position equals to 0,
          * equivalent to not scrolling view when [View.TRANSLATION_Y]
@@ -122,9 +140,9 @@ class OverScrollBehavior() : CoordinatorLayout.Behavior<View>() {
 
             val springAnimation = SpringAnimation(view, DynamicAnimation.TRANSLATION_Y)
             springAnimation.spring = SpringForce()
-                    .setFinalPosition(0f)
-                    .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY)
-                    .setStiffness(SpringForce.STIFFNESS_LOW)
+                .setFinalPosition(0f)
+                .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY)
+                .setStiffness(SpringForce.STIFFNESS_LOW)
 
             springAnimation.start()
 

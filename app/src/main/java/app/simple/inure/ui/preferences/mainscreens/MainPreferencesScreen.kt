@@ -42,34 +42,34 @@ class MainPreferencesScreen : ScopedFragment() {
                 override fun onPrefsClicked(imageView: ImageView, category: String) {
                     when (category) {
                         getString(R.string.appearance) -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        AppearanceScreen.newInstance(),
-                                                        imageView,
-                                                        "appearance_prefs")
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              AppearanceScreen.newInstance(),
+                                                              imageView,
+                                                              "appearance_prefs")
                         }
                         getString(R.string.behaviour) -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        BehaviourScreen.newInstance(),
-                                                        imageView,
-                                                        "behaviour_prefs")
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              BehaviourScreen.newInstance(),
+                                                              imageView,
+                                                              "behaviour_prefs")
                         }
                         getString(R.string.configuration) -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        ConfigurationScreen.newInstance(),
-                                                        imageView,
-                                                        "config_prefs")
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              ConfigurationScreen.newInstance(),
+                                                              imageView,
+                                                              "config_prefs")
                         }
                         getString(R.string.accessibility) -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        AccessibilityScreen.newInstance(),
-                                                        imageView,
-                                                        "accessibility_prefs")
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              AccessibilityScreen.newInstance(),
+                                                              imageView,
+                                                              "accessibility_prefs")
                         }
                         getString(R.string.about) -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        AboutScreen.newInstance(),
-                                                        imageView,
-                                                        "about_prefs")
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              AboutScreen.newInstance(),
+                                                              imageView,
+                                                              "about_prefs")
                         }
                     }
                 }

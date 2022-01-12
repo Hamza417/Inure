@@ -197,8 +197,7 @@ class Home : ScopedFragment() {
         })
 
         search.setOnClickListener {
-            clearEnterTransition()
-            clearExitTransition()
+            clearTransitions()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         Search.newInstance(true),
                                         "search")
@@ -230,24 +229,21 @@ class Home : ScopedFragment() {
         }
 
         recentlyInstalled.setOnClickListener {
-            clearEnterTransition()
-            clearExitTransition()
+            clearTransitions()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         RecentlyInstalled.newInstance(true),
                                         "recently_installed")
         }
 
         recentlyUpdated.setOnClickListener {
-            clearEnterTransition()
-            clearExitTransition()
+            clearTransitions()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         RecentlyUpdated.newInstance(),
                                         "recently_updated")
         }
 
         mostUsed.setOnClickListener {
-            clearEnterTransition()
-            clearExitTransition()
+            clearTransitions()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         MostUsed.newInstance(),
                                         "most_used")
@@ -268,6 +264,7 @@ class Home : ScopedFragment() {
                         packageInfo.launchThisPackage(requireContext())
                     }
                     getString(R.string.app_information) -> {
+                        clearTransitions()
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     Information.newInstance(packageInfo),
                                                     "information")

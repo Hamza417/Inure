@@ -70,6 +70,7 @@ class Apps : ScopedFragment() {
                                     packageInfo.launchThisPackage(requireContext())
                                 }
                                 getString(R.string.app_information) -> {
+                                    clearTransitions()
                                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                                 Information.newInstance(packageInfo),
                                                                 "information")

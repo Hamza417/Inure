@@ -128,6 +128,11 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
+    open fun clearTransitions() {
+        clearEnterTransition()
+        clearExitTransition()
+    }
+
     open fun setLinearTransitions() {
         /**
          * Animations are expensive, every time a view is added into the

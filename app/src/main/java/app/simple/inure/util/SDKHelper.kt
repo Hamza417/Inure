@@ -43,6 +43,7 @@ object SDKHelper {
             29 -> "Android 10"
             30 -> "Android 11"
             31 -> "Android 12"
+            32 -> "Android 13"
             else -> ""
         }
     }
@@ -86,6 +87,7 @@ object SDKHelper {
             "29" -> "Android 10"
             "30" -> "Android 11"
             "31" -> "Android 12"
+            "32" -> "Android 13"
             else -> ""
         }
     }

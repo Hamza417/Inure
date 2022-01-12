@@ -74,6 +74,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                                     packageInfo.launchThisPackage(requireContext())
                                 }
                                 getString(R.string.app_information) -> {
+                                    clearTransitions()
                                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                                 Information.newInstance(packageInfo),
                                                                 "information")
