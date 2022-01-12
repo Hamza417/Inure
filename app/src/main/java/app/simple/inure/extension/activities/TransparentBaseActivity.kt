@@ -37,7 +37,7 @@ open class TransparentBaseActivity : AppCompatActivity() {
         }
 
         setTheme()
-        ThemeUtils.setAppTheme(AppearancePreferences.getAppTheme())
+        ThemeUtils.setAppTheme(resources)
     }
 
     private fun setTheme() {

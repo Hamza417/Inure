@@ -2,13 +2,13 @@ package app.simple.inure.decorations.corners;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import app.simple.inure.decorations.theme.ThemeFrameLayout;
 import app.simple.inure.util.ViewUtils;
 
-public class DynamicCornerFrameLayout extends FrameLayout {
+public class DynamicCornerFrameLayout extends ThemeFrameLayout {
     public DynamicCornerFrameLayout(@NonNull Context context) {
         super(context);
         init(null);

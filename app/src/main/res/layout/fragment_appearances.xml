@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,9 +30,9 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:text="@string/appearance"
-            android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
@@ -65,8 +65,8 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/color"
-                    android:textColor="?attr/colorAppAccent"
-                    app:appFontStyle="medium" />
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/appearance_app_theme"
@@ -95,14 +95,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="@string/application_theme"
-                        android:textColor="@color/textPrimary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/typeFaceTextView12"
                         app:layout_constraintEnd_toStartOf="@+id/popup_application_theme"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/imageView7"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView12"
@@ -111,13 +111,13 @@
                         android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="5dp"
                         android:text="@string/theme_desc"
-                        android:textColor="@color/textTertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/popup_application_theme"
                         app:layout_constraintStart_toEndOf="@+id/imageView7"
-                        app:layout_constraintTop_toBottomOf="@id/typeFaceTextView11" />
+                        app:layout_constraintTop_toBottomOf="@id/typeFaceTextView11"
+                        app:textColorStyle="tertiary" />
 
                     <app.simple.inure.decorations.ripple.DynamicRippleTextView
                         android:id="@+id/popup_application_theme"
@@ -127,13 +127,13 @@
                         android:drawablePadding="10dp"
                         android:gravity="center_vertical"
                         android:padding="@dimen/dialog_padding"
-                        android:textColor="@color/textTertiary"
                         android:textSize="5pt"
                         app:appFontStyle="regular"
                         app:drawableTint="?attr/colorAppAccent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="tertiary" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -164,11 +164,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/accent_colors"
-                        android:textColor="@color/textPrimary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent" />
+                        app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView06"
@@ -180,9 +180,9 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/imageView4"
                         android:text="@string/accent_color_desc"
-                        android:textColor="@color/textTertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -213,14 +213,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="@string/accent_for_nav"
-                        android:textColor="@color/textPrimary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/nav_color_desc"
                         app:layout_constraintEnd_toStartOf="@+id/appearance_nav_color_switch"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/nav_color_icon"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/nav_color_desc"
@@ -230,13 +230,13 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
                         android:text="@string/desc_accent_on_nav"
-                        android:textColor="@color/textTertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/appearance_nav_color_switch"
                         app:layout_constraintStart_toEndOf="@+id/nav_color_icon"
-                        app:layout_constraintTop_toBottomOf="@id/nav_color_title" />
+                        app:layout_constraintTop_toBottomOf="@id/nav_color_title"
+                        app:textColorStyle="tertiary" />
 
                     <app.simple.inure.decorations.switchview.SwitchView
                         android:id="@+id/appearance_nav_color_switch"
@@ -258,8 +258,8 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/layouts"
-                    android:textColor="?attr/colorAppAccent"
-                    app:appFontStyle="medium" />
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                     android:id="@+id/appearance_app_typeface"
@@ -287,11 +287,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/app_typeface"
-                        android:textColor="@color/textPrimary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent" />
+                        app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView"
@@ -302,9 +302,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@id/appearance_app_typeface_iv"
                         android:text="@string/select_the_application_s_typeface"
-                        android:textColor="@color/textTertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -334,11 +334,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/corner_radius"
-                        android:textColor="@color/textPrimary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_dot_tiny"
-                        app:drawableTint="?attr/colorAppAccent" />
+                        app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView03"
@@ -350,9 +350,9 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/imageView3"
                         android:text="@string/corner_radius_desc"
-                        android:textColor="@color/textTertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -384,7 +384,6 @@
                         android:layout_marginStart="15dp"
                         android:drawablePadding="5dp"
                         android:text="@string/disable_transparent_status_bar"
-                        android:textColor="@color/textPrimary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
@@ -393,7 +392,8 @@
                         app:layout_constraintEnd_toStartOf="@+id/appearance_transparent_status_switch"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/full_screen_icon"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/transparent_status_desc"
@@ -403,13 +403,13 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
                         android:text="@string/desc_transparent_status"
-                        android:textColor="@color/textTertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/appearance_transparent_status_switch"
                         app:layout_constraintStart_toEndOf="@+id/full_screen_icon"
-                        app:layout_constraintTop_toBottomOf="@id/full_screen_title" />
+                        app:layout_constraintTop_toBottomOf="@id/full_screen_title"
+                        app:textColorStyle="tertiary" />
 
                     <app.simple.inure.decorations.switchview.SwitchView
                         android:id="@+id/appearance_transparent_status_switch"
@@ -431,8 +431,8 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/icons"
-                    android:textColor="?attr/colorAppAccent"
-                    app:appFontStyle="medium" />
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/appearance_app_icons"
@@ -461,14 +461,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="@string/icon_shadows"
-                        android:textColor="@color/textPrimary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView017"
                         app:layout_constraintEnd_toStartOf="@+id/appearance_icons_shadow_switch"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/imageView12"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView017"
@@ -478,13 +478,13 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
                         android:text="@string/icon_shadow_desc"
-                        android:textColor="@color/textTertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/appearance_icons_shadow_switch"
                         app:layout_constraintStart_toEndOf="@+id/imageView12"
-                        app:layout_constraintTop_toBottomOf="@id/typeFaceTextView016" />
+                        app:layout_constraintTop_toBottomOf="@id/typeFaceTextView016"
+                        app:textColorStyle="tertiary" />
 
                     <app.simple.inure.decorations.switchview.SwitchView
                         android:id="@+id/appearance_icons_shadow_switch"
@@ -504,4 +504,4 @@
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</LinearLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

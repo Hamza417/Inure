@@ -25,10 +25,10 @@ import android.view.MotionEvent;
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
+import app.simple.inure.decorations.theme.ThemeNestedScrollView;
 
 @SuppressLint ("MissingSuperCall")
-public class FastScrollNestedScrollView extends NestedScrollView implements ViewHelperProvider {
+public class FastScrollNestedScrollView extends ThemeNestedScrollView implements ViewHelperProvider {
     
     @NonNull
     private final ViewHelper mViewHelper = new ViewHelper();

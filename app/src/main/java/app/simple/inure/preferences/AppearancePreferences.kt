@@ -2,8 +2,8 @@ package app.simple.inure.preferences
 
 import androidx.annotation.IntRange
 import androidx.annotation.NonNull
-import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.TypeFace
 
 object AppearancePreferences {
@@ -11,9 +11,9 @@ object AppearancePreferences {
     private const val appCornerRadius = "corner_radius"
     private const val iconShadows = "icon_shadows"
 
+    const val theme = "current_app_theme"
     const val accentColor = "app_accent_color"
     const val appFont = "type_face"
-    const val appTheme = "app_theme"
     const val accentOnNav = "accent_color_on_nav_bar"
     const val transparentStatus = "is_transparent_status_disabled"
 
@@ -25,6 +25,24 @@ object AppearancePreferences {
 
     fun getAccentColor(): Int {
         return getSharedPreferences().getInt(accentColor, 0)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    /**
+     * @param value for storing theme preferences
+     * 0 - Light
+     * 1 - Dark
+     * 2 - AMOLED
+     * 3 - System
+     * 4 - Day/Night
+     */
+    fun setTheme(value: Int) {
+        getSharedPreferences().edit().putInt(theme, value).apply()
+    }
+
+    fun getTheme(): Int {
+        return getSharedPreferences().getInt(theme, ThemeManager.light)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -45,16 +63,6 @@ object AppearancePreferences {
 
     fun getCornerRadius(): Int {
         return getSharedPreferences().getInt(appCornerRadius, 60)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setAppTheme(@NonNull theme: Int) {
-        getSharedPreferences().edit().putInt(appTheme, theme).apply()
-    }
-
-    fun getAppTheme(): Int {
-        return getSharedPreferences().getInt(appTheme, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

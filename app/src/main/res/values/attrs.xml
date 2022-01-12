@@ -44,6 +44,15 @@
             <flag name="medium" value="2" />
             <flag name="bold" value="3" />
         </attr>
+
+        <attr name="textColorStyle" format="string">
+            <flag name="heading" value="0" />
+            <flag name="primary" value="1" />
+            <flag name="secondary" value="2" />
+            <flag name="tertiary" value="3" />
+            <flag name="quaternary" value="4" />
+            <flag name="accent" value="5" />
+        </attr>
     </declare-styleable>
 
     <!-- Use <code>scale</code>as the root tag of the XML resource that

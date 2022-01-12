@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/mainBackground"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-    <LinearLayout
+    <app.simple.inure.decorations.theme.ThemeLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -34,7 +35,7 @@
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 
-    </LinearLayout>
+    </app.simple.inure.decorations.theme.ThemeLinearLayout>
 
     <View
         android:layout_width="match_parent"

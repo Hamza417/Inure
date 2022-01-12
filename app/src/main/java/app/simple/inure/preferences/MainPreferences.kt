@@ -2,7 +2,6 @@ package app.simple.inure.preferences
 
 import android.net.Uri
 import androidx.annotation.NonNull
-import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort
@@ -15,7 +14,6 @@ object MainPreferences {
 
     private const val launchCount = "launch_count"
     private const val dayNightMode = "is_day_night_mode"
-    private const val theme = "current_theme"
     private const val appLanguage = "current_language_locale"
     private const val storagePermissionUri = "storage_permission_uri"
     const val sortStyle = "sort_style"
@@ -30,23 +28,6 @@ object MainPreferences {
 
     fun getLaunchCount(): Int {
         return getSharedPreferences().getInt(launchCount, 0)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    /**
-     * @param value for storing theme preferences
-     * 1 - Light
-     * 2 - Dark
-     * 3 - System
-     * 4 - Day/Night
-     */
-    fun setTheme(value: Int) {
-        getSharedPreferences().edit().putInt(theme, value).apply()
-    }
-
-    fun getTheme(): Int {
-        return getSharedPreferences().getInt(theme, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

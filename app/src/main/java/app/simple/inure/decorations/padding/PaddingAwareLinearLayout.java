@@ -2,13 +2,14 @@ package app.simple.inure.decorations.padding;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+import app.simple.inure.decorations.theme.ThemeLinearLayout;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.StatusBarHeight;
 
-public class PaddingAwareLinearLayout extends LinearLayout {
+public class PaddingAwareLinearLayout extends ThemeLinearLayout {
+    
     public PaddingAwareLinearLayout(Context context) {
         super(context);
         init();

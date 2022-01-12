@@ -2,14 +2,15 @@ package app.simple.inure.decorations.padding;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import app.simple.inure.decorations.theme.ThemeFrameLayout;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.StatusBarHeight;
 
-public class PaddingAwareFrameLayout extends FrameLayout {
+public class PaddingAwareFrameLayout extends ThemeFrameLayout {
+    
     public PaddingAwareFrameLayout(@NonNull Context context) {
         super(context);
         init();

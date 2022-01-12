@@ -52,7 +52,7 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         setTheme()
-        ThemeUtils.setAppTheme(AppearancePreferences.getAppTheme())
+        ThemeUtils.setAppTheme(resources)
         setNavColor()
     }
 

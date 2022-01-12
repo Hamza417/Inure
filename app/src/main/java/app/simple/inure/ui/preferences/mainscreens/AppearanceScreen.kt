@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -17,6 +16,7 @@ import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAppTheme
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
@@ -100,15 +100,21 @@ class AppearanceScreen : ScopedFragment() {
     }
 
     private fun setAppThemeText() {
-        appTheme.text = when (AppearancePreferences.getAppTheme()) {
-            AppCompatDelegate.MODE_NIGHT_NO -> {
+        appTheme.text = when (AppearancePreferences.getTheme()) {
+            ThemeManager.light -> {
                 getString(R.string.light)
             }
-            AppCompatDelegate.MODE_NIGHT_YES -> {
+            ThemeManager.dark -> {
                 getString(R.string.dark)
             }
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
+            ThemeManager.followSystem -> {
                 getString(R.string.follow_system)
+            }
+            ThemeManager.amoled -> {
+                "AMOLED"
+            }
+            ThemeManager.dayNight -> {
+                getString(R.string.day_night)
             }
             else -> {
                 getString(R.string.unknown)
@@ -118,9 +124,9 @@ class AppearanceScreen : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            AppearancePreferences.appTheme -> {
+            AppearancePreferences.theme -> {
                 setAppThemeText()
-                ThemeUtils.setAppTheme(AppearancePreferences.getAppTheme())
+                ThemeUtils.setAppTheme(resources)
             }
             AppearancePreferences.accentOnNav -> {
                 if (AppearancePreferences.isAccentOnNavigationBar()) {

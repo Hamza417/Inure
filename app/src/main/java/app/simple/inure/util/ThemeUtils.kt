@@ -1,34 +1,45 @@
 package app.simple.inure.util
 
-import androidx.annotation.IntRange
-import androidx.appcompat.app.AppCompatDelegate
+import android.content.res.Configuration
+import android.content.res.Resources
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.Theme
+import app.simple.inure.themes.manager.ThemeManager
 import java.util.*
 
 object ThemeUtils {
-    fun setAppTheme(@IntRange(from = -1, to = 4) value: Int) {
-        when (value) {
-            AppCompatDelegate.MODE_NIGHT_NO -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    fun setAppTheme(resources: Resources) {
+        when (AppearancePreferences.getTheme()) {
+            ThemeManager.light -> {
+                ThemeManager.theme = Theme.LIGHT
             }
-            AppCompatDelegate.MODE_NIGHT_YES -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            ThemeManager.dark -> {
+                ThemeManager.theme = Theme.DARK
             }
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            ThemeManager.amoled -> {
+                ThemeManager.dark
             }
-            4 -> {
-                // Day/Night Auto
+            ThemeManager.followSystem -> {
+                when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        ThemeManager.theme = Theme.DARK
+                    }
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        ThemeManager.theme = Theme.LIGHT
+                    }
+                    Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                        ThemeManager.theme = Theme.LIGHT
+                    }
+                }
+            }
+            ThemeManager.dayNight -> {
                 val calendar = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
                 if (calendar < 7 || calendar > 18) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    ThemeManager.theme = Theme.DARK
                 } else if (calendar < 18 || calendar > 6) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    ThemeManager.theme = Theme.LIGHT
                 }
             }
         }
-    }
-
-    fun isNightTheme() {
-
     }
 }
