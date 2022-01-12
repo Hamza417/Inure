@@ -15,13 +15,6 @@
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginHorizontal="@dimen/dialog_padding"
-            android:layout_marginVertical="@dimen/dialog_padding"
-            android:background="@color/divider" />
-
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/dialog_open_apps_settings"
             android:layout_width="match_parent"
@@ -30,8 +23,9 @@
             android:layout_weight="1"
             android:padding="@dimen/dialog_padding"
             android:text="@string/open_application_settings"
-            android:textColor="@color/textPrimary"
+            app:textColorStyle="primary"
             android:textSize="6pt"
             app:appFontStyle="bold" />
+
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 </FrameLayout>

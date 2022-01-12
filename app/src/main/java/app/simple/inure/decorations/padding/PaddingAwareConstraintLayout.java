@@ -4,11 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import app.simple.inure.decorations.theme.ThemeConstraintLayout;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.StatusBarHeight;
 
-public class PaddingAwareConstraintLayout extends ConstraintLayout {
+public class PaddingAwareConstraintLayout extends ThemeConstraintLayout {
     public PaddingAwareConstraintLayout(Context context) {
         super(context);
         init();

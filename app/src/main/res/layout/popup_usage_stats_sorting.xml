@@ -22,7 +22,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/name"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -35,7 +35,7 @@
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:paddingVertical="20dp"
         android:text="@string/time_used"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -48,7 +48,7 @@
         android:paddingVertical="20dp"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:text="@string/data_sent"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -61,7 +61,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/data_received"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -74,7 +74,7 @@
         android:paddingVertical="20dp"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:text="@string/wifi_sent"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -86,7 +86,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/wifi_received"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -110,7 +110,7 @@
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
             android:text="@string/descending"
-            android:textColor="@color/textPrimary"
+            app:textColorStyle="primary"
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold" />
 

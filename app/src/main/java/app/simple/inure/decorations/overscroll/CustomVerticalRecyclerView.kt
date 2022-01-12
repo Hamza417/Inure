@@ -13,6 +13,7 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.flingTranslationMagnitude
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollRotationMagnitude
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollTranslationMagnitude
+import app.simple.inure.decorations.theme.ThemeRecyclerView
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.NullSafety.isNotNull
@@ -22,7 +23,7 @@ import app.simple.inure.util.StatusBarHeight
  * Custom recycler view with nice layout animation and
  * smooth overscroll effect and various states retention
  */
-class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
+class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : ThemeRecyclerView(context, attrs) {
 
     private var manuallyAnimated = false
     private var fastScroll = true

@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingHorizontal="20dp"
-        android:textColor="@color/textSecondary"
+        app:textColorStyle="secondary"
         android:textSize="20sp"
         app:appFontStyle="bold" />
 

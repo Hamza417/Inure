@@ -19,8 +19,8 @@
         <app.simple.inure.decorations.views.LoaderImageView
             android:id="@+id/loader"
             android:layout_width="@dimen/loader_size"
-            android:scaleType="center"
             android:layout_height="@dimen/loader_size"
+            android:scaleType="center"
             app:loaderStyle="still" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -30,9 +30,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:text="@string/executing_command"
-            android:textColor="@color/textTertiary"
             android:textSize="@dimen/popup_text_size"
-            app:appFontStyle="medium" />
+            app:appFontStyle="medium"
+            app:textColorStyle="tertiary" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

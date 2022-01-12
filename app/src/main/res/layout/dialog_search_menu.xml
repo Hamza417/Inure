@@ -27,7 +27,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
                 android:text="@string/apps_category"
-                android:textColor="@color/textPrimary"
+                app:textColorStyle="primary"
                 android:textSize="6pt"
                 app:appFontStyle="bold" />
 
@@ -40,7 +40,7 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
-                android:textColor="@color/textTertiary"
+                app:textColorStyle="tertiary"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
                 app:drawableTint="?attr/colorAppAccent"
@@ -60,7 +60,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
                 android:text="@string/sorting_style"
-                android:textColor="@color/textPrimary"
+                app:textColorStyle="primary"
                 android:textSize="6pt"
                 app:appFontStyle="bold" />
 
@@ -73,7 +73,7 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
-                android:textColor="@color/textTertiary"
+                app:textColorStyle="tertiary"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
                 app:drawableTint="?attr/colorAppAccent" />
@@ -95,7 +95,7 @@
             android:layout_weight="1"
             android:padding="@dimen/dialog_padding"
             android:text="@string/open_application_settings"
-            android:textColor="@color/textPrimary"
+            app:textColorStyle="primary"
             android:textSize="6pt"
             app:appFontStyle="bold" />
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

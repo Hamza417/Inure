@@ -34,6 +34,7 @@
             android:layout_weight="1"
             android:text="@string/sensors"
             android:textSize="@dimen/header_font_size"
+            app:textColorStyle="heading"
             app:appFontStyle="light" />
 
     </LinearLayout>
@@ -52,7 +53,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="@string/sensors"
-            android:textColor="@color/textPrimary"
+            app:textColorStyle="primary"
             android:textSize="16sp"
             app:appFontStyle="bold" />
 

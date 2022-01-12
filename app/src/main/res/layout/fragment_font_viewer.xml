@@ -1,58 +1,54 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/app_container"
+<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/font_viewer_scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:clipToPadding="false"
+    app:layout_behavior="@string/over_scroll_behavior">
 
-    <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/font_viewer_scroll_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:clipToPadding="false">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include layout="@layout/header_font_viewer" />
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="1px"
+            android:background="@color/divider" />
 
-            <include layout="@layout/header_font_viewer" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:rotationY="180"
+            android:src="@drawable/ic_quotation"
+            app:tint="?attr/colorAppAccent"
+            tools:ignore="ContentDescription" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider" />
+        <EditText
+            android:id="@+id/ttf_viewer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:padding="@dimen/panel_item_padding"
+            android:textColor="@color/textSecondary"
+            android:textColorHighlight="?attr/colorAppAccentLight"
+            android:textCursorDrawable="@drawable/text_cursor"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/quotes_text_size"
+            android:visibility="invisible"
+            tools:ignore="HardcodedText,LabelFor" />
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="start"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:rotationY="180"
-                android:src="@drawable/ic_quotation"
-                app:tint="?attr/colorAppAccent"
-                tools:ignore="ContentDescription" />
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/ttf_viewer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:padding="@dimen/panel_item_padding"
-                android:textColor="@color/textSecondary"
-                android:textColorHighlight="?attr/colorAppAccentLight"
-                android:textCursorDrawable="@drawable/text_cursor"
-                android:textIsSelectable="true"
-                android:textSize="@dimen/quotes_text_size"
-                android:visibility="invisible"
-                tools:ignore="HardcodedText,LabelFor" />
-
-        </LinearLayout>
-
-    </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

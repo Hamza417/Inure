@@ -17,7 +17,8 @@
         android:text="@string/usage"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/app_info_options_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.views.Pie
         android:id="@+id/storage_apk_size_pie"

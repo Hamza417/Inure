@@ -4,6 +4,7 @@
     android:id="@+id/accent_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:layoutAnimation="@anim/list_animation_controller"

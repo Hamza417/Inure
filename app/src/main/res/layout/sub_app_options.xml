@@ -17,7 +17,7 @@
         android:transitionName="@string/app_information"
         android:text="@string/app_information"
         android:drawableTint="@color/iconRegular"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/app_info_options_text_size"
         app:appFontStyle="bold" />
 
@@ -31,7 +31,7 @@
         android:padding="10dp"
         android:text="@string/storage"
         android:drawableTint="@color/iconRegular"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/app_info_options_text_size"
         app:appFontStyle="bold" />
 
@@ -45,7 +45,7 @@
         android:drawablePadding="10dp"
         android:padding="10dp"
         android:text="@string/directories"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/app_info_options_text_size"
         app:appFontStyle="bold" />
 

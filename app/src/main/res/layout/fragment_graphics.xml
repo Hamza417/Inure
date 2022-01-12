@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:background="@android:color/white"
     android:clipChildren="false"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
@@ -13,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:background="@color/mainBackground"
+        android:background="@android:color/white"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal"
@@ -38,7 +39,7 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:text="@string/graphics"
-            android:textColor="?attr/colorAppAccent"
+            app:textColorStyle="accent"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 
@@ -98,4 +99,4 @@
         android:layoutAnimation="@anim/list_animation_controller"
         app:statusBarPaddingRequired="false" />
 
-</LinearLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

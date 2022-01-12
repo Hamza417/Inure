@@ -21,7 +21,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/force_launch"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -34,7 +34,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/force_launch_with_action"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -49,7 +49,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/enable"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 

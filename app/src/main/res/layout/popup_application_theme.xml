@@ -21,7 +21,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/light"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -34,7 +34,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/dark"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -47,7 +47,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/amoled"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -59,7 +59,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/follow_system"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -72,7 +72,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/day_night"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 

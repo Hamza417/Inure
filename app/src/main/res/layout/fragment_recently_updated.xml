@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainBackground"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
@@ -36,7 +37,7 @@
             android:transitionName="@string/app_information"
             app:appFontStyle="bold" />
 
-    </LinearLayout>
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -51,4 +52,4 @@
         android:layoutAnimation="@anim/list_animation_controller"
         app:statusBarPaddingRequired="false" />
 
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/about"
-            android:textColor="?attr/colorAppAccent"
+            app:textColorStyle="accent"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 
@@ -64,7 +64,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/application"
-                    android:textColor="?attr/colorAppAccent"
+                    app:textColorStyle="accent"
                     app:appFontStyle="medium" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
@@ -91,7 +91,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@id/app_version_iv"
                         android:text="@string/version"
-                        android:textColor="@color/textPrimary"
+                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold" />
 
@@ -103,7 +103,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@id/app_version_iv"
                         android:text="@string/versionName"
-                        android:textColor="@color/textTertiary"
+                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular" />
 
@@ -136,7 +136,7 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/change_logs"
-                        android:textColor="@color/textPrimary"
+                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
@@ -150,7 +150,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@id/changelog_iv"
                         android:text="@string/desc_changelogs"
-                        android:textColor="@color/textTertiary"
+                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular" />
 
@@ -163,7 +163,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/legal_notes"
-                    android:textColor="?attr/colorAppAccent"
+                    app:textColorStyle="accent"
                     app:appFontStyle="medium" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
@@ -193,7 +193,7 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/user_agreements"
-                        android:textColor="@color/textPrimary"
+                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
@@ -207,7 +207,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@id/user_agreement_icon"
                         android:text="@string/desc_user_agreements"
-                        android:textColor="@color/textTertiary"
+                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular" />
 
@@ -239,7 +239,7 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/credits"
-                        android:textColor="@color/textPrimary"
+                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
@@ -255,7 +255,7 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/imageView3"
                         android:text="@string/desc_credits"
-                        android:textColor="@color/textTertiary"
+                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular" />
 
@@ -287,7 +287,7 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/open_source_licenses"
-                        android:textColor="@color/textPrimary"
+                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
@@ -302,7 +302,7 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/license_icon"
                         android:text="@string/desc_licenses"
-                        android:textColor="@color/textTertiary"
+                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular" />
 
@@ -315,7 +315,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/contribute"
-                    android:textColor="?attr/colorAppAccent"
+                    app:textColorStyle="accent"
                     app:appFontStyle="medium" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
@@ -344,7 +344,7 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="GitHub"
-                        android:textColor="@color/textPrimary"
+                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
@@ -361,7 +361,7 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/imageView4"
                         android:text="@string/desc_github"
-                        android:textColor="@color/textTertiary"
+                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular" />
 
@@ -393,7 +393,7 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/translate"
-                        android:textColor="@color/textPrimary"
+                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
@@ -409,7 +409,7 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/imageView5"
                         android:text="@string/desc_translate"
-                        android:textColor="@color/textTertiary"
+                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular" />
 
@@ -443,7 +443,7 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/join_telegram"
-                        android:textColor="@color/textPrimary"
+                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
@@ -459,15 +459,13 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/telegram_icon"
                         android:text="@string/desc_telegram"
-                        android:textColor="@color/textTertiary"
+                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-</LinearLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

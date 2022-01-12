@@ -31,7 +31,7 @@
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
             android:text="@string/preferences"
-            android:textColor="@color/textHeading"
+            app:textColorStyle="heading"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
@@ -28,11 +30,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/certificate"
-            android:textColor="?attr/colorAppAccent"
+            app:textColorStyle="accent"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 
-    </LinearLayout>
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -44,8 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingVertical="10dp"
         android:layoutAnimation="@anim/list_animation_controller"
+        android:paddingVertical="10dp"
         app:statusBarPaddingRequired="false" />
 
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/header_item_margin"
-        android:clipChildren="false"
         android:animateLayoutChanges="true"
+        android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal">
 
@@ -35,7 +35,8 @@
             android:layout_weight="1"
             android:text="@string/usage_statistics"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="light" />
+            app:appFontStyle="light"
+            app:textColorStyle="heading" />
 
     </LinearLayout>
 
@@ -52,9 +53,9 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="@string/apps"
-            android:textColor="@color/textPrimary"
             android:textSize="16sp"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_sort_button"

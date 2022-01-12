@@ -23,28 +23,28 @@
                 android:id="@+id/popup_interval_daily"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:fontFamily="@font/lato_bold"
                 android:paddingHorizontal="30dp"
-                android:layout_marginBottom="@dimen/popup_item_gap_length"
-                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:paddingVertical="20dp"
                 android:text="@string/daily"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/popup_interval_monthly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:fontFamily="@font/lato_bold"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="20dp"
                 android:text="@string/monthly"
-                android:layout_marginEnd="@dimen/popup_item_gap_length"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
         </LinearLayout>
 
@@ -57,14 +57,14 @@
                 android:id="@+id/popup_interval_weekly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lato_bold"
                 android:layout_marginBottom="@dimen/popup_item_gap_length"
+                android:fontFamily="@font/lato_bold"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="20dp"
                 android:text="@string/weekly"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/popup_interval_yearly"
@@ -74,9 +74,9 @@
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="20dp"
                 android:text="@string/yearly"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
         </LinearLayout>
 

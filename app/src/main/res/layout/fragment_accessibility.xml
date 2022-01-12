@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,9 +30,9 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:text="@string/accessibility"
-            android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
@@ -64,8 +64,8 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/icons"
-                    android:textColor="?attr/colorAppAccent"
-                    app:appFontStyle="medium" />
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -93,14 +93,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="@string/static_backgrounds"
-                        android:textColor="@color/textPrimary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/highlight_desc"
                         app:layout_constraintEnd_toStartOf="@+id/highlight_switch"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/highlight_icon"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/highlight_desc"
@@ -110,13 +110,13 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
                         android:text="@string/desc_static_backgrounds"
-                        android:textColor="@color/textTertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/highlight_switch"
                         app:layout_constraintStart_toEndOf="@+id/highlight_icon"
-                        app:layout_constraintTop_toBottomOf="@id/highlight_tag" />
+                        app:layout_constraintTop_toBottomOf="@id/highlight_tag"
+                        app:textColorStyle="tertiary" />
 
                     <app.simple.inure.decorations.switchview.SwitchView
                         android:id="@+id/highlight_switch"
@@ -138,8 +138,8 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/lists"
-                    android:textColor="?attr/colorAppAccent"
-                    app:appFontStyle="medium" />
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -184,13 +184,13 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
                         android:text="@string/desc_dividers"
-                        android:textColor="@color/textTertiary"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/list_divider_switch"
                         app:layout_constraintStart_toEndOf="@+id/list_divider_icon"
-                        app:layout_constraintTop_toBottomOf="@id/list_divider_tag" />
+                        app:layout_constraintTop_toBottomOf="@id/list_divider_tag"
+                        app:textColorStyle="tertiary" />
 
                     <app.simple.inure.decorations.switchview.SwitchView
                         android:id="@+id/list_divider_switch"
@@ -210,4 +210,4 @@
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</LinearLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

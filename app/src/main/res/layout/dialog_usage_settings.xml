@@ -30,7 +30,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
                 android:text="@string/data_interval"
-                android:textColor="@color/textPrimary"
+                app:textColorStyle="primary"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold" />
 
@@ -43,7 +43,7 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
-                android:textColor="@color/textTertiary"
+                app:textColorStyle="tertiary"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
                 app:drawableTint="?attr/colorAppAccent"
@@ -65,7 +65,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
                 android:text="@string/hide_unused_app"
-                android:textColor="@color/textPrimary"
+                app:textColorStyle="primary"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold" />
 
@@ -93,7 +93,7 @@
             android:layout_weight="1"
             android:padding="@dimen/dialog_padding"
             android:text="@string/open_application_settings"
-            android:textColor="@color/textPrimary"
+            app:textColorStyle="primary"
             android:textSize="6pt"
             app:appFontStyle="bold" />
 

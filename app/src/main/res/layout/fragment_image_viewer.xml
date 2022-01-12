@@ -2,10 +2,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/image_viewer_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:clipChildren="false"
-    android:id="@+id/image_viewer_container"
     android:clipToPadding="false"
     android:fitsSystemWindows="false">
 
@@ -13,7 +14,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mainBackground"
+        android:background="@android:color/white"
         android:elevation="5dp"
         android:padding="@dimen/header_padding">
 
@@ -34,9 +35,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_name_text_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/image_viewer_option"
@@ -44,8 +45,8 @@
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_more_vert"
-            app:tint="?attr/colorAppAccent"
             android:visibility="gone"
+            app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

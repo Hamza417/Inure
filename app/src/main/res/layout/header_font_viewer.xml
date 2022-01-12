@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:textColor="?attr/colorAppAccent"
+        app:textColorStyle="accent"
         android:textSize="@dimen/header_name_text_size"
         app:appFontStyle="bold" />
 

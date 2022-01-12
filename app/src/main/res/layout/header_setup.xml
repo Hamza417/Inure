@@ -25,7 +25,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
             android:text="@string/setup"
-            android:textColor="@color/textPrimary"
+            app:textColorStyle="primary"
             android:textSize="@dimen/header_font_size"
             android:transitionName="@string/setup"
             app:appFontStyle="light" />

@@ -14,7 +14,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
         android:text="@string/accent_colors"
-        android:textColor="?attr/colorAppAccent"
+        app:textColorStyle="accent"
         android:textSize="36sp"
         app:appFontStyle="bold" />
 
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/textSecondary"
+        app:textColorStyle="secondary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 

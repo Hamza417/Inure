@@ -9,7 +9,7 @@
     <app.simple.inure.decorations.corners.DynamicCornerFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/dialogBackground"
+        android:backgroundTint="@android:color/white"
         android:clipToPadding="false"
         android:clipChildren="true"
         android:elevation="@dimen/dialog_elevation">
@@ -22,7 +22,6 @@
             android:clipToPadding="false"
             android:clipChildren="false"
             android:layoutAnimation="@anim/grid_list_animation_controller"/>
-
 
     </app.simple.inure.decorations.corners.DynamicCornerFrameLayout>
 

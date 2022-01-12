@@ -33,8 +33,9 @@
             android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
             android:text="@string/apps"
-            android:textSize="32sp"
-            app:appFontStyle="light" />
+            android:textSize="@dimen/header_font_size"
+            app:appFontStyle="light"
+            app:textColorStyle="heading" />
 
     </LinearLayout>
 
@@ -49,10 +50,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/apps"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/textPrimary"
+            app:textColorStyle="primary"
             android:textSize="16sp"
             app:appFontStyle="bold" />
 
@@ -87,8 +88,8 @@
 
         <View
             android:layout_width="1px"
-            android:layout_marginHorizontal="4dp"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="4dp"
             android:background="@color/divider" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton

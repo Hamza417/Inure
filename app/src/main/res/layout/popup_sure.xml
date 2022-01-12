@@ -37,7 +37,7 @@
         android:layout_gravity="start"
         android:paddingVertical="20dp"
         android:text="@string/yes"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -54,7 +54,7 @@
         android:layout_gravity="start"
         android:paddingVertical="20dp"
         android:text="@string/no"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 

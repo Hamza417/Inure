@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="10dp"
-            android:textColor="@color/textPrimary"
+            app:textColorStyle="primary"
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold" />
 
@@ -39,7 +39,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="@color/textTertiary"
+            app:textColorStyle="tertiary"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular" />
     </LinearLayout>

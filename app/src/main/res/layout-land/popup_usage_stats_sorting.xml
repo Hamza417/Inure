@@ -24,31 +24,31 @@
                 android:id="@+id/sort_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_marginBottom="@dimen/popup_item_gap_length"
-                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:fontFamily="@font/lato_bold"
                 android:maxLines="1"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="20dp"
                 android:text="@string/name"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/sort_time_used"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:fontFamily="@font/lato_bold"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="20dp"
                 android:text="@string/time_used"
-                android:layout_marginEnd="@dimen/popup_item_gap_length"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
         </LinearLayout>
 
@@ -61,28 +61,28 @@
                 android:id="@+id/sort_data_sent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:fontFamily="@font/lato_bold"
                 android:paddingHorizontal="30dp"
-                android:layout_marginBottom="@dimen/popup_item_gap_length"
-                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:paddingVertical="20dp"
                 android:text="@string/data_sent"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/sort_data_received"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:fontFamily="@font/lato_bold"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="20dp"
                 android:text="@string/data_received"
-                android:layout_marginEnd="@dimen/popup_item_gap_length"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
         </LinearLayout>
 
@@ -95,14 +95,14 @@
                 android:id="@+id/sort_wifi_sent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:fontFamily="@font/lato_bold"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="20dp"
-                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:text="@string/wifi_sent"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/sort_wifi_received"
@@ -112,9 +112,9 @@
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="20dp"
                 android:text="@string/wifi_received"
-                android:textColor="@color/textPrimary"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
         </LinearLayout>
 
@@ -140,9 +140,9 @@
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
             android:text="@string/descending"
-            android:textColor="@color/textPrimary"
             android:textSize="@dimen/popup_text_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.checkbox.CheckBox
             android:id="@+id/sort_reversed_checkbox"

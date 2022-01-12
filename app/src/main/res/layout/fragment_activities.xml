@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:clipToPadding="false"
     android:clipChildren="false"
+    android:background="@android:color/white"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
@@ -16,7 +17,7 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:clipChildren="false"
-        android:background="@color/mainBackground"
+        android:background="@android:color/white"
         android:clipToPadding="false"
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
@@ -39,7 +40,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
             android:text="@string/activities"
-            android:textColor="?attr/colorAppAccent"
+            app:textColorStyle="accent"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 
@@ -83,4 +84,4 @@
         app:isFastScrollRequired="false"
         app:statusBarPaddingRequired="false" />
 
-</LinearLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

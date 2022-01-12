@@ -13,21 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/force_launch_with_action"
-        android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
         android:id="@+id/intent_action_edit_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:maxLines="4"
-        android:hint="@string/action"
-        android:textColorHint="@color/textTertiary"
-        android:textCursorDrawable="@drawable/text_cursor"
         android:layout_marginVertical="@dimen/dialog_padding"
+        android:hint="@string/action"
+        android:maxLines="4"
         android:paddingHorizontal="@dimen/dialog_padding"
         android:textColor="@color/textPrimary"
+        android:textColorHint="@color/textTertiary"
+        android:textCursorDrawable="@drawable/text_cursor"
         app:appFontStyle="medium" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -63,6 +63,7 @@
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
             android:indeterminateTint="?attr/colorAppAccent"
             android:padding="10dp"
             android:visibility="invisible" />
@@ -80,9 +81,9 @@
             android:gravity="center"
             android:padding="@dimen/dialog_padding"
             android:text="@string/launch"
-            android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/info_text_small"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
     </LinearLayout>
 

@@ -14,6 +14,7 @@
         android:id="@+id/sort_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/lato_bold"
@@ -21,36 +22,35 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/name"
-        android:layout_marginBottom="@dimen/popup_item_gap_length"
-        android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/sort_package_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lato_bold"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
+        android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/package_name"
-        android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/sort_app_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:text="@string/app_size"
-        android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/sort_install_date"
@@ -60,9 +60,9 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/install_date"
-        android:textColor="@color/textPrimary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <View
         android:layout_width="match_parent"
@@ -86,9 +86,9 @@
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
             android:text="@string/descending"
-            android:textColor="@color/textPrimary"
             android:textSize="@dimen/popup_text_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.checkbox.CheckBox
             android:id="@+id/sort_reversed_checkbox"

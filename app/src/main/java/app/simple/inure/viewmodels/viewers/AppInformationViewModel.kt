@@ -227,11 +227,12 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
     private fun getRequestedPermissions(): Pair<String, Spannable> {
         val appPackageInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)
-        appPackageInfo.requestedPermissions.sort()
 
         val permissions = StringBuilder()
 
         try {
+            appPackageInfo.requestedPermissions.sort()
+
             for (permission in appPackageInfo.requestedPermissions) {
                 if (permissions.isEmpty()) {
                     permissions.append(permission)

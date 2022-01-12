@@ -30,7 +30,7 @@
                 android:layout_margin="@dimen/header_padding"
                 android:padding="@dimen/dialog_padding"
                 android:text="@string/desc_setup"
-                android:textColor="@color/textTertiary"
+                app:textColorStyle="tertiary"
                 android:textSize="@dimen/preferences_description_text_size"
                 app:appFontStyle="regular" />
 
@@ -40,7 +40,7 @@
                 android:layout_marginStart="@dimen/header_padding"
                 android:paddingHorizontal="@dimen/panel_item_padding"
                 android:text="@string/mandatory"
-                android:textColor="?attr/colorAppAccent"
+                app:textColorStyle="accent"
                 app:appFontStyle="medium" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/grant_usage_access_permission"
-                    android:textColor="@color/textPrimary"
+                    app:textColorStyle="primary"
                     android:textSize="@dimen/preferences_title_text_size"
                     app:appFontStyle="bold" />
 
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/not_granted"
-                    android:textColor="?attr/colorAppAccent"
+                    app:textColorStyle="accent"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular" />
 
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/desc_usage_access"
-                    android:textColor="@color/textTertiary"
+                    app:textColorStyle="tertiary"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular" />
 
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/grant_storage_access_permission"
-                    android:textColor="@color/textPrimary"
+                    app:textColorStyle="primary"
                     android:textSize="@dimen/preferences_title_text_size"
                     app:appFontStyle="bold" />
 
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/not_granted"
-                    android:textColor="?attr/colorAppAccent"
+                    app:textColorStyle="accent"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular" />
 
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/desc_storage_permission"
-                    android:textColor="@color/textTertiary"
+                    app:textColorStyle="tertiary"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular" />
 
@@ -135,7 +135,7 @@
                 android:layout_marginTop="15dp"
                 android:paddingHorizontal="@dimen/panel_item_padding"
                 android:text="@string/optional"
-                android:textColor="?attr/colorAppAccent"
+                app:textColorStyle="accent"
                 app:appFontStyle="medium" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_typeface"
-                    android:textColor="@color/textPrimary"
+                    app:textColorStyle="primary"
                     android:textSize="@dimen/preferences_title_text_size"
                     app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                     android:drawablePadding="5dp"
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/select_the_application_s_typeface"
-                    android:textColor="@color/textTertiary"
+                    app:textColorStyle="tertiary"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular" />
 
@@ -181,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/accent_colors"
-                    android:textColor="@color/textPrimary"
+                    app:textColorStyle="primary"
                     android:textSize="@dimen/preferences_title_text_size"
                     app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                     android:drawablePadding="5dp"
@@ -194,7 +194,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/accent_color_desc"
-                    android:textColor="@color/textTertiary"
+                    app:textColorStyle="tertiary"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular" />
 
@@ -214,7 +214,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/use_root_methods"
-                    android:textColor="@color/textPrimary"
+                    app:textColorStyle="primary"
                     android:textSize="@dimen/preferences_title_text_size"
                     app:appFontStyle="bold"
                     app:drawableEndCompat="@drawable/ic_warning_tiny"
@@ -234,7 +234,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="15dp"
                     android:text="@string/root_desc"
-                    android:textColor="@color/textTertiary"
+                    app:textColorStyle="tertiary"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -277,7 +277,7 @@
             android:gravity="start"
             android:padding="@dimen/panel_item_padding"
             android:text="@string/start_app_now"
-            android:textColor="?attr/colorAppAccent"
+            app:textColorStyle="accent"
             android:textSize="@dimen/header_name_text_size"
             app:appFontStyle="bold" />
 
@@ -289,7 +289,7 @@
             android:padding="@dimen/panel_item_padding"
             android:text="@string/skip"
             android:layout_gravity="center_horizontal"
-            android:textColor="@android:color/darker_gray"
+            app:textColorStyle="secondary"
             android:textSize="@dimen/header_name_text_size"
             app:appFontStyle="bold" />
 

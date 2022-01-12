@@ -23,7 +23,7 @@
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
             android:text="@string/highlight_extensions"
-            android:textColor="@color/textPrimary"
+            app:textColorStyle="primary"
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold" />
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainBackground"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -31,20 +31,21 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="@string/app_information"
-            android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
             android:transitionName="@string/app_information"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
         <app.simple.inure.decorations.views.CustomProgressBar
             android:id="@+id/information_data_progress"
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="@dimen/panel_icon_size"
             android:layout_height="@dimen/panel_icon_size"
+            android:layout_gravity="center_vertical"
             android:indeterminateTint="?attr/colorAppAccent"
             android:padding="10dp" />
 
-    </LinearLayout>
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -56,8 +57,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingVertical="10dp"
         android:layoutAnimation="@anim/list_animation_controller"
+        android:paddingVertical="10dp"
         app:statusBarPaddingRequired="false" />
 
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

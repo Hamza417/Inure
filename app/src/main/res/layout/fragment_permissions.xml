@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@android:color/white"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:clipToPadding="false"
-        android:background="@color/mainBackground"
-        android:clipChildren="false"
-        android:translationZ="1dp"
         android:animateLayoutChanges="true"
-        android:padding="@dimen/header_padding">
+        android:background="@android:color/white"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:padding="@dimen/header_padding"
+        android:translationZ="1dp">
 
         <ImageView
             android:id="@+id/imageView8"
@@ -33,10 +34,10 @@
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/permission_title"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
+            android:layout_weight="1"
             android:text="@string/permissions"
             android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
@@ -47,8 +48,8 @@
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_more_vert"
             android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_more_vert"
             android:tint="?attr/colorAppAccent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -65,8 +66,8 @@
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
-            android:maxLines="1"
             android:elevation="@dimen/dialog_elevation"
+            android:maxLines="1"
             android:paddingHorizontal="@dimen/header_padding"
             android:textColor="@color/textSecondary"
             android:textColorHint="@color/textTertiary"
@@ -91,4 +92,4 @@
         app:isFastScrollRequired="false"
         app:statusBarPaddingRequired="false" />
 
-</LinearLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

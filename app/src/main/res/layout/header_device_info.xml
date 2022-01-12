@@ -31,7 +31,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:text="@string/device_stats"
         android:textSize="@dimen/header_font_size"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="heading"
         app:appFontStyle="light" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
+    android:background="@android:color/white"
     android:layoutAnimation="@anim/list_animation_controller"
     app:statusBarPaddingRequired="true" />
 

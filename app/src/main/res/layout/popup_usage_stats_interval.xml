@@ -18,7 +18,7 @@
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:paddingVertical="20dp"
         android:text="@string/daily"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -31,7 +31,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/weekly"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -44,7 +44,7 @@
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:paddingVertical="20dp"
         android:text="@string/monthly"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
@@ -56,7 +56,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/yearly"
-        android:textColor="@color/textPrimary"
+        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
