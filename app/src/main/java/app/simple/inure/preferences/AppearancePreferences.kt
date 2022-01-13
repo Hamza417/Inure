@@ -2,14 +2,15 @@ package app.simple.inure.preferences
 
 import androidx.annotation.IntRange
 import androidx.annotation.NonNull
+import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
-import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.TypeFace
 
 object AppearancePreferences {
 
     private const val appCornerRadius = "corner_radius"
     private const val iconShadows = "icon_shadows"
+    private const val lastDarkTheme = "last_dark_theme"
 
     const val theme = "current_app_theme"
     const val accentColor = "app_accent_color"
@@ -42,7 +43,17 @@ object AppearancePreferences {
     }
 
     fun getTheme(): Int {
-        return getSharedPreferences().getInt(theme, ThemeManager.light)
+        return getSharedPreferences().getInt(theme, ThemeConstants.FOLLOW_SYSTEM)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setLastDarkTheme(value: Int) {
+        getSharedPreferences().edit().putInt(lastDarkTheme, value).apply()
+    }
+
+    fun getLastDarkTheme(): Int {
+        return getSharedPreferences().getInt(lastDarkTheme, ThemeConstants.DARK_THEME)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

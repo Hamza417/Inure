@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
@@ -16,7 +17,6 @@ import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAppTheme
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
@@ -101,19 +101,19 @@ class AppearanceScreen : ScopedFragment() {
 
     private fun setAppThemeText() {
         appTheme.text = when (AppearancePreferences.getTheme()) {
-            ThemeManager.light -> {
+            ThemeConstants.LIGHT_THEME -> {
                 getString(R.string.light)
             }
-            ThemeManager.dark -> {
+            ThemeConstants.DARK_THEME -> {
                 getString(R.string.dark)
             }
-            ThemeManager.followSystem -> {
+            ThemeConstants.FOLLOW_SYSTEM -> {
                 getString(R.string.follow_system)
             }
-            ThemeManager.amoled -> {
+            ThemeConstants.AMOLED -> {
                 "AMOLED"
             }
-            ThemeManager.dayNight -> {
+            ThemeConstants.DAY_NIGHT -> {
                 getString(R.string.day_night)
             }
             else -> {
