@@ -124,6 +124,9 @@ class AppearanceScreen : ScopedFragment() {
             ThemeConstants.DAY_NIGHT -> {
                 getString(R.string.day_night)
             }
+            ThemeConstants.SLATE -> {
+                getString(R.string.slate)
+            }
             else -> {
                 getString(R.string.unknown)
             }

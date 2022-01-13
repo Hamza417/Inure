@@ -20,6 +20,7 @@ class PopupAppTheme(view: View) : BasePopupWindow() {
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_theme_amoled).onClick(ThemeConstants.AMOLED)
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_theme_day_night).onClick(ThemeConstants.DAY_NIGHT)
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_theme_follow_system).onClick(ThemeConstants.FOLLOW_SYSTEM)
+        contentView.findViewById<DynamicRippleTextView>(R.id.popup_theme_slate).onClick(ThemeConstants.SLATE)
 
         init(contentView, view)
     }
@@ -28,7 +29,7 @@ class PopupAppTheme(view: View) : BasePopupWindow() {
         this.setOnClickListener {
             AppearancePreferences.setTheme(theme)
 
-            if (theme == ThemeConstants.AMOLED || theme == ThemeConstants.DARK_THEME) {
+            if (theme == ThemeConstants.AMOLED || theme == ThemeConstants.DARK_THEME || theme == ThemeConstants.SLATE) {
                 AppearancePreferences.setLastDarkTheme(theme)
             }
 

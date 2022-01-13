@@ -23,6 +23,9 @@ object ThemeUtils {
             ThemeConstants.AMOLED -> {
                 ThemeManager.theme = Theme.AMOLED
             }
+            ThemeConstants.SLATE -> {
+                ThemeManager.theme = Theme.SLATE
+            }
             ThemeConstants.FOLLOW_SYSTEM -> {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
@@ -66,10 +69,9 @@ object ThemeUtils {
             ThemeConstants.LIGHT_THEME -> {
                 lightBars(window)
             }
-            ThemeConstants.DARK_THEME -> {
-                darkBars(window)
-            }
-            ThemeConstants.AMOLED -> {
+            ThemeConstants.DARK_THEME,
+            ThemeConstants.AMOLED,
+            ThemeConstants.SLATE -> {
                 darkBars(window)
             }
             ThemeConstants.FOLLOW_SYSTEM -> {
