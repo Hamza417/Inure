@@ -1,5 +1,6 @@
 package app.simple.inure.popups.app
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
@@ -9,6 +10,7 @@ import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.preferences.AppearancePreferences
 
+@SuppressLint("ClickableViewAccessibility")
 class PopupAppTheme(view: View) : BasePopupWindow() {
 
     init {

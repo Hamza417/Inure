@@ -1,5 +1,7 @@
 package app.simple.inure.themes.manager
 
+import app.simple.inure.themes.interfaces.ThemeChangedListener
+
 object ThemeManager {
 
     private val listeners = mutableSetOf<ThemeChangedListener>()

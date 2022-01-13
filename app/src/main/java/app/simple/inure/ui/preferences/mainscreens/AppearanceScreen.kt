@@ -1,5 +1,6 @@
 package app.simple.inure.ui.preferences.mainscreens
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -17,6 +18,7 @@ import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAppTheme
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
@@ -56,6 +58,7 @@ class AppearanceScreen : ScopedFragment() {
         return view
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -66,6 +69,11 @@ class AppearanceScreen : ScopedFragment() {
 
         appTheme.setOnClickListener {
             PopupAppTheme(it)
+        }
+
+        appTheme.setOnTouchListener { _, event ->
+            (requireActivity() as ThemeRevealCoordinatesListener).onTouchCoordinates(event.rawX, event.rawY)
+            false
         }
 
         accent.setOnClickListener {

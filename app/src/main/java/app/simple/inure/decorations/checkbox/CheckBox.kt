@@ -13,8 +13,8 @@ import android.widget.ImageView
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.decorations.switchview.SwitchCallbacks
+import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
-import app.simple.inure.themes.manager.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ColorUtils.resolveAttrColor

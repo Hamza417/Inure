@@ -30,6 +30,7 @@
 
         <activity
             android:name=".activities.app.MainActivity"
+            android:configChanges="uiMode"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
@@ -79,8 +80,8 @@
 
         <activity
             android:name=".activities.association.ApkInstallerActivity"
-            android:exported="true"
             android:enabled="false"
+            android:exported="true"
             android:label="Package Installer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

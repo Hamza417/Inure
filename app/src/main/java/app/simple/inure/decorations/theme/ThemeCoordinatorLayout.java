@@ -8,8 +8,8 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
-import app.simple.inure.themes.manager.ThemeChangedListener;
 import app.simple.inure.themes.manager.ThemeManager;
 
 public class ThemeCoordinatorLayout extends CoordinatorLayout implements ThemeChangedListener {

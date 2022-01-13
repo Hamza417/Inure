@@ -8,8 +8,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences.getAppFont
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
-import app.simple.inure.themes.manager.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ColorUtils.resolveAttrColor
