@@ -1,12 +1,15 @@
 package app.simple.inure.util
 
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatEditText
 
 object TextViewUtils {
     fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
@@ -85,6 +88,24 @@ object TextViewUtils {
         } else {
             @Suppress("DEPRECATION")
             Html.fromHtml(this)
+        }
+    }
+
+    fun TextView.setDrawableTint(color: Int) {
+        for (drawable in this.compoundDrawablesRelative) {
+            drawable?.mutate()
+            drawable?.colorFilter = PorterDuffColorFilter(
+                    color, PorterDuff.Mode.SRC_IN
+            )
+        }
+    }
+
+    fun AppCompatEditText.setDrawableTint(color: Int) {
+        for (drawable in this.compoundDrawablesRelative) {
+            drawable?.mutate()
+            drawable?.colorFilter = PorterDuffColorFilter(
+                    color, PorterDuff.Mode.SRC_IN
+            )
         }
     }
 }

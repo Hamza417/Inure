@@ -3,8 +3,8 @@
     android:id="@+id/xml_nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
     android:background="@color/mainBackground"
+    android:clipToPadding="false"
     android:orientation="vertical">
 
     <LinearLayout
@@ -28,11 +28,11 @@
             android:background="@android:color/transparent"
             android:inputType="textMultiLine|textNoSuggestions"
             android:padding="10dp"
-            android:textColor="@color/textSecondary"
             android:textCursorDrawable="@drawable/text_cursor"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
-            app:appFontStyle="regular" />
+            app:appFontStyle="regular"
+            app:textColorStyle="secondary" />
 
     </LinearLayout>
 </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

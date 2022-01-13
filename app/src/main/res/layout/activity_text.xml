@@ -18,8 +18,8 @@
             <LinearLayout xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:animateLayoutChanges="true"
+                android:orientation="horizontal"
                 android:padding="@dimen/header_padding">
 
                 <ImageView
@@ -39,9 +39,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    app:textColorStyle="accent"
                     android:textSize="@dimen/header_name_text_size"
-                    app:appFontStyle="bold" />
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                     android:id="@+id/txt_viewer_options"
@@ -49,9 +49,9 @@
                     android:layout_height="@dimen/button_size"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="15dp"
-                    android:visibility="gone"
                     android:src="@drawable/ic_more_vert"
-                    android:tint="?attr/colorAppAccent" />
+                    android:tint="?attr/colorAppAccent"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -64,14 +64,14 @@
                 android:id="@+id/text_viewer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:background="@android:color/transparent"
-                android:textColor="@color/textPrimary"
+                android:padding="10dp"
                 android:textColorHighlight="?attr/colorAppAccentLight"
                 android:textCursorDrawable="@drawable/text_cursor"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/info_text_small"
-                app:appFontStyle="regular" />
+                app:appFontStyle="regular"
+                app:textColorStyle="primary" />
 
         </LinearLayout>
 

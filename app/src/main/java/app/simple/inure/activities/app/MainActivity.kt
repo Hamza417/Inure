@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.ViewAnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
@@ -105,6 +106,7 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
                                                        finalRadius,
                                                        0f)
         anim!!.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
+        anim!!.interpolator = DecelerateInterpolator(1.5F)
         anim!!.doOnEnd {
             circularRevealImageView.setImageDrawable(null)
             circularRevealImageView.isVisible = false

@@ -25,10 +25,9 @@
         android:hint="@string/action"
         android:maxLines="4"
         android:paddingHorizontal="@dimen/dialog_padding"
-        android:textColor="@color/textPrimary"
-        android:textColorHint="@color/textTertiary"
         android:textCursorDrawable="@drawable/text_cursor"
-        app:appFontStyle="medium" />
+        app:appFontStyle="medium"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/intent_command"
@@ -49,9 +48,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dialog_padding"
         android:text="@string/desc_intent_action"
-        android:textColor="@color/textSecondary"
         android:textSize="12sp"
-        app:appFontStyle="regular" />
+        app:appFontStyle="regular"
+        app:textColorStyle="secondary" />
 
     <LinearLayout
         android:layout_width="match_parent"

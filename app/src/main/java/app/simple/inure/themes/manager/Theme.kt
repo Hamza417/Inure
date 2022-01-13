@@ -20,7 +20,8 @@ enum class Theme(val textViewTheme: TextViewTheme,
                     quaternaryTextColor = Color.parseColor("#9A9A9A"),
             ),
             viewGroupTheme = ViewGroupTheme(
-                    background = Color.parseColor("#ffffff")
+                    background = Color.parseColor("#ffffff"),
+                    viewerBackground = Color.parseColor("#FAFAFA")
             ),
             switchViewTheme = SwitchViewTheme(
                     switchOffColor = Color.parseColor("#F4F4F4")
@@ -40,7 +41,8 @@ enum class Theme(val textViewTheme: TextViewTheme,
                     quaternaryTextColor = Color.parseColor("#9A9A9A"),
             ),
             viewGroupTheme = ViewGroupTheme(
-                    background = Color.parseColor("#171717")
+                    background = Color.parseColor("#171717"),
+                    viewerBackground = Color.parseColor("#404040")
             ),
             switchViewTheme = SwitchViewTheme(
                     switchOffColor = Color.parseColor("#252525")
@@ -60,7 +62,8 @@ enum class Theme(val textViewTheme: TextViewTheme,
                     quaternaryTextColor = Color.parseColor("#9A9A9A"),
             ),
             viewGroupTheme = ViewGroupTheme(
-                    background = Color.parseColor("#000000")
+                    background = Color.parseColor("#000000"),
+                    viewerBackground = Color.parseColor("#2D2D2D")
             ),
             switchViewTheme = SwitchViewTheme(
                     switchOffColor = Color.parseColor("#252525")

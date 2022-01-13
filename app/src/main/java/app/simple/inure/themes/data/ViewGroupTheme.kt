@@ -4,5 +4,8 @@ import androidx.annotation.ColorInt
 
 data class ViewGroupTheme(
         @ColorInt
-        val background: Int
+        val background: Int,
+
+        @ColorInt
+        val viewerBackground: Int
 )

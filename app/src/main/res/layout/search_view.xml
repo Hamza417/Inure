@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_weight="1"
-        android:background="@color/mainBackground"
+        android:background="@android:color/transparent"
         android:drawableStart="@drawable/ic_search"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
@@ -23,11 +23,9 @@
         android:maxLines="1"
         android:paddingStart="10dp"
         android:paddingEnd="20dp"
-        android:textColor="@color/textPrimary"
-        android:textColorHint="@color/textTertiary"
         android:textCursorDrawable="@drawable/text_cursor"
         app:appFontStyle="bold"
-        app:drawableTint="@color/iconSecondary" />
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/search_number"
@@ -36,9 +34,9 @@
         android:layout_marginHorizontal="@dimen/popup_padding"
         android:saveEnabled="true"
         android:text="000"
-        app:textColorStyle="quaternary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="bold"
+        app:textColorStyle="quaternary"
         tools:ignore="HardcodedText" />
 
     <View

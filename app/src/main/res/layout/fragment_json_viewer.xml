@@ -75,7 +75,7 @@
             android:background="@android:color/transparent"
             android:inputType="textMultiLine|textNoSuggestions"
             android:padding="10dp"
-            android:textColor="@color/textSecondary"
+            app:textColorStyle="secondary"
             android:textCursorDrawable="@drawable/text_cursor"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
