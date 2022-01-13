@@ -19,14 +19,13 @@ import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
+import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.util.ThemeUtils
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity(), ThemeChangedListener {
 
     override fun attachBaseContext(newBase: Context) {
-
         SharedPreferences.init(newBase)
-
         super.attachBaseContext(newBase)
     }
 

@@ -2,6 +2,7 @@ package app.simple.inure.util
 
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.Color
 import android.view.Window
 import androidx.core.view.WindowInsetsControllerCompat
 import app.simple.inure.constants.ThemeConstants
@@ -63,43 +64,59 @@ object ThemeUtils {
     fun setBarColors(resources: Resources, window: Window) {
         when (AppearancePreferences.getTheme()) {
             ThemeConstants.LIGHT_THEME -> {
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = true
+                lightBars(window)
             }
             ThemeConstants.DARK_THEME -> {
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = false
+                darkBars(window)
             }
             ThemeConstants.AMOLED -> {
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = false
+                darkBars(window)
             }
             ThemeConstants.FOLLOW_SYSTEM -> {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
-                        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
-                        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = false
+                        darkBars(window)
                     }
                     Configuration.UI_MODE_NIGHT_NO -> {
-                        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-                        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = true
+                        lightBars(window)
                     }
                     Configuration.UI_MODE_NIGHT_UNDEFINED -> {
-                        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-                        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = true
+                        lightBars(window)
                     }
                 }
             }
             ThemeConstants.DAY_NIGHT -> {
                 val calendar = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
                 if (calendar < 7 || calendar > 18) {
-                    WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
-                    WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = false
+                    darkBars(window)
                 } else if (calendar < 18 || calendar > 6) {
-                    WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-                    WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = true
+                    lightBars(window)
                 }
             }
+        }
+    }
+
+    private fun lightBars(window: Window) {
+        setStatusAndNavColors(window)
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = !AppearancePreferences.isAccentOnNavigationBar()
+    }
+
+    private fun darkBars(window: Window) {
+        setStatusAndNavColors(window)
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = false
+    }
+
+    private fun setStatusAndNavColors(window: Window) {
+        if (AppearancePreferences.isTransparentStatusDisabled()) {
+            window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
+        } else {
+            window.statusBarColor = Color.TRANSPARENT
+        }
+
+        if (!AppearancePreferences.isAccentOnNavigationBar()) {
+            window.navigationBarColor = ThemeManager.theme.viewGroupTheme.background
         }
     }
 }

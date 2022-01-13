@@ -3,10 +3,7 @@
     <style name="Inure" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAppAccent">@color/inure</item>
         <item name="colorAppAccentLight">@color/inure_light</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">@bool/is_status_light</item>
         <item name="android:colorEdgeEffect">?attr/colorAppAccent</item>
-        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="Inure.Transparent" parent="Theme.MaterialComponents.DayNight.NoActionBar">

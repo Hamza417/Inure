@@ -14,8 +14,6 @@ import androidx.core.view.isVisible
 import app.simple.inure.R
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extension.activities.BaseActivity
-import app.simple.inure.extension.fixes.AndroidBug5497Workaround
-import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
@@ -27,7 +25,7 @@ import java.time.ZonedDateTime
 import java.util.*
 import kotlin.math.hypot
 
-class MainActivity : BaseActivity(), ThemeChangedListener, ThemeRevealCoordinatesListener {
+class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
 
     private lateinit var circularRevealImageView: ImageView
     private lateinit var container: ThemeCoordinatorLayout
@@ -40,7 +38,7 @@ class MainActivity : BaseActivity(), ThemeChangedListener, ThemeRevealCoordinate
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AndroidBug5497Workaround.assistActivity(this)
+        // AndroidBug5497Workaround.assistActivity(this)
         ThemeManager.addListener(this)
 
         circularRevealImageView = findViewById(R.id.theme_reveal)
@@ -74,6 +72,7 @@ class MainActivity : BaseActivity(), ThemeChangedListener, ThemeRevealCoordinate
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         ThemeUtils.setAppTheme(resources)
+        ThemeUtils.setBarColors(resources, window)
     }
 
     private fun setTheme(theme: Theme, animate: Boolean = true) {

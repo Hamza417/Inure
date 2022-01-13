@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <bool name="is_status_light">false</bool>
-    <bool name="is_nav_light">false</bool>
-</resources>
