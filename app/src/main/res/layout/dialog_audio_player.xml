@@ -50,7 +50,7 @@
                     android:layout_height="@dimen/button_size"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/ic_pause"
-                    app:tint="@color/iconSecondary" />
+                    app:buttonTintType="regular" />
 
             </LinearLayout>
 

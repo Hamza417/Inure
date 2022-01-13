@@ -12,6 +12,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.Size
 import androidx.appcompat.widget.AppCompatButton
+import app.simple.inure.R
 import com.google.android.material.animation.ArgbEvaluatorCompat
 
 object ColorUtils {
@@ -125,7 +126,7 @@ object ColorUtils {
 
     fun ViewGroup.animateColorChange(endColor: Int) {
         val colorAnim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), this.backgroundTintList?.defaultColor, endColor)
-        colorAnim.duration = 1000
+        colorAnim.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
         colorAnim.interpolator = DecelerateInterpolator(1.5F)
         colorAnim.addUpdateListener { animation -> this.backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int) }
         colorAnim.start()
@@ -133,7 +134,7 @@ object ColorUtils {
 
     fun TextView.animateColorChange(endColor: Int) {
         val colorAnim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), this.currentTextColor, endColor)
-        colorAnim.duration = 1000L
+        colorAnim.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
         colorAnim.interpolator = DecelerateInterpolator(1.5F)
         colorAnim.addUpdateListener { animation -> this.setTextColor(animation.animatedValue as Int) }
         colorAnim.start()
@@ -141,7 +142,7 @@ object ColorUtils {
 
     fun AppCompatButton.animateColorChange(endColor: Int) {
         val colorAnim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), this.backgroundTintList!!.defaultColor, endColor)
-        colorAnim.duration = 500L
+        colorAnim.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
         colorAnim.interpolator = DecelerateInterpolator(1.5F)
         colorAnim.addUpdateListener { animation -> this.backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int) }
         colorAnim.start()

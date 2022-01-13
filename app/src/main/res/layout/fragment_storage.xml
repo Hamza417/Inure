@@ -21,7 +21,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back"
             android:transitionName="@string/services"
-            app:tint="?attr/colorAppAccent" />
+            app:buttonTintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="match_parent"

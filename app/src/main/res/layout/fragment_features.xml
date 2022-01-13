@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/imageView8"
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
@@ -25,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorAppAccent"
+            app:tintType="accent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

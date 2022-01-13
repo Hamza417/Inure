@@ -11,13 +11,15 @@ import androidx.core.content.ContextCompat;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
 import app.simple.inure.decorations.corners.LayoutBackground;
+import app.simple.inure.decorations.theme.ThemeButton;
 import app.simple.inure.preferences.AccessibilityPreferences;
 
-public class DynamicRippleImageButton extends androidx.appcompat.widget.AppCompatImageButton {
+public class DynamicRippleImageButton extends ThemeButton {
+    
     public DynamicRippleImageButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);
-    
+        
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
             LayoutBackground.setBackground(getContext(), this, attrs, 2F);
             setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.highlight_color)));

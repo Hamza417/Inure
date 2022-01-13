@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/checkbox_dimensions"
     android:layout_height="@dimen/checkbox_dimensions"
-    android:backgroundTint="@color/switch_off"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:elevation="10dp"

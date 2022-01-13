@@ -11,12 +11,12 @@
     android:padding="@dimen/popup_padding"
     android:layout_margin="15dp">
 
-    <ImageView
+    <app.simple.inure.decorations.theme.ThemeIcon
         android:id="@+id/adapter_app_info_menu_icon"
         android:layout_width="@dimen/preference_icon_size"
         android:layout_height="@dimen/preference_icon_size"
         android:layout_gravity="center"
-        app:tint="@color/iconRegular"
+        app:tintType="regular"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView

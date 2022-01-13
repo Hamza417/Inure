@@ -10,9 +10,11 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
+import app.simple.inure.themes.manager.Theme
+import app.simple.inure.themes.manager.ThemeChangedListener
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.LocaleHelper.isRTL
@@ -20,7 +22,7 @@ import app.simple.inure.util.ViewUtils
 
 @SuppressLint("ClickableViewAccessibility")
 class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : SwitchFrameLayout(context, attrs, defStyleAttr) {
+    : SwitchFrameLayout(context, attrs, defStyleAttr), ThemeChangedListener {
 
     private var thumb: ImageView
     private var switchCallbacks: SwitchCallbacks? = null
@@ -100,7 +102,7 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             .setDuration(500)
             .start()
 
-        animateColorChange(ContextCompat.getColor(context, R.color.switch_off))
+        animateColorChange(ThemeManager.theme.switchViewTheme.switchOffColor)
         animateElevation(0F)
     }
 
@@ -140,5 +142,19 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      */
     fun invertCheckedStatus() {
         isChecked = !isChecked
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        ThemeManager.addListener(this)
+    }
+
+    override fun onThemeChanged(theme: Theme) {
+        if (!isChecked) animateUnchecked()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        ThemeManager.addListener(this)
     }
 }

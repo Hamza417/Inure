@@ -10,7 +10,7 @@ import app.simple.inure.R;
 public class Utils {
     static ValueAnimator animateBackgroundColor(ViewGroup viewGroup, int endColor) {
         ValueAnimator valueAnimator = ValueAnimator.ofArgb(viewGroup.getBackgroundTintList().getDefaultColor(), endColor);
-        valueAnimator.setDuration(viewGroup.getResources().getInteger(R.integer.animation_duration));
+        valueAnimator.setDuration(viewGroup.getResources().getInteger(R.integer.theme_change_duration));
         valueAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
         valueAnimator.addUpdateListener(animation -> viewGroup.setBackgroundTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
         valueAnimator.start();

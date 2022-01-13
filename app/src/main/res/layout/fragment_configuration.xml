@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/header_icon"
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
@@ -22,7 +22,7 @@
             android:layout_marginEnd="@dimen/header_padding"
             android:src="@drawable/ic_app_settings"
             android:transitionName="@string/configuration"
-            app:tint="?attr/colorAppAccent"
+            app:tintType="accent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -77,7 +77,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView5"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -87,7 +87,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/keep_screen_on_title"
@@ -152,7 +152,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView9"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -161,7 +161,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary"
+                        app:tintType="secondary"
                         tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -216,7 +216,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView10"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -225,7 +225,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary"
+                        app:tintType="secondary"
                         tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -280,7 +280,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView14"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -289,7 +289,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary"
+                        app:tintType="secondary"
                         tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -345,7 +345,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView16"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -354,7 +354,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary"
+                        app:tintType="secondary"
                         tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -413,7 +413,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView11"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -423,7 +423,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView07"

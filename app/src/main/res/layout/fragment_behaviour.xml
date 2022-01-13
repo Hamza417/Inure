@@ -14,14 +14,14 @@
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
             android:src="@drawable/ic_behaviour"
             android:transitionName="@string/behaviour"
-            app:tint="?attr/colorAppAccent"
+            app:tintType="accent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -75,7 +75,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView5"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -85,7 +85,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView07"
@@ -141,7 +141,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView6"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -151,7 +151,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView09"
@@ -216,7 +216,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView9"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -226,7 +226,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView12"
@@ -281,7 +281,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView10"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -291,7 +291,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView14"
@@ -346,7 +346,7 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView11"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -356,7 +356,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView17"

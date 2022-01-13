@@ -48,7 +48,7 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_search"
-            android:tint="?attr/colorAppAccent" />
+            app:buttonTintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
             android:id="@+id/services_search"

@@ -42,7 +42,7 @@
                 android:layout_height="@dimen/small_button_size"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_copy_all"
-                android:tint="@color/iconRegular"
+                app:buttonTintType="regular"
                 android:visibility="gone" />
 
         </LinearLayout>

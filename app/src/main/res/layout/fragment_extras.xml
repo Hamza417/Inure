@@ -21,14 +21,14 @@
         android:padding="@dimen/header_padding"
         android:translationZ="1dp">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/imageView8"
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_extras"
             android:transitionName="@string/extras"
-            app:tint="?attr/colorAppAccent"
+            app:tintType="accent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -50,7 +50,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_filter"
-            android:tint="?attr/colorAppAccent" />
+            app:buttonTintType="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/extras_options"
@@ -59,7 +59,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="8dp"
             android:src="@drawable/ic_more_vert"
-            android:tint="?attr/colorAppAccent" />
+            app:buttonTintType="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/extras_search_btn"
@@ -67,7 +67,7 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_search"
-            android:tint="?attr/colorAppAccent" />
+            app:buttonTintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
             android:id="@+id/extras_search"

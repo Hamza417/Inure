@@ -16,6 +16,4 @@
     <color name="textTertiary">#7A7A7A</color>
     <color name="textQuaternary">#9A9A9A</color>
     <color name="textSelected">#F1F1F1</color>
-
-    <color name="switch_off">#F4F4F4</color>
 </resources>

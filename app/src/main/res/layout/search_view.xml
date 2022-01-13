@@ -34,11 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/popup_padding"
+        android:saveEnabled="true"
         android:text="000"
+        app:textColorStyle="quaternary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="bold"
-        android:saveEnabled="true"
-        android:textColor="@color/textQuaternary"
         tools:ignore="HardcodedText" />
 
     <View
@@ -54,6 +54,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/popup_padding"
         android:contentDescription="@string/configuration_button"
-        android:src="@drawable/ic_settings" />
+        android:src="@drawable/ic_settings"
+        app:buttonTintType="regular" />
 
 </merge>

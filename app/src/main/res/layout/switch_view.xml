@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/switch_width"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/switch_off"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:elevation="10dp"

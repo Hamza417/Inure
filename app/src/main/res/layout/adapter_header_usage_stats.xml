@@ -65,7 +65,7 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_sort"
-            android:tint="@color/iconRegular"
+            app:buttonTintType="regular"
             android:transitionName="filter" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -76,7 +76,7 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_filter"
-            android:tint="@color/iconRegular"
+            app:buttonTintType="regular"
             android:transitionName="filter" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -86,7 +86,7 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_settings"
-            android:tint="@color/iconRegular"
+            app:buttonTintType="regular"
             android:transitionName="filter" />
 
     </LinearLayout>

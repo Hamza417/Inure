@@ -14,14 +14,14 @@
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
             android:src="@drawable/ic_about"
             android:transitionName="@string/about"
-            app:tint="?attr/colorAppAccent"
+            app:tintType="accent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -29,9 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/about"
-            app:textColorStyle="accent"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
@@ -64,8 +64,8 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/application"
-                    app:textColorStyle="accent"
-                    app:appFontStyle="medium" />
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                     android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/app_version_iv"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -81,7 +81,7 @@
                         android:layout_centerVertical="true"
                         android:focusable="false"
                         android:src="@drawable/ic_version"
-                        app:tint="@color/iconSecondary"
+                        app:tintType="secondary"
                         tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -91,9 +91,9 @@
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@id/app_version_iv"
                         android:text="@string/version"
-                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
-                        app:appFontStyle="bold" />
+                        app:appFontStyle="bold"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:layout_width="wrap_content"
@@ -103,9 +103,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@id/app_version_iv"
                         android:text="@string/versionName"
-                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -116,7 +116,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/changelog_iv"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -124,7 +124,7 @@
                         android:layout_centerVertical="true"
                         android:focusable="false"
                         android:src="@drawable/ic_change_history"
-                        app:tint="@color/iconSecondary"
+                        app:tintType="secondary"
                         tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -136,11 +136,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/change_logs"
-                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent" />
+                        app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:layout_width="wrap_content"
@@ -150,9 +150,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@id/changelog_iv"
                         android:text="@string/desc_changelogs"
-                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -163,8 +163,8 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/legal_notes"
-                    app:textColorStyle="accent"
-                    app:appFontStyle="medium" />
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                     android:id="@+id/user_agreement"
@@ -173,7 +173,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/user_agreement_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -181,7 +181,7 @@
                         android:layout_centerVertical="true"
                         android:focusable="false"
                         android:src="@drawable/ic_law"
-                        app:tint="@color/iconSecondary"
+                        app:tintType="secondary"
                         tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -193,11 +193,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/user_agreements"
-                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent" />
+                        app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:layout_width="wrap_content"
@@ -207,9 +207,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@id/user_agreement_icon"
                         android:text="@string/desc_user_agreements"
-                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -220,7 +220,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView3"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -228,7 +228,7 @@
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/credits"
                         android:src="@drawable/ic_credits"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView02"
@@ -239,11 +239,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/credits"
-                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent" />
+                        app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView03"
@@ -255,9 +255,9 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/imageView3"
                         android:text="@string/desc_credits"
-                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -268,7 +268,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/license_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -276,7 +276,7 @@
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/credits"
                         android:src="@drawable/ic_licenses"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/license_tag"
@@ -287,11 +287,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/open_source_licenses"
-                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent" />
+                        app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:layout_width="wrap_content"
@@ -302,9 +302,9 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/license_icon"
                         android:text="@string/desc_licenses"
-                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -315,8 +315,8 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
                     android:text="@string/contribute"
-                    app:textColorStyle="accent"
-                    app:appFontStyle="medium" />
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                     android:id="@+id/about_github"
@@ -325,7 +325,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView4"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -333,7 +333,7 @@
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/typeface_icon"
                         android:src="@drawable/ic_github"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/typeFaceTextView05"
@@ -344,11 +344,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="GitHub"
-                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
                         app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -361,9 +361,9 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/imageView4"
                         android:text="@string/desc_github"
-                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -374,7 +374,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView5"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -382,7 +382,7 @@
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/typeface_icon"
                         android:src="@drawable/ic_translate"
-                        app:tint="@color/iconSecondary" />
+                        app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/translation_tag"
@@ -393,11 +393,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/translate"
-                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
                         app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -409,9 +409,9 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/imageView5"
                         android:text="@string/desc_translate"
-                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
@@ -422,7 +422,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/telegram_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
@@ -431,7 +431,7 @@
                         android:clickable="false"
                         android:focusable="false"
                         android:src="@drawable/ic_telegram"
-                        app:tint="@color/iconSecondary"
+                        app:tintType="secondary"
                         tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -443,11 +443,11 @@
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/join_telegram"
-                        app:textColorStyle="primary"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
                         app:drawableTint="?attr/colorAppAccent"
+                        app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -459,9 +459,9 @@
                         android:layout_marginEnd="60dp"
                         android:layout_toEndOf="@id/telegram_icon"
                         android:text="@string/desc_telegram"
-                        app:textColorStyle="tertiary"
                         android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular" />
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 

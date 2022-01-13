@@ -9,12 +9,12 @@
     android:orientation="horizontal"
     android:padding="@dimen/popup_padding">
 
-    <ImageView
+    <app.simple.inure.decorations.theme.ThemeIcon
         android:id="@+id/preferences_icon"
         android:layout_width="@dimen/preference_icon_size"
         android:layout_height="@dimen/preference_icon_size"
         android:transitionName="appearance_icon"
-        app:tint="?attr/colorAppAccent"
+        app:tintType="accent"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView

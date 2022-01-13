@@ -72,4 +72,5 @@
     <dimen name="preferences_description_text_size">12sp</dimen>
     <dimen name="popup_item_gap_length">1dp</dimen>
     <dimen name="resource_name_text_size">16sp</dimen>
+    <dimen name="button_padding">15dp</dimen>
 </resources>

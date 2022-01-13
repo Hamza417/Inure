@@ -97,4 +97,20 @@
             <flag name="still" value="1" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="ThemeIcon">
+        <attr name="tintType" format="string">
+            <flag name="regular" value="0" />
+            <flag name="secondary" value="1" />
+            <flag name="accent" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ThemeButton">
+        <attr name="buttonTintType" format="string">
+            <flag name="regular" value="0" />
+            <flag name="secondary" value="1" />
+            <flag name="accent" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>

@@ -32,7 +32,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/ic_arrow_drop_down_24dp"
-                android:tint="@color/iconRegular" />
+                app:buttonTintType="regular" />
 
             <View
                 android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/ic_arrow_drop_down_24dp"
-                android:tint="@color/iconRegular" />
+                app:buttonTintType="regular" />
 
             <View
                 android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/ic_arrow_drop_down_24dp"
-                android:tint="@color/iconRegular" />
+                app:buttonTintType="regular" />
 
             <View
                 android:layout_width="match_parent"
