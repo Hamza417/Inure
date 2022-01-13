@@ -48,6 +48,6 @@ public class AndroidBug5497Workaround {
     private int computeUsableHeight() {
         Rect r = new Rect();
         mChildOfContent.getWindowVisibleDisplayFrame(r);
-        return (r.bottom - r.top);
+        return r.bottom - r.top;
     }
 }

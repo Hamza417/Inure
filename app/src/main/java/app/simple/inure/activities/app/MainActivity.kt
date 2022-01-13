@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.ViewAnimationUtils
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.animation.doOnEnd
@@ -13,6 +14,7 @@ import androidx.core.view.isVisible
 import app.simple.inure.R
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extension.activities.BaseActivity
+import app.simple.inure.extension.fixes.AndroidBug5497Workaround
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener
 import app.simple.inure.themes.manager.Theme
@@ -29,6 +31,7 @@ class MainActivity : BaseActivity(), ThemeChangedListener, ThemeRevealCoordinate
 
     private lateinit var circularRevealImageView: ImageView
     private lateinit var container: ThemeCoordinatorLayout
+    private lateinit var content: FrameLayout
 
     private var anim: Animator? = null
     private var xPoint = 0
@@ -37,12 +40,14 @@ class MainActivity : BaseActivity(), ThemeChangedListener, ThemeRevealCoordinate
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // AndroidBug5497Workaround.assistActivity(this)
+        AndroidBug5497Workaround.assistActivity(this)
         ThemeManager.addListener(this)
 
         circularRevealImageView = findViewById(R.id.theme_reveal)
         container = findViewById(R.id.app_container)
+        content = findViewById(android.R.id.content)
 
+        content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
         xPoint = container.measuredWidth / 2
         yPoint = container.measuredHeight / 2
 
@@ -96,8 +101,8 @@ class MainActivity : BaseActivity(), ThemeChangedListener, ThemeRevealCoordinate
         ThemeManager.theme = theme
 
         anim = ViewAnimationUtils.createCircularReveal(circularRevealImageView,
-                                                       xPoint.toInt(),
-                                                       yPoint.toInt(),
+                                                       xPoint,
+                                                       yPoint,
                                                        finalRadius,
                                                        0f)
         anim!!.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
@@ -111,7 +116,9 @@ class MainActivity : BaseActivity(), ThemeChangedListener, ThemeRevealCoordinate
     }
 
     override fun onThemeChanged(theme: Theme) {
-        setTheme(theme, true)
+        setTheme(theme)
+        ThemeUtils.setBarColors(resources, window)
+        content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
     }
 
     override fun onTouchCoordinates(x: Float, y: Float) {
