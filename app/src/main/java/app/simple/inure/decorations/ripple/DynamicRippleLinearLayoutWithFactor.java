@@ -8,24 +8,28 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
+import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.preferences.AccessibilityPreferences;
+import app.simple.inure.themes.interfaces.ThemeChangedListener;
+import app.simple.inure.themes.manager.Theme;
+import app.simple.inure.themes.manager.ThemeManager;
 
-public class DynamicRippleLinearLayoutWithFactor extends LinearLayout {
+public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements ThemeChangedListener {
+    
     public DynamicRippleLinearLayoutWithFactor(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);
+    }
     
-        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
-            LayoutBackground.setBackground(getContext(), this, attrs, 2F);
-            setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.highlight_color)));
-        } else {
-            setBackground(Utils.getRippleDrawable(getContext(), getBackground(), 2F));
-        }
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
+        super.setOnClickListener(l);
+        setHighlightBackgroundColor();
     }
     
     @SuppressLint ("ClickableViewAccessibility")
@@ -61,5 +65,33 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout {
             }
         }
         return super.onTouchEvent(event);
+    }
+    
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        ThemeManager.INSTANCE.addListener(this);
+    }
+    
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        ThemeManager.INSTANCE.removeListener(this);
+    }
+    
+    @Override
+    public void onThemeChanged(@NonNull Theme theme) {
+        if (isClickable()) {
+            setHighlightBackgroundColor();
+        }
+    }
+    
+    private void setHighlightBackgroundColor() {
+        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
+            LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
+            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+        } else {
+            setBackground(Utils.getRippleDrawable(getContext(), getBackground(), Misc.roundedCornerFactor));
+        }
     }
 }

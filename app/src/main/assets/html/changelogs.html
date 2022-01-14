@@ -15,38 +15,89 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build15</h2>
+<h2>Build17</h2>
 
-<h4>User Interface</h4>
-
-<ul>
-    <li>Bounce scroll effect for all non-list scrollable views.</li>
-    <li>Redesigned <b>Change Logs</b> panel.</li>
-    <li>Added <i>Permissions</i> in <b>App Information</b> panel.</li>
-    <li>Added <i>Split Packages</i> in <b>App Information</b> panel.</li>
-    <li>Added <i>Uses Features</i> in <b>App Information</b> panel.</li>
-    <li>Added toggle to disable <i>Transparent Status Bar</i> mode as a workaround for <a
-            href="https://issuetracker.google.com/issues/36911528">AndroidBug #5497</a>
-        where opening keyboard does not resize or pan the contents on the screen.
-        <br>
-        <sub><i>It is an Android Bug and cannot be fixed by any means except for fancy
-            tricks and these tricks do not work on all devices hence the
-            option.</i></sub>
-    </li>
-</ul>
-
-<h4>Bug Fixes</h4>
+<h4>Bug and Issues Fixes</h4>
 
 <ul>
-    <li>Fixed a rendering issue where icons are different in sizes.</li>
-    <li>Fixed convex path related issues for fast scroller item.</li>
-    <li>Fixed panel switch animation not executing when <b>Transitions</b> are on.</li>
+    <li>Fixed <i>Static Background</i> color issue with native theme engine.</li>
 </ul>
 
 <br>
-<hr>
-<sub>(Previous Versions)</sub>
 <br>
+
+<div class="wrap-collapsible">
+    <input id="build_16" class="toggle" type="checkbox">
+    <label for="build_16" class="lbl-toggle">Build16</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added native <b>Inure Theme Engine</b> for more control and elegance over how
+                    theming
+                    inside the app will/should work.
+                    <br>
+                    <br>
+                    <sub>
+                        The native theming engine adds support for more theme styles such as <i>AMOLED
+                        Black</i> or <i>Slate Grey</i> and allows robust theme controlling framework
+                        from the
+                        app's core. It also removes the limitations of restarting the app everytime
+                        theme is
+                        changed from the app and also adds a really nice animation when the theme is
+                        updated.
+                        <br>
+                        <br>
+                        <i>There aren't many changes in this build because coding this theme took
+                            more than 18
+                            hours of non-stop coding, maths and problem solving and by far the most
+                            painful and
+                            exhausting feature ever to implement in this app.</i>
+                    </sub>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="wrap-collapsible">
+    <input id="build_15" class="toggle" type="checkbox">
+    <label for="build_15" class="lbl-toggle">Build15</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+            <ul>
+                <li>Bounce scroll effect for all non-list scrollable views.</li>
+                <li>Redesigned <b>Change Logs</b> panel.</li>
+                <li>Added <i>Permissions</i> in <b>App Information</b> panel.</li>
+                <li>Added <i>Split Packages</i> in <b>App Information</b> panel.</li>
+                <li>Added <i>Uses Features</i> in <b>App Information</b> panel.</li>
+                <li>Added toggle to disable <i>Transparent Status Bar</i> mode as a workaround for
+                    <a
+                            href="https://issuetracker.google.com/issues/36911528">AndroidBug
+                        #5497</a>
+                    where opening keyboard does not resize or pan the contents on the screen.
+                    <br>
+                    <sub><i>It is an Android Bug and cannot be fixed by any means except for fancy
+                        tricks and these tricks do not work on all devices hence the
+                        option.</i></sub>
+                </li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed a rendering issue where icons are different in sizes.</li>
+                <li>Fixed convex path related issues for fast scroller item.</li>
+                <li>Fixed panel switch animation not executing when <b>Transitions</b> are on.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <br>
 
 <div class="wrap-collapsible">
@@ -200,5 +251,4 @@
         </div>
     </div>
 </div>
-
 </body>

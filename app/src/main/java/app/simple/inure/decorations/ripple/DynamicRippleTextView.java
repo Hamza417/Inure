@@ -9,19 +9,21 @@ import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
 import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.preferences.AccessibilityPreferences;
+import app.simple.inure.themes.interfaces.ThemeChangedListener;
+import app.simple.inure.themes.manager.Theme;
+import app.simple.inure.themes.manager.ThemeManager;
 
 /**
  * {@link androidx.appcompat.widget.AppCompatTextView} but with animated
  * background
  */
-public class DynamicRippleTextView extends TypeFaceTextView {
+public class DynamicRippleTextView extends TypeFaceTextView implements ThemeChangedListener {
     
     public DynamicRippleTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -35,12 +37,7 @@ public class DynamicRippleTextView extends TypeFaceTextView {
     
     @Override
     public void setOnClickListener(@Nullable OnClickListener l) {
-        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
-            LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
-            setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.highlight_color)));
-        } else {
-            setBackground(Utils.getRippleDrawable(getContext(), getBackground(), Misc.roundedCornerFactor));
-        }
+        setHighlightBackgroundColor();
         super.setOnClickListener(l);
     }
     
@@ -48,12 +45,8 @@ public class DynamicRippleTextView extends TypeFaceTextView {
     public void setSelected(boolean selected) {
         super.setSelected(selected);
         setBackground(Utils.getRoundedBackground(Misc.roundedCornerFactor));
-        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
-            setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
-        } else {
-            setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.textSelected)));
-        }
         setClickable(false);
+        setSelectedBackgroundColor();
     }
     
     @SuppressLint ("ClickableViewAccessibility")
@@ -89,5 +82,32 @@ public class DynamicRippleTextView extends TypeFaceTextView {
             }
         }
         return super.onTouchEvent(event);
+    }
+    
+    @Override
+    public void onThemeChanged(@NonNull Theme theme) {
+        super.onThemeChanged(theme);
+        if (isClickable()) {
+            setHighlightBackgroundColor();
+        } else if (isSelected()) {
+            setSelectedBackgroundColor();
+        }
+    }
+    
+    private void setSelectedBackgroundColor() {
+        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
+            setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+        } else {
+            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getSelectedBackground()));
+        }
+    }
+    
+    private void setHighlightBackgroundColor() {
+        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
+            LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
+            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+        } else {
+            setBackground(Utils.getRippleDrawable(getContext(), getBackground(), Misc.roundedCornerFactor));
+        }
     }
 }

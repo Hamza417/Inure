@@ -73,6 +73,7 @@
         android:paddingVertical="20dp"
         android:text="@string/follow_system"
         app:textColorStyle="primary"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 

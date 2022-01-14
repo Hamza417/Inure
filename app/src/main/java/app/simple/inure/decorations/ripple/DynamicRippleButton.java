@@ -13,11 +13,16 @@ import app.simple.inure.R;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.preferences.AccessibilityPreferences;
 
+@Deprecated ()
+/*
+ * Use @link{DynamicRippleTextView} since button is extension
+ * of it, it works much better than button
+ */
 public class DynamicRippleButton extends androidx.appcompat.widget.AppCompatButton {
     public DynamicRippleButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);
-    
+        
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
             LayoutBackground.setBackground(getContext(), this, attrs, 2F);
             setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.highlight_color)));

@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 public class DynamicRippleRelativeLayout extends RelativeLayout {
-    
     public DynamicRippleRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);

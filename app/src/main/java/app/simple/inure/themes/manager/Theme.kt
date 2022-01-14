@@ -21,7 +21,9 @@ enum class Theme(val textViewTheme: TextViewTheme,
             ),
             viewGroupTheme = ViewGroupTheme(
                     background = Color.parseColor("#ffffff"),
-                    viewerBackground = Color.parseColor("#FAFAFA")
+                    viewerBackground = Color.parseColor("#FAFAFA"),
+                    highlightBackground = Color.parseColor("#F6F6F6"),
+                    selectedBackground = Color.parseColor("#F1F1F1")
             ),
             switchViewTheme = SwitchViewTheme(
                     switchOffColor = Color.parseColor("#F4F4F4")
@@ -42,7 +44,9 @@ enum class Theme(val textViewTheme: TextViewTheme,
             ),
             viewGroupTheme = ViewGroupTheme(
                     background = Color.parseColor("#171717"),
-                    viewerBackground = Color.parseColor("#404040")
+                    viewerBackground = Color.parseColor("#404040"),
+                    highlightBackground = Color.parseColor("#404040"),
+                    selectedBackground = Color.parseColor("#242424")
             ),
             switchViewTheme = SwitchViewTheme(
                     switchOffColor = Color.parseColor("#252525")
@@ -63,7 +67,9 @@ enum class Theme(val textViewTheme: TextViewTheme,
             ),
             viewGroupTheme = ViewGroupTheme(
                     background = Color.parseColor("#000000"),
-                    viewerBackground = Color.parseColor("#2D2D2D")
+                    viewerBackground = Color.parseColor("#2D2D2D"),
+                    highlightBackground = Color.parseColor("#404040"),
+                    selectedBackground = Color.parseColor("#242424")
             ),
             switchViewTheme = SwitchViewTheme(
                     switchOffColor = Color.parseColor("#252525")
@@ -84,7 +90,9 @@ enum class Theme(val textViewTheme: TextViewTheme,
             ),
             viewGroupTheme = ViewGroupTheme(
                     background = Color.parseColor("#20272e"),
-                    viewerBackground = Color.parseColor("#223343")
+                    viewerBackground = Color.parseColor("#223343"),
+                    highlightBackground = Color.parseColor("#223343"),
+                    selectedBackground = Color.parseColor("#242424")
             ),
             switchViewTheme = SwitchViewTheme(
                     switchOffColor = Color.parseColor("#314152")
