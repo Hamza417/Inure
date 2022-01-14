@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
@@ -23,6 +24,7 @@ import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.TextViewUtils.makeLinks
 import app.simple.inure.util.ThemeUtils
 
@@ -72,7 +74,20 @@ class AppearanceScreen : ScopedFragment() {
         }
 
         appTheme.setOnTouchListener { _, event ->
-            (requireActivity() as ThemeRevealCoordinatesListener).onTouchCoordinates(event.rawX, event.rawY)
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val location = IntArray(2)
+                appTheme.getLocationOnScreen(location)
+                val x = location[0] + appTheme.measuredWidth / 2
+                val y = location[1] + appTheme.measuredHeight / 2
+
+                if (AppearancePreferences.isTransparentStatusDisabled()) {
+                    (requireActivity() as ThemeRevealCoordinatesListener).onTouchCoordinates(
+                            event.rawX,
+                            event.rawY - StatusBarHeight.getStatusBarHeight(resources))
+                } else {
+                    (requireActivity() as ThemeRevealCoordinatesListener).onTouchCoordinates(x.toFloat(), y.toFloat())
+                }
+            }
             false
         }
 

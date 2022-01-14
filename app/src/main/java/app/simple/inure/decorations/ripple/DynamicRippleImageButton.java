@@ -79,6 +79,7 @@ public class DynamicRippleImageButton extends ThemeButton {
             LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
             setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
         } else {
+            setBackground(null);
             setBackground(Utils.getRippleDrawable(getContext(), getBackground(), Misc.roundedCornerFactor));
         }
     }

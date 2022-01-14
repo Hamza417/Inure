@@ -15,7 +15,6 @@ import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.preferences.AccessibilityPreferences;
-import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 
@@ -23,7 +22,7 @@ import app.simple.inure.themes.manager.ThemeManager;
  * {@link androidx.appcompat.widget.AppCompatTextView} but with animated
  * background
  */
-public class DynamicRippleTextView extends TypeFaceTextView implements ThemeChangedListener {
+public class DynamicRippleTextView extends TypeFaceTextView {
     
     public DynamicRippleTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -107,6 +106,7 @@ public class DynamicRippleTextView extends TypeFaceTextView implements ThemeChan
             LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
             setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
         } else {
+            setBackground(null);
             setBackground(Utils.getRippleDrawable(getContext(), getBackground(), Misc.roundedCornerFactor));
         }
     }

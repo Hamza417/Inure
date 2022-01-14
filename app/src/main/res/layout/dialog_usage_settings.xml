@@ -46,7 +46,7 @@
                 app:textColorStyle="tertiary"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
-                app:drawableTint="?attr/colorAppAccent"
+                app:drawableTintStyle="accent"
                 app:drawableTintMode="src_in" />
 
         </LinearLayout>
