@@ -94,11 +94,10 @@
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
-                <View
+                <app.simple.inure.decorations.theme.ThemeDivider
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginBottom="@dimen/popup_padding"
-                    android:background="@color/divider" />
+                    android:layout_marginBottom="@dimen/popup_padding" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_menu"

@@ -37,10 +37,9 @@
 
     </app.simple.inure.decorations.theme.ThemeLinearLayout>
 
-    <View
+    <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider" />
+        android:layout_height="1px" />
 
     <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
         android:id="@+id/preferences_recycler_view"

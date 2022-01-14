@@ -64,11 +64,10 @@
         app:appFontStyle="bold"
         app:textColorStyle="primary" />
 
-    <View
+    <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginVertical="5dp"
-        android:background="@color/divider" />
+        android:layout_marginVertical="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

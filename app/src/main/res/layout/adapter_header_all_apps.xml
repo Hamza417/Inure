@@ -86,11 +86,10 @@
             android:src="@drawable/ic_settings"
             app:buttonTintType="regular" />
 
-        <View
+        <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="4dp"
-            android:background="@color/divider" />
+            android:layout_marginHorizontal="4dp" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_search_button"

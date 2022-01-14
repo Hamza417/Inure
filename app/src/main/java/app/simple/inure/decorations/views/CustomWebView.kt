@@ -2,7 +2,6 @@ package app.simple.inure.decorations.views
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Configuration
 import android.util.AttributeSet
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -11,6 +10,7 @@ import androidx.webkit.WebViewFeature
 import app.simple.inure.R
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ColorUtils.toHexColor
+import app.simple.inure.util.ThemeUtils
 
 @SuppressLint("SetJavaScriptEnabled")
 open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView(context, attributeSet) {
@@ -22,12 +22,12 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
         settings.allowFileAccess = true
         settings.setSupportZoom(true)
         settings.javaScriptEnabled = true
+        setBackgroundColor(0)
 
         color = context.resolveAttrColor(R.attr.colorAppAccent).toHexColor()
 
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            if (context.resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
+            if (ThemeUtils.isNightMode(resources)) {
                 WebSettingsCompat.setForceDark(this.settings, WebSettingsCompat.FORCE_DARK_ON)
             }
         }

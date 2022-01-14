@@ -49,10 +49,9 @@
 
         </LinearLayout>
 
-        <View
+        <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/divider" />
+            android:layout_height="1px" />
 
         <com.mittsu.markedview.MarkedView
             android:id="@+id/code_viewer"

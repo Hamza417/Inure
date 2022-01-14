@@ -16,6 +16,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollT
 import app.simple.inure.decorations.theme.ThemeRecyclerView
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StatusBarHeight
 
@@ -55,7 +56,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
 
             divider.setDrawable(ShapeDrawable().apply {
                 intrinsicHeight = 1
-                paint.color = ContextCompat.getColor(context, R.color.divider)
+                paint.color = ThemeManager.theme.viewGroupTheme.dividerBackground
             })
 
             addItemDecoration(divider)
@@ -170,9 +171,8 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
     /**
      * Setup fast scroller if needed
      */
-    fun setupFastScroller() {
-        FastScrollerBuilder(this)
-            .build()
+    private fun setupFastScroller() {
+        FastScrollerBuilder(this).build()
         isFastScrollerAdded = true
     }
 

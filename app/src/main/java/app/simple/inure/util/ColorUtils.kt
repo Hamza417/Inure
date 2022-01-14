@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Color
+import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
@@ -126,6 +127,14 @@ object ColorUtils {
     }
 
     fun ViewGroup.animateColorChange(endColor: Int) {
+        val colorAnim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), this.backgroundTintList?.defaultColor, endColor)
+        colorAnim.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
+        colorAnim.interpolator = DecelerateInterpolator(1.5F)
+        colorAnim.addUpdateListener { animation -> this.backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int) }
+        colorAnim.start()
+    }
+
+    fun View.animateColorChange(endColor: Int) {
         val colorAnim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), this.backgroundTintList?.defaultColor, endColor)
         colorAnim.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
         colorAnim.interpolator = DecelerateInterpolator(1.5F)

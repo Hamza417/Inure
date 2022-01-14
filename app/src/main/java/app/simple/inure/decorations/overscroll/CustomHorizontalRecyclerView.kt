@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
 import android.widget.EdgeEffect
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +12,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants.flingTransl
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollRotationMagnitude
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollTranslationMagnitude
 import app.simple.inure.preferences.AccessibilityPreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.StatusBarHeight
 
 /**
@@ -49,7 +49,7 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
 
             divider.setDrawable(ShapeDrawable().apply {
                 intrinsicHeight = 1
-                paint.color = ContextCompat.getColor(context, R.color.divider)
+                paint.color = ThemeManager.theme.viewGroupTheme.dividerBackground
             })
 
             addItemDecoration(divider)

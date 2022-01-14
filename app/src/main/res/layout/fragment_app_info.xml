@@ -34,12 +34,11 @@
                 android:src="@drawable/ic_arrow_drop_down_24dp"
                 app:buttonTintType="regular" />
 
-            <View
+            <app.simple.inure.decorations.theme.ThemeDivider
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="10dp"
-                android:background="@color/divider" />
+                android:layout_marginHorizontal="10dp" />
 
         </LinearLayout>
 
@@ -66,12 +65,11 @@
                 android:src="@drawable/ic_arrow_drop_down_24dp"
                 app:buttonTintType="regular" />
 
-            <View
+            <app.simple.inure.decorations.theme.ThemeDivider
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="10dp"
-                android:background="@color/divider" />
+                android:layout_marginHorizontal="10dp" />
 
         </LinearLayout>
 
@@ -98,12 +96,11 @@
                 android:src="@drawable/ic_arrow_drop_down_24dp"
                 app:buttonTintType="regular" />
 
-            <View
+            <app.simple.inure.decorations.theme.ThemeDivider
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="10dp"
-                android:background="@color/divider" />
+                android:layout_marginHorizontal="10dp" />
 
         </LinearLayout>
 

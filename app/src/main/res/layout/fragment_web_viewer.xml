@@ -7,10 +7,9 @@
 
     <include layout="@layout/header_xml_viewer" />
 
-    <View
+    <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider" />
+        android:layout_height="1px" />
 
     <app.simple.inure.decorations.views.XmlWebView
         android:id="@+id/source_view"

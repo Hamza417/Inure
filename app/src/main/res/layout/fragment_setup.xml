@@ -8,10 +8,9 @@
 
     <include layout="@layout/header_setup" />
 
-    <View
+    <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider" />
+        android:layout_height="1px" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

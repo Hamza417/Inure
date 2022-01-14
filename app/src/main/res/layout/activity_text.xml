@@ -55,10 +55,9 @@
 
             </LinearLayout>
 
-            <View
+            <app.simple.inure.decorations.theme.ThemeDivider
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider" />
+                android:layout_height="1px" />
 
             <app.simple.inure.decorations.typeface.TypeFaceEditText
                 android:id="@+id/text_viewer"

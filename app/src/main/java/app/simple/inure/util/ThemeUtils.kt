@@ -127,4 +127,40 @@ object ThemeUtils {
             window.navigationBarColor = ThemeManager.theme.viewGroupTheme.background
         }
     }
+
+    fun isNightMode(resources: Resources): Boolean {
+        when (AppearancePreferences.getTheme()) {
+            ThemeConstants.LIGHT_THEME -> {
+                return false
+            }
+            ThemeConstants.DARK_THEME,
+            ThemeConstants.AMOLED,
+            ThemeConstants.SLATE -> {
+                return true
+            }
+            ThemeConstants.FOLLOW_SYSTEM -> {
+                when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        return true
+                    }
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        return false
+                    }
+                    Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                        return false
+                    }
+                }
+            }
+            ThemeConstants.DAY_NIGHT -> {
+                val calendar = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                if (calendar < 7 || calendar > 18) {
+                    return false
+                } else if (calendar < 18 || calendar > 6) {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
 }

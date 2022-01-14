@@ -37,11 +37,10 @@
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 
-    <View
+    <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginVertical="@dimen/dialog_padding"
-        android:background="@color/divider" />
+        android:layout_marginVertical="@dimen/dialog_padding" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="match_parent"

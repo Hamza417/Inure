@@ -3,7 +3,6 @@
     <color name="mainBackground">#ffffff</color>
     <color name="dialogBackground">@color/mainBackground</color>
     <color name="edgeEffect">#f0f0f0</color>
-    <color name="divider">#DDDDDD</color>
     <color name="statusBarColor">#000000</color>
     <color name="iconRegular">#2E2E2E</color>
     <color name="iconSecondary">#B1B1B1</color>

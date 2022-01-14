@@ -54,10 +54,9 @@
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-                <View
+                <app.simple.inure.decorations.theme.ThemeDivider
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/divider" />
+                    android:layout_height="1px" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"

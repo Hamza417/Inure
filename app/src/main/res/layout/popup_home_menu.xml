@@ -24,11 +24,10 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-    <View
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginVertical="@dimen/popup_padding"
-        android:background="@color/divider" />
+        android:layout_marginVertical="@dimen/popup_padding" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_home_prefs"

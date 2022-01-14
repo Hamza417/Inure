@@ -39,11 +39,10 @@
         app:textColorStyle="quaternary"
         tools:ignore="HardcodedText" />
 
-    <View
+    <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="1px"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/popup_padding"
-        android:background="@color/divider" />
+        android:layout_margin="@dimen/popup_padding" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/search_view_menu_button"

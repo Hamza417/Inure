@@ -13,5 +13,8 @@ data class ViewGroupTheme(
         val highlightBackground: Int,
 
         @ColorInt
-        val selectedBackground: Int
+        val selectedBackground: Int,
+
+        @ColorInt
+        val dividerBackground: Int
 )
