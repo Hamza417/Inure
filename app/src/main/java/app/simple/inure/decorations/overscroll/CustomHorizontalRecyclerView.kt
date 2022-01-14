@@ -36,7 +36,12 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
             }
         }
 
-        layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        layoutManager = object : LinearLayoutManager(context, HORIZONTAL, false) {
+            override fun canScrollVertically(): Boolean {
+                return false
+            }
+        }
+
         setHasFixedSize(true)
 
         if (AccessibilityPreferences.isDividerEnabled()) {
@@ -85,8 +90,8 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
                         val translationVelocity = sign * velocity * flingTranslationMagnitude
                         recyclerView.forEachVisibleHolder { holder: HorizontalListViewHolder ->
                             holder.translationX
-                                    .setStartVelocity(translationVelocity)
-                                    .start()
+                                .setStartVelocity(translationVelocity)
+                                .start()
                         }
                     }
 

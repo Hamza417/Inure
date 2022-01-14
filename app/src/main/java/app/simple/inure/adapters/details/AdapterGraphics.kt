@@ -39,9 +39,9 @@ class AdapterGraphics(val path: String, var list: MutableList<String>, var keywo
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = if (isHighlighted) {
-            list[position].optimizeToColoredString(holder.itemView.context, "/").highlightExtensions()
+            list[position].optimizeToColoredString("/").highlightExtensions()
         } else {
-            list[position].optimizeToColoredString(holder.itemView.context, "/")
+            list[position].optimizeToColoredString("/")
         }
 
         holder.image.loadGraphics(path, list[position])

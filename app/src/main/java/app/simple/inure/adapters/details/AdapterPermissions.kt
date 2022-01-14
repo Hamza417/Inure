@@ -35,7 +35,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         if (permissions[position].permissionInfo.isNotNull()) {
-            holder.name.setPermissionName(position, holder.itemView.context, permissions[position])
+            holder.name.setPermissionName(position, permissions[position])
             holder.desc.setDescriptionText(holder.itemView.context, permissions[position])
             holder.status.setStatusText(position, holder.itemView.context, permissions[position])
 
@@ -44,7 +44,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             holder.status.setTextColor(holder.itemView.context.resolveAttrColor(R.attr.colorAppAccent))
             holder.desc.visible(false)
         } else {
-            holder.name.text = permissions[position].name.optimizeToColoredString(holder.itemView.context, ".")
+            holder.name.text = permissions[position].name.optimizeToColoredString(".")
             holder.status.text = holder.itemView.context.getString(R.string.permission_info_not_available)
             holder.status.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textSecondary))
             holder.desc.gone()
@@ -63,13 +63,6 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
     override fun getItemCount(): Int {
         return permissions.size
-    }
-
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_name)
-        val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
-        val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_permissions_container)
     }
 
     private fun TypeFaceTextView.setStatusText(position: Int, context: Context, permissionInfo: PermissionInfo) {
@@ -101,12 +94,12 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         }
     }
 
-    private fun TypeFaceTextView.setPermissionName(position: Int, context: Context, permissionInfo: PermissionInfo) {
+    private fun TypeFaceTextView.setPermissionName(position: Int, permissionInfo: PermissionInfo) {
         text = if (permissionLabelMode) {
             permissionInfo.name
         } else {
             permissions[position].label
-        }.toString().optimizeToColoredString(context, ".")
+        }.toString().optimizeToColoredString(".")
     }
 
     /**
@@ -130,6 +123,13 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
     fun setOnPermissionCallbacksListener(permissionCallbacks: PermissionCallbacks) {
         this.permissionCallbacks = permissionCallbacks
+    }
+
+    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_name)
+        val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
+        val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)
+        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_permissions_container)
     }
 
     companion object {

@@ -1,23 +1,31 @@
 package app.simple.inure.extension.activities
 
 import android.content.Context
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.view.View
 import android.view.WindowManager
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
+import app.simple.inure.themes.interfaces.ThemeChangedListener
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ThemeUtils
 
-open class TransparentBaseActivity : AppCompatActivity() {
+open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
 
     override fun attachBaseContext(newBase: Context) {
-
         SharedPreferences.init(newBase)
-
         super.attachBaseContext(newBase)
     }
 
@@ -25,9 +33,9 @@ open class TransparentBaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
-                                       .detectLeakedClosableObjects()
-                                       .penaltyLog()
-                                       .build())
+                                   .detectLeakedClosableObjects()
+                                   .penaltyLog()
+                                   .build())
 
         /**
          * Sets window flags for keeping the screen on
@@ -36,8 +44,15 @@ open class TransparentBaseActivity : AppCompatActivity() {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
+        if (!AppearancePreferences.isTransparentStatusDisabled()) {
+            makeAppFullScreen()
+            fixNavigationBarOverlap()
+        }
+
         setTheme()
         ThemeUtils.setAppTheme(resources)
+        ThemeUtils.setBarColors(resources, window)
+        setNavColor()
     }
 
     private fun setTheme() {
@@ -125,5 +140,76 @@ open class TransparentBaseActivity : AppCompatActivity() {
                 AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))
             }
         }
+    }
+
+    @Suppress("Deprecation")
+    private fun makeAppFullScreen() {
+        window.statusBarColor = Color.TRANSPARENT
+
+        if (Build.VERSION.SDK_INT in 23..29) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        } else if (Build.VERSION.SDK_INT >= 30) {
+            // Making status bar overlaps with the activity
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.navigationBarDividerColor = Color.TRANSPARENT
+        }
+    }
+
+    private fun fixNavigationBarOverlap() {
+        /**
+         * Making the Navigation system bar not overlapping with the activity
+         */
+        if (Build.VERSION.SDK_INT >= 30) {
+            /**
+             * Root ViewGroup of my activity
+             */
+            val root = findViewById<CoordinatorLayout>(R.id.app_container)
+
+            ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+                /**
+                 * Apply the insets as a margin to the view. Here the system is setting
+                 * only the bottom, left, and right dimensions, but apply whichever insets are
+                 * appropriate to your layout. You can also update the view padding
+                 * if that's more appropriate.
+                 */
+
+                view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                    leftMargin = insets.left
+                    bottomMargin = insets.bottom
+                    rightMargin = insets.right
+                }
+
+                /**
+                 * Return CONSUMED if you don't want want the window insets to keep being
+                 * passed down to descendant views.
+                 */
+                WindowInsetsCompat.CONSUMED
+            }
+
+        }
+    }
+
+    private fun setNavColor() {
+        if (AppearancePreferences.isAccentOnNavigationBar()) {
+            window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent))
+                .getColor(0, 0)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ThemeManager.addListener(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ThemeManager.removeListener(this)
     }
 }

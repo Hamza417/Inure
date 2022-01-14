@@ -32,9 +32,9 @@ class AdapterExtras(var list: MutableList<String>, var keyword: String) : Recycl
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.extra.text = if (isHighlighted) {
-            list[position].optimizeToColoredString(holder.itemView.context, "/").highlightExtensions()
+            list[position].optimizeToColoredString("/").highlightExtensions()
         } else {
-            list[position].optimizeToColoredString(holder.itemView.context, "/")
+            list[position].optimizeToColoredString("/")
         }
 
         holder.extra.setOnClickListener {

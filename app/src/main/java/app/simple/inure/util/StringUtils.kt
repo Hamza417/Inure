@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.toSpannable
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeManager
 import java.util.*
 
 object StringUtils {
@@ -37,10 +38,10 @@ object StringUtils {
      * null string or anything. This will return
      * back the normal [Spannable] string.
      */
-    fun String.optimizeToColoredString(context: Context, lookupIndex: String): Spannable {
+    fun String.optimizeToColoredString(lookupIndex: String): Spannable {
         kotlin.runCatching {
             val spannable: Spannable = SpannableString(this)
-            spannable.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.textSecondary)),
+            spannable.setSpan(ForegroundColorSpan(ThemeManager.theme.textViewTheme.secondaryTextColor),
                               0,
                               this.lastIndexOf(lookupIndex),
                               Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
