@@ -2,6 +2,7 @@ package app.simple.inure.decorations.typeface
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.os.Build
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
@@ -12,12 +13,17 @@ import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.animateColorChange
+import app.simple.inure.util.ColorUtils.animateDrawableColorChange
 import app.simple.inure.util.ColorUtils.resolveAttrColor
+import app.simple.inure.util.TextViewUtils.setDrawableTint
 import app.simple.inure.util.TypeFace
 
 open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
+
     private val typedArray: TypedArray
     private var colorMode: Int = 1
+    private var drawableTintMode = 2
+    private var lastDrawableColor = Color.GRAY
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TypeFaceTextView, 0, 0)
@@ -32,8 +38,10 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
     private fun init() {
         typeface = TypeFace.getTypeFace(getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, 0), context)
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
+        drawableTintMode = typedArray.getInt(R.styleable.TypeFaceTextView_drawableTintStyle, 2)
 
-        setTextColor(colorMode, false)
+        setTextColor(false)
+        setDrawableTint(false)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (isSingleLine) {
@@ -67,12 +75,13 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
     }
 
     override fun onThemeChanged(theme: Theme) {
-        setTextColor(colorMode, true)
+        setTextColor(true)
+        setDrawableTint(true)
     }
 
-    private fun setTextColor(mode: Int, animate: Boolean) {
+    private fun setTextColor(animate: Boolean) {
         if (animate) {
-            when (mode) {
+            when (colorMode) {
                 0 -> this.animateColorChange(ThemeManager.theme.textViewTheme.headingTextColor)
                 1 -> this.animateColorChange(ThemeManager.theme.textViewTheme.primaryTextColor)
                 2 -> this.animateColorChange(ThemeManager.theme.textViewTheme.secondaryTextColor)
@@ -81,7 +90,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
                 5 -> this.animateColorChange(context.resolveAttrColor(R.attr.colorAppAccent))
             }
         } else {
-            when (mode) {
+            when (colorMode) {
                 0 -> setTextColor(ThemeManager.theme.textViewTheme.headingTextColor)
                 1 -> setTextColor(ThemeManager.theme.textViewTheme.primaryTextColor)
                 2 -> setTextColor(ThemeManager.theme.textViewTheme.secondaryTextColor)
@@ -89,6 +98,33 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
                 4 -> setTextColor(ThemeManager.theme.textViewTheme.quaternaryTextColor)
                 5 -> setTextColor(context.resolveAttrColor(R.attr.colorAppAccent))
             }
+        }
+    }
+
+    private fun setDrawableTint(animate: Boolean) {
+        if (animate) {
+            when (drawableTintMode) {
+                0 -> setDrawableTint(context.resolveAttrColor(R.attr.colorAppAccent)) // Accent Color won't change on theme change
+                1 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.regularIconColor)
+                2 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.secondaryIconColor)
+            }
+        } else {
+            when (drawableTintMode) {
+                0 -> setDrawableTint(context.resolveAttrColor(R.attr.colorAppAccent))
+                1 -> setDrawableTint(ThemeManager.theme.iconTheme.regularIconColor)
+                2 -> setDrawableTint(ThemeManager.theme.iconTheme.secondaryIconColor)
+            }
+        }
+
+        setLastDrawableColor()
+    }
+
+    private fun setLastDrawableColor() {
+        lastDrawableColor = when (drawableTintMode) {
+            0 -> context.resolveAttrColor(R.attr.colorAppAccent)
+            1 -> ThemeManager.theme.iconTheme.regularIconColor
+            2 -> ThemeManager.theme.iconTheme.secondaryIconColor
+            else -> ThemeManager.theme.iconTheme.secondaryIconColor
         }
     }
 }

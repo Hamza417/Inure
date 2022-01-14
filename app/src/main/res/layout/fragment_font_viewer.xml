@@ -33,7 +33,7 @@
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
-        <EditText
+        <app.simple.inure.decorations.typeface.TypeFaceEditText
             android:id="@+id/ttf_viewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,12 +41,12 @@
             android:importantForAutofill="no"
             android:inputType="textMultiLine|textNoSuggestions"
             android:padding="@dimen/panel_item_padding"
-            android:textColor="@color/textSecondary"
             android:textColorHighlight="?attr/colorAppAccentLight"
             android:textCursorDrawable="@drawable/text_cursor"
             android:textIsSelectable="true"
             android:textSize="@dimen/quotes_text_size"
             android:visibility="invisible"
+            app:textColorStyle="secondary"
             tools:ignore="HardcodedText,LabelFor" />
 
     </LinearLayout>

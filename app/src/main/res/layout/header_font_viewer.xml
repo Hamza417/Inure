@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        app:textColorStyle="accent"
         android:textSize="@dimen/header_name_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="accent" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/txt_viewer_options"
@@ -34,7 +34,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="15dp"
         android:src="@drawable/ic_more_vert"
-        app:buttonTintType="accent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:buttonTintType="accent" />
 
 </LinearLayout>

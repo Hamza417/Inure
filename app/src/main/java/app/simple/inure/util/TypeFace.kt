@@ -46,7 +46,7 @@ object TypeFace {
     private const val BONNY = "bonny"
     private const val SOURCE_SANS_PRO = "source_sans_pro"
 
-    fun getTypeFace(appFont: String, style: Int, context: Context): Typeface {
+    fun getTypeFace(appFont: String, style: Int, context: Context): Typeface? {
         var typeface: Typeface? = null
 
         when (appFont) {
@@ -445,7 +445,7 @@ object TypeFace {
             }
         }
 
-        return typeface!!
+        return typeface
     }
 
     /**

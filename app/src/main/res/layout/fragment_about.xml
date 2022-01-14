@@ -139,7 +139,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -196,7 +196,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -242,7 +242,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -290,7 +290,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -347,7 +347,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
 
@@ -396,7 +396,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
 
@@ -446,7 +446,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
 

@@ -368,7 +368,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_dot_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView020"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"

@@ -31,7 +31,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     }
 
     fun init() {
-        typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, 0), context)
+        typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, -1), context)
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
 
         highlightColor = ColorUtils.lightenColor(context.resolveAttrColor(R.attr.colorAppAccentLight), 0.4F)

@@ -8,7 +8,7 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <com.google.android.material.card.MaterialCardView
+    <app.simple.inure.decorations.theme.ThemeMaterialCardView
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,10 +38,10 @@
                     android:drawablePadding="@dimen/popup_padding"
                     android:gravity="center_vertical"
                     android:text="Inure Mini Player"
-                    android:textColor="@color/textTertiary"
                     app:appFontStyle="regular"
                     app:drawableLeftCompat="@drawable/ic_audio_placeholder"
                     app:drawableTint="?attr/colorAppAccent"
+                    app:textColorStyle="tertiary"
                     tools:ignore="HardcodedText" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -65,10 +65,10 @@
                 android:paddingHorizontal="5dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:textColor="@color/textPrimary"
-                android:textSize="10pt"
+                android:textSize="@dimen/audio_title_text_size"
                 android:transitionName="album_name"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,15 +98,15 @@
                         android:layout_marginStart="5dp"
                         android:drawableStart="@drawable/ic_person"
                         android:drawablePadding="@dimen/popup_padding"
-                        android:drawableTint="@color/iconSecondary"
                         android:ellipsize="marquee"
                         android:gravity="center_vertical"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:textColor="@color/textSecondary"
                         android:textSize="@dimen/info_text_small"
-                        app:appFontStyle="medium" />
+                        app:appFontStyle="medium"
+                        app:drawableTintStyle="secondary"
+                        app:textColorStyle="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/mime_album"
@@ -117,15 +117,15 @@
                         android:layout_marginStart="5dp"
                         android:drawableStart="@drawable/ic_album"
                         android:drawablePadding="@dimen/popup_padding"
-                        android:drawableTint="@color/iconSecondary"
                         android:ellipsize="marquee"
                         android:gravity="center_vertical"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:textColor="@color/textSecondary"
                         android:textSize="@dimen/info_text_small"
-                        app:appFontStyle="medium" />
+                        app:appFontStyle="medium"
+                        app:drawableTintStyle="secondary"
+                        app:textColorStyle="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/mime_info"
@@ -135,15 +135,15 @@
                         android:layout_marginStart="5dp"
                         android:drawableStart="@drawable/ic_app_info"
                         android:drawablePadding="@dimen/popup_padding"
-                        android:drawableTint="@color/iconSecondary"
                         android:ellipsize="marquee"
                         android:gravity="center_vertical"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:textColor="@color/textSecondary"
                         android:textSize="@dimen/info_text_small"
-                        app:appFontStyle="medium" />
+                        app:appFontStyle="medium"
+                        app:drawableTintStyle="secondary"
+                        app:textColorStyle="secondary" />
 
                 </LinearLayout>
 
@@ -166,9 +166,9 @@
                     android:maxLines="1"
                     android:text="--:--"
                     android:textAlignment="center"
-                    android:textColor="@color/textSecondary"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
+                    app:textColorStyle="secondary"
                     tools:ignore="HardcodedText,RtlCompat" />
 
                 <SeekBar
@@ -193,13 +193,13 @@
                     android:maxLines="1"
                     android:text="--:--"
                     android:textAlignment="center"
-                    android:textColor="@color/textSecondary"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
+                    app:textColorStyle="secondary"
                     tools:ignore="HardcodedText,RtlCompat" />
 
             </LinearLayout>
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </app.simple.inure.decorations.theme.ThemeMaterialCardView>
 
 </FrameLayout>

@@ -129,7 +129,7 @@
                         android:padding="@dimen/dialog_padding"
                         android:textSize="5pt"
                         app:appFontStyle="regular"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -167,7 +167,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -290,7 +290,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -337,7 +337,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_dot_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -387,7 +387,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_link_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:layout_constraintBottom_toTopOf="@+id/transparent_status_desc"
                         app:layout_constraintEnd_toStartOf="@+id/appearance_transparent_status_switch"
                         app:layout_constraintHorizontal_bias="0.0"

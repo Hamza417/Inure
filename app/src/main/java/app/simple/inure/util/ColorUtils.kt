@@ -13,6 +13,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Size
 import androidx.appcompat.widget.AppCompatButton
 import app.simple.inure.R
+import app.simple.inure.util.TextViewUtils.setDrawableTint
 import com.google.android.material.animation.ArgbEvaluatorCompat
 
 object ColorUtils {
@@ -145,6 +146,14 @@ object ColorUtils {
         colorAnim.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
         colorAnim.interpolator = DecelerateInterpolator(1.5F)
         colorAnim.addUpdateListener { animation -> this.backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int) }
+        colorAnim.start()
+    }
+
+    fun TextView.animateDrawableColorChange(startColor: Int, endColor: Int) {
+        val colorAnim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), startColor, endColor)
+        colorAnim.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
+        colorAnim.interpolator = DecelerateInterpolator(1.5F)
+        colorAnim.addUpdateListener { animation -> this.setDrawableTint(animation.animatedValue as Int) }
         colorAnim.start()
     }
 }
