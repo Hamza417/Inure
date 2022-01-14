@@ -2,6 +2,7 @@ package app.simple.inure.decorations.theme;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -46,7 +47,7 @@ public class ThemeNestedScrollView extends NestedScrollView implements ThemeChan
             valueAnimator = Utils.animateBackgroundColor(this,
                     ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
         } else {
-            setBackgroundColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
+            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground()));
         }
     }
     
