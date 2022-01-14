@@ -36,6 +36,9 @@ object ThemeUtils {
                             ThemeConstants.AMOLED -> {
                                 ThemeManager.theme = Theme.AMOLED
                             }
+                            ThemeConstants.SLATE -> {
+                                ThemeManager.theme = Theme.SLATE
+                            }
                         }
                     }
                     Configuration.UI_MODE_NIGHT_NO -> {
@@ -55,6 +58,9 @@ object ThemeUtils {
                         }
                         ThemeConstants.AMOLED -> {
                             ThemeManager.theme = Theme.AMOLED
+                        }
+                        ThemeConstants.SLATE -> {
+                            ThemeManager.theme = Theme.SLATE
                         }
                     }
                 } else if (calendar < 18 || calendar > 6) {

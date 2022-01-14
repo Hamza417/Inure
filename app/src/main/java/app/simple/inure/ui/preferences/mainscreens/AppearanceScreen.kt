@@ -152,7 +152,7 @@ class AppearanceScreen : ScopedFragment() {
         when (key) {
             AppearancePreferences.theme -> {
                 setAppThemeText()
-                ThemeUtils.setAppTheme(resources)
+                handler.postDelayed({ ThemeUtils.setAppTheme(resources) }, 100)
             }
             AppearancePreferences.accentOnNav -> {
                 if (AppearancePreferences.isAccentOnNavigationBar()) {

@@ -54,6 +54,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     override fun onDestroy() {
         super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 
