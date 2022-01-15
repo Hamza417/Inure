@@ -15,7 +15,6 @@
         android:drawablePadding="10dp"
         android:paddingVertical="10dp"
         android:text="@string/usage"
-        android:textColor="@color/textPrimary"
         android:textSize="@dimen/app_info_options_text_size"
         app:appFontStyle="bold"
         app:textColorStyle="primary" />

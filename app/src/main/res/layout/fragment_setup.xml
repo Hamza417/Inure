@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:visibility="gone"
-                    android:textColor="@color/textQuaternary"
+                    app:textColorStyle="quaternary"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular" />
 

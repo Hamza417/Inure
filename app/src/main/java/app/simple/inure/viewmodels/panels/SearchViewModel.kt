@@ -77,7 +77,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
                 }
             }
 
-            filtered.getSortedList(SearchPreferences.getSortStyle(), getApplication<Application>().applicationContext)
+            filtered.getSortedList(SearchPreferences.getSortStyle())
 
             appData.postValue(filtered)
         }

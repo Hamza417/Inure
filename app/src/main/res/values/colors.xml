@@ -8,11 +8,4 @@
     <color name="iconSecondary">#B1B1B1</color>
     <color name="viewerBackground">#FAFAFA</color>
     <color name="highlight_color">#F6F6F6</color>
-
-    <color name="textHeading">#121212</color>
-    <color name="textPrimary">#2B2B2B</color>
-    <color name="textSecondary">#5A5A5A</color>
-    <color name="textTertiary">#7A7A7A</color>
-    <color name="textQuaternary">#9A9A9A</color>
-    <color name="textSelected">#F1F1F1</color>
 </resources>

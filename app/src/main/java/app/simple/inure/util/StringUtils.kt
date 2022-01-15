@@ -1,13 +1,10 @@
 package app.simple.inure.util
 
-import android.content.Context
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import androidx.core.content.ContextCompat
 import androidx.core.text.toSpannable
-import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeManager
 import java.util.*
@@ -70,9 +67,9 @@ object StringUtils {
      *
      * @return [Spannable]
      */
-    fun String.applySecondaryTextColor(context: Context): Spannable {
+    fun String.applySecondaryTextColor(): Spannable {
         val spannable: Spannable = SpannableString(this)
-        spannable.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.textSecondary)),
+        spannable.setSpan(ForegroundColorSpan(ThemeManager.theme.textViewTheme.secondaryTextColor),
                           0,
                           this.length,
                           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)

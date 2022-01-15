@@ -33,7 +33,7 @@
         android:id="@+id/intent_command"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/textSecondary"
+        app:textColorStyle="secondary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular" />
 

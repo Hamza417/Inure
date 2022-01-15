@@ -5,7 +5,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils.protectionToString
@@ -15,6 +14,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.PermissionPreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.NullSafety.isNotNull
@@ -46,7 +46,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         } else {
             holder.name.text = permissions[position].name.optimizeToColoredString(".")
             holder.status.text = holder.itemView.context.getString(R.string.permission_info_not_available)
-            holder.status.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textSecondary))
+            holder.status.setTextColor(ThemeManager.theme.textViewTheme.secondaryTextColor)
             holder.desc.gone()
         }
 

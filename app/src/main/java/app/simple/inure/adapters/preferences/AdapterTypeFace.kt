@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
@@ -16,6 +15,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.invisible
@@ -58,10 +58,10 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                 if (AppearancePreferences.getAppFont() == list[position].name) {
                     holder.icon.visible(false)
-                    holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textPrimary))
+                    holder.textView.setTextColor(ThemeManager.theme.textViewTheme.primaryTextColor)
                 } else {
                     holder.icon.invisible(false)
-                    holder.textView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.textTertiary))
+                    holder.textView.setTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
                 }
 
                 holder.container.setOnClickListener {

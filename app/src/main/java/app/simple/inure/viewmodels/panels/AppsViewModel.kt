@@ -54,7 +54,7 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
                 apps[i].applicationInfo.name = getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
 
-            apps.getSortedList(MainPreferences.getSortStyle(), getApplication<Application>().applicationContext)
+            apps.getSortedList(MainPreferences.getSortStyle())
 
             appData.postValue(apps)
             appLoaded.postValue(AppsEvent(true))

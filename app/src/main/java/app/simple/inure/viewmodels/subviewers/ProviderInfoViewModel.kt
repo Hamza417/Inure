@@ -43,11 +43,11 @@ class ProviderInfoViewModel(application: Application, private val providerInfoMo
 
     private fun getAuthority(): Pair<String, Spannable> {
         return Pair(getApplication<Application>().getString(R.string.authority),
-                    providerInfoModel.authority.applySecondaryTextColor(getApplication()))
+                    providerInfoModel.authority.applySecondaryTextColor())
     }
 
     private fun getInitOrder(): Pair<String, Spannable> {
         return Pair(getApplication<Application>().getString(R.string.init_order),
-                    providerInfoModel.providerInfo.initOrder.toString().applySecondaryTextColor(getApplication()))
+                    providerInfoModel.providerInfo.initOrder.toString().applySecondaryTextColor())
     }
 }

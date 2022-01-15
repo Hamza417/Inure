@@ -19,7 +19,7 @@
         android:maxLines="1"
         android:gravity="start"
         android:text="@string/sure"
-        android:textColor="@color/textTertiary"
+        app:textColorStyle="tertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="bold" />
 

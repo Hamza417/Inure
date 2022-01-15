@@ -88,7 +88,7 @@ class Home : ScopedFragment() {
                 }
 
                 override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    openAppMenu(packageInfo, icon, anchor)
+                    openAppMenu(packageInfo, anchor)
                 }
             })
 
@@ -110,7 +110,7 @@ class Home : ScopedFragment() {
                 }
 
                 override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    openAppMenu(packageInfo, icon, anchor)
+                    openAppMenu(packageInfo, anchor)
                 }
             })
 
@@ -132,7 +132,7 @@ class Home : ScopedFragment() {
                 }
 
                 override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    openAppMenu(packageInfo, icon, anchor)
+                    openAppMenu(packageInfo, anchor)
                 }
             })
 
@@ -231,7 +231,7 @@ class Home : ScopedFragment() {
         recentlyInstalled.setOnClickListener {
             clearTransitions()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        RecentlyInstalled.newInstance(true),
+                                        RecentlyInstalled.newInstance(),
                                         "recently_installed")
         }
 
@@ -256,7 +256,7 @@ class Home : ScopedFragment() {
                                     icon, "app_info")
     }
 
-    private fun openAppMenu(packageInfo: PackageInfo, icon: ImageView, anchor: View) {
+    private fun openAppMenu(packageInfo: PackageInfo, anchor: View) {
         PopupMainList(anchor, packageInfo.packageName).setOnMenuItemClickListener(object : PopupMenuCallback {
             override fun onMenuItemClicked(source: String) {
                 when (source) {

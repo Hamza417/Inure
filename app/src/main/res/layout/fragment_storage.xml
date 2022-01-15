@@ -28,10 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/storage"
-            app:textColorStyle="accent"
             android:textSize="@dimen/header_font_size"
             android:transitionName="@string/storage"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
     </LinearLayout>
 
@@ -50,65 +50,69 @@
             android:padding="30dp">
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
-                style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:text="@string/apk_base_package"
-                app:textColorStyle="primary"
-                app:appFontStyle="bold" />
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/sub_memory_base_package_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/InfoTextSmall"
-                app:appFontStyle="regular" />
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:textColorStyle="tertiary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
-                style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/split_packages"
-                app:textColorStyle="primary"
-                app:appFontStyle="bold" />
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/sub_memory_split_packages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/InfoTextSmall"
-                app:appFontStyle="regular" />
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:textColorStyle="tertiary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
-                style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cache"
-                app:textColorStyle="primary"
-                app:appFontStyle="bold" />
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/sub_memory_cache"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/InfoTextSmall"
-                app:appFontStyle="regular" />
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:textColorStyle="tertiary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
-                style="@style/InfoTextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/data"
-                app:textColorStyle="primary"
-                app:appFontStyle="bold" />
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/sub_memory_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/InfoTextSmall"
-                app:appFontStyle="regular" />
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:textColorStyle="tertiary" />
 
             <include layout="@layout/sub_graph_view" />
 

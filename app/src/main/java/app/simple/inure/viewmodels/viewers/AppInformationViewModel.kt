@@ -64,17 +64,17 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
     private fun getPackageName(): Pair<String, Spannable> {
         return Pair(getString(R.string.package_name),
-                    packageInfo.packageName.applySecondaryTextColor(context))
+                    packageInfo.packageName.applySecondaryTextColor())
     }
 
     private fun getVersion(): Pair<String, Spannable> {
         return Pair(getString(R.string.version),
-                    PackageUtils.getApplicationVersion(context, packageInfo).applySecondaryTextColor(context))
+                    PackageUtils.getApplicationVersion(context, packageInfo).applySecondaryTextColor())
     }
 
     private fun getVersionCode(): Pair<String, Spannable> {
         return Pair(getString(R.string.version),
-                    PackageUtils.getApplicationVersionCode(context, packageInfo).applySecondaryTextColor(context))
+                    PackageUtils.getApplicationVersionCode(context, packageInfo).applySecondaryTextColor())
     }
 
     private fun getInstallLocation(): Pair<String, Spannable> {
@@ -96,7 +96,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
 
         return Pair(getString(R.string.install_location),
-                    installLocation.applySecondaryTextColor(context))
+                    installLocation.applySecondaryTextColor())
     }
 
     private fun getGlesVersion(): Pair<String, Spannable> {
@@ -111,12 +111,12 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
 
         return Pair(getString(R.string.gles_version),
-                    glesVersion.applySecondaryTextColor(context))
+                    glesVersion.applySecondaryTextColor())
     }
 
     private fun getUID(): Pair<String, Spannable> {
         return Pair(getString(R.string.uid),
-                    packageInfo.applicationInfo.uid.toString().applySecondaryTextColor(context))
+                    packageInfo.applicationInfo.uid.toString().applySecondaryTextColor())
     }
 
     private fun getInstallDate(): Pair<String, Spannable> {
@@ -181,7 +181,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
 
         return Pair(getString(R.string.method_count),
-                    method.applySecondaryTextColor(context))
+                    method.applySecondaryTextColor())
     }
 
     private fun getApex(): Pair<String, Spannable> {
@@ -193,7 +193,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
 
         return Pair(getString(R.string.apex),
-                    apex.applySecondaryTextColor(context))
+                    apex.applySecondaryTextColor())
     }
 
     private fun getApplicationType(): Pair<String, Spannable> {
@@ -204,7 +204,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
 
         return Pair(getString(R.string.application_type),
-                    applicationType.applySecondaryTextColor(context))
+                    applicationType.applySecondaryTextColor())
     }
 
     private fun getInstallerName(): Pair<String, Spannable> {
@@ -222,7 +222,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
 
         return Pair(getString(R.string.installer),
-                    name!!.applySecondaryTextColor(context))
+                    name!!.applySecondaryTextColor())
     }
 
     private fun getRequestedPermissions(): Pair<String, Spannable> {
@@ -247,7 +247,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
 
         return Pair(getString(R.string.permissions),
-                    permissions.toString().applySecondaryTextColor(context))
+                    permissions.toString().applySecondaryTextColor())
     }
 
     private fun getSplitNames(): Pair<String, Spannable> {
@@ -268,7 +268,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
 
         return Pair(getString(R.string.split_packages),
-                    names.toString().applySecondaryTextColor(context))
+                    names.toString().applySecondaryTextColor())
     }
 
     private fun getFeatures(): Pair<String, Spannable> {
@@ -298,6 +298,6 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         }
 
         return Pair(getString(R.string.uses_feature),
-                    features.toString().applySecondaryTextColor(context))
+                    features.toString().applySecondaryTextColor())
     }
 }

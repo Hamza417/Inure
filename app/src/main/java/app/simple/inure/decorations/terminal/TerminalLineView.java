@@ -23,9 +23,8 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
-import androidx.core.content.ContextCompat;
-import app.simple.inure.R;
 import app.simple.inure.decorations.terminal.TerminalView.TerminalMetrics;
+import app.simple.inure.themes.manager.ThemeManager;
 
 /**
  * Rendered contents of a single line of a {@link Terminal} session.
@@ -65,9 +64,9 @@ public class TerminalLineView extends View {
         
         for (int col = 0; col < cols; ) {
             mTerm.getCellRun(row, col, m.run);
-            
+    
             m.bgPaint.setColor(Color.TRANSPARENT);
-            m.textPaint.setColor(ContextCompat.getColor(getContext(), R.color.textPrimary));
+            m.textPaint.setColor(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor());
             
             final int x = col * m.charWidth;
             final int xEnd = x + (m.run.colSize * m.charWidth);

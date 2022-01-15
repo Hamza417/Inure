@@ -11,6 +11,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.TypeFace
 
@@ -60,7 +61,7 @@ class Pie @JvmOverloads constructor(context: Context, attrs: AttributeSet? = nul
         textPaint.apply {
             isAntiAlias = true
             textSize = radius / 4F
-            color = ContextCompat.getColor(context, R.color.textSecondary)
+            color = ThemeManager.theme.textViewTheme.secondaryTextColor
             style = Paint.Style.FILL
             typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, 0), context)
         }

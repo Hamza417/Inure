@@ -1,6 +1,5 @@
 package app.simple.inure.util
 
-import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import app.simple.inure.preferences.MainPreferences
@@ -42,7 +41,7 @@ object Sort {
      * @throws IllegalArgumentException if the [type] parameter
      *                                  is specified correctly
      */
-    fun ArrayList<PackageInfo>.getSortedList(type: String, context: Context) {
+    fun ArrayList<PackageInfo>.getSortedList(type: String) {
         when (type) {
             NAME -> {
                 this.sortByName()

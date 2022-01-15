@@ -95,7 +95,7 @@ class RecentlyInstalled : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(b: Boolean): RecentlyInstalled {
+        fun newInstance(): RecentlyInstalled {
             val args = Bundle()
             val fragment = RecentlyInstalled()
             fragment.arguments = args

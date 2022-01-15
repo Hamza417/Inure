@@ -64,6 +64,7 @@ public class VegaLayoutManager extends RecyclerView.LayoutManager {
             int viewType = adapter.getItemViewType(i);
             int itemHeight;
             if (viewTypeHeightMap.containsKey(viewType)) {
+                //noinspection ConstantConditions
                 itemHeight = viewTypeHeightMap.get(viewType);
             }
             else {

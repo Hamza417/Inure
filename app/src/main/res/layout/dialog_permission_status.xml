@@ -30,7 +30,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:text="@string/executing_command"
-            android:textColor="@color/textTertiary"
+            app:textColorStyle="tertiary"
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="medium" />
 
