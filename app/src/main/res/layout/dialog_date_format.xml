@@ -40,7 +40,7 @@
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="regular"
         app:drawableStartCompat="@drawable/ic_arrow_right"
-        app:drawableTint="@color/iconSecondary"
+        app:drawableTintStyle="secondary"
         app:textColorStyle="secondary" />
 
     <LinearLayout

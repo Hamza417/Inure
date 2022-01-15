@@ -4,8 +4,6 @@
     <color name="dialogBackground">@color/mainBackground</color>
     <color name="edgeEffect">#f0f0f0</color>
     <color name="statusBarColor">#000000</color>
-    <color name="iconRegular">#2E2E2E</color>
-    <color name="iconSecondary">#B1B1B1</color>
     <color name="viewerBackground">#FAFAFA</color>
     <color name="highlight_color">#F6F6F6</color>
 </resources>

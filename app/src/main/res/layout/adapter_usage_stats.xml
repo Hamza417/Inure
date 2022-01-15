@@ -2,9 +2,9 @@
 <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_usage_stats_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/adapter_usage_stats_container"
     android:layout_margin="5dp"
     android:padding="@dimen/popup_padding">
 
@@ -24,26 +24,26 @@
         android:layout_marginStart="16dp"
         android:ellipsize="end"
         android:maxLines="1"
-        app:textColorStyle="primary"
         android:textSize="@dimen/app_name_text_size"
         app:appFontStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/total_time_used"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/icon"
-        app:layout_constraintTop_toTopOf="@+id/icon" />
+        app:layout_constraintTop_toTopOf="@+id/icon"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/total_time_used"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:textColorStyle="accent"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
         app:layout_constraintBottom_toTopOf="@id/total_data_up_used"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:textColorStyle="accent" />
 
     <ImageView
         android:id="@+id/signal_icon"
@@ -65,15 +65,15 @@
         android:layout_marginTop="8dp"
         android:drawableStart="@drawable/ic_arrow_drop_up"
         android:drawablePadding="@dimen/popup_padding"
-        android:drawableTint="@color/iconSecondary"
         android:gravity="center_vertical"
-        app:textColorStyle="tertiary"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
+        app:drawableTintStyle="secondary"
         app:layout_constraintBottom_toTopOf="@id/total_wifi_up_used"
         app:layout_constraintEnd_toStartOf="@id/total_data_down_used"
         app:layout_constraintStart_toEndOf="@id/signal_icon"
-        app:layout_constraintTop_toBottomOf="@id/total_time_used" />
+        app:layout_constraintTop_toBottomOf="@id/total_time_used"
+        app:textColorStyle="tertiary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/total_data_down_used"
@@ -83,15 +83,15 @@
         android:layout_marginEnd="32dp"
         android:drawableStart="@drawable/ic_arrow_drop_down"
         android:drawablePadding="@dimen/popup_padding"
-        android:drawableTint="@color/iconSecondary"
         android:gravity="center_vertical"
-        app:textColorStyle="tertiary"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
+        app:drawableTintStyle="secondary"
         app:layout_constraintBottom_toBottomOf="@+id/total_data_up_used"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/total_data_up_used"
-        app:layout_constraintTop_toTopOf="@+id/total_data_up_used" />
+        app:layout_constraintTop_toTopOf="@+id/total_data_up_used"
+        app:textColorStyle="tertiary" />
 
     <ImageView
         android:id="@+id/wifi_icon"
@@ -113,15 +113,15 @@
         android:layout_marginTop="8dp"
         android:drawableStart="@drawable/ic_arrow_drop_up"
         android:drawablePadding="@dimen/popup_padding"
-        android:drawableTint="@color/iconSecondary"
         android:gravity="center_vertical"
-        app:textColorStyle="tertiary"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
+        app:drawableTintStyle="secondary"
         app:layout_constraintBottom_toBottomOf="@+id/icon"
         app:layout_constraintEnd_toStartOf="@id/total_wifi_down_used"
         app:layout_constraintStart_toEndOf="@id/wifi_icon"
-        app:layout_constraintTop_toBottomOf="@id/total_data_up_used" />
+        app:layout_constraintTop_toBottomOf="@id/total_data_up_used"
+        app:textColorStyle="tertiary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/total_wifi_down_used"
@@ -131,15 +131,15 @@
         android:layout_marginEnd="32dp"
         android:drawableStart="@drawable/ic_arrow_drop_down"
         android:drawablePadding="@dimen/popup_padding"
-        android:drawableTint="@color/iconSecondary"
         android:gravity="center_vertical"
-        app:textColorStyle="tertiary"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
+        app:drawableTintStyle="secondary"
         app:layout_constraintBottom_toBottomOf="@+id/total_wifi_up_used"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/total_wifi_up_used"
         app:layout_constraintTop_toTopOf="@+id/total_wifi_up_used"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:textColorStyle="tertiary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
