@@ -1,8 +1,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <solid android:color="@android:color/darker_gray" />
-            <size android:height="10dp" />
+            <stroke
+                android:width="3dp"
+                android:color="#f1f1f1" />
+            <solid android:color="#f1f1f1" />
             <corners android:radius="10dp" />
         </shape>
     </item>
@@ -10,9 +12,11 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape android:shape="rectangle">
+                <stroke
+                    android:width="3dp"
+                    android:color="#f1f1f1" />
                 <solid android:color="?attr/colorAppAccent" />
-
-                <corners android:radius="16dp" />
+                <corners android:radius="10dp" />
             </shape>
         </clip>
     </item>
@@ -20,8 +24,10 @@
     <item android:id="@android:id/secondaryProgress">
         <clip>
             <shape android:shape="line">
+                <stroke
+                    android:width="6dp"
+                    android:color="#f1f1f1" />
                 <solid android:color="?attr/colorAppAccent" />
-
                 <corners android:radius="16dp" />
             </shape>
         </clip>

@@ -46,7 +46,7 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
 
         if (!AppearancePreferences.isTransparentStatusDisabled()) {
             makeAppFullScreen()
-            fixNavigationBarOverlap()
+            // fixNavigationBarOverlap()
         }
 
         setTheme()

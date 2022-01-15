@@ -17,6 +17,7 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
@@ -39,7 +40,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
     private lateinit var album: TypeFaceTextView
     private lateinit var fileInfo: TypeFaceTextView
     private lateinit var playerContainer: MaterialCardView
-    private lateinit var seekBar: SeekBar
+    private lateinit var seekBar: ThemeSeekBar
 
     private lateinit var playerViewModel: MediaPlayerViewModel
     private lateinit var mediaPlayerViewModelFactory: MediaPlayerViewModelFactory

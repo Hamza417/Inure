@@ -32,7 +32,7 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
     private lateinit var container: ThemeCoordinatorLayout
     private lateinit var content: FrameLayout
 
-    private var anim: Animator? = null
+    private var animator: Animator? = null
     private var xPoint = 0
     private var yPoint = 0
 
@@ -100,20 +100,22 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
 
         ThemeManager.theme = theme
 
-        anim = ViewAnimationUtils.createCircularReveal(circularRevealImageView,
-                                                       xPoint,
-                                                       yPoint,
-                                                       finalRadius,
-                                                       0f)
-        anim!!.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
-        anim!!.interpolator = DecelerateInterpolator(1.5F)
-        anim!!.doOnEnd {
+        animator = ViewAnimationUtils
+            .createCircularReveal(circularRevealImageView,
+                                  xPoint,
+                                  yPoint,
+                                  finalRadius,
+                                  0f)
+
+        animator!!.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
+        animator!!.interpolator = DecelerateInterpolator(1.5F)
+
+        animator!!.doOnEnd {
             circularRevealImageView.setImageDrawable(null)
             circularRevealImageView.isVisible = false
-            xPoint = container.measuredWidth / 2
-            yPoint = container.measuredHeight / 2
         }
-        anim!!.start()
+
+        animator!!.start()
     }
 
     override fun onThemeChanged(theme: Theme) {
@@ -130,6 +132,6 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
     override fun onDestroy() {
         super.onDestroy()
         ThemeManager.removeListener(this)
-        anim?.cancel()
+        animator?.cancel()
     }
 }

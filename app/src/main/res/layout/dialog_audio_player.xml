@@ -171,17 +171,15 @@
                     app:textColorStyle="secondary"
                     tools:ignore="HardcodedText,RtlCompat" />
 
-                <SeekBar
+                <app.simple.inure.decorations.theme.ThemeSeekBar
                     android:id="@+id/seekbar_mime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight=".9"
-                    android:maxHeight="4dp"
+                    android:maxHeight="12dp"
                     android:progressDrawable="@drawable/seek_bar"
-                    android:progressTint="?attr/colorAppAccent"
-                    android:splitTrack="false"
-                    android:thumb="@drawable/seekbar_thumb" />
+                    android:splitTrack="false" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/current_duration_mime"
