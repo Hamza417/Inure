@@ -9,7 +9,6 @@
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mainBackground"
         android:elevation="@dimen/header_elevation"
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">

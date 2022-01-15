@@ -7,11 +7,11 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import androidx.core.content.ContextCompat;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.preferences.AccessibilityPreferences;
+import app.simple.inure.themes.manager.ThemeManager;
 
 @Deprecated ()
 /*
@@ -25,7 +25,7 @@ public class DynamicRippleButton extends androidx.appcompat.widget.AppCompatButt
         
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
             LayoutBackground.setBackground(getContext(), this, attrs, 2F);
-            setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.highlight_color)));
+            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
         } else {
             setBackground(Utils.getRippleDrawable(getContext(), getBackground(), 2F));
         }

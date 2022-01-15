@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="mainBackground">#ffffff</color>
-    <color name="dialogBackground">@color/mainBackground</color>
-    <color name="edgeEffect">#f0f0f0</color>
-    <color name="statusBarColor">#000000</color>
-    <color name="viewerBackground">#FAFAFA</color>
-    <color name="highlight_color">#F6F6F6</color>
+    <!-- This app is completely free from Google's weird theming APIs
+         and uses its own custom theming engine which I spent more
+         than 24 hours developing.
+
+         This file is not in use but I'm leaving it here as a reminder
+         for how stupid it was to use in the first place.
+
+         -->
+
+    <!-- ALL HAIL FREEDOM FROM GOOGLE'S PATHETIC CODES -->
 </resources>

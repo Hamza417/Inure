@@ -3,7 +3,7 @@
     <!-- Define the background properties like color etc -->
     <item android:id="@android:id/background">
         <shape>
-            <solid android:color="@color/edgeEffect" />
+            <solid android:color="#f1f1f1" />
             <corners android:radius="50dp" />
         </shape>
     </item>

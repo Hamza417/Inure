@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_height"
         android:layout_margin="@dimen/dialog_padding"
-        android:backgroundTint="@color/mainBackground"
         android:clipChildren="true"
         android:clipToPadding="true"
         android:elevation="@dimen/dialog_elevation">

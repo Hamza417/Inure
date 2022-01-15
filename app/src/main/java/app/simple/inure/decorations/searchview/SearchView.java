@@ -18,12 +18,12 @@ import android.widget.LinearLayout;
 import java.text.DecimalFormat;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import app.simple.inure.R;
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.preferences.SearchPreferences;
+import app.simple.inure.themes.manager.ThemeManager;
 
 public class SearchView extends PaddingAwareLinearLayout {
     
@@ -45,7 +45,7 @@ public class SearchView extends PaddingAwareLinearLayout {
     
     private void setProperties() {
         setElevation(5);
-        setBackgroundColor(ContextCompat.getColor(getContext(), R.color.mainBackground));
+        setBackgroundColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
         setOrientation(LinearLayout.HORIZONTAL);
         setLayoutTransition(new LayoutTransition());
     }

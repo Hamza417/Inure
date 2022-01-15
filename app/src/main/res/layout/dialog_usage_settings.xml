@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:backgroundTint="@color/mainBackground"
         android:elevation="@dimen/dialog_elevation"
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">

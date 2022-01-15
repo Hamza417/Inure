@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
 import android.widget.EdgeEffect
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -138,7 +137,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                      */
                     private fun setEdgeColor() {
                         if (!isEdgeColorRequired) {
-                            color = ContextCompat.getColor(context, R.color.mainBackground)
+                            color = ThemeManager.theme.viewGroupTheme.background
                         }
                     }
                 }

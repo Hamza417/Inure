@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
@@ -20,6 +19,7 @@ import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.preferences.ImageViewerPreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.NullSafety.isNotNull
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import org.jetbrains.annotations.NotNull
@@ -107,9 +107,9 @@ class ImageViewer : ScopedFragment() {
 
     private fun setBackgroundColor() {
         val colorAnim = if (ImageViewerPreferences.isBackgroundDark()) {
-            ValueAnimator.ofObject(ArgbEvaluatorCompat(), ContextCompat.getColor(requireContext(), R.color.viewerBackground), Color.BLACK)
+            ValueAnimator.ofObject(ArgbEvaluatorCompat(), ThemeManager.theme.viewGroupTheme.viewerBackground, Color.BLACK)
         } else {
-            ValueAnimator.ofObject(ArgbEvaluatorCompat(), Color.BLACK, ContextCompat.getColor(requireContext(), R.color.viewerBackground))
+            ValueAnimator.ofObject(ArgbEvaluatorCompat(), Color.BLACK, ThemeManager.theme.viewGroupTheme.viewerBackground)
         }
         colorAnim.duration = 1000
         colorAnim.interpolator = LinearOutSlowInInterpolator()

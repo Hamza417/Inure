@@ -8,7 +8,6 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import androidx.core.content.ContextCompat
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeManager
@@ -51,7 +50,7 @@ class Pie @JvmOverloads constructor(context: Context, attrs: AttributeSet? = nul
         fractionalValuePaint.apply {
             isAntiAlias = true
             xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP)
-            color = ContextCompat.getColor(context, R.color.edgeEffect)
+            color = ThemeManager.theme.viewGroupTheme.dividerBackground
             strokeWidth = radius / 4F
             strokeCap = Paint.Cap.ROUND
             style = Paint.Style.STROKE
