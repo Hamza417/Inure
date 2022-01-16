@@ -89,11 +89,6 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         layerDrawable.setId(1, android.R.id.progress);
         
         layerDrawable.getDrawable(1).setTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent)));
-        
-        setProgressBackgroundTintList(ColorStateList.valueOf(
-                ColorUtils.INSTANCE.lightenColor(
-                        ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccentLight),
-                        0.8f)));
     }
     
     private void setProgressDrawable() {

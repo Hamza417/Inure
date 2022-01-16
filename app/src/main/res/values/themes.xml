@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Inure" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Inure" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- This will fix purple status bar issue when app is launched-->
         <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAppAccent">@color/inure</item>
@@ -8,7 +8,7 @@
         <item name="android:colorEdgeEffect">?attr/colorAppAccent</item>
     </style>
 
-    <style name="Inure.Transparent" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Inure.Transparent" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorAppAccent">@color/inure</item>
         <item name="colorAppAccentLight">@color/inure_light</item>
         <item name="android:windowIsTranslucent">true</item>

@@ -1,9 +1,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <stroke
-                android:width="3dp"
-                android:color="#f1f1f1" />
             <solid android:color="#f1f1f1" />
             <corners android:radius="10dp" />
         </shape>
