@@ -32,7 +32,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="@string/recently_installed"
-            android:textColor="?attr/colorAppAccent"
+            app:textColorStyle="accent"
             android:textSize="@dimen/header_font_size"
             android:transitionName="@string/app_information"
             app:appFontStyle="bold" />

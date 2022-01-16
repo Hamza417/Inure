@@ -22,7 +22,7 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
-    <androidx.drawerlayout.widget.DrawerLayout
+    <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginVertical="@dimen/popup_padding" />

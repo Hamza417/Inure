@@ -15,6 +15,7 @@ class PopupAppTheme(view: View) : BasePopupWindow() {
 
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_application_theme, PopupLinearLayout(view.context))
+
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_theme_dark).onClick(ThemeConstants.DARK_THEME)
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_theme_light).onClick(ThemeConstants.LIGHT_THEME)
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_theme_amoled).onClick(ThemeConstants.AMOLED)

@@ -11,6 +11,7 @@ import app.simple.inure.extension.popup.PopupMenuCallback
 import kotlin.math.roundToInt
 
 class PopupHome(anchor: View) : BasePopupWindow() {
+
     private lateinit var popupMenuCallback: PopupMenuCallback
 
     init {
