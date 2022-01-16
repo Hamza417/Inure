@@ -7,8 +7,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.adapters.menus.AdapterMenu
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
@@ -18,12 +22,15 @@ import app.simple.inure.popups.app.PopupAnalytics
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.SDKHelper
+import app.simple.inure.viewmodels.deviceinfo.PanelItemsViewModel
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DeviceInfo : ScopedFragment() {
+
+    private lateinit var panels: RecyclerView
 
     private lateinit var osVersion: TypeFaceTextView
     private lateinit var securityUpdate: TypeFaceTextView
@@ -36,6 +43,8 @@ class DeviceInfo : ScopedFragment() {
 
     private lateinit var search: DynamicRippleImageButton
     private lateinit var popup: DynamicRippleImageButton
+
+    private val panelItemsViewModel: PanelItemsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_device_info, container, false)
@@ -51,6 +60,8 @@ class DeviceInfo : ScopedFragment() {
 
         ramIndicator = view.findViewById(R.id.analytics_ram_progress_bar)
 
+        panels = view.findViewById(R.id.device_info_panel_rv)
+
         startPostponedEnterTransition()
 
         return view
@@ -58,6 +69,12 @@ class DeviceInfo : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        panelItemsViewModel.getPanelItems().observe(viewLifecycleOwner, {
+            panels.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+            panels.adapter = AdapterMenu(it)
+            panels.scheduleLayoutAnimation()
+        })
 
         setEverything()
 

@@ -409,4 +409,10 @@
     <string name="desc_transparent_status">Make Status Bar non transparent and disable full screen immersive layout for the app.\n\nWorkaround for AndroidBug #5497 where opening keyboard doesn\'t resize the screen.</string>
     <string name="day_night">Day/Night</string>
     <string name="slate">Slate</string>
+    <string name="hardware">Hardware</string>
+    <string name="memory">Memory</string>
+    <string name="network">Network</string>
+    <string name="connectivity">Connectivity</string>
+    <string name="battery">Battery</string>
+    <string name="media">Media</string>
 </resources>

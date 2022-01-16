@@ -14,7 +14,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="@dimen/panel_item_padding">
 
         <include layout="@layout/sub_app_header" />
 

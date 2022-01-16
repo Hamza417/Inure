@@ -7,69 +7,78 @@
     tools:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/panel_item_padding"
-        android:layout_marginBottom="@dimen/analytics_info_heading_text_margin_top"
-        android:text="@string/ram"
-        android:textSize="@dimen/analytics_main_heading_text_size"
-        app:appFontStyle="bold"
-        app:textColorStyle="heading" />
-
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/total_available"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="medium"
-        app:textColorStyle="primary" />
-
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/analytics_total_ram"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="medium"
-        app:textColorStyle="secondary" />
-
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/analytics_info_heading_text_margin_top"
-        android:text="@string/total_used"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="medium"
-        app:textColorStyle="primary" />
-
-    <LinearLayout
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/analytics_small_text_margin_top"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/popup_padding"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:padding="@dimen/panel_item_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/analytics_total_used"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="start"
+            android:layout_marginBottom="@dimen/analytics_info_heading_text_margin_top"
+            android:text="@string/ram"
+            android:textSize="@dimen/analytics_main_heading_text_size"
+            app:appFontStyle="bold"
+            app:textColorStyle="heading" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_available"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="medium"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/analytics_total_ram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="medium"
             app:textColorStyle="secondary" />
 
-        <app.simple.inure.decorations.views.CustomProgressBar
-            android:id="@+id/analytics_ram_progress_bar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="200dp"
-            android:layout_height="10dp"
-            android:layout_gravity="center_vertical|end"
-            android:paddingStart="@dimen/analytics_progress_bar_padding_start"
-            android:progressDrawable="@drawable/progress_bar"
-            tools:ignore="RtlSymmetry" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/analytics_info_heading_text_margin_top"
+            android:text="@string/total_used"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="medium"
+            app:textColorStyle="primary" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/analytics_small_text_margin_top"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/analytics_total_used"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="medium"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.views.CustomProgressBar
+                android:id="@+id/analytics_ram_progress_bar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="200dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_vertical|end"
+                android:paddingStart="@dimen/analytics_progress_bar_padding_start"
+                android:progressDrawable="@drawable/progress_bar"
+                tools:ignore="RtlSymmetry" />
+
+        </LinearLayout>
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
 </merge>

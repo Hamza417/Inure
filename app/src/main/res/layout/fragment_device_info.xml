@@ -1,29 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/panel_item_padding">
+    android:orientation="vertical">
 
-    <include layout="@layout/header_device_info" />
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+        android:id="@+id/home_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:padding="@dimen/popup_padding"
+        android:translationZ="1dp">
 
-    <androidx.core.widget.NestedScrollView
+        <ImageView
+            android:id="@+id/header_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/device_stats"
+            android:padding="10dp"
+            android:src="@drawable/ic_memory"
+            android:transitionName="@string/device_stats" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView02"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:text="@string/device_stats"
+            android:textSize="@dimen/header_font_size"
+            app:appFontStyle="light"
+            app:textColorStyle="heading" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/device_info_search_button"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/search_button"
+            android:src="@drawable/ic_search"
+            android:transitionName="adapter_search_icon"
+            app:buttonTintType="regular" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/device_info_option_button"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/configuration_button"
+            android:src="@drawable/ic_more_vert"
+            app:buttonTintType="regular" />
+
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/panel_item_padding"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/over_scroll_behavior">
 
-            <include layout="@layout/analytics_device" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <include layout="@layout/analytics_ram" />
+                <app.simple.inure.decorations.theme.ThemeDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginBottom="@dimen/popup_padding" />
 
-        </LinearLayout>
+                <include layout="@layout/analytics_device" />
 
-    </androidx.core.widget.NestedScrollView>
+                <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/popup_padding"
+                    android:elevation="5dp"
+                    android:orientation="vertical"
+                    android:padding="@dimen/panel_item_padding">
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/analytics_info_heading_text_margin_top"
+                        android:text="@string/information"
+                        android:textSize="@dimen/analytics_main_heading_text_size"
+                        app:appFontStyle="bold"
+                        app:textColorStyle="heading" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/device_info_panel_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layoutAnimation="@anim/grid_list_animation_controller"
+                        android:overScrollMode="never"
+                        android:scrollbars="none" />
+
+                </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+                <include layout="@layout/analytics_ram" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

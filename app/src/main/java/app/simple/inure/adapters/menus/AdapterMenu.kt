@@ -11,7 +11,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 
 class AdapterMenu(private val list: List<Pair<Int, String>>) : RecyclerView.Adapter<AdapterMenu.Holder>() {
 
-    private lateinit var adapterMenuCallbacks: AdapterMenuCallbacks
+    private var adapterMenuCallbacks: AdapterMenuCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_app_info_menu, parent, false))
@@ -22,7 +22,7 @@ class AdapterMenu(private val list: List<Pair<Int, String>>) : RecyclerView.Adap
         holder.icon.setImageResource(list[position].first)
         holder.text.text = list[position].second
         holder.container.setOnClickListener {
-            adapterMenuCallbacks.onAppInfoMenuClicked(list[position].second, holder.icon)
+            adapterMenuCallbacks?.onAppInfoMenuClicked(list[position].second, holder.icon)
         }
     }
 
