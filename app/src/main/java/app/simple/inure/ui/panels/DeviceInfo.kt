@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +20,7 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupAnalytics
+import app.simple.inure.ui.deviceinfo.SystemInfo
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.SDKHelper
@@ -44,6 +46,7 @@ class DeviceInfo : ScopedFragment() {
     private lateinit var search: DynamicRippleImageButton
     private lateinit var popup: DynamicRippleImageButton
 
+    private lateinit var adapterPanelItems: AdapterMenu
     private val panelItemsViewModel: PanelItemsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,8 +74,22 @@ class DeviceInfo : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         panelItemsViewModel.getPanelItems().observe(viewLifecycleOwner, {
+            adapterPanelItems = AdapterMenu(it)
+
+            adapterPanelItems.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
+                override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
+                    when (source) {
+                        getString(R.string.system) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        SystemInfo.newInstance(),
+                                                        icon, "system_info")
+                        }
+                    }
+                }
+            })
+
             panels.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
-            panels.adapter = AdapterMenu(it)
+            panels.adapter = adapterPanelItems
             panels.scheduleLayoutAnimation()
         })
 
@@ -102,6 +119,7 @@ class DeviceInfo : ScopedFragment() {
     private fun setEverything() {
         setDeviceAnalytics()
         setRamAnalytics()
+        handler.postDelayed(ramRunnable, 1000)
     }
 
     private fun setDeviceAnalytics() {
@@ -159,8 +177,16 @@ class DeviceInfo : ScopedFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private val ramRunnable = object : Runnable {
+        override fun run() {
+            setRamAnalytics()
+            handler.postDelayed(this, 1000)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(ramRunnable)
         ramIndicator.clearAnimation()
     }
 

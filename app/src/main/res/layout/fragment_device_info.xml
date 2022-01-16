@@ -82,8 +82,6 @@
                     android:layout_height="1px"
                     android:layout_marginBottom="@dimen/popup_padding" />
 
-                <include layout="@layout/analytics_device" />
-
                 <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,6 +109,8 @@
                         android:scrollbars="none" />
 
                 </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+                <include layout="@layout/analytics_device" />
 
                 <include layout="@layout/analytics_ram" />
 
