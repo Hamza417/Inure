@@ -67,8 +67,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/device_info_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/popup_padding" />
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:layout_height="wrap_content" />
 
             </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

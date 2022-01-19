@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adapter_device_info_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/device_info_item_gap_length">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/device_info_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/info_text_large"
+        app:appFontStyle="bold"
+        app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/device_info_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="@dimen/info_text_small"
+        app:textColorStyle="tertiary"
+        app:appFontStyle="light" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

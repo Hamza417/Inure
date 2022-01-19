@@ -76,4 +76,5 @@
     <dimen name="audio_title_text_size">24sp</dimen>
     <dimen name="seekbar_thumb_size">35dp</dimen>
     <dimen name="seekbar_stroke_size">6dp</dimen>
+    <dimen name="device_info_item_gap_length">20dp</dimen>
 </resources>

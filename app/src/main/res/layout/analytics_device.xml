@@ -27,7 +27,7 @@
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/os_version"
+            android:text="@string/android_version"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="medium"
             app:textColorStyle="primary" />
