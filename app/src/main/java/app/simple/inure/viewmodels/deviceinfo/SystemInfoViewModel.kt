@@ -37,6 +37,7 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
                     getHardwareName(),
                     getSecurityUpdate(),
                     getKernelVersion(),
+                    getBasebandVersion(),
                     getUser(),
                     getManufacturer(),
                     getModel(),
@@ -67,6 +68,11 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
     private fun getKernelVersion(): Pair<String, Spannable> {
         return Pair(getString(R.string.kernel_version),
                     DeviceUtils.readKernelVersion()!!.applySecondaryTextColor())
+    }
+
+    private fun getBasebandVersion(): Pair<String, Spannable> {
+        return Pair(getString(R.string.baseband_version),
+                    Build.getRadioVersion().applySecondaryTextColor())
     }
 
     private fun getUser(): Pair<String, Spannable> {
@@ -111,6 +117,6 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
 
     private fun getUpTime(): Pair<String, Spannable> {
         return Pair(getString(R.string.up_time),
-                    NumberUtils.getFormattedTime(SystemClock.uptimeMillis()).applySecondaryTextColor())
+                    NumberUtils.getFormattedTime(SystemClock.elapsedRealtime()).applySecondaryTextColor())
     }
 }

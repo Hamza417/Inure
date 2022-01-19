@@ -52,24 +52,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/popup_padding"
-                android:elevation="2dp"
                 android:orientation="vertical"
+                android:elevation="1dp"
                 android:padding="@dimen/panel_item_padding">
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/device"
-                    android:textSize="@dimen/info_text_large"
+                    android:textSize="@dimen/home_heading_text_size"
                     app:appFontStyle="bold"
                     app:textColorStyle="accent" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/device_info_rv"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:overScrollMode="never"
-                    android:scrollbars="none"
-                    android:layout_height="wrap_content" />
+                    android:scrollbars="none" />
 
             </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

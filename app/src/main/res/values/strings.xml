@@ -421,4 +421,5 @@
     <string name="fingerprint">Fingerprint</string>
     <string name="up_time">Up Time</string>
     <string name="kernel_version">Kernel Version</string>
+    <string name="baseband_version">Baseband Version</string>
 </resources>
