@@ -14,7 +14,8 @@ import app.simple.inure.viewmodels.deviceinfo.SystemInfoViewModel
 
 class SystemInfo : ScopedFragment() {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var device: RecyclerView
+    private lateinit var additional: RecyclerView
 
     private lateinit var adapterDeviceInfoContent: AdapterDeviceInfoContent
     private val systemInfoViewModel: SystemInfoViewModel by viewModels()
@@ -22,7 +23,8 @@ class SystemInfo : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.device_info_system, container, false)
 
-        recyclerView = view.findViewById(R.id.device_info_rv)
+        device = view.findViewById(R.id.system_info_rv)
+        additional = view.findViewById(R.id.additional_info_rv)
 
         return view
     }
@@ -33,8 +35,15 @@ class SystemInfo : ScopedFragment() {
 
         systemInfoViewModel.getInformation().observe(viewLifecycleOwner, {
             adapterDeviceInfoContent = AdapterDeviceInfoContent(it)
-            recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            recyclerView.adapter = adapterDeviceInfoContent
+            device.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            device.adapter = adapterDeviceInfoContent
+            device.scheduleLayoutAnimation()
+        })
+
+        systemInfoViewModel.getAdditionalInformation().observe(viewLifecycleOwner, {
+            additional.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            additional.adapter = AdapterDeviceInfoContent(it)
+            additional.scheduleLayoutAnimation()
         })
     }
 

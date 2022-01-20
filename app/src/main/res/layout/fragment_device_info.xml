@@ -82,37 +82,17 @@
                     android:layout_height="1px"
                     android:layout_marginBottom="@dimen/popup_padding" />
 
-                <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+                <include layout="@layout/analytics_ram" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/device_info_panel_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layoutAnimation="@anim/grid_list_animation_controller"
+                    android:overScrollMode="never"
                     android:layout_margin="@dimen/popup_padding"
-                    android:elevation="5dp"
-                    android:orientation="vertical"
-                    android:padding="@dimen/panel_item_padding">
-
-                    <app.simple.inure.decorations.typeface.TypeFaceTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/analytics_info_heading_text_margin_top"
-                        android:text="@string/information"
-                        android:textSize="@dimen/analytics_main_heading_text_size"
-                        app:appFontStyle="bold"
-                        app:textColorStyle="heading" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/device_info_panel_rv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layoutAnimation="@anim/grid_list_animation_controller"
-                        android:overScrollMode="never"
-                        android:scrollbars="none" />
-
-                </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
-
-                <include layout="@layout/analytics_device" />
-
-                <include layout="@layout/analytics_ram" />
+                    android:scrollbars="none" />
 
             </LinearLayout>
 

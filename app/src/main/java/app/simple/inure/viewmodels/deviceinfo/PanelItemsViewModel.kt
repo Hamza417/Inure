@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.extension.viewmodels.WrappedViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PanelItemsViewModel(application: Application) : WrappedViewModel(application) {
@@ -23,6 +24,7 @@ class PanelItemsViewModel(application: Application) : WrappedViewModel(applicati
 
     private fun loadItems() {
         viewModelScope.launch(Dispatchers.Default) {
+            delay(100)
             val context = context
 
             val list = listOf(

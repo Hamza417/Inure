@@ -48,12 +48,12 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/over_scroll_behavior">
 
-            <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/popup_padding"
-                android:orientation="vertical"
                 android:elevation="1dp"
+                android:orientation="vertical"
                 android:padding="@dimen/panel_item_padding">
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -65,13 +65,31 @@
                     app:textColorStyle="accent" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/device_info_rv"
+                    android:id="@+id/system_info_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layoutAnimation="@anim/device_info_item_animation_controller"
                     android:overScrollMode="never"
                     android:scrollbars="none" />
 
-            </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/additional_information"
+                    android:textSize="@dimen/home_heading_text_size"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/additional_info_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layoutAnimation="@anim/device_info_item_animation_controller"
+                    android:overScrollMode="never"
+                    android:scrollbars="none" />
+
+            </LinearLayout>
 
         </app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

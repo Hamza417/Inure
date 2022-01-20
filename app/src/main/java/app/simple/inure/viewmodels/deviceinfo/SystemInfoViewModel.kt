@@ -9,20 +9,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.constants.Misc
 import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.util.DeviceUtils
 import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
+import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SystemInfoViewModel(application: Application) : WrappedViewModel(application) {
+
+    private val additionalInformation: MutableLiveData<ArrayList<Pair<String, Spannable>>> by lazy {
+        MutableLiveData<ArrayList<Pair<String, Spannable>>>().also {
+            loadAdditionalInformation()
+        }
+    }
+
     private val information: MutableLiveData<ArrayList<Pair<String, Spannable>>> by lazy {
         MutableLiveData<ArrayList<Pair<String, Spannable>>>().also {
-            viewModelScope.launch(Dispatchers.IO) {
-                loadInformation()
-            }
+            loadInformation()
         }
     }
 
@@ -30,8 +38,13 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
         return information
     }
 
+    fun getAdditionalInformation(): LiveData<ArrayList<Pair<String, Spannable>>> {
+        return additionalInformation
+    }
+
     private fun loadInformation() {
         viewModelScope.launch(Dispatchers.Default) {
+            delay(Misc.delay)
             information.postValue(arrayListOf(
                     getAndroidVersion(),
                     getHardwareName(),
@@ -46,6 +59,16 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
                     getFingerprint(),
                     getUSBDebugState(),
                     getUpTime()
+            ))
+        }
+    }
+
+    private fun loadAdditionalInformation() {
+        viewModelScope.launch(Dispatchers.Default) {
+            delay(Misc.delay)
+            additionalInformation.postValue(arrayListOf(
+                    getRoot(),
+                    getBusybox()
             ))
         }
     }
@@ -118,5 +141,29 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
     private fun getUpTime(): Pair<String, Spannable> {
         return Pair(getString(R.string.up_time),
                     NumberUtils.getFormattedTime(SystemClock.elapsedRealtime()).applySecondaryTextColor())
+    }
+
+    private fun getRoot(): Pair<String, Spannable> {
+        val s = with(RootBeer(context)) {
+            if (isRooted) {
+                getString(R.string.available)
+            } else {
+                getString(R.string.not_available)
+            }
+        }
+
+        return Pair("Root", s.applySecondaryTextColor())
+    }
+
+    private fun getBusybox(): Pair<String, Spannable> {
+        val s = with(RootBeer(context)) {
+            if (checkForBusyBoxBinary()) {
+                getString(R.string.available)
+            } else {
+                getString(R.string.not_available)
+            }
+        }
+
+        return Pair("Busybox", s.applySecondaryTextColor())
     }
 }
