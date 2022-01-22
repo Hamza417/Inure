@@ -154,9 +154,9 @@ object ThemeUtils {
             ThemeConstants.DAY_NIGHT -> {
                 val calendar = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
                 if (calendar < 7 || calendar > 18) {
-                    return false
-                } else if (calendar < 18 || calendar > 6) {
                     return true
+                } else if (calendar < 18 || calendar > 6) {
+                    return false
                 }
             }
         }
