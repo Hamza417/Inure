@@ -7,4 +7,5 @@ object ThemeConstants {
     const val FOLLOW_SYSTEM = 3
     const val DAY_NIGHT = 4
     const val SLATE = 5
+    const val HIGH_CONTRAST = 6
 }

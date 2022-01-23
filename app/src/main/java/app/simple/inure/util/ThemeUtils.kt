@@ -26,6 +26,9 @@ object ThemeUtils {
             ThemeConstants.SLATE -> {
                 ThemeManager.theme = Theme.SLATE
             }
+            ThemeConstants.HIGH_CONTRAST -> {
+                ThemeManager.theme = Theme.HIGH_CONTRAST
+            }
             ThemeConstants.FOLLOW_SYSTEM -> {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
@@ -38,6 +41,9 @@ object ThemeUtils {
                             }
                             ThemeConstants.SLATE -> {
                                 ThemeManager.theme = Theme.SLATE
+                            }
+                            ThemeConstants.HIGH_CONTRAST -> {
+                                ThemeManager.theme = Theme.HIGH_CONTRAST
                             }
                         }
                     }
@@ -62,6 +68,9 @@ object ThemeUtils {
                         ThemeConstants.SLATE -> {
                             ThemeManager.theme = Theme.SLATE
                         }
+                        ThemeConstants.HIGH_CONTRAST -> {
+                            ThemeManager.theme = Theme.HIGH_CONTRAST
+                        }
                     }
                 } else if (calendar < 18 || calendar > 6) {
                     ThemeManager.theme = Theme.LIGHT
@@ -77,6 +86,7 @@ object ThemeUtils {
             }
             ThemeConstants.DARK_THEME,
             ThemeConstants.AMOLED,
+            ThemeConstants.HIGH_CONTRAST,
             ThemeConstants.SLATE -> {
                 darkBars(window)
             }
@@ -135,6 +145,7 @@ object ThemeUtils {
             }
             ThemeConstants.DARK_THEME,
             ThemeConstants.AMOLED,
+            ThemeConstants.HIGH_CONTRAST,
             ThemeConstants.SLATE -> {
                 return true
             }

@@ -105,5 +105,29 @@ enum class Theme(val textViewTheme: TextViewTheme,
                     regularIconColor = Color.parseColor("#F8F8F8"),
                     secondaryIconColor = Color.parseColor("#E8E8E8")
             )
+    ),
+
+    HIGH_CONTRAST(
+            textViewTheme = TextViewTheme(
+                    headingTextColor = Color.parseColor("#ffffff"),
+                    primaryTextColor = Color.parseColor("#ffffff"),
+                    secondaryTextColor = Color.parseColor("#ffffff"),
+                    tertiaryTextColor = Color.parseColor("#ffffff"),
+                    quaternaryTextColor = Color.parseColor("#ffffff"),
+            ),
+            viewGroupTheme = ViewGroupTheme(
+                    background = Color.parseColor("#000000"),
+                    viewerBackground = Color.parseColor("#000000"),
+                    highlightBackground = Color.parseColor("#404040"),
+                    selectedBackground = Color.parseColor("#242424"),
+                    dividerBackground = Color.parseColor("#ffffff")
+            ),
+            switchViewTheme = SwitchViewTheme(
+                    switchOffColor = Color.parseColor("#252525")
+            ),
+            iconTheme = IconTheme(
+                    regularIconColor = Color.parseColor("#ffffff"),
+                    secondaryIconColor = Color.parseColor("#E8E8E8")
+            )
     )
 }

@@ -142,6 +142,9 @@ class AppearanceScreen : ScopedFragment() {
             ThemeConstants.SLATE -> {
                 getString(R.string.slate)
             }
+            ThemeConstants.HIGH_CONTRAST -> {
+                getString(R.string.high_contrast)
+            }
             else -> {
                 getString(R.string.unknown)
             }
