@@ -146,7 +146,11 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
     }
 
     override fun setAdapter(adapter: Adapter<*>?) {
-        adapter?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
+        try {
+            adapter?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
+        } catch (e: UnsupportedOperationException) {
+            e.printStackTrace()
+        }
 
         if (this.adapter.isNotNull()) {
             layoutAnimation = null

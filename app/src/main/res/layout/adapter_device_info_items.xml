@@ -4,11 +4,13 @@
     android:id="@+id/adapter_device_info_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/popup_padding"
+    android:layout_marginTop="@dimen/popup_padding"
     android:orientation="vertical"
-    android:layout_marginTop="@dimen/device_info_item_gap_length">
+    android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/device_info_heading"
+        android:id="@+id/device_info_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/info_text_large"
@@ -21,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textSize="@dimen/info_text_small"
-        app:textColorStyle="tertiary"
-        app:appFontStyle="light" />
+        app:appFontStyle="light"
+        app:textColorStyle="tertiary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

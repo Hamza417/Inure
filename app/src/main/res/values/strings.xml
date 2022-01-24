@@ -424,4 +424,5 @@
     <string name="baseband_version">Baseband Version</string>
     <string name="additional_information">Additional Information</string>
     <string name="high_contrast">High Contrast</string>
+    <string name="os">OS</string>
 </resources>

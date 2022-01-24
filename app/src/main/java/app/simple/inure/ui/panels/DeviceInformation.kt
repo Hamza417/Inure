@@ -26,7 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DeviceInfo : ScopedFragment() {
+class DeviceInformation : ScopedFragment() {
 
     private lateinit var panels: RecyclerView
 
@@ -139,9 +139,9 @@ class DeviceInfo : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): DeviceInfo {
+        fun newInstance(): DeviceInformation {
             val args = Bundle()
-            val fragment = DeviceInfo()
+            val fragment = DeviceInformation()
             fragment.arguments = args
             return fragment
         }
