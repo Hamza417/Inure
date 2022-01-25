@@ -17,6 +17,7 @@ object AppearancePreferences {
     const val appFont = "type_face"
     const val accentOnNav = "accent_color_on_nav_bar"
     const val transparentStatus = "is_transparent_status_disabled"
+    const val iconSize = "app_icon_size"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -104,5 +105,15 @@ object AppearancePreferences {
 
     fun isTransparentStatusDisabled(): Boolean {
         return getSharedPreferences().getBoolean(transparentStatus, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setIconSize(@IntRange(from = 50, to = 600) size: Int) {
+        getSharedPreferences().edit().putInt(iconSize, size).apply()
+    }
+
+    fun getIconSize(): Int {
+        return getSharedPreferences().getInt(iconSize, 400)
     }
 }

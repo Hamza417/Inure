@@ -444,4 +444,7 @@
     <string name="temperature">Temperature</string>
     <string name="charging">Charging</string>
     <string name="charging_type">Charging Type</string>
+    <string name="technology">Technology</string>
+    <string name="icon_size">Icon Size</string>
+    <string name="icon_size_desc">Change the size of the app icons shown throughout the app.</string>
 </resources>

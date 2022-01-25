@@ -5,7 +5,7 @@ import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import app.simple.inure.R
-import app.simple.inure.constants.Misc
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.BitmapHelper.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
@@ -27,9 +27,9 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                                          .toBitmap())
             }
         } catch (e: PackageManager.NameNotFoundException) {
-            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(appIcon.context, Misc.appIconsDimension))
+            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(appIcon.context, AppearancePreferences.getIconSize()))
         } catch (e: NullPointerException) {
-            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(appIcon.context, Misc.appIconsDimension))
+            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(appIcon.context, AppearancePreferences.getIconSize()))
         } catch (e: Exception) {
             callback.onLoadFailed(e)
         }

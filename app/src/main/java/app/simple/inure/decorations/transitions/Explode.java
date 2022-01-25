@@ -160,6 +160,5 @@ public class Explode extends Visibility {
         outVector[0] = Math.round(maxDistance * xVector);
         outVector[1] = Math.round(maxDistance * yVector);
     }
-    
 }
 

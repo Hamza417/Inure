@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:id="@+id/icon_size_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_padding"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <ImageView
+            android:id="@+id/resized_icon_preview"
+            android:layout_width="@dimen/app_icon_dimension"
+            android:layout_height="@dimen/app_icon_dimension"
+            android:layout_gravity="center_horizontal"
+            android:focusable="false"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.theme.ThemeSeekBar
+            android:id="@+id/icon_size_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="20dp"
+            android:max="600"
+            android:maxHeight="12dp"
+            android:progressDrawable="@drawable/seek_bar"
+            android:splitTrack="false" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:padding="@dimen/button_padding"
+                android:text="@string/cancel"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/button_padding"
+                android:text="@string/set"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+        </LinearLayout>
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+</FrameLayout>

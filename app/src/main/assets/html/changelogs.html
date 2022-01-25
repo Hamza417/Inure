@@ -15,40 +15,68 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build18</h2>
+<h2>Build19</h2>
 
 <h4>User Interface</h4>
 
 <ul>
-    <li>Added information panel menu in <b>Device Info</b> panel.</li>
-    <li>Redesigned <b>Device Info</b> panel.</li>
-    <li>Added <b>High Contrast</b> theme.</li>
-</ul>
-
-<h4>Bug and Issues Fixes</h4>
-
-<ul>
-    <li>Fixed crashes on some popup menus.</li>
-    <li>Fixed icon color issue in <b>Apps</b> panel.</li>
-    <li>Fixed random icon size issue in <b>Usage Stats</b> panel.</li>
-    <li>Fixed purple status bar issue when app is launched.</li>
-    <li>Fixed seekbar background issue.</li>
-    <li>Fixed <b>Audio Player</b> not launching issue.</li>
-</ul>
-
-<h4>Improvements</h4>
-
-<ul>
-    <li>Improved icon loader framework, now loads current launcher icons of the apps instead of
-        loading the default launcher icon.
-        <br>
-        <br>
-        <sub>(Useful in cases where an app is dynamically changing app icons and new icon is the
-            updated recognizing point for the app.)</sub>
-    </li>
+    <li>Added option to resize icons of the app.</li>
 </ul>
 
 <br>
+<br>
+
+<div class="wrap-collapsible">
+    <input id="build_18" class="toggle" type="checkbox">
+    <label for="build_18" class="lbl-toggle">Build18</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added information panel menu in <b>Device Info</b> panel.</li>
+                <li>Redesigned <b>Device Info</b> panel.</li>
+                <li>Added <b>High Contrast</b> theme.</li>
+            </ul>
+
+            <h4>Bug and Issues Fixes</h4>
+
+            <ul>
+                <li>Fixed crashes on some popup menus.</li>
+                <li>Fixed icon color issue in <b>Apps</b> panel.</li>
+                <li>Fixed random icon size issue in <b>Usage Stats</b> panel.</li>
+                <li>Fixed purple status bar issue when app is launched.</li>
+                <li>Fixed seekbar background issue.</li>
+                <li>Fixed <b>Audio Player</b> not launching issue.</li>
+            </ul>
+
+            <h4>Improvements</h4>
+
+            <ul>
+                <li>Improved icon loader framework, now loads current launcher icons of the apps
+                    instead of
+                    loading the default launcher icon.
+                    <br>
+                    <br>
+                    <sub>(Useful in cases where an app is dynamically changing app icons and new
+                        icon is the
+                        updated recognizing point for the app. Earlier the app loads default app
+                        icon despite
+                        the icon being changed by the app itself, this fixes that problem.)</sub>
+                </li>
+            </ul>
+
+            <h4>Device Info</h4>
+
+            <ul>
+                <li>Implemented System panel.</li>
+                <li>Implemented Device panel.</li>
+                <li>Implemented Battery panel.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <br>
 
 <div class="wrap-collapsible">

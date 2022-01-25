@@ -76,7 +76,7 @@ class BatteryViewModel(application: Application) : WrappedViewModel(application)
 
     private fun getTechnology(): Pair<String, Spannable> {
         val technology = BatteryUtils.getBatteryStatusIntent(applicationContext())?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
-        return Pair(getString(R.string.temperature),
+        return Pair(getString(R.string.technology),
                     technology!!.applySecondaryTextColor())
     }
 

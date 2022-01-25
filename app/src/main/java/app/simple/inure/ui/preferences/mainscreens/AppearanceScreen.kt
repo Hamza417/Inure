@@ -15,6 +15,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.dialogs.appearance.IconSize
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.app.PopupAppTheme
@@ -33,6 +34,7 @@ class AppearanceScreen : ScopedFragment() {
     private lateinit var accent: DynamicRippleRelativeLayout
     private lateinit var typeface: DynamicRippleRelativeLayout
     private lateinit var roundedCorner: DynamicRippleRelativeLayout
+    private lateinit var iconSize: DynamicRippleRelativeLayout
     private lateinit var appTheme: DynamicRippleTextView
     private lateinit var iconShadows: SwitchView
     private lateinit var accentOnNav: SwitchView
@@ -46,6 +48,7 @@ class AppearanceScreen : ScopedFragment() {
         accent = view.findViewById(R.id.appearance_accent_color)
         typeface = view.findViewById(R.id.appearance_app_typeface)
         roundedCorner = view.findViewById(R.id.appearance_corner_radius)
+        iconSize = view.findViewById(R.id.appearance_icon_size)
 
         appTheme = view.findViewById(R.id.popup_application_theme)
 
@@ -102,6 +105,11 @@ class AppearanceScreen : ScopedFragment() {
 
         roundedCorner.setOnClickListener {
             RoundedCorner.newInstance().show(childFragmentManager, "rounded_corner")
+        }
+
+        iconSize.setOnClickListener {
+            IconSize.newInstance()
+                .show(childFragmentManager, "icon_size")
         }
 
         iconShadows.setOnSwitchCheckedChangeListener {
