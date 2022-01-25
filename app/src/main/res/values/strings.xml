@@ -116,7 +116,7 @@
     <string name="multi_dex">Multi Dex, %1$s</string>
     <string name="single_dex">Single Dex, %1$s</string>
     <string name="activity_status">%1$s | %2$s</string>
-    <string name="device_stats">Device Info</string>
+    <string name="device_info">Device Info</string>
     <string name="terminal">Terminal</string>
     <string name="usage_statistics">Usage Statistics</string>
     <string name="close">Close</string>
@@ -425,4 +425,10 @@
     <string name="additional_information">Additional Information</string>
     <string name="high_contrast">High Contrast</string>
     <string name="os">OS</string>
+    <string name="display">Display</string>
+    <string name="large">Large</string>
+    <string name="small">Small</string>
+    <string name="form_factor">Form Factor</string>
+    <string name="refresh_rate">Refresh Rate</string>
+    <string name="extra_large">Extra Large</string>
 </resources>

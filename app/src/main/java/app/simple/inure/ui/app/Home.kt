@@ -172,7 +172,7 @@ class Home : ScopedFragment() {
                                     requireActivity().supportFragmentManager,
                                     Statistics.newInstance(), icon, "stats")
                         }
-                        getString(R.string.device_stats) -> {
+                        getString(R.string.device_info) -> {
                             FragmentHelper.openFragment(
                                     requireActivity().supportFragmentManager,
                                     DeviceInformation.newInstance(), icon, "info")

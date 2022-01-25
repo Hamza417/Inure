@@ -20,10 +20,10 @@
             android:id="@+id/header_icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:contentDescription="@string/device_stats"
+            android:contentDescription="@string/device_info"
             android:padding="10dp"
             android:src="@drawable/ic_memory"
-            android:transitionName="@string/device_stats" />
+            android:transitionName="@string/device_info" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"
@@ -34,7 +34,7 @@
             android:layout_weight="1"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:text="@string/device_stats"
+            android:text="@string/device_info"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="light"
             app:textColorStyle="heading" />

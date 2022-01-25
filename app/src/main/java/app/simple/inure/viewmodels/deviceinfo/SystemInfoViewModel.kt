@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.constants.Misc
 import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.util.DeviceUtils
 import app.simple.inure.util.NumberUtils
@@ -17,7 +16,6 @@ import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SystemInfoViewModel(application: Application) : WrappedViewModel(application) {
@@ -44,7 +42,6 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
 
     private fun loadInformation() {
         viewModelScope.launch(Dispatchers.Default) {
-            delay(Misc.delay)
             information.postValue(arrayListOf(
                     getAndroidVersion(),
                     getHardwareName(),
@@ -52,8 +49,6 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
                     getKernelVersion(),
                     getBasebandVersion(),
                     getUser(),
-                    getManufacturer(),
-                    getModel(),
                     getBoard(),
                     getBootloader(),
                     getFingerprint(),
@@ -65,7 +60,6 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
 
     private fun loadAdditionalInformation() {
         viewModelScope.launch(Dispatchers.Default) {
-            delay(Misc.delay)
             additionalInformation.postValue(arrayListOf(
                     getRoot(),
                     getBusybox()
@@ -101,16 +95,6 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
     private fun getUser(): Pair<String, Spannable> {
         return Pair(getString(R.string.user),
                     Build.USER.applySecondaryTextColor())
-    }
-
-    private fun getManufacturer(): Pair<String, Spannable> {
-        return Pair(getString(R.string.manufacturer),
-                    Build.MANUFACTURER.applySecondaryTextColor())
-    }
-
-    private fun getModel(): Pair<String, Spannable> {
-        return Pair(getString(R.string.model),
-                    Build.MODEL.applySecondaryTextColor())
     }
 
     private fun getBoard(): Pair<String, Spannable> {

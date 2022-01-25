@@ -27,7 +27,9 @@ class AdapterDeviceInfoContent(val arrayList: ArrayList<Pair<String, Spannable>>
         }
     }
 
-    override fun onBindViewHolder(holder: VerticalListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
+        val position = position_.minus(1)
+
         if (holder is Holder) {
             holder.title.text = arrayList[position].first
             holder.data.text = arrayList[position].second
@@ -37,7 +39,7 @@ class AdapterDeviceInfoContent(val arrayList: ArrayList<Pair<String, Spannable>>
     }
 
     override fun getItemCount(): Int {
-        return arrayList.size
+        return arrayList.size.plus(1)
     }
 
     override fun getItemViewType(position: Int): Int {

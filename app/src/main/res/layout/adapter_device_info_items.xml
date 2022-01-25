@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/info_text_large"
         app:appFontStyle="bold"
-        app:textColorStyle="secondary" />
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/device_info_data"
