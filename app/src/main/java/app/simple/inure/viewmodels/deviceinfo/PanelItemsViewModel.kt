@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.util.BatteryUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -34,12 +35,11 @@ class PanelItemsViewModel(application: Application) : WrappedViewModel(applicati
                     Pair(R.drawable.ic_sd_storage, context.getString(R.string.memory)),
                     Pair(R.drawable.ic_camera, context.getString(R.string.camera)),
                     Pair(R.drawable.ic_network, context.getString(R.string.network)),
-                    Pair(R.drawable.ic_battery, context.getString(R.string.battery)),
+                    Pair(BatteryUtils.getBatteryDrawable(applicationContext()), context.getString(R.string.battery)),
                     Pair(R.drawable.ic_android, context.getString(R.string.media)),
             )
 
             panelItems.postValue(list)
         }
     }
-
 }

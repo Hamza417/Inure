@@ -18,6 +18,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.ui.deviceinfo.BatteryInfo
 import app.simple.inure.ui.deviceinfo.DeviceInfo
 import app.simple.inure.ui.deviceinfo.SystemInfo
 import app.simple.inure.util.FileSizeHelper.toSize
@@ -77,6 +78,11 @@ class DeviceInformation : ScopedFragment() {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         DeviceInfo.newInstance(),
                                                         icon, "device_info")
+                        }
+                        getString(R.string.battery) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        BatteryInfo.newInstance(),
+                                                        icon, "battery_info")
                         }
                     }
                 }

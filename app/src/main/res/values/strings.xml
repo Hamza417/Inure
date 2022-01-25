@@ -431,4 +431,17 @@
     <string name="form_factor">Form Factor</string>
     <string name="refresh_rate">Refresh Rate</string>
     <string name="extra_large">Extra Large</string>
+    <string name="level">Level</string>
+    <string name="capacity">Capacity</string>
+    <string name="cold">Cold</string>
+    <string name="good">Good</string>
+    <string name="dead">Dead</string>
+    <string name="overheat">Overheat</string>
+    <string name="overvoltage">Overvoltage</string>
+    <string name="unspecified_failure">Unspecified Failure</string>
+    <string name="health">Health</string>
+    <string name="voltage">Voltage</string>
+    <string name="temperature">Temperature</string>
+    <string name="charging">Charging</string>
+    <string name="charging_type">Charging Type</string>
 </resources>

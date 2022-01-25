@@ -21,6 +21,11 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_right.xml" value="0.25625" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_right_tiny.xml" value="0.2523076923076923" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_backup.xml" value="0.25625" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_battery.xml" value="0.25092592592592594" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_battery_3.xml" value="0.25092592592592594" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_battery_4.xml" value="0.25092592592592594" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_battery_5.xml" value="0.25092592592592594" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_battery_6.xml" value="0.25092592592592594" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_check.xml" value="0.2523076923076923" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_dot_tiny.xml" value="0.2523076923076923" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_layers.xml" value="0.25625" />
@@ -100,6 +105,8 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/configuration_information.xml" value="0.22" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/configuration_root.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dalog_activity_launcher.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/device_info_battery.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/device_info_device.xml" value="0.20833333333333334" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/device_info_system.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_app_corner.xml" value="0.21666666666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_audio_player.xml" value="0.22685185185185186" />
