@@ -1,9 +1,10 @@
 <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/markdown_viewer_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:id="@+id/markdown_viewer_scroll_view">
+    app:layout_behavior="@string/over_scroll_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,9 +35,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                app:textColorStyle="accent"
                 android:textSize="@dimen/header_name_text_size"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/code_viewer_options"
@@ -45,7 +46,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="15dp"
                 android:src="@drawable/ic_more_vert"
-                android:tint="?attr/colorAppAccent" />
+                app:buttonTintType="accent" />
 
         </LinearLayout>
 
@@ -53,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px" />
 
-        <com.mittsu.markedview.MarkedView
+        <app.simple.inure.decorations.views.MarkedView
             android:id="@+id/code_viewer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,5 +62,4 @@
             android:clipToPadding="false" />
 
     </LinearLayout>
-
 </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

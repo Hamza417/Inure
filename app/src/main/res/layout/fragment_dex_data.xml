@@ -33,9 +33,9 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:text="@string/dex_classes"
-            android:textColor="?attr/colorAppAccent"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 

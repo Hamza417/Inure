@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import app.simple.inure.decorations.views.CustomWebView;
 
 @SuppressLint ("MissingSuperCall")
@@ -16,7 +15,7 @@ public class FastScrollWebView extends CustomWebView implements ViewHelperProvid
     @NonNull
     private final ViewHelper mViewHelper = new ViewHelper();
     
-    public FastScrollWebView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public FastScrollWebView(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }

@@ -37,7 +37,7 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:text="@string/resources"
-            android:textColor="?attr/colorAppAccent"
+            app:textColorStyle="accent"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold" />
 

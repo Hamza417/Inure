@@ -17,16 +17,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.MarkedView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel
-import com.mittsu.markedview.MarkedView
-import kotlinx.coroutines.*
 import java.io.IOException
-import java.util.*
 
 class Markdown : ScopedFragment() {
 
@@ -77,6 +76,9 @@ class Markdown : ScopedFragment() {
         textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory).get(TextViewerViewModel::class.java)
 
         path.text = requireArguments().getString("path")!!
+
+        FastScrollerBuilder(view.findViewById(R.id.markdown_viewer_scroll_view)).build()
+
         return view
     }
 
@@ -85,7 +87,7 @@ class Markdown : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        textViewerViewModel.getText().observe(viewLifecycleOwner, {
+        textViewerViewModel.getText().observe(viewLifecycleOwner) {
             code = it
             codeView.setBackgroundColor(0)
             codeView.settings.apply {
@@ -97,7 +99,7 @@ class Markdown : ScopedFragment() {
             }
             codeView.canGoBack()
             codeView.setMDText(it)
-        })
+        }
 
         options.setOnClickListener {
             val p = PopupXmlViewer(it)
@@ -121,7 +123,6 @@ class Markdown : ScopedFragment() {
 
         backPress?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                println(codeView.canGoBack())
                 if (codeView.canGoBack()) {
                     codeView.goBack()
                     codeView.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.NORMAL

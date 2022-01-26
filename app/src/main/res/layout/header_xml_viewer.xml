@@ -36,8 +36,8 @@
         android:layout_marginStart="15dp"
         android:clickable="false"
         android:src="@drawable/ic_more_vert"
-        android:tint="?attr/colorAppAccent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:buttonTintType="accent" />
 
     <app.simple.inure.decorations.views.CustomProgressBar
         android:id="@+id/xml_loader"
