@@ -11,6 +11,7 @@ object AppearancePreferences {
     private const val appCornerRadius = "corner_radius"
     private const val iconShadows = "icon_shadows"
     private const val lastDarkTheme = "last_dark_theme"
+    private const val coloredIconShadows = "icon_shadows_colored"
 
     const val theme = "current_app_theme"
     const val accentColor = "app_accent_color"
@@ -115,5 +116,15 @@ object AppearancePreferences {
 
     fun getIconSize(): Int {
         return getSharedPreferences().getInt(iconSize, 400)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setColoredIconShadowsState(boolean: Boolean) {
+        getSharedPreferences().edit().putBoolean(coloredIconShadows, boolean).apply()
+    }
+
+    fun getColoredIconShadows(): Boolean {
+        return getSharedPreferences().getBoolean(coloredIconShadows, true)
     }
 }

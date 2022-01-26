@@ -447,4 +447,6 @@
     <string name="technology">Technology</string>
     <string name="icon_size">Icon Size</string>
     <string name="icon_size_desc">Change the size of the app icons shown throughout the app.</string>
+    <string name="colored_shadows">Colored Shadows</string>
+    <string name="colored_shadows_desc">Tint icon shadows based on icon color.</string>
 </resources>

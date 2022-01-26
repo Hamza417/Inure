@@ -13,7 +13,6 @@ import com.bumptech.glide.util.Util
 import com.google.android.renderscript.Toolkit
 import java.nio.ByteBuffer
 import java.security.MessageDigest
-import java.util.*
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -146,12 +145,15 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
 
         //Create Shadow Paint
         val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            colorFilter = ColorMatrixColorFilter(ColorMatrix().apply {
-                setScale(SHADOW_SCALE_RGB, SHADOW_SCALE_RGB, SHADOW_SCALE_RGB, SHADOW_SCALE_ALPHA)
-            })
+            colorFilter = if (AppearancePreferences.getColoredIconShadows()) {
+                ColorMatrixColorFilter(ColorMatrix().apply {
+                    setScale(SHADOW_SCALE_RGB, SHADOW_SCALE_RGB, SHADOW_SCALE_RGB, SHADOW_SCALE_ALPHA)
+                })
+            } else {
+                PorterDuffColorFilter(colour, PorterDuff.Mode.SRC_IN)
+            }
+            isAntiAlias = true
         }
-        shadowPaint.isAntiAlias = true
-        //shadowPaint.colorFilter = PorterDuffColorFilter(colour, PorterDuff.Mode.SRC_IN)
 
         if (blurRadius <= MAX_BLUR_RADIUS) {
             //Apply Blur
@@ -235,6 +237,6 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
     }
 
     init {
-        colour = Color.argb(100, 0, 0, 0)
+        colour = Color.argb(60, 0, 0, 0)
     }
 }

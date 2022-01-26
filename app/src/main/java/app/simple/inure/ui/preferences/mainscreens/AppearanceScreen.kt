@@ -37,6 +37,7 @@ class AppearanceScreen : ScopedFragment() {
     private lateinit var iconSize: DynamicRippleRelativeLayout
     private lateinit var appTheme: DynamicRippleTextView
     private lateinit var iconShadows: SwitchView
+    private lateinit var coloredIconShadows: SwitchView
     private lateinit var accentOnNav: SwitchView
     private lateinit var transparentStatus: SwitchView
 
@@ -53,6 +54,7 @@ class AppearanceScreen : ScopedFragment() {
         appTheme = view.findViewById(R.id.popup_application_theme)
 
         iconShadows = view.findViewById(R.id.appearance_icons_shadow_switch)
+        coloredIconShadows = view.findViewById(R.id.colored_icons_switch)
         accentOnNav = view.findViewById(R.id.appearance_nav_color_switch)
         transparentStatus = view.findViewById(R.id.appearance_transparent_status_switch)
 
@@ -69,6 +71,7 @@ class AppearanceScreen : ScopedFragment() {
 
         setAppThemeText()
         iconShadows.setChecked(AppearancePreferences.isIconShadowsOn())
+        coloredIconShadows.setChecked(AppearancePreferences.getColoredIconShadows())
         accentOnNav.setChecked(AppearancePreferences.isAccentOnNavigationBar())
         transparentStatus.setChecked(AppearancePreferences.isTransparentStatusDisabled())
 
@@ -114,6 +117,10 @@ class AppearanceScreen : ScopedFragment() {
 
         iconShadows.setOnSwitchCheckedChangeListener {
             AppearancePreferences.setIconShadows(it)
+        }
+
+        coloredIconShadows.setOnSwitchCheckedChangeListener {
+            AppearancePreferences.setColoredIconShadowsState(it)
         }
 
         accentOnNav.setOnSwitchCheckedChangeListener {
