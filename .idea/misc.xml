@@ -70,12 +70,14 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_app_info_menu.xml" value="0.22407407407407406" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_heading.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_items.xml" value="0.2101851851851852" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_panels.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_dex_data.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_extras_filter.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_features.xml" value="0.2364102564102564" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_graphics.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_accent_color.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_all_apps.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_device_info.xml" value="0.22" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_sensors.xml" value="0.424408014571949" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_typeface.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_usage_stats.xml" value="0.23055555555555557" />
