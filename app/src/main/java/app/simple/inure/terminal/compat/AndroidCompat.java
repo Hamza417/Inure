@@ -1,5 +1,7 @@
 package app.simple.inure.terminal.compat;
 
+import android.os.Build;
+
 /**
  * The classes in this package take advantage of the fact that the VM does
  * not attempt to load a class until it's accessed, and the verifier
@@ -20,28 +22,10 @@ public class AndroidCompat {
     public final static boolean V11ToV20;
     
     static {
-        V11ToV20 = (SDK >= 11) && (SDK <= 20);
+        V11ToV20 = (SDK >= 11) && (SDK <= Build.VERSION.SDK_INT);
     }
     
-    private final static int getSDK() {
-        int result;
-        try {
-            result = AndroidLevel4PlusCompat.getSDKInt();
-        } catch (VerifyError e) {
-            // We must be at an SDK level less than 4.
-            try {
-                result = Integer.valueOf(android.os.Build.VERSION.SDK);
-            } catch (NumberFormatException e2) {
-                // Couldn't parse string, assume the worst.
-                result = 1;
-            }
-        }
-        return result;
-    }
-}
-
-class AndroidLevel4PlusCompat {
-    static int getSDKInt() {
-        return android.os.Build.VERSION.SDK_INT;
+    private static int getSDK() {
+        return Build.VERSION.SDK_INT;
     }
 }

@@ -17,6 +17,8 @@
 package app.simple.inure.terminal;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -27,6 +29,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -39,8 +42,8 @@ import android.util.Log;
 
 import java.util.UUID;
 
+import androidx.core.app.NotificationCompat;
 import app.simple.inure.R;
-import app.simple.inure.activities.app.MainActivity;
 import app.simple.inure.decorations.emulatorview.TermSession;
 import app.simple.inure.terminal.compat.ServiceForegroundCompat;
 import app.simple.inure.terminal.util.SessionList;
@@ -52,7 +55,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
     private static final int COMPAT_START_STICKY = 1;
     
     private static final int RUNNING_NOTIFICATION = 1;
-    private ServiceForegroundCompat compat;
+    private ServiceForegroundCompat serviceForegroundCompat;
     
     private SessionList mTermSessions;
     
@@ -90,27 +93,34 @@ public class TermService extends Service implements TermSession.FinishCallback {
         String defValue = getDir("HOME", MODE_PRIVATE).getAbsolutePath();
         String homePath = prefs.getString("home_path", defValue);
         editor.putString("home_path", homePath);
-        editor.commit();
-        
-        compat = new ServiceForegroundCompat(this);
+        editor.apply();
+    
+        createNotificationChannel();
+        serviceForegroundCompat = new ServiceForegroundCompat(this);
         mTermSessions = new SessionList();
-        
+    
         /* Put the service in the foreground. */
-        Notification notification = new Notification(R.drawable.ic_app_icon, getText(R.string.terminal), System.currentTimeMillis());
-        notification.flags |= Notification.FLAG_ONGOING_EVENT;
-        Intent notifyIntent = new Intent(this, MainActivity.class);
+        Intent notifyIntent = new Intent(this, Term.class);
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0);
-        // notification.setLatestEventInfo(this, getText(R.string.application_terminal), getText(R.string.service_notify_text), pendingIntent);
-        compat.startForeground(RUNNING_NOTIFICATION, notification);
-        
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_IMMUTABLE);
+    
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "inure_terminal")
+                .setContentIntent(pendingIntent)
+                .setContentTitle(getText(R.string.terminal))
+                .setSmallIcon(R.drawable.ic_terminal_black)
+                .setContentText(getString(R.string.service_notify_text))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+    
+        Notification notification = builder.build();
+        notification.flags |= Notification.FLAG_ONGOING_EVENT;
+        serviceForegroundCompat.startForeground(RUNNING_NOTIFICATION, notification);
+    
         Log.d(TermDebug.LOG_TAG, "TermService started");
-        return;
     }
     
     @Override
     public void onDestroy() {
-        compat.stopForeground(true);
+        serviceForegroundCompat.stopForeground(true);
         for (TermSession session : mTermSessions) {
             /* Don't automatically remove from list of sessions -- we clear the
              * list below anyway and we could trigger
@@ -119,7 +129,21 @@ public class TermService extends Service implements TermSession.FinishCallback {
             session.finish();
         }
         mTermSessions.clear();
-        return;
+    }
+    
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.terminal);
+            String description = getString(R.string.terminal);
+            NotificationChannel channel = new NotificationChannel("inure_terminal", name, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
     
     public SessionList getSessions() {

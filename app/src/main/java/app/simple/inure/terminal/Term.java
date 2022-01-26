@@ -16,7 +16,6 @@
 
 package app.simple.inure.terminal;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -63,6 +62,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import app.simple.inure.R;
 import app.simple.inure.decorations.emulatorview.EmulatorView;
 import app.simple.inure.decorations.emulatorview.TermSession;
@@ -81,7 +82,7 @@ import app.simple.inure.terminal.util.TermSettings;
  * A terminal emulator activity.
  */
 
-public class Term extends Activity implements UpdateCallback, SharedPreferences.OnSharedPreferenceChangeListener {
+public class Term extends AppCompatActivity implements UpdateCallback, SharedPreferences.OnSharedPreferenceChangeListener {
     /**
      * The ViewFlipper which holds the collection of EmulatorView widgets.
      */
@@ -108,7 +109,7 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
     private Intent TSIntent;
     
     public static final int REQUEST_CHOOSE_WINDOW = 1;
-    public static final String EXTRA_WINDOW_ID = "jackpal.androidterm.window_id";
+    public static final String EXTRA_WINDOW_ID = "inure.terminal.window_id";
     private int onResumeSelectWindow = -1;
     private ComponentName mPrivateAlias;
     
@@ -119,10 +120,10 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
     
     private boolean mBackKeyPressed;
     
-    private static final String ACTION_PATH_BROADCAST = "jackpal.androidterm.broadcast.APPEND_TO_PATH";
-    private static final String ACTION_PATH_PREPEND_BROADCAST = "jackpal.androidterm.broadcast.PREPEND_TO_PATH";
-    private static final String PERMISSION_PATH_BROADCAST = "jackpal.androidterm.permission.APPEND_TO_PATH";
-    private static final String PERMISSION_PATH_PREPEND_BROADCAST = "jackpal.androidterm.permission.PREPEND_TO_PATH";
+    private static final String ACTION_PATH_BROADCAST = "inure.terminal.broadcast.APPEND_TO_PATH";
+    private static final String ACTION_PATH_PREPEND_BROADCAST = "inure.terminal.broadcast.PREPEND_TO_PATH";
+    private static final String PERMISSION_PATH_BROADCAST = "inure.terminal.permission.APPEND_TO_PATH";
+    private static final String PERMISSION_PATH_PREPEND_BROADCAST = "inure.terminal.permission.PREPEND_TO_PATH";
     private int mPendingPathBroadcasts = 0;
     private final BroadcastReceiver mPathReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -184,9 +185,9 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
             String title = getSessionTitle(position, "" + position + 1);
             label.setText(title);
             if (AndroidCompat.SDK >= 13) {
-                label.setTextAppearance(Term.this, TextAppearance_Holo_Widget_ActionBar_Title);
+                label.setTextAppearance(TextAppearance_Holo_Widget_ActionBar_Title);
             } else {
-                label.setTextAppearance(Term.this, android.R.style.TextAppearance_Medium);
+                label.setTextAppearance(android.R.style.TextAppearance_Medium);
             }
             return label;
         }
@@ -331,7 +332,6 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        
         Log.v(TermDebug.LOG_TAG, "onCreate");
         
         mPrivateAlias = new ComponentName(this, RemoteInterface.PRIVACT_ACTIVITY_ALIAS);
@@ -362,21 +362,19 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
         if (AndroidCompat.SDK >= 11) {
             int actionBarMode = mSettings.actionBarMode();
             mActionBarMode = actionBarMode;
-            if (AndroidCompat.V11ToV20) {
-                switch (actionBarMode) {
-                    case TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE:
-                        setTheme(R.style.Theme_AppCompat_DayNight_DarkActionBar);
-                        break;
-                    case TermSettings.ACTION_BAR_MODE_HIDES:
-                        setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
-                        break;
-                }
+            switch (actionBarMode) {
+                case TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE:
+                    setTheme(R.style.Theme_AppCompat_DayNight_DarkActionBar);
+                    break;
+                case TermSettings.ACTION_BAR_MODE_HIDES:
+                    setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
+                    break;
             }
         } else {
             mActionBarMode = TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE;
         }
-        
-        setContentView(R.layout.term_activity);
+    
+        setContentView(R.layout.activity_terminal);
         mViewFlipper = findViewById(VIEW_FLIPPER);
         
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -390,6 +388,7 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
         
         ActionBarCompat actionBar = ActivityCompat.getActionBar(this);
         if (actionBar != null) {
+            System.out.println("Action bar init");
             mActionBar = actionBar;
             actionBar.setNavigationMode(ActionBarCompat.NAVIGATION_MODE_LIST);
             actionBar.setDisplayOptions(0, ActionBarCompat.DISPLAY_SHOW_TITLE);
@@ -429,7 +428,6 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
     @Override
     protected void onStart() {
         super.onStart();
-        
         if (!bindService(TSIntent, mTSConnection, BIND_AUTO_CREATE)) {
             throw new IllegalStateException("Failed to bind to TermService!");
         }
@@ -655,7 +653,7 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
     }
     
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         
         mHaveFullHwKeyboard = checkHaveFullHwKeyboard(newConfig);
@@ -777,41 +775,41 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
     
     @Override
     protected void onActivityResult(int request, int result, Intent data) {
-        switch (request) {
-            case REQUEST_CHOOSE_WINDOW:
-                if (result == RESULT_OK && data != null) {
-                    int position = data.getIntExtra(EXTRA_WINDOW_ID, -2);
-                    if (position >= 0) {
-                        // Switch windows after session list is in sync, not here
-                        onResumeSelectWindow = position;
-                    } else if (position == -1) {
-                        doCreateNewWindow();
-                        onResumeSelectWindow = mTermSessions.size() - 1;
-                    }
-                } else {
-                    // Close the activity if user closed all sessions
-                    // TODO the left path will be invoked when nothing happened, but this Activity was destroyed!
-                    if (mTermSessions == null || mTermSessions.size() == 0) {
-                        mStopServiceOnFinish = true;
-                        finish();
-                    }
+        super.onActivityResult(request, result, data);
+        if (request == REQUEST_CHOOSE_WINDOW) {
+            if (result == RESULT_OK && data != null) {
+                int position = data.getIntExtra(EXTRA_WINDOW_ID, -2);
+                if (position >= 0) {
+                    // Switch windows after session list is in sync, not here
+                    onResumeSelectWindow = position;
+                } else if (position == -1) {
+                    doCreateNewWindow();
+                    onResumeSelectWindow = mTermSessions.size() - 1;
                 }
-                break;
+            } else {
+                // Close the activity if user closed all sessions
+                // TODO the left path will be invoked when nothing happened, but this Activity was destroyed!
+                if (mTermSessions == null || mTermSessions.size() == 0) {
+                    mStopServiceOnFinish = true;
+                    finish();
+                }
+            }
         }
     }
     
     @Override
     protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         if ((intent.getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
             // Don't repeat action if intent comes from history
             return;
         }
-        
+    
         String action = intent.getAction();
         if (TextUtils.isEmpty(action) || !mPrivateAlias.equals(intent.getComponent())) {
             return;
         }
-        
+    
         // huge number simply opens new window
         // TODO: add a way to restrict max number of windows per caller (possibly via reusing BoundSession)
         switch (action) {
@@ -1059,8 +1057,7 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
         String[] keyNames = r.getStringArray(arrayId);
         String keyName = keyNames[keyId];
         String template = r.getString(enabledId);
-        String result = template.replaceAll(regex, keyName);
-        return result;
+        return template.replaceAll(regex, keyName);
     }
     
     private void doToggleSoftKeyboard() {
@@ -1074,7 +1071,7 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
         if (mWakeLock.isHeld()) {
             mWakeLock.release();
         } else {
-            mWakeLock.acquire();
+            mWakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
         }
         ActivityCompat.invalidateOptionsMenu(this);
     }

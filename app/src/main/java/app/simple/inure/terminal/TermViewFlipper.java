@@ -29,6 +29,7 @@ import android.widget.ViewFlipper;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import androidx.annotation.NonNull;
 import app.simple.inure.R;
 import app.simple.inure.decorations.emulatorview.EmulatorView;
 import app.simple.inure.decorations.emulatorview.TermSession;
@@ -37,6 +38,7 @@ import app.simple.inure.terminal.compat.AndroidCompat;
 import app.simple.inure.terminal.util.TermSettings;
 
 public class TermViewFlipper extends ViewFlipper implements Iterable <View> {
+    
     private Context context;
     private Toast mToast;
     private LinkedList <UpdateCallback> callbacks;
@@ -92,12 +94,11 @@ public class TermViewFlipper extends ViewFlipper implements Iterable <View> {
     
     private void commonConstructor(Context context) {
         this.context = context;
-        callbacks = new LinkedList <UpdateCallback>();
-        
+        callbacks = new LinkedList <>();
         updateVisibleRect();
         Rect visible = mVisibleRect;
-        mChildParams = new LayoutParams(visible.width(), visible.height(),
-                Gravity.TOP | Gravity.LEFT);
+        mChildParams = new LayoutParams(visible.width(), visible.height(), Gravity.TOP | Gravity.START);
+    
     }
     
     public void updatePrefs(TermSettings settings) {
@@ -107,6 +108,7 @@ public class TermViewFlipper extends ViewFlipper implements Iterable <View> {
         mStatusBarVisible = statusBarVisible;
     }
     
+    @NonNull
     public Iterator <View> iterator() {
         return new ViewFlipperIterator();
     }

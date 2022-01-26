@@ -14,7 +14,6 @@
  * limitations under the License.
 -->
 <resources>
-    <string name="application_terminal">Terminal Emulator</string>
     <string name="new_window">New window</string>
     <string name="close_window">Close window</string>
     <string name="window_list">Windows</string>
