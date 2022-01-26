@@ -42,3 +42,5 @@ Low priotiy features
 <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/10.jpg" width="30%"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/11.jpg" width="30%"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/12.jpg" width="30%">
 <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/13.jpg" width="30%"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/00.jpg" width="30%">
 
+
+### Give it a star if you like the app 😇
