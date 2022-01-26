@@ -9,8 +9,7 @@ object DeviceUtils {
     fun readKernelVersion(): String? {
         return try {
             val p = Runtime.getRuntime().exec("uname -a")
-            var inputStream: InputStream? = null
-            inputStream = if (p.waitFor() == 0) {
+            val inputStream: InputStream? = if (p.waitFor() == 0) {
                 p.inputStream
             } else {
                 p.errorStream

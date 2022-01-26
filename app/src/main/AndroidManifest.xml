@@ -41,6 +41,13 @@
         </activity>
 
         <activity
+            android:name=".terminal.Term"
+            android:configChanges="uiMode"
+            android:documentLaunchMode="intoExisting"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
             android:name=".activities.association.AppDetailsActivity"
             android:exported="true"
             android:label="@string/app_info">
@@ -190,10 +197,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".services.TerminalService"
-            android:exported="false" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -203,6 +206,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <service
+            android:name=".terminal.TermService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
     <queries>

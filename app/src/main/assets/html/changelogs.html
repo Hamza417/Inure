@@ -35,6 +35,20 @@
 
 <ul>
     <li>Added native markdown viewer.</li>
+    <li>Added new Terminal Emulator framework.
+        <br>
+        <br>
+        <sub>
+            The main reason this change was needed was the previous implementation of terminal in
+            Inure is faulty and unstable, cannot run multiple instances, cannot kill itself meaning
+            memory leaks are there even if the session is closed, crashes and freezes the app when
+            ran heavy commands such as <i>su logcat</i>.
+            <br>
+            <br>
+            The newer one supports more features, is customizable, runs as a separate app inside the
+            main app and can be used as standalone app if need be and is extremely stable.
+        </sub>
+    </li>
 </ul>
 
 <h4>Removed</h4>

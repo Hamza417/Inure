@@ -49,7 +49,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            applicationIdSuffix ".debug"
             versionNameSuffix "_debug"
         }
     }
@@ -63,8 +62,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
-
-    ndkVersion '23.1.7779620'
 }
 
 dependencies {
