@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
@@ -168,7 +169,9 @@ class Home : ScopedFragment() {
                             Toast.makeText(requireContext(), "Not implemented yet", Toast.LENGTH_SHORT).show()
                         }
                         getString(R.string.terminal) -> {
-                            startActivity(Intent(requireContext(), Term::class.java))
+                            val intent = Intent(requireContext(), Term::class.java)
+                            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
+                            startActivity(intent, options.toBundle())
                         }
                         getString(R.string.usage_statistics) -> {
                             FragmentHelper.openFragment(

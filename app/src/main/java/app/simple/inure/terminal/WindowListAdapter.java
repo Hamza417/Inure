@@ -22,11 +22,11 @@ import android.content.ContextWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import app.simple.inure.R;
 import app.simple.inure.decorations.emulatorview.TermSession;
 import app.simple.inure.decorations.emulatorview.UpdateCallback;
+import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.terminal.util.SessionList;
 
 public class WindowListAdapter extends BaseAdapter implements UpdateCallback {
@@ -76,8 +76,8 @@ public class WindowListAdapter extends BaseAdapter implements UpdateCallback {
         Activity act = findActivityFromContext(parent.getContext());
         View child = act.getLayoutInflater().inflate(R.layout.window_list_item, parent, false);
         View close = child.findViewById(R.id.window_list_close);
-        
-        TextView label = child.findViewById(R.id.window_list_label);
+    
+        TypeFaceTextView label = child.findViewById(R.id.window_list_label);
         String defaultTitle = act.getString(R.string.window_title, position + 1);
         label.setText(getSessionTitle(position, defaultTitle));
         

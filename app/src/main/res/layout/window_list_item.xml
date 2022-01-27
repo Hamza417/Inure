@@ -17,11 +17,12 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal">
 
-    <TextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/window_list_label"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
@@ -29,7 +30,10 @@
         android:maxLines="1"
         android:padding="15dp"
         android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textSize="@dimen/popup_text_size"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        app:appFontStyle="medium"
+        app:textColorStyle="secondary" />
 
     <View
         android:id="@+id/window_list_separator"
@@ -45,9 +49,8 @@
         class="app.simple.inure.terminal.WindowList$CloseButton"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:background="@drawable/close_background"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:scaleType="center"
-        android:src="@drawable/btn_close_window" />
+        android:src="@drawable/ic_close" />
 </LinearLayout>

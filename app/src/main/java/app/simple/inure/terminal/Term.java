@@ -55,7 +55,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -95,7 +94,6 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     private DynamicRippleImageButton add;
     private DynamicRippleImageButton close;
     private DynamicRippleImageButton options;
-    private TypeFaceTextView windowName;
     private Spinner windowsList;
     
     private SessionList mTermSessions;
@@ -187,14 +185,9 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
         
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            TextView label = new TextView(Term.this);
-            String title = getSessionTitle(position, "" + position + 1);
+            TypeFaceTextView label = new TypeFaceTextView(Term.this);
+            String title = getSessionTitle(position, getString(R.string.window_title, position + 1));
             label.setText(title);
-            if (AndroidCompat.SDK >= 13) {
-                label.setTextAppearance(TextAppearance_Holo_Widget_ActionBar_Title);
-            } else {
-                label.setTextAppearance(android.R.style.TextAppearance_Medium);
-            }
             return label;
         }
         
@@ -205,25 +198,9 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
         
         public void onUpdate() {
             notifyDataSetChanged();
-            mActionBar.setSelectedNavigationItem(viewFlipper.getDisplayedChild());
+            windowsList.setSelection(viewFlipper.getDisplayedChild(), true);
         }
     }
-    
-    private final ActionBarCompat.OnNavigationListener mWinListItemSelected = new ActionBarCompat.OnNavigationListener() {
-        public boolean onNavigationItemSelected(int position, long id) {
-            int oldPosition = viewFlipper.getDisplayedChild();
-            if (position != oldPosition) {
-                if (position >= viewFlipper.getChildCount()) {
-                    viewFlipper.addView(createEmulatorView(mTermSessions.get(position)));
-                }
-                viewFlipper.setDisplayedChild(position);
-                if (mActionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
-                    mActionBar.hide();
-                }
-            }
-            return true;
-        }
-    };
     
     private boolean mHaveFullHwKeyboard = false;
     
@@ -385,7 +362,6 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
         add = findViewById(R.id.add);
         close = findViewById(R.id.close);
         options = findViewById(R.id.options);
-        windowName = findViewById(R.id.terminal_window_name);
         windowsList = findViewById(R.id.windows_list);
     
         add.setOnClickListener(v -> doCreateNewWindow());
@@ -433,9 +409,22 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
             }
         }));
     
-        windowsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        windowsList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView <?> parent, View view, int position, long id) {
+                if (position != viewFlipper.getDisplayedChild()) {
+                    if (position >= viewFlipper.getChildCount()) {
+                        viewFlipper.addView(createEmulatorView(mTermSessions.get(position)));
+                    }
+                    viewFlipper.setDisplayedChild(position);
+                    if (mActionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
+                        mActionBar.hide();
+                    }
+                }
+            }
+        
+            @Override
+            public void onNothingSelected(AdapterView <?> parent) {
             
             }
         });
@@ -517,22 +506,17 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     }
     
     private void populateWindowList() {
-        if (mActionBar == null) {
-            // Not needed
-            return;
-        }
         if (mTermSessions != null) {
             int position = viewFlipper.getDisplayedChild();
+    
             if (mWinListAdapter == null) {
                 mWinListAdapter = new WindowListActionBarAdapter(mTermSessions);
-                
-                mActionBar.setListNavigationCallbacks(mWinListAdapter, mWinListItemSelected);
+                windowsList.setAdapter(mWinListAdapter);
             } else {
                 mWinListAdapter.setSessions(mTermSessions);
             }
             viewFlipper.addCallback(mWinListAdapter);
-            
-            mActionBar.setSelectedNavigationItem(position);
+            windowsList.setSelection(position, true);
         }
     }
     

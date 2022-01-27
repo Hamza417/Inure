@@ -26,6 +26,11 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
     private var drawableTintMode = 2
     private var lastDrawableColor = Color.GRAY
 
+    constructor(context: Context) : super(context) {
+        typedArray = context.theme.obtainStyledAttributes(null, R.styleable.TypeFaceTextView, 0, 0)
+        init()
+    }
+
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TypeFaceTextView, 0, 0)
         init()

@@ -5,6 +5,7 @@
         <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAppAccent">@color/inure</item>
         <item name="colorAppAccentLight">@color/inure_light</item>
+        <item name="android:windowContentTransitions">true</item>
         <item name="android:colorEdgeEffect">?attr/colorAppAccent</item>
     </style>
 

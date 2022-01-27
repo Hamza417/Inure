@@ -22,19 +22,10 @@
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/terminal_window_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="@dimen/header_name_text_size"
-            app:appFontStyle="bold"
-            app:textColorStyle="accent" />
-
         <Spinner
             android:id="@+id/windows_list"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" />
 
