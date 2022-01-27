@@ -1,5 +1,7 @@
 package app.simple.inure.popups.app
 
+import android.net.wifi.WifiManager
+import android.os.PowerManager
 import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
@@ -8,7 +10,7 @@ import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.extension.popup.PopupMenuCallback
 
-class PopupTerminal(view: View) : BasePopupWindow() {
+class PopupTerminal(view: View, mWakeLock: PowerManager.WakeLock, mWifiLock: WifiManager.WifiLock) : BasePopupWindow() {
 
     private lateinit var menuCallbacks: PopupMenuCallback
 
@@ -17,7 +19,7 @@ class PopupTerminal(view: View) : BasePopupWindow() {
     private var specialKeys: DynamicRippleTextView
     private var preferences: DynamicRippleTextView
     private var reset: DynamicRippleTextView
-    private var emailTo: DynamicRippleTextView
+    private var copy: DynamicRippleTextView
     private var wakeLock: DynamicRippleTextView
     private var wifiLock: DynamicRippleTextView
 
@@ -30,16 +32,28 @@ class PopupTerminal(view: View) : BasePopupWindow() {
         specialKeys = contentView.findViewById(R.id.terminal_special_keys)
         preferences = contentView.findViewById(R.id.terminal_preferences)
         reset = contentView.findViewById(R.id.terminal_reset)
-        emailTo = contentView.findViewById(R.id.terminal_send_email)
+        copy = contentView.findViewById(R.id.terminal_copy)
         wakeLock = contentView.findViewById(R.id.terminal_wake_lock)
         wifiLock = contentView.findViewById(R.id.terminal_wifi_lock)
+
+        if (mWakeLock.isHeld) {
+            wakeLock.text = context.getString(R.string.disable_wakelock)
+        } else {
+            wakeLock.text = context.getString(R.string.enable_wakelock)
+        }
+
+        if (mWifiLock.isHeld) {
+            wifiLock.text = context.getString(R.string.disable_wifilock)
+        } else {
+            wifiLock.text = context.getString(R.string.enable_wifilock)
+        }
 
         windows.onClick(0)
         toggleKeyboard.onClick(1)
         specialKeys.onClick(2)
         preferences.onClick(3)
         reset.onClick(4)
-        emailTo.onClick(5)
+        copy.onClick(5)
         wakeLock.onClick(6)
         wifiLock.onClick(7)
 

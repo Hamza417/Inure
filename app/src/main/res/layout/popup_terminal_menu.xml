@@ -72,13 +72,13 @@
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/terminal_send_email"
+        android:id="@+id/terminal_copy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        android:text="@string/send_email"
+        android:text="@string/copy"
         app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />

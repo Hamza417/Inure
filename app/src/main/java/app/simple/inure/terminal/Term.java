@@ -17,7 +17,6 @@
 package app.simple.inure.terminal;
 
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -45,7 +44,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -73,6 +71,7 @@ import app.simple.inure.decorations.emulatorview.compat.ClipboardManagerCompatFa
 import app.simple.inure.decorations.emulatorview.compat.KeycodeConstants;
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
+import app.simple.inure.dialogs.terminal.DialogSpecialKeys;
 import app.simple.inure.extension.activities.BaseActivity;
 import app.simple.inure.extension.popup.PopupMenuCallback;
 import app.simple.inure.popups.app.PopupTerminal;
@@ -366,7 +365,7 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     
         add.setOnClickListener(v -> doCreateNewWindow());
         close.setOnClickListener(v -> confirmCloseWindow());
-        options.setOnClickListener(v -> new PopupTerminal(v).setOnMenuClickListener(new PopupMenuCallback() {
+        options.setOnClickListener(v -> new PopupTerminal(v, mWakeLock, mWifiLock).setOnMenuClickListener(new PopupMenuCallback() {
             @Override
             public void onMenuItemClicked(int source) {
                 switch (source) {
@@ -379,7 +378,8 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
                         break;
                     }
                     case 2: {
-                        doDocumentKeys();
+                        DialogSpecialKeys.Companion.newInstance()
+                                .show(getSupportFragmentManager(), "special_keys");
                         break;
                     }
                     case 3: {
@@ -394,7 +394,7 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
                         break;
                     }
                     case 5: {
-                        doEmailTranscript();
+                        doCopyAll();
                         break;
                     }
                     case 6: {
@@ -816,23 +816,6 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     }
     
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem wakeLockItem = menu.findItem(R.id.menu_toggle_wakelock);
-        MenuItem wifiLockItem = menu.findItem(R.id.menu_toggle_wifilock);
-        if (mWakeLock.isHeld()) {
-            wakeLockItem.setTitle(R.string.disable_wakelock);
-        } else {
-            wakeLockItem.setTitle(R.string.enable_wakelock);
-        }
-        if (mWifiLock.isHeld()) {
-            wifiLockItem.setTitle(R.string.disable_wifilock);
-        } else {
-            wifiLockItem.setTitle(R.string.enable_wifilock);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-    
-    @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
             ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -966,36 +949,6 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
         }
     }
     
-    private void doEmailTranscript() {
-        TermSession session = getCurrentTermSession();
-        if (session != null) {
-            // Don't really want to supply an address, but
-            // currently it's required, otherwise nobody
-            // wants to handle the intent.
-            String addr = "user@example.com";
-            Intent intent =
-                    new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"
-                            + addr));
-            
-            String subject = getString(R.string.email_transcript_subject);
-            String title = session.getTitle();
-            if (title != null) {
-                subject = subject + " - " + title;
-            }
-            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-            intent.putExtra(Intent.EXTRA_TEXT,
-                    session.getTranscriptText().trim());
-            try {
-                startActivity(Intent.createChooser(intent,
-                        getString(R.string.email_transcript_chooser_title)));
-            } catch (ActivityNotFoundException e) {
-                Toast.makeText(this,
-                        R.string.email_transcript_no_email_activity_found,
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-    
     private void doCopyAll() {
         ClipboardManagerCompat clip = ClipboardManagerCompatFactory
                 .getManager(getApplicationContext());
@@ -1018,23 +971,6 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     
     private void doSendFnKey() {
         getCurrentEmulatorView().sendFnKey();
-    }
-    
-    private void doDocumentKeys() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        Resources r = getResources();
-        dialog.setTitle(r.getString(R.string.control_key_dialog_title));
-        dialog.setMessage(
-                formatMessage(mSettings.getControlKeyId(), TermSettings.CONTROL_KEY_ID_NONE,
-                        r, R.array.control_keys_short_names,
-                        R.string.control_key_dialog_control_text,
-                        R.string.control_key_dialog_control_disabled_text, "CTRLKEY")
-                        + "\n\n" +
-                        formatMessage(mSettings.getFnKeyId(), TermSettings.FN_KEY_ID_NONE,
-                                r, R.array.fn_keys_short_names,
-                                R.string.control_key_dialog_fn_text,
-                                R.string.control_key_dialog_fn_disabled_text, "FNKEY"));
-        dialog.show();
     }
     
     private String formatMessage(int keyId, int disabledKeyId,

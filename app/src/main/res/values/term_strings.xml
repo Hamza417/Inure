@@ -19,7 +19,6 @@
     <string name="window_list">Windows</string>
     <string name="prev_window">Prev window</string>
     <string name="next_window">Next window</string>
-    <string name="send_email">Email to</string>
     <string name="special_keys">Special keys</string>
     <string name="toggle_soft_keyboard">Toggle soft keyboard</string>
 
@@ -132,7 +131,7 @@
     <string name="control_key_dialog_control_disabled_text">No control key set.</string>
     <!-- The word FNKEY should be left un-translated. It will be replaced at run-time with the
          actual function key key name. -->
-    <string name="control_key_dialog_fn_text">FNKEY 1..9 : F1-F9\nFNKEY 0 : F10\nFNKEY W : Up\nFNKEY A : Left\nFNKEY S : Down\nFNKEY D : Right\nFNKEY P : PageUp\nFNKEY N : PageDown\nFNKEY T : Tab\nFNKEY L : | (pipe)\nFNKEY U : _ (underscore)\nFNKEY E : Control-[ (ESC)\nFNKEY X : Delete\nFNKEY I : Insert\nFNKEY H : Home\nFNKEY F : End\nFNKEY . : Control-\\\n</string>
+    <string name="control_key_dialog_fn_text">FNKEY 1..9 : F1-F9\nFNKEY 0 : F10\nFNKEY W : Up\nFNKEY A : Left\nFNKEY S : Down\nFNKEY D : Right\nFNKEY P : PageUp\nFNKEY N : PageDown\nFNKEY T : Tab\nFNKEY L : | (pipe)\nFNKEY U : _ (underscore)\nFNKEY E : Control-[ (ESC)\nFNKEY X : Delete\nFNKEY I : Insert\nFNKEY H : Home\nFNKEY F : End\nFNKEY . : Control-\\</string>
     <string name="control_key_dialog_fn_disabled_text">No function key set.</string>
 
     <string name="confirm_window_close_message">Close this window?</string>
@@ -144,7 +143,6 @@
     <string name="perm_prepend_to_path">Override commands in Terminal Emulator</string>
     <string name="permdesc_prepend_to_path">Allows application to override existing commands with its own versions (prepend directories to the PATH) in Terminal Emulator for Android.</string>
 
-    <string name="email_transcript_subject">Transcript from Terminal Emulator for Android</string>
     <string name="email_transcript_chooser_title">Mail transcript using:</string>
     <string name="email_transcript_no_email_activity_found">Could not choose an email activity to send transcript.</string>
 
