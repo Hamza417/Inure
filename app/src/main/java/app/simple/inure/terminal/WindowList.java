@@ -1,22 +1,5 @@
-/*
- * Copyright (C) 2011 Steven Luo
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package app.simple.inure.terminal;
 
-import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -25,19 +8,27 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import app.simple.inure.R;
+import app.simple.inure.adapters.terminal.AdapterWindows;
+import app.simple.inure.decorations.emulatorview.TermSession;
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView;
+import app.simple.inure.extension.activities.BaseActivity;
 import app.simple.inure.terminal.compat.ActionBarCompat;
 import app.simple.inure.terminal.compat.ActivityCompat;
 import app.simple.inure.terminal.compat.AndroidCompat;
 import app.simple.inure.terminal.util.SessionList;
+import app.simple.inure.util.ViewUtils;
 
-public class WindowList extends ListActivity {
+public class WindowList extends BaseActivity implements AdapterWindows.Companion.AdapterWindowsCallback {
+    
+    private CustomVerticalRecyclerView recyclerView;
+    
     private SessionList sessions;
-    private WindowListAdapter mWindowListAdapter;
+    private AdapterWindows adapterWindows;
     private TermService mTermService;
     
     /**
@@ -83,12 +74,12 @@ public class WindowList extends ListActivity {
     };
     
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_terminal_window_list);
         
-        ListView listView = getListView();
-        View newWindow = getLayoutInflater().inflate(R.layout.window_list_new_window, listView, false);
-        listView.addHeaderView(newWindow, null, true);
+        recyclerView = findViewById(R.id.windows_list);
+        FloatingActionButton fab = findViewById(R.id.new_window_btn);
         
         setResult(RESULT_CANCELED);
         
@@ -99,12 +90,15 @@ public class WindowList extends ListActivity {
                 bar.setDisplayOptions(ActionBarCompat.DISPLAY_HOME_AS_UP, ActionBarCompat.DISPLAY_HOME_AS_UP);
             }
         }
+        
+        fab.setOnClickListener(v -> onWindowClicked(-1 /* Create a new window */));
+        
+        ViewUtils.INSTANCE.addShadow(fab);
     }
     
     @Override
     protected void onResume() {
         super.onResume();
-        
         Intent TSIntent = new Intent(this, TermService.class);
         if (!bindService(TSIntent, mTSConnection, BIND_AUTO_CREATE)) {
             Log.w(TermDebug.LOG_TAG, "bind to service failed!");
@@ -114,8 +108,8 @@ public class WindowList extends ListActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        
-        WindowListAdapter adapter = mWindowListAdapter;
+    
+        AdapterWindows adapter = adapterWindows;
         if (sessions != null) {
             sessions.removeCallback(adapter);
             sessions.removeTitleChangedListener(adapter);
@@ -128,12 +122,13 @@ public class WindowList extends ListActivity {
     
     private void populateList() {
         sessions = mTermService.getSessions();
-        WindowListAdapter adapter = mWindowListAdapter;
+        AdapterWindows adapter = adapterWindows;
         
         if (adapter == null) {
-            adapter = new WindowListAdapter(sessions);
-            setListAdapter(adapter);
-            mWindowListAdapter = adapter;
+            adapter = new AdapterWindows(sessions);
+            adapter.setOnAdapterWindowsCallbackListener(this);
+            recyclerView.setAdapter(adapter);
+            adapterWindows = adapter;
         } else {
             adapter.setSessions(sessions);
         }
@@ -142,22 +137,19 @@ public class WindowList extends ListActivity {
     }
     
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
+    public void onWindowClicked(int position) {
         Intent data = new Intent();
-        data.putExtra(Term.EXTRA_WINDOW_ID, position - 1);
+        data.putExtra(Term.EXTRA_WINDOW_ID, position);
         setResult(RESULT_OK, data);
         finish();
     }
     
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case ActionBarCompat.ID_HOME:
-                // Action bar home button selected
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public void onClose(int position) {
+        TermSession session = sessions.remove(position);
+        if (session != null) {
+            session.finish();
+            adapterWindows.onUpdate(position);
         }
     }
 }

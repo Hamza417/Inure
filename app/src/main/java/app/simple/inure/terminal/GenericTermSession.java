@@ -34,7 +34,7 @@ import app.simple.inure.terminal.util.TermSettings;
  * A terminal session, consisting of a TerminalEmulator, a TranscriptScreen,
  * and the I/O streams used to talk to the process.
  */
-class GenericTermSession extends TermSession {
+public class GenericTermSession extends TermSession {
     //** Set to true to force into 80 x 24 for testing with vttest. */
     private static final boolean VTTEST_MODE = false;
     

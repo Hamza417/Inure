@@ -1,21 +1,6 @@
-/*
- * Copyright (C) 2007 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package app.simple.inure.terminal;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -51,8 +36,6 @@ import app.simple.inure.terminal.util.TermSettings;
 import app.simple.inure.terminal_v1.ITerminal;
 
 public class TermService extends Service implements TermSession.FinishCallback {
-    /* Parallels the value of START_STICKY on API Level >= 5 */
-    private static final int COMPAT_START_STICKY = 1;
     
     private static final int RUNNING_NOTIFICATION = 1;
     private ServiceForegroundCompat serviceForegroundCompat;
@@ -68,7 +51,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
     
     private final IBinder mTSBinder = new TSBinder();
     
-    /* This should be @Override if building with API Level >=5 */
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return Service.START_NOT_STICKY;
     }
@@ -85,6 +68,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
         }
     }
     
+    @SuppressLint ("ApplySharedPref")
     @Override
     public void onCreate() {
         // should really belong to the Application class, but we don't use one...
@@ -93,28 +77,28 @@ public class TermService extends Service implements TermSession.FinishCallback {
         String defValue = getDir("HOME", MODE_PRIVATE).getAbsolutePath();
         String homePath = prefs.getString("home_path", defValue);
         editor.putString("home_path", homePath);
-        editor.apply();
-    
+        editor.commit();
+        
         createNotificationChannel();
         serviceForegroundCompat = new ServiceForegroundCompat(this);
         mTermSessions = new SessionList();
-    
+        
         /* Put the service in the foreground. */
         Intent notifyIntent = new Intent(this, Term.class);
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_IMMUTABLE);
-    
+        
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "inure_terminal")
                 .setContentIntent(pendingIntent)
                 .setContentTitle(getText(R.string.terminal))
                 .setSmallIcon(R.drawable.ic_terminal_black)
                 .setContentText(getString(R.string.service_notify_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-    
+        
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_ONGOING_EVENT;
         serviceForegroundCompat.startForeground(RUNNING_NOTIFICATION, notification);
-    
+        
         Log.d(TermDebug.LOG_TAG, "TermService started");
     }
     
@@ -136,9 +120,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.terminal);
-            String description = getString(R.string.terminal);
             NotificationChannel channel = new NotificationChannel("inure_terminal", name, NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -166,25 +148,25 @@ public class TermService extends Service implements TermSession.FinishCallback {
                     .addCategory(Intent.CATEGORY_DEFAULT)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .putExtra(RemoteInterface.PRIVEXTRA_TARGET_WINDOW, sessionHandle);
-            
+    
             final PendingIntent result = PendingIntent.getActivity(getApplicationContext(), sessionHandle.hashCode(),
-                    switchIntent, 0);
-            
+                    switchIntent, PendingIntent.FLAG_IMMUTABLE);
+    
             final PackageManager pm = getPackageManager();
-            final String[] pkgs = pm.getPackagesForUid(getCallingUid());
-            if (pkgs == null || pkgs.length == 0) {
+            final String[] packages = pm.getPackagesForUid(getCallingUid());
+            if (packages == null || packages.length == 0) {
                 return null;
             }
-            
-            for (String packageName : pkgs) {
+    
+            for (String packageName : packages) {
                 try {
                     final PackageInfo pkgInfo = pm.getPackageInfo(packageName, 0);
-                    
+            
                     final ApplicationInfo appInfo = pkgInfo.applicationInfo;
                     if (appInfo == null) {
                         continue;
                     }
-                    
+            
                     final CharSequence label = pm.getApplicationLabel(appInfo);
                     
                     if (!TextUtils.isEmpty(label)) {

@@ -65,7 +65,7 @@
             android:name=".terminal.Term"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:exported="true"
-            android:launchMode="singleTask"
+            android:label="@string/terminal"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
 
         <activity
@@ -79,7 +79,6 @@
             android:name=".terminal.WindowList"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
             android:windowSoftInputMode="adjustResize" />
 
         <activity

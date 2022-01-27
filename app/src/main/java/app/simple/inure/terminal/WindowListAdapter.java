@@ -65,7 +65,7 @@ public class WindowListAdapter extends BaseAdapter implements UpdateCallback {
     
     protected String getSessionTitle(int position, String defaultTitle) {
         TermSession session = mSessions.get(position);
-        if (session != null && session instanceof GenericTermSession) {
+        if (session instanceof GenericTermSession) {
             return ((GenericTermSession) session).getTitle(defaultTitle);
         } else {
             return defaultTitle;

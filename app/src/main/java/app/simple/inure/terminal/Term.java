@@ -318,27 +318,27 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
         Log.v(TermDebug.LOG_TAG, "onCreate");
         
         mPrivateAlias = new ComponentName(this, RemoteInterface.PRIVACT_ACTIVITY_ALIAS);
-        
+    
         if (icicle == null) {
             onNewIntent(getIntent());
         }
-        
+    
         final SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mSettings = new TermSettings(getResources(), mPrefs);
         mPrefs.registerOnSharedPreferenceChangeListener(this);
-        
+    
         Intent broadcast = new Intent(ACTION_PATH_BROADCAST);
-        if (AndroidCompat.SDK >= 12) {
-            broadcast.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        }
+        broadcast.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+    
         mPendingPathBroadcasts++;
         sendOrderedBroadcast(broadcast, PERMISSION_PATH_BROADCAST, mPathReceiver, null, RESULT_OK, null, null);
-        
+    
         broadcast = new Intent(broadcast);
         broadcast.setAction(ACTION_PATH_PREPEND_BROADCAST);
+    
         mPendingPathBroadcasts++;
         sendOrderedBroadcast(broadcast, PERMISSION_PATH_PREPEND_BROADCAST, mPathReceiver, null, RESULT_OK, null, null);
-        
+    
         TSIntent = new Intent(this, TermService.class);
         startService(TSIntent);
         
