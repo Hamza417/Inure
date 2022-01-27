@@ -24,6 +24,14 @@ public interface PopupMenuCallback {
     }
     
     /**
+     * Suitable for using with dialog fragments
+     *
+     * @param source text of the menu item
+     */
+    default void onMenuItemClicked(@NotNull int source) {
+    }
+    
+    /**
      * Suitable for using with {@link app.simple.inure.popups.app.PopupSure} to quickly
      * handle callbacks when sure is pressed.
      */

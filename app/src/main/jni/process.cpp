@@ -95,16 +95,16 @@ static void closeNonstandardFileDescriptors() {
     // the form "properties_fd,sizeOfSharedMemory"
     int properties_fd = -1;
     char *properties_fd_string = getenv("ANDROID_PROPERTY_WORKSPACE");
-    if (properties_fd_string != NULL) {
+    if (properties_fd_string != nullptr) {
         properties_fd = atoi(properties_fd_string);
     }
     DIR *dir = opendir("/proc/self/fd");
-    if (dir != NULL) {
+    if (dir != nullptr) {
         int dir_fd = dirfd(dir);
 
         while (true) {
             struct dirent *entry = readdir(dir);
-            if (entry == NULL) {
+            if (entry == nullptr) {
                 break;
             }
 
@@ -209,7 +209,7 @@ Java_app_simple_inure_terminal_TermExec_createSubprocessInternal(JNIEnv *env, jc
     }
 
     jsize size = args ? env->GetArrayLength(args) : 0;
-    char **argv = NULL;
+    char **argv = nullptr;
     String8 tmp_8;
     if (size > 0) {
         argv = (char **) malloc((size + 1) * sizeof(char *));
@@ -218,7 +218,7 @@ Java_app_simple_inure_terminal_TermExec_createSubprocessInternal(JNIEnv *env, jc
             return 0;
         }
         for (int i = 0; i < size; ++i) {
-            jstring arg = reinterpret_cast<jstring>(env->GetObjectArrayElement(args, i));
+            auto arg = reinterpret_cast<jstring>(env->GetObjectArrayElement(args, i));
             str = env->GetStringCritical(arg, 0);
             if (!str) {
                 throwOutOfMemoryError(env, "Couldn't get argument from array");
@@ -228,11 +228,11 @@ Java_app_simple_inure_terminal_TermExec_createSubprocessInternal(JNIEnv *env, jc
             env->ReleaseStringCritical(arg, str);
             argv[i] = strdup(tmp_8.string());
         }
-        argv[size] = NULL;
+        argv[size] = nullptr;
     }
 
     size = envVars ? env->GetArrayLength(envVars) : 0;
-    char **envp = NULL;
+    char **envp = nullptr;
     if (size > 0) {
         envp = (char **) malloc((size + 1) * sizeof(char *));
         if (!envp) {
@@ -240,7 +240,7 @@ Java_app_simple_inure_terminal_TermExec_createSubprocessInternal(JNIEnv *env, jc
             return 0;
         }
         for (int i = 0; i < size; ++i) {
-            jstring var = reinterpret_cast<jstring>(env->GetObjectArrayElement(envVars, i));
+            auto var = reinterpret_cast<jstring>(env->GetObjectArrayElement(envVars, i));
             str = env->GetStringCritical(var, 0);
             if (!str) {
                 throwOutOfMemoryError(env, "Couldn't get env var from array");
@@ -250,7 +250,7 @@ Java_app_simple_inure_terminal_TermExec_createSubprocessInternal(JNIEnv *env, jc
             env->ReleaseStringCritical(var, str);
             envp[i] = strdup(tmp_8.string());
         }
-        envp[size] = NULL;
+        envp[size] = nullptr;
     }
 
     int ptm = create_subprocess(env, cmd_8.string(), argv, envp, masterFd);

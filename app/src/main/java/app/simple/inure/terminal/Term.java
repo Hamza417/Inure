@@ -53,6 +53,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +65,6 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import app.simple.inure.R;
 import app.simple.inure.decorations.emulatorview.EmulatorView;
 import app.simple.inure.decorations.emulatorview.TermSession;
@@ -71,10 +72,14 @@ import app.simple.inure.decorations.emulatorview.UpdateCallback;
 import app.simple.inure.decorations.emulatorview.compat.ClipboardManagerCompat;
 import app.simple.inure.decorations.emulatorview.compat.ClipboardManagerCompatFactory;
 import app.simple.inure.decorations.emulatorview.compat.KeycodeConstants;
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton;
+import app.simple.inure.decorations.typeface.TypeFaceTextView;
+import app.simple.inure.extension.activities.BaseActivity;
+import app.simple.inure.extension.popup.PopupMenuCallback;
+import app.simple.inure.popups.app.PopupTerminal;
 import app.simple.inure.terminal.compat.ActionBarCompat;
 import app.simple.inure.terminal.compat.ActivityCompat;
 import app.simple.inure.terminal.compat.AndroidCompat;
-import app.simple.inure.terminal.compat.MenuItemCompat;
 import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
 
@@ -82,16 +87,16 @@ import app.simple.inure.terminal.util.TermSettings;
  * A terminal emulator activity.
  */
 
-public class Term extends AppCompatActivity implements UpdateCallback, SharedPreferences.OnSharedPreferenceChangeListener {
+public class Term extends BaseActivity implements UpdateCallback, SharedPreferences.OnSharedPreferenceChangeListener {
     /**
      * The ViewFlipper which holds the collection of EmulatorView widgets.
      */
-    private TermViewFlipper mViewFlipper;
-    
-    /**
-     * The name of the ViewFlipper in the resources.
-     */
-    private static final int VIEW_FLIPPER = R.id.view_flipper;
+    private TermViewFlipper viewFlipper;
+    private DynamicRippleImageButton add;
+    private DynamicRippleImageButton close;
+    private DynamicRippleImageButton options;
+    private TypeFaceTextView windowName;
+    private Spinner windowsList;
     
     private SessionList mTermSessions;
     
@@ -125,6 +130,7 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
     private static final String PERMISSION_PATH_BROADCAST = "inure.terminal.permission.APPEND_TO_PATH";
     private static final String PERMISSION_PATH_PREPEND_BROADCAST = "inure.terminal.permission.PREPEND_TO_PATH";
     private int mPendingPathBroadcasts = 0;
+    
     private final BroadcastReceiver mPathReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String path = makePathFromBundle(getResultExtras(false));
@@ -199,18 +205,18 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         
         public void onUpdate() {
             notifyDataSetChanged();
-            mActionBar.setSelectedNavigationItem(mViewFlipper.getDisplayedChild());
+            mActionBar.setSelectedNavigationItem(viewFlipper.getDisplayedChild());
         }
     }
     
     private final ActionBarCompat.OnNavigationListener mWinListItemSelected = new ActionBarCompat.OnNavigationListener() {
         public boolean onNavigationItemSelected(int position, long id) {
-            int oldPosition = mViewFlipper.getDisplayedChild();
+            int oldPosition = viewFlipper.getDisplayedChild();
             if (position != oldPosition) {
-                if (position >= mViewFlipper.getChildCount()) {
-                    mViewFlipper.addView(createEmulatorView(mTermSessions.get(position)));
+                if (position >= viewFlipper.getChildCount()) {
+                    viewFlipper.addView(createEmulatorView(mTermSessions.get(position)));
                 }
-                mViewFlipper.setDisplayedChild(position);
+                viewFlipper.setDisplayedChild(position);
                 if (mActionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
                     mActionBar.hide();
                 }
@@ -253,10 +259,10 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
                 // Assume user wanted side to side movement
                 if (velocityX > 0) {
                     // Left to right swipe -- previous window
-                    mViewFlipper.showPrevious();
+                    viewFlipper.showPrevious();
                 } else {
                     // Right to left swipe -- next window
-                    mViewFlipper.showNext();
+                    viewFlipper.showNext();
                 }
                 return true;
             } else {
@@ -275,7 +281,7 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
      */
     private final View.OnKeyListener mKeyListener = new View.OnKeyListener() {
         public boolean onKey(View v, int keyCode, KeyEvent event) {
-            return backkeyInterceptor(keyCode, event) || keyboardShortcuts(keyCode, event);
+            return backKeyInterceptor(keyCode, event) || keyboardShortcuts(keyCode, event);
         }
         
         /**
@@ -293,9 +299,9 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
             
             if (keyCode == KeycodeConstants.KEYCODE_TAB && isCtrlPressed) {
                 if (isShiftPressed) {
-                    mViewFlipper.showPrevious();
+                    viewFlipper.showPrevious();
                 } else {
-                    mViewFlipper.showNext();
+                    viewFlipper.showNext();
                 }
                 
                 return true;
@@ -311,11 +317,11 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
                 return false;
             }
         }
-        
+    
         /**
          * Make sure the back button always leaves the application.
          */
-        private boolean backkeyInterceptor(int keyCode, KeyEvent event) {
+        private boolean backKeyInterceptor(int keyCode, KeyEvent event) {
             if (keyCode == KeyEvent.KEYCODE_BACK && mActionBarMode == TermSettings.ACTION_BAR_MODE_HIDES && mActionBar != null && mActionBar.isShowing()) {
                 /* We need to intercept the key event before the view sees it,
                    otherwise the view will handle it before we get it */
@@ -375,8 +381,65 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         }
     
         setContentView(R.layout.activity_terminal);
-        mViewFlipper = findViewById(VIEW_FLIPPER);
-        
+        viewFlipper = findViewById(R.id.view_flipper);
+        add = findViewById(R.id.add);
+        close = findViewById(R.id.close);
+        options = findViewById(R.id.options);
+        windowName = findViewById(R.id.terminal_window_name);
+        windowsList = findViewById(R.id.windows_list);
+    
+        add.setOnClickListener(v -> doCreateNewWindow());
+        close.setOnClickListener(v -> confirmCloseWindow());
+        options.setOnClickListener(v -> new PopupTerminal(v).setOnMenuClickListener(new PopupMenuCallback() {
+            @Override
+            public void onMenuItemClicked(int source) {
+                switch (source) {
+                    case 0: {
+                        startActivityForResult(new Intent(Term.this, WindowList.class), REQUEST_CHOOSE_WINDOW);
+                        break;
+                    }
+                    case 1: {
+                        doToggleSoftKeyboard();
+                        break;
+                    }
+                    case 2: {
+                        doDocumentKeys();
+                        break;
+                    }
+                    case 3: {
+                        doPreferences();
+                        break;
+                    }
+                    case 4: {
+                        doResetTerminal();
+                        Toast toast = Toast.makeText(getBaseContext(), R.string.reset_toast_notification, Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        break;
+                    }
+                    case 5: {
+                        doEmailTranscript();
+                        break;
+                    }
+                    case 6: {
+                        doToggleWakeLock();
+                        break;
+                    }
+                    case 7: {
+                        doToggleWifiLock();
+                        break;
+                    }
+                }
+            }
+        }));
+    
+        windowsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
+            
+            }
+        });
+    
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Inure Terminal:" + TermDebug.LOG_TAG);
         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -384,19 +447,8 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         if (AndroidCompat.SDK >= 12) {
             wifiLockMode = WIFI_MODE_FULL_HIGH_PERF;
         }
+    
         mWifiLock = wm.createWifiLock(wifiLockMode, TermDebug.LOG_TAG);
-        
-        ActionBarCompat actionBar = ActivityCompat.getActionBar(this);
-        if (actionBar != null) {
-            System.out.println("Action bar init");
-            mActionBar = actionBar;
-            actionBar.setNavigationMode(ActionBarCompat.NAVIGATION_MODE_LIST);
-            actionBar.setDisplayOptions(0, ActionBarCompat.DISPLAY_SHOW_TITLE);
-            if (mActionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
-                actionBar.hide();
-            }
-        }
-        
         mHaveFullHwKeyboard = checkHaveFullHwKeyboard(getResources().getConfiguration());
         
         updatePrefs();
@@ -451,16 +503,16 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
             
             for (TermSession session : mTermSessions) {
                 EmulatorView view = createEmulatorView(session);
-                mViewFlipper.addView(view);
+                viewFlipper.addView(view);
             }
             
             updatePrefs();
             
             if (onResumeSelectWindow >= 0) {
-                mViewFlipper.setDisplayedChild(onResumeSelectWindow);
+                viewFlipper.setDisplayedChild(onResumeSelectWindow);
                 onResumeSelectWindow = -1;
             }
-            mViewFlipper.onResume();
+            viewFlipper.onResume();
         }
     }
     
@@ -470,7 +522,7 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
             return;
         }
         if (mTermSessions != null) {
-            int position = mViewFlipper.getDisplayedChild();
+            int position = viewFlipper.getDisplayedChild();
             if (mWinListAdapter == null) {
                 mWinListAdapter = new WindowListActionBarAdapter(mTermSessions);
                 
@@ -478,7 +530,7 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
             } else {
                 mWinListAdapter.setSessions(mTermSessions);
             }
-            mViewFlipper.addCallback(mWinListAdapter);
+            viewFlipper.addCallback(mWinListAdapter);
             
             mActionBar.setSelectedNavigationItem(position);
         }
@@ -541,12 +593,12 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         if (sessions == null) {
             return null;
         } else {
-            return sessions.get(mViewFlipper.getDisplayedChild());
+            return sessions.get(viewFlipper.getDisplayedChild());
         }
     }
     
     private EmulatorView getCurrentEmulatorView() {
-        return (EmulatorView) mViewFlipper.getCurrentView();
+        return (EmulatorView) viewFlipper.getCurrentView();
     }
     
     private void updatePrefs() {
@@ -554,10 +606,10 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        
-        mViewFlipper.updatePrefs(mSettings);
-        
-        for (View v : mViewFlipper) {
+    
+        viewFlipper.updatePrefs(mSettings);
+    
+        for (View v : viewFlipper) {
             ((EmulatorView) v).setDensity(metrics);
             ((TermView) v).updatePrefs(mSettings);
         }
@@ -617,7 +669,7 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         /* Explicitly close the input method
            Otherwise, the soft keyboard could cover up whatever activity takes
            our place */
-        final IBinder token = mViewFlipper.getWindowToken();
+        final IBinder token = viewFlipper.getWindowToken();
         new Thread() {
             @Override
             public void run() {
@@ -629,18 +681,18 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
     
     @Override
     protected void onStop() {
-        mViewFlipper.onPause();
+        viewFlipper.onPause();
         if (mTermSessions != null) {
             mTermSessions.removeCallback(this);
             
             if (mWinListAdapter != null) {
                 mTermSessions.removeCallback(mWinListAdapter);
                 mTermSessions.removeTitleChangedListener(mWinListAdapter);
-                mViewFlipper.removeCallback(mWinListAdapter);
+                viewFlipper.removeCallback(mWinListAdapter);
             }
         }
-        
-        mViewFlipper.removeAllViews();
+    
+        viewFlipper.removeAllViews();
         
         unbindService(mTSConnection);
         
@@ -657,8 +709,8 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         super.onConfigurationChanged(newConfig);
         
         mHaveFullHwKeyboard = checkHaveFullHwKeyboard(newConfig);
-        
-        EmulatorView v = (EmulatorView) mViewFlipper.getCurrentView();
+    
+        EmulatorView v = (EmulatorView) viewFlipper.getCurrentView();
         if (v != null) {
             v.updateSize(false);
         }
@@ -669,68 +721,22 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         }
     }
     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        MenuItemCompat.setShowAsAction(menu.findItem(R.id.menu_new_window), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
-        MenuItemCompat.setShowAsAction(menu.findItem(R.id.menu_close_window), MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-        return true;
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menu_preferences) {
-            doPreferences();
-        } else if (id == R.id.menu_new_window) {
-            doCreateNewWindow();
-        } else if (id == R.id.menu_close_window) {
-            confirmCloseWindow();
-        } else if (id == R.id.menu_window_list) {
-            startActivityForResult(new Intent(this, WindowList.class), REQUEST_CHOOSE_WINDOW);
-        } else if (id == R.id.menu_reset) {
-            doResetTerminal();
-            Toast toast = Toast.makeText(this, R.string.reset_toast_notification, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        } else if (id == R.id.menu_send_email) {
-            doEmailTranscript();
-        } else if (id == R.id.menu_special_keys) {
-            doDocumentKeys();
-        } else if (id == R.id.menu_toggle_soft_keyboard) {
-            doToggleSoftKeyboard();
-        } else if (id == R.id.menu_toggle_wakelock) {
-            doToggleWakeLock();
-        } else if (id == R.id.menu_toggle_wifilock) {
-            doToggleWifiLock();
-        } else if (id == R.id.action_help) {
-            Intent openHelp = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(getString(R.string.help_url)));
-            startActivity(openHelp);
-        }
-        // Hide the action bar if appropriate
-        if (mActionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
-            mActionBar.hide();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    
     private void doCreateNewWindow() {
         if (mTermSessions == null) {
             Log.w(TermDebug.LOG_TAG, "Couldn't create new window because mTermSessions == null");
             return;
         }
-        
+    
         try {
             TermSession session = createTermSession();
-            
+        
             mTermSessions.add(session);
-            
+        
             TermView view = createEmulatorView(session);
             view.updatePrefs(mSettings);
-            
-            mViewFlipper.addView(view);
-            mViewFlipper.setDisplayedChild(mViewFlipper.getChildCount() - 1);
+        
+            viewFlipper.addView(view);
+            viewFlipper.setDisplayedChild(viewFlipper.getChildCount() - 1);
         } catch (IOException e) {
             Toast.makeText(this, "Failed to create a session", Toast.LENGTH_SHORT).show();
         }
@@ -764,12 +770,12 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         if (view == null) {
             return;
         }
-        TermSession session = mTermSessions.remove(mViewFlipper.getDisplayedChild());
+        TermSession session = mTermSessions.remove(viewFlipper.getDisplayedChild());
         view.onPause();
         session.finish();
-        mViewFlipper.removeView(view);
+        viewFlipper.removeView(view);
         if (mTermSessions.size() != 0) {
-            mViewFlipper.showNext();
+            viewFlipper.showNext();
         }
     }
     
@@ -943,16 +949,16 @@ public class Term extends AppCompatActivity implements UpdateCallback, SharedPre
         if (sessions == null) {
             return;
         }
-        
+    
         if (sessions.size() == 0) {
             mStopServiceOnFinish = true;
             finish();
-        } else if (sessions.size() < mViewFlipper.getChildCount()) {
-            for (int i = 0; i < mViewFlipper.getChildCount(); ++i) {
-                EmulatorView v = (EmulatorView) mViewFlipper.getChildAt(i);
+        } else if (sessions.size() < viewFlipper.getChildCount()) {
+            for (int i = 0; i < viewFlipper.getChildCount(); ++i) {
+                EmulatorView v = (EmulatorView) viewFlipper.getChildAt(i);
                 if (!sessions.contains(v.getTermSession())) {
                     v.onPause();
-                    mViewFlipper.removeView(v);
+                    viewFlipper.removeView(v);
                     --i;
                 }
             }

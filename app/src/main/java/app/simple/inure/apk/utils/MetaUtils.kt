@@ -71,7 +71,7 @@ object MetaUtils {
         val builder = StringBuilder()
 
         with(builder) {
-            if ((0 and type) == 0) createString(context.getString(R.string.non_foreground))
+            if (type == 0) createString(context.getString(R.string.non_foreground))
             if ((1 shl 0 and type) == 1 shl 0) createString(context.getString(R.string.data_sync))
             if ((1 shl 1 and type) == 1 shl 1) createString(context.getString(R.string.media_playback))
             if ((1 shl 2 and type) == 1 shl 2) createString(context.getString(R.string.phone_call))
@@ -156,7 +156,6 @@ object MetaUtils {
             if (flag and ActivityInfo.FLAG_ENABLE_VR_MODE != 0) createString(context.getString(R.string.vr_mode))
             if (flag and 0x400000 != 0) createString(context.getString(R.string.picture_in_picture))
             if (flag and 0x800000 != 0) createString(context.getString(R.string.show_when_locked))
-            if (flag and 0x1000000 != 0) createString(context.getString(R.string.turn_screen_on))
             if (flag and 0x1000000 != 0) createString(context.getString(R.string.turn_screen_on))
             if (flag and ActivityInfo.FLAG_PREFER_MINIMAL_POST_PROCESSING != 0) createString(context.getString(R.string.prefer_minimal_post_processing))
             if (flag and 0x20000000 != 0) createString(context.getString(R.string.system_user_only))

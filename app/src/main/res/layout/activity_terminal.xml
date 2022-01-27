@@ -1,21 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-/* Copyright 2007, The Android Open Source Project
-**
-** Licensed under the Apache License, Version 2.0 (the "License"); 
-** you may not use this file except in compliance with the License. 
-** You may obtain a copy of the License at 
-**
-**     http://www.apache.org/licenses/LICENSE-2.0 
-**
-** Unless required by applicable law or agreed to in writing, software 
-** distributed under the License is distributed on an "AS IS" BASIS, 
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-** See the License for the specific language governing permissions and 
-** limitations under the License.
-*/
--->
-
-<app.simple.inure.terminal.TermViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/view_flipper"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/header_padding">
+
+        <ImageView
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:src="@drawable/ic_terminal"
+            android:transitionName="@string/terminal"
+            app:tint="?attr/colorAppAccent"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/terminal_window_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textSize="@dimen/header_name_text_size"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+        <Spinner
+            android:id="@+id/windows_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/add"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:clickable="false"
+            android:src="@drawable/ic_add"
+            app:buttonTintType="accent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/close"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:clickable="false"
+            android:src="@drawable/ic_close"
+            app:buttonTintType="accent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/options"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:clickable="false"
+            android:src="@drawable/ic_more_vert"
+            app:buttonTintType="accent" />
+
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <app.simple.inure.terminal.TermViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

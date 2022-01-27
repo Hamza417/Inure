@@ -445,4 +445,3 @@ abstract class BaseTextRenderer implements TextRenderer {
         }
     }
 }
-

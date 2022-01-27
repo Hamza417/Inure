@@ -67,6 +67,14 @@ static void android_os_Exec_setPtyUTF8Mode(JNIEnv *env, jobject clazz, jint fd, 
         tios.c_iflag &= ~IUTF8;
     }
 
+
+
+    //  /| /~~\  /~~\ | /
+    //   ||    ||    ||(
+    //  _|_\__/  \__/ | \
+
+
+
     if (my_tcsetattr(fd, &tios) != 0)
         env->ThrowNew(env->FindClass("java/io/IOException"), "Failed to set terminal UTF-8 mode");
 }

@@ -11,12 +11,32 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+
+    <permission
+        android:name="inure.terminal.permission.RUN_SCRIPT"
+        android:description="@string/permdesc_run_script"
+        android:label="@string/perm_run_script"
+        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="dangerous" />
+    <permission
+        android:name="inure.terminal.permission.APPEND_TO_PATH"
+        android:description="@string/permdesc_append_to_path"
+        android:label="@string/perm_append_to_path"
+        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="dangerous" />
+    <permission
+        android:name="inure.terminal.permission.PREPEND_TO_PATH"
+        android:description="@string/permdesc_prepend_to_path"
+        android:label="@string/perm_prepend_to_path"
+        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="dangerous" />
 
     <application
         android:allowBackup="true"
@@ -43,21 +63,22 @@
 
         <activity
             android:name=".terminal.Term"
+            android:configChanges="keyboard|keyboardHidden|orientation"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-            android:windowSoftInputMode="adjustResize" />
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
 
         <activity
             android:name=".terminal.TermPreferences"
-            android:exported="true"
             android:documentLaunchMode="intoExisting"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".terminal.WindowList"
-            android:exported="true"
             android:documentLaunchMode="intoExisting"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
             android:windowSoftInputMode="adjustResize" />
 
