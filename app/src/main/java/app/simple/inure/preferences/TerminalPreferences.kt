@@ -7,6 +7,7 @@ object TerminalPreferences {
 
     private const val fontSize = "terminal_font_size"
     private const val color = "terminal_color"
+    private const val utf8 = "terminal_default_utf_8"
 
     /* ---------------------------------------------------------------------------------------------- */
 
@@ -28,5 +29,16 @@ object TerminalPreferences {
 
     fun setColor(value: Int): Boolean {
         return getSharedPreferences().edit().putInt(color, value).commit()
+    }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
+    // Color
+    fun getUTF8State(): Boolean {
+        return getSharedPreferences().getBoolean(utf8, false)
+    }
+
+    fun setUTF8State(value: Boolean): Boolean {
+        return getSharedPreferences().edit().putBoolean(utf8, value).commit()
     }
 }

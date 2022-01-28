@@ -61,7 +61,7 @@ class MainPreferencesScreen : ScopedFragment() {
                         }
                         getString(R.string.terminal) -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                                              TerminalPreferences.newInstance(),
+                                                              TerminalScreen.newInstance(),
                                                               imageView,
                                                               "terminal_prefs")
                         }

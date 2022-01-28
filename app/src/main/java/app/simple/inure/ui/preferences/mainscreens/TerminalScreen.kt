@@ -6,21 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.ui.preferences.subscreens.TerminalColor
 import app.simple.inure.ui.preferences.subscreens.TerminalFontSize
 import app.simple.inure.util.FragmentHelper
 
-class TerminalPreferences : ScopedFragment() {
+class TerminalScreen : ScopedFragment() {
 
     private lateinit var fontSize: DynamicRippleRelativeLayout
     private lateinit var color: DynamicRippleRelativeLayout
+    private lateinit var utf8: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_terminal, container, false)
 
         fontSize = view.findViewById(R.id.terminal_font_size)
         color = view.findViewById(R.id.terminal_color)
+        utf8 = view.findViewById(R.id.terminal_utf_switch)
 
         return view
     }
@@ -28,6 +32,8 @@ class TerminalPreferences : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+
+        utf8.setChecked(TerminalPreferences.getUTF8State())
 
         fontSize.setOnClickListener {
             clearExitTransition()
@@ -38,12 +44,16 @@ class TerminalPreferences : ScopedFragment() {
             clearExitTransition()
             FragmentHelper.openFragment(parentFragmentManager, TerminalColor.newInstance(), "color")
         }
+
+        utf8.setOnSwitchCheckedChangeListener {
+            TerminalPreferences.setUTF8State(it)
+        }
     }
 
     companion object {
-        fun newInstance(): TerminalPreferences {
+        fun newInstance(): TerminalScreen {
             val args = Bundle()
-            val fragment = TerminalPreferences()
+            val fragment = TerminalScreen()
             fragment.arguments = args
             return fragment
         }

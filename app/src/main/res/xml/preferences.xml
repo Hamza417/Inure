@@ -68,16 +68,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/text_preferences">
-
-        <CheckBoxPreference
-            android:defaultValue="@bool/pref_utf8_by_default_default"
-            android:key="utf8_by_default"
-            android:summary="@string/summary_utf8_by_default_preference"
-            android:title="@string/title_utf8_by_default_preference" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/keyboard_preferences">
 
         <ListPreference

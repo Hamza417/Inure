@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import app.simple.inure.decorations.emulatorview.ColorScheme;
 import app.simple.inure.decorations.emulatorview.TermSession;
 import app.simple.inure.decorations.emulatorview.UpdateCallback;
+import app.simple.inure.preferences.TerminalPreferences;
 import app.simple.inure.terminal.util.TermSettings;
 
 /**
@@ -69,7 +70,7 @@ public class GenericTermSession extends TermSession {
     public void updatePrefs(TermSettings settings) {
         mSettings = settings;
         setColorScheme(new ColorScheme(settings.getColorScheme()));
-        setDefaultUTF8Mode(settings.defaultToUTF8Mode());
+        setDefaultUTF8Mode(TerminalPreferences.INSTANCE.getUTF8State());
     }
     
     @Override
