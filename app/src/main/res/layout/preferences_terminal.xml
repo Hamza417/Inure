@@ -17,7 +17,7 @@
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_terminal"
+            android:src="@drawable/ic_terminal_black"
             android:transitionName="@string/terminal"
             app:tintType="accent"
             tools:ignore="ContentDescription" />
@@ -290,7 +290,7 @@
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_ctrl"
+                        android:src="@drawable/ic_ctrl_key"
                         app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
