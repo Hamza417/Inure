@@ -47,7 +47,7 @@ public class TermView extends EmulatorView {
             setColorScheme(scheme);
         }
         setBackKeyCharacter(settings.getBackKeyCharacter());
-        setAltSendsEsc(settings.getAltSendsEscFlag());
+        setAltSendsEsc(TerminalPreferences.INSTANCE.getAltKeyEscapeState());
         setControlKeyCode(settings.getControlKeyCode());
         setFnKeyCode(settings.getFnKeyCode());
         setTermType(settings.getTermType());

@@ -34,8 +34,6 @@ public class TermSettings {
     private int mOrientation;
     private int mCursorStyle;
     private int mCursorBlink;
-    private int mControlKeyId;
-    private int mFnKeyId;
     private int mUseCookedIME;
     private String mShell;
     private String mFailsafeShell;
@@ -50,17 +48,10 @@ public class TermSettings {
     private String mPrependPath = null;
     private String mAppendPath = null;
     
-    private boolean mAltSendsEsc;
-    
     private boolean mMouseTracking;
-    
-    private boolean mUseKeyboardShortcuts;
     
     private static final String ACTIONBAR_KEY = "actionbar";
     private static final String ORIENTATION_KEY = "orientation";
-    private static final String BACKACTION_KEY = "backaction";
-    private static final String CONTROLKEY_KEY = "controlkey";
-    private static final String FNKEY_KEY = "fnkey";
     private static final String IME_KEY = "ime";
     private static final String SHELL_KEY = "shell";
     private static final String INITIALCOMMAND_KEY = "initialcommand";
@@ -70,7 +61,6 @@ public class TermSettings {
     private static final String PATHEXTENSIONS_KEY = "do_path_extensions";
     private static final String PATHPREPEND_KEY = "allow_prepend_path";
     private static final String HOMEPATH_KEY = "home_path";
-    private static final String ALT_SENDS_ESC = "alt_sends_esc";
     private static final String MOUSE_TRACKING = "mouse_tracking";
     private static final String USE_KEYBOARD_SHORTCUTS = "use_keyboard_shortcuts";
     
@@ -158,8 +148,6 @@ public class TermSettings {
         mOrientation = res.getInteger(R.integer.pref_orientation_default);
         mCursorStyle = Integer.parseInt(res.getString(R.string.pref_cursorstyle_default));
         mCursorBlink = Integer.parseInt(res.getString(R.string.pref_cursorblink_default));
-        mControlKeyId = Integer.parseInt(res.getString(R.string.pref_controlkey_default));
-        mFnKeyId = Integer.parseInt(res.getString(R.string.pref_fnkey_default));
         mUseCookedIME = Integer.parseInt(res.getString(R.string.pref_ime_default));
         mFailsafeShell = res.getString(R.string.pref_shell_default);
         mShell = mFailsafeShell;
@@ -170,9 +158,7 @@ public class TermSettings {
         mDoPathExtensions = res.getBoolean(R.bool.pref_do_path_extensions_default);
         mAllowPathPrepend = res.getBoolean(R.bool.pref_allow_prepend_path_default);
         // the mHomePath default is set dynamically in readPrefs()
-        mAltSendsEsc = res.getBoolean(R.bool.pref_alt_sends_esc_default);
         mMouseTracking = res.getBoolean(R.bool.pref_mouse_tracking_default);
-        mUseKeyboardShortcuts = res.getBoolean(R.bool.pref_use_keyboard_shortcuts_default);
     }
     
     public void readPrefs(SharedPreferences prefs) {
@@ -181,10 +167,6 @@ public class TermSettings {
         mOrientation = readIntPref(ORIENTATION_KEY, mOrientation, 2);
         // mCursorStyle = readIntPref(CURSORSTYLE_KEY, mCursorStyle, 2);
         // mCursorBlink = readIntPref(CURSORBLINK_KEY, mCursorBlink, 1);
-        mControlKeyId = readIntPref(CONTROLKEY_KEY, mControlKeyId,
-                CONTROL_KEY_SCHEMES.length - 1);
-        mFnKeyId = readIntPref(FNKEY_KEY, mFnKeyId,
-                FN_KEY_SCHEMES.length - 1);
         mUseCookedIME = readIntPref(IME_KEY, mUseCookedIME, 1);
         mShell = readStringPref(SHELL_KEY, mShell);
         mInitialCommand = readStringPref(INITIALCOMMAND_KEY, mInitialCommand);
@@ -194,10 +176,7 @@ public class TermSettings {
         mDoPathExtensions = readBooleanPref(PATHEXTENSIONS_KEY, mDoPathExtensions);
         mAllowPathPrepend = readBooleanPref(PATHPREPEND_KEY, mAllowPathPrepend);
         mHomePath = readStringPref(HOMEPATH_KEY, mHomePath);
-        mAltSendsEsc = readBooleanPref(ALT_SENDS_ESC, mAltSendsEsc);
         mMouseTracking = readBooleanPref(MOUSE_TRACKING, mMouseTracking);
-        mUseKeyboardShortcuts = readBooleanPref(USE_KEYBOARD_SHORTCUTS,
-                mUseKeyboardShortcuts);
         mPrefs = null;  // we leak a Context if we hold on to this
     }
     
@@ -245,16 +224,8 @@ public class TermSettings {
         return TerminalPreferences.INSTANCE.getBackButtonAction() >= BACK_KEY_SENDS_ESC;
     }
     
-    public boolean getAltSendsEscFlag() {
-        return mAltSendsEsc;
-    }
-    
     public boolean getMouseTrackingFlag() {
         return mMouseTracking;
-    }
-    
-    public boolean getUseKeyboardShortcutsFlag() {
-        return mUseKeyboardShortcuts;
     }
     
     public int getBackKeyCharacter() {
@@ -268,20 +239,12 @@ public class TermSettings {
         }
     }
     
-    public int getControlKeyId() {
-        return mControlKeyId;
-    }
-    
-    public int getFnKeyId() {
-        return mFnKeyId;
-    }
-    
     public int getControlKeyCode() {
-        return CONTROL_KEY_SCHEMES[mControlKeyId];
+        return CONTROL_KEY_SCHEMES[TerminalPreferences.INSTANCE.getControlKey()];
     }
     
     public int getFnKeyCode() {
-        return FN_KEY_SCHEMES[mFnKeyId];
+        return FN_KEY_SCHEMES[TerminalPreferences.INSTANCE.getFnKey()];
     }
     
     public boolean useCookedIME() {

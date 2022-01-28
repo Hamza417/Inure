@@ -304,7 +304,7 @@
                         android:text="@string/title_controlkey_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_dot_tiny"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
@@ -351,7 +351,7 @@
                         android:text="@string/title_fnkey_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_dot_tiny"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
@@ -370,59 +370,37 @@
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:id="@+id/terminal_alt_key"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:clipChildren="false"
                     android:clipToPadding="false"
+                    android:orientation="horizontal"
                     android:padding="15dp">
 
                     <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/alt_key_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
-                        android:layout_centerVertical="true"
                         android:src="@drawable/ic_alt_key"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:tintType="secondary"
                         tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:id="@+id/alt_key_title"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:drawablePadding="5dp"
                         android:text="@string/alt_sends_esc"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableTintStyle="accent"
-                        app:layout_constraintBottom_toTopOf="@+id/all_key_desc"
-                        app:layout_constraintEnd_toStartOf="@+id/alt_key_switch"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/alt_key_icon"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:textColorStyle="primary" />
-
-                    <app.simple.inure.decorations.typeface.TypeFaceTextView
-                        android:id="@+id/all_key_desc"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
-                        android:text="@string/alt_sends_esc_summary_off"
-                        android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/alt_key_switch"
-                        app:layout_constraintStart_toEndOf="@+id/alt_key_icon"
-                        app:layout_constraintTop_toBottomOf="@id/alt_key_title"
-                        app:textColorStyle="tertiary" />
 
                     <app.simple.inure.decorations.switchview.SwitchView
                         android:id="@+id/alt_key_switch"
@@ -435,7 +413,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/use_keyboard_shortcuts"
@@ -482,7 +460,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
-                        android:text="@string/use_keyboard_shortcuts_summary_off"
+                        android:text="@string/use_keyboard_shortcuts_summary_on"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"

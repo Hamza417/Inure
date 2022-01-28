@@ -585,7 +585,7 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     }
     
     private void updatePrefs() {
-        mUseKeyboardShortcuts = mSettings.getUseKeyboardShortcutsFlag();
+        mUseKeyboardShortcuts = TerminalPreferences.INSTANCE.getKeyboardShortcutState();
         
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -620,18 +620,11 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     @Override
     public void onPause() {
         super.onPause();
-        
-        if (AndroidCompat.SDK < 5) {
-            /* If we lose focus between a back key down and a back key up,
-               we shouldn't respond to the next back key up event unless
-               we get another key down first */
-            mBackKeyPressed = false;
-        }
-
         /* Explicitly close the input method
            Otherwise, the soft keyboard could cover up whatever activity takes
            our place */
         final IBinder token = viewFlipper.getWindowToken();
+    
         new Thread() {
             @Override
             public void run() {

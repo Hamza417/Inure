@@ -9,9 +9,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.TerminalPreferences
-import app.simple.inure.ui.preferences.subscreens.TerminalBackButtonAction
-import app.simple.inure.ui.preferences.subscreens.TerminalColor
-import app.simple.inure.ui.preferences.subscreens.TerminalFontSize
+import app.simple.inure.ui.preferences.subscreens.*
 import app.simple.inure.util.FragmentHelper
 
 class TerminalScreen : ScopedFragment() {
@@ -20,6 +18,10 @@ class TerminalScreen : ScopedFragment() {
     private lateinit var color: DynamicRippleRelativeLayout
     private lateinit var utf8: SwitchView
     private lateinit var backButtonAction: DynamicRippleRelativeLayout
+    private lateinit var controlKey: DynamicRippleRelativeLayout
+    private lateinit var fnKey: DynamicRippleRelativeLayout
+    private lateinit var altKey: SwitchView
+    private lateinit var keyboardShortcut: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_terminal, container, false)
@@ -28,6 +30,10 @@ class TerminalScreen : ScopedFragment() {
         color = view.findViewById(R.id.terminal_color)
         utf8 = view.findViewById(R.id.terminal_utf_switch)
         backButtonAction = view.findViewById(R.id.terminal_back_button_behavior)
+        controlKey = view.findViewById(R.id.terminal_control_key)
+        fnKey = view.findViewById(R.id.terminal_fn_key)
+        altKey = view.findViewById(R.id.alt_key_switch)
+        keyboardShortcut = view.findViewById(R.id.keyboard_shortcuts_switch)
 
         return view
     }
@@ -37,6 +43,8 @@ class TerminalScreen : ScopedFragment() {
         startPostponedEnterTransition()
 
         utf8.setChecked(TerminalPreferences.getUTF8State())
+        altKey.setChecked(TerminalPreferences.getAltKeyEscapeState())
+        keyboardShortcut.setChecked(TerminalPreferences.getKeyboardShortcutState())
 
         fontSize.setOnClickListener {
             clearExitTransition()
@@ -55,6 +63,24 @@ class TerminalScreen : ScopedFragment() {
         backButtonAction.setOnClickListener {
             clearExitTransition()
             FragmentHelper.openFragment(parentFragmentManager, TerminalBackButtonAction.newInstance(), "back_button")
+        }
+
+        controlKey.setOnClickListener {
+            clearExitTransition()
+            FragmentHelper.openFragment(parentFragmentManager, TerminalControlKey.newInstance(), "control_key")
+        }
+
+        fnKey.setOnClickListener {
+            clearExitTransition()
+            FragmentHelper.openFragment(parentFragmentManager, TerminalFnKey.newInstance(), "fn_key")
+        }
+
+        altKey.setOnSwitchCheckedChangeListener {
+            TerminalPreferences.setAltKeyEscapeState(it)
+        }
+
+        keyboardShortcut.setOnSwitchCheckedChangeListener {
+            TerminalPreferences.setKeyboardShortcutState(it)
         }
     }
 

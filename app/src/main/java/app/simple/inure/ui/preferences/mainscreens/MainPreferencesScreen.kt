@@ -67,7 +67,7 @@ class MainPreferencesScreen : ScopedFragment() {
                         }
                         getString(R.string.shell_preferences) -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                                              ShellPreferences.newInstance(),
+                                                              ShellScreen.newInstance(),
                                                               imageView,
                                                               "shell_prefs")
                         }

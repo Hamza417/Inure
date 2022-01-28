@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.extension.fragments.ScopedFragment
 
-class ShellPreferences : ScopedFragment() {
+class ShellScreen : ScopedFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_shell, container, false)
@@ -21,9 +21,9 @@ class ShellPreferences : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): ShellPreferences {
+        fun newInstance(): ShellScreen {
             val args = Bundle()
-            val fragment = ShellPreferences()
+            val fragment = ShellScreen()
             fragment.arguments = args
             return fragment
         }
