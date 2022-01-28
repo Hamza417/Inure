@@ -78,7 +78,6 @@
 
     <string name="title_backaction_preference">Back button behavior</string>
     <string name="summary_backaction_preference">Choose what pressing the back button does.</string>
-    <string name="dialog_title_backaction_preference">Back button behavior</string>
 
     <string name="title_controlkey_preference">Control key</string>
     <string name="summary_controlkey_preference">Choose control key.</string>

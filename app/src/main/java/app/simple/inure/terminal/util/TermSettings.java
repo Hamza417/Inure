@@ -34,7 +34,6 @@ public class TermSettings {
     private int mOrientation;
     private int mCursorStyle;
     private int mCursorBlink;
-    private int mBackKeyAction;
     private int mControlKeyId;
     private int mFnKeyId;
     private int mUseCookedIME;
@@ -159,7 +158,6 @@ public class TermSettings {
         mOrientation = res.getInteger(R.integer.pref_orientation_default);
         mCursorStyle = Integer.parseInt(res.getString(R.string.pref_cursorstyle_default));
         mCursorBlink = Integer.parseInt(res.getString(R.string.pref_cursorblink_default));
-        mBackKeyAction = Integer.parseInt(res.getString(R.string.pref_backaction_default));
         mControlKeyId = Integer.parseInt(res.getString(R.string.pref_controlkey_default));
         mFnKeyId = Integer.parseInt(res.getString(R.string.pref_fnkey_default));
         mUseCookedIME = Integer.parseInt(res.getString(R.string.pref_ime_default));
@@ -183,7 +181,6 @@ public class TermSettings {
         mOrientation = readIntPref(ORIENTATION_KEY, mOrientation, 2);
         // mCursorStyle = readIntPref(CURSORSTYLE_KEY, mCursorStyle, 2);
         // mCursorBlink = readIntPref(CURSORBLINK_KEY, mCursorBlink, 1);
-        mBackKeyAction = readIntPref(BACKACTION_KEY, mBackKeyAction, BACK_KEY_MAX);
         mControlKeyId = readIntPref(CONTROLKEY_KEY, mControlKeyId,
                 CONTROL_KEY_SCHEMES.length - 1);
         mFnKeyId = readIntPref(FNKEY_KEY, mFnKeyId,
@@ -244,12 +241,8 @@ public class TermSettings {
         return COLOR_SCHEMES[TerminalPreferences.INSTANCE.getColor()];
     }
     
-    public int getBackKeyAction() {
-        return mBackKeyAction;
-    }
-    
     public boolean backKeySendsCharacter() {
-        return mBackKeyAction >= BACK_KEY_SENDS_ESC;
+        return TerminalPreferences.INSTANCE.getBackButtonAction() >= BACK_KEY_SENDS_ESC;
     }
     
     public boolean getAltSendsEscFlag() {
@@ -265,7 +258,7 @@ public class TermSettings {
     }
     
     public int getBackKeyCharacter() {
-        switch (mBackKeyAction) {
+        switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
             case BACK_KEY_SENDS_ESC:
                 return 27;
             case BACK_KEY_SENDS_TAB:

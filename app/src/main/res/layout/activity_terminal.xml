@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:orientation="horizontal"
-        android:padding="@dimen/header_padding">
+        android:padding="@dimen/popup_padding">
 
         <ImageView
             android:layout_width="@dimen/button_size"

@@ -8,6 +8,7 @@ object TerminalPreferences {
     private const val fontSize = "terminal_font_size"
     private const val color = "terminal_color"
     private const val utf8 = "terminal_default_utf_8"
+    private const val backButtonAction = "terminal_back_button_action"
 
     /* ---------------------------------------------------------------------------------------------- */
 
@@ -22,7 +23,6 @@ object TerminalPreferences {
 
     /* ---------------------------------------------------------------------------------------------- */
 
-    // Color
     fun getColor(): Int {
         return getSharedPreferences().getInt(color, 0)
     }
@@ -33,12 +33,21 @@ object TerminalPreferences {
 
     /* ---------------------------------------------------------------------------------------------- */
 
-    // Color
     fun getUTF8State(): Boolean {
         return getSharedPreferences().getBoolean(utf8, false)
     }
 
     fun setUTF8State(value: Boolean): Boolean {
         return getSharedPreferences().edit().putBoolean(utf8, value).commit()
+    }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
+    fun getBackButtonAction(): Int {
+        return getSharedPreferences().getInt(backButtonAction, 2)
+    }
+
+    fun setBackButtonAction(value: Int): Boolean {
+        return getSharedPreferences().edit().putInt(backButtonAction, value).commit()
     }
 }

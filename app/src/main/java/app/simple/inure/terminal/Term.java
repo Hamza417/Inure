@@ -73,6 +73,7 @@ import app.simple.inure.dialogs.terminal.DialogSpecialKeys;
 import app.simple.inure.extension.activities.BaseActivity;
 import app.simple.inure.extension.popup.PopupMenuCallback;
 import app.simple.inure.popups.app.PopupTerminal;
+import app.simple.inure.preferences.TerminalPreferences;
 import app.simple.inure.terminal.compat.ActionBarCompat;
 import app.simple.inure.terminal.compat.ActivityCompat;
 import app.simple.inure.terminal.compat.AndroidCompat;
@@ -851,19 +852,11 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                if (AndroidCompat.SDK < 5) {
-                    if (!mBackKeyPressed) {
-                    /* This key up event might correspond to a key down
-                       delivered to another activity -- ignore */
-                        return false;
-                    }
-                    mBackKeyPressed = false;
-                }
                 if (mActionBarMode == TermSettings.ACTION_BAR_MODE_HIDES && mActionBar != null && mActionBar.isShowing()) {
                     mActionBar.hide();
                     return true;
                 }
-                switch (mSettings.getBackKeyAction()) {
+                switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
                     case TermSettings.BACK_KEY_STOPS_SERVICE:
                         mStopServiceOnFinish = true;
                     case TermSettings.BACK_KEY_CLOSES_ACTIVITY:

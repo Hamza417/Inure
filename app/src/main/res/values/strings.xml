@@ -449,4 +449,9 @@
     <string name="icon_size_desc">Change the size of the app icons shown throughout the app.</string>
     <string name="colored_shadows">Colored Shadows</string>
     <string name="colored_shadows_desc">Tint icon shadows based on icon color.</string>
+    <string name="closes_all_terminal_windows">Closes all terminal windows</string>
+    <string name="closes_current_terminal_window_only">Closes current terminal window only</string>
+    <string name="closes_activity_leaving_sessions_running">Closes activity, leaving sessions running</string>
+    <string name="sends_esc_to_terminal">Sends ESC to terminal</string>
+    <string name="sends_tab_to_terminal">Sends TAB to terminal</string>
 </resources>

@@ -233,7 +233,7 @@
                     app:textColorStyle="accent" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-                    android:id="@+id/appearance_app_typeface"
+                    android:id="@+id/terminal_back_button_behavior"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -256,7 +256,7 @@
                         android:layout_toEndOf="@id/back_icon"
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
-                        android:text="@string/dialog_title_backaction_preference"
+                        android:text="@string/title_backaction_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
