@@ -21,6 +21,8 @@ import android.content.res.Resources;
 import android.view.KeyEvent;
 
 import app.simple.inure.R;
+import app.simple.inure.preferences.TerminalPreferences;
+import app.simple.inure.themes.manager.ThemeManager;
 
 /**
  * Terminal emulator settings
@@ -33,7 +35,6 @@ public class TermSettings {
     private int mOrientation;
     private int mCursorStyle;
     private int mCursorBlink;
-    private int mColorId;
     private boolean mUTF8ByDefault;
     private int mBackKeyAction;
     private int mControlKeyId;
@@ -94,6 +95,8 @@ public class TermSettings {
     
     // foreground color, background color
     public static final int[][] COLOR_SCHEMES = {
+            {ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor(),
+                    ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground()},
             {BLACK, WHITE},
             {WHITE, BLACK},
             {WHITE, BLUE},
@@ -162,7 +165,6 @@ public class TermSettings {
         mOrientation = res.getInteger(R.integer.pref_orientation_default);
         mCursorStyle = Integer.parseInt(res.getString(R.string.pref_cursorstyle_default));
         mCursorBlink = Integer.parseInt(res.getString(R.string.pref_cursorblink_default));
-        mColorId = Integer.parseInt(res.getString(R.string.pref_color_default));
         mUTF8ByDefault = res.getBoolean(R.bool.pref_utf8_by_default_default);
         mBackKeyAction = Integer.parseInt(res.getString(R.string.pref_backaction_default));
         mControlKeyId = Integer.parseInt(res.getString(R.string.pref_controlkey_default));
@@ -189,7 +191,6 @@ public class TermSettings {
         mOrientation = readIntPref(ORIENTATION_KEY, mOrientation, 2);
         // mCursorStyle = readIntPref(CURSORSTYLE_KEY, mCursorStyle, 2);
         // mCursorBlink = readIntPref(CURSORBLINK_KEY, mCursorBlink, 1);
-        mColorId = readIntPref(COLOR_KEY, mColorId, COLOR_SCHEMES.length - 1);
         mUTF8ByDefault = readBooleanPref(UTF8_KEY, mUTF8ByDefault);
         mBackKeyAction = readIntPref(BACKACTION_KEY, mBackKeyAction, BACK_KEY_MAX);
         mControlKeyId = readIntPref(CONTROLKEY_KEY, mControlKeyId,
@@ -253,7 +254,7 @@ public class TermSettings {
     }
     
     public int[] getColorScheme() {
-        return COLOR_SCHEMES[mColorId];
+        return COLOR_SCHEMES[TerminalPreferences.INSTANCE.getColor()];
     }
     
     public boolean defaultToUTF8Mode() {

@@ -74,7 +74,7 @@ class AdapterFontSize : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById(R.id.adapter_typeface_textview)
+        val textView: TypeFaceTextView = itemView.findViewById(R.id.adapter_typeface_textview)
         val icon: ImageView = itemView.findViewById(R.id.adapter_typeface_check_icon)
         val container: LinearLayout = itemView.findViewById(R.id.adapter_typeface_container)
     }

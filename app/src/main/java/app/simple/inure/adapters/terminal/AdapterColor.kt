@@ -1,33 +1,37 @@
-package app.simple.inure.adapters.preferences
+package app.simple.inure.adapters.terminal
 
-import android.content.res.Resources
-import android.graphics.Typeface
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
-import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.util.ConditionUtils.isZero
-import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 
-class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterColor : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    private lateinit var adapterTypeFaceCallbacks: AdapterTypeFaceCallbacks
-    private var list = TypeFace.list.apply {
-        sortBy { it.typefaceName }
-    }
+    private val list = arrayListOf(
+            "Inure (Follow App)",
+            "Black Text on White",
+            "White Text on Black",
+            "White Text on Blue",
+            "Green Text on Black",
+            "Amber Text on Black",
+            "Red Text on Black",
+            "Holo Blue Text on Black",
+            "Solarized Light",
+            "Solarized Dark",
+            "Linux Console",
+    )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -43,33 +47,29 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
 
         val position = position_ - 1
 
         when (holder) {
             is Holder -> {
-                try {
-                    holder.textView.typeface = ResourcesCompat.getFont(holder.itemView.context, list[position].typeFaceResId)
-                } catch (e: Resources.NotFoundException) {
-                    holder.textView.typeface = Typeface.DEFAULT_BOLD
-                }
+                holder.textView.text = list[position]
 
-                holder.textView.text = list[position].typefaceName
-
-                if (AppearancePreferences.getAppFont() == list[position].name) {
+                if (TerminalPreferences.getColor() == position) {
                     holder.icon.visible(false)
-                    holder.textView.setTextColor(ThemeManager.theme.textViewTheme.primaryTextColor)
                 } else {
                     holder.icon.invisible(false)
-                    holder.textView.setTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
                 }
 
                 holder.container.setOnClickListener {
-                    adapterTypeFaceCallbacks.onTypeFaceClicked(list[position].name)
+                    if (TerminalPreferences.setColor(position)) {
+                        notifyDataSetChanged()
+                    }
                 }
             }
             is Header -> {
+                holder.title.text = holder.itemView.context.getString(R.string.title_color_preference)
                 holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
             }
         }
@@ -85,10 +85,6 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
         } else RecyclerViewConstants.TYPE_ITEM
     }
 
-    fun setOnTypeFaceClickListener(adapterTypeFaceCallbacks: AdapterTypeFaceCallbacks) {
-        this.adapterTypeFaceCallbacks = adapterTypeFaceCallbacks
-    }
-
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val textView: TypeFaceTextView = itemView.findViewById(R.id.adapter_typeface_textview)
         val icon: ImageView = itemView.findViewById(R.id.adapter_typeface_check_icon)
@@ -96,6 +92,7 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
+        val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_title)
         val total: TextView = itemView.findViewById(R.id.adapter_type_face_total)
     }
 }

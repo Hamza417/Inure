@@ -112,7 +112,7 @@
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-                    android:id="@+id/appearance_accent_color"
+                    android:id="@+id/terminal_color"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"

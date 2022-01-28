@@ -10,10 +10,11 @@
     android:layout_marginHorizontal="@dimen/header_padding"
     android:padding="@dimen/dialog_padding">
 
-    <TextView
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_typeface_textview"
         android:layout_width="0dp"
         android:layout_weight="1"
+        app:appFontStyle="medium"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginHorizontal="10dp"

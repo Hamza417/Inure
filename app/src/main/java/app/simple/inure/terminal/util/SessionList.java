@@ -31,11 +31,7 @@ import app.simple.inure.decorations.emulatorview.UpdateCallback;
 public class SessionList extends ArrayList <TermSession> {
     LinkedList <UpdateCallback> callbacks = new LinkedList <UpdateCallback>();
     LinkedList <UpdateCallback> titleChangedListeners = new LinkedList <UpdateCallback>();
-    UpdateCallback mTitleChangedListener = new UpdateCallback() {
-        public void onUpdate() {
-            notifyTitleChanged();
-        }
-    };
+    UpdateCallback mTitleChangedListener = this :: notifyTitleChanged;
     
     public SessionList() {
         super();
