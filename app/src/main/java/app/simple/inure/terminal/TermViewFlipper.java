@@ -42,7 +42,6 @@ public class TermViewFlipper extends ViewFlipper implements Iterable <View> {
     private Context context;
     private Toast mToast;
     private LinkedList <UpdateCallback> callbacks;
-    private boolean mStatusBarVisible = false;
     
     private int mCurWidth;
     private int mCurHeight;
@@ -102,10 +101,8 @@ public class TermViewFlipper extends ViewFlipper implements Iterable <View> {
     }
     
     public void updatePrefs(TermSettings settings) {
-        boolean statusBarVisible = settings.showStatusBar();
         int[] colorScheme = settings.getColorScheme();
         setBackgroundColor(colorScheme[1]);
-        mStatusBarVisible = statusBarVisible;
     }
     
     @NonNull
@@ -235,11 +232,6 @@ public class TermViewFlipper extends ViewFlipper implements Iterable <View> {
         /* Get rectangle representing visible area of this window (takes
            IME into account, but not other views in the layout) */
         getWindowVisibleDisplayFrame(window);
-        /* Work around bug in getWindowVisibleDisplayFrame on API < 10, and
-           avoid a distracting height change as status bar hides otherwise */
-        if (!mStatusBarVisible) {
-            window.top = 0;
-        }
         
         // Clip visible rectangle's top to the visible portion of the window
         if (visible.width() == 0 && visible.height() == 0) {

@@ -45,10 +45,6 @@
     <!-- Preference dialog -->
     <string name="screen_preferences">Screen</string>
 
-    <string name="title_statusbar_preference">Status bar</string>
-    <string name="summary_statusbar_preference">Show/hide status bar.</string>
-    <string name="dialog_title_statusbar_preference">Status bar</string>
-
     <string name="title_actionbar_preference">Action bar</string>
     <string name="summary_actionbar_preference">Choose the action bar\'s behavior (Android 3.0 and up).</string>
     <string name="dialog_title_actionbar_preference">Action bar behavior</string>

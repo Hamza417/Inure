@@ -48,8 +48,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -601,27 +599,6 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
         if (mTermSessions != null) {
             for (TermSession session : mTermSessions) {
                 ((GenericTermSession) session).updatePrefs(mSettings);
-            }
-        }
-        
-        {
-            Window win = getWindow();
-            WindowManager.LayoutParams params = win.getAttributes();
-            final int FULLSCREEN = WindowManager.LayoutParams.FLAG_FULLSCREEN;
-            int desiredFlag = mSettings.showStatusBar() ? 0 : FULLSCREEN;
-            if (desiredFlag != (params.flags & FULLSCREEN) || (AndroidCompat.SDK >= 11 && mActionBarMode != mSettings.actionBarMode())) {
-                if (mAlreadyStarted) {
-                    // Can't switch to/from fullscreen after
-                    // starting the activity.
-                    restart();
-                } else {
-                    win.setFlags(desiredFlag, FULLSCREEN);
-                    if (mActionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
-                        if (mActionBar != null) {
-                            mActionBar.hide();
-                        }
-                    }
-                }
             }
         }
         
