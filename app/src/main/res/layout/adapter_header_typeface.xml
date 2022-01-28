@@ -8,6 +8,7 @@
     android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
@@ -20,14 +21,6 @@
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_type_face_total"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular"
-        app:textColorStyle="secondary" />
-
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

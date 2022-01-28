@@ -22,6 +22,7 @@ import android.util.DisplayMetrics;
 import app.simple.inure.decorations.emulatorview.ColorScheme;
 import app.simple.inure.decorations.emulatorview.EmulatorView;
 import app.simple.inure.decorations.emulatorview.TermSession;
+import app.simple.inure.preferences.TerminalPreferences;
 import app.simple.inure.terminal.util.TermSettings;
 
 public class TermView extends EmulatorView {
@@ -33,8 +34,8 @@ public class TermView extends EmulatorView {
         if (scheme == null) {
             scheme = new ColorScheme(settings.getColorScheme());
         }
-        
-        setTextSize(settings.getFontSize());
+    
+        setTextSize(TerminalPreferences.INSTANCE.getFontSize());
         setUseCookedIME(settings.useCookedIME());
         setColorScheme(scheme);
         setBackKeyCharacter(settings.getBackKeyCharacter());

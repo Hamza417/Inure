@@ -71,15 +71,6 @@
     <PreferenceCategory android:title="@string/text_preferences">
 
         <ListPreference
-            android:defaultValue="@string/pref_fontsize_default"
-            android:dialogTitle="@string/dialog_title_fontsize_preference"
-            android:entries="@array/entries_fontsize_preference"
-            android:entryValues="@array/entryvalues_fontsize_preference"
-            android:key="fontsize"
-            android:summary="@string/summary_fontsize_preference"
-            android:title="@string/title_fontsize_preference" />
-
-        <ListPreference
             android:defaultValue="@string/pref_color_default"
             android:dialogTitle="@string/dialog_title_color_preference"
             android:entries="@array/entries_color_preference"
