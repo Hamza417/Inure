@@ -30,6 +30,7 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
                     Pair(R.drawable.ic_behaviour, context.getString(R.string.behaviour)),
                     Pair(R.drawable.ic_app_settings, context.getString(R.string.configuration)),
                     Pair(R.drawable.ic_terminal, context.getString(R.string.terminal)),
+                    Pair(R.drawable.ic_shell, context.getString(R.string.shell_preferences)),
                     Pair(R.drawable.ic_accessibility, context.getString(R.string.accessibility)),
                     Pair(R.drawable.ic_about, context.getString(R.string.about))
             )

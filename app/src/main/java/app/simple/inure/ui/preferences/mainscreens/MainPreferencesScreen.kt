@@ -32,7 +32,7 @@ class MainPreferencesScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        preferencesViewModel.getPreferences().observe(viewLifecycleOwner, {
+        preferencesViewModel.getPreferences().observe(viewLifecycleOwner) {
 
             postponeEnterTransition()
 
@@ -59,6 +59,18 @@ class MainPreferencesScreen : ScopedFragment() {
                                                               imageView,
                                                               "config_prefs")
                         }
+                        getString(R.string.terminal) -> {
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              TerminalPreferences.newInstance(),
+                                                              imageView,
+                                                              "terminal_prefs")
+                        }
+                        getString(R.string.shell_preferences) -> {
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              ShellPreferences.newInstance(),
+                                                              imageView,
+                                                              "shell_prefs")
+                        }
                         getString(R.string.accessibility) -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               AccessibilityScreen.newInstance(),
@@ -80,7 +92,7 @@ class MainPreferencesScreen : ScopedFragment() {
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
-        })
+        }
     }
 
     companion object {
