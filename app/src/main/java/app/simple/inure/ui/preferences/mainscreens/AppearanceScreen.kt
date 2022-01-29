@@ -69,14 +69,17 @@ class AppearanceScreen : ScopedFragment() {
         transparentStatus.setChecked(AppearancePreferences.isTransparentStatusDisabled())
 
         appTheme.setOnClickListener {
+            clearExitTransition()
             FragmentHelper.openFragment(parentFragmentManager, AppearanceAppTheme.newInstance(), "theme")
         }
 
         accent.setOnClickListener {
+            clearExitTransition()
             FragmentHelper.openFragment(parentFragmentManager, AccentColor.newInstance(), "accent_color")
         }
 
         typeface.setOnClickListener {
+            clearExitTransition()
             FragmentHelper.openFragment(parentFragmentManager, AppearanceTypeFace.newInstance(), "typeface")
         }
 

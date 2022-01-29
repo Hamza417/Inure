@@ -15,7 +15,6 @@ import app.simple.inure.adapters.ui.AdapterAppsSimple
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.Preparing
-import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
@@ -24,6 +23,7 @@ import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Search
+import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.AppsViewModel
@@ -45,7 +45,7 @@ class Apps : ScopedFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        model.getAppData().observe(viewLifecycleOwner, {
+        model.getAppData().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
             adapter = AdapterAppsSimple()
@@ -100,17 +100,17 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSettingsPressed(view: View) {
-                    AppsMenu.newInstance()
-                        .show(childFragmentManager, "apps_list_config")
+                    clearExitTransition()
+                    FragmentHelper.openFragment(parentFragmentManager, MainPreferencesScreen.newInstance(), "prefs_screen")
                 }
             })
-        })
+        }
 
-        model.appLoaded.observe(viewLifecycleOwner, { appsEvent ->
+        model.appLoaded.observe(viewLifecycleOwner) { appsEvent ->
             appsEvent.getContentIfNotHandledOrReturnNull()?.let {
                 Log.d("Apps", if (it) "Apps Loaded" else "Failed")
             }
-        })
+        }
 
         super.onViewCreated(view, savedInstanceState)
     }

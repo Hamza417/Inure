@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -21,6 +22,7 @@ import app.simple.inure.terminal.compat.ActionBarCompat;
 import app.simple.inure.terminal.compat.ActivityCompat;
 import app.simple.inure.terminal.compat.AndroidCompat;
 import app.simple.inure.terminal.util.SessionList;
+import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.ViewUtils;
 
 public class WindowList extends BaseActivity implements AdapterWindows.Companion.AdapterWindowsCallback {
@@ -30,6 +32,7 @@ public class WindowList extends BaseActivity implements AdapterWindows.Companion
     private SessionList sessions;
     private AdapterWindows adapterWindows;
     private TermService mTermService;
+    private FrameLayout content;
     
     /**
      * View which isn't automatically in the pressed state if its parent is
@@ -77,12 +80,15 @@ public class WindowList extends BaseActivity implements AdapterWindows.Companion
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terminal_window_list);
-        
+    
         recyclerView = findViewById(R.id.windows_list);
+        content = findViewById(android.R.id.content);
         FloatingActionButton fab = findViewById(R.id.new_window_btn);
-        
+    
+        content.setBackgroundColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
+    
         setResult(RESULT_CANCELED);
-        
+    
         // Display up indicator on action bar home button
         if (AndroidCompat.SDK >= 11) {
             ActionBarCompat bar = ActivityCompat.getActionBar(this);

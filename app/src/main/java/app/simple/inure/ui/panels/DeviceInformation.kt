@@ -69,14 +69,8 @@ class DeviceInformation : ScopedFragment() {
                 }
 
                 override fun onSettingsClicked() {
-                    val fragment = requireActivity().supportFragmentManager.findFragmentByTag("main_preferences_screen")
-                        ?: MainPreferencesScreen.newInstance()
-
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
-                        .replace(R.id.app_container, fragment, "main_preferences_screen")
-                        .addToBackStack(tag)
-                        .commit()
+                    clearExitTransition()
+                    FragmentHelper.openFragment(parentFragmentManager, MainPreferencesScreen.newInstance(), "prefs_screen")
                 }
             })
 

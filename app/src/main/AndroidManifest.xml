@@ -65,8 +65,9 @@
             android:name=".terminal.Term"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:exported="true"
+            android:documentLaunchMode="intoExisting"
             android:label="@string/terminal"
-            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.preferences.PreferenceActivity"
