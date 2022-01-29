@@ -454,4 +454,6 @@
     <string name="closes_activity_leaving_sessions_running">Closes activity, leaving sessions running</string>
     <string name="sends_esc_to_terminal">Sends ESC to terminal</string>
     <string name="sends_tab_to_terminal">Sends TAB to terminal</string>
+    <string name="character_based">Character based</string>
+    <string name="word_based">Word-based</string>
 </resources>

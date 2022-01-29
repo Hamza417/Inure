@@ -34,7 +34,6 @@ public class TermSettings {
     private int mOrientation;
     private int mCursorStyle;
     private int mCursorBlink;
-    private int mUseCookedIME;
     private String mShell;
     private String mFailsafeShell;
     private String mInitialCommand;
@@ -62,7 +61,6 @@ public class TermSettings {
     private static final String PATHPREPEND_KEY = "allow_prepend_path";
     private static final String HOMEPATH_KEY = "home_path";
     private static final String MOUSE_TRACKING = "mouse_tracking";
-    private static final String USE_KEYBOARD_SHORTCUTS = "use_keyboard_shortcuts";
     
     public static final int WHITE = 0xffffffff;
     public static final int BLACK = 0xff000000;
@@ -148,7 +146,6 @@ public class TermSettings {
         mOrientation = res.getInteger(R.integer.pref_orientation_default);
         mCursorStyle = Integer.parseInt(res.getString(R.string.pref_cursorstyle_default));
         mCursorBlink = Integer.parseInt(res.getString(R.string.pref_cursorblink_default));
-        mUseCookedIME = Integer.parseInt(res.getString(R.string.pref_ime_default));
         mFailsafeShell = res.getString(R.string.pref_shell_default);
         mShell = mFailsafeShell;
         mInitialCommand = res.getString(R.string.pref_initialcommand_default);
@@ -167,7 +164,6 @@ public class TermSettings {
         mOrientation = readIntPref(ORIENTATION_KEY, mOrientation, 2);
         // mCursorStyle = readIntPref(CURSORSTYLE_KEY, mCursorStyle, 2);
         // mCursorBlink = readIntPref(CURSORBLINK_KEY, mCursorBlink, 1);
-        mUseCookedIME = readIntPref(IME_KEY, mUseCookedIME, 1);
         mShell = readStringPref(SHELL_KEY, mShell);
         mInitialCommand = readStringPref(INITIALCOMMAND_KEY, mInitialCommand);
         mTermType = readStringPref(TERMTYPE_KEY, mTermType);
@@ -245,10 +241,6 @@ public class TermSettings {
     
     public int getFnKeyCode() {
         return FN_KEY_SCHEMES[TerminalPreferences.INSTANCE.getFnKey()];
-    }
-    
-    public boolean useCookedIME() {
-        return (mUseCookedIME != 0);
     }
     
     public String getShell() {

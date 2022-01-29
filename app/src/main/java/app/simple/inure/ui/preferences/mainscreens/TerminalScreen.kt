@@ -1,13 +1,16 @@
 package app.simple.inure.ui.preferences.mainscreens
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.popups.terminal.PopupInputMethod
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.ui.preferences.subscreens.*
 import app.simple.inure.util.FragmentHelper
@@ -20,6 +23,7 @@ class TerminalScreen : ScopedFragment() {
     private lateinit var backButtonAction: DynamicRippleRelativeLayout
     private lateinit var controlKey: DynamicRippleRelativeLayout
     private lateinit var fnKey: DynamicRippleRelativeLayout
+    private lateinit var inputMethod: DynamicRippleTextView
     private lateinit var altKey: SwitchView
     private lateinit var keyboardShortcut: SwitchView
 
@@ -32,6 +36,7 @@ class TerminalScreen : ScopedFragment() {
         backButtonAction = view.findViewById(R.id.terminal_back_button_behavior)
         controlKey = view.findViewById(R.id.terminal_control_key)
         fnKey = view.findViewById(R.id.terminal_fn_key)
+        inputMethod = view.findViewById(R.id.popup_input_method)
         altKey = view.findViewById(R.id.alt_key_switch)
         keyboardShortcut = view.findViewById(R.id.keyboard_shortcuts_switch)
 
@@ -45,6 +50,7 @@ class TerminalScreen : ScopedFragment() {
         utf8.setChecked(TerminalPreferences.getUTF8State())
         altKey.setChecked(TerminalPreferences.getAltKeyEscapeState())
         keyboardShortcut.setChecked(TerminalPreferences.getKeyboardShortcutState())
+        setInputMethodText()
 
         fontSize.setOnClickListener {
             clearExitTransition()
@@ -75,12 +81,32 @@ class TerminalScreen : ScopedFragment() {
             FragmentHelper.openFragment(parentFragmentManager, TerminalFnKey.newInstance(), "fn_key")
         }
 
+        inputMethod.setOnClickListener {
+            PopupInputMethod(it)
+        }
+
         altKey.setOnSwitchCheckedChangeListener {
             TerminalPreferences.setAltKeyEscapeState(it)
         }
 
         keyboardShortcut.setOnSwitchCheckedChangeListener {
             TerminalPreferences.setKeyboardShortcutState(it)
+        }
+    }
+
+    private fun setInputMethodText() {
+        inputMethod.text = when (TerminalPreferences.getInputMethod()) {
+            0 -> getString(R.string.character_based)
+            1 -> getString(R.string.word_based)
+            else -> getString(R.string.unknown)
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            TerminalPreferences.inputMethod -> {
+                setInputMethodText()
+            }
         }
     }
 

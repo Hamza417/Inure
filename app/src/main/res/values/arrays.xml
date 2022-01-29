@@ -76,11 +76,6 @@
         <item>Linux Console</item>
     </string-array>
 
-    <string-array name="entries_ime_preference">
-        <item>Character-based</item>
-        <item>Word-based</item>
-    </string-array>
-
     <!-- These are the 'short' names for the control keys. They are used in the special keys dialog. -->
     <string-array name="control_keys_short_names">
         <item>Ball</item>

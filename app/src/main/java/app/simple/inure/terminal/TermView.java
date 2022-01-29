@@ -38,7 +38,7 @@ public class TermView extends EmulatorView {
         }
     
         setTextSize(TerminalPreferences.INSTANCE.getFontSize());
-        setUseCookedIME(settings.useCookedIME());
+        setUseCookedIME(TerminalPreferences.INSTANCE.getInputMethod() != 0);
         setColorScheme(scheme);
         if (TerminalPreferences.INSTANCE.getColor() == 0) {
             setColorScheme(new ColorScheme(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor(),

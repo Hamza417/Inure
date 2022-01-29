@@ -59,19 +59,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/keyboard_preferences">
-
-        <ListPreference
-            android:defaultValue="@string/pref_ime_default"
-            android:dialogTitle="@string/dialog_title_ime_preference"
-            android:entries="@array/entries_ime_preference"
-            android:entryValues="@array/entryvalues_ime_preference"
-            android:key="ime"
-            android:summary="@string/summary_ime_preference"
-            android:title="@string/title_ime_preference" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/shell_preferences">
 
         <EditTextPreference

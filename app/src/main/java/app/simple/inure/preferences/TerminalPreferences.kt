@@ -11,6 +11,7 @@ object TerminalPreferences {
     private const val backButtonAction = "terminal_back_button_action"
     private const val controlKey = "terminal_control_key"
     private const val fnKey = "terminal_fn_key"
+    const val inputMethod = "input_method"
     private const val altKeyEscape = "terminal_alt_key_escape"
     private const val useKeyboardShortcuts = "terminal_use_keyboard_shortcuts"
 
@@ -93,5 +94,15 @@ object TerminalPreferences {
 
     fun setKeyboardShortcutState(value: Boolean): Boolean {
         return getSharedPreferences().edit().putBoolean(useKeyboardShortcuts, value).commit()
+    }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
+    fun getInputMethod(): Int {
+        return getSharedPreferences().getInt(inputMethod, 0)
+    }
+
+    fun setInputMethod(@IntRange(from = 0, to = 1) value: Int): Boolean {
+        return getSharedPreferences().edit().putInt(inputMethod, value).commit()
     }
 }

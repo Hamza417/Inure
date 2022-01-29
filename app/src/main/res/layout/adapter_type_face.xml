@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_marginVertical="5dp"
     android:layout_marginHorizontal="@dimen/header_padding"
     android:padding="@dimen/dialog_padding">
 
@@ -15,9 +14,10 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         app:appFontStyle="medium"
+        app:textColorStyle="secondary"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/header_padding"
         android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="10dp"
         android:textSize="@dimen/adapter_typeface_normal_text_size" />
 
     <ImageView
@@ -25,7 +25,6 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="10dp"
         android:src="@drawable/ic_header_icon"
         android:visibility="invisible"
         app:tint="?attr/colorAppAccent"

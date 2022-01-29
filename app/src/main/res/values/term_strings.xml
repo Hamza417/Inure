@@ -87,7 +87,6 @@
 
     <string name="title_ime_preference">Input method</string>
     <string name="summary_ime_preference">Choose input method for soft keyboard.</string>
-    <string name="dialog_title_ime_preference">Input method</string>
 
     <string name="shell_preferences">Shell</string>
     <string name="title_shell_preference">Command line</string>
