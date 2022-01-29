@@ -3,6 +3,7 @@ package app.simple.inure.decorations.switchview
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -57,6 +58,7 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             }
         }
 
+        unchecked()
         requestLayout()
     }
 
@@ -85,12 +87,34 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         return super.onTouchEvent(event)
     }
 
+    /**
+     * Change checked status of the switch.
+     *
+     * This method will animate the checked status, to
+     * change without animation use [animateChecked] method.
+     */
     fun setChecked(boolean: Boolean) {
         isChecked = if (boolean) {
             animateChecked()
             boolean
         } else {
             animateUnchecked()
+            boolean
+        }
+    }
+
+    /**
+     * Change checked status of the switch without animation.
+     *
+     * This method will animate the checked status, to
+     * change with animation use [setChecked] method.
+     */
+    fun staticChecked(boolean: Boolean) {
+        isChecked = if (boolean) {
+            checked()
+            boolean
+        } else {
+            unchecked()
             boolean
         }
     }
@@ -106,6 +130,12 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         animateElevation(0F)
     }
 
+    private fun unchecked() {
+        thumb.translationX = if (resources.isRTL()) (w - p * 2 - thumbWidth).toFloat() else 0F
+        this.backgroundTintList = ColorStateList.valueOf(ThemeManager.theme.switchViewTheme.switchOffColor)
+        this.elevation = 0F
+    }
+
     private fun animateChecked() {
         thumb.animate()
             .translationX(if (resources.isRTL()) 0F else (w - p * 2 - thumbWidth).toFloat())
@@ -115,6 +145,12 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         animateColorChange(context.resolveAttrColor(R.attr.colorAppAccent))
         animateElevation(25F)
+    }
+
+    private fun checked() {
+        thumb.translationX = if (resources.isRTL()) 0F else (w - p * 2 - thumbWidth).toFloat()
+        this.backgroundTintList = ColorStateList.valueOf(context.resolveAttrColor(R.attr.colorAppAccent))
+        this.elevation = 25F
     }
 
     private fun animateElevation(elevation: Float) {
