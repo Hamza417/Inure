@@ -34,7 +34,6 @@ public class TermSettings {
     private int mActionBarMode;
     private int mOrientation;
     private int mCursorStyle;
-    private int mCursorBlink;
     private String mHomePath;
     
     private String mPrependPath = null;
@@ -123,7 +122,6 @@ public class TermSettings {
         mActionBarMode = res.getInteger(R.integer.pref_actionbar_default);
         mOrientation = res.getInteger(R.integer.pref_orientation_default);
         mCursorStyle = Integer.parseInt(res.getString(R.string.pref_cursorstyle_default));
-        mCursorBlink = Integer.parseInt(res.getString(R.string.pref_cursorblink_default));
         // the mHomePath default is set dynamically in readPrefs()
     }
     
@@ -167,10 +165,6 @@ public class TermSettings {
     
     public int getCursorStyle() {
         return mCursorStyle;
-    }
-    
-    public int getCursorBlink() {
-        return mCursorBlink;
     }
     
     public int[] getColorScheme() {

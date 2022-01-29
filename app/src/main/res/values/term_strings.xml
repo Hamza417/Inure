@@ -57,16 +57,15 @@
     <string name="summary_cursorstyle_preference">Choose cursor style.</string>
     <string name="dialog_title_cursorstyle_preference">Cursor style</string>
 
-    <string name="title_cursorblink_preference">Cursor blink</string>
-    <string name="summary_cursorblink_preference">Choose cursor blink.</string>
-    <string name="dialog_title_cursorblink_preference">Cursor blink</string>
+    <string name="title_cursorblink_preference">Cursor Blink</string>
+    <string name="summary_cursorblink_preference">Blink cursor periodically in terminal windows.</string>
 
     <string name="text_preferences">Text</string>
 
     <string name="title_utf8_by_default_preference">Default to UTF-8</string>
     <string name="summary_utf8_by_default_preference">Whether UTF-8 mode is enabled by default.</string>
 
-    <string name="title_fontsize_preference">Font size</string>
+    <string name="title_fontsize_preference">Font Size</string>
     <string name="summary_fontsize_preference">Choose character height in points.</string>
     <string name="dialog_title_fontsize_preference">Font size</string>
 

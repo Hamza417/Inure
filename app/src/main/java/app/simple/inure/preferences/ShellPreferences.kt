@@ -104,6 +104,7 @@ object ShellPreferences {
         return getSharedPreferences().getString(homePath, defValue)
     }
 
+    // The home_path default is set dynamically in TermService.onCreate()
     fun setHomePath(value: String): Boolean {
         return getSharedPreferences().edit().putString(homePath, value).commit()
     }

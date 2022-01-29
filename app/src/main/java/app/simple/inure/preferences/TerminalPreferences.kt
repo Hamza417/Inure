@@ -7,6 +7,7 @@ object TerminalPreferences {
 
     private const val fontSize = "terminal_font_size"
     private const val color = "terminal_color"
+    private const val cursorBlink = "terminal_cursor_blink"
     private const val utf8 = "terminal_default_utf_8"
     private const val backButtonAction = "terminal_back_button_action"
     private const val controlKey = "terminal_control_key"
@@ -34,6 +35,16 @@ object TerminalPreferences {
 
     fun setColor(value: Int): Boolean {
         return getSharedPreferences().edit().putInt(color, value).commit()
+    }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
+    fun getCursorBlinkState(): Boolean {
+        return getSharedPreferences().getBoolean(cursorBlink, false)
+    }
+
+    fun setCursorBlinkState(value: Boolean): Boolean {
+        return getSharedPreferences().edit().putBoolean(cursorBlink, value).commit()
     }
 
     /* ---------------------------------------------------------------------------------------------- */

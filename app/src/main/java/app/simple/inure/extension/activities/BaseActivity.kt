@@ -19,6 +19,8 @@ import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
+import app.simple.inure.preferences.ShellPreferences.getHomePath
+import app.simple.inure.preferences.ShellPreferences.setHomePath
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.util.ThemeUtils
 
@@ -54,6 +56,11 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener {
         ThemeUtils.setAppTheme(resources)
         ThemeUtils.setBarColors(resources, window)
         setNavColor()
+
+        // Terminal home path
+        val defValue = getDir("HOME", MODE_PRIVATE).absolutePath
+        val homePath = getHomePath(defValue)
+        setHomePath(homePath!!)
     }
 
     @Suppress("Deprecation")

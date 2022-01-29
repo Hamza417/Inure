@@ -53,8 +53,6 @@ public class TermView extends EmulatorView {
         setFnKeyCode(settings.getFnKeyCode());
         setTermType(ShellPreferences.INSTANCE.getTerminalType());
         setMouseTracking(ShellPreferences.INSTANCE.getMouseEventState());
-    
-        System.out.println("Called Emu View");
     }
     
     public void updatePrefs(TermSettings settings) {

@@ -61,6 +61,7 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import app.simple.inure.R;
+import app.simple.inure.activities.preferences.PreferenceActivity;
 import app.simple.inure.decorations.emulatorview.EmulatorView;
 import app.simple.inure.decorations.emulatorview.TermSession;
 import app.simple.inure.decorations.emulatorview.UpdateCallback;
@@ -903,7 +904,7 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     }
     
     private void doPreferences() {
-        startActivity(new Intent(this, TermPreferences.class));
+        startActivity(new Intent(this, PreferenceActivity.class));
     }
     
     private void doResetTerminal() {

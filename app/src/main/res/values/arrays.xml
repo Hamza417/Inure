@@ -28,11 +28,6 @@
         <item>Portrait</item>
     </string-array>
 
-    <string-array name="entries_cursorblink_preference">
-        <item>Non-blinking cursor</item>
-        <item>Blinking cursor</item>
-    </string-array>
-
     <string-array name="entries_cursorstyle_preference">
         <item>Rectangle</item>
         <item>Underline</item>

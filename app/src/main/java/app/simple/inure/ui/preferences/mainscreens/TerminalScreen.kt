@@ -19,6 +19,7 @@ class TerminalScreen : ScopedFragment() {
 
     private lateinit var fontSize: DynamicRippleRelativeLayout
     private lateinit var color: DynamicRippleRelativeLayout
+    private lateinit var cursorBlink: SwitchView
     private lateinit var utf8: SwitchView
     private lateinit var backButtonAction: DynamicRippleRelativeLayout
     private lateinit var controlKey: DynamicRippleRelativeLayout
@@ -32,6 +33,7 @@ class TerminalScreen : ScopedFragment() {
 
         fontSize = view.findViewById(R.id.terminal_font_size)
         color = view.findViewById(R.id.terminal_color)
+        cursorBlink = view.findViewById(R.id.terminal_cursor_blink_switch)
         utf8 = view.findViewById(R.id.terminal_utf_switch)
         backButtonAction = view.findViewById(R.id.terminal_back_button_behavior)
         controlKey = view.findViewById(R.id.terminal_control_key)
@@ -47,6 +49,7 @@ class TerminalScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
+        cursorBlink.setChecked(TerminalPreferences.getCursorBlinkState())
         utf8.setChecked(TerminalPreferences.getUTF8State())
         altKey.setChecked(TerminalPreferences.getAltKeyEscapeState())
         keyboardShortcut.setChecked(TerminalPreferences.getKeyboardShortcutState())
@@ -60,6 +63,10 @@ class TerminalScreen : ScopedFragment() {
         color.setOnClickListener {
             clearExitTransition()
             FragmentHelper.openFragment(parentFragmentManager, TerminalColor.newInstance(), "color")
+        }
+
+        cursorBlink.setOnSwitchCheckedChangeListener {
+            TerminalPreferences.setCursorBlinkState(it)
         }
 
         utf8.setOnSwitchCheckedChangeListener {

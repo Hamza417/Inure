@@ -29,7 +29,6 @@ import java.util.UUID;
 import androidx.core.app.NotificationCompat;
 import app.simple.inure.R;
 import app.simple.inure.decorations.emulatorview.TermSession;
-import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.terminal.compat.ServiceForegroundCompat;
 import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
@@ -71,11 +70,6 @@ public class TermService extends Service implements TermSession.FinishCallback {
     @SuppressLint ("ApplySharedPref")
     @Override
     public void onCreate() {
-        // should really belong to the Application class, but we don't use one...
-        String defValue = getDir("HOME", MODE_PRIVATE).getAbsolutePath();
-        String homePath = ShellPreferences.INSTANCE.getHomePath(defValue);
-        ShellPreferences.INSTANCE.setHomePath(homePath);
-    
         createNotificationChannel();
         serviceForegroundCompat = new ServiceForegroundCompat(this);
         mTermSessions = new SessionList();

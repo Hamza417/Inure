@@ -51,6 +51,7 @@ import app.simple.inure.decorations.emulatorview.compat.ClipboardManagerCompat;
 import app.simple.inure.decorations.emulatorview.compat.ClipboardManagerCompatFactory;
 import app.simple.inure.decorations.emulatorview.compat.KeycodeConstants;
 import app.simple.inure.decorations.emulatorview.compat.Patterns;
+import app.simple.inure.preferences.TerminalPreferences;
 
 /**
  * A view on a {@link TermSession}.  Displays the terminal emulator's screen,
@@ -107,7 +108,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      */
     private int mTextSize = 10;
     
-    private int mCursorBlink;
+    private boolean cursorBlink = false;
     
     /**
      * Color scheme (default foreground/background colors).
@@ -190,7 +191,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     
     private final Runnable mBlinkCursor = new Runnable() {
         public void run() {
-            if (mCursorBlink != 0) {
+            if (cursorBlink) {
                 mCursorVisible = !mCursorVisible;
                 mHandler.postDelayed(this, CURSOR_BLINK_PERIOD);
             } else {
@@ -530,6 +531,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     private void commonConstructor(Context context) {
         // TODO: See if we want to use the API level 11 constructor to get new flywheel feature.
         mScroller = new Scroller(context);
+        cursorBlink = TerminalPreferences.INSTANCE.getCursorBlinkState();
         mMouseTrackingFlingRunner.mScroller = new Scroller(context);
     }
     
@@ -582,7 +584,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      */
     public void onResume() {
         updateSize(false);
-        if (mCursorBlink != 0) {
+        if (cursorBlink) {
             mHandler.postDelayed(mBlinkCursor, CURSOR_BLINK_PERIOD);
         }
         if (mKeyListener != null) {
@@ -594,7 +596,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * Inform the view that it is no longer visible on the screen.
      */
     public void onPause() {
-        if (mCursorBlink != 0) {
+        if (cursorBlink) {
             mHandler.removeCallbacks(mBlinkCursor);
         }
         if (mKeyListener != null) {

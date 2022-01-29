@@ -69,10 +69,10 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
 
         <activity
-            android:name=".terminal.TermPreferences"
+            android:name=".activities.preferences.PreferenceActivity"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:configChanges="uiMode"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
