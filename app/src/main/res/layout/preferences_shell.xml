@@ -67,14 +67,14 @@
                     app:textColorStyle="accent" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-                    android:id="@+id/command_key"
+                    android:id="@+id/command_line"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
                     <app.simple.inure.decorations.theme.ThemeIcon
-                        android:id="@+id/command_key_icon"
+                        android:id="@+id/command_line_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
@@ -82,11 +82,11 @@
                         app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
-                        android:id="@+id/command_key_title"
+                        android:id="@+id/command_line_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_toEndOf="@id/command_key_icon"
+                        android:layout_toEndOf="@id/command_line_icon"
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
                         android:text="@string/title_shell_preference"
@@ -99,11 +99,11 @@
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/command_key_title"
+                        android:layout_below="@id/command_line_title"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="60dp"
-                        android:layout_toEndOf="@id/command_key_icon"
+                        android:layout_toEndOf="@id/command_line_icon"
                         android:text="@string/summary_shell_preference"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
@@ -183,7 +183,7 @@
                         android:text="@string/title_termtype_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_dot_tiny"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
@@ -495,7 +495,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:text="@string/title_do_path_extensions_preference"
+                        android:text="@string/title_allow_prepend_path_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/allow_path_prepend_desc"
@@ -512,7 +512,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
-                        android:text="@string/summary_do_path_extensions_preference"
+                        android:text="@string/summary_allow_prepend_path_preference"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -543,7 +543,7 @@
                     android:layout_marginVertical="10dp" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-                    android:id="@+id/home_folder"
+                    android:id="@+id/home_path"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"

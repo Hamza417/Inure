@@ -60,57 +60,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/shell_preferences">
-
-        <EditTextPreference
-            android:defaultValue="@string/pref_shell_default"
-            android:dialogTitle="@string/dialog_title_shell_preference"
-            android:key="shell"
-            android:summary="@string/summary_shell_preference"
-            android:title="@string/title_shell_preference" />
-        <EditTextPreference
-            android:defaultValue="@string/pref_initialcommand_default"
-            android:dialogTitle="@string/dialog_title_initialcommand_preference"
-            android:key="initialcommand"
-            android:summary="@string/summary_initialcommand_preference"
-            android:title="@string/title_initialcommand_preference" />
-        <ListPreference
-            android:defaultValue="@string/pref_termtype_default"
-            android:dialogTitle="@string/dialog_title_termtype_preference"
-            android:entries="@array/entries_termtype_preference"
-            android:entryValues="@array/entries_termtype_preference"
-            android:key="termtype"
-            android:summary="@string/summary_termtype_preference"
-            android:title="@string/title_termtype_preference" />
-        <CheckBoxPreference
-            android:defaultValue="@bool/pref_mouse_tracking_default"
-            android:key="mouse_tracking"
-            android:summary="@string/summary_mouse_tracking_preference"
-            android:title="@string/title_mouse_tracking_preference" />
-        <CheckBoxPreference
-            android:defaultValue="@bool/pref_close_window_on_process_exit_default"
-            android:key="close_window_on_process_exit"
-            android:summary="@string/summary_close_window_on_process_exit_preference"
-            android:title="@string/title_close_window_on_process_exit_preference" />
-        <CheckBoxPreference
-            android:defaultValue="@bool/pref_verify_path_default"
-            android:key="verify_path"
-            android:summary="@string/summary_verify_path_preference"
-            android:title="@string/title_verify_path_preference" />
-        <CheckBoxPreference
-            android:defaultValue="@bool/pref_do_path_extensions_default"
-            android:key="do_path_extensions"
-            android:summary="@string/summary_do_path_extensions_preference"
-            android:title="@string/title_do_path_extensions_preference" />
-        <CheckBoxPreference
-            android:defaultValue="@bool/pref_allow_prepend_path_default"
-            android:dependency="do_path_extensions"
-            android:key="allow_prepend_path"
-            android:summary="@string/summary_allow_prepend_path_preference"
-            android:title="@string/title_allow_prepend_path_preference" />
         <!-- the home_path default is set dynamically in Term.onResume() -->
-        <EditTextPreference
-            android:key="home_path"
-            android:summary="@string/summary_home_path_preference"
-            android:title="@string/title_home_path_preference" />
+
     </PreferenceCategory>
 </PreferenceScreen>

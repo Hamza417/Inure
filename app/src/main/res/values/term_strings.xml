@@ -91,15 +91,12 @@
     <string name="shell_preferences">Shell</string>
     <string name="title_shell_preference">Command line</string>
     <string name="summary_shell_preference">Specify the shell command line.</string>
-    <string name="dialog_title_shell_preference">Shell</string>
 
     <string name="title_initialcommand_preference">Initial command</string>
     <string name="summary_initialcommand_preference">Sent to the shell when it starts.</string>
-    <string name="dialog_title_initialcommand_preference">Initial Command</string>
 
     <string name="title_termtype_preference">Terminal type</string>
     <string name="summary_termtype_preference">What terminal type to report to the shell.</string>
-    <string name="dialog_title_termtype_preference">Terminal type</string>
 
     <string name="title_close_window_on_process_exit_preference">Close window on exit</string>
     <string name="summary_close_window_on_process_exit_preference">Whether a window should close when its shell exits.</string>
@@ -158,7 +155,7 @@
     <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
     <string name="fsnavigator_change_theme">Change theme</string>
     <!-- AddShortcut.java -->
-    <string name="addshortcut_command_hint">command</string>
+    <string name="addshortcut_command_hint">Command</string>
     <string name="addshortcut_example_hint">--example=\""a\"</string>
     <string name="addshortcut_button_find_command">Find command</string>
     <string name="addshortcut_navigator_title">SELECT SHORTCUT TARGET</string>

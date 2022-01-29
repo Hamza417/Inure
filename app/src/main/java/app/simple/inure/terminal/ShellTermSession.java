@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.terminal.compat.FileCompat;
 import app.simple.inure.terminal.util.TermSettings;
 
@@ -80,28 +81,28 @@ public class ShellTermSession extends GenericTermSession {
         TermSettings settings = mSettings;
         
         String path = System.getenv("PATH");
-        if (settings.doPathExtensions()) {
+        if (ShellPreferences.INSTANCE.getAllowPathExtensionsState()) {
             String appendPath = settings.getAppendPath();
             if (appendPath != null && appendPath.length() > 0) {
                 path = path + ":" + appendPath;
             }
-            
-            if (settings.allowPathPrepend()) {
+        
+            if (ShellPreferences.INSTANCE.getAllowPathPrependState()) {
                 String prependPath = settings.getPrependPath();
                 if (prependPath != null && prependPath.length() > 0) {
                     path = prependPath + ":" + path;
                 }
             }
         }
-        if (settings.verifyPath()) {
+        if (ShellPreferences.INSTANCE.getVerifyPathEntriesState()) {
             path = checkPath(path);
         }
         String[] env = new String[3];
-        env[0] = "TERM=" + settings.getTermType();
+        env[0] = "TERM=" + ShellPreferences.INSTANCE.getTerminalType();
         env[1] = "PATH=" + path;
-        env[2] = "HOME=" + settings.getHomePath();
-        
-        mProcId = createSubprocess(settings.getShell(), env);
+        env[2] = "HOME=" + ShellPreferences.INSTANCE.getHomePath();
+    
+        mProcId = createSubprocess(ShellPreferences.INSTANCE.getCommandLine(), env);
     }
     
     private String checkPath(String path) {

@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -30,6 +29,7 @@ import java.util.UUID;
 import androidx.core.app.NotificationCompat;
 import app.simple.inure.R;
 import app.simple.inure.decorations.emulatorview.TermSession;
+import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.terminal.compat.ServiceForegroundCompat;
 import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
@@ -72,17 +72,14 @@ public class TermService extends Service implements TermSession.FinishCallback {
     @Override
     public void onCreate() {
         // should really belong to the Application class, but we don't use one...
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = prefs.edit();
         String defValue = getDir("HOME", MODE_PRIVATE).getAbsolutePath();
-        String homePath = prefs.getString("home_path", defValue);
-        editor.putString("home_path", homePath);
-        editor.commit();
-        
+        String homePath = ShellPreferences.INSTANCE.getHomePath(defValue);
+        ShellPreferences.INSTANCE.setHomePath(homePath);
+    
         createNotificationChannel();
         serviceForegroundCompat = new ServiceForegroundCompat(this);
         mTermSessions = new SessionList();
-        
+    
         /* Put the service in the foreground. */
         Intent notifyIntent = new Intent(this, Term.class);
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@android:color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_shell_preference"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
+        android:id="@+id/command_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginVertical="@dimen/dialog_padding"
+        android:hint="@string/addshortcut_command_hint"
+        android:importantForAutofill="no"
+        android:inputType="textNoSuggestions"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/dialog_padding"
+        android:textCursorDrawable="@drawable/text_cursor"
+        app:appFontStyle="medium"
+        app:textColorStyle="primary" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/dialog_padding"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/reset"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/save"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

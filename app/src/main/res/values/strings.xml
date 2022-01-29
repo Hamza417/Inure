@@ -458,4 +458,5 @@
     <string name="word_based">Word-based</string>
     <string name="skip_loading_on_app_start">Skip Loading on App Start</string>
     <string name="desc_skip_loading">Do not load data on app launch and goes directly to the app\'s home screen.\n\nData will still be loaded just as usual but all tasks will put in background and loading won\'t block the app launch but can add delay to in-app actions if data is not available.</string>
+    <string name="path">Path</string>
 </resources>

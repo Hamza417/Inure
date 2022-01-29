@@ -21,6 +21,7 @@ import android.content.res.Resources;
 import android.view.KeyEvent;
 
 import app.simple.inure.R;
+import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.preferences.TerminalPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
 
@@ -34,33 +35,14 @@ public class TermSettings {
     private int mOrientation;
     private int mCursorStyle;
     private int mCursorBlink;
-    private String mShell;
-    private String mFailsafeShell;
-    private String mInitialCommand;
-    private String mTermType;
-    private boolean mCloseOnExit;
-    private boolean mVerifyPath;
-    private boolean mDoPathExtensions;
-    private boolean mAllowPathPrepend;
     private String mHomePath;
     
     private String mPrependPath = null;
     private String mAppendPath = null;
     
-    private boolean mMouseTracking;
-    
     private static final String ACTIONBAR_KEY = "actionbar";
     private static final String ORIENTATION_KEY = "orientation";
-    private static final String IME_KEY = "ime";
-    private static final String SHELL_KEY = "shell";
-    private static final String INITIALCOMMAND_KEY = "initialcommand";
-    private static final String TERMTYPE_KEY = "termtype";
-    private static final String CLOSEONEXIT_KEY = "close_window_on_process_exit";
-    private static final String VERIFYPATH_KEY = "verify_path";
-    private static final String PATHEXTENSIONS_KEY = "do_path_extensions";
-    private static final String PATHPREPEND_KEY = "allow_prepend_path";
     private static final String HOMEPATH_KEY = "home_path";
-    private static final String MOUSE_TRACKING = "mouse_tracking";
     
     public static final int WHITE = 0xffffffff;
     public static final int BLACK = 0xff000000;
@@ -95,10 +77,6 @@ public class TermSettings {
     public static final int ACTION_BAR_MODE_ALWAYS_VISIBLE = 1;
     public static final int ACTION_BAR_MODE_HIDES = 2;
     private static final int ACTION_BAR_MODE_MAX = 2;
-    
-    public static final int ORIENTATION_UNSPECIFIED = 0;
-    public static final int ORIENTATION_LANDSCAPE = 1;
-    public static final int ORIENTATION_PORTRAIT = 2;
     
     /**
      * An integer not in the range of real key codes.
@@ -146,16 +124,7 @@ public class TermSettings {
         mOrientation = res.getInteger(R.integer.pref_orientation_default);
         mCursorStyle = Integer.parseInt(res.getString(R.string.pref_cursorstyle_default));
         mCursorBlink = Integer.parseInt(res.getString(R.string.pref_cursorblink_default));
-        mFailsafeShell = res.getString(R.string.pref_shell_default);
-        mShell = mFailsafeShell;
-        mInitialCommand = res.getString(R.string.pref_initialcommand_default);
-        mTermType = res.getString(R.string.pref_termtype_default);
-        mCloseOnExit = res.getBoolean(R.bool.pref_close_window_on_process_exit_default);
-        mVerifyPath = res.getBoolean(R.bool.pref_verify_path_default);
-        mDoPathExtensions = res.getBoolean(R.bool.pref_do_path_extensions_default);
-        mAllowPathPrepend = res.getBoolean(R.bool.pref_allow_prepend_path_default);
         // the mHomePath default is set dynamically in readPrefs()
-        mMouseTracking = res.getBoolean(R.bool.pref_mouse_tracking_default);
     }
     
     public void readPrefs(SharedPreferences prefs) {
@@ -164,15 +133,7 @@ public class TermSettings {
         mOrientation = readIntPref(ORIENTATION_KEY, mOrientation, 2);
         // mCursorStyle = readIntPref(CURSORSTYLE_KEY, mCursorStyle, 2);
         // mCursorBlink = readIntPref(CURSORBLINK_KEY, mCursorBlink, 1);
-        mShell = readStringPref(SHELL_KEY, mShell);
-        mInitialCommand = readStringPref(INITIALCOMMAND_KEY, mInitialCommand);
-        mTermType = readStringPref(TERMTYPE_KEY, mTermType);
-        mCloseOnExit = readBooleanPref(CLOSEONEXIT_KEY, mCloseOnExit);
-        mVerifyPath = readBooleanPref(VERIFYPATH_KEY, mVerifyPath);
-        mDoPathExtensions = readBooleanPref(PATHEXTENSIONS_KEY, mDoPathExtensions);
-        mAllowPathPrepend = readBooleanPref(PATHPREPEND_KEY, mAllowPathPrepend);
         mHomePath = readStringPref(HOMEPATH_KEY, mHomePath);
-        mMouseTracking = readBooleanPref(MOUSE_TRACKING, mMouseTracking);
         mPrefs = null;  // we leak a Context if we hold on to this
     }
     
@@ -220,10 +181,6 @@ public class TermSettings {
         return TerminalPreferences.INSTANCE.getBackButtonAction() >= BACK_KEY_SENDS_ESC;
     }
     
-    public boolean getMouseTrackingFlag() {
-        return mMouseTracking;
-    }
-    
     public int getBackKeyCharacter() {
         switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
             case BACK_KEY_SENDS_ESC:
@@ -244,35 +201,11 @@ public class TermSettings {
     }
     
     public String getShell() {
-        return mShell;
+        return ShellPreferences.INSTANCE.getCommandLine();
     }
     
     public String getFailsafeShell() {
-        return mFailsafeShell;
-    }
-    
-    public String getInitialCommand() {
-        return mInitialCommand;
-    }
-    
-    public String getTermType() {
-        return mTermType;
-    }
-    
-    public boolean closeWindowOnProcessExit() {
-        return mCloseOnExit;
-    }
-    
-    public boolean verifyPath() {
-        return mVerifyPath;
-    }
-    
-    public boolean doPathExtensions() {
-        return mDoPathExtensions;
-    }
-    
-    public boolean allowPathPrepend() {
-        return mAllowPathPrepend;
+        return "/system/bin/sh -";
     }
     
     public void setPrependPath(String prependPath) {
@@ -289,13 +222,5 @@ public class TermSettings {
     
     public String getAppendPath() {
         return mAppendPath;
-    }
-    
-    public void setHomePath(String homePath) {
-        mHomePath = homePath;
-    }
-    
-    public String getHomePath() {
-        return mHomePath;
     }
 }

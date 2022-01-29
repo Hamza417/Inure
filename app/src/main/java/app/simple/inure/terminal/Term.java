@@ -73,6 +73,7 @@ import app.simple.inure.dialogs.terminal.DialogSpecialKeys;
 import app.simple.inure.extension.activities.BaseActivity;
 import app.simple.inure.extension.popup.PopupMenuCallback;
 import app.simple.inure.popups.app.PopupTerminal;
+import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.preferences.TerminalPreferences;
 import app.simple.inure.terminal.compat.ActionBarCompat;
 import app.simple.inure.terminal.compat.ActivityCompat;
@@ -554,7 +555,7 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     
     private TermSession createTermSession() throws IOException {
         TermSettings settings = mSettings;
-        TermSession session = createTermSession(this, settings, settings.getInitialCommand());
+        TermSession session = createTermSession(this, settings, ShellPreferences.INSTANCE.getInitialCommand());
         session.setFinishCallback(mTermService);
         return session;
     }

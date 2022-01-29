@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import app.simple.inure.decorations.emulatorview.ColorScheme;
 import app.simple.inure.decorations.emulatorview.TermSession;
 import app.simple.inure.decorations.emulatorview.UpdateCallback;
+import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.preferences.TerminalPreferences;
 import app.simple.inure.terminal.util.TermSettings;
 
@@ -104,7 +105,7 @@ public class GenericTermSession extends TermSession {
     
     @Override
     protected void onProcessExit() {
-        if (mSettings.closeWindowOnProcessExit()) {
+        if (ShellPreferences.INSTANCE.getCloseWindowOnExitState()) {
             finish();
         } else if (mProcessExitMessage != null) {
             byte[] msg = ("\r\n[" + mProcessExitMessage + "]").getBytes(StandardCharsets.UTF_8);

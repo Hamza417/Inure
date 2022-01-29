@@ -22,6 +22,7 @@ import android.util.DisplayMetrics;
 import app.simple.inure.decorations.emulatorview.ColorScheme;
 import app.simple.inure.decorations.emulatorview.EmulatorView;
 import app.simple.inure.decorations.emulatorview.TermSession;
+import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.preferences.TerminalPreferences;
 import app.simple.inure.terminal.util.TermSettings;
 import app.simple.inure.themes.manager.ThemeManager;
@@ -50,8 +51,8 @@ public class TermView extends EmulatorView {
         setAltSendsEsc(TerminalPreferences.INSTANCE.getAltKeyEscapeState());
         setControlKeyCode(settings.getControlKeyCode());
         setFnKeyCode(settings.getFnKeyCode());
-        setTermType(settings.getTermType());
-        setMouseTracking(settings.getMouseTrackingFlag());
+        setTermType(ShellPreferences.INSTANCE.getTerminalType());
+        setMouseTracking(ShellPreferences.INSTANCE.getMouseEventState());
     
         System.out.println("Called Emu View");
     }

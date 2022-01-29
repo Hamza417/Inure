@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import app.simple.inure.decorations.emulatorview.TermSession;
+import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
 
@@ -148,8 +149,8 @@ public class RemoteInterface extends Activity {
     
     protected String openNewWindow(String iInitialCommand) {
         TermService service = getTermService();
-        
-        String initialCommand = mSettings.getInitialCommand();
+    
+        String initialCommand = ShellPreferences.INSTANCE.getInitialCommand();
         if (iInitialCommand != null) {
             if (initialCommand != null) {
                 initialCommand += "\r" + iInitialCommand;
