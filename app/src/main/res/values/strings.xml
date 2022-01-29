@@ -459,4 +459,6 @@
     <string name="skip_loading_on_app_start">Skip Loading on App Start</string>
     <string name="desc_skip_loading">Do not load data on app launch and goes directly to the app\'s home screen.\n\nData will still be loaded just as usual but all tasks will put in background and loading won\'t block the app launch but can add delay to in-app actions if data is not available.</string>
     <string name="path">Path</string>
+    <string name="standalone_terminal">Standalone Terminal</string>
+    <string name="standalone_terminal_desc">Use terminal as a standalone app and launch it directly from home screen without needing to open the main app everytime terminal is needed.</string>
 </resources>

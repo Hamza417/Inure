@@ -37,6 +37,7 @@ import app.simple.inure.terminal_v1.ITerminal;
 public class TermService extends Service implements TermSession.FinishCallback {
     
     private static final int RUNNING_NOTIFICATION = 1;
+    private static final String ACTION_CLOSE = "inure.terminal.close";
     private ServiceForegroundCompat serviceForegroundCompat;
     
     private SessionList mTermSessions;
@@ -52,6 +53,16 @@ public class TermService extends Service implements TermSession.FinishCallback {
     
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        try {
+            switch (intent.getAction()) {
+                case ACTION_CLOSE:
+                    stopSelf();
+                    break;
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    
         return Service.START_NOT_STICKY;
     }
     
@@ -83,6 +94,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
                 .setContentIntent(pendingIntent)
                 .setContentTitle(getText(R.string.terminal))
                 .setSmallIcon(R.drawable.ic_terminal_black)
+                .addAction(generateAction(R.drawable.ic_close, getString(R.string.close), ACTION_CLOSE))
                 .setContentText(getString(R.string.service_notify_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         
@@ -119,6 +131,13 @@ public class TermService extends Service implements TermSession.FinishCallback {
         }
     }
     
+    private NotificationCompat.Action generateAction(int icon, String title, String action) {
+        Intent closeIntent = new Intent(this, TermService.class);
+        closeIntent.setAction(action);
+        PendingIntent close = PendingIntent.getService(this, 5087846, closeIntent, 0);
+        return new NotificationCompat.Action.Builder(icon, title, close).build();
+    }
+    
     public SessionList getSessions() {
         return mTermSessions;
     }
@@ -139,25 +158,25 @@ public class TermService extends Service implements TermSession.FinishCallback {
                     .addCategory(Intent.CATEGORY_DEFAULT)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .putExtra(RemoteInterface.PRIVEXTRA_TARGET_WINDOW, sessionHandle);
-    
+            
             final PendingIntent result = PendingIntent.getActivity(getApplicationContext(), sessionHandle.hashCode(),
                     switchIntent, PendingIntent.FLAG_IMMUTABLE);
-    
+            
             final PackageManager pm = getPackageManager();
             final String[] packages = pm.getPackagesForUid(getCallingUid());
             if (packages == null || packages.length == 0) {
                 return null;
             }
-    
+            
             for (String packageName : packages) {
                 try {
                     final PackageInfo pkgInfo = pm.getPackageInfo(packageName, 0);
-            
+    
                     final ApplicationInfo appInfo = pkgInfo.applicationInfo;
                     if (appInfo == null) {
                         continue;
                     }
-            
+    
                     final CharSequence label = pm.getApplicationLabel(appInfo);
                     
                     if (!TextUtils.isEmpty(label)) {

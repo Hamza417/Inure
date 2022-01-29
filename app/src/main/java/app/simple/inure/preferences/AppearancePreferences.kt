@@ -40,8 +40,8 @@ object AppearancePreferences {
      * 3 - System
      * 4 - Day/Night
      */
-    fun setTheme(value: Int) {
-        getSharedPreferences().edit().putInt(theme, value).apply()
+    fun setTheme(value: Int): Boolean {
+        return getSharedPreferences().edit().putInt(theme, value).commit()
     }
 
     fun getTheme(): Int {

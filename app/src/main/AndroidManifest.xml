@@ -245,6 +245,23 @@
             android:name=".terminal.TermService"
             android:enabled="true"
             android:exported="false" />
+
+        <activity-alias
+            android:name=".activities.alias.TerminalAlias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_terminal"
+            android:label="@string/terminal"
+            android:roundIcon="@mipmap/ic_terminal_round"
+            android:targetActivity=".terminal.Term">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity-alias>
     </application>
 
     <queries>
