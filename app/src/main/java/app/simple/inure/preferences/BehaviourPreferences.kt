@@ -7,6 +7,7 @@ object BehaviourPreferences {
     private const val transition = "is_transition_on"
     private const val arcAnimation = "is_animation_on"
     private const val marquee = "is_marquee_on"
+    private const val skipLoading = "skip_main_loading_screen"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -56,5 +57,15 @@ object BehaviourPreferences {
 
     fun isMarqueeOn(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(marquee, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setSkipLoadingMainScreenState(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(skipLoading, boolean).apply()
+    }
+
+    fun isSkipLoadingMainScreenState(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(skipLoading, false)
     }
 }

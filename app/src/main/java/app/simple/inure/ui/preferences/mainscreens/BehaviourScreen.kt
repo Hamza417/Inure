@@ -16,6 +16,7 @@ class BehaviourScreen : ScopedFragment() {
     private lateinit var transition: SwitchView
     private lateinit var animations: SwitchView
     private lateinit var marquee: SwitchView
+    private lateinit var skipLoading: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_behaviour, container, false)
@@ -25,6 +26,7 @@ class BehaviourScreen : ScopedFragment() {
         transition = view.findViewById(R.id.appearance_transition_switch)
         animations = view.findViewById(R.id.appearance_animations_switch)
         marquee = view.findViewById(R.id.appearance_marquee_switch)
+        skipLoading = view.findViewById(R.id.skip_loading_switch)
 
         startPostponedEnterTransition()
 
@@ -39,6 +41,7 @@ class BehaviourScreen : ScopedFragment() {
         transition.setChecked(BehaviourPreferences.isTransitionOn())
         animations.setChecked(BehaviourPreferences.isAnimationOn())
         marquee.setChecked(BehaviourPreferences.isMarqueeOn())
+        skipLoading.setChecked(BehaviourPreferences.isSkipLoadingMainScreenState())
 
         dimWindows.setOnSwitchCheckedChangeListener {
             BehaviourPreferences.setDimWindows(it)
@@ -58,6 +61,10 @@ class BehaviourScreen : ScopedFragment() {
 
         marquee.setOnSwitchCheckedChangeListener {
             BehaviourPreferences.setMarquee(it)
+        }
+
+        skipLoading.setOnSwitchCheckedChangeListener {
+            BehaviourPreferences.setSkipLoadingMainScreenState(it)
         }
     }
 

@@ -22,6 +22,7 @@
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.views.LoaderImageView
+        android:id="@+id/loader"
         android:layout_width="@dimen/loader_size"
         android:layout_height="@dimen/loader_size"
         android:layout_gravity="bottom|center_horizontal"

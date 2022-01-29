@@ -14,8 +14,9 @@ import androidx.core.app.AppOpsManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
-import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.app.Home
 import app.simple.inure.util.FragmentHelper.openFragment
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 class SplashScreen : ScopedFragment() {
 
     private lateinit var icon: ImageView
+    private lateinit var loader: LoaderImageView
 
     private var isAppDataLoaded = false
     private var isUsageDataLoaded = false
@@ -47,7 +49,13 @@ class SplashScreen : ScopedFragment() {
         startPostponedEnterTransition()
 
         icon = view.findViewById(R.id.imageView)
+        loader = view.findViewById(R.id.loader)
+
         icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))
+
+        if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
+            loader.alpha = 0F
+        }
 
         // (icon.drawable as AnimatedVectorDrawable).start()
 
@@ -81,33 +89,36 @@ class SplashScreen : ScopedFragment() {
         val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
         val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
 
-        appsViewModel.getAppData().observe(viewLifecycleOwner, {
+        appsViewModel.getAppData().observe(viewLifecycleOwner) {
             isAppDataLoaded = true
             openApp()
-        })
+        }
 
-        usageStatsData.usageData.observe(viewLifecycleOwner, {
+        usageStatsData.usageData.observe(viewLifecycleOwner) {
             isUsageDataLoaded = true
             openApp()
-        })
+        }
 
-        sensorsViewModel.getSensorsData().observe(viewLifecycleOwner, {
+        sensorsViewModel.getSensorsData().observe(viewLifecycleOwner) {
             areSensorsLoaded = true
             openApp()
-        })
+        }
 
-        searchViewModel.getSearchData().observe(viewLifecycleOwner, {
+        searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             isSearchLoaded = true
             openApp()
-        })
+        }
 
-        sensorsViewModel.getError().observe(viewLifecycleOwner, {
-            Error.newInstance(it)
-                .show(parentFragmentManager, "error")
-        })
+        if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
+            openFragment(
+                    requireActivity().supportFragmentManager,
+                    Home.newInstance(),
+                    requireView().findViewById(R.id.imageView))
+        }
     }
 
     private fun openApp() {
+        if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
         if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded) {
             openFragment(
                     requireActivity().supportFragmentManager,
