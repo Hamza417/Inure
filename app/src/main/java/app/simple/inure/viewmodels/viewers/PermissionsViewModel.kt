@@ -64,10 +64,10 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                             permissionInfo.name = appPackageInfo.requestedPermissions[count]
                             permissions.add(permissionInfo)
                         }
+
+                        it.printStackTrace()
                     }
                 }
-
-
 
                 this@PermissionsViewModel.permissions.postValue(permissions.apply {
                     sortBy {

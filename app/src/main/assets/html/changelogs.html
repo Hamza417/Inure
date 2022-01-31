@@ -15,69 +15,93 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build19</h2>
-
-<h4>User Interface</h4>
-
-<ul>
-    <li>(Beta) Added option to resize icons of the app.</li>
-    <li>Added option to disable colored icon shadows.</li>
-    <li>Added list based panel junction for device info panel.</li>
-    <li>Added option to skip loading on app launch in <b>Behavior</b> preferences panel.</li>
-    <li>List interface for <b>App Theme</b>.</li>
-</ul>
+<h2>Build20</h2>
 
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed black header text issues in some panels.</li>
-    <li>Fixed slide animation not working for some panels when transitions are on.</li>
-    <li>Fixed few margin issues.</li>
-</ul>
-
-<h4>Improvements</h4>
-
-<ul>
-    <li>Added native markdown viewer.</li>
-    <li>Added improved native Terminal Emulator framework.
-        <br>
-        <br>
-        <sub>
-            The main reason this change was needed was the previous implementation of terminal in
-            Inure is faulty and unstable, cannot run multiple instances, cannot kill itself meaning
-            memory leaks are there even if the session is closed, crashes and freezes the app when
-            ran heavy commands such as <i>su logcat</i>.
-            <br>
-            <br>
-            The newer one supports more features, is customizable, runs as a separate app inside the
-            main app and can be used as standalone app if need be and is extremely stable.
-        </sub>
-    </li>
-</ul>
-
-<h4>Terminal Emulator Changes</h4>
-
-<ul>
-    <li>Multiple windows with native processes.</li>
-    <li>Various themes including native app theme.</li>
-    <li>Can run heavy commands effortlessly such as <i>logcat</i></li>
-    <li>Supports special keys and physical keys.</li>
-    <li>Ability to copy/paste/select text from the terminal.</li>
-    <li>Can be used as a standalone app along with the main app directly from homescreen.
-    </li>
-    <li>Supports multiple font sizes.</li>
-    <li>Foreground service to keep the terminal running in background without losing process states
-        even if app is closed.
-    </li>
-</ul>
-
-<h4>Removed</h4>
-
-<ul>
-    <li>RAM details from device info panel.</li>
+    <li>Fixed a critical issue that is crashing the app installation in Android 12.</li>
 </ul>
 
 <br>
+<br>
+
+<div class="wrap-collapsible">
+    <input id="build_19" class="toggle" type="checkbox">
+    <label for="build_19" class="lbl-toggle">Build19</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>(Beta) Added option to resize icons of the app.</li>
+                <li>Added option to disable colored icon shadows.</li>
+                <li>Added list based panel junction for device info panel.</li>
+                <li>Added option to skip loading on app launch in <b>Behavior</b> preferences panel.
+                </li>
+                <li>List interface for <b>App Theme</b>.</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed black header text issues in some panels.</li>
+                <li>Fixed slide animation not working for some panels when transitions are on.</li>
+                <li>Fixed few margin issues.</li>
+            </ul>
+
+            <h4>Improvements</h4>
+
+            <ul>
+                <li>Added native markdown viewer.</li>
+                <li>Added improved native Terminal Emulator framework.
+                    <br>
+                    <br>
+                    <sub>
+                        The main reason this change was needed was the previous implementation of
+                        terminal in
+                        Inure is faulty and unstable, cannot run multiple instances, cannot kill
+                        itself meaning
+                        memory leaks are there even if the session is closed, crashes and freezes
+                        the app when
+                        ran heavy commands such as <i>su logcat</i>.
+                        <br>
+                        <br>
+                        The newer one supports more features, is customizable, runs as a separate
+                        app inside the
+                        main app and can be used as standalone app if need be and is extremely
+                        stable.
+                    </sub>
+                </li>
+            </ul>
+
+            <h4>Terminal Emulator Changes</h4>
+
+            <ul>
+                <li>Multiple windows with native processes.</li>
+                <li>Various themes including native app theme.</li>
+                <li>Can run heavy commands effortlessly such as <i>logcat</i></li>
+                <li>Supports special keys and physical keys.</li>
+                <li>Ability to copy/paste/select text from the terminal.</li>
+                <li>Can be used as a standalone app along with the main app directly from
+                    homescreen.
+                </li>
+                <li>Supports multiple font sizes.</li>
+                <li>Foreground service to keep the terminal running in background without losing
+                    process states
+                    even if app is closed.
+                </li>
+            </ul>
+
+            <h4>Removed</h4>
+
+            <ul>
+                <li>RAM details from device info panel.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <br>
 
 <div class="wrap-collapsible">
