@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/confirm_window_close_message"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/dialog_padding"
+        android:orientation="horizontal">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:gravity="center"
+            android:layout_marginEnd="5dp"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/cancel"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/ok"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

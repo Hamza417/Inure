@@ -16,11 +16,9 @@
 
 package app.simple.inure.terminal;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -70,6 +68,7 @@ import app.simple.inure.decorations.emulatorview.compat.ClipboardManagerCompatFa
 import app.simple.inure.decorations.emulatorview.compat.KeycodeConstants;
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
+import app.simple.inure.dialogs.terminal.DialogCloseWindow;
 import app.simple.inure.dialogs.terminal.DialogSpecialKeys;
 import app.simple.inure.extension.activities.BaseActivity;
 import app.simple.inure.extension.popup.PopupMenuCallback;
@@ -700,22 +699,9 @@ public class Term extends BaseActivity implements UpdateCallback, SharedPreferen
     }
     
     private void confirmCloseWindow() {
-        final AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setIcon(android.R.drawable.ic_dialog_alert);
-        b.setMessage(R.string.confirm_window_close_message);
-        final Runnable closeWindow = new Runnable() {
-            public void run() {
-                doCloseWindow();
-            }
-        };
-        b.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                mHandler.post(closeWindow);
-            }
-        });
-        b.setNegativeButton(android.R.string.no, null);
-        b.show();
+        DialogCloseWindow dialogCloseWindow = DialogCloseWindow.Companion.newInstance();
+        dialogCloseWindow.setOnTerminalDialogCloseListener(this :: doCloseWindow);
+        dialogCloseWindow.show(getSupportFragmentManager(), "terminal_close");
     }
     
     private void doCloseWindow() {
