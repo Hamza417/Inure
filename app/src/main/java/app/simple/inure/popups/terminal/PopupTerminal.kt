@@ -1,4 +1,4 @@
-package app.simple.inure.popups.app
+package app.simple.inure.popups.terminal
 
 import android.net.wifi.WifiManager
 import android.os.PowerManager

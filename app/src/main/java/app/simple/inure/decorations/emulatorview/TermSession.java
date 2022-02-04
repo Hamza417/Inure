@@ -627,7 +627,7 @@ public class TermSession {
             mTermOut.close();
         } catch (IOException e) {
             // We don't care if this fails
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
         
         if (mFinishCallback != null) {

@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.terminal
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.terminal.GenericTermSession
 import app.simple.inure.terminal.util.SessionList
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.NullSafety.isNull
 
 open class AdapterWindows(private var sessions: SessionList) : RecyclerView.Adapter<AdapterWindows.Holder>(), UpdateCallback {
@@ -60,6 +62,7 @@ open class AdapterWindows(private var sessions: SessionList) : RecyclerView.Adap
 
     fun setSessions(sessions: SessionList?) {
         if (sessions.isNull()) {
+            onUpdate()
             return
         }
 
@@ -68,13 +71,39 @@ open class AdapterWindows(private var sessions: SessionList) : RecyclerView.Adap
         sessions.addTitleChangedListener(this)
     }
 
-    private fun getSessionTitle(position: Int, defaultTitle: String?): String? {
+    fun getSessionTitle(position: Int, defaultTitle: String?): String? {
         val session: TermSession = sessions[position]
         return if (session is GenericTermSession) {
             session.getTitle(defaultTitle)
         } else {
             defaultTitle
         }
+    }
+
+    fun getSessionTitle(position: Int, context: Context): String? {
+        val defaultTitle: String = context.getString(R.string.window_title, position + 1)
+        val session: TermSession = sessions[position]
+        return if (session is GenericTermSession) {
+            session.getTitle(defaultTitle)
+        } else {
+            defaultTitle
+        }
+    }
+
+    open fun getCount(): Int {
+        return if (sessions.isNotNull()) {
+            sessions.size
+        } else {
+            0
+        }
+    }
+
+    open fun getItem(position: Int): TermSession? {
+        return sessions[position]
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     companion object {

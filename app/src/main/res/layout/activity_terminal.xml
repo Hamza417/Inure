@@ -22,12 +22,17 @@
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
-        <Spinner
-            android:id="@+id/windows_list"
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/current_window"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:drawableEnd="@drawable/ic_arrow_drop_down_24dp"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/popup_text_size"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="secondary" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/add"

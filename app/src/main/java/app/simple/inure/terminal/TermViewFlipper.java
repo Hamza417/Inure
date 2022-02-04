@@ -24,7 +24,6 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -34,10 +33,11 @@ import app.simple.inure.R;
 import app.simple.inure.decorations.emulatorview.EmulatorView;
 import app.simple.inure.decorations.emulatorview.TermSession;
 import app.simple.inure.decorations.emulatorview.UpdateCallback;
+import app.simple.inure.decorations.views.DecentViewFlipper;
 import app.simple.inure.terminal.compat.AndroidCompat;
 import app.simple.inure.terminal.util.TermSettings;
 
-public class TermViewFlipper extends ViewFlipper implements Iterable <View> {
+public class TermViewFlipper extends DecentViewFlipper implements Iterable <View> {
     
     private Context context;
     private Toast mToast;
