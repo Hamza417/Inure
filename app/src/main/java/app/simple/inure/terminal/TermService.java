@@ -33,6 +33,7 @@ import app.simple.inure.terminal.compat.ServiceForegroundCompat;
 import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
 import app.simple.inure.terminal_v1.ITerminal;
+import app.simple.inure.util.IntentHelper;
 
 public class TermService extends Service implements TermSession.FinishCallback {
     
@@ -57,6 +58,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
             switch (intent.getAction()) {
                 case ACTION_CLOSE:
                     stopSelf();
+                    IntentHelper.INSTANCE.sendLocalBroadcastIntent(ACTION_CLOSE, getApplicationContext());
                     break;
             }
         } catch (NullPointerException e) {

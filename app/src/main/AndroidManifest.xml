@@ -62,7 +62,7 @@
 
         <activity
             android:name=".terminal.Term"
-            android:configChanges="uiMode|keyboard|keyboardHidden|orientation"
+            android:configChanges="keyboard|keyboardHidden|orientation"
             android:exported="true"
             android:documentLaunchMode="intoExisting"
             android:label="@string/terminal"

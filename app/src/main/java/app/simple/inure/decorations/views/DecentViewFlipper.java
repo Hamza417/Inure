@@ -45,4 +45,7 @@ public class DecentViewFlipper extends ViewFlipper implements View.OnLayoutChang
         return onViewFlipperFlippedListener;
     }
     
+    public void removeListeners() {
+        onViewFlipperFlippedListener = null;
+    }
 }

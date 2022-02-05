@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -54,6 +55,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import app.simple.inure.R;
 import app.simple.inure.activities.preferences.PreferenceActivity;
 import app.simple.inure.adapters.terminal.AdapterWindows;
@@ -65,7 +67,6 @@ import app.simple.inure.decorations.emulatorview.compat.ClipboardManagerCompatFa
 import app.simple.inure.decorations.emulatorview.compat.KeycodeConstants;
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton;
 import app.simple.inure.decorations.ripple.DynamicRippleTextView;
-import app.simple.inure.decorations.views.DecentViewFlipper;
 import app.simple.inure.dialogs.terminal.DialogCloseWindow;
 import app.simple.inure.dialogs.terminal.DialogSpecialKeys;
 import app.simple.inure.extension.activities.BaseActivity;
@@ -80,6 +81,7 @@ import app.simple.inure.terminal.compat.AndroidCompat;
 import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
+import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.NullSafety;
 import app.simple.inure.util.ThemeUtils;
 
@@ -127,11 +129,14 @@ public class Term extends BaseActivity implements UpdateCallback,
     
     private boolean mBackKeyPressed;
     
+    private static final String ACTION_CLOSE = "inure.terminal.close";
     private static final String ACTION_PATH_BROADCAST = "inure.terminal.broadcast.APPEND_TO_PATH";
     private static final String ACTION_PATH_PREPEND_BROADCAST = "inure.terminal.broadcast.PREPEND_TO_PATH";
     private static final String PERMISSION_PATH_BROADCAST = "inure.terminal.permission.APPEND_TO_PATH";
     private static final String PERMISSION_PATH_PREPEND_BROADCAST = "inure.terminal.permission.PREPEND_TO_PATH";
     private int mPendingPathBroadcasts = 0;
+    
+    private BroadcastReceiver closeBroadcastReceiver;
     
     private final BroadcastReceiver mPathReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -149,6 +154,7 @@ public class Term extends BaseActivity implements UpdateCallback,
             }
         }
     };
+    
     // Available on API 12 and later
     private static final int FLAG_INCLUDE_STOPPED_PACKAGES = 0x20;
     
@@ -395,9 +401,23 @@ public class Term extends BaseActivity implements UpdateCallback,
     
         mWifiLock = wm.createWifiLock(wifiLockMode, TermDebug.LOG_TAG);
         mHaveFullHwKeyboard = checkHaveFullHwKeyboard(getResources().getConfiguration());
-        
+    
         updatePrefs();
         mAlreadyStarted = true;
+    
+        closeBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                try {
+                    if (intent.getAction().equals(ACTION_CLOSE)) {
+                        termSessions.clear();
+                        supportFinishAfterTransition();
+                    }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
     }
     
     private String makePathFromBundle(Bundle extras) {
@@ -425,6 +445,8 @@ public class Term extends BaseActivity implements UpdateCallback,
     @Override
     protected void onStart() {
         super.onStart();
+        ThemeManager.INSTANCE.addListener(this);
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(closeBroadcastReceiver, new IntentFilter(ACTION_CLOSE));
         if (!bindService(TSIntent, mTSConnection, BIND_AUTO_CREATE)) {
             throw new IllegalStateException("Failed to bind to TermService!");
         }
@@ -458,12 +480,9 @@ public class Term extends BaseActivity implements UpdateCallback,
                 onResumeSelectWindow = -1;
             }
     
-            viewFlipper.setOnViewFlipperFlippedListener(new DecentViewFlipper.OnViewFlipperFlippedListener() {
-                @Override
-                public void onViewFlipperFlipped(View childView, int index) {
-                    if (adapterWindows != null) {
-                        currentWindow.setText(adapterWindows.getSessionTitle(index, getBaseContext()));
-                    }
+            viewFlipper.setOnViewFlipperFlippedListener((childView, index) -> {
+                if (adapterWindows != null) {
+                    currentWindow.setText(adapterWindows.getSessionTitle(index, getBaseContext()));
                 }
             });
     
@@ -474,11 +493,11 @@ public class Term extends BaseActivity implements UpdateCallback,
     private void populateWindowList() {
         if (termSessions != null) {
             int position = viewFlipper.getDisplayedChild();
-        
+    
             if (adapterWindows == null) {
                 adapterWindows = new AdapterWindows(termSessions);
                 currentWindow.setText(adapterWindows.getSessionTitle(position, String.valueOf(position)));
-            
+        
                 adapterWindows.setOnAdapterWindowsCallbackListener(new AdapterWindows.Companion.AdapterWindowsCallback() {
                     @Override
                     public void onWindowClicked(int position) {
@@ -486,21 +505,21 @@ public class Term extends BaseActivity implements UpdateCallback,
                             if (position >= viewFlipper.getChildCount()) {
                                 viewFlipper.addView(createEmulatorView(termSessions.get(position)));
                             }
-                        
+    
                             if (mActionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
                                 mActionBar.hide();
                             }
-                        
+    
                             viewFlipper.setDisplayedChild(position);
                             currentWindow.setText(adapterWindows.getSessionTitle(position, getBaseContext()));
                         }
-                    
+    
                         if (NullSafety.INSTANCE.isNotNull(popupTerminalWindows)) {
                             popupTerminalWindows.dismiss();
                             popupTerminalWindows = null;
                         }
                     }
-                
+            
                     @Override
                     public void onClose(int position) {
                         TermSession session = termSessions.remove(position);
@@ -522,10 +541,12 @@ public class Term extends BaseActivity implements UpdateCallback,
     @Override
     public void onDestroy() {
         super.onDestroy();
-        
+    
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this);
-        
+    
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(closeBroadcastReceiver);
+    
         if (mStopServiceOnFinish) {
             stopService(TSIntent);
         }
@@ -639,7 +660,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         viewFlipper.onPause();
         if (termSessions != null) {
             termSessions.removeCallback(this);
-        
+    
             if (adapterWindows != null) {
                 termSessions.removeCallback(adapterWindows);
                 termSessions.removeTitleChangedListener(adapterWindows);
@@ -648,9 +669,11 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     
         viewFlipper.removeAllViews();
-        
+    
         unbindService(mTSConnection);
-        
+    
+        ThemeManager.INSTANCE.removeListener(this);
+    
         super.onStop();
     }
     
@@ -1016,5 +1039,17 @@ public class Term extends BaseActivity implements UpdateCallback,
         if (handlers.size() > 0) {
             startActivity(openLink);
         }
+    }
+    
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        viewFlipper.setDisplayedChild(savedInstanceState.getInt("current_view"));
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+    
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        savedInstanceState.putInt("current_view", viewFlipper.getDisplayedChild());
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
