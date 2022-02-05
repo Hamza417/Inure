@@ -37,12 +37,10 @@ import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
 
 public class RemoteInterface extends Activity {
-    protected static final String PRIVACT_OPEN_NEW_WINDOW = "jackpal.androidterm.private.OPEN_NEW_WINDOW";
-    protected static final String PRIVACT_SWITCH_WINDOW = "jackpal.androidterm.private.SWITCH_WINDOW";
-    
-    protected static final String PRIVEXTRA_TARGET_WINDOW = "jackpal.androidterm.private.target_window";
-    
-    protected static final String PRIVACT_ACTIVITY_ALIAS = "jackpal.androidterm.TermInternal";
+    protected static final String PRIVACT_OPEN_NEW_WINDOW = "inure.terminal.private.OPEN_NEW_WINDOW";
+    protected static final String PRIVACT_SWITCH_WINDOW = "inure.terminal.private.SWITCH_WINDOW";
+    protected static final String PRIVEXTRA_TARGET_WINDOW = "inure.terminal.private.target_window";
+    protected static final String PRIVACT_ACTIVITY_ALIAS = "inure.terminal.TermInternal";
     
     private TermSettings mSettings;
     

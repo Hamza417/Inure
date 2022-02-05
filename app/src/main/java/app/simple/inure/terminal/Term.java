@@ -410,8 +410,7 @@ public class Term extends BaseActivity implements UpdateCallback,
             public void onReceive(Context context, Intent intent) {
                 try {
                     if (intent.getAction().equals(ACTION_CLOSE)) {
-                        termSessions.clear();
-                        supportFinishAfterTransition();
+                        finish();
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();

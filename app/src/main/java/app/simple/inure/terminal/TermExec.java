@@ -29,7 +29,7 @@ public class TermExec {
         System.loadLibrary("inure_terminal_emulator");
     }
     
-    public static final String SERVICE_ACTION_V1 = "jackpal.androidterm.action.START_TERM.v1";
+    public static final String SERVICE_ACTION_V1 = "inure.terminal.action.START_TERM.v1";
     
     private static Field descriptorField;
     
