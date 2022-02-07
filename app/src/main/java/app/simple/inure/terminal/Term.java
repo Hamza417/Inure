@@ -42,7 +42,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -68,6 +67,7 @@ import app.simple.inure.decorations.emulatorview.compat.KeycodeConstants;
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton;
 import app.simple.inure.decorations.ripple.DynamicRippleTextView;
 import app.simple.inure.dialogs.terminal.DialogCloseWindow;
+import app.simple.inure.dialogs.terminal.DialogContextMenu;
 import app.simple.inure.dialogs.terminal.DialogSpecialKeys;
 import app.simple.inure.extension.activities.BaseActivity;
 import app.simple.inure.extension.popup.PopupMenuCallback;
@@ -587,7 +587,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         emulatorView.setExtGestureListener(new EmulatorViewGestureListener(emulatorView));
         emulatorView.setOnKeyListener(mKeyListener);
         registerForContextMenu(emulatorView);
-        
+    
         return emulatorView;
     }
     
@@ -799,41 +799,31 @@ public class Term extends BaseActivity implements UpdateCallback,
     }
     
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-            ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle(R.string.edit_text);
-        menu.add(0, SELECT_TEXT_ID, 0, R.string.select_text);
-        menu.add(0, COPY_ALL_ID, 0, R.string.copy_all);
-        menu.add(0, PASTE_ID, 0, R.string.paste);
-        menu.add(0, SEND_CONTROL_KEY_ID, 0, R.string.send_control_key);
-        menu.add(0, SEND_FN_KEY_ID, 0, R.string.send_fn_key);
-        if (!canPaste()) {
-            menu.getItem(PASTE_ID).setEnabled(false);
-        }
-    }
-    
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case SELECT_TEXT_ID:
-                getCurrentEmulatorView().toggleSelectingText();
-                return true;
-            case COPY_ALL_ID:
-                doCopyAll();
-                return true;
-            case PASTE_ID:
-                doPaste();
-                return true;
-            case SEND_CONTROL_KEY_ID:
-                doSendControlKey();
-                return true;
-            case SEND_FN_KEY_ID:
-                doSendFnKey();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
+        DialogContextMenu dialogContextMenu = DialogContextMenu.Companion.newInstance(canPaste());
+        
+        dialogContextMenu.setOnTerminalContextMenuCallbackListener(source -> {
+            switch (source) {
+                case 0:
+                    getCurrentEmulatorView().toggleSelectingText();
+                    break;
+                case 1:
+                    doCopyAll();
+                    break;
+                case 2:
+                    doPaste();
+                    break;
+                case 3:
+                    doSendControlKey();
+                    break;
+                case 4:
+                    doSendFnKey();
+                    break;
+            }
+        });
+        
+        dialogContextMenu.show(getSupportFragmentManager(), "context_menu");
     }
     
     @Override
@@ -908,8 +898,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     }
     
     private boolean canPaste() {
-        ClipboardManagerCompat clip = ClipboardManagerCompatFactory
-                .getManager(getApplicationContext());
+        ClipboardManagerCompat clip = ClipboardManagerCompatFactory.getManager(getApplicationContext());
         return clip.hasText();
     }
     
