@@ -246,7 +246,7 @@
             android:name=".terminal.TermService"
             android:enabled="true"
             android:exported="false"
-            android:icon="@drawable/ic_terminal">
+            android:icon="@mipmap/ic_terminal">
             <intent-filter>
                 <action android:name="inure.terminal.action.START_TERM.v1" />
                 <category android:name="android.intent.category.DEFAULT" />

@@ -55,11 +55,9 @@ public class TermService extends Service implements TermSession.FinishCallback {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
-            switch (intent.getAction()) {
-                case ACTION_CLOSE:
-                    stopSelf();
-                    IntentHelper.INSTANCE.sendLocalBroadcastIntent(ACTION_CLOSE, getApplicationContext());
-                    break;
+            if (ACTION_CLOSE.equals(intent.getAction())) {
+                stopSelf();
+                IntentHelper.INSTANCE.sendLocalBroadcastIntent(ACTION_CLOSE, getApplicationContext());
             }
         } catch (NullPointerException e) {
             e.printStackTrace();

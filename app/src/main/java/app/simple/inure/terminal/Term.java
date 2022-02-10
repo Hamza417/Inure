@@ -480,7 +480,7 @@ public class Term extends BaseActivity implements UpdateCallback,
             }
     
             viewFlipper.setOnViewFlipperFlippedListener((childView, index) -> {
-                if (adapterWindows != null) {
+                if (adapterWindows != null && !termSessions.isEmpty()) {
                     currentWindow.setText(adapterWindows.getSessionTitle(index, getBaseContext()));
                 }
             });

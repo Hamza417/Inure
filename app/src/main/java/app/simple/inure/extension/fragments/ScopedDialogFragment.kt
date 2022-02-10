@@ -48,7 +48,7 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
         }
 
         window.attributes.gravity = Gravity.CENTER
-        window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 85f).toInt()
+        window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 80f).toInt()
     }
 
     override fun onResume() {

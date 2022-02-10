@@ -462,6 +462,38 @@
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
+                <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+                    android:id="@+id/about_share"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/typeface_icon"
+                        android:src="@drawable/ic_share"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:drawablePadding="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/share"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_link_tiny"
+                        app:drawableTintStyle="accent"
+                        app:textColorStyle="primary"
+                        tools:ignore="HardcodedText" />
+
+                </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
