@@ -147,7 +147,7 @@
             android:layout_width="@dimen/checkbox_dimensions"
             android:layout_height="@dimen/checkbox_dimensions"
             android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="10dp" />
+            android:layout_marginHorizontal="20dp" />
 
     </LinearLayout>
 

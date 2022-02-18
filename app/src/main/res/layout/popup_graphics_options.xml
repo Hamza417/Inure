@@ -22,16 +22,16 @@
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
             android:text="@string/highlight_extensions"
-            app:textColorStyle="primary"
             android:textSize="@dimen/popup_text_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.checkbox.CheckBox
             android:id="@+id/graphics_highlight_checkbox"
             android:layout_width="@dimen/checkbox_dimensions"
             android:layout_height="@dimen/checkbox_dimensions"
             android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="20dp"
             android:buttonTint="?attr/colorAppAccent" />
 
     </LinearLayout>

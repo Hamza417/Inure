@@ -3,26 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingStart="30dp"
+    android:paddingEnd="15dp">
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/adapter_extras_filter_extension"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:fontFamily="@font/lato_bold"
-        android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.checkbox.CheckBox
         android:id="@+id/adapter_extras_filter_checkbox"
         android:layout_width="@dimen/checkbox_dimensions"
         android:layout_height="@dimen/checkbox_dimensions"
         android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="10dp" />
+        android:layout_marginHorizontal="20dp" />
 
 </LinearLayout>
-

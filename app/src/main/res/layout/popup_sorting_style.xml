@@ -16,7 +16,6 @@
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:clickable="true"
         android:focusable="true"
-        android:fontFamily="@font/lato_bold"
         android:maxLines="1"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
@@ -30,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
-        android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/package_name"
@@ -43,7 +41,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
-        android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/app_size"
@@ -55,7 +52,6 @@
         android:id="@+id/sort_install_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/install_date"
@@ -80,7 +76,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/lato_bold"
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
             android:text="@string/descending"
@@ -93,7 +88,7 @@
             android:layout_width="@dimen/checkbox_dimensions"
             android:layout_height="@dimen/checkbox_dimensions"
             android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="10dp" />
+            android:layout_marginEnd="20dp" />
 
     </LinearLayout>
 
