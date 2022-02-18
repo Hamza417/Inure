@@ -656,6 +656,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     
     @Override
     protected void onStop() {
+        onResumeSelectWindow = viewFlipper.getDisplayedChild();
         viewFlipper.onPause();
         if (termSessions != null) {
             termSessions.removeCallback(this);
@@ -668,9 +669,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     
         viewFlipper.removeAllViews();
-    
         unbindService(mTSConnection);
-    
         ThemeManager.INSTANCE.removeListener(this);
     
         super.onStop();
@@ -694,7 +693,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     
         if (adapterWindows != null) {
             // Force Android to redraw the label in the navigation dropdown
-            adapterWindows.notifyDataSetChanged();
+            adapterWindows.notifyDateSet();
         }
     
         ThemeUtils.INSTANCE.setAppTheme(getResources());
@@ -805,19 +804,19 @@ public class Term extends BaseActivity implements UpdateCallback,
         
         dialogContextMenu.setOnTerminalContextMenuCallbackListener(source -> {
             switch (source) {
-                case 0:
+                case SELECT_TEXT_ID:
                     getCurrentEmulatorView().toggleSelectingText();
                     break;
-                case 1:
+                case COPY_ALL_ID:
                     doCopyAll();
                     break;
-                case 2:
+                case PASTE_ID:
                     doPaste();
                     break;
-                case 3:
+                case SEND_CONTROL_KEY_ID:
                     doSendControlKey();
                     break;
-                case 4:
+                case SEND_FN_KEY_ID:
                     doSendFnKey();
                     break;
             }
@@ -914,8 +913,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     }
     
     private void doCopyAll() {
-        ClipboardManagerCompat clip = ClipboardManagerCompatFactory
-                .getManager(getApplicationContext());
+        ClipboardManagerCompat clip = ClipboardManagerCompatFactory.getManager(getApplicationContext());
         clip.setText(getCurrentTermSession().getTranscriptText().trim());
     }
     
@@ -937,10 +935,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         getCurrentEmulatorView().sendFnKey();
     }
     
-    private String formatMessage(int keyId, int disabledKeyId,
-            Resources r, int arrayId,
-            int enabledId,
-            int disabledId, String regex) {
+    private String formatMessage(int keyId, int disabledKeyId, Resources r, int arrayId, int enabledId, int disabledId, String regex) {
         if (keyId == disabledKeyId) {
             return r.getString(disabledId);
         }

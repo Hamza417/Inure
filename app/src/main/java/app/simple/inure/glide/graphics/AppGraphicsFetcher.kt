@@ -30,8 +30,10 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                 Bitmap.createBitmap(svg.renderToPicture(), 500, 500, Bitmap.Config.ARGB_8888)
                             } else {
-                                svg.documentWidth = 150F
-                                svg.documentHeight = 150F
+                                with(150F) {
+                                    svg.documentWidth = this
+                                    svg.documentHeight = this
+                                }
                                 svg.renderToPicture().toBitmap()
                             }
                         }

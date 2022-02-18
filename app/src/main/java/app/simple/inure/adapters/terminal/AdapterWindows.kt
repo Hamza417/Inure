@@ -106,6 +106,11 @@ open class AdapterWindows(private var sessions: SessionList) : RecyclerView.Adap
         return position.toLong()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun notifyDateSet() {
+        notifyDataSetChanged()
+    }
+
     companion object {
         interface AdapterWindowsCallback {
             fun onWindowClicked(position: Int)
