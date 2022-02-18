@@ -51,7 +51,7 @@ class PopupSortingStyle(view: View) : BasePopupWindow() {
         }
 
         reversedCheckBox.setOnCheckedChangeListener { isChecked ->
-            MainPreferences.setReverseSorting(isChecked)
+            SearchPreferences.setReverseSorting(isChecked)
         }
     }
 

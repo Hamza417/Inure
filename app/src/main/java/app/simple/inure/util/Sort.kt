@@ -2,7 +2,6 @@ package app.simple.inure.util
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import java.util.*
 
@@ -41,19 +40,19 @@ object Sort {
      * @throws IllegalArgumentException if the [type] parameter
      *                                  is specified correctly
      */
-    fun ArrayList<PackageInfo>.getSortedList(type: String) {
+    fun ArrayList<PackageInfo>.getSortedList(type: String, reverse: Boolean) {
         when (type) {
             NAME -> {
-                this.sortByName()
+                this.sortByName(reverse)
             }
             PACKAGE_NAME -> {
-                this.sortByPackageName()
+                this.sortByPackageName(reverse)
             }
             SIZE -> {
-                this.sortBySize()
+                this.sortBySize(reverse)
             }
             INSTALL_DATE -> {
-                this.sortByInstallDate()
+                this.sortByInstallDate(reverse)
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -64,8 +63,8 @@ object Sort {
     /**
      * sort application list name
      */
-    private fun ArrayList<PackageInfo>.sortByName() {
-        return if (MainPreferences.isReverseSorting()) {
+    private fun ArrayList<PackageInfo>.sortByName(reverse: Boolean) {
+        return if (reverse) {
             this.sortByDescending {
                 it.applicationInfo.name.lowercase(Locale.getDefault())
             }
@@ -79,8 +78,8 @@ object Sort {
     /**
      * sort application list package name
      */
-    private fun ArrayList<PackageInfo>.sortBySize() {
-        return if (MainPreferences.isReverseSorting()) {
+    private fun ArrayList<PackageInfo>.sortBySize(reverse: Boolean) {
+        return if (reverse) {
             this.sortByDescending {
                 it.applicationInfo.sourceDir.getDirectoryLength()
             }
@@ -94,8 +93,8 @@ object Sort {
     /**
      * sort application list size
      */
-    private fun ArrayList<PackageInfo>.sortByPackageName() {
-        return if (MainPreferences.isReverseSorting()) {
+    private fun ArrayList<PackageInfo>.sortByPackageName(reverse: Boolean) {
+        return if (reverse) {
             this.sortByDescending {
                 it.packageName.lowercase(Locale.getDefault())
             }
@@ -109,8 +108,8 @@ object Sort {
     /**
      * sort application list alphabetically
      */
-    private fun ArrayList<PackageInfo>.sortByInstallDate() {
-        return if (MainPreferences.isReverseSorting()) {
+    private fun ArrayList<PackageInfo>.sortByInstallDate(reverse: Boolean) {
+        return if (reverse) {
             this.sortByDescending {
                 it.firstInstallTime
             }

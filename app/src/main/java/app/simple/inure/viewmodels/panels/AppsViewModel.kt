@@ -19,7 +19,7 @@ import java.util.stream.Collectors
 
 class AppsViewModel(application: Application) : WrappedViewModel(application) {
 
-    val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+    private val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {
             loadAppData()
         }
@@ -54,7 +54,7 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
                 apps[i].applicationInfo.name = getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
 
-            apps.getSortedList(MainPreferences.getSortStyle())
+            apps.getSortedList(MainPreferences.getSortStyle(), MainPreferences.isReverseSorting())
 
             appData.postValue(apps)
             appLoaded.postValue(AppsEvent(true))

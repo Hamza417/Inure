@@ -53,7 +53,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewModel.getSearchData().observe(viewLifecycleOwner, {
+        searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
             searchView.setNewNumber(it.size)
@@ -91,7 +91,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
-        })
+        }
 
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
             override fun onSearchMenuPressed(button: View) {
