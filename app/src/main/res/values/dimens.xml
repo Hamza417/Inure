@@ -77,4 +77,5 @@
     <dimen name="seekbar_thumb_size">35dp</dimen>
     <dimen name="seekbar_stroke_size">6dp</dimen>
     <dimen name="device_info_item_gap_length">20dp</dimen>
+    <dimen name="menu_text_button_padding">20dp</dimen>
 </resources>

@@ -10,14 +10,11 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterRecentlyInstalled
-import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.dialogs.action.Preparing
+import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
@@ -43,7 +40,7 @@ class RecentlyInstalled : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel.getRecentApps().observe(viewLifecycleOwner, {
+        homeViewModel.getRecentApps().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
             appsAdapterSmall = AdapterRecentlyInstalled()
@@ -61,27 +58,11 @@ class RecentlyInstalled : ScopedFragment() {
                 }
 
                 override fun onAppLongPress(packageInfo: PackageInfo, anchor: View, icon: ImageView, position: Int) {
-                    PopupMainList(anchor, packageInfo.packageName).setOnMenuItemClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String) {
-                            when (source) {
-                                getString(R.string.launch) -> {
-                                    packageInfo.launchThisPackage(requireContext())
-                                }
-                                getString(R.string.app_information) -> {
-                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                                Information.newInstance(packageInfo),
-                                                                "information")
-                                }
-                                getString(R.string.send) -> {
-                                    Preparing.newInstance(packageInfo)
-                                            .show(parentFragmentManager, "send_app")
-                                }
-                            }
-                        }
-                    })
+                    AppsMenu.newInstance(packageInfo)
+                        .show(childFragmentManager, "apps_menu")
                 }
             })
-        })
+        }
 
         back.setOnClickListener {
             requireActivity().onBackPressed()

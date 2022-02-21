@@ -5,10 +5,10 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
+import app.simple.inure.decorations.theme.ThemeNestedScrollView;
 import app.simple.inure.util.ViewUtils;
 
-public class DynamicCornersNestedScrollView extends NestedScrollView {
+public class DynamicCornersNestedScrollView extends ThemeNestedScrollView {
     public DynamicCornersNestedScrollView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(attrs);

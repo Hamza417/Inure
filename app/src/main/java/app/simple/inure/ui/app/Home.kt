@@ -19,23 +19,20 @@ import app.simple.inure.adapters.home.AdapterHomeFrequentlyUsed
 import app.simple.inure.adapters.home.AdapterHomeRecentlyInstalled
 import app.simple.inure.adapters.home.AdapterHomeRecentlyUpdated
 import app.simple.inure.adapters.menus.AdapterHomeMenu
-import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.dialogs.action.Preparing
+import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
-import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.panels.DeviceInformation
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.Sensors
 import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
-import app.simple.inure.ui.viewers.Information
 import app.simple.inure.ui.viewers.MostUsed
 import app.simple.inure.ui.viewers.RecentlyInstalled
 import app.simple.inure.ui.viewers.RecentlyUpdated
@@ -94,7 +91,7 @@ class Home : ScopedFragment() {
                 }
 
                 override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    openAppMenu(packageInfo, anchor)
+                    openAppMenu(packageInfo)
                 }
             })
 
@@ -116,7 +113,7 @@ class Home : ScopedFragment() {
                 }
 
                 override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    openAppMenu(packageInfo, anchor)
+                    openAppMenu(packageInfo)
                 }
             })
 
@@ -138,7 +135,7 @@ class Home : ScopedFragment() {
                 }
 
                 override fun onRecentAppLongPressed(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    openAppMenu(packageInfo, anchor)
+                    openAppMenu(packageInfo)
                 }
             })
 
@@ -189,7 +186,7 @@ class Home : ScopedFragment() {
                                     Sensors.newInstance(), icon, "sensors")
                         }
                         getString(R.string.batch) -> {
-                            Toast.makeText(requireContext(), "Still in development. Likely to be available to test in next update.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "This is a complicated feature and still in development. Likely to be available to test soon.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -262,26 +259,9 @@ class Home : ScopedFragment() {
                                     icon, "app_info")
     }
 
-    private fun openAppMenu(packageInfo: PackageInfo, anchor: View) {
-        PopupMainList(anchor, packageInfo.packageName).setOnMenuItemClickListener(object : PopupMenuCallback {
-            override fun onMenuItemClicked(source: String) {
-                when (source) {
-                    getString(R.string.launch) -> {
-                        packageInfo.launchThisPackage(requireContext())
-                    }
-                    getString(R.string.app_information) -> {
-                        clearTransitions()
-                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    Information.newInstance(packageInfo),
-                                                    "information")
-                    }
-                    getString(R.string.send) -> {
-                        Preparing.newInstance(packageInfo)
-                            .show(parentFragmentManager, "send_app")
-                    }
-                }
-            }
-        })
+    private fun openAppMenu(packageInfo: PackageInfo) {
+        AppsMenu.newInstance(packageInfo)
+            .show(childFragmentManager, "apps_menu")
     }
 
     companion object {

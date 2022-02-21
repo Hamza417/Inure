@@ -11,18 +11,15 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterSearch
-import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
+import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.dialogs.app.SearchMenu
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.app.AppInfo
-import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.SearchViewModel
 
@@ -67,24 +64,8 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                 }
 
                 override fun onAppLongPress(packageInfo: PackageInfo, anchor: View, icon: ImageView, position: Int) {
-                    PopupMainList(anchor, packageInfo.packageName).setOnMenuItemClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String) {
-                            when (source) {
-                                getString(R.string.launch) -> {
-                                    packageInfo.launchThisPackage(requireContext())
-                                }
-                                getString(R.string.app_information) -> {
-                                    clearTransitions()
-                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                                Information.newInstance(packageInfo),
-                                                                "information")
-                                }
-                                getString(R.string.launch) -> {
-                                    packageInfo.launchThisPackage(requireActivity())
-                                }
-                            }
-                        }
-                    })
+                    AppsMenu.newInstance(packageInfo)
+                        .show(childFragmentManager, "apps_menu")
                 }
             })
 

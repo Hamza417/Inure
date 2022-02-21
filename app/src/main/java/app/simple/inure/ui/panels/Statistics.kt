@@ -11,18 +11,14 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterUsageStats
-import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.action.Preparing
+import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.dialogs.menus.UsageStatsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.extension.popup.PopupMenuCallback
-import app.simple.inure.popups.app.PopupMainList
 import app.simple.inure.popups.usagestats.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.ui.app.AppInfo
-import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 
@@ -45,7 +41,7 @@ class Statistics : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        usageStatsViewModel.usageData.observe(viewLifecycleOwner, {
+        usageStatsViewModel.usageData.observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
             adapterUsageStats = AdapterUsageStats(it)
@@ -56,25 +52,8 @@ class Statistics : ScopedFragment() {
                 }
 
                 override fun onAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    PopupMainList(anchor, packageInfo.packageName).setOnMenuItemClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String) {
-                            when (source) {
-                                getString(R.string.launch) -> {
-                                    packageInfo.launchThisPackage(requireContext())
-                                }
-                                getString(R.string.app_information) -> {
-                                    clearTransitions()
-                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                                Information.newInstance(packageInfo),
-                                                                "information")
-                                }
-                                getString(R.string.send) -> {
-                                    Preparing.newInstance(packageInfo)
-                                        .show(parentFragmentManager, "send_app")
-                                }
-                            }
-                        }
-                    })
+                    AppsMenu.newInstance(packageInfo)
+                        .show(childFragmentManager, "apps_menu")
                 }
 
                 override fun onSortPressed(view: View) {
@@ -96,7 +75,7 @@ class Statistics : ScopedFragment() {
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
-        })
+        }
     }
 
     private fun openAppInfo(applicationInfo: PackageInfo, icon: ImageView) {

@@ -5,10 +5,10 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import app.simple.inure.decorations.theme.ThemeCoordinatorLayout;
 import app.simple.inure.util.ViewUtils;
 
-public class DynamicCornerCoordinatorLayout extends CoordinatorLayout {
+public class DynamicCornerCoordinatorLayout extends ThemeCoordinatorLayout {
     public DynamicCornerCoordinatorLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(null);
@@ -20,6 +20,9 @@ public class DynamicCornerCoordinatorLayout extends CoordinatorLayout {
     }
     
     private void init(AttributeSet attributeSet) {
+        if (isInEditMode()) {
+            return;
+        }
         LayoutBackground.setBackground(getContext(), this, attributeSet);
         ViewUtils.INSTANCE.addShadow(this);
     }
