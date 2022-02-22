@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <app.simple.inure.decorations.corners.DynamicCornersNestedScrollView
+    <app.simple.inure.decorations.corners.DynamicCornersNestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dialog_height"
-        android:layout_margin="@dimen/dialog_padding"
+        android:layout_height="wrap_content"
         android:fadingEdge="vertical"
         android:fadingEdgeLength="20dp"
         android:padding="@dimen/dialog_padding"
-        android:requiresFadingEdge="vertical">
+        android:requiresFadingEdge="vertical"
+        app:layout_behavior="@string/over_scroll_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -170,4 +169,4 @@
 
         </LinearLayout>
     </app.simple.inure.decorations.corners.DynamicCornersNestedScrollView>
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

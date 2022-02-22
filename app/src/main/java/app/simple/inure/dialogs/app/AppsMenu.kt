@@ -14,11 +14,11 @@ import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.dialogs.action.Preparing
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extension.fragments.ScopedDialogFragment
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper
 
-class AppsMenu : ScopedBottomSheetFragment() {
+class AppsMenu : ScopedDialogFragment() {
 
     private lateinit var copyPackageName: DynamicRippleTextView
     private lateinit var launch: DynamicRippleTextView
