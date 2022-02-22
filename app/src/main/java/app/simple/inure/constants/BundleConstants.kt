@@ -15,4 +15,6 @@ object BundleConstants {
     const val componentMode = "component_state_mode"
     const val webPage = "web_page_name"
     const val canPaste = "terminal_can_paste"
+    const val wifilock: String = "wifi_lock_state"
+    const val wakelock: String = "wake_lock_state"
 }

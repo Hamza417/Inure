@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@android:color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:maxHeight="300dp"
+    android:orientation="vertical"
+    android:padding="@dimen/dialog_padding">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/terminal_windows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/lato_bold"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="20dp"
+                android:text="@string/window_list"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/terminal_toggle_keyboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
+                android:fontFamily="@font/lato_bold"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="20dp"
+                android:text="@string/toggle_soft_keyboard"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/terminal_special_keys"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
+                android:fontFamily="@font/lato_bold"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="20dp"
+                android:text="@string/special_keys"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/terminal_preferences"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
+                android:fontFamily="@font/lato_bold"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="20dp"
+                android:text="@string/preferences"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.theme.ThemeDivider
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginVertical="@dimen/popup_item_gap_length" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/terminal_reset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/popup_item_gap_length"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato_bold"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="20dp"
+                    android:text="@string/reset"
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/terminal_copy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/popup_item_gap_length"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato_bold"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="20dp"
+                    android:text="@string/copy"
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="primary" />
+
+            </LinearLayout>
+
+            <app.simple.inure.decorations.theme.ThemeDivider
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginVertical="@dimen/popup_item_gap_length" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/terminal_wake_lock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
+                android:fontFamily="@font/lato_bold"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="20dp"
+                android:text="@string/enable_wakelock"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/terminal_wifi_lock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="20dp"
+                android:text="@string/enable_wifilock"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

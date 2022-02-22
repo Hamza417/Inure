@@ -69,9 +69,8 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView;
 import app.simple.inure.dialogs.terminal.DialogCloseWindow;
 import app.simple.inure.dialogs.terminal.DialogContextMenu;
 import app.simple.inure.dialogs.terminal.DialogSpecialKeys;
+import app.simple.inure.dialogs.terminal.DialogTerminalMainMenu;
 import app.simple.inure.extension.activities.BaseActivity;
-import app.simple.inure.extension.popup.PopupMenuCallback;
-import app.simple.inure.popups.terminal.PopupTerminal;
 import app.simple.inure.popups.terminal.PopupTerminalWindows;
 import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.preferences.TerminalPreferences;
@@ -345,9 +344,10 @@ public class Term extends BaseActivity implements UpdateCallback,
     
         add.setOnClickListener(v -> doCreateNewWindow());
         close.setOnClickListener(v -> confirmCloseWindow());
-        options.setOnClickListener(v -> new PopupTerminal(v, mWakeLock, mWifiLock).setOnMenuClickListener(new PopupMenuCallback() {
-            @Override
-            public void onMenuItemClicked(int source) {
+        options.setOnClickListener(v -> {
+            DialogTerminalMainMenu dialogTerminalMainMenu = DialogTerminalMainMenu.Companion.newInstance(mWakeLock.isHeld(), mWifiLock.isHeld());
+        
+            dialogTerminalMainMenu.setOnTerminalMenuCallbacksListener(source -> {
                 switch (source) {
                     case 0: {
                         startActivityForResult(new Intent(Term.this, WindowList.class), REQUEST_CHOOSE_WINDOW);
@@ -386,8 +386,10 @@ public class Term extends BaseActivity implements UpdateCallback,
                         break;
                     }
                 }
-            }
-        }));
+            });
+        
+            dialogTerminalMainMenu.show(getSupportFragmentManager(), "terminal_menu");
+        });
     
         currentWindow.setOnClickListener(v -> popupTerminalWindows = new PopupTerminalWindows(v, adapterWindows));
     
