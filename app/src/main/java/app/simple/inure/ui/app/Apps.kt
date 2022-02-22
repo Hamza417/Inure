@@ -11,7 +11,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.ui.AdapterAppsSimple
+import app.simple.inure.adapters.ui.AdapterAppsDetailed
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -27,7 +27,7 @@ import app.simple.inure.viewmodels.panels.AppsViewModel
 class Apps : ScopedFragment() {
 
     private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
-    private lateinit var adapter: AdapterAppsSimple
+    private lateinit var adapter: AdapterAppsDetailed
     private lateinit var model: AppsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,7 +44,7 @@ class Apps : ScopedFragment() {
         model.getAppData().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
-            adapter = AdapterAppsSimple()
+            adapter = AdapterAppsDetailed()
             adapter.apps = it
 
             appsListRecyclerView.adapter = adapter

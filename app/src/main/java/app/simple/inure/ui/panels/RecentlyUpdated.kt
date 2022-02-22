@@ -30,6 +30,7 @@ class RecentlyUpdated : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_recently_updated, container, false)
 
         recyclerView = view.findViewById(R.id.recently_updated_recycler_view)
+        adapterRecentlyUpdated = AdapterRecentlyUpdated()
 
         return view
     }
@@ -40,7 +41,6 @@ class RecentlyUpdated : ScopedFragment() {
         homeViewModel.getUpdatedApps().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
-            adapterRecentlyUpdated = AdapterRecentlyUpdated()
             adapterRecentlyUpdated.apps = it
             recyclerView.adapter = adapterRecentlyUpdated
 

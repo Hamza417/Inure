@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.adapters.home.AdapterFrequentlyUsed
+import app.simple.inure.adapters.home.AdapterDisabled
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -19,18 +19,17 @@ import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
-class MostUsed : ScopedFragment() {
+class Disabled : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var adapterFrequentlyUsed: AdapterFrequentlyUsed
-
+    private var adapterDisabled: AdapterDisabled? = null
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_most_used, container, false)
+        val view = inflater.inflate(R.layout.fragment_disabled, container, false)
 
-        recyclerView = view.findViewById(R.id.most_used_recycler_view)
-        adapterFrequentlyUsed = AdapterFrequentlyUsed()
+        recyclerView = view.findViewById(R.id.disabled_recycler_view)
+        adapterDisabled = AdapterDisabled()
 
         return view
     }
@@ -38,17 +37,17 @@ class MostUsed : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel.frequentlyUsed.observe(viewLifecycleOwner) {
+        homeViewModel.getDisabledApps().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
-            adapterFrequentlyUsed.apps = it
-            recyclerView.adapter = adapterFrequentlyUsed
+            adapterDisabled?.apps = it
+            recyclerView.adapter = adapterDisabled
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
-            adapterFrequentlyUsed.setOnItemClickListener(object : AppsAdapterCallbacks {
+            adapterDisabled?.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
@@ -80,9 +79,9 @@ class MostUsed : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): MostUsed {
+        fun newInstance(): Disabled {
             val args = Bundle()
-            val fragment = MostUsed()
+            val fragment = Disabled()
             fragment.arguments = args
             return fragment
         }

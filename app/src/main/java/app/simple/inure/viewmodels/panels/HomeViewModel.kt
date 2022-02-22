@@ -42,10 +42,18 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
-    val uninstalled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+    private val uninstalled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 loadDeletedApps()
+            }
+        }
+    }
+
+    private val disabled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                loadDisabledApps()
             }
         }
     }
@@ -72,6 +80,10 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     fun getUninstalledPackages(): LiveData<ArrayList<PackageInfo>> {
         return uninstalled
+    }
+
+    fun getDisabledApps(): LiveData<ArrayList<PackageInfo>> {
+        return disabled
     }
 
     fun getMenuItems(): LiveData<List<Pair<Int, String>>> {
@@ -180,6 +192,29 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    fun loadDisabledApps() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val packageManager = packageManager
+
+            var apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+
+            apps = apps.stream().filter { p ->
+                !p.applicationInfo.enabled
+            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+
+            for (i in apps.indices) {
+                apps[i].applicationInfo.name =
+                    PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+            }
+
+            apps.sortBy {
+                it.applicationInfo.name
+            }
+
+            disabled.postValue(apps)
+        }
+    }
+
     private fun loadItems() {
         viewModelScope.launch(Dispatchers.Default) {
 
@@ -199,12 +234,17 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadAppsCategoryItems() {
         viewModelScope.launch(Dispatchers.Default) {
-            val list = listOf(
+            val list = mutableListOf(
                     Pair(R.drawable.ic_apps_category_recently_installed, getString(R.string.recently_installed)),
                     Pair(R.drawable.ic_apps_category_recently_updated, getString(R.string.recently_updated)),
                     Pair(R.drawable.ic_apps_category_most_used, getString(R.string.most_used)),
-                    Pair(R.drawable.ic_apps_category_deleted_apps, getString(R.string.uninstalled))
+                    Pair(R.drawable.ic_apps_category_deleted_apps, getString(R.string.uninstalled)),
+                    Pair(R.drawable.ic_apps_category_disabled, getString(R.string.disabled))
             )
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+                list.removeAt(3)
+            }
 
             appsCategoryItems.postValue(list)
         }

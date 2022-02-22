@@ -29,6 +29,7 @@ class Uninstalled : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_uninstalled, container, false)
 
         recyclerView = view.findViewById(R.id.uninstalled_recycler_view)
+        adapterUninstalled = AdapterUninstalled()
 
         return view
     }
@@ -39,7 +40,7 @@ class Uninstalled : ScopedFragment() {
         homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
-            adapterUninstalled = AdapterUninstalled(it)
+            adapterUninstalled?.apps = it
             recyclerView.adapter = adapterUninstalled
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
