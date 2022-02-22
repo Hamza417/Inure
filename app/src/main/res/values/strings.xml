@@ -464,4 +464,7 @@
     <string name="ok">OK</string>
     <string name="share">Share</string>
     <string name="favourite_commands">Favourite Commands</string>
+    <string name="quick_apps">Quick Apps</string>
+    <string name="add_to_quick_apps">Add to Quick Apps</string>
+    <string name="remove_from_quick_apps">Remove from Quick App</string>
 </resources>

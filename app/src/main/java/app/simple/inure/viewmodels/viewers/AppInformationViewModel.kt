@@ -226,11 +226,10 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
     }
 
     private fun getRequestedPermissions(): Pair<String, Spannable> {
-        val appPackageInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)
-
         val permissions = StringBuilder()
 
         try {
+            val appPackageInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)
             appPackageInfo.requestedPermissions.sort()
 
             for (permission in appPackageInfo.requestedPermissions) {
@@ -244,6 +243,8 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         } catch (e: NullPointerException) {
             e.printStackTrace()
             permissions.append(getString(R.string.no_permissions_required))
+        } catch (e: PackageManager.NameNotFoundException) {
+            permissions.append(getString(R.string.app_not_installed, packageInfo.packageName))
         }
 
         return Pair(getString(R.string.permissions),
@@ -281,9 +282,9 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             PackageManager.GET_CONFIGURATIONS or PackageManager.GET_DISABLED_COMPONENTS
         }
 
-        val p0 = packageManager.getPackageInfo(packageInfo.packageName, flags)
-
         try {
+            val p0 = packageManager.getPackageInfo(packageInfo.packageName, flags)
+
             for (feature in p0.reqFeatures) {
                 if (features.isEmpty()) {
                     features.append(feature.name)
@@ -295,6 +296,8 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         } catch (e: NullPointerException) {
             e.printStackTrace()
             features.append(getString(R.string.not_available))
+        } catch (e: PackageManager.NameNotFoundException) {
+            features.append(getString(R.string.app_not_installed, packageInfo.packageName))
         }
 
         return Pair(getString(R.string.uses_feature),

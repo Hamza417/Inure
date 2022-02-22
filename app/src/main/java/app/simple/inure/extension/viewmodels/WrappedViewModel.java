@@ -27,6 +27,10 @@ public class WrappedViewModel extends AndroidViewModel {
         return getContext().getString(id);
     }
     
+    public final String getString(int resId, Object... formatArgs) {
+        return getContext().getString(resId, formatArgs);
+    }
+    
     public final ContentResolver getContentResolver() {
         return getApplication().getContentResolver();
     }

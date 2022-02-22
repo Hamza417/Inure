@@ -12,10 +12,13 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.adapters.home.AdapterQuickApps
 import app.simple.inure.adapters.menus.AdapterHomeMenu
+import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.AppsMenu
@@ -27,6 +30,7 @@ import app.simple.inure.ui.panels.*
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
+import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 
 class Home : ScopedFragment() {
 
@@ -34,24 +38,30 @@ class Home : ScopedFragment() {
     private lateinit var header: PaddingAwareLinearLayout
     private lateinit var navigationRecyclerView: RecyclerView
     private lateinit var appsCategoryRecyclerView: RecyclerView
+    private lateinit var quickAppsRecyclerView: CustomHorizontalRecyclerView
     private lateinit var icon: ImageView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
 
     private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var quickAppViewModel: QuickAppsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         scrollView = view.findViewById(R.id.home_scroll_view)
-        header = view.findViewById(R.id.home_header)
-        navigationRecyclerView = view.findViewById(R.id.home_menu)
-        icon = view.findViewById(R.id.header_icon)
         appsCategoryRecyclerView = view.findViewById(R.id.apps_categories)
+        quickAppsRecyclerView = view.findViewById(R.id.quick_app_recycler_view)
+        navigationRecyclerView = view.findViewById(R.id.home_menu)
+
+        header = view.findViewById(R.id.home_header)
+        icon = view.findViewById(R.id.header_icon)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
         options = view.findViewById(R.id.home_header_option_button)
+
+        quickAppViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
 
         return view
     }
@@ -153,6 +163,22 @@ class Home : ScopedFragment() {
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
+        }
+
+        quickAppViewModel.getQuickApps().observe(viewLifecycleOwner) {
+            val adapterQuickApps = AdapterQuickApps(it as ArrayList<PackageInfo>)
+
+            adapterQuickApps.seyOnQuickAppAdapterCallbackListener(object : AdapterQuickApps.Companion.QuickAppsAdapterCallbacks {
+                override fun onQuickAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                    openAppInfo(packageInfo, icon)
+                }
+
+                override fun onQuickAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
+                    openAppMenu(packageInfo)
+                }
+            })
+
+            quickAppsRecyclerView.adapter = adapterQuickApps
         }
 
         search.setOnClickListener {

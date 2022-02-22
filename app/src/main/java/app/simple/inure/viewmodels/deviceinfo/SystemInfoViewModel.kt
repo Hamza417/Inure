@@ -88,8 +88,13 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
     }
 
     private fun getBasebandVersion(): Pair<String, Spannable> {
-        return Pair(getString(R.string.baseband_version),
-                    Build.getRadioVersion().applySecondaryTextColor())
+        kotlin.runCatching {
+            return Pair(getString(R.string.baseband_version),
+                        Build.getRadioVersion().applySecondaryTextColor())
+        }.getOrElse {
+            return Pair(getString(R.string.baseband_version),
+                        getString(R.string.not_available).applySecondaryTextColor())
+        }
     }
 
     private fun getUser(): Pair<String, Spannable> {

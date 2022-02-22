@@ -44,26 +44,26 @@ class Preparing : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
         loader.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.loader))
 
-        filePreparingViewModel.getStatus().observe(viewLifecycleOwner, {
+        filePreparingViewModel.getStatus().observe(viewLifecycleOwner) {
             postUpdate(it)
-        })
+        }
 
-        filePreparingViewModel.getProgress().observe(viewLifecycleOwner, {
+        filePreparingViewModel.getProgress().observe(viewLifecycleOwner) {
             progress.text = getString(R.string.progress, it)
-        })
+        }
 
-        filePreparingViewModel.getFile().observe(viewLifecycleOwner, {
+        filePreparingViewModel.getFile().observe(viewLifecycleOwner) {
             if (it.isNotNull()) {
                 ShareCompat.IntentBuilder(requireActivity())
-                        .setStream(FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", it!!))
-                        .setType(URLConnection.guessContentTypeFromName(it.name))
-                        .startChooser()
+                    .setStream(FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", it!!))
+                    .setType(URLConnection.guessContentTypeFromName(it.name))
+                    .startChooser()
 
                 dismiss()
             } else {
                 postUpdate(getString(R.string.error))
             }
-        })
+        }
     }
 
     private fun postUpdate(update: String) {

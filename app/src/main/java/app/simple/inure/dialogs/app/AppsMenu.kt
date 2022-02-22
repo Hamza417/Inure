@@ -10,16 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.Preparing
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedDialogFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 
 class AppsMenu : ScopedDialogFragment() {
 
@@ -37,6 +40,10 @@ class AppsMenu : ScopedDialogFragment() {
     private lateinit var receivers: DynamicRippleTextView
     private lateinit var providers: DynamicRippleTextView
     private lateinit var manifest: DynamicRippleTextView
+    private lateinit var toQuickApp: DynamicRippleTextView
+
+    private lateinit var quickAppsViewModel: QuickAppsViewModel
+    private var isAlreadyInQuickApp = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_apps_menu, container, false)
@@ -55,7 +62,9 @@ class AppsMenu : ScopedDialogFragment() {
         receivers = view.findViewById(R.id.receivers)
         providers = view.findViewById(R.id.providers)
         manifest = view.findViewById(R.id.manifest)
+        toQuickApp = view.findViewById(R.id.to_quick_app)
 
+        quickAppsViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         return view
@@ -78,7 +87,17 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         launch.setOnClickListener {
-            packageInfo.launchThisPackage(requireContext())
+            kotlin.runCatching {
+                packageInfo.launchThisPackage(requireContext())
+            }.onFailure {
+                val e = Error.newInstance(it.stackTraceToString())
+                e.show(childFragmentManager, "error_dialog")
+                e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+                    override fun onDismiss() {
+                        dismiss()
+                    }
+                })
+            }
         }
 
         appInformation.setOnClickListener {
@@ -126,6 +145,31 @@ class AppsMenu : ScopedDialogFragment() {
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xmlŪ"),
                                         "information")
+        }
+
+        quickAppsViewModel.getSimpleQuickAppList().observe(viewLifecycleOwner) {
+            for (i in it) {
+                if (i.packageName == packageInfo.packageName) {
+                    toQuickApp.text = getString(R.string.remove_from_quick_apps)
+                    isAlreadyInQuickApp = true
+                    break
+                } else {
+                    isAlreadyInQuickApp = false
+                }
+            }
+
+            if (!isAlreadyInQuickApp) {
+                toQuickApp.setText(R.string.add_to_quick_apps)
+                isAlreadyInQuickApp = false
+            }
+        }
+
+        toQuickApp.setOnClickListener {
+            if (isAlreadyInQuickApp) {
+                quickAppsViewModel.removeQuickApp(packageInfo.packageName)
+            } else {
+                quickAppsViewModel.addQuickApp(packageInfo.packageName)
+            }
         }
     }
 

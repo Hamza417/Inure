@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:maxHeight="@dimen/dialog_height"
     android:layout_height="wrap_content">
 
     <app.simple.inure.decorations.corners.DynamicCornersNestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -164,6 +165,19 @@
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/manifest"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/to_quick_app"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/menu_text_button_padding"
+                android:text="@string/add_to_quick_apps"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
                 app:drawableEndCompat="@drawable/ic_arrow_right_tiny"

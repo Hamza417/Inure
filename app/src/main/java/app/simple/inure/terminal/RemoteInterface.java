@@ -16,7 +16,6 @@
 
 package app.simple.inure.terminal;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -32,11 +31,13 @@ import java.io.IOException;
 import java.util.UUID;
 
 import app.simple.inure.decorations.emulatorview.TermSession;
+import app.simple.inure.extension.activities.BaseActivity;
 import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
 
-public class RemoteInterface extends Activity {
+public class RemoteInterface extends BaseActivity {
+    
     protected static final String PRIVACT_OPEN_NEW_WINDOW = "inure.terminal.private.OPEN_NEW_WINDOW";
     protected static final String PRIVACT_SWITCH_WINDOW = "inure.terminal.private.SWITCH_WINDOW";
     protected static final String PRIVEXTRA_TARGET_WINDOW = "inure.terminal.private.target_window";
