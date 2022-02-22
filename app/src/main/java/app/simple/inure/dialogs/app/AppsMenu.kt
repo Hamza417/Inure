@@ -8,17 +8,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.Preparing
 import app.simple.inure.extension.fragments.ScopedDialogFragment
+import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper
 
 class AppsMenu : ScopedDialogFragment() {
+
+    private lateinit var icon: ImageView
+    private lateinit var name: TypeFaceTextView
+    private lateinit var packageName: TypeFaceTextView
 
     private lateinit var copyPackageName: DynamicRippleTextView
     private lateinit var launch: DynamicRippleTextView
@@ -33,6 +40,10 @@ class AppsMenu : ScopedDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_apps_menu, container, false)
+
+        icon = view.findViewById(R.id.fragment_app_info_icon)
+        name = view.findViewById(R.id.fragment_app_name)
+        packageName = view.findViewById(R.id.fragment_app_package_id)
 
         copyPackageName = view.findViewById(R.id.copy_package_name)
         launch = view.findViewById(R.id.launch)
@@ -52,6 +63,11 @@ class AppsMenu : ScopedDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        icon.loadAppIcon(packageInfo.packageName)
+
+        name.text = packageInfo.applicationInfo.name
+        packageName.text = packageInfo.packageName
 
         copyPackageName.setOnClickListener {
             val clipBoard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

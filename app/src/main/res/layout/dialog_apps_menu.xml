@@ -17,10 +17,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <include layout="@layout/sub_app_header" />
+
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/copy_package_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/copy_package_name"
                 android:textSize="@dimen/popup_text_size"
