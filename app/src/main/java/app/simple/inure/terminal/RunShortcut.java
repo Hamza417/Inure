@@ -24,10 +24,10 @@ import java.security.GeneralSecurityException;
 import app.simple.inure.terminal.util.ShortcutEncryption;
 
 public final class RunShortcut extends RemoteInterface {
-    public static final String ACTION_RUN_SHORTCUT = "jackpal.androidterm.RUN_SHORTCUT";
+    public static final String ACTION_RUN_SHORTCUT = "inure.terminal.RUN_SHORTCUT";
     
-    public static final String EXTRA_WINDOW_HANDLE = "jackpal.androidterm.window_handle";
-    public static final String EXTRA_SHORTCUT_COMMAND = "jackpal.androidterm.iShortcutCommand";
+    public static final String EXTRA_WINDOW_HANDLE = "inure.terminal.window_handle";
+    public static final String EXTRA_SHORTCUT_COMMAND = "inure.terminal.iShortcutCommand";
     
     @Override
     protected void handleIntent() {

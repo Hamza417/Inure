@@ -89,7 +89,7 @@ class AppInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        componentsViewModel.getMenuItems().observe(viewLifecycleOwner, {
+        componentsViewModel.getMenuItems().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
             if (AppInfoPanelPreferences.isMetaMenuFolded()) {
@@ -158,9 +158,9 @@ class AppInfo : ScopedFragment() {
                     }
                 }
             })
-        })
+        }
 
-        componentsViewModel.getMenuOptions().observe(viewLifecycleOwner, {
+        componentsViewModel.getMenuOptions().observe(viewLifecycleOwner) {
 
             if (AppInfoPanelPreferences.isActionMenuFolded()) return@observe
 
@@ -233,9 +233,9 @@ class AppInfo : ScopedFragment() {
                     }
                 }
             })
-        })
+        }
 
-        componentsViewModel.getMiscellaneousItems().observe(viewLifecycleOwner, {
+        componentsViewModel.getMiscellaneousItems().observe(viewLifecycleOwner) {
 
             if (AppInfoPanelPreferences.isMiscMenuFolded()) return@observe
 
@@ -263,9 +263,9 @@ class AppInfo : ScopedFragment() {
                     }
                 }
             })
-        })
+        }
 
-        componentsViewModel.getError().observe(viewLifecycleOwner, {
+        componentsViewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -273,7 +273,7 @@ class AppInfo : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
 
         icon.transitionName = requireArguments().getString("transition_name")
         icon.loadAppIcon(packageInfo.packageName)

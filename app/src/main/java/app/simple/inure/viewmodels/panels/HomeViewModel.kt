@@ -5,6 +5,8 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -15,6 +17,7 @@ import app.simple.inure.models.PackageStats
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.stream.Collectors
 
 class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
@@ -39,40 +42,11 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
-    private fun loadFrequentlyUsed() {
-        viewModelScope.launch(Dispatchers.Default) {
-            val stats = with(UsageInterval.getTimeInterval()) {
-                usageStatsManager.queryAndAggregateUsageStats(first, second)
+    val uninstalled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                loadDeletedApps()
             }
-
-            val apps = getApplication<Application>()
-                .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-
-            val list = arrayListOf<PackageStats>()
-
-            for (app in apps) {
-                kotlin.runCatching {
-                    val packageStats = PackageStats()
-
-                    packageStats.packageInfo = app
-
-                    packageStats.packageInfo!!.applicationInfo.apply {
-                        name = getApplication<Application>().packageManager.getApplicationLabel(this).toString()
-                    }
-
-                    packageStats.totalTimeUsed += stats[app.packageName]?.totalTimeInForeground ?: 0
-
-                    list.add(packageStats)
-                }.getOrElse {
-                    it.printStackTrace()
-                }
-            }
-
-            list.sortByDescending {
-                it.totalTimeUsed
-            }
-
-            frequentlyUsed.postValue(list)
         }
     }
 
@@ -94,6 +68,10 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     fun getUpdatedApps(): LiveData<ArrayList<PackageInfo>> {
         return recentlyUpdatedAppData
+    }
+
+    fun getUninstalledPackages(): LiveData<ArrayList<PackageInfo>> {
+        return uninstalled
     }
 
     fun getMenuItems(): LiveData<List<Pair<Int, String>>> {
@@ -138,6 +116,67 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
             }
 
             recentlyUpdatedAppData.postValue(apps)
+        }
+    }
+
+    private fun loadFrequentlyUsed() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val stats = with(UsageInterval.getTimeInterval()) {
+                usageStatsManager.queryAndAggregateUsageStats(first, second)
+            }
+
+            val apps = getApplication<Application>()
+                .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+
+            val list = arrayListOf<PackageStats>()
+
+            for (app in apps) {
+                kotlin.runCatching {
+                    val packageStats = PackageStats()
+
+                    packageStats.packageInfo = app
+
+                    packageStats.packageInfo!!.applicationInfo.apply {
+                        name = getApplication<Application>().packageManager.getApplicationLabel(this).toString()
+                    }
+
+                    packageStats.totalTimeUsed += stats[app.packageName]?.totalTimeInForeground ?: 0
+
+                    list.add(packageStats)
+                }.getOrElse {
+                    it.printStackTrace()
+                }
+            }
+
+            list.sortByDescending {
+                it.totalTimeUsed
+            }
+
+            frequentlyUsed.postValue(list)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun loadDeletedApps() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val packageManager = packageManager
+
+            var apps = packageManager.getInstalledPackages(PackageManager.MATCH_UNINSTALLED_PACKAGES) as ArrayList
+
+            apps = apps.stream().filter { p ->
+                !PackageUtils.isPackageInstalled(p.packageName, packageManager)
+            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+
+            for (i in apps.indices) {
+                apps[i].applicationInfo.name =
+                    PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+            }
+
+            apps.sortBy {
+                it.applicationInfo.name
+            }
+
+            uninstalled.postValue(apps)
         }
     }
 

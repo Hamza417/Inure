@@ -12,8 +12,8 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.PackageStats
-import java.util.*
 
+@Deprecated("Not used anymore")
 class AdapterHomeFrequentlyUsed(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<AdapterHomeFrequentlyUsed.Holder>() {
 
     private var recentlyUpdatedAppsCallbacks: RecentlyUpdatedAppsCallbacks? = null

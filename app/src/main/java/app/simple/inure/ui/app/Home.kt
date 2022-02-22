@@ -136,6 +136,10 @@ class Home : ScopedFragment() {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         MostUsed.newInstance(), icon, "most_used")
                         }
+                        getString(R.string.uninstalled) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Uninstalled.newInstance(), icon, "most_used")
+                        }
                     }
                 }
             })

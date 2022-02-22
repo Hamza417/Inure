@@ -16,6 +16,7 @@
 
 package app.simple.inure.decorations.emulatorview;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -112,6 +113,7 @@ public class TermSession {
     
     private boolean mIsRunning = false;
     private final Handler mMsgHandler = new Handler() {
+        @SuppressLint ("HandlerLeak")
         @Override
         public void handleMessage(Message msg) {
             if (!mIsRunning) {
@@ -120,12 +122,7 @@ public class TermSession {
             if (msg.what == NEW_INPUT) {
                 readFromProcess();
             } else if (msg.what == EOF) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onProcessExit();
-                    }
-                });
+                new Handler(Looper.getMainLooper()).post(() -> onProcessExit());
             }
         }
     };
@@ -167,8 +164,7 @@ public class TermSession {
                                     mMsgHandler.obtainMessage(NEW_INPUT));
                         }
                     }
-                } catch (IOException e) {
-                } catch (InterruptedException e) {
+                } catch (IOException | InterruptedException ignored) {
                 }
     
                 if (exitOnEOF) {
@@ -185,8 +181,8 @@ public class TermSession {
             @Override
             public void run() {
                 Looper.prepare();
-                
-                mWriterHandler = new Handler() {
+    
+                mWriterHandler = new Handler(Looper.myLooper()) {
                     @Override
                     public void handleMessage(Message msg) {
                         if (msg.what == NEW_OUTPUT) {
@@ -214,17 +210,15 @@ public class TermSession {
                 if (bytesToWrite == 0) {
                     return;
                 }
-                
+    
                 try {
                     writeQueue.read(buffer, 0, bytesToWrite);
                     termOut.write(buffer, 0, bytesToWrite);
                     termOut.flush();
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException e) {
                     // Ignore exception
                     // We don't really care if the receiver isn't listening.
                     // We just make a best effort to answer the query.
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -277,7 +271,7 @@ public class TermSession {
                 count -= written;
                 notifyNewOutput();
             }
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
     }
     

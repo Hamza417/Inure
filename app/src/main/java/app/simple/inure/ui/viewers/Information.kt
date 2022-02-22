@@ -47,7 +47,7 @@ class Information : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        viewModel.getInformation().observe(viewLifecycleOwner, {
+        viewModel.getInformation().observe(viewLifecycleOwner) {
             progress.gone()
             val adapterInformation = AdapterInformation(it)
 
@@ -58,7 +58,7 @@ class Information : ScopedFragment() {
             })
 
             recyclerView.adapter = adapterInformation
-        })
+        }
 
         back.setOnClickListener {
             activity?.onBackPressed()
