@@ -104,83 +104,30 @@
                     android:layout_height="wrap_content"
                     android:overScrollMode="never" />
 
+                <app.simple.inure.decorations.theme.ThemeDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_margin="10dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/apps_categories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
+
                 <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                    android:id="@+id/recently_installed_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/popup_padding"
                     android:layout_marginTop="@dimen/popup_padding"
                     android:paddingHorizontal="@dimen/popup_padding"
                     android:paddingVertical="@dimen/header_padding"
-                    android:text="@string/recently_installed"
+                    android:text="@string/favourite_commands"
                     android:textSize="@dimen/home_heading_text_size"
                     app:appFontStyle="bold"
                     app:drawableEndCompat="@drawable/ic_arrow_right"
                     app:drawableTintStyle="secondary"
                     app:textColorStyle="primary" />
-
-                <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
-                    android:id="@+id/recently_installed_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layoutAnimation="@anim/horizontal_list_controller"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingHorizontal="@dimen/dialog_padding"
-                    app:statusBarPaddingRequired="false" />
-
-                <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                    android:id="@+id/recently_updated_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/popup_padding"
-                    android:layout_marginTop="@dimen/popup_padding"
-                    android:paddingHorizontal="@dimen/popup_padding"
-                    android:paddingVertical="@dimen/header_padding"
-                    android:text="@string/recently_updated"
-                    android:textSize="@dimen/home_heading_text_size"
-                    app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right"
-                    app:drawableTintStyle="secondary"
-                    app:textColorStyle="primary" />
-
-                <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
-                    android:id="@+id/recently_updated_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layoutAnimation="@anim/horizontal_list_controller"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingHorizontal="@dimen/dialog_padding"
-                    app:statusBarPaddingRequired="false" />
-
-                <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                    android:id="@+id/most_used_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/popup_padding"
-                    android:layout_marginTop="@dimen/popup_padding"
-                    android:paddingHorizontal="@dimen/popup_padding"
-                    android:paddingVertical="@dimen/header_padding"
-                    android:text="@string/most_used"
-                    android:textSize="@dimen/home_heading_text_size"
-                    app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right"
-                    app:drawableTintStyle="secondary"
-                    app:textColorStyle="primary" />
-
-                <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
-                    android:id="@+id/frequently_used_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layoutAnimation="@anim/horizontal_list_controller"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingHorizontal="@dimen/dialog_padding"
-                    app:statusBarPaddingRequired="false" />
 
             </LinearLayout>
 

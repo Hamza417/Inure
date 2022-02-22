@@ -463,4 +463,5 @@
     <string name="standalone_terminal_desc">Use terminal as a standalone app and launch it directly from home screen without needing to open the main app everytime terminal is needed.</string>
     <string name="ok">OK</string>
     <string name="share">Share</string>
+    <string name="favourite_commands">Favourite Commands</string>
 </resources>

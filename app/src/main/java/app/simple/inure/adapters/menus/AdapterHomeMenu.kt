@@ -22,7 +22,7 @@ class AdapterHomeMenu(private val list: List<Pair<Int, String>>) : RecyclerView.
         holder.icon.setImageResource(list[position].first)
         holder.text.text = list[position].second
         holder.container.setOnClickListener {
-            adapterHomeMenuCallbacks.onAppInfoMenuClicked(list[position].second, holder.icon)
+            adapterHomeMenuCallbacks.onMenuItemClicked(list[position].second, holder.icon)
         }
     }
 
@@ -45,6 +45,6 @@ class AdapterHomeMenu(private val list: List<Pair<Int, String>>) : RecyclerView.
     }
 
     interface AdapterHomeMenuCallbacks {
-        fun onAppInfoMenuClicked(source: String, icon: ImageView)
+        fun onMenuItemClicked(source: String, icon: ImageView)
     }
 }

@@ -35,15 +35,15 @@ class SystemInfo : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        systemInfoViewModel.getInformation().observe(viewLifecycleOwner, {
+        systemInfoViewModel.getInformation().observe(viewLifecycleOwner) {
             adapterOSInfoContent = AdapterDeviceInfoContent(it, getString(R.string.os))
             setAdapters()
-        })
+        }
 
-        systemInfoViewModel.getAdditionalInformation().observe(viewLifecycleOwner, {
+        systemInfoViewModel.getAdditionalInformation().observe(viewLifecycleOwner) {
             adapterAdditionalInfoContent = AdapterDeviceInfoContent(it, getString(R.string.additional_information))
             setAdapters()
-        })
+        }
     }
 
     private fun setAdapters() {

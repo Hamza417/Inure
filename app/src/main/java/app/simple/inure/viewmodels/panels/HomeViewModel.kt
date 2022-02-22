@@ -46,8 +46,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
             }
 
             val apps = getApplication<Application>()
-                    .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-
+                .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
 
             val list = arrayListOf<PackageStats>()
 
@@ -83,6 +82,12 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    private val appsCategoryItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
+        MutableLiveData<List<Pair<Int, String>>>().also {
+            loadAppsCategoryItems()
+        }
+    }
+
     fun getRecentApps(): LiveData<ArrayList<PackageInfo>> {
         return recentlyInstalledAppData
     }
@@ -95,11 +100,15 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         return menuItems
     }
 
+    fun getAppsCategory(): LiveData<List<Pair<Int, String>>> {
+        return appsCategoryItems
+    }
+
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             val apps = getApplication<Application>()
-                    .applicationContext.packageManager
-                    .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+                .applicationContext.packageManager
+                .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
@@ -116,8 +125,8 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
     private fun loadRecentlyUpdatedAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             val apps = getApplication<Application>()
-                    .applicationContext.packageManager
-                    .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+                .applicationContext.packageManager
+                .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
@@ -146,6 +155,19 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
             )
 
             menuItems.postValue(list)
+        }
+    }
+
+    private fun loadAppsCategoryItems() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val list = listOf(
+                    Pair(R.drawable.ic_apps_category_recently_installed, getString(R.string.recently_installed)),
+                    Pair(R.drawable.ic_apps_category_recently_updated, getString(R.string.recently_updated)),
+                    Pair(R.drawable.ic_apps_category_most_used, getString(R.string.most_used)),
+                    Pair(R.drawable.ic_apps_category_deleted_apps, getString(R.string.uninstalled))
+            )
+
+            appsCategoryItems.postValue(list)
         }
     }
 

@@ -1,4 +1,4 @@
-package app.simple.inure.ui.viewers
+package app.simple.inure.ui.panels
 
 import android.content.pm.PackageInfo
 import android.os.Bundle
@@ -11,18 +11,17 @@ import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterFrequentlyUsed
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.ui.app.AppInfo
+import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
 class MostUsed : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var back: DynamicRippleImageButton
     private lateinit var adapterFrequentlyUsed: AdapterFrequentlyUsed
 
     private val homeViewModel: HomeViewModel by viewModels()
@@ -31,7 +30,6 @@ class MostUsed : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_most_used, container, false)
 
         recyclerView = view.findViewById(R.id.most_used_recycler_view)
-        back = view.findViewById(R.id.most_used_back_button)
 
         return view
     }
@@ -59,11 +57,19 @@ class MostUsed : ScopedFragment() {
                     AppsMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }
-            })
 
-            back.setOnClickListener {
-                requireActivity().onBackPressed()
-            }
+                override fun onSearchPressed(view: View) {
+                    clearTransitions()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                Search.newInstance(true),
+                                                "search")
+                }
+
+                override fun onSettingsPressed(view: View) {
+                    clearExitTransition()
+                    FragmentHelper.openFragment(parentFragmentManager, MainPreferencesScreen.newInstance(), "prefs_screen")
+                }
+            })
         }
     }
 

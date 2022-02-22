@@ -1,4 +1,4 @@
-package app.simple.inure.ui.viewers
+package app.simple.inure.ui.panels
 
 import android.content.pm.PackageInfo
 import android.os.Bundle
@@ -9,29 +9,26 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
-import app.simple.inure.adapters.home.AdapterRecentlyUpdated
+import app.simple.inure.adapters.home.AdapterRecentlyInstalled
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.ui.app.AppInfo
+import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
-class RecentlyUpdated : ScopedFragment() {
+class RecentlyInstalled : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var back: DynamicRippleImageButton
-    private lateinit var adapterRecentlyUpdated: AdapterRecentlyUpdated
-
+    private var appsAdapterSmall: AdapterRecentlyInstalled? = null
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_recently_updated, container, false)
+        val view = inflater.inflate(R.layout.fragment_recently_installed, container, false)
 
-        recyclerView = view.findViewById(R.id.recently_updated_recycler_view)
-        back = view.findViewById(R.id.recently_updated_back_button)
+        recyclerView = view.findViewById(R.id.recently_installed_recycler_view)
 
         return view
     }
@@ -39,18 +36,18 @@ class RecentlyUpdated : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel.getUpdatedApps().observe(viewLifecycleOwner) {
+        homeViewModel.getRecentApps().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
-            adapterRecentlyUpdated = AdapterRecentlyUpdated()
-            adapterRecentlyUpdated.apps = it
-            recyclerView.adapter = adapterRecentlyUpdated
+            appsAdapterSmall = AdapterRecentlyInstalled()
+            appsAdapterSmall?.apps = it
+            recyclerView.adapter = appsAdapterSmall
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
-            adapterRecentlyUpdated.setOnItemClickListener(object : AppsAdapterCallbacks {
+            appsAdapterSmall?.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
@@ -59,11 +56,19 @@ class RecentlyUpdated : ScopedFragment() {
                     AppsMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }
-            })
 
-            back.setOnClickListener {
-                requireActivity().onBackPressed()
-            }
+                override fun onSearchPressed(view: View) {
+                    clearTransitions()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                Search.newInstance(true),
+                                                "search")
+                }
+
+                override fun onSettingsPressed(view: View) {
+                    clearExitTransition()
+                    FragmentHelper.openFragment(parentFragmentManager, MainPreferencesScreen.newInstance(), "prefs_screen")
+                }
+            })
         }
     }
 
@@ -74,9 +79,9 @@ class RecentlyUpdated : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): RecentlyUpdated {
+        fun newInstance(): RecentlyInstalled {
             val args = Bundle()
-            val fragment = RecentlyUpdated()
+            val fragment = RecentlyInstalled()
             fragment.arguments = args
             return fragment
         }

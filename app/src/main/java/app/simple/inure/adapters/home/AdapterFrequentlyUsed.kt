@@ -9,73 +9,103 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.ConfigurationPreferences
-import java.util.concurrent.TimeUnit.*
+import java.util.concurrent.TimeUnit.MILLISECONDS
 
-class AdapterFrequentlyUsed : RecyclerView.Adapter<AdapterFrequentlyUsed.Holder>() {
+class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     var apps = arrayListOf<PackageStats>()
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
 
     private val pattern = ConfigurationPreferences.getDateFormat()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context)
-                          .inflate(R.layout.adapter_recently_installed, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
+        return when (viewType) {
+            RecyclerViewConstants.TYPE_HEADER -> {
+                Header(LayoutInflater.from(parent.context)
+                           .inflate(R.layout.adapter_header_most_used, parent, false))
+            }
+            RecyclerViewConstants.TYPE_ITEM -> {
+                Holder(LayoutInflater.from(parent.context)
+                           .inflate(R.layout.adapter_recently_installed, parent, false))
+            }
+            else -> {
+                throw IllegalArgumentException("there is no type that matches the type $viewType, make sure your using types correctly")
+            }
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.icon.transitionName = "recently_app_$position"
-        holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName)
-        holder.name.text = apps[position].packageInfo?.applicationInfo!!.name
-        holder.packageId.text = apps[position].packageInfo?.packageName
+    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
+        val position = position_ - 1
 
-        if (apps[position].packageInfo?.applicationInfo!!.enabled) {
-            holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-        } else {
-            holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        }
+        if (holder is Holder) {
+            holder.icon.transitionName = "recently_app_$position"
+            holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName)
+            holder.name.text = apps[position].packageInfo?.applicationInfo!!.name
+            holder.packageId.text = apps[position].packageInfo?.packageName
 
-        with(apps[position].totalTimeUsed) {
-            holder.date.apply {
-                this.text = when {
-                    MILLISECONDS.toSeconds(this@with) < 60 -> {
-                        this.context.getString(R.string.used_for_seconds,
-                                               MILLISECONDS.toSeconds(this@with).toString())
-                    }
-                    MILLISECONDS.toMinutes(this@with) < 60 -> {
-                        this.context.getString(R.string.used_for_short,
-                                               MILLISECONDS.toMinutes(this@with).toString())
-                    }
-                    else -> {
-                        this.context.getString(R.string.used_for_long,
-                                               MILLISECONDS.toHours(this@with).toString(),
-                                               (MILLISECONDS.toMinutes(this@with) % 60).toString())
+            if (apps[position].packageInfo?.applicationInfo!!.enabled) {
+                holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            } else {
+                holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            }
+
+            with(apps[position].totalTimeUsed) {
+                holder.date.apply {
+                    this.text = when {
+                        MILLISECONDS.toSeconds(this@with) < 60 -> {
+                            this.context.getString(R.string.used_for_seconds,
+                                                   MILLISECONDS.toSeconds(this@with).toString())
+                        }
+                        MILLISECONDS.toMinutes(this@with) < 60 -> {
+                            this.context.getString(R.string.used_for_short,
+                                                   MILLISECONDS.toMinutes(this@with).toString())
+                        }
+                        else -> {
+                            this.context.getString(R.string.used_for_long,
+                                                   MILLISECONDS.toHours(this@with).toString(),
+                                                   (MILLISECONDS.toMinutes(this@with) % 60).toString())
+                        }
                     }
                 }
             }
-        }
 
-        holder.container.setOnClickListener {
-            appsAdapterCallbacks.onAppClicked(apps[position].packageInfo!!, holder.icon)
-        }
+            holder.container.setOnClickListener {
+                appsAdapterCallbacks.onAppClicked(apps[position].packageInfo!!, holder.icon)
+            }
 
-        holder.container.setOnLongClickListener {
-            appsAdapterCallbacks.onAppLongPress(apps[position].packageInfo!!, it, holder.icon, position)
-            true
+            holder.container.setOnLongClickListener {
+                appsAdapterCallbacks.onAppLongPress(apps[position].packageInfo!!, it, holder.icon, position)
+                true
+            }
+        } else if (holder is Header) {
+            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
+
+            holder.search.setOnClickListener {
+                appsAdapterCallbacks.onSearchPressed(it)
+            }
+
+            holder.settings.setOnClickListener {
+                appsAdapterCallbacks.onSettingsPressed(it)
+            }
         }
     }
 
-    override fun onViewRecycled(holder: Holder) {
+    override fun onViewRecycled(holder: VerticalListViewHolder) {
         super.onViewRecycled(holder)
-        GlideApp.with(holder.icon).clear(holder.icon)
+        if (holder is AdapterRecentlyInstalled.Holder) {
+            GlideApp.with(holder.icon).clear(holder.icon)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -84,6 +114,12 @@ class AdapterFrequentlyUsed : RecyclerView.Adapter<AdapterFrequentlyUsed.Holder>
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) {
+            RecyclerViewConstants.TYPE_HEADER
+        } else RecyclerViewConstants.TYPE_ITEM
     }
 
     fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
@@ -96,5 +132,11 @@ class AdapterFrequentlyUsed : RecyclerView.Adapter<AdapterFrequentlyUsed.Holder>
         val packageId: TextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
         val date: TextView = itemView.findViewById(R.id.adapter_recently_date)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_recently_container)
+    }
+
+    inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
+        val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+        val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
+        val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
     }
 }
