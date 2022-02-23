@@ -8,8 +8,10 @@ object ThemeManager {
 
     var theme = Theme.LIGHT
         set(value) {
-            field = value
-            listeners.forEach { listener -> listener.onThemeChanged(value) }
+            if (field != value) {
+                field = value
+                listeners.forEach { listener -> listener.onThemeChanged(value) }
+            }
         }
 
     fun addListener(listener: ThemeChangedListener) {

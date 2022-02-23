@@ -27,6 +27,8 @@ class AdapterTerminalType : RecyclerView.Adapter<VerticalListViewHolder>() {
             "xterm",
     )
 
+    private var lastPosition = 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewConstants.TYPE_ITEM -> {
@@ -52,13 +54,15 @@ class AdapterTerminalType : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                 if (ShellPreferences.getTerminalType() == list[position]) {
                     holder.icon.visible(false)
+                    lastPosition = holder.absoluteAdapterPosition
                 } else {
                     holder.icon.invisible(false)
                 }
 
                 holder.container.setOnClickListener {
                     if (ShellPreferences.setTerminalType(list[position])) {
-                        notifyDataSetChanged()
+                        notifyItemChanged(lastPosition)
+                        notifyItemChanged(holder.absoluteAdapterPosition)
                     }
                 }
             }

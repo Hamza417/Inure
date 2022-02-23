@@ -20,6 +20,7 @@ import app.simple.inure.util.ViewUtils.visible
 class AdapterFontSize : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private val list = arrayListOf(4, 6, 7, 8, 9, 10, 12, 14, 16, 20, 24, 28, 32, 36, 42, 48, 64, 72, 96, 144, 288)
+    private var lastPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -46,13 +47,15 @@ class AdapterFontSize : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                 if (TerminalPreferences.getFontSize() == list[position]) {
                     holder.icon.visible(false)
+                    lastPosition = holder.absoluteAdapterPosition
                 } else {
                     holder.icon.invisible(false)
                 }
 
                 holder.container.setOnClickListener {
                     if (TerminalPreferences.setFontSize(list[position])) {
-                        notifyDataSetChanged()
+                        notifyItemChanged(lastPosition)
+                        notifyItemChanged(holder.absoluteAdapterPosition)
                     }
                 }
             }

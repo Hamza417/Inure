@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.terminal
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,17 +21,19 @@ import app.simple.inure.util.ViewUtils.visible
 class AdapterControlKey : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private val list = arrayListOf(
-            "Jog ball",
-            "@ key",
-            "Left Alt key",
-            "Right Alt key",
-            "Vol Up key",
-            "Vol Down key",
-            "Camera key",
+            "Jog Ball",
+            "@ (Address Sign)",
+            "Left Alt",
+            "Right Alt",
+            "Vol Up",
+            "Vol Down",
+            "Camera",
             "None",
     )
 
     var onError: (error: String) -> Unit = {}
+
+    private var lastPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -53,12 +56,17 @@ class AdapterControlKey : RecyclerView.Adapter<VerticalListViewHolder>() {
 
         when (holder) {
             is Holder -> {
-                holder.textView.text = list[position]
+                holder.title.text = list[position]
 
                 if (TerminalPreferences.getControlKey() == position) {
                     holder.icon.visible(false)
+                    lastPosition = holder.absoluteAdapterPosition
                 } else {
                     holder.icon.invisible(false)
+                }
+
+                if (TerminalPreferences.getFnKey() == position && position != list.size.minus(1)) {
+                    holder.title.setTextColor(Color.parseColor("#e74c3c"))
                 }
 
                 holder.container.setOnClickListener {
@@ -67,7 +75,8 @@ class AdapterControlKey : RecyclerView.Adapter<VerticalListViewHolder>() {
                             throw IllegalArgumentException("Key ${list[position]} is assigned to Fn key")
                         } else {
                             if (TerminalPreferences.setControlKey(position)) {
-                                notifyDataSetChanged()
+                                notifyItemChanged(lastPosition)
+                                notifyItemChanged(holder.absoluteAdapterPosition)
                             }
                         }
                     }.onFailure {
@@ -93,7 +102,7 @@ class AdapterControlKey : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val textView: TypeFaceTextView = itemView.findViewById(R.id.adapter_typeface_textview)
+        val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_typeface_textview)
         val icon: ImageView = itemView.findViewById(R.id.adapter_typeface_check_icon)
         val container: LinearLayout = itemView.findViewById(R.id.adapter_typeface_container)
     }

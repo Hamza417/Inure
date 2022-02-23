@@ -33,6 +33,8 @@ class AdapterColor : RecyclerView.Adapter<VerticalListViewHolder>() {
             "Linux Console",
     )
 
+    private var lastPosition = 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewConstants.TYPE_ITEM -> {
@@ -58,13 +60,15 @@ class AdapterColor : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                 if (TerminalPreferences.getColor() == position) {
                     holder.icon.visible(false)
+                    lastPosition = holder.absoluteAdapterPosition
                 } else {
                     holder.icon.invisible(false)
                 }
 
                 holder.container.setOnClickListener {
                     if (TerminalPreferences.setColor(position)) {
-                        notifyDataSetChanged()
+                        notifyItemChanged(holder.absoluteAdapterPosition)
+                        notifyItemChanged(lastPosition)
                     }
                 }
             }

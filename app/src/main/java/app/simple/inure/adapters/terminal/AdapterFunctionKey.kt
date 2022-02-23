@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.terminal
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,17 +21,19 @@ import app.simple.inure.util.ViewUtils.visible
 class AdapterFunctionKey : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private val list = arrayListOf(
-            "Jog ball",
-            "@ key",
-            "Left Alt key",
-            "Right Alt key",
-            "Vol Up key",
-            "Vol Down key",
-            "Camera key",
+            "Jog Ball",
+            "@ (Address Sign)",
+            "Left Alt",
+            "Right Alt",
+            "Vol Up",
+            "Vol Down",
+            "Camera",
             "None",
     )
 
     var onError: (error: String) -> Unit = {}
+
+    private var lastPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -57,8 +60,13 @@ class AdapterFunctionKey : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                 if (TerminalPreferences.getFnKey() == position) {
                     holder.icon.visible(false)
+                    lastPosition = holder.absoluteAdapterPosition
                 } else {
                     holder.icon.invisible(false)
+                }
+
+                if (TerminalPreferences.getControlKey() == position && position != list.size.minus(1)) {
+                    holder.textView.setTextColor(Color.parseColor("#e74c3c"))
                 }
 
                 holder.container.setOnClickListener {
@@ -67,7 +75,8 @@ class AdapterFunctionKey : RecyclerView.Adapter<VerticalListViewHolder>() {
                             throw IllegalArgumentException("${list[position]} is assigned to CTRL key")
                         } else {
                             if (TerminalPreferences.setFnKey(position)) {
-                                notifyDataSetChanged()
+                                notifyItemChanged(holder.absoluteAdapterPosition)
+                                notifyItemChanged(lastPosition)
                             }
                         }
                     }.onFailure {

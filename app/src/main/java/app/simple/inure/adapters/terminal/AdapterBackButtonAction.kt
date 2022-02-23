@@ -21,6 +21,7 @@ import app.simple.inure.util.ViewUtils.visible
 class AdapterBackButtonAction : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private val list = arrayListOf(0, 1, 2, 3, 4)
+    private var lastPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -47,13 +48,15 @@ class AdapterBackButtonAction : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                 if (TerminalPreferences.getBackButtonAction() == position) {
                     holder.icon.visible(false)
+                    lastPosition = holder.absoluteAdapterPosition
                 } else {
                     holder.icon.invisible(false)
                 }
 
                 holder.container.setOnClickListener {
                     if (TerminalPreferences.setBackButtonAction(position)) {
-                        notifyDataSetChanged()
+                        notifyItemChanged(holder.absoluteAdapterPosition)
+                        notifyItemChanged(lastPosition)
                     }
                 }
             }
