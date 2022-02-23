@@ -60,8 +60,8 @@ object AppearancePreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppFont(@NonNull font: String) {
-        getSharedPreferences().edit().putString(appFont, font).apply()
+    fun setAppFont(@NonNull font: String): Boolean {
+        return getSharedPreferences().edit().putString(appFont, font).commit()
     }
 
     fun getAppFont(): String {

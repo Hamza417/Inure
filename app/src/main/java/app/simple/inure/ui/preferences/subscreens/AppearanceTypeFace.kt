@@ -1,6 +1,5 @@
 package app.simple.inure.ui.preferences.subscreens
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterTypeFace
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.preferences.AppearancePreferences
 
 class AppearanceTypeFace : ScopedFragment() {
 
@@ -29,18 +27,7 @@ class AppearanceTypeFace : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        adapterTypeFace.setOnTypeFaceClickListener {
-            AppearancePreferences.setAppFont(it)
-        }
-
         recyclerView.adapter = adapterTypeFace
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == AppearancePreferences.appFont) {
-            requireActivity().recreate()
-        }
     }
 
     companion object {

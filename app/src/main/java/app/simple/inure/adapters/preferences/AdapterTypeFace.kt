@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.interfaces.adapters.AdapterTypeFaceCallbacks
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.isZero
@@ -24,10 +22,11 @@ import app.simple.inure.util.ViewUtils.visible
 
 class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    private lateinit var adapterTypeFaceCallbacks: AdapterTypeFaceCallbacks
     private var list = TypeFace.list.apply {
         sortBy { it.typefaceName }
     }
+
+    private var lastFontPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -60,17 +59,25 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
                 if (AppearancePreferences.getAppFont() == list[position].name) {
                     holder.icon.visible(false)
                     holder.textView.setTextColor(ThemeManager.theme.textViewTheme.primaryTextColor)
+                    lastFontPosition = holder.absoluteAdapterPosition
                 } else {
                     holder.icon.invisible(false)
                     holder.textView.setTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
                 }
 
                 holder.container.setOnClickListener {
-                    adapterTypeFaceCallbacks.onTypeFaceClicked(list[position].name)
+                    if (AppearancePreferences.setAppFont(list[position].name)) {
+                        notifyItemChanged(lastFontPosition)
+                        notifyItemChanged(holder.absoluteAdapterPosition)
+                        notifyItemChanged(0)
+                    }
                 }
             }
             is Header -> {
                 holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
+
+                // TODO - Find the exact cause of why the typeface is not changing
+                holder.title.typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), 2, holder.itemView.context)
             }
         }
     }
@@ -85,10 +92,6 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
         } else RecyclerViewConstants.TYPE_ITEM
     }
 
-    fun setOnTypeFaceClickListener(adapterTypeFaceCallbacks: AdapterTypeFaceCallbacks) {
-        this.adapterTypeFaceCallbacks = adapterTypeFaceCallbacks
-    }
-
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val textView: TypeFaceTextView = itemView.findViewById(R.id.adapter_typeface_textview)
         val icon: ImageView = itemView.findViewById(R.id.adapter_typeface_check_icon)
@@ -96,6 +99,7 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
-        val total: TextView = itemView.findViewById(R.id.adapter_type_face_total)
+        val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_type_face_total)
+        val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_title)
     }
 }

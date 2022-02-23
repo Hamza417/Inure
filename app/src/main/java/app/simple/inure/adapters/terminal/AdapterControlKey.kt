@@ -63,7 +63,6 @@ class AdapterControlKey : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                 holder.container.setOnClickListener {
                     kotlin.runCatching {
-                        println("$position : ${list.size}")
                         if (TerminalPreferences.getFnKey() == position && position != list.size.minus(1)) {
                             throw IllegalArgumentException("Key ${list[position]} is assigned to Fn key")
                         } else {
