@@ -18,6 +18,8 @@ import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ColorUtils.animateDrawableColorChange
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.TypeFace
+import app.simple.inure.util.ViewUtils.fadInAnimation
+import app.simple.inure.util.ViewUtils.fadOutAnimation
 
 open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
 
@@ -44,7 +46,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
     private fun init() {
         typeface = TypeFace.getTypeFace(getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, 0), context)
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
-        drawableTintMode = typedArray.getInt(R.styleable.TypeFaceTextView_drawableTintStyle, 2)
+        drawableTintMode = typedArray.getInt(R.styleable.TypeFaceTextView_drawableTintStyle, 3)
 
         setTextColor(false)
         setDrawableTint(false)
@@ -137,6 +139,28 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
             1 -> ThemeManager.theme.iconTheme.regularIconColor
             2 -> ThemeManager.theme.iconTheme.secondaryIconColor
             else -> ThemeManager.theme.iconTheme.secondaryIconColor
+        }
+    }
+
+    fun setTextAnimation(text: String, duration: Long = 250, completion: (() -> Unit)? = null) {
+        fadOutAnimation(duration) {
+            this.text = text
+            fadInAnimation(duration) {
+                completion?.let {
+                    it()
+                }
+            }
+        }
+    }
+
+    fun setTextAnimation(resId: Int, duration: Long = 250, completion: (() -> Unit)? = null) {
+        fadOutAnimation(duration) {
+            this.text = context.getString(resId)
+            fadInAnimation(duration) {
+                completion?.let {
+                    it()
+                }
+            }
         }
     }
 }

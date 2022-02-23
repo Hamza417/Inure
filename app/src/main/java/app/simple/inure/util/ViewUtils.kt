@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
-import app.simple.inure.R.*
+import app.simple.inure.R.dimen
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
@@ -156,5 +156,32 @@ object ViewUtils {
         } else {
             this.visibility = View.VISIBLE
         }
+    }
+
+    // ViewExtensions
+
+    fun View.fadOutAnimation(duration: Long = 300, visibility: Int = View.INVISIBLE, completion: (() -> Unit)? = null) {
+        animate()
+            .alpha(0f)
+            .setDuration(duration)
+            .withEndAction {
+                this.visibility = visibility
+                completion?.let {
+                    it()
+                }
+            }
+    }
+
+    fun View.fadInAnimation(duration: Long = 300, completion: (() -> Unit)? = null) {
+        alpha = 0f
+        visibility = View.VISIBLE
+        animate()
+            .alpha(1f)
+            .setDuration(duration)
+            .withEndAction {
+                completion?.let {
+                    it()
+                }
+            }
     }
 }

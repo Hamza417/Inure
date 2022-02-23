@@ -487,7 +487,7 @@
                         android:text="@string/share"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_link_tiny"
+                        app:drawableEndCompat="@drawable/ic_dot_tiny"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />

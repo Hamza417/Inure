@@ -150,7 +150,7 @@ class AppsMenu : ScopedDialogFragment() {
         quickAppsViewModel.getSimpleQuickAppList().observe(viewLifecycleOwner) {
             for (i in it) {
                 if (i.packageName == packageInfo.packageName) {
-                    toQuickApp.text = getString(R.string.remove_from_quick_apps)
+                    toQuickApp.setText(R.string.remove_from_quick_apps)
                     isAlreadyInQuickApp = true
                     break
                 } else {
