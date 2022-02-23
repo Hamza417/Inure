@@ -77,6 +77,33 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/limit_stats_to_hours"
+                app:textColorStyle="primary"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold" />
+
+            <app.simple.inure.decorations.switchview.SwitchView
+                android:id="@+id/limit_hours_switch"
+                android:layout_width="@dimen/switch_width"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dialog_padding"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
             android:layout_height="1px"

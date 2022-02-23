@@ -95,7 +95,16 @@ class Statistics : ScopedFragment() {
             StatisticsPreferences.statsSorting -> {
                 usageStatsViewModel.sortUsageData()
             }
+            StatisticsPreferences.limitHours -> {
+                handler.postDelayed(
+                        { adapterUsageStats.notifyAllData() }, 500)
+            }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
     }
 
     companion object {

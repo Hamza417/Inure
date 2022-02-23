@@ -7,11 +7,13 @@ import app.simple.inure.util.UsageInterval
 import org.jetbrains.annotations.NotNull
 
 object StatisticsPreferences {
+
     const val appsCategory = "stats_app_category"
     const val statsInterval = "usage_stats_intervals"
     const val statsSorting = "stats_sorted_by"
     const val isSortingReversed = "stats_is_sorting_reversed"
     const val isUnusedHidden = "are_unused_app_hidden"
+    const val limitHours = "limits_stats_to_hours"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -61,5 +63,15 @@ object StatisticsPreferences {
 
     fun areUnusedAppHidden(): Boolean {
         return getSharedPreferences().getBoolean(isUnusedHidden, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setLimitToHours(@NotNull value: Boolean) {
+        getSharedPreferences().edit().putBoolean(limitHours, value).apply()
+    }
+
+    fun isLimitToHours(): Boolean {
+        return getSharedPreferences().getBoolean(limitHours, false)
     }
 }

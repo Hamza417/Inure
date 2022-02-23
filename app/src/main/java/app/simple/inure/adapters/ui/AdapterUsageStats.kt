@@ -15,12 +15,14 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.PackageStats
+import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.FileSizeHelper.toSize
 import java.util.concurrent.TimeUnit
 
 class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
     private var statsAdapterCallbacks: StatsAdapterCallbacks? = null
+    private var isLimitedToHours = StatisticsPreferences.isLimitToHours()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -68,10 +70,16 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
                                                    (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                         }
                         else -> {
-                            this.context.getString(R.string.used_for_days,
-                                                   TimeUnit.MILLISECONDS.toDays(this@with).toString(),
-                                                   (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
-                                                   (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                            if (isLimitedToHours) {
+                                this.context.getString(R.string.used_for_long,
+                                                       TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                       (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                            } else {
+                                this.context.getString(R.string.used_for_days,
+                                                       TimeUnit.MILLISECONDS.toDays(this@with).toString(),
+                                                       (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
+                                                       (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                            }
                         }
                     }
                 }
@@ -119,6 +127,13 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
 
     fun setOnStatsCallbackListener(statsAdapterCallbacks: StatsAdapterCallbacks) {
         this.statsAdapterCallbacks = statsAdapterCallbacks
+    }
+
+    fun notifyAllData() {
+        isLimitedToHours = StatisticsPreferences.isLimitToHours()
+        for (i in list.indices) {
+            notifyItemChanged(i.plus(1))
+        }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

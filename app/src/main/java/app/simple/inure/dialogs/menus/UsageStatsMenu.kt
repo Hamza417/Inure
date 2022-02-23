@@ -19,6 +19,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
     private lateinit var settings: DynamicRippleTextView
     private lateinit var interval: DynamicRippleTextView
     private lateinit var unusedAppsToggle: SwitchView
+    private lateinit var limitToHours: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_usage_settings, container, false)
@@ -26,6 +27,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         settings = view.findViewById(R.id.dialog_open_apps_settings)
         interval = view.findViewById(R.id.popup_interval)
         unusedAppsToggle = view.findViewById(R.id.hide_unused_switch)
+        limitToHours = view.findViewById(R.id.limit_hours_switch)
 
         return view
     }
@@ -35,6 +37,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
         setIntervalText()
         unusedAppsToggle.setChecked(StatisticsPreferences.areUnusedAppHidden())
+        limitToHours.setChecked(StatisticsPreferences.isLimitToHours())
 
         interval.setOnClickListener {
             PopupUsageIntervals(it)
@@ -42,6 +45,10 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
         unusedAppsToggle.setOnSwitchCheckedChangeListener {
             StatisticsPreferences.setUnusedAppState(it)
+        }
+
+        limitToHours.setOnSwitchCheckedChangeListener {
+            StatisticsPreferences.setLimitToHours(it)
         }
 
         settings.setOnClickListener {

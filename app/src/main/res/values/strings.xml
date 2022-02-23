@@ -468,4 +468,5 @@
     <string name="quick_apps">Quick Apps</string>
     <string name="add_to_quick_apps">Add to Quick Apps</string>
     <string name="remove_from_quick_apps">Remove from Quick App</string>
+    <string name="limit_stats_to_hours">Limit Stats to Hours</string>
 </resources>
