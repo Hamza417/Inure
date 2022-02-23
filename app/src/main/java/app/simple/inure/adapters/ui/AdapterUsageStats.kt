@@ -62,9 +62,15 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
                             this.context.getString(R.string.used_for_short,
                                                    TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
                         }
-                        else -> {
+                        TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
                             this.context.getString(R.string.used_for_long,
                                                    TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                   (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                        }
+                        else -> {
+                            this.context.getString(R.string.used_for_days,
+                                                   TimeUnit.MILLISECONDS.toDays(this@with).toString(),
+                                                   (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
                                                    (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                         }
                     }

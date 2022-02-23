@@ -50,7 +50,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged", "ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
 
         val position = position_ - 1
@@ -59,17 +59,19 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
             is Holder -> {
                 holder.textView.text = holder.itemView.context.getThemeName(list[position])
 
-                holder.textView.setOnTouchListener { v, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN || event.action == MotionEvent.ACTION_MOVE || event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP) {
-                        val location = IntArray(2)
-                        holder.textView.getLocationOnScreen(location)
-                        val x = location[0] + holder.textView.measuredWidth / 2
-                        val y = location[1] + holder.textView.measuredHeight / 2
+                holder.textView.setOnTouchListener { view, event ->
+                    when (event.action) {
+                        MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+                            val location = IntArray(2)
+                            view.getLocationOnScreen(location)
+                            val x = location[0] + holder.textView.measuredWidth / 2
+                            val y = location[1] + holder.textView.measuredHeight / 2
 
-                        if (AppearancePreferences.isTransparentStatusDisabled()) {
-                            onTouch.invoke(event.rawX, event.rawY - StatusBarHeight.getStatusBarHeight(holder.itemView.resources))
-                        } else {
-                            onTouch.invoke(x.toFloat(), y.toFloat())
+                            if (AppearancePreferences.isTransparentStatusDisabled()) {
+                                onTouch.invoke(event.rawX, event.rawY - StatusBarHeight.getStatusBarHeight(holder.itemView.resources))
+                            } else {
+                                onTouch.invoke(x.toFloat(), y.toFloat())
+                            }
                         }
                     }
                     false
@@ -77,7 +79,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                 if (AppearancePreferences.getTheme() == list[position]) {
                     holder.icon.visible(false)
-                    oldPosition = position_
+                    oldPosition = holder.absoluteAdapterPosition
                 } else {
                     holder.icon.invisible(false)
                 }
@@ -94,7 +96,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
                         }
 
                         notifyItemChanged(oldPosition)
-                        notifyItemChanged(position_)
+                        notifyItemChanged(holder.absoluteAdapterPosition)
                     }
                 }
             }
