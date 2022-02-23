@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:maxHeight="@dimen/dialog_height"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:maxHeight="@dimen/dialog_height">
 
     <app.simple.inure.decorations.corners.DynamicCornersNestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/copy_package_name"
                 android:textSize="@dimen/popup_text_size"
@@ -35,6 +36,7 @@
                 android:id="@+id/launch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/launch"
                 android:textSize="@dimen/popup_text_size"
@@ -45,6 +47,7 @@
                 android:id="@+id/app_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/app_information"
@@ -79,6 +82,8 @@
                     android:id="@+id/permissions"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/popup_item_gap_length"
+                    android:layout_marginBottom="@dimen/popup_item_gap_length"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
@@ -93,6 +98,7 @@
                     android:id="@+id/activities"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/popup_item_gap_length"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
@@ -114,6 +120,8 @@
                     android:id="@+id/services"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/popup_item_gap_length"
+                    android:layout_marginBottom="@dimen/popup_item_gap_length"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
@@ -128,6 +136,7 @@
                     android:id="@+id/receivers"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/popup_item_gap_length"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
@@ -162,6 +171,7 @@
                 android:id="@+id/manifest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/manifest"
@@ -180,8 +190,6 @@
                 android:text="@string/add_to_quick_apps"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                app:drawableTintStyle="accent"
                 app:textColorStyle="secondary" />
 
         </LinearLayout>

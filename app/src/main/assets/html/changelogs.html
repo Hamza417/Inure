@@ -15,48 +15,75 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build22</h2>
-
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added app's play store id qr code in About section.</li>
-    <li>Balanced out margins for checkbox in popup windows.</li>
-    <li>Added bottom sheet dialog based apps menu in all apps list and removed old popup menu due to
-        its design not being modular enough and hard to maintain.
-    </li>
-    <li>Revamped the Home panel design. Here are the list of changes and why that was necessary...
-        <ul>
-            <li><i>Recently Installed, Recently Updated,</i> and <i>Most Used</i> lists have been
-                removed.
-            </li>
-            <li>Added a primary navigation system to improve two things, it will leave a lot of
-                space to be added new things later. Home panel should be used for things that are
-                needed quickly and secondary options should be a substrate of the primary
-                navigation.
-            </li>
-            <li>Removing unnecessary elements from <b>Home</b> panel will improve startup due to
-                resource optimization.
-            </li>
-        </ul>
-    </li>
-    <li>Added dialog based terminal menu.</li>
-    <li>Added panel to view uninstalled packages.</li>
-    <li>Added panel to view disabled apps.</li>
-    <li>Added <b>Quick Apps</b> section in home panel to add any app as favorite app or quickly
-        accessible app.
-    </li>
-</ul>
+<h2>Build23</h2>
 
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed descending checkbox not working in search panel.</li>
-    <li>Handled crash while opening <b>Device</b> information in <b>Device Info</b> panel.</li>
-    <li>Fixed crash caused by opening <b>Terminal</b> remotely.</li>
+    <li>Fixed crash on startup caused by <i>Database</i> initialization of <b>Quick Apps</b>.</li>
+    <li>Fixed item gap issue in <b>Apps Menu</b> dialog popup.</li>
 </ul>
 
 <br>
+<br>
+
+<div class="wrap-collapsible">
+    <input id="build_22" class="toggle" type="checkbox">
+    <label for="build_22" class="lbl-toggle">Build22</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added app's play store id qr code in About section.</li>
+                <li>Balanced out margins for checkbox in popup windows.</li>
+                <li>Added bottom sheet dialog based apps menu in all apps list and removed old popup
+                    menu due to
+                    its design not being modular enough and hard to maintain.
+                </li>
+                <li>Revamped the Home panel design. Here are the list of changes and why that was
+                    necessary...
+                    <ul>
+                        <li><i>Recently Installed, Recently Updated,</i> and <i>Most Used</i> lists
+                            have been
+                            removed.
+                        </li>
+                        <li>Added a primary navigation system to improve two things, it will leave a
+                            lot of
+                            space to be added new things later. Home panel should be used for things
+                            that are
+                            needed quickly and secondary options should be a substrate of the
+                            primary
+                            navigation.
+                        </li>
+                        <li>Removing unnecessary elements from <b>Home</b> panel will improve
+                            startup due to
+                            resource optimization.
+                        </li>
+                    </ul>
+                </li>
+                <li>Added dialog based terminal menu.</li>
+                <li>Added panel to view uninstalled packages.</li>
+                <li>Added panel to view disabled apps.</li>
+                <li>Added <b>Quick Apps</b> section in home panel to add any app as favorite app or
+                    quickly
+                    accessible app.
+                </li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed descending checkbox not working in search panel.</li>
+                <li>Handled crash while opening <b>Device</b> information in <b>Device Info</b>
+                    panel.
+                </li>
+                <li>Fixed crash caused by opening <b>Terminal</b> remotely.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <br>
 
 <div class="wrap-collapsible">

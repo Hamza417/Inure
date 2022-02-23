@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class QuickAppsViewModel(application: Application) : WrappedViewModel(application) {
 
-    private val db = QuickAppsDatabase.getInstance(context)
+    private var db: QuickAppsDatabase? = null
 
     private val quickApps: MutableLiveData<MutableList<PackageInfo>> by lazy {
         MutableLiveData<MutableList<PackageInfo>>().also {
@@ -38,7 +38,9 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
     }
 
     private fun loadQuickApps() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
+            db = QuickAppsDatabase.getInstance(context)
+
             val quickApps = db?.quickAppsDao()?.getAllQuickApps()!!
             val apps = arrayListOf<PackageInfo>()
 
@@ -57,6 +59,8 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
 
     fun addQuickApp(packageId: String) {
         viewModelScope.launch(Dispatchers.Default) {
+            db = QuickAppsDatabase.getInstance(context)
+
             db?.quickAppsDao()?.insertQuickApp(QuickApp(System.currentTimeMillis(), packageId))
             loadQuickApps()
             loadSimpleQuickAppsData()
@@ -65,6 +69,8 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
 
     fun removeQuickApp(packageId: String) {
         viewModelScope.launch(Dispatchers.Default) {
+            db = QuickAppsDatabase.getInstance(context)
+
             db?.quickAppsDao()?.deleteQuickApp(QuickApp(System.currentTimeMillis(), packageId))
             loadQuickApps()
             loadSimpleQuickAppsData()
