@@ -13,6 +13,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.parsers.APKParser.getApkMeta
 import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
+import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
@@ -287,10 +288,18 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
             for (feature in p0.reqFeatures) {
                 if (features.isEmpty()) {
-                    features.append(feature.name)
+                    if (feature.name.isNullOrEmpty()) {
+                        features.append(MetaUtils.getOpenGL(feature.reqGlEsVersion))
+                    } else {
+                        features.append(feature.name)
+                    }
                 } else {
                     features.append("\n")
-                    features.append(feature.name)
+                    if (feature.name.isNullOrEmpty()) {
+                        features.append(MetaUtils.getOpenGL(feature.reqGlEsVersion))
+                    } else {
+                        features.append(feature.name)
+                    }
                 }
             }
         } catch (e: NullPointerException) {

@@ -37,11 +37,11 @@ class Features : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        componentsViewModel.getFeatures().observe(viewLifecycleOwner, {
+        componentsViewModel.getFeatures().observe(viewLifecycleOwner) {
             recyclerView.adapter = AdapterFeatures(it)
-        })
+        }
 
-        componentsViewModel.getError().observe(viewLifecycleOwner, {
+        componentsViewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -49,7 +49,7 @@ class Features : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
     }
 
     companion object {
