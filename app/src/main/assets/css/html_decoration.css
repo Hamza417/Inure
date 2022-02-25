@@ -126,3 +126,8 @@ input[type='checkbox'] {
 .collapsible-content p {
 	margin-bottom: 0;
 }
+
+mark.red {
+    color:#ff0000;
+    background: none;
+}

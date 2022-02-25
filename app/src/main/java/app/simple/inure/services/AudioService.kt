@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -22,6 +23,7 @@ import app.simple.inure.receivers.MediaButtonIntentReceiver
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.MetadataHelper
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.NullSafety.isNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,8 +65,12 @@ class AudioService : Service(),
 
     var audioUri: Uri? = null
         set(value) {
-            field = value
-            audioPlayer(value!!)
+            if (field.isNull() || field != value) {
+                field = value
+                audioPlayer(value!!)
+            } else if (field == value) {
+                onPrepared(mediaPlayer)
+            }
         }
 
     private val becomingNoisyReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -88,8 +94,15 @@ class AudioService : Service(),
             MediaButtonIntentReceiver.handleIntent(baseContext, intent!!)
 
             when (intent.action) {
-                ServiceConstants.actionPlay -> play()
-                ServiceConstants.actionPause -> pause()
+                ServiceConstants.actionPlay -> {
+                    play()
+                }
+                ServiceConstants.actionPause -> {
+                    pause()
+                }
+                ServiceConstants.actionTogglePause -> {
+                    changePlayerState()
+                }
                 ServiceConstants.actionQuitService -> {
                     stopForeground(true)
                     stopSelf()
@@ -97,7 +110,7 @@ class AudioService : Service(),
                 }
             }
         }
-        return START_NOT_STICKY
+        return START_REDELIVER_INTENT
     }
 
     override fun onCreate() {
@@ -123,7 +136,7 @@ class AudioService : Service(),
             AudioManager.AUDIOFOCUS_GAIN -> {
                 if (!mediaPlayer.isPlaying) {
                     if (wasPlaying) {
-                        mediaPlayer.start()
+                        play()
                     }
                 }
             }
@@ -141,7 +154,7 @@ class AudioService : Service(),
                  * is likely to resume
                  */
                 if (mediaPlayer.isPlaying) {
-                    mediaPlayer.pause()
+                    pause()
                 }
             }
             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> {
@@ -198,8 +211,8 @@ class AudioService : Service(),
         val mediaButtonReceiverComponentName = ComponentName(applicationContext, MediaButtonIntentReceiver::class.java)
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
         mediaButtonIntent.component = mediaButtonReceiverComponentName
-        val mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(applicationContext, 0, mediaButtonIntent, 0)
-        mediaSessionCompat = MediaSessionCompat(this, "Inure", mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent)
+        val mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(applicationContext, 110, mediaButtonIntent, PendingIntent.FLAG_IMMUTABLE)
+        mediaSessionCompat = MediaSessionCompat(this, getString(R.string.mini_player_name), mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent)
         mediaSessionCompat!!.setCallback(object : MediaSessionCompat.Callback() {
             override fun onPlay() {
                 play()
@@ -270,6 +283,9 @@ class AudioService : Service(),
     }
 
     private fun audioPlayer(uri: Uri) {
+        mediaPlayer.reset()
+        mediaPlayer.setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
+        mediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
         mediaPlayer.setOnCompletionListener(this)
         mediaPlayer.setOnPreparedListener(this)
         mediaPlayer.setOnSeekCompleteListener(this)
@@ -327,6 +343,7 @@ class AudioService : Service(),
                             setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
                             showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlay))
                             stopForeground(false)
+                            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPause, applicationContext)
                         }
                         timer!!.cancel()
                         timer!!.purge()
@@ -364,6 +381,7 @@ class AudioService : Service(),
                 mediaPlayer.start()
                 setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
                 showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
+                IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPlay, applicationContext)
             }
         }
 
@@ -415,7 +433,7 @@ class AudioService : Service(),
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name: CharSequence = getString(R.string.audio_player)
-            val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_HIGH)
+            val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_LOW)
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
@@ -426,10 +444,9 @@ class AudioService : Service(),
 
         val intentAction = Intent(this, AudioPlayerActivity::class.java)
         intentAction.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        intentAction.data = audioUri
 
-        intentAction.putExtra(ServiceConstants.actionOpen, "Open")
-
-        val buttonClick = PendingIntent.getActivity(this, 0, intentAction, PendingIntent.FLAG_UPDATE_CURRENT)
+        val buttonClick = PendingIntent.getActivity(this, 111, intentAction, PendingIntent.FLAG_UPDATE_CURRENT)
 
         builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_audio_placeholder)
@@ -443,6 +460,7 @@ class AudioService : Service(),
             .setShowWhen(false)
             .setColorized(true)
             .setCategory(Notification.CATEGORY_SERVICE)
+            // Setting this style will not show notification icon in some devices
             .setStyle(androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken))
             .setOnlyAlertOnce(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -453,9 +471,9 @@ class AudioService : Service(),
     }
 
     private fun generateAction(icon: Int, title: String, action: String): NotificationCompat.Action {
-        val closeIntent = Intent(this, AudioService::class.java)
-        closeIntent.action = action
-        val close = PendingIntent.getService(this, 5087847, closeIntent, PendingIntent.FLAG_IMMUTABLE)
+        val intent = Intent(this, AudioService::class.java)
+        intent.action = action
+        val close = PendingIntent.getService(this, 5087847, intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Action.Builder(icon, title, close).build()
     }
 
@@ -465,5 +483,6 @@ class AudioService : Service(),
         mediaPlayer.reset()
         mediaPlayer.release()
         removeAudioFocus()
+        unregisterReceiver(becomingNoisyReceiver)
     }
 }

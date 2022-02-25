@@ -29,12 +29,22 @@
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed crash on startup caused by <i>Database</i> initialization of <b>Quick Apps</b>.</li>
+    <li>Fixed a
+        <mark class="red">critical bug</mark>
+        preventing the app from launching, caused by <i>Database</i> initialization of <b>Quick
+            Apps</b>.
+    </li>
     <li>Fixed item gap issue in <b>Apps Menu</b> dialog popup.</li>
     <li>Fixed sometimes <i>Add/Remove from Quick Apps</i> not working properly and also causing
         crash sometimes.
     </li>
     <li>Fixed showing <i>null</i> in <i>Uses Features</i> in <b>App Information</b> panel.</li>
+    <li>Fixed small artist icon in <b>Audio Player</b> dialog.</li>
+    <li>Fixed crash caused by missing app name in apk file (usually malware or corrupted files).
+    </li>
+    <li>Fixed crash caused by fast scroller due to reading the text from the app missing the app
+        name string.
+    </li>
 </ul>
 
 <h4>Improvements</h4>
@@ -54,7 +64,11 @@
         <ul>
             <li>Allows the use of media style notification, including play and pause control.</li>
             <li>Can survive activity restart including theme and orientation changes.</li>
-            <li>Can run independently even if the activity is closed.</li>
+            <li>Can run independently even if the activity is closed and reopen anywhere directly
+                from the notification.
+            </li>
+            <li>Broadcast it's playback state to any universal audio widget in the device.</li>
+            <li>Support play and pause command from headphone button.</li>
         </ul>
     </li>
 </ul>

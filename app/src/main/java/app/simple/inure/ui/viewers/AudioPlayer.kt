@@ -34,6 +34,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
     private lateinit var art: ImageView
     private lateinit var playPause: DynamicRippleImageButton
+    private lateinit var close: DynamicRippleImageButton
     private lateinit var duration: TypeFaceTextView
     private lateinit var progress: TypeFaceTextView
     private lateinit var title: TypeFaceTextView
@@ -57,6 +58,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
         art = view.findViewById(R.id.album_art_mime)
         playPause = view.findViewById(R.id.mime_play_button)
+        close = view.findViewById(R.id.mime_close_button)
         duration = view.findViewById(R.id.current_duration_mime)
         progress = view.findViewById(R.id.current_time_mime)
         fileInfo = view.findViewById(R.id.mime_info)
@@ -70,6 +72,8 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         audioIntentFilter.addAction(ServiceConstants.actionPrepared)
         audioIntentFilter.addAction(ServiceConstants.actionQuitService)
         audioIntentFilter.addAction(ServiceConstants.actionMetaData)
+        audioIntentFilter.addAction(ServiceConstants.actionPause)
+        audioIntentFilter.addAction(ServiceConstants.actionPlay)
 
         return view
     }
@@ -112,6 +116,12 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                     ServiceConstants.actionQuitService -> {
                         requireContext().unbindService(serviceConnection!!)
                         requireActivity().finishAfterTransition()
+                    }
+                    ServiceConstants.actionPlay -> {
+                        buttonStatus(true)
+                    }
+                    ServiceConstants.actionPause -> {
+                        buttonStatus(false)
                     }
                 }
             }
@@ -163,11 +173,18 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         })
 
         playPause.setOnClickListener {
-            buttonStatus(audioService?.changePlayerState()!!)
+            audioService?.changePlayerState()!!
         }
 
         playerContainer.setOnClickListener {
-            buttonStatus(audioService?.changePlayerState()!!)
+            audioService?.changePlayerState()!!
+        }
+
+        close.setOnClickListener {
+            handler.removeCallbacks(progressRunnable)
+            requireContext().unbindService(serviceConnection!!)
+            requireContext().stopService(Intent(requireContext(), AudioService::class.java))
+            dismiss()
         }
     }
 
@@ -204,10 +221,18 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
     override fun onStop() {
         super.onStop()
+        handler.removeCallbacks(progressRunnable)
         if (serviceBound) {
-            serviceConnection?.let { requireContext().unbindService(it) }
+            kotlin.runCatching {
+                serviceConnection?.let { requireContext().unbindService(it) }
+            }
         }
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!)
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        requireActivity().finish()
     }
 
     companion object {

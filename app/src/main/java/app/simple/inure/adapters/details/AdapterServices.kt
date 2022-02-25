@@ -32,27 +32,31 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
         holder.name.text = services[position].name.substring(services[position].name.lastIndexOf(".") + 1)
         holder.packageId.text = services[position].name
 
-        holder.status.text = holder.itemView.context.getString(
-            R.string.activity_status,
+        holder.status.text = kotlin.runCatching {
+            holder.itemView.context.getString(
+                    R.string.activity_status,
 
-            if (services[position].isExported) {
-                holder.itemView.context.getString(R.string.exported)
-            } else {
-                holder.itemView.context.getString(R.string.not_exported)
-            },
+                    if (services[position].isExported) {
+                        holder.itemView.context.getString(R.string.exported)
+                    } else {
+                        holder.itemView.context.getString(R.string.not_exported)
+                    },
 
-            if (ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
-                holder.itemView.context.getString(R.string.enabled)
-            } else {
-                holder.itemView.context.getString(R.string.disabled)
-            })
+                    if (ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
+                        holder.itemView.context.getString(R.string.enabled)
+                    } else {
+                        holder.itemView.context.getString(R.string.disabled)
+                    })
+        }.getOrElse {
+            it.message ?: holder.itemView.context.getString(R.string.error)
+        }
 
         holder.status.append(services[position].status)
 
         if (isRootMode) {
             holder.container.setOnLongClickListener {
                 servicesCallbacks
-                        .onServiceLongPressed(
+                    .onServiceLongPressed(
                             services[holder.absoluteAdapterPosition].name,
                             packageInfo,
                             it,
@@ -64,7 +68,7 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
 
         holder.container.setOnClickListener {
             servicesCallbacks
-                    .onServiceClicked(services[position])
+                .onServiceClicked(services[position])
         }
 
         if (keyword.isNotBlank()) {

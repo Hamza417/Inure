@@ -19,6 +19,8 @@
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
+    <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+
     <permission
         android:name="inure.terminal.permission.RUN_SCRIPT"
         android:description="@string/permdesc_run_script"
@@ -165,10 +167,10 @@
             android:name=".activities.association.AudioPlayerActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
-            android:configChanges="orientation|screenSize|uiMode"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
             android:label="@string/audio_player"
+            android:configChanges="uiMode|orientation|screenSize"
             android:theme="@style/Inure.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -383,9 +385,18 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name="app.simple.inure.receivers.MediaButtonIntentReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="com.sec.android.support.multiwindow"
             android:value="true" />
+
     </application>
 
     <queries>

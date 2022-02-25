@@ -52,6 +52,14 @@
                     android:src="@drawable/ic_pause"
                     app:buttonTintType="regular" />
 
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/mime_close_button"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/ic_close"
+                    app:buttonTintType="regular" />
+
             </LinearLayout>
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -96,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="5dp"
-                        android:drawableStart="@drawable/ic_person"
+                        android:drawableStart="@drawable/ic_person_big"
                         android:drawablePadding="@dimen/popup_padding"
                         android:ellipsize="marquee"
                         android:gravity="center_vertical"
