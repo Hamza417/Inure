@@ -24,13 +24,14 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.ln
 
+@Deprecated("Use ", replaceWith = ReplaceWith("AudioService"))
 class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
-    AndroidViewModel(application),
-    AudioManager.OnAudioFocusChangeListener,
-    MediaPlayer.OnCompletionListener,
-    MediaPlayer.OnPreparedListener,
-    MediaPlayer.OnErrorListener,
-    MediaPlayer.OnSeekCompleteListener {
+        AndroidViewModel(application),
+        AudioManager.OnAudioFocusChangeListener,
+        MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnPreparedListener,
+        MediaPlayer.OnErrorListener,
+        MediaPlayer.OnSeekCompleteListener {
 
     private val mediaPlayer = MediaPlayer()
     private var handler = Handler(Looper.getMainLooper())
@@ -60,10 +61,10 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             focusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)
-                    .setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
-                    .setWillPauseWhenDucked(true)
-                    .setOnAudioFocusChangeListener(this)
-                    .build()
+                .setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+                .setWillPauseWhenDucked(true)
+                .setOnAudioFocusChangeListener(this)
+                .build()
         }
 
         getApplication<Application>().registerReceiver(becomingNoisyReceiver, audioBecomingNoisyFilter)
@@ -150,14 +151,13 @@ class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 audioMetaData.postValue(
-                    MetadataHelper.getAudioMetadata(getApplication<Application>(), uri!!)
+                        MetadataHelper.getAudioMetadata(getApplication<Application>(), uri!!)
                 )
             }.getOrElse {
                 error.postValue(it.message!!)
             }
         }
     }
-
 
     private fun audioPlayer() {
         kotlin.runCatching {

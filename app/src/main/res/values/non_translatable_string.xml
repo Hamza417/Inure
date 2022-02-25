@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Inure</string>
     <string name="app_name_full">Inure App Manager</string>
+    <string name="mini_player_name">Inure Mini Player</string>
     <string name="dex_classes">Dex Classes</string>
     <string name="public_identifier">Public</string>
     <string name="private_identifier">Private</string>

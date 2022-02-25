@@ -1,13 +1,17 @@
 package app.simple.inure.util
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import app.simple.inure.R
 import app.simple.inure.models.AudioMetaData
 import app.simple.inure.util.AudioUtils.toBitrate
+import java.io.ByteArrayInputStream
 import java.io.IOException
+import java.io.InputStream
 
 object MetadataHelper {
 
@@ -22,6 +26,7 @@ object MetadataHelper {
         audioMetadata.format = getFileExtension(context, songUri)
         audioMetadata.bitrate = getBitrate(mediaMetadataRetriever)
         audioMetadata.sampling = AudioUtils.getSampling(context, songUri)
+        audioMetadata.art = getOriginalAlbumArt(mediaMetadataRetriever)
 
         mediaMetadataRetriever.close()
 
@@ -94,5 +99,13 @@ object MetadataHelper {
      */
     private fun getFileExtension(context: Context, uri: Uri?): String {
         return "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(uri!!))
+    }
+
+    private fun getOriginalAlbumArt(mediaMetadataRetriever: MediaMetadataRetriever): Bitmap? {
+        var inputStream: InputStream? = null
+        if (mediaMetadataRetriever.embeddedPicture != null) {
+            inputStream = ByteArrayInputStream(mediaMetadataRetriever.embeddedPicture)
+        }
+        return BitmapFactory.decodeStream(inputStream)
     }
 }

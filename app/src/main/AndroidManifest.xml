@@ -253,6 +253,12 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".services.AudioService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
         <activity-alias
             android:name=".activities.alias.TerminalAlias"
             android:enabled="false"

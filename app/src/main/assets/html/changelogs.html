@@ -49,6 +49,14 @@
             be fixed.</sub>
     </li>
     <li>Theme animation won't be executed if the same theme is set again and again.</li>
+    <li>Using <i>Foreground Service</i> for the <b>Audio Player</b> replacing the old implementation
+        based on ViewModel pattern.
+        <ul>
+            <li>Allows the use of media style notification, including play and pause control.</li>
+            <li>Can survive activity restart including theme and orientation changes.</li>
+            <li>Can run independently even if the activity is closed.</li>
+        </ul>
+    </li>
 </ul>
 
 <br>

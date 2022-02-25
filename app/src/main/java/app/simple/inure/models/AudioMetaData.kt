@@ -1,5 +1,7 @@
 package app.simple.inure.models
 
+import android.graphics.Bitmap
+
 class AudioMetaData(
         /**
          * Name of the song
@@ -30,4 +32,9 @@ class AudioMetaData(
          * frequency of the audio file in KHz
          */
         var sampling: String? = null,
+
+        /**
+         * Album art of the audio file
+         */
+        var art: Bitmap? = null
 )
