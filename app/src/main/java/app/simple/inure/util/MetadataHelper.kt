@@ -18,8 +18,8 @@ object MetadataHelper {
     fun getAudioMetadata(context: Context, songUri: Uri): AudioMetaData {
         val audioMetadata = AudioMetaData()
         val mediaMetadataRetriever = MediaMetadataRetriever()
-        mediaMetadataRetriever.setDataSource(context, songUri)
 
+        mediaMetadataRetriever.setDataSource(context, songUri)
         audioMetadata.title = getSongTitleMeta(context, mediaMetadataRetriever)
         audioMetadata.artists = getSongArtistMeta(context, mediaMetadataRetriever)
         audioMetadata.album = getSongAlbumMeta(context, mediaMetadataRetriever)

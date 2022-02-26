@@ -18,6 +18,7 @@ import androidx.core.app.NotificationCompat
 import app.simple.inure.R
 import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.constants.ServiceConstants
+import app.simple.inure.exceptions.InureMediaEngineException
 import app.simple.inure.models.AudioMetaData
 import app.simple.inure.receivers.MediaButtonIntentReceiver
 import app.simple.inure.util.IntentHelper
@@ -69,7 +70,7 @@ class AudioService : Service(),
                 field = value
                 audioPlayer(value!!)
             } else if (field == value) {
-                onPrepared(mediaPlayer)
+                setupMetadata()
             }
         }
 
@@ -174,33 +175,31 @@ class AudioService : Service(),
         if (requestAudioFocus()) {
             mp?.start()
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPrepared, applicationContext)
-
-            CoroutineScope(Dispatchers.IO).launch {
-                metaData = MetadataHelper.getAudioMetadata(applicationContext, audioUri!!)
-
-                val mediaMetadata = MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
-                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
-                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
-                    // .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
-                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mp!!.duration.toLong())
-                    .build()
-
-                withContext(Dispatchers.Main) {
-                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaData, applicationContext)
-                    setupMediaSession()
-                    createNotificationChannel()
-                    showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
-                    mediaSessionCompat?.setMetadata(mediaMetadata)
-                    setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
-                }
-            }
+            setupMetadata()
         }
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
-        /* no-op */
-        return false
+        kotlin.runCatching {
+            when (what) {
+                MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK -> {
+                    throw InureMediaEngineException("MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK & extra ${ServiceConstants.getMediaErrorString(extra)}")
+                }
+                MediaPlayer.MEDIA_ERROR_SERVER_DIED -> {
+                    throw InureMediaEngineException("MEDIA_ERROR_SERVER_DIED & extra ${ServiceConstants.getMediaErrorString(extra)}")
+                }
+                MediaPlayer.MEDIA_ERROR_UNKNOWN -> {
+                    throw InureMediaEngineException("MEDIA_ERROR_UNKNOWN & extra ${ServiceConstants.getMediaErrorString(extra)}")
+                }
+                else -> {
+                    /* no-op */
+                }
+            }
+        }.onFailure {
+            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaError, context = applicationContext, it.stackTraceToString())
+        }
+
+        return true
     }
 
     override fun onSeekComplete(mp: MediaPlayer?) {
@@ -259,6 +258,35 @@ class AudioService : Service(),
                     .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
                     .build()
         )
+    }
+
+    private fun setupMetadata() {
+        CoroutineScope(Dispatchers.IO).launch {
+            kotlin.runCatching {
+                metaData = MetadataHelper.getAudioMetadata(applicationContext, audioUri!!)
+
+                val mediaMetadata = MediaMetadataCompat.Builder()
+                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
+                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
+                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
+                    // .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
+                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
+                    .build()
+
+                withContext(Dispatchers.Main) {
+                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaData, applicationContext)
+                    setupMediaSession()
+                    createNotificationChannel()
+                    showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
+                    mediaSessionCompat?.setMetadata(mediaMetadata)
+                    setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+                }
+            }.getOrElse {
+                withContext(Dispatchers.Main) {
+                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaError, applicationContext, it.stackTraceToString())
+                }
+            }
+        }
     }
 
     private fun requestAudioFocus(): Boolean {

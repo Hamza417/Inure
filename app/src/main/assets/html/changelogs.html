@@ -15,65 +15,100 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build23</h2>
-
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added <i>Days</i> metric in <b>Usage Stats</b> panel.
-        <br>
-        <sub>Also added option to limit the usage duration to hours only.</sub>
-    </li>
-</ul>
-
-<h4>Bug Fixes</h4>
-
-<ul>
-    <li>Fixed a
-        <mark class="red">critical bug</mark>
-        preventing the app from launching, caused by <i>Database</i> initialization of <b>Quick
-            Apps</b>.
-    </li>
-    <li>Fixed item gap issue in <b>Apps Menu</b> dialog popup.</li>
-    <li>Fixed sometimes <i>Add/Remove from Quick Apps</i> not working properly and also causing
-        crash sometimes.
-    </li>
-    <li>Fixed showing <i>null</i> in <i>Uses Features</i> in <b>App Information</b> panel.</li>
-    <li>Fixed small artist icon in <b>Audio Player</b> dialog.</li>
-    <li>Fixed crash caused by missing app name in apk file (usually malware or corrupted files).
-    </li>
-    <li>Fixed crash caused by fast scroller due to reading the text from the app missing the app
-        name string.
-    </li>
-</ul>
+<h2>Build24</h2>
 
 <h4>Improvements</h4>
 
 <ul>
-    <li>Changing app's typeface style won't restart the app anymore and font changing process is now
-        very smooth.
-    </li>
-    <li>All preferences selection window's selection are now smooth, earlier it was quick and
-        harsh. <br>
-        <sub><b>Accent Color</b> will still restart the app but that's how Android works and cannot
-            be fixed.</sub>
-    </li>
-    <li>Theme animation won't be executed if the same theme is set again and again.</li>
-    <li>Using <i>Foreground Service</i> for the <b>Audio Player</b> replacing the old implementation
-        based on ViewModel pattern.
-        <ul>
-            <li>Allows the use of media style notification, including play and pause control.</li>
-            <li>Can survive activity restart including theme and orientation changes.</li>
-            <li>Can run independently even if the activity is closed and reopen anywhere directly
-                from the notification.
-            </li>
-            <li>Broadcast it's playback state to any universal audio widget in the device.</li>
-            <li>Support play and pause command from headphone button.</li>
-        </ul>
+    <li><b>Audio Player</b> won't lose state if player instance is opened from recents panel.</li>
+    <li>Added indirect support for video files in <b>Audio Player</b> meaning if video is opened by
+        the app, it will be played as audio.
     </li>
 </ul>
 
 <br>
+<br>
+
+<div class="wrap-collapsible">
+    <input id="build_23" class="toggle" type="checkbox">
+    <label for="build_23" class="lbl-toggle">Build23</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added <i>Days</i> metric in <b>Usage Stats</b> panel.
+                    <br>
+                    <sub>Also added option to limit the usage duration to hours only.</sub>
+                </li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed a
+                    <mark class="red">critical bug</mark>
+                    preventing the app from launching, caused by <i>Database</i> initialization of
+                    <b>Quick
+                        Apps</b>.
+                </li>
+                <li>Fixed item gap issue in <b>Apps Menu</b> dialog popup.</li>
+                <li>Fixed sometimes <i>Add/Remove from Quick Apps</i> not working properly and also
+                    causing
+                    crash sometimes.
+                </li>
+                <li>Fixed showing <i>null</i> in <i>Uses Features</i> in <b>App Information</b>
+                    panel.
+                </li>
+                <li>Fixed small artist icon in <b>Audio Player</b> dialog.</li>
+                <li>Fixed crash caused by missing app name in apk file (usually malware or corrupted
+                    files).
+                </li>
+                <li>Fixed crash caused by fast scroller due to reading the text from the app missing
+                    the app
+                    name string.
+                </li>
+            </ul>
+
+            <h4>Improvements</h4>
+
+            <ul>
+                <li>Changing app's typeface style won't restart the app anymore and font changing
+                    process is now
+                    very smooth.
+                </li>
+                <li>All preferences selection window's selection are now smooth, earlier it was
+                    quick and
+                    harsh. <br>
+                    <sub><b>Accent Color</b> will still restart the app but that's how Android works
+                        and cannot
+                        be fixed.</sub>
+                </li>
+                <li>Theme animation won't be executed if the same theme is set again and again.</li>
+                <li>Using <i>Foreground Service</i> for the <b>Audio Player</b> replacing the old
+                    implementation
+                    based on ViewModel pattern.
+                    <ul>
+                        <li>Allows the use of media style notification, including play and pause
+                            control.
+                        </li>
+                        <li>Can survive activity restart including theme and orientation changes.
+                        </li>
+                        <li>Can run independently even if the activity is closed and reopen anywhere
+                            directly
+                            from the notification.
+                        </li>
+                        <li>Broadcast it's playback state to any universal audio widget in the
+                            device.
+                        </li>
+                        <li>Support play and pause command from headphone button.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <br>
 
 <div class="wrap-collapsible">

@@ -18,4 +18,12 @@ object IntentHelper {
             LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
         }
     }
+
+    fun sendLocalBroadcastIntent(intentAction: String, context: Context, extra: String) {
+        Intent().also { intent ->
+            intent.action = intentAction
+            intent.putExtra("stringExtra", extra)
+            LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+        }
+    }
 }
