@@ -4,6 +4,7 @@ import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import app.simple.inure.viewmodels.dialogs.MediaPlayerViewModel
 
 /**
  * This class is deprecated in favour of using foreground service.
@@ -17,8 +18,8 @@ class MediaPlayerViewModelFactory(private val application: Application, private 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when {
-            modelClass.isAssignableFrom(AudioService::class.java) -> {
-                return AudioService(application, uri) as T
+            modelClass.isAssignableFrom(MediaPlayerViewModel::class.java) -> {
+                return MediaPlayerViewModel(application, uri) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope!!, Wrong Viewmodel")
