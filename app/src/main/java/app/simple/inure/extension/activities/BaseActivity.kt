@@ -197,6 +197,12 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener {
             ContextCompat.getColor(baseContext, R.color.roman_silver) -> {
                 setTheme(R.style.RomanSilver)
             }
+            ContextCompat.getColor(baseContext, R.color.horizon) -> {
+                setTheme(R.style.Horizon)
+            }
+            ContextCompat.getColor(baseContext, R.color.limed_spruce) -> {
+                setTheme(R.style.LimedSpruce)
+            }
             else -> {
                 setTheme(R.style.Inure)
                 AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))

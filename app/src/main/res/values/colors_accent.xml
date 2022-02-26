@@ -27,6 +27,8 @@
     <color name="cashmere">#E6BEA5</color>
     <color name="grape">#4d5198</color>
     <color name="roman_silver">#7D8491</color>
+    <color name="horizon">#558599</color>
+    <color name="limed_spruce">#344648</color>
 
     <color name="inure_light">#ffbd65</color>
     <color name="blue_light">#85C1E9</color>
@@ -54,5 +56,7 @@
     <color name="cashmere_light">#EFD1BE</color>
     <color name="grape_light">#7C81CF</color>
     <color name="roman_silver_light">#9BA3B3</color>
+    <color name="horizon_light">#74A4B8</color>
+    <color name="limed_spruce_light">#516365</color>
 
 </resources>

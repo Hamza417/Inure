@@ -126,8 +126,6 @@
                     android:text="@string/quick_apps"
                     android:textSize="@dimen/home_heading_text_size"
                     app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right"
-                    app:drawableTintStyle="secondary"
                     app:textColorStyle="primary" />
 
                 <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView

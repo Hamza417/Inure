@@ -24,7 +24,11 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.ln
 
-@Deprecated("Use ", replaceWith = ReplaceWith("AudioService"))
+/**
+ * Use [app.simple.inure.services.AudioService] to play and manage the
+ * states of audio files.
+ */
+@Deprecated("")
 class MediaPlayerViewModel(application: Application, private val uri: Uri?) :
         AndroidViewModel(application),
         AudioManager.OnAudioFocusChangeListener,

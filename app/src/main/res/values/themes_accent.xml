@@ -126,4 +126,14 @@
         <item name="colorAppAccentLight">@color/roman_silver_light</item>
     </style>
 
+    <style name="Horizon" parent="Inure">
+        <item name="colorAppAccent">@color/horizon</item>
+        <item name="colorAppAccentLight">@color/horizon_light</item>
+    </style>
+
+    <style name="LimedSpruce" parent="Inure">
+        <item name="colorAppAccent">@color/limed_spruce</item>
+        <item name="colorAppAccentLight">@color/limed_spruce_light</item>
+    </style>
+
 </resources>
