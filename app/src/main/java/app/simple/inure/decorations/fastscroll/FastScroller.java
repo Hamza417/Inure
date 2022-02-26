@@ -14,6 +14,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -235,7 +237,6 @@ public class FastScroller {
     }
     
     private void onScrollChanged() {
-        
         updateScrollbarState();
         if (!mScrollbarEnabled) {
             return;
@@ -256,7 +257,6 @@ public class FastScroller {
         Rect padding = getPadding();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                
                 mDownX = eventX;
                 mDownY = eventY;
                 
@@ -374,12 +374,23 @@ public class FastScroller {
     }
     
     private void setDragging(boolean dragging) {
-        
+    
+        /**
+         * This will prevent the loading of images when scroller
+         * is being dragged to allow room for smoother scrolling
+         * and not load unnecessary resources.
+         */
+        if (dragging) {
+            Glide.with(mView.getContext()).pauseRequests();
+        } else {
+            Glide.with(mView.getContext()).resumeRequests();
+        }
+    
         if (mDragging == dragging) {
             return;
         }
         mDragging = dragging;
-        
+    
         if (mDragging) {
             mView.getParent().requestDisallowInterceptTouchEvent(true);
         }
