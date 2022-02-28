@@ -86,7 +86,10 @@ class Home : ScopedFragment() {
                                                         "apps")
                         }
                         getString(R.string.analytics) -> {
-                            Toast.makeText(requireContext(), "Not implemented yet", Toast.LENGTH_SHORT).show()
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Analytics.newInstance(),
+                                                        icon,
+                                                        "analytics")
                         }
                         getString(R.string.terminal) -> {
                             val intent = Intent(requireContext(), Term::class.java)

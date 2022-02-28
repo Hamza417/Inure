@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="android_1">#e74c3c</color>
+    <color name="android_1_1">#cb4335</color>
+    <color name="cupcake_1_5">#b03a2e</color>
+    <color name="donut_1_6">#943126</color>
+    <color name="eclair_2_0">#5499c7</color>
+    <color name="eclair_2_0_1">#2980b9</color>
+    <color name="eclair_2_1">#2471a3</color>
+    <color name="froyo_2_0">#ec7063</color>
+    <color name="gingerbread_2_3">#45b39d</color>
+    <color name="gingerbread_2_3_3">#16a085</color>
+    <color name="honeycomb_3_0">#dc7633</color>
+    <color name="honeycomb_3_1">#d35400</color>
+    <color name="honeycomb_3_2">#ba4a00</color>
+    <color name="ice_cream_sandwich_4_0">#566573</color>
+    <color name="ice_cream_sandwich_4_0_3">#2c3e50</color>
+    <color name="jellybean_4_1">#f1c40f</color>
+    <color name="jellybean_4_2">#d4ac0d</color>
+    <color name="jellybean_4_3">#b7950b</color>
+    <color name="kitkat_4_4">#c0392b</color>
+    <color name="kitkat_4_4_4">#a93226</color>
+    <color name="lollipop_5_0">#99a3a4</color>
+    <color name="lollipop_5_1_1">#7f8c8d</color>
+    <color name="marshmallow_6_0">#707b7c</color>
+    <color name="nougat_7_0">#616a6b</color>
+    <color name="nougat_7_1_2">#515a5a</color>
+    <color name="oreo_8_0">#34495e</color>
+    <color name="oreo_8_1">#2c3e50</color>
+    <color name="pie_9">#ef7732</color>
+    <color name="android_10">#0ec1a8</color>
+    <color name="android_11">#0e88c1</color>
+    <color name="android_12">#0859A1</color>
+    <color name="android_13">#c10eb6</color>
+</resources>
