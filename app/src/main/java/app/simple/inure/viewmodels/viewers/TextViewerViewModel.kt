@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.xml.XML
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.apache.commons.io.IOUtils
 import java.io.BufferedInputStream
@@ -31,7 +30,6 @@ class TextViewerViewModel(private val packageInfo: PackageInfo, private val path
 
     private fun getString() {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(1000L)
             kotlin.runCatching {
                 ZipFile(packageInfo.applicationInfo.sourceDir).use { zipFile ->
                     val entries: Enumeration<out ZipEntry?> = zipFile.entries()

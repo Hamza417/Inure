@@ -13,9 +13,7 @@ import androidx.transition.TransitionSet;
 
 /**
  * Transition that performs almost exactly like {@link android.transition.AutoTransition}, but has an
- * added {@link ChangeImageTransform} to support properly scaling up our gorgeous kittens {@link android.widget.ImageView}.
- *
- * @author bherbst
+ * added {@link ChangeImageTransform} to support properly scaling up {@link android.widget.ImageView}.
  */
 public class DetailsTransitionArc extends TransitionSet {
     
