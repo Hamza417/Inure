@@ -11,9 +11,8 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.TypeFace
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
-import com.razerdp.widget.animatedpieview.*
-import com.razerdp.widget.animatedpieview.callback.OnPieLegendBindListener
-import com.razerdp.widget.animatedpieview.data.IPieInfo
+import com.razerdp.widget.animatedpieview.AnimatedPieView
+import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig
 
 class Analytics : ScopedFragment() {
 
@@ -47,15 +46,7 @@ class Analytics : ScopedFragment() {
                 floatShadowRadius(56f)
                 animatePie(true)
                 typeFae(TypeFace.getTypeFace(AppearancePreferences.getAppFont(), 2, requireContext()))
-                legendsWith(view.findViewById(R.id.min_os_legends) as ViewGroup?, object : OnPieLegendBindListener<BasePieLegendsView<*>?> {
-                    override fun onCreateLegendView(position: Int, info: IPieInfo): BasePieLegendsView<*>? {
-                        return if (position % 2 == 0) DefaultPieLegendsView.newInstance(requireContext()) else DefaultCirclePieLegendsView.newInstance(requireContext())
-                    }
-
-                    override fun onAddView(parent: ViewGroup, view: BasePieLegendsView<*>?): Boolean {
-                        return false
-                    }
-                })
+                legendsWith(view.findViewById(R.id.min_os_legends) as ViewGroup?)
             }.also {
                 minimumOsPie.start(it)
             }

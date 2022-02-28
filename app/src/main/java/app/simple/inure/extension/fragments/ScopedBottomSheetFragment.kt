@@ -2,7 +2,6 @@ package app.simple.inure.extension.fragments
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.os.Handler
@@ -17,12 +16,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-
 abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
                                            SharedPreferences.OnSharedPreferenceChangeListener {
 
     /**
-     * [ScopedBottomSheetFragment]'s own [ApplicationInfo] instance, needs
+     * [ScopedBottomSheetFragment]'s own [PackageInfo] instance, needs
      * to be initialized before use
      *
      * @throws UninitializedPropertyAccessException

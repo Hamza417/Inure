@@ -17,7 +17,7 @@
         android:fontFamily="@font/lato_bold"
         android:maxLines="1"
         android:gravity="start"
-        android:text="@string/sure"
+        android:text="@string/are_you_sure"
         app:textColorStyle="tertiary"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="bold" />

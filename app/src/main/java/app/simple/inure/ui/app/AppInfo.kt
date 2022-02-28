@@ -23,11 +23,11 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.*
+import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.popups.app.PopupSure
 import app.simple.inure.preferences.AppInfoPanelPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.viewers.*
@@ -177,15 +177,20 @@ class AppInfo : ScopedFragment() {
                         }
                         getString(R.string.uninstall) -> {
                             if (ConfigurationPreferences.isUsingRoot()) {
-                                PopupSure(icon).onSure = {
-                                    val p = Uninstaller.newInstance(packageInfo)
+                                val p = Sure.newInstance()
+                                p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                                    override fun onSure() {
+                                        val uninstaller = Uninstaller.newInstance(packageInfo)
 
-                                    p.listener = {
-                                        requireActivity().supportFragmentManager.popBackStackImmediate()
+                                        uninstaller.listener = {
+                                            requireActivity().supportFragmentManager.popBackStackImmediate()
+                                        }
+
+                                        uninstaller.show(childFragmentManager, "uninstaller")
                                     }
+                                })
 
-                                    p.show(childFragmentManager, "uninstaller")
-                                }
+                                p.show(childFragmentManager, "sure")
                             } else {
                                 val p = Uninstaller.newInstance(packageInfo)
 
@@ -200,30 +205,50 @@ class AppInfo : ScopedFragment() {
                             Preparing.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")
                         }
                         getString(R.string.clear_data) -> {
-                            PopupSure(icon).onSure = {
-                                ClearData.newInstance(packageInfo).show(parentFragmentManager, "shell_executor")
-                            }
+                            val p = Sure.newInstance()
+                            p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                                override fun onSure() {
+                                    ClearData.newInstance(packageInfo).show(parentFragmentManager, "shell_executor")
+                                }
+                            })
+
+                            p.show(childFragmentManager, "sure")
                         }
                         getString(R.string.clear_cache) -> {
-                            PopupSure(icon).onSure = {
-                                ClearCache.newInstance(packageInfo).show(parentFragmentManager, "clear_cache")
-                            }
+                            val p = Sure.newInstance()
+                            p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                                override fun onSure() {
+                                    ClearCache.newInstance(packageInfo).show(parentFragmentManager, "clear_cache")
+                                }
+                            })
+
+                            p.show(childFragmentManager, "sure")
                         }
                         getString(R.string.force_stop) -> {
-                            PopupSure(icon).onSure = {
-                                ForceStop.newInstance(packageInfo).show(childFragmentManager, "force_stop")
-                            }
+                            val p = Sure.newInstance()
+                            p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                                override fun onSure() {
+                                    ForceStop.newInstance(packageInfo).show(childFragmentManager, "force_stop")
+                                }
+                            })
+
+                            p.show(childFragmentManager, "sure")
                         }
                         getString(R.string.disable), getString(R.string.enable) -> {
-                            PopupSure(icon).onSure = {
-                                val f = State.newInstance(requireContext().packageManager.getPackageInfo(packageInfo.packageName, 0))
+                            val p = Sure.newInstance()
+                            p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                                override fun onSure() {
+                                    val f = State.newInstance(requireContext().packageManager.getPackageInfo(packageInfo.packageName, 0))
 
-                                f.onSuccess = {
-                                    componentsViewModel.loadActionOptions()
+                                    f.onSuccess = {
+                                        componentsViewModel.loadActionOptions()
+                                    }
+
+                                    f.show(childFragmentManager, "state")
                                 }
+                            })
 
-                                f.show(childFragmentManager, "state")
-                            }
+                            p.show(childFragmentManager, "sure")
                         }
                         getString(R.string.open_in_settings) -> {
                             startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {

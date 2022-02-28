@@ -6,7 +6,7 @@
     android:clipChildren="false"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
-    <org.apmem.tools.layouts.FlowLayout
+    <LinearLayout
         android:id="@+id/min_os_legends"
         android:orientation="horizontal"
         android:layout_width="match_parent"

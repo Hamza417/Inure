@@ -8,6 +8,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
 
+@Deprecated("Use bottom sheet modal dialog for better UX.")
 class PopupSure(view: View) : BasePopupWindow() {
 
     var onSure: (() -> Unit)? = null
