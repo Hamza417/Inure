@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.TypeFace
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
 import com.razerdp.widget.animatedpieview.AnimatedPieView
@@ -16,12 +19,16 @@ import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig
 
 class Analytics : ScopedFragment() {
 
+    private lateinit var settings: DynamicRippleImageButton
+    private lateinit var search: DynamicRippleImageButton
     private lateinit var minimumOsPie: AnimatedPieView
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_analytics, container, false)
 
+        settings = view.findViewById(R.id.configuration_button)
+        search = view.findViewById(R.id.search_button)
         minimumOsPie = view.findViewById(R.id.minimum_os_pie)
 
         startPostponedEnterTransition()
@@ -50,6 +57,18 @@ class Analytics : ScopedFragment() {
             }.also {
                 minimumOsPie.start(it)
             }
+        }
+
+        settings.setOnClickListener {
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        MainPreferencesScreen.newInstance(),
+                                        "preferences_screen")
+        }
+
+        search.setOnClickListener {
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        Search.newInstance(true),
+                                        "preferences_screen")
         }
     }
 

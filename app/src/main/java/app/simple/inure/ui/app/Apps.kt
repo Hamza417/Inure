@@ -41,6 +41,8 @@ class Apps : ScopedFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         model.getAppData().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
@@ -90,8 +92,6 @@ class Apps : ScopedFragment() {
                 Log.d("Apps", if (it) "Apps Loaded" else "Failed")
             }
         }
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {

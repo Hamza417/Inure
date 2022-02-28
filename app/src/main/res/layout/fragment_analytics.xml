@@ -36,7 +36,7 @@
             app:textColorStyle="heading" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/adapter_header_configuration_button"
+            android:id="@+id/configuration_button"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
@@ -50,7 +50,7 @@
             android:layout_marginHorizontal="4dp" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/adapter_header_search_button"
+            android:id="@+id/search_button"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"

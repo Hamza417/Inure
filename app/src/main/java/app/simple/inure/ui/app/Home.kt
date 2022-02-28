@@ -119,6 +119,7 @@ class Home : ScopedFragment() {
             })
 
             navigationRecyclerView.adapter = adapter
+            navigationRecyclerView.scheduleLayoutAnimation()
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
