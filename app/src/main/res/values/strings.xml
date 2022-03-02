@@ -470,4 +470,6 @@
     <string name="remove_from_quick_apps">Remove from Quick App</string>
     <string name="limit_stats_to_hours">Limit Stats to Hours</string>
     <string name="sure">Sure</string>
+    <string name="editor">Editor</string>
+    <string name="ignore_case">Ignore Case</string>
 </resources>

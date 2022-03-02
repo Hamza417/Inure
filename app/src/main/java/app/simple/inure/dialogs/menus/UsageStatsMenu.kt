@@ -9,9 +9,11 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.usagestats.PopupUsageIntervals
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.UsageInterval
 
 class UsageStatsMenu : ScopedBottomSheetFragment() {
@@ -52,14 +54,10 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         }
 
         settings.setOnClickListener {
-            val fragment = requireActivity().supportFragmentManager.findFragmentByTag("main_preferences_screen")
-                ?: MainPreferencesScreen.newInstance()
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
-                .replace(R.id.app_container, fragment, "main_preferences_screen")
-                .addToBackStack(tag)
-                .commit()
+            (parentFragment as ScopedFragment).clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        MainPreferencesScreen.newInstance(),
+                                        "prefs")
         }
     }
 

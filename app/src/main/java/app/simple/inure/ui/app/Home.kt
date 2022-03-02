@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,7 @@ import app.simple.inure.adapters.menus.AdapterHomeMenu
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.dialogs.app.AppsMenu
+import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
@@ -44,7 +43,7 @@ class Home : ScopedFragment() {
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var quickAppViewModel: QuickAppsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,6 +60,7 @@ class Home : ScopedFragment() {
         settings = view.findViewById(R.id.home_header_pref_button)
         options = view.findViewById(R.id.home_header_option_button)
 
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         quickAppViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
 
         return view

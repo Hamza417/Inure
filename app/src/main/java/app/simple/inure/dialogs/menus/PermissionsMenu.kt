@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.viewers.PopupLabelType
 import app.simple.inure.preferences.PermissionPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.util.FragmentHelper
 
 class PermissionsMenu : ScopedBottomSheetFragment() {
 
@@ -36,14 +38,10 @@ class PermissionsMenu : ScopedBottomSheetFragment() {
         }
 
         appSettings.setOnClickListener {
-            val fragment = requireActivity().supportFragmentManager.findFragmentByTag("main_preferences_screen")
-                ?: MainPreferencesScreen.newInstance()
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
-                .replace(R.id.app_container, fragment, "main_preferences_screen")
-                .addToBackStack(tag)
-                .commit()
+            (parentFragment as ScopedFragment).clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        MainPreferencesScreen.newInstance(),
+                                        "prefs")
         }
     }
 

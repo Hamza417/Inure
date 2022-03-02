@@ -38,4 +38,5 @@ public class WrappedViewModel extends AndroidViewModel {
     public final PackageManager getPackageManager() {
         return getContext().getPackageManager();
     }
+    
 }

@@ -84,7 +84,7 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun proceed() {
-        val appsViewModel: AppsViewModel = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
+        val appsViewModel = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
         val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsViewModel::class.java]
         val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
         val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
@@ -92,21 +92,25 @@ class SplashScreen : ScopedFragment() {
         appsViewModel.getAppData().observe(viewLifecycleOwner) {
             isAppDataLoaded = true
             openApp()
+            println("App Data")
         }
 
         usageStatsData.usageData.observe(viewLifecycleOwner) {
             isUsageDataLoaded = true
             openApp()
+            println("Usage Data")
         }
 
         sensorsViewModel.getSensorsData().observe(viewLifecycleOwner) {
             areSensorsLoaded = true
             openApp()
+            println("Sensor Data")
         }
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             isSearchLoaded = true
             openApp()
+            println("Search Data")
         }
 
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) {

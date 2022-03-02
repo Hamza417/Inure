@@ -66,6 +66,8 @@
             android:text="@string/open_application_settings"
             android:textSize="6pt"
             app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+            app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

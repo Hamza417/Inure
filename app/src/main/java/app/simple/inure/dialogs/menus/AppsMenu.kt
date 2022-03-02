@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.app
+package app.simple.inure.dialogs.menus
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -19,6 +19,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.Preparing
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedDialogFragment
+import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper
@@ -66,6 +67,8 @@ class AppsMenu : ScopedDialogFragment() {
 
         quickAppsViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
+
+        (parentFragment as ScopedFragment).clearExitTransition()
 
         return view
     }
@@ -143,7 +146,7 @@ class AppsMenu : ScopedDialogFragment() {
 
         manifest.setOnClickListener {
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xmlŪ"),
+                                        XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"),
                                         "information")
         }
 

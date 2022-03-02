@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.app
+package app.simple.inure.dialogs.menus
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.search.PopupSortingStyle
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.Sort
 
 class SearchMenu : ScopedBottomSheetFragment() {
@@ -19,6 +21,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
     private lateinit var appsCategory: DynamicRippleTextView
     private lateinit var sortingStyle: DynamicRippleTextView
     private lateinit var openAppsSettings: DynamicRippleTextView
+    private lateinit var ignoreCase: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_search_menu, container, false)
@@ -26,6 +29,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
         appsCategory = view.findViewById(R.id.dialog_search_apps_category)
         sortingStyle = view.findViewById(R.id.dialog_search_apps_sorting)
         openAppsSettings = view.findViewById(R.id.dialog_open_apps_settings)
+        ignoreCase = view.findViewById(R.id.ignore_case)
 
         return view
     }
@@ -35,6 +39,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
 
         setSortingStyle()
         setListCategory()
+        ignoreCase.setChecked(SearchPreferences.isCasingIgnored())
 
         sortingStyle.setOnClickListener {
             PopupSortingStyle(it)
@@ -45,14 +50,13 @@ class SearchMenu : ScopedBottomSheetFragment() {
         }
 
         openAppsSettings.setOnClickListener {
-            val fragment = requireActivity().supportFragmentManager.findFragmentByTag("main_preferences_screen")
-                ?: MainPreferencesScreen.newInstance()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        MainPreferencesScreen.newInstance(),
+                                        "prefs")
+        }
 
-            requireActivity().supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.dialog_in, R.anim.dialog_out)
-                .replace(R.id.app_container, fragment, "main_preferences_screen")
-                .addToBackStack(tag)
-                .commit()
+        ignoreCase.setOnSwitchCheckedChangeListener {
+            SearchPreferences.setIgnoreCasing(it)
         }
     }
 

@@ -12,6 +12,7 @@ object SearchPreferences {
     const val sortStyle = "search_sort_style"
     const val isSortingReversed = "is_search_sorting_reversed"
     const val listAppsCategory = "search_list_apps_category"
+    const val ignoreCasing = "search_ignore_case"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -51,5 +52,15 @@ object SearchPreferences {
 
     fun getAppsCategory(): String {
         return getSharedPreferences().getString(listAppsCategory, PopupAppsCategory.BOTH)!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setIgnoreCasing(@NotNull value: Boolean) {
+        getSharedPreferences().edit().putBoolean(ignoreCasing, value).apply()
+    }
+
+    fun isCasingIgnored(): Boolean {
+        return getSharedPreferences().getBoolean(ignoreCasing, true)
     }
 }

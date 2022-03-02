@@ -21,13 +21,12 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     private val searchKeywords: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
             it.postValue(SearchPreferences.getLastSearchKeyword())
-            loadSearchData()
         }
     }
 
     private val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadSearchData()
+            loadSearchData(SearchPreferences.getLastSearchKeyword())
         }
     }
 
@@ -38,18 +37,19 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     fun setSearchKeywords(keywords: String) {
         SearchPreferences.setLastSearchKeyword(keywords)
         searchKeywords.postValue(keywords)
+        loadSearchData(keywords)
     }
 
     fun getSearchData(): LiveData<ArrayList<PackageInfo>> {
         return appData
     }
 
-    fun loadSearchData() {
+    fun loadSearchData(keywords: String) {
         viewModelScope.launch(Dispatchers.IO) {
 
             val apps = getApplication<Application>().applicationContext.packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
-            if (searchKeywords.value.isNullOrEmpty()) {
+            if (keywords.isEmpty()) {
                 appData.postValue(arrayListOf())
                 return@launch
             }
@@ -60,8 +60,8 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
             var filtered: ArrayList<PackageInfo> =
                 apps.stream().filter { p ->
-                    p.applicationInfo.name.contains(searchKeywords.value!!, true)
-                            || p.packageName.contains(searchKeywords.value!!, true)
+                    p.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored())
+                            || p.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             when (SearchPreferences.getAppsCategory()) {

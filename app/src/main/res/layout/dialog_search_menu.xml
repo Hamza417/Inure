@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="@dimen/dialog_elevation"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
@@ -26,9 +28,9 @@
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
                 android:text="@string/apps_category"
-                app:textColorStyle="primary"
                 android:textSize="6pt"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/dialog_search_apps_category"
@@ -39,11 +41,11 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
-                app:textColorStyle="tertiary"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
                 app:drawableTint="?attr/colorAppAccent"
-                app:drawableTintMode="src_in" />
+                app:drawableTintMode="src_in"
+                app:textColorStyle="tertiary" />
 
         </LinearLayout>
 
@@ -60,9 +62,9 @@
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
                 android:text="@string/sorting_style"
-                app:textColorStyle="primary"
                 android:textSize="6pt"
-                app:appFontStyle="bold" />
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/dialog_search_apps_sorting"
@@ -73,10 +75,37 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
-                app:textColorStyle="tertiary"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
-                app:drawableTint="?attr/colorAppAccent" />
+                app:drawableTint="?attr/colorAppAccent"
+                app:textColorStyle="tertiary" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/ignore_case"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.switchview.SwitchView
+                android:id="@+id/ignore_case"
+                android:layout_width="@dimen/switch_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/dialog_padding" />
 
         </LinearLayout>
 
@@ -94,9 +123,11 @@
             android:layout_weight="1"
             android:padding="@dimen/dialog_padding"
             android:text="@string/open_application_settings"
-            app:textColorStyle="primary"
             android:textSize="6pt"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
 </FrameLayout>

@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterUninstalled
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.app.AppsMenu
+import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.ui.app.AppInfo
@@ -23,13 +23,15 @@ class Uninstalled : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private var adapterUninstalled: AdapterUninstalled? = null
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_uninstalled, container, false)
 
         recyclerView = view.findViewById(R.id.uninstalled_recycler_view)
         adapterUninstalled = AdapterUninstalled()
+
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
         return view
     }
