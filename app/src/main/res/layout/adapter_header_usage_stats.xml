@@ -6,7 +6,7 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
-    android:padding="@dimen/header_padding">
+    android:padding="@dimen/header_item_margin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,6 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/apps"
             android:textSize="16sp"
@@ -65,8 +66,8 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_sort"
-            app:buttonTintType="regular"
-            android:transitionName="filter" />
+            android:transitionName="filter"
+            app:buttonTintType="regular" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_filter_button"
@@ -76,8 +77,8 @@
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_filter"
-            app:buttonTintType="regular"
-            android:transitionName="filter" />
+            android:transitionName="filter"
+            app:buttonTintType="regular" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_configuration_button"
@@ -86,8 +87,23 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_settings"
-            app:buttonTintType="regular"
-            android:transitionName="filter" />
+            android:transitionName="filter"
+            app:buttonTintType="regular" />
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="4dp" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/adapter_header_search_button"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/search_button"
+            android:src="@drawable/ic_search"
+            android:transitionName="adapter_search_icon"
+            app:buttonTintType="regular" />
 
     </LinearLayout>
 

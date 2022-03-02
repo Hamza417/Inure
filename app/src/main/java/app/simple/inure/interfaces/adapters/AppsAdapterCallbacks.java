@@ -11,7 +11,7 @@ public interface AppsAdapterCallbacks {
     
     }
     
-    default void onAppLongPress(@NotNull PackageInfo packageInfo, @NotNull View anchor, ImageView icon, int position) {
+    default void onAppLongPressed(@NotNull PackageInfo packageInfo, @NotNull ImageView icon) {
     
     }
     

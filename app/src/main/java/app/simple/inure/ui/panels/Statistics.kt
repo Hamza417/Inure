@@ -15,6 +15,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.menus.UsageStatsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.usagestats.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatisticsPreferences
@@ -46,12 +47,12 @@ class Statistics : ScopedFragment() {
 
             adapterUsageStats = AdapterUsageStats(it)
 
-            adapterUsageStats.setOnStatsCallbackListener(object : AdapterUsageStats.Companion.StatsAdapterCallbacks {
+            adapterUsageStats.setOnStatsCallbackListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
 
-                override fun onAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
+                override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
                     AppsMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }
@@ -67,6 +68,13 @@ class Statistics : ScopedFragment() {
                 override fun onSettingsPressed(view: View) {
                     UsageStatsMenu.newInstance()
                         .show(childFragmentManager, "menu")
+                }
+
+                override fun onSearchPressed(view: View) {
+                    clearTransitions()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                Search.newInstance(true),
+                                                "search")
                 }
             })
 

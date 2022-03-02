@@ -56,7 +56,7 @@ class AdapterSearch(private var apps: ArrayList<PackageInfo>, private var search
         }
 
         holder.container.setOnLongClickListener {
-            appsAdapterCallbacks.onAppLongPress(apps[position], it, holder.icon, position)
+            appsAdapterCallbacks.onAppLongPressed(apps[position], holder.icon)
             true
         }
     }

@@ -1,0 +1,218 @@
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/header_elevation"
+        android:orientation="horizontal"
+        android:padding="@dimen/header_padding">
+
+        <app.simple.inure.decorations.theme.ThemeIcon
+            android:id="@+id/header_icon"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:src="@drawable/ic_app_settings"
+            android:transitionName="@string/configuration"
+            app:tintType="accent"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/configuration"
+            android:textSize="@dimen/header_font_size"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="10dp"
+            app:layout_behavior="@string/over_scroll_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/panel_padding_horizontal">
+
+                <app.simple.inure.decorations.theme.ThemeDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1px" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/screen"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/imageView5"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/typeface_icon"
+                        android:src="@drawable/ic_keep_screen_on"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/keep_screen_on_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/keep_screen_on"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView08"
+                        app:layout_constraintEnd_toStartOf="@+id/configuration_switch_keep_screen_on"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/imageView5"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/typeFaceTextView08"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:text="@string/keep_screen_on_desc"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/configuration_switch_keep_screen_on"
+                        app:layout_constraintStart_toEndOf="@+id/imageView5"
+                        app:layout_constraintTop_toBottomOf="@id/keep_screen_on_title"
+                        app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.switchview.SwitchView
+                        android:id="@+id/configuration_switch_keep_screen_on"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/root"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/configuration_root_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/imageView11"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/typeface_icon"
+                        android:src="@drawable/ic_su"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/typeFaceTextView07"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/use_root_methods"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_warning_tiny"
+                        app:drawableTint="#e74c3c"
+                        app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView15"
+                        app:layout_constraintEnd_toStartOf="@+id/configuration_root_switch_view"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/imageView11"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/typeFaceTextView15"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:text="@string/root_desc"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/configuration_root_switch_view"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/imageView11"
+                        app:layout_constraintTop_toBottomOf="@id/typeFaceTextView07"
+                        app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.switchview.SwitchView
+                        android:id="@+id/configuration_root_switch_view"
+                        android:layout_width="@dimen/switch_width"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

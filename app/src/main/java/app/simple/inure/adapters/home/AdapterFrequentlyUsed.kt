@@ -18,15 +18,12 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.PackageStats
-import app.simple.inure.preferences.ConfigurationPreferences
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     var apps = arrayListOf<PackageStats>()
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
-
-    private val pattern = ConfigurationPreferences.getDateFormat()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -85,7 +82,7 @@ class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks.onAppLongPress(apps[position].packageInfo!!, it, holder.icon, position)
+                appsAdapterCallbacks.onAppLongPressed(apps[position].packageInfo!!, holder.icon)
                 true
             }
         } else if (holder is Header) {

@@ -472,4 +472,5 @@
     <string name="sure">Sure</string>
     <string name="editor">Editor</string>
     <string name="ignore_case">Ignore Case</string>
+    <string name="formatting">Formatting</string>
 </resources>

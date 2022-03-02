@@ -59,6 +59,12 @@ class MainPreferencesScreen : ScopedFragment() {
                                                               imageView,
                                                               "config_prefs")
                         }
+                        getString(R.string.formatting) -> {
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              FormattingScreen.newInstance(),
+                                                              imageView,
+                                                              "formatting_prefs")
+                        }
                         getString(R.string.terminal) -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               TerminalScreen.newInstance(),

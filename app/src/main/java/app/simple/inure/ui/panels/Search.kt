@@ -63,7 +63,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                     openAppInfo(packageInfo, icon)
                 }
 
-                override fun onAppLongPress(packageInfo: PackageInfo, anchor: View, icon: ImageView, position: Int) {
+                override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
                     AppsMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }

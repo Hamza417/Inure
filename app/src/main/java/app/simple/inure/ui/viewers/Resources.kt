@@ -17,7 +17,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.preferences.ResourcesPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
@@ -55,7 +55,7 @@ class Resources : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        componentsViewModel.getResources().observe(viewLifecycleOwner, {
+        componentsViewModel.getResources().observe(viewLifecycleOwner) {
             val adapterResources = AdapterResources(it, searchBox.text.toString())
 
             recyclerView.adapter = adapterResources
@@ -64,7 +64,7 @@ class Resources : ScopedFragment() {
                 override fun onResourceClicked(path: String) {
                     clearExitTransition()
 
-                    if (ConfigurationPreferences.isXmlViewerTextView()) {
+                    if (FormattingPreferences.isXmlViewerTextView()) {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     XMLViewerTextView.newInstance(packageInfo, false, path),
                                                     "tv_xml")
@@ -83,7 +83,7 @@ class Resources : ScopedFragment() {
                                                 "txt_tv_xml")
                 }
             })
-        })
+        }
 
         componentsViewModel.getError().observe(viewLifecycleOwner, {
             val e = Error.newInstance(it)

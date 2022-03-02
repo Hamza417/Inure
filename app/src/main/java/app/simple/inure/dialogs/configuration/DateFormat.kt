@@ -12,7 +12,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedDialogFragment
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -24,8 +24,6 @@ class DateFormat : ScopedDialogFragment() {
     private lateinit var save: DynamicRippleTextView
     private lateinit var reset: DynamicRippleTextView
     private lateinit var cheatsheet: DynamicRippleTextView
-
-    private val date = System.currentTimeMillis()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_date_format, container, false)
@@ -45,7 +43,7 @@ class DateFormat : ScopedDialogFragment() {
         format.doOnTextChanged { text, _, _, _ ->
             kotlin.runCatching {
                 if (text.isNullOrEmpty()) throw IllegalArgumentException("missing parameters")
-                update.text = DateUtils.formatDate(date, text.toString())
+                update.text = DateUtils.formatDate(System.currentTimeMillis(), text.toString())
                 if (save.visibility == View.GONE) save.visible(true)
             }.getOrElse {
                 it.printStackTrace()
@@ -54,10 +52,10 @@ class DateFormat : ScopedDialogFragment() {
             }
         }
 
-        format.setText(ConfigurationPreferences.getDateFormat())
+        format.setText(FormattingPreferences.getDateFormat())
 
         save.setOnClickListener {
-            ConfigurationPreferences.setDateFormat(format.text.toString())
+            FormattingPreferences.setDateFormat(format.text.toString())
             dismiss()
         }
 
@@ -69,11 +67,27 @@ class DateFormat : ScopedDialogFragment() {
 
         reset.setOnClickListener {
             with("EEE, yyyy MMM dd, hh:mm a") {
-                ConfigurationPreferences.setDateFormat(this)
+                FormattingPreferences.setDateFormat(this)
                 format.setText(this)
                 format.setSelection(format.length()) //placing cursor at the end of the text
             }
         }
+
+        handler.post(dateRunnable)
+    }
+
+    private val dateRunnable: Runnable = object : Runnable {
+        override fun run() {
+            kotlin.runCatching {
+                update.text = DateUtils.formatDate(System.currentTimeMillis(), format.text.toString())
+            }
+            handler.postDelayed(this, 1000L)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(dateRunnable)
     }
 
     companion object {

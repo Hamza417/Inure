@@ -46,7 +46,7 @@ class AdapterApps : RecyclerView.Adapter<AdapterApps.Holder>(), PopupTextProvide
         }
 
         holder.container.setOnLongClickListener {
-            appsAdapterCallbacks.onAppLongPress(apps[position], it, holder.icon, position)
+            appsAdapterCallbacks.onAppLongPressed(apps[position], holder.icon)
             true
         }
     }

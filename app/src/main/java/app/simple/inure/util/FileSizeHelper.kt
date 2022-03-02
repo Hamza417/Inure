@@ -2,7 +2,7 @@ package app.simple.inure.util
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.FormattingPreferences
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
@@ -50,10 +50,10 @@ object FileSizeHelper {
 
     fun Long.toSize(): String {
         return when {
-            ConfigurationPreferences.getSizeType() == "si" -> {
+            FormattingPreferences.getSizeType() == "si" -> {
                 this.humanReadableByteCountSI()
             }
-            ConfigurationPreferences.getSizeType() == "binary" -> {
+            FormattingPreferences.getSizeType() == "binary" -> {
                 this.humanReadableByteCountBinary()
             }
             else -> {

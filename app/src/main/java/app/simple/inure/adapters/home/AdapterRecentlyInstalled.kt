@@ -19,7 +19,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.FormattingPreferences
 
 class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -58,14 +58,14 @@ class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() 
                 holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
 
-            holder.date.text = apps[position].getApplicationInstallTime(holder.itemView.context, ConfigurationPreferences.getDateFormat())
+            holder.date.text = apps[position].getApplicationInstallTime(holder.itemView.context, FormattingPreferences.getDateFormat())
 
             holder.container.setOnClickListener {
                 appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks.onAppLongPress(apps[position], it, holder.icon, position)
+                appsAdapterCallbacks.onAppLongPressed(apps[position], holder.icon)
                 true
             }
         } else if (holder is Header) {

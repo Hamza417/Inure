@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.ui
 
-import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.FileSizeHelper.toSize
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 
 class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
-    private var statsAdapterCallbacks: StatsAdapterCallbacks? = null
+    private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
     private var isLimitedToHours = StatisticsPreferences.isLimitToHours()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -86,25 +86,29 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
             }
 
             holder.container.setOnClickListener {
-                statsAdapterCallbacks?.onAppClicked(list[position].packageInfo!!, holder.icon)
+                appsAdapterCallbacks?.onAppClicked(list[position].packageInfo!!, holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                statsAdapterCallbacks?.onAppLongClicked(list[position].packageInfo!!, holder.icon, holder.container)
+                appsAdapterCallbacks?.onAppLongPressed(list[position].packageInfo!!, holder.icon)
                 true
             }
 
         } else if (holder is Header) {
             holder.settings.setOnClickListener {
-                statsAdapterCallbacks?.onSettingsPressed(it)
+                appsAdapterCallbacks?.onSettingsPressed(it)
             }
 
             holder.filter.setOnClickListener {
-                statsAdapterCallbacks?.onFilterPressed(it)
+                appsAdapterCallbacks?.onFilterPressed(it)
             }
 
             holder.sort.setOnClickListener {
-                statsAdapterCallbacks?.onSortPressed(it)
+                appsAdapterCallbacks?.onSortPressed(it)
+            }
+
+            holder.search.setOnClickListener {
+                appsAdapterCallbacks?.onSearchPressed(it)
             }
 
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), list.size)
@@ -125,8 +129,8 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
         return list[position].packageInfo?.applicationInfo?.name?.substring(0, 1) ?: ""
     }
 
-    fun setOnStatsCallbackListener(statsAdapterCallbacks: StatsAdapterCallbacks) {
-        this.statsAdapterCallbacks = statsAdapterCallbacks
+    fun setOnStatsCallbackListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
+        this.appsAdapterCallbacks = appsAdapterCallbacks
     }
 
     fun notifyAllData() {
@@ -151,16 +155,7 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val sort: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_sort_button)
         val filter: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_filter_button)
+        val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
-    }
-
-    companion object {
-        interface StatsAdapterCallbacks {
-            fun onFilterPressed(view: View)
-            fun onSortPressed(view: View)
-            fun onSettingsPressed(view: View)
-            fun onAppClicked(packageInfo: PackageInfo, icon: ImageView)
-            fun onAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup)
-        }
     }
 }

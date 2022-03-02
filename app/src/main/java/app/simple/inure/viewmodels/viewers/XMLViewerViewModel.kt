@@ -16,7 +16,7 @@ import app.simple.inure.apk.parsers.APKParser.extractManifest
 import app.simple.inure.apk.parsers.ApkManifestFetcher
 import app.simple.inure.apk.xml.XML
 import app.simple.inure.exceptions.LargeStringException
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.XMLUtils
 import com.jaredrummler.apkparser.ApkParser
 import kotlinx.coroutines.Dispatchers
@@ -103,7 +103,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: B
                     }
                 }
 
-                if (code.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
+                if (code.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
                     throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
                 }
 

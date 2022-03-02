@@ -77,7 +77,7 @@ class AdapterAppsDetailed : RecyclerView.Adapter<VerticalListViewHolder>(), Popu
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks.onAppLongPress(apps[position], it, holder.icon, position_)
+                appsAdapterCallbacks.onAppLongPressed(apps[position], holder.icon)
                 true
             }
         }

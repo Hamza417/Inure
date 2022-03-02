@@ -19,14 +19,14 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.FormattingPreferences
 
 class AdapterRecentlyUpdated : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     var apps = arrayListOf<PackageInfo>()
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
 
-    private val pattern = ConfigurationPreferences.getDateFormat()
+    private val pattern = FormattingPreferences.getDateFormat()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -67,7 +67,7 @@ class AdapterRecentlyUpdated : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks.onAppLongPress(apps[position], it, holder.icon, position)
+                appsAdapterCallbacks.onAppLongPressed(apps[position], holder.icon)
                 true
             }
         } else if (holder is Header) {

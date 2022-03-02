@@ -23,11 +23,9 @@ import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel
-import kotlinx.coroutines.*
 import java.io.IOException
-import java.util.*
 
 class TextViewer : ScopedFragment() {
 
@@ -89,7 +87,7 @@ class TextViewer : ScopedFragment() {
 
         textViewerViewModel.getText().observe(viewLifecycleOwner, {
             runCatching {
-                if (it.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
+                if (it.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
                     throw LargeStringException("String size ${it.length} is too big to render without freezing the app")
                 }
                 txt.setText(it)

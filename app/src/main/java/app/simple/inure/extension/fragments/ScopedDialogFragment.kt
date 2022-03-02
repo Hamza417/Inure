@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
@@ -24,6 +26,8 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
      * @throws UninitializedPropertyAccessException
      */
     lateinit var packageInfo: PackageInfo
+
+    internal val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

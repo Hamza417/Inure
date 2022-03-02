@@ -20,7 +20,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.popups.viewers.PopupGraphicsFilter
 import app.simple.inure.popups.viewers.PopupGraphicsMenu
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNull
@@ -62,7 +62,7 @@ class Graphics : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        graphicsViewModel.getGraphics().observe(viewLifecycleOwner, {
+        graphicsViewModel.getGraphics().observe(viewLifecycleOwner) {
             if (recyclerView.adapter.isNull()) {
                 adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, it, searchBox.text.toString())
                 recyclerView.adapter = adapterGraphics
@@ -75,7 +75,7 @@ class Graphics : ScopedFragment() {
                     }
 
                     override fun onGraphicsLongPressed(filePath: String) {
-                        if (ConfigurationPreferences.isXmlViewerTextView()) {
+                        if (FormattingPreferences.isXmlViewerTextView()) {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         XMLViewerTextView.newInstance(packageInfo, false, filePath),
                                                         "tv_xml")
@@ -89,7 +89,7 @@ class Graphics : ScopedFragment() {
             } else {
                 adapterGraphics?.updateData(it, keyword = searchBox.text.toString())
             }
-        })
+        }
 
         graphicsViewModel.getError().observe(viewLifecycleOwner, {
             val e = Error.newInstance(it)

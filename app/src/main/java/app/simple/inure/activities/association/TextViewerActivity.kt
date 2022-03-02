@@ -18,7 +18,7 @@ import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.ViewUtils.visible
 import com.anggrayudi.storage.file.fullName
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,6 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import org.apache.commons.io.IOUtils
 import java.io.IOException
-import java.util.*
 
 class TextViewerActivity : BaseActivity() {
 
@@ -93,7 +92,7 @@ class TextViewerActivity : BaseActivity() {
                     }
 
                     withContext(Dispatchers.Main) {
-                        if (string.length >= 150000 && !ConfigurationPreferences.isLoadingLargeStrings()) {
+                        if (string.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
                             throw LargeStringException("String size ${string.length} is too big to render without freezing the app")
                         }
                         txt.setText(string)
