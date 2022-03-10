@@ -225,6 +225,8 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         if (AppearancePreferences.isAccentOnNavigationBar()) {
             window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent))
                 .getColor(0, 0)
+        } else {
+            window.navigationBarColor = Color.TRANSPARENT
         }
     }
 
@@ -233,6 +235,9 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             AppearancePreferences.transparentStatus -> {
                 makeAppFullScreen()
                 fixNavigationBarOverlap()
+            }
+            AppearancePreferences.accentOnNav -> {
+                setNavColor()
             }
         }
     }

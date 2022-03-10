@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
-import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -153,11 +152,8 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
         window.statusBarColor = Color.TRANSPARENT
 
         if (Build.VERSION.SDK_INT in 23..29) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            WindowCompat.setDecorFitsSystemWindows(window, true)
         } else if (Build.VERSION.SDK_INT >= 30) {
-            // Making status bar overlaps with the activity
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
 

@@ -19,7 +19,6 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceAppTheme
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.TextViewUtils.makeLinks
 
@@ -117,11 +116,7 @@ class AppearanceScreen : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             AppearancePreferences.accentOnNav -> {
-                if (AppearancePreferences.isAccentOnNavigationBar()) {
-                    requireActivity().window.navigationBarColor = requireContext().resolveAttrColor(R.attr.colorAppAccent)
-                } else {
-                    requireActivity().recreate()
-                }
+
             }
             AppearancePreferences.transparentStatus -> {
                 // requireActivity().recreate()
