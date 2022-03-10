@@ -134,7 +134,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
     private NotificationCompat.Action generateAction(int icon, String title, String action) {
         Intent closeIntent = new Intent(this, TermService.class);
         closeIntent.setAction(action);
-        PendingIntent close = PendingIntent.getService(this, 5087846, closeIntent, 0);
+        PendingIntent close = PendingIntent.getService(this, 5087846, closeIntent, PendingIntent.FLAG_IMMUTABLE);
         return new NotificationCompat.Action.Builder(icon, title, close).build();
     }
     
@@ -229,9 +229,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
         @Override
         public void onSessionFinish(TermSession session) {
             result.cancel();
-            
             callback.send(0, new Bundle());
-            
             mTermSessions.remove(session);
         }
     }

@@ -5,8 +5,10 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.transition.Fade
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +35,11 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+        window.enterTransition = Fade()
+        window.exitTransition = Fade()
+
         setContentView(R.layout.activity_main)
 
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()

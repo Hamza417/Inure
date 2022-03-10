@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment
 import app.simple.inure.R
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 
 open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -52,7 +53,14 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
         }
 
         window.attributes.gravity = Gravity.CENTER
-        window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 85f).toInt()
+
+        if (StatusBarHeight.isLandscape(requireContext())) {
+            window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 60f).toInt()
+            window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 90F).toInt()
+        } else {
+            window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 85f).toInt()
+            window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 60F).toInt()
+        }
     }
 
     override fun onResume() {

@@ -412,7 +412,7 @@ public class Term extends BaseActivity implements UpdateCallback,
             public void onReceive(Context context, Intent intent) {
                 try {
                     if (intent.getAction().equals(ACTION_CLOSE)) {
-                        finish();
+                        supportFinishAfterTransition();
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
@@ -462,7 +462,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                     termSessions.add(createTermSession());
                 } catch (IOException e) {
                     Toast.makeText(this, "Failed to start terminal session", Toast.LENGTH_LONG).show();
-                    finish();
+                    supportFinishAfterTransition();
                     return;
                 }
             }
@@ -658,6 +658,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     
     @Override
     protected void onStop() {
+        super.onStop();
         onResumeSelectWindow = viewFlipper.getDisplayedChild();
         viewFlipper.onPause();
         if (termSessions != null) {
@@ -673,8 +674,6 @@ public class Term extends BaseActivity implements UpdateCallback,
         viewFlipper.removeAllViews();
         unbindService(mTSConnection);
         ThemeManager.INSTANCE.removeListener(this);
-    
-        super.onStop();
     }
     
     private boolean checkHaveFullHwKeyboard(Configuration c) {
@@ -765,7 +764,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                 // TODO the left path will be invoked when nothing happened, but this Activity was destroyed!
                 if (termSessions == null || termSessions.size() == 0) {
                     mStopServiceOnFinish = true;
-                    finish();
+                    supportFinishAfterTransition();
                 }
             }
         }
@@ -856,7 +855,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                     case TermSettings.BACK_KEY_STOPS_SERVICE:
                         mStopServiceOnFinish = true;
                     case TermSettings.BACK_KEY_CLOSES_ACTIVITY:
-                        finish();
+                        supportFinishAfterTransition();
                         return true;
                     case TermSettings.BACK_KEY_CLOSES_WINDOW:
                         doCloseWindow();
@@ -885,7 +884,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     
         if (sessions.size() == 0) {
             mStopServiceOnFinish = true;
-            finish();
+            supportFinishAfterTransition();
         } else if (sessions.size() < viewFlipper.getChildCount()) {
             for (int i = 0; i < viewFlipper.getChildCount(); ++i) {
                 EmulatorView v = (EmulatorView) viewFlipper.getChildAt(i);

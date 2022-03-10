@@ -92,7 +92,7 @@ class Home : ScopedFragment() {
                                                         "analytics")
                         }
                         getString(R.string.terminal) -> {
-                            val intent = Intent(requireContext(), Term::class.java)
+                            val intent = Intent(requireActivity(), Term::class.java)
                             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
                             startActivity(intent, options.toBundle())
                         }
