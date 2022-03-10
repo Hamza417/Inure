@@ -126,12 +126,12 @@
         <item name="colorAppAccentLight">@color/roman_silver_light</item>
     </style>
 
-    <style name="Horizon_Transparent" parent="Inure">
+    <style name="Horizon_Transparent" parent="Inure.Transparent">
         <item name="colorAppAccent">@color/horizon</item>
         <item name="colorAppAccentLight">@color/horizon_light</item>
     </style>
 
-    <style name="LimedSpruce_Transparent" parent="Inure">
+    <style name="LimedSpruce_Transparent" parent="Inure.Transparent">
         <item name="colorAppAccent">@color/limed_spruce</item>
         <item name="colorAppAccentLight">@color/limed_spruce_light</item>
     </style>

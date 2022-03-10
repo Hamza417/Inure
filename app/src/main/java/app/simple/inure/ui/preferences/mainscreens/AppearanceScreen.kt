@@ -124,7 +124,7 @@ class AppearanceScreen : ScopedFragment() {
                 }
             }
             AppearancePreferences.transparentStatus -> {
-                requireActivity().recreate()
+                // requireActivity().recreate()
             }
         }
     }

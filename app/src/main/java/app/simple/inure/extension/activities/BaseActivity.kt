@@ -6,8 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.transition.Fade
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -24,12 +22,14 @@ import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.preferences.ShellPreferences.getHomePath
 import app.simple.inure.preferences.ShellPreferences.setHomePath
 import app.simple.inure.themes.interfaces.ThemeChangedListener
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ThemeUtils
 
-open class BaseActivity : AppCompatActivity(), ThemeChangedListener {
+open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.content.SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun attachBaseContext(newBase: Context) {
         SharedPreferences.init(newBase)
+        SharedPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
         super.attachBaseContext(newBase)
     }
 
@@ -70,16 +70,12 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener {
         setHomePath(homePath!!)
     }
 
-    @Suppress("Deprecation")
     private fun makeAppFullScreen() {
-        window.statusBarColor = Color.TRANSPARENT
-
-        if (Build.VERSION.SDK_INT in 23..29) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or SYSTEM_UI_FLAG_LAYOUT_STABLE
-        } else if (Build.VERSION.SDK_INT >= 30) {
-            // Making status bar overlaps with the activity
+        if (AppearancePreferences.isTransparentStatusDisabled()) {
+            window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+        } else {
+            window.statusBarColor = Color.TRANSPARENT
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
 
@@ -98,29 +94,37 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener {
              */
             val root = findViewById<CoordinatorLayout>(R.id.app_container)
 
-            ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
-                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-                /**
-                 * Apply the insets as a margin to the view. Here the system is setting
-                 * only the bottom, left, and right dimensions, but apply whichever insets are
-                 * appropriate to your layout. You can also update the view padding
-                 * if that's more appropriate.
-                 */
-
-                view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                    leftMargin = insets.left
-                    bottomMargin = insets.bottom
-                    rightMargin = insets.right
+            if (AppearancePreferences.isTransparentStatusDisabled()) {
+                root.layoutParams = (root.layoutParams as FrameLayout.LayoutParams).apply {
+                    leftMargin = 0
+                    bottomMargin = 0
+                    rightMargin = 0
                 }
 
-                /**
-                 * Return CONSUMED if you don't want want the window insets to keep being
-                 * passed down to descendant views.
-                 */
-                WindowInsetsCompat.CONSUMED
-            }
+                root.requestLayout()
+            } else {
+                ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
+                    val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
+                    /**
+                     * Apply the insets as a margin to the view. Here the system is setting
+                     * only the bottom, left, and right dimensions, but apply whichever insets are
+                     * appropriate to your layout. You can also update the view padding
+                     * if that's more appropriate.
+                     */
+                    view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                        leftMargin = if (AppearancePreferences.isTransparentStatusDisabled()) 0 else insets.left
+                        bottomMargin = if (AppearancePreferences.isTransparentStatusDisabled()) 0 else insets.bottom
+                        rightMargin = if (AppearancePreferences.isTransparentStatusDisabled()) 0 else insets.right
+                    }
+
+                    /**
+                     * Return CONSUMED if you don't want want the window insets to keep being
+                     * passed down to descendant views.
+                     */
+                    WindowInsetsCompat.CONSUMED
+                }
+            }
         }
     }
 
@@ -222,5 +226,19 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener {
             window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent))
                 .getColor(0, 0)
         }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {
+        when (key) {
+            AppearancePreferences.transparentStatus -> {
+                makeAppFullScreen()
+                fixNavigationBarOverlap()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SharedPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 }

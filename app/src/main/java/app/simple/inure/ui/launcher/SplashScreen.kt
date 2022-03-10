@@ -92,25 +92,21 @@ class SplashScreen : ScopedFragment() {
         appsViewModel.getAppData().observe(viewLifecycleOwner) {
             isAppDataLoaded = true
             openApp()
-            println("App Data")
         }
 
         usageStatsData.usageData.observe(viewLifecycleOwner) {
             isUsageDataLoaded = true
             openApp()
-            println("Usage Data")
         }
 
         sensorsViewModel.getSensorsData().observe(viewLifecycleOwner) {
             areSensorsLoaded = true
             openApp()
-            println("Sensor Data")
         }
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             isSearchLoaded = true
             openApp()
-            println("Search Data")
         }
 
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
