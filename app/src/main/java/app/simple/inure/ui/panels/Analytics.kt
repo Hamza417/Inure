@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.menus.AnalyticsMenu
+import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.preferences.AppearancePreferences
@@ -90,7 +90,7 @@ class Analytics : ScopedFragment(), ThemeChangedListener {
                     horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
                 }
 
-                holeRadius = 50F
+                holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
                 setHoleColor(Color.TRANSPARENT)
                 setUsePercentValues(false)
                 dragDecelerationFrictionCoef = 0.95f
@@ -137,7 +137,7 @@ class Analytics : ScopedFragment(), ThemeChangedListener {
                     horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
                 }
 
-                holeRadius = 50F
+                holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
                 setHoleColor(Color.TRANSPARENT)
                 setUsePercentValues(false)
                 dragDecelerationFrictionCoef = 0.95f
@@ -182,7 +182,7 @@ class Analytics : ScopedFragment(), ThemeChangedListener {
                     horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
                 }
 
-                holeRadius = 50F
+                holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
                 setHoleColor(Color.TRANSPARENT)
                 setUsePercentValues(false)
                 dragDecelerationFrictionCoef = 0.95f
@@ -216,6 +216,22 @@ class Analytics : ScopedFragment(), ThemeChangedListener {
         when (key) {
             AnalyticsPreferences.sdkValue -> {
                 analyticsViewModel.refresh()
+            }
+            AnalyticsPreferences.pieHoleRadius -> {
+                minimumOsPie.apply {
+                    holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
+                    invalidate()
+                }
+
+                targetOsPie.apply {
+                    holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
+                    invalidate()
+                }
+
+                installLocationPie.apply {
+                    holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
+                    invalidate()
+                }
             }
         }
     }

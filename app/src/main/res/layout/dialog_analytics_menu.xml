@@ -50,6 +50,20 @@
 
         </LinearLayout>
 
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/dialog_open_pie_hole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/pie_hole_radius"
+            android:textSize="6pt"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
             android:layout_height="1px"

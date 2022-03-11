@@ -475,4 +475,5 @@
     <string name="ignore_case">Ignore Case</string>
     <string name="formatting">Formatting</string>
     <string name="sdk_value">SDK Value</string>
+    <string name="pie_hole_radius">Pie Hole Radius</string>
 </resources>

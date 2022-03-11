@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.widget.SeekBar
 import android.widget.TextView
 import app.simple.inure.R
@@ -51,7 +50,7 @@ class RoundedCorner : ScopedBottomSheetFragment() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             radiusSeekBar.min = 25
         }
-        updateSeekbar(AppearancePreferences.getCornerRadius() * 5)
+        radiusSeekBar.updateSeekbar(AppearancePreferences.getCornerRadius() * 5)
 
         radiusSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress_: Int, fromUser: Boolean) {
@@ -89,14 +88,6 @@ class RoundedCorner : ScopedBottomSheetFragment() {
                 .build()
 
         cornerFrameLayout.background = MaterialShapeDrawable(shapeAppearanceModel)
-    }
-
-    private fun updateSeekbar(value: Int) {
-        objectAnimator = ObjectAnimator.ofInt(radiusSeekBar, "progress", radiusSeekBar.progress, value)
-        objectAnimator?.duration = 1000L
-        objectAnimator?.interpolator = DecelerateInterpolator(1.5F)
-        objectAnimator?.setAutoCancel(true)
-        objectAnimator?.start()
     }
 
     companion object {
