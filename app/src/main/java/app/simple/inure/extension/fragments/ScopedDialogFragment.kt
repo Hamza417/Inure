@@ -54,12 +54,13 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
 
         window.attributes.gravity = Gravity.CENTER
 
+        // TODO - fixe dialog height
         if (StatusBarHeight.isLandscape(requireContext())) {
             window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 60f).toInt()
-            window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 90F).toInt()
+            // window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 90F).toInt()
         } else {
             window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 85f).toInt()
-            window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 60F).toInt()
+            // window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 60F).toInt()
         }
     }
 

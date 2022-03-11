@@ -1,88 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:orientation="vertical">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:padding="@dimen/header_item_margin">
+        android:paddingBottom="20dp"
+        app:layout_behavior="@string/over_scroll_behavior">
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="@dimen/adapter_header_icon_size"
-            android:layout_height="@dimen/adapter_header_icon_size"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/analytics"
-            android:src="@drawable/ic_analytics"
-            android:transitionName="@string/analytics" />
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/typeFaceTextView02"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="16dp"
-            android:layout_weight="1"
-            android:text="@string/analytics"
-            android:textSize="@dimen/header_font_size"
-            app:appFontStyle="light"
-            app:textColorStyle="heading" />
+            android:orientation="vertical">
 
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/configuration_button"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/configuration_button"
-            android:src="@drawable/ic_settings"
-            app:buttonTintType="regular" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="@dimen/popup_padding">
 
-        <app.simple.inure.decorations.theme.ThemeDivider
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="4dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/header_item_margin"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal">
 
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/search_button"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/search_button"
-            android:src="@drawable/ic_search"
-            app:buttonTintType="regular" />
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="@dimen/adapter_header_icon_size"
+                        android:layout_height="@dimen/adapter_header_icon_size"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/analytics"
+                        android:src="@drawable/ic_analytics"
+                        android:transitionName="@string/analytics" />
 
-    </LinearLayout>
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/analytics"
+                        android:textSize="@dimen/header_font_size"
+                        app:appFontStyle="light"
+                        app:textColorStyle="heading" />
 
-    <app.simple.inure.decorations.theme.ThemeDivider
-        android:layout_width="match_parent"
-        android:layout_height="1px" />
+                </LinearLayout>
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/panel_item_padding"
-        android:text="@string/minimum_sdk"
-        android:textSize="@dimen/info_text_large"
-        app:appFontStyle="bold"
-        app:textColorStyle="primary" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/header_item_margin"
+                    android:orientation="horizontal">
 
-    <com.razerdp.widget.animatedpieview.AnimatedPieView
-        android:id="@+id/minimum_os_pie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/adapter_total_apps"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        app:appFontStyle="bold"
+                        app:textColorStyle="primary" />
 
-    <LinearLayout
-        android:id="@+id/min_os_legends"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+                    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                        android:id="@+id/configuration_button"
+                        android:layout_width="@dimen/button_size"
+                        android:layout_height="@dimen/button_size"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/configuration_button"
+                        android:src="@drawable/ic_settings"
+                        app:buttonTintType="regular" />
 
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+                    <app.simple.inure.decorations.theme.ThemeDivider
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="4dp" />
+
+                    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                        android:id="@+id/search_button"
+                        android:layout_width="@dimen/button_size"
+                        android:layout_height="@dimen/button_size"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/search_button"
+                        android:src="@drawable/ic_search"
+                        android:transitionName="adapter_search_icon"
+                        app:buttonTintType="regular" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <app.simple.inure.decorations.theme.ThemeDivider
+                android:layout_width="match_parent"
+                android:layout_height="1px" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/panel_item_padding"
+                android:text="@string/minimum_sdk"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/minimum_os_pie"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/pie_chart_height" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/panel_item_padding"
+                android:text="@string/target_sdk"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/target_os_pie"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/pie_chart_height"
+                android:elevation="20dp" />
+
+        </LinearLayout>
+    </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+</app.simple.inure.decorations.theme.ThemeCoordinatorLayout>

@@ -2,7 +2,6 @@ package app.simple.inure.ui.preferences.mainscreens
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -111,17 +110,6 @@ class AppearanceScreen : ScopedFragment() {
             val uri: Uri = Uri.parse("https://issuetracker.google.com/issues/36911528")
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }))
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            AppearancePreferences.accentOnNav -> {
-
-            }
-            AppearancePreferences.transparentStatus -> {
-                // requireActivity().recreate()
-            }
-        }
     }
 
     companion object {

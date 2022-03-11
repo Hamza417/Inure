@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdkVersion 31
 
-    def appVersionCode = 23
+    def appVersionCode = 24
     def appVersionName = "build_${appVersionCode} (alpha)"
 
     buildFeatures {
@@ -110,8 +110,7 @@ dependencies {
     implementation 'com.bogdwellers:pinchtozoom:0.1'
     implementation "com.anggrayudi:storage:0.13.0"
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
-    implementation 'com.github.razerdp:AnimatedPieView:a8da1b323d'
-    implementation 'org.apmem.tools:layouts:1.10@aar'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // root
     def libsuVersion = '3.1.2'

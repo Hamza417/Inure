@@ -9,32 +9,43 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser.getApkMeta
 import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.SDKHelper
-import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig
-import com.razerdp.widget.animatedpieview.data.SimplePieInfo
+import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AnalyticsViewModel(application: Application) : WrappedViewModel(application) {
 
-    private val minimumOsData: MutableLiveData<AnimatedPieViewConfig> by lazy {
-        MutableLiveData<AnimatedPieViewConfig>().also {
+    private val minimumOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
             loadMinimumOsData()
         }
     }
 
-    fun getMinimumOsData(): LiveData<AnimatedPieViewConfig> {
+    private val targetOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
+            loadTargetOsData()
+        }
+    }
+
+    fun getMinimumOsData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
         return minimumOsData
+    }
+
+    fun getTargetOsData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
+        return targetOsData
     }
 
     private fun loadMinimumOsData() {
         viewModelScope.launch(Dispatchers.IO) {
             val apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-            val data = arrayListOf<SimplePieInfo>()
+            val data = arrayListOf<PieEntry>()
+            val colors = arrayListOf<Int>()
 
             // TODO - improve this code
             for (sdkCode in 1..SDKHelper.totalSDKs) {
-                var total = 0
+                var total = 0F
                 for (app in apps) {
                     val sdk = app.getMinSDK()
                     if (sdk == sdkCode) {
@@ -42,15 +53,39 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
                     }
                 }
 
-                data.add(SimplePieInfo(total.toDouble(), SDKHelper.getSdkColor(sdkCode, getApplication()), SDKHelper.getSdkTitle(sdkCode)))
+                if (total != 0F) { // Filter empty data
+                    data.add(PieEntry(total, if (AnalyticsPreferences.getSDKValue()) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)))
+                    colors.add(SDKHelper.getSdkColor(sdkCode, getApplication()))
+                }
             }
 
-            val animatedPieViewConfig = AnimatedPieViewConfig().apply {
-                startAngle(-90.0F)
-                addDatas(data)
+            minimumOsData.postValue(Pair(data, colors))
+        }
+    }
+
+    private fun loadTargetOsData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+            val data = arrayListOf<PieEntry>()
+            val colors = arrayListOf<Int>()
+
+            // TODO - improve this code
+            for (sdkCode in 1..SDKHelper.totalSDKs) {
+                var total = 0F
+                for (app in apps) {
+                    val sdk = app.applicationInfo.targetSdkVersion
+                    if (sdk == sdkCode) {
+                        ++total
+                    }
+                }
+
+                if (total != 0F) { // Filter empty data
+                    data.add(PieEntry(total, if (AnalyticsPreferences.getSDKValue()) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)))
+                    colors.add(SDKHelper.getSdkColor(sdkCode, getApplication()))
+                }
             }
 
-            minimumOsData.postValue(animatedPieViewConfig)
+            targetOsData.postValue(Pair(data, colors))
         }
     }
 
@@ -60,5 +95,10 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
         } else {
             applicationInfo.getApkMeta().minSdkVersion.toInt()
         }
+    }
+
+    internal fun refresh() {
+        loadMinimumOsData()
+        loadTargetOsData()
     }
 }

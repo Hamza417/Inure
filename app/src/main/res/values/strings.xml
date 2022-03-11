@@ -59,6 +59,7 @@
     <string name="usage">Usage</string>
     <string name="version">Version</string>
     <string name="version_code">Version Code</string>
+    <string name="version_name">Version Name</string>
     <string name="install_location">Install Location</string>
     <string name="minimum_sdk">Minimum SDK</string>
     <string name="target_sdk">Target SDK</string>
@@ -473,4 +474,5 @@
     <string name="editor">Editor</string>
     <string name="ignore_case">Ignore Case</string>
     <string name="formatting">Formatting</string>
+    <string name="sdk_value">SDK Value</string>
 </resources>

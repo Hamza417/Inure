@@ -1,7 +1,6 @@
 package app.simple.inure.dialogs.appearance
 
 import android.animation.ObjectAnimator
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -60,8 +59,6 @@ class RoundedCorner : ScopedBottomSheetFragment() {
 
                 radiusValue.text = buildSpannableString("${progress / 5F} px", 2)
                 updateBackground(progress / 5F)
-
-                if (fromUser) AppearancePreferences.setCornerRadius(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -74,25 +71,15 @@ class RoundedCorner : ScopedBottomSheetFragment() {
         })
 
         set.setOnClickListener {
-            isValueSet = true
+            AppearancePreferences.setCornerRadius(radiusSeekBar.progress)
             this.dismiss()
         }
 
         cancel.setOnClickListener {
-            isValueSet = false
             this.dismiss()
         }
 
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        if (isValueSet) {
-            requireActivity().recreate()
-        } else {
-            AppearancePreferences.setCornerRadius(lastCornerValue)
-        }
-        super.onDismiss(dialog)
     }
 
     private fun updateBackground(radius: Float) {

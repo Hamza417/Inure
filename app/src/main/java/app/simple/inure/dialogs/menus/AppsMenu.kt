@@ -5,6 +5,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +23,11 @@ import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedDialogFragment
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.StatusBarHeight
+import app.simple.inure.util.ViewUtils
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 
 class AppsMenu : ScopedDialogFragment() {
@@ -75,6 +80,28 @@ class AppsMenu : ScopedDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val window = dialog!!.window ?: return
+        val displayMetrics = DisplayMetrics()
+
+        @Suppress("deprecation")
+        window.windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        if (BehaviourPreferences.isDimmingOn()) {
+            dialog?.window?.setDimAmount(ViewUtils.getDimValue(requireContext()))
+        } else {
+            dialog?.window?.setDimAmount(0f)
+        }
+
+        window.attributes.gravity = Gravity.CENTER
+
+        if (StatusBarHeight.isLandscape(requireContext())) {
+            window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 60f).toInt()
+            window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 90F).toInt()
+        } else {
+            window.attributes.width = (displayMetrics.widthPixels * 1f / 100f * 85f).toInt()
+            window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 60F).toInt()
+        }
 
         icon.loadAppIcon(packageInfo.packageName)
 

@@ -47,6 +47,15 @@ object ConditionUtils {
     }
 
     /**
+     * Checks if a number is not 0
+     *
+     * @return [Boolean]
+     */
+    fun Number.isNotZero(): Boolean {
+        return this != 0
+    }
+
+    /**
      * Check is a number is equal to another number
      *
      * @return [Boolean]
