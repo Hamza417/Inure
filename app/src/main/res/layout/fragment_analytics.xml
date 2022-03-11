@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -131,6 +132,21 @@
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/target_os_pie"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/pie_chart_height"
+                android:elevation="20dp" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/panel_item_padding"
+                android:text="@string/install_location"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/install_location_pie"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height"
                 android:elevation="20dp" />

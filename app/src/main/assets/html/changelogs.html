@@ -3,40 +3,41 @@
 <head>
     <link href="file:///android_asset/css/html_decoration.css" rel="stylesheet">
 </head>
-
 <body>
-
 <h1>Change Logs</h1>
-
 <p>
     List of changes of bundled with this version of the app.
 </p>
-
 <br>
-
 <sub>(Current Version)</sub>
 <h2>Build25</h2>
 
 <h4>User Interface</h4>
-
 <ul>
     <li>Added <b>Target SDK</b> data in <b>Analytics</b> panel.</li>
+    <li>Added <b>Install Location</b> data in <b>Analytics</b> panel.</li>
     <li>Added <b>Analytics</b> menu.</li>
     <li>Added option to switch between legend labels with <i>Version Code</i> and <i>Version
         Name</i>.
     </li>
 </ul>
 
-<h4>Improvements</h4>
+<h4>Bug Fixes</h4>
+<ul>
+    <li>Fixed legend layout not padded properly in <b>Analytics</b> panel.</li>
+    <li>Fixed solid center color for Pie charts.</li>
+</ul>
 
+<h4>Improvements</h4>
 <ul>
     <li>Pie charts' legends type face now follows app's typeface.</li>
-    <li><b>Minimum SDK</b> chart is disabled on pre-Nougat devices.
+    <li><b>Minimum SDK</b> chart is disabled for pre-Nougat devices.
         <br>
         <sub>because Android system does not natively provide any <i>minimumSdk</i> values
-            natively until Android 7.0 and inflating manually fetching this value from all APK files
-            during runtime will overload the system.</sub>
+            natively up until Android 7.0 and inflating or manually fetching this value from all APK
+            files during runtime will overload the system.</sub>
     </li>
+    <li>Charts now included in <i>Inure Theme Engine</i></li>
 </ul>
 
 <br>
@@ -48,12 +49,12 @@
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added two accents colors <i>Horizon</i> and <i>Limed Spruce</i>.</li>
                 <li>Added <i>Minimum SDK</i> pie chart in <b>Analytics</b> panel.
                     <br>
-                    <sub>Other chart data will be added by the next update.</sub></li>
+                    <sub>Other chart data will be added by the next update.</sub>
+                </li>
                 <li>Added modal window for <i>Sure</i> prompt dialog replacing the popup menu.</li>
                 <li>Added option to perform case sensitive search in <b>Search</b> panel.</li>
                 <li>Changed <b>About</b> panel icon.</li>
@@ -61,9 +62,7 @@
                     panel.
                 </li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed search data loading two times due to keyword based scanning.</li>
                 <li>Fixed animation not executing between panels when they're being switched from a
@@ -71,9 +70,7 @@
                     menu.
                 </li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li><b>Audio Player</b> won't lose state if player instance is opened from recents
                     panel.
@@ -99,25 +96,20 @@
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_23" class="toggle" type="checkbox">
     <label for="build_23" class="lbl-toggle">Build23</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added <i>Days</i> metric in <b>Usage Stats</b> panel.
                     <br>
                     <sub>Also added option to limit the usage duration to hours only.</sub>
                 </li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed a
                     <mark class="red">critical bug</mark>
@@ -139,9 +131,7 @@
                     the app name string.
                 </li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Changing app's typeface style won't restart the app anymore and font changing
                     process is now very smooth.
@@ -152,7 +142,8 @@
                         and cannot be fixed.</sub>
                 </li>
                 <li>Theme animation won't be executed if the same theme is set again and again.</li>
-                <li>Using <i>Foreground Service</i> for the <b>Audio Player</b> replacing the old
+                <li>
+                    Using <i>Foreground Service</i> for the <b>Audio Player</b> replacing the old
                     implementation based on ViewModel pattern.
                     <ul>
                         <li>Allows the use of media style notification, including play and pause
@@ -173,16 +164,13 @@
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_22" class="toggle" type="checkbox">
     <label for="build_22" class="lbl-toggle">Build22</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added app's play store id qr code in About section.</li>
                 <li>Balanced out margins for checkbox in popup windows.</li>
@@ -190,7 +178,8 @@
                     menu due to
                     its design not being modular enough and hard to maintain.
                 </li>
-                <li>Revamped the Home panel design. Here are the list of changes and why that was
+                <li>
+                    Revamped the Home panel design. Here are the list of changes and why that was
                     necessary...
                     <ul>
                         <li><i>Recently Installed, Recently Updated,</i> and <i>Most Used</i> lists
@@ -213,9 +202,7 @@
                     quickly accessible app.
                 </li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed descending checkbox not working in search panel.</li>
                 <li>Handled crash while opening <b>Device</b> information in <b>Device Info</b>
@@ -226,67 +213,52 @@
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_21" class="toggle" type="checkbox">
     <label for="build_21" class="lbl-toggle">Build21</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added custom dialog for closing terminal panel.</li>
                 <li>Added custom context menu for terminal panel.</li>
             </ul>
-
             <h4>Bugs Fixes</h4>
-
             <ul>
                 <li>Fixed terminal not closing issue from notification close button.</li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Improved animation of popup windows to reduce too much motion in animation.</li>
             </ul>
-
             <h4>Terminal Emulator</h4>
-
             <ul>
                 <li>Implemented association activities for terminal windows.</li>
             </ul>
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_20" class="toggle" type="checkbox">
     <label for="build_20" class="lbl-toggle">Build20</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed a critical issue that is crashing the app installation in Android 12.</li>
             </ul>
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_19" class="toggle" type="checkbox">
     <label for="build_19" class="lbl-toggle">Build19</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>(Beta) Added option to resize icons of the app.</li>
                 <li>Added option to disable colored icon shadows.</li>
@@ -295,17 +267,13 @@
                 </li>
                 <li>List interface for <b>App Theme</b>.</li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed black header text issues in some panels.</li>
                 <li>Fixed slide animation not working for some panels when transitions are on.</li>
                 <li>Fixed few margin issues.</li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Added native markdown viewer.</li>
                 <li>Added improved native Terminal Emulator framework.
@@ -328,9 +296,7 @@
                     </sub>
                 </li>
             </ul>
-
             <h4>Terminal Emulator Changes</h4>
-
             <ul>
                 <li>Multiple windows with native processes.</li>
                 <li>Various themes including native app theme.</li>
@@ -345,33 +311,26 @@
                     process states even if app is closed.
                 </li>
             </ul>
-
             <h4>Removed</h4>
-
             <ul>
                 <li>RAM details from device info panel.</li>
             </ul>
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_18" class="toggle" type="checkbox">
     <label for="build_18" class="lbl-toggle">Build18</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added information panel menu in <b>Device Info</b> panel.</li>
                 <li>Redesigned <b>Device Info</b> panel.</li>
                 <li>Added <b>High Contrast</b> theme.</li>
             </ul>
-
             <h4>Bug and Issues Fixes</h4>
-
             <ul>
                 <li>Fixed crashes on some popup menus.</li>
                 <li>Fixed icon color issue in <b>Apps</b> panel.</li>
@@ -380,9 +339,7 @@
                 <li>Fixed seekbar background issue.</li>
                 <li>Fixed <b>Audio Player</b> not launching issue.</li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Improved icon loader framework, now loads current launcher icons of the apps
                     instead of
@@ -395,9 +352,7 @@
                         fixes that problem.)</sub>
                 </li>
             </ul>
-
             <h4>Device Info</h4>
-
             <ul>
                 <li>Implemented System panel.</li>
                 <li>Implemented Device panel.</li>
@@ -406,23 +361,18 @@
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_17" class="toggle" type="checkbox">
     <label for="build_17" class="lbl-toggle">Build17</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added custom divider for <b>Inure Theme Engine</b></li>
                 <li>Added new custom <i>SeekBar</i> to work with Inure Theme Engine.</li>
             </ul>
-
             <h4>Bug and Issues Fixes</h4>
-
             <ul>
                 <li>Fixed <i>Static Background</i> color issue with native theme engine.</li>
                 <li>Fixed random crashes when theme is changed by the system.</li>
@@ -439,16 +389,13 @@
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_16" class="toggle" type="checkbox">
     <label for="build_16" class="lbl-toggle">Build16</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added native <b>Inure Theme Engine</b> for more control and elegance over how
                     theming
@@ -476,9 +423,7 @@
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_15" class="toggle" type="checkbox">
     <label for="build_15" class="lbl-toggle">Build15</label>
@@ -500,9 +445,7 @@
                         option.</i></sub>
                 </li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed a rendering issue where icons are different in sizes.</li>
                 <li>Fixed convex path related issues for fast scroller item.</li>
@@ -511,16 +454,13 @@
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_14" class="toggle" type="checkbox">
     <label for="build_14" class="lbl-toggle">Build14</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added option to copy information from <b>Certificate</b> and <b>Information</b>
                     panel.
@@ -529,57 +469,44 @@
                 <li>Added search option in <b>Resources</b> panel.</li>
                 <li>Added app's Telegram group link in <b>About</b> panel.</li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed system app not getting uninstalled on root mode.</li>
                 <li>Workarounds for unexpected chunk type error.</li>
                 <li>Fixed darker ripple color on first click.</li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Migrated to Toolkit API to use intrinsic blur after deprecation of RenderScript
                     API. In some
                     devices you may see much smoother scrolling of lists and faster icon rendering.
                 </li>
             </ul>
-
             <h4>Removed</h4>
-
             <ul>
                 <li>RenderScript API.</li>
             </ul>
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_13" class="toggle" type="checkbox">
     <label for="build_13" class="lbl-toggle">Build13</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added <b>Credits</b> in <b>About</b> panel.</li>
                 <li>Added <b>Open Source Licenses</b> in <b>About</b> panel.</li>
                 <li>Added <b>SharedLibs</b> option in <b>App Info</b> panel.</li>
                 <li>Added custom <b>CheckBox</b>.</li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed various issues with <b>Date Format</b> dialog.</li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Removed separate activity for viewing web pages making navigation more
                     streamlined.
@@ -591,9 +518,7 @@
                 <li>Added native engine for parsing XML files.</li>
                 <li>Viewing XML as TXT now decodes the file before showing.</li>
             </ul>
-
             <h4>Removed</h4>
-
             <ul>
                 <li>Removed <i>ApkParse</i> library due to issues with it's BSD 2 clause and app's
                     GPLv3
@@ -603,16 +528,13 @@
         </div>
     </div>
 </div>
-
 <br>
-
 <div class="wrap-collapsible">
     <input id="build_12" class="toggle" type="checkbox">
     <label for="build_12" class="lbl-toggle">Build12</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added option to use <b>Accent Color</b> on <b>Navigation Bar</b> as well.</li>
                 <li>Added <b>Accessibility</b> in <b>Preferences</b> panel.</li>
@@ -624,9 +546,7 @@
                 <li>Added search result count in <b>Search</b> panel</li>
                 <li>Removed <i>Overshoot</i> interpolator from panel switching animation.</li>
             </ul>
-
             <h4>User Experience</h4>
-
             <uL>
                 <li>Added option to highlight all clickable icons and buttons of the app with grey
                     backgrounds.
@@ -635,9 +555,7 @@
                 <li>Moved permission label toggle into <b>Permissions</b> panel.</li>
                 <li>Updated manifest icon.</li>
             </uL>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed shadow behind the status bar.</li>
                 <li>Fixed white navigation bar issue.</li>
@@ -646,9 +564,7 @@
                 <li>Fixed app freezing when <b>Use Root Method</b> is unchecked.</li>
                 <li>Fixed status bar becoming black after going back from <b>Image Viewer</b></li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Improved <b>Text Viewer</b> and added option to save or copy the text.</li>
                 <li>Improved setup panel.</li>
@@ -656,19 +572,16 @@
                     opening <b>Search</b>.
                 </li>
             </ul>
-
             <h4>Adjustments</h4>
-
             <ul>
                 <li>Text style adjustments for <b>Preferences</b> panel</li>
             </ul>
         </div>
     </div>
 </div>
-
 <br>
-
 <p>Other older builds were released for internal testing without any proper tags and
-    changelogs. In other words <i>Open Testing</i> began after <i>Build12</i></p>
-
+    changelogs. In other words <i>Open Testing</i> began after <i>Build12</i>
+</p>
 </body>
+
