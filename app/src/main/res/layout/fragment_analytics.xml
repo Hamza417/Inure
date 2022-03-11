@@ -106,6 +106,7 @@
                 android:layout_height="1px" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/min_sdk_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/panel_item_padding"

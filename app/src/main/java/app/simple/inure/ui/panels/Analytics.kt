@@ -2,6 +2,7 @@ package app.simple.inure.ui.panels
 
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.menus.AnalyticsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AnalyticsPreferences
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.TypeFace
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
@@ -27,6 +32,8 @@ class Analytics : ScopedFragment() {
     private lateinit var search: DynamicRippleImageButton
     private lateinit var minimumOsPie: PieChart
     private lateinit var targetOsPie: PieChart
+    private lateinit var minSdkHeading: TypeFaceTextView
+
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
 
     private val chartOffset = 20F
@@ -38,6 +45,12 @@ class Analytics : ScopedFragment() {
         search = view.findViewById(R.id.search_button)
         minimumOsPie = view.findViewById(R.id.minimum_os_pie)
         targetOsPie = view.findViewById(R.id.target_os_pie)
+        minSdkHeading = view.findViewById(R.id.min_sdk_heading)
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            minimumOsPie.gone()
+            minSdkHeading.gone()
+        }
 
         startPostponedEnterTransition()
         return view
@@ -63,6 +76,7 @@ class Analytics : ScopedFragment() {
                     textColor = ThemeManager.theme.textViewTheme.secondaryTextColor
                     this.xEntrySpace = 20F
                     this.yEntrySpace = 5F
+                    this.typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), TypeFace.TypefaceStyle.MEDIUM.style, requireContext())
                     isWordWrapEnabled = true
                     orientation = Legend.LegendOrientation.HORIZONTAL
                     verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
@@ -100,6 +114,7 @@ class Analytics : ScopedFragment() {
                     textColor = ThemeManager.theme.textViewTheme.secondaryTextColor
                     this.xEntrySpace = 20F
                     this.yEntrySpace = 5F
+                    this.typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), TypeFace.TypefaceStyle.MEDIUM.style, requireContext())
                     isWordWrapEnabled = true
                     orientation = Legend.LegendOrientation.HORIZONTAL
                     verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM

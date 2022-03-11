@@ -10,6 +10,7 @@ import app.simple.inure.extension.popup.PopupLinearLayout
 import app.simple.inure.extension.popup.PopupMenuCallback
 import kotlin.math.roundToInt
 
+@Deprecated("")
 class PopupAnalytics(anchor: View) : BasePopupWindow() {
 
     private lateinit var popupMenuCallback: PopupMenuCallback

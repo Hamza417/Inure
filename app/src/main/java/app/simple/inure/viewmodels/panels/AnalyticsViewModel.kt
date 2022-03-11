@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -19,7 +20,9 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
 
     private val minimumOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
         MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
-            loadMinimumOsData()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                loadMinimumOsData()
+            }
         }
     }
 
@@ -37,6 +40,7 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
         return targetOsData
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun loadMinimumOsData() {
         viewModelScope.launch(Dispatchers.IO) {
             val apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
@@ -47,7 +51,7 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
             for (sdkCode in 1..SDKHelper.totalSDKs) {
                 var total = 0F
                 for (app in apps) {
-                    val sdk = app.getMinSDK()
+                    val sdk = app.applicationInfo.minSdkVersion
                     if (sdk == sdkCode) {
                         ++total
                     }
@@ -98,7 +102,9 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
     }
 
     internal fun refresh() {
-        loadMinimumOsData()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            loadMinimumOsData()
+        }
         loadTargetOsData()
     }
 }
