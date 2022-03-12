@@ -69,7 +69,7 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
                     if (AppearancePreferences.setAppFont(list[position].name)) {
                         notifyItemChanged(lastFontPosition)
                         notifyItemChanged(holder.absoluteAdapterPosition)
-                        notifyItemChanged(0)
+                        notifyItemChanged(0) // Update the header font
                     }
                 }
             }
@@ -77,7 +77,7 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
                 holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
 
                 // TODO - Find the exact cause of why the typeface is not changing
-                holder.title.typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), 2, holder.itemView.context)
+                holder.title.typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), TypeFace.TypefaceStyle.BOLD.style, holder.itemView.context)
             }
         }
     }

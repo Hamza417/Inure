@@ -29,7 +29,7 @@
         android:drawableEnd="@drawable/ic_chevron"
         android:drawablePadding="10dp"
         android:padding="10dp"
-        android:text="@string/storage"
+        android:text="@string/usage_statistics"
         android:textSize="@dimen/app_info_options_text_size"
         app:appFontStyle="bold"
         app:drawableTintStyle="regular"

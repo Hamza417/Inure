@@ -104,8 +104,7 @@ class Apps : ScopedFragment() {
         when (key) {
             MainPreferences.sortStyle,
             MainPreferences.isSortingReversed,
-            MainPreferences.listAppsCategory,
-            -> {
+            MainPreferences.listAppsCategory -> {
                 model.loadAppData()
             }
         }

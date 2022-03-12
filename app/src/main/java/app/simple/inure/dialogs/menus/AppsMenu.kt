@@ -24,6 +24,7 @@ import app.simple.inure.extension.fragments.ScopedDialogFragment
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.StatusBarHeight
@@ -172,9 +173,15 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         manifest.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"),
-                                        "information")
+            if (FormattingPreferences.isWebViewXmlViewer()) {
+                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                            XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"),
+                                            "xml")
+            } else {
+                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                            XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"),
+                                            "xml")
+            }
         }
 
         quickAppsViewModel.getSimpleQuickAppList().observe(viewLifecycleOwner) {
