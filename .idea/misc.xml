@@ -26,10 +26,11 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_back.xml" value="0.25625" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_down.xml" value="0.25625" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_drop_down.xml" value="0.25625" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_drop_down_24dp.xml" value="0.1375" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_drop_right.xml" value="0.25625" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_drop_up.xml" value="0.25625" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_right.xml" value="0.25625" />
-        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_right_tiny.xml" value="0.2523076923076923" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_arrow_right_tiny.xml" value="0.14" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_audio_placeholder.xml" value="0.1375" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_backup.xml" value="0.25625" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_battery.xml" value="0.25092592592592594" />
@@ -38,7 +39,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_battery_5.xml" value="0.25092592592592594" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_battery_6.xml" value="0.25092592592592594" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_check.xml" value="0.2523076923076923" />
-        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_dot_tiny.xml" value="0.2523076923076923" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_dot_tiny.xml" value="0.14" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_layers.xml" value="0.25625" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_link_and_arrow_right.xml" value="0.2523076923076923" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_link_tiny.xml" value="0.2523076923076923" />

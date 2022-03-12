@@ -114,10 +114,10 @@ class AppInfo : ScopedFragment() {
                 override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
                     when (source) {
                         getString(R.string.manifest) -> {
-                            if (FormattingPreferences.isXmlViewerTextView()) {
-                                openFragment(requireActivity().supportFragmentManager, XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
-                            } else {
+                            if (FormattingPreferences.isWebViewXmlViewer()) {
                                 openFragment(requireActivity().supportFragmentManager, XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
+                            } else {
+                                openFragment(requireActivity().supportFragmentManager, XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             }
                         }
                         getString(R.string.services) -> {

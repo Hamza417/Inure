@@ -90,8 +90,8 @@
     <string name="sign_algorithm_oid">Sign Algorithm OID</string>
     <string name="public_key">Public Key</string>
     <string name="information">Information</string>
-    <string name="us_xml_viewer_desc">Use TextView based Xml Viewer instead of using WebView to view Xml resource files.</string>
-    <string name="use_textview_xml_viewer">Use TextView Xml Viewer</string>
+    <string name="us_xml_viewer_desc">Use WebView based Xml Viewer instead of TextView to view Xml resource files.</string>
+    <string name="use_webview_xml_viewer"><strike>Use WebView Xml Viewer</strike></string>
     <string name="save">Save</string>
     <string name="copy">Copy</string>
     <string name="saved_successfully">Saved Successfully</string>
@@ -164,7 +164,7 @@
     <string name="desc_binary_format">Use binary format for showing file sizes instead of using the conventional SI format.\n\ni.e. 1024 kB = 1 mB</string>
     <string name="progress">%d%%</string>
     <string name="load_large_strings">Load Large Strings</string>
-    <string name="desc_large_strings">Suppress error while loading strings that are unusually large to be rendered smoothly on the screen. This option is not recommended as this can lead to UI freezing issues in the app and loading large string can take longer time to appear on the screen.</string>
+    <string name="desc_large_strings">Suppress error while loading strings that are unusually large to be rendered smoothly on the screen.\n\nThis option is not recommended as this can lead to UI freezing issues in the app and loading large string can take longer time to appear on the screen.</string>
     <string name="not_granted">Not Granted, Click to Allow</string>
     <string name="grant_usage_access_permission">Grant Usage Access Permission</string>
     <string name="grant_storage_access_permission">Grant Storage Access Permission</string>

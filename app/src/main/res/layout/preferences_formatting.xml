@@ -92,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:text="@string/use_textview_xml_viewer"
+                        android:text="@string/use_webview_xml_viewer"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView014"

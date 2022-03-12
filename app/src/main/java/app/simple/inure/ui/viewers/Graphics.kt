@@ -75,14 +75,14 @@ class Graphics : ScopedFragment() {
                     }
 
                     override fun onGraphicsLongPressed(filePath: String) {
-                        if (FormattingPreferences.isXmlViewerTextView()) {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        XMLViewerTextView.newInstance(packageInfo, false, filePath),
-                                                        "tv_xml")
-                        } else {
+                        if (FormattingPreferences.isWebViewXmlViewer()) {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         XMLViewerWebView.newInstance(packageInfo, false, filePath),
                                                         "wv_xml")
+                        } else {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        XMLViewerTextView.newInstance(packageInfo, false, filePath),
+                                                        "tv_xml")
                         }
                     }
                 })

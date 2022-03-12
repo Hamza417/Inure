@@ -34,12 +34,12 @@ class FormattingScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        textViewXmlViewerSwitchView.setChecked(FormattingPreferences.isXmlViewerTextView())
+        textViewXmlViewerSwitchView.setChecked(FormattingPreferences.isWebViewXmlViewer())
         loadLargeStrings.setChecked(FormattingPreferences.isLoadingLargeStrings())
         useBinaryFormat.setChecked(FormattingPreferences.getSizeType() == "binary")
 
         textViewXmlViewerSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
-            FormattingPreferences.setXmlViewerTextView(isChecked)
+            FormattingPreferences.setWebViewXmlViewer(isChecked)
         }
 
         loadLargeStrings.setOnSwitchCheckedChangeListener {

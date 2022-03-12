@@ -64,14 +64,14 @@ class Resources : ScopedFragment() {
                 override fun onResourceClicked(path: String) {
                     clearExitTransition()
 
-                    if (FormattingPreferences.isXmlViewerTextView()) {
-                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    XMLViewerTextView.newInstance(packageInfo, false, path),
-                                                    "tv_xml")
-                    } else {
+                    if (FormattingPreferences.isWebViewXmlViewer()) {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     XMLViewerWebView.newInstance(packageInfo, false, path),
                                                     "wv_xml")
+                    } else {
+                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                    XMLViewerTextView.newInstance(packageInfo, false, path),
+                                                    "tv_xml")
                     }
                 }
 
