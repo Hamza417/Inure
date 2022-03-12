@@ -17,7 +17,7 @@ High priority features
 - [ ] Apps Backup feature
 - [ ] Dedicated app installer
 - [ ] External APK information
-- [ ] Proper analytics panel
+- [x] Proper analytics panel
 - [ ] App directories panel
 - [ ] APK browser for apps that are not yet installed
 
