@@ -174,4 +174,12 @@ object ThemeUtils {
 
         return false
     }
+
+    fun updateNavAndStatusColors(resources: Resources, window: Window) {
+        if (isNightMode(resources)) {
+            darkBars(window)
+        } else {
+            lightBars(window)
+        }
+    }
 }

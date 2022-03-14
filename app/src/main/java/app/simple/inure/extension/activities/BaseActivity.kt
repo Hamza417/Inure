@@ -223,11 +223,12 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
     private fun setNavColor() {
         if (AppearancePreferences.isAccentOnNavigationBar()) {
-            window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent))
-                .getColor(0, 0)
+            window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent)).getColor(0, 0)
         } else {
             window.navigationBarColor = Color.TRANSPARENT
         }
+
+        ThemeUtils.updateNavAndStatusColors(resources, window)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {
