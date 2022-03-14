@@ -117,11 +117,17 @@ object PackageUtils {
 
     fun checkIfAppIsLaunchable(context: Context, packageName: String): Boolean {
         return context.packageManager
-                .getLaunchIntentForPackage(packageName) != null
+            .getLaunchIntentForPackage(packageName) != null
     }
 
     fun PackageInfo.launchThisPackage(context: Context) {
         val intent = context.packageManager.getLaunchIntentForPackage(this.packageName)
+        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        context.startActivity(intent)
+    }
+
+    fun launchThisPackage(context: Context, packageName: String) {
+        val intent = context.packageManager.getLaunchIntentForPackage(packageName)
         intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         context.startActivity(intent)
     }
@@ -134,7 +140,7 @@ object PackageUtils {
         val mActivityManager = activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         if (this.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
             Toast.makeText(activity.baseContext, activity.baseContext.getString(R.string.warning_kill_system_app), Toast.LENGTH_SHORT)
-                    .show()
+                .show()
         } else {
             mActivityManager.killBackgroundProcesses(this.packageName)
             Toast.makeText(activity.baseContext, activity.baseContext.getString(R.string.alert_app_killed), Toast.LENGTH_SHORT)

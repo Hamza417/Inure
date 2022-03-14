@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
 import app.simple.inure.adapters.menus.AdapterHomeMenu
+import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -24,6 +25,7 @@ import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
+import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.panels.*
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
@@ -92,9 +94,13 @@ class Home : ScopedFragment() {
                                                         "analytics")
                         }
                         getString(R.string.terminal) -> {
-                            val intent = Intent(requireActivity(), Term::class.java)
-                            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
-                            startActivity(intent, options.toBundle())
+                            if (TerminalPreferences.isUsingTermux() && PackageUtils.isPackageInstalled("com.termux", requirePackageManager())) {
+                                PackageUtils.launchThisPackage(requireContext(), "com.termux")
+                            } else {
+                                val intent = Intent(requireActivity(), Term::class.java)
+                                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
+                                startActivity(intent, options.toBundle())
+                            }
                         }
                         getString(R.string.usage_statistics) -> {
                             FragmentHelper.openFragment(

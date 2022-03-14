@@ -476,4 +476,6 @@
     <string name="formatting">Formatting</string>
     <string name="sdk_value">SDK Value</string>
     <string name="pie_hole_radius">Pie Hole Radius</string>
+    <string name="termux_title">Use Termux</string>
+    <string name="termux_desc">Use Termux instead of app\'s native Terminal Emulator.</string>
 </resources>

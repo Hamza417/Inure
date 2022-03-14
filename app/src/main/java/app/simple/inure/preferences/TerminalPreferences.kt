@@ -15,6 +15,7 @@ object TerminalPreferences {
     const val inputMethod = "input_method"
     private const val altKeyEscape = "terminal_alt_key_escape"
     private const val useKeyboardShortcuts = "terminal_use_keyboard_shortcuts"
+    private const val useTermux = "use_termux"
 
     /* ---------------------------------------------------------------------------------------------- */
 
@@ -116,4 +117,15 @@ object TerminalPreferences {
     fun setInputMethod(@IntRange(from = 0, to = 1) value: Int): Boolean {
         return getSharedPreferences().edit().putInt(inputMethod, value).commit()
     }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
+    fun isUsingTermux(): Boolean {
+        return getSharedPreferences().getBoolean(useTermux, false)
+    }
+
+    fun setTermux(value: Boolean): Boolean {
+        return getSharedPreferences().edit().putBoolean(useTermux, value).commit()
+    }
+
 }

@@ -7,20 +7,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import app.simple.inure.R
 import app.simple.inure.activities.alias.TerminalAlias
+import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.popups.terminal.PopupInputMethod
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.ui.preferences.subscreens.*
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.ViewUtils.gone
 
 class TerminalScreen : ScopedFragment() {
 
     private lateinit var standaloneApp: SwitchView
+    private lateinit var termux: SwitchView
+    private lateinit var termuxContainer: ConstraintLayout
+    private lateinit var termuxAppIcon: ImageView
     private lateinit var fontSize: DynamicRippleRelativeLayout
     private lateinit var color: DynamicRippleRelativeLayout
     private lateinit var cursorBlink: SwitchView
@@ -36,6 +44,9 @@ class TerminalScreen : ScopedFragment() {
         val view = inflater.inflate(R.layout.preferences_terminal, container, false)
 
         standaloneApp = view.findViewById(R.id.standalone_app_switch)
+        termux = view.findViewById(R.id.termux_switch)
+        termuxContainer = view.findViewById(R.id.termux_container)
+        termuxAppIcon = view.findViewById(R.id.termux_app_icon)
         fontSize = view.findViewById(R.id.terminal_font_size)
         color = view.findViewById(R.id.terminal_color)
         cursorBlink = view.findViewById(R.id.terminal_cursor_blink_switch)
@@ -57,11 +68,19 @@ class TerminalScreen : ScopedFragment() {
         standaloneApp.setChecked(requireContext().packageManager
                                      .getComponentEnabledSetting(ComponentName(requireContext(), TerminalAlias::class.java))
                                          == PackageManager.COMPONENT_ENABLED_STATE_ENABLED)
+        termux.setChecked(TerminalPreferences.isUsingTermux())
         cursorBlink.setChecked(TerminalPreferences.getCursorBlinkState())
         utf8.setChecked(TerminalPreferences.getUTF8State())
         altKey.setChecked(TerminalPreferences.getAltKeyEscapeState())
         keyboardShortcut.setChecked(TerminalPreferences.getKeyboardShortcutState())
+
         setInputMethodText()
+
+        if (PackageUtils.isPackageInstalled("com.termux", requirePackageManager())) {
+            termuxAppIcon.loadAppIcon("com.termux")
+        } else {
+            termuxContainer.gone()
+        }
 
         standaloneApp.setOnSwitchCheckedChangeListener {
             if (it) {
@@ -73,6 +92,10 @@ class TerminalScreen : ScopedFragment() {
                     .setComponentEnabledSetting(ComponentName(requireContext(), TerminalAlias::class.java),
                                                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
             }
+        }
+
+        termux.setOnSwitchCheckedChangeListener {
+            TerminalPreferences.setTermux(it)
         }
 
         fontSize.setOnClickListener {
