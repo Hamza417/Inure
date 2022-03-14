@@ -94,7 +94,7 @@ class Home : ScopedFragment() {
                                                         "analytics")
                         }
                         getString(R.string.terminal) -> {
-                            if (TerminalPreferences.isUsingTermux() && PackageUtils.isPackageInstalled("com.termux", requirePackageManager())) {
+                            if (TerminalPreferences.isUsingTermux() && PackageUtils.isPackageInstalledAndEnabled("com.termux", requirePackageManager())) {
                                 PackageUtils.launchThisPackage(requireContext(), "com.termux")
                             } else {
                                 val intent = Intent(requireActivity(), Term::class.java)

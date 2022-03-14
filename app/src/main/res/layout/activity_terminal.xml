@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:src="@drawable/ic_more_vert"
             app:buttonTintType="accent" />
 
-    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+    </app.simple.inure.decorations.theme.ThemeLinearLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"

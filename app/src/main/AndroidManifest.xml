@@ -60,15 +60,24 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <activity
             android:name=".terminal.Term"
             android:configChanges="keyboard|keyboardHidden|orientation"
-            android:documentLaunchMode="intoExisting"
             android:exported="true"
             android:label="@string/terminal"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".activities.launcher.TerminalLauncher"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:exported="true"
             android:launchMode="singleTask"
+            android:label="@string/terminal"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
@@ -167,10 +176,10 @@
             android:name=".activities.association.AudioPlayerActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
+            android:configChanges="uiMode|orientation|screenSize"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
             android:label="@string/audio_player"
-            android:configChanges="uiMode|orientation|screenSize"
             android:theme="@style/Inure.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -273,9 +282,6 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
         </activity-alias>
 
         <activity-alias

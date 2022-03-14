@@ -39,6 +39,7 @@
 
 <ul>
     <li>Fixed status bar turning white when <i>Accent on Nav Bar</i> is toggled.</li>
+    <li>Fixed icon not animating back from <b>Terminal</b> panel.</li>
 </ul>
 
 <h4>Improvements</h4>
@@ -46,6 +47,11 @@
     <li>Pie charts' legends type face now follows app's typeface.</li>
     <li>Charts are now included in <i>Inure Theme Engine</i>.</li>
     <li><b>Corner Radius</b> values range expanded from 1 to 99 pixels.</li>
+    <li>Transparent status bar disabled for <b>Terminal</b> panel to avoid keyboard padding issue
+        caused by <i>Android Bug #5497.</i>.
+        <br>
+        <small>UI will still feel the same and will work as it is.</small>
+    </li>
     <li><b>Minimum SDK</b> chart is disabled for pre-Nougat devices.
         <br>
         <sub>because Android system does not natively provide any <i>minimumSdk</i> values

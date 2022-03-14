@@ -176,10 +176,23 @@ object PackageUtils {
     fun isPackageInstalled(packageName: String, packageManager: PackageManager): Boolean {
         return try {
             val p0 = packageManager.getPackageInfo(packageName, 0)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+    }
+
+    private fun isPackageEnabled(packageName: String, packageManager: PackageManager): Boolean {
+        return try {
+            val p0 = packageManager.getPackageInfo(packageName, 0)
             p0.applicationInfo.enabled
         } catch (e: PackageManager.NameNotFoundException) {
             false
         }
+    }
+
+    fun isPackageInstalledAndEnabled(packageName: String, packageManager: PackageManager): Boolean {
+        return isPackageInstalled(packageName, packageManager) && isPackageEnabled(packageName, packageManager)
     }
 
     /**

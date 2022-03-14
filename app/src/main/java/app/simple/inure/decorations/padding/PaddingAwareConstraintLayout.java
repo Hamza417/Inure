@@ -21,6 +21,9 @@ public class PaddingAwareConstraintLayout extends ThemeConstraintLayout implemen
     }
     
     private void init() {
+        if (isInEditMode()) {
+            return;
+        }
         updatePadding();
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }

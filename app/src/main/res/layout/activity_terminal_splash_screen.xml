@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.padding.PaddingAwareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:padding="@dimen/header_padding"
+        android:src="@drawable/ic_terminal"
+        android:transitionName="@string/terminal"
+        tools:ignore="ContentDescription" />
+
+</app.simple.inure.decorations.padding.PaddingAwareFrameLayout>
