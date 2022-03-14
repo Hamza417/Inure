@@ -48,6 +48,7 @@ p {
 
 sub {
     color: rgb(32, 32, 32);
+    margin-bottom: 25px;
 }
 
 ul {

@@ -1,5 +1,6 @@
 package app.simple.inure.decorations.theme;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -103,11 +104,40 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         setProgressDrawable(shape);
     }
     
+    @Override
+    public synchronized void setMax(int max) {
+        super.setMax(max);
+        invalidate();
+        requestLayout();
+    }
+    
     public void updateSeekbar(int value) {
         objectAnimator = ObjectAnimator.ofInt(this, "progress", getProgress(), value);
         objectAnimator.setDuration(1000L);
         objectAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
         objectAnimator.setAutoCancel(true);
+        objectAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            
+            }
+            
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                invalidate();
+                requestLayout();
+            }
+            
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            
+            }
+            
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            
+            }
+        });
         objectAnimator.start();
     }
 }

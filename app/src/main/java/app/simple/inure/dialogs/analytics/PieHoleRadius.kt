@@ -21,6 +21,7 @@ class PieHoleRadius : ScopedBottomSheetFragment() {
     private lateinit var cancel: DynamicRippleTextView
 
     private var lastValue = 0F
+    private val factor = 10F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_pie_hole_radius, container, false)
@@ -36,15 +37,15 @@ class PieHoleRadius : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        value.text = SpannableStringBuilder.buildSpannableString("${AnalyticsPreferences.getPieHoleRadiusValue()} px", 2)
-        seekBar.max = 495
-        seekBar.updateSeekbar(AnalyticsPreferences.getPieHoleRadiusValue().toInt() * 5)
+        value.text = SpannableStringBuilder.buildSpannableString("${AnalyticsPreferences.getPieHoleRadiusValue()}%", 2)
+        seekBar.max = 990
+        seekBar.updateSeekbar(AnalyticsPreferences.getPieHoleRadiusValue().toInt() * factor.toInt())
         lastValue = AnalyticsPreferences.getPieHoleRadiusValue()
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                value.text = SpannableStringBuilder.buildSpannableString("${progress / 5F} px", 2)
-                if (fromUser) AnalyticsPreferences.setPieHoleRadiusValue(progress / 5F)
+                value.text = SpannableStringBuilder.buildSpannableString("${progress / factor}%", 2)
+                if (fromUser) AnalyticsPreferences.setPieHoleRadiusValue(progress / factor)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {

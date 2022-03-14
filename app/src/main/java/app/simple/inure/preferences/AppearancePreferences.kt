@@ -8,7 +8,7 @@ import app.simple.inure.util.TypeFace
 
 object AppearancePreferences {
 
-    private const val appCornerRadius = "corner_radius"
+    private const val appCornerRadius = "view_corner_radius"
     private const val iconShadows = "icon_shadows"
     private const val lastDarkTheme = "last_dark_theme"
     private const val coloredIconShadows = "icon_shadows_colored"
@@ -70,12 +70,12 @@ object AppearancePreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setCornerRadius(@IntRange(from = 25, to = 400) radius: Int) {
-        getSharedPreferences().edit().putInt(appCornerRadius, radius / 5).apply()
+    fun setCornerRadius(radius: Float) {
+        getSharedPreferences().edit().putFloat(appCornerRadius, if (radius < 1F) 1F else radius).apply()
     }
 
-    fun getCornerRadius(): Int {
-        return getSharedPreferences().getInt(appCornerRadius, 60)
+    fun getCornerRadius(): Float {
+        return getSharedPreferences().getFloat(appCornerRadius, 60F)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

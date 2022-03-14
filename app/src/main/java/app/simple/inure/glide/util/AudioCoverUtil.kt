@@ -25,12 +25,12 @@ object AudioCoverUtil {
      */
     fun ImageView.loadFromFileDescriptor(uri: Uri) {
         GlideApp.with(this)
-                .asBitmap()
-                .transform(RoundedCorners(AppearancePreferences.getCornerRadius()),
-                           Padding(BlurShadow.DEFAULT_SHADOW_SIZE.toInt()),
-                           BlurShadow(context)
-                               .setElevation(25F)
-                               .setBlurRadius(BlurShadow.DEFAULT_SHADOW_SIZE))
+            .asBitmap()
+            .transform(RoundedCorners(AppearancePreferences.getCornerRadius().toInt()),
+                       Padding(BlurShadow.DEFAULT_SHADOW_SIZE.toInt()),
+                       BlurShadow(context)
+                           .setElevation(25F)
+                           .setBlurRadius(BlurShadow.DEFAULT_SHADOW_SIZE))
                 .load(DescriptorCoverModel(this.context, uri))
                 .addListener(object : RequestListener<Bitmap> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
