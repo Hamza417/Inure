@@ -439,7 +439,7 @@
     <string name="good">Good</string>
     <string name="dead">Dead</string>
     <string name="overheat">Overheat</string>
-    <string name="overvoltage">Overvoltage</string>
+    <string name="overvoltage">Over Voltage</string>
     <string name="unspecified_failure">Unspecified Failure</string>
     <string name="health">Health</string>
     <string name="voltage">Voltage</string>
@@ -462,7 +462,7 @@
     <string name="desc_skip_loading">Do not load data on app launch and goes directly to the app\'s home screen.\n\nData will still be loaded just as usual but all tasks will put in background and loading won\'t block the app launch but can add delay to in-app actions if data is not available.</string>
     <string name="path">Path</string>
     <string name="standalone_terminal">Standalone Terminal</string>
-    <string name="standalone_terminal_desc">Use terminal as a standalone app and launch it directly from home screen without needing to open the main app everytime terminal is needed.</string>
+    <string name="standalone_terminal_desc">Use terminal as a standalone app and launch it directly from home screen without needing to open the main app every time terminal is needed.</string>
     <string name="ok">OK</string>
     <string name="share">Share</string>
     <string name="favourite_commands">Favourite Commands</string>
@@ -478,4 +478,7 @@
     <string name="pie_hole_radius">Pie Hole Radius</string>
     <string name="termux_title">Use Termux</string>
     <string name="termux_desc">Use Termux instead of app\'s native Terminal Emulator.</string>
+    <string name="desc_share">Tell others about the app \☺</string>
+    <string name="desc_share_02">Scan the QR Code to open app\'s page on Play Store or share app\'s link.</string>
+    <string name="share_message">Share Message</string>
 </resources>

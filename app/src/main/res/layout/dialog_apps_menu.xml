@@ -66,6 +66,8 @@
                 android:text="@string/send"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
+                app:drawableTintStyle="accent"
+                app:drawableEndCompat="@drawable/ic_dot_tiny"
                 app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.theme.ThemeDivider

@@ -462,7 +462,7 @@
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
-                <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+                <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                     android:id="@+id/about_share"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -470,20 +470,25 @@
                     android:padding="15dp">
 
                     <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/share_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/typeface_icon"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:src="@drawable/ic_share"
-                        app:tintType="secondary" />
+                        app:tintType="secondary"
+                        tools:ignore="ContentDescription" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/share_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
+                        android:layout_toEndOf="@id/share_icon"
                         android:drawablePadding="5dp"
-                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
                         android:text="@string/share"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
@@ -492,7 +497,21 @@
                         app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
 
-                </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/share_tag"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="60dp"
+                        android:layout_toEndOf="@id/share_icon"
+                        android:text="@string/desc_share"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
+
+                </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

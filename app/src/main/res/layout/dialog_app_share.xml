@@ -1,17 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:id="@+id/app_corner_dialog_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="QR Code"
-        android:layout_gravity="center"
-        android:src="@drawable/qr_code"
-        tools:ignore="HardcodedText" />
+        android:layout_margin="@dimen/dialog_padding"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="QR Code"
+                android:src="@drawable/qr_code"
+                tools:ignore="HardcodedText" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:text="@string/desc_share_02"
+                app:appFontStyle="medium" />
+
+        </LinearLayout>
+
+        <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
+            android:id="@+id/share_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:hint="@string/share_message"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:maxHeight="150dp"
+            android:minHeight="50dp"
+            android:paddingHorizontal="@dimen/dialog_padding"
+            android:textColorHighlight="?attr/colorAppAccentLight"
+            android:textCursorDrawable="@drawable/text_cursor"
+            app:appFontStyle="medium"
+            app:textColorStyle="primary" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:padding="@dimen/button_padding"
+                android:text="@string/reset"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/button_padding"
+                android:text="@string/share"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+        </LinearLayout>
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
 </FrameLayout>

@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-import app.simple.inure.dialogs.miscellaneous.QRCode
+import app.simple.inure.dialogs.miscellaneous.Share
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.ui.panels.WebPage
 import app.simple.inure.util.FragmentHelper
@@ -23,7 +22,7 @@ class AboutScreen : ScopedFragment() {
     private lateinit var translation: DynamicRippleRelativeLayout
     private lateinit var licenses: DynamicRippleRelativeLayout
     private lateinit var telegram: DynamicRippleRelativeLayout
-    private lateinit var qrCode: DynamicRippleLinearLayout
+    private lateinit var share: DynamicRippleRelativeLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_about, container, false)
@@ -35,7 +34,7 @@ class AboutScreen : ScopedFragment() {
         translation = view.findViewById(R.id.about_translation)
         licenses = view.findViewById(R.id.licenses)
         telegram = view.findViewById(R.id.about_telegram)
-        qrCode = view.findViewById(R.id.about_share)
+        share = view.findViewById(R.id.about_share)
 
         return view
     }
@@ -87,8 +86,8 @@ class AboutScreen : ScopedFragment() {
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
 
-        qrCode.setOnClickListener {
-            QRCode.newInstance()
+        share.setOnClickListener {
+            Share.newInstance()
                 .show(childFragmentManager, "qr_code")
         }
     }

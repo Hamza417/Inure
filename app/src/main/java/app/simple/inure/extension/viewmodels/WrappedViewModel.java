@@ -16,7 +16,7 @@ public class WrappedViewModel extends AndroidViewModel {
     }
     
     public final Context getContext() {
-        return ContextUtils.Companion.updateLocale(getApplication().getApplicationContext(), "en");
+        return ContextUtils.INSTANCE.updateLocale(getApplication().getApplicationContext(), "en");
     }
     
     public final Context applicationContext() {
