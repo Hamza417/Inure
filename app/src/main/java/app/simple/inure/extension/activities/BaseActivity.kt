@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.R
+import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
@@ -36,9 +37,13 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-        window.enterTransition = Fade()
-        window.exitTransition = Fade()
+        with(window) {
+            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+            sharedElementEnterTransition = DetailsTransitionArc()
+            sharedElementReturnTransition = DetailsTransitionArc()
+            enterTransition = Fade()
+            exitTransition = Fade()
+        }
 
         setContentView(R.layout.activity_main)
 
