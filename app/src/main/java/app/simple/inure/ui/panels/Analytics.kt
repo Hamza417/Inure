@@ -10,32 +10,27 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AnalyticsPreferences
-import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.themes.interfaces.ThemeChangedListener
-import app.simple.inure.themes.manager.Theme
-import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 
-class Analytics : ScopedFragment(), ThemeChangedListener {
+class Analytics : ScopedFragment() {
 
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var search: DynamicRippleImageButton
-    private lateinit var minimumOsPie: PieChart
-    private lateinit var targetOsPie: PieChart
-    private lateinit var installLocationPie: PieChart
+    private lateinit var minimumOsPie: ThemePieChart
+    private lateinit var targetOsPie: ThemePieChart
+    private lateinit var installLocationPie: ThemePieChart
     private lateinit var minSdkHeading: TypeFaceTextView
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
@@ -57,7 +52,6 @@ class Analytics : ScopedFragment(), ThemeChangedListener {
             minSdkHeading.gone()
         }
 
-        ThemeManager.addListener(this)
         startPostponedEnterTransition()
 
         return view
@@ -75,29 +69,6 @@ class Analytics : ScopedFragment(), ThemeChangedListener {
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
 
-                legend.apply {
-                    isEnabled = true
-                    formSize = 10F
-                    formToTextSpace = 5F
-                    form = Legend.LegendForm.DEFAULT
-                    textColor = ThemeManager.theme.textViewTheme.secondaryTextColor
-                    this.xEntrySpace = 20F
-                    this.yEntrySpace = 5F
-                    this.typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), TypeFace.TypefaceStyle.MEDIUM.style, requireContext())
-                    isWordWrapEnabled = true
-                    orientation = Legend.LegendOrientation.HORIZONTAL
-                    verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-                    horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-                }
-
-                holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
-                setHoleColor(Color.TRANSPARENT)
-                setUsePercentValues(false)
-                dragDecelerationFrictionCoef = 0.95f
-                isHighlightPerTapEnabled = true
-                description.isEnabled = false
-                setExtraOffsets(chartOffset, chartOffset, chartOffset, chartOffset)
-                setDrawCenterText(false)
                 animateXY(1000, 500, Easing.EaseOutCubic)
             }
 
@@ -122,30 +93,6 @@ class Analytics : ScopedFragment(), ThemeChangedListener {
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
 
-                legend.apply {
-                    isEnabled = true
-                    formSize = 10F
-                    formToTextSpace = 5F
-                    form = Legend.LegendForm.DEFAULT
-                    textColor = ThemeManager.theme.textViewTheme.secondaryTextColor
-                    this.xEntrySpace = 20F
-                    this.yEntrySpace = 5F
-                    this.typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), TypeFace.TypefaceStyle.MEDIUM.style, requireContext())
-                    isWordWrapEnabled = true
-                    orientation = Legend.LegendOrientation.HORIZONTAL
-                    verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-                    horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-                }
-
-                holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
-                setHoleColor(Color.TRANSPARENT)
-                setUsePercentValues(false)
-                dragDecelerationFrictionCoef = 0.95f
-                isHighlightPerTapEnabled = true
-                description.isEnabled = false
-                setExtraOffsets(chartOffset, chartOffset, chartOffset, chartOffset)
-                setDrawCenterText(false)
-
                 /**
                  * Won't be visible so we can save some rendering strength here
                  * Let the only above one animate
@@ -166,30 +113,6 @@ class Analytics : ScopedFragment(), ThemeChangedListener {
                     valueTextColor = Color.TRANSPARENT
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
-
-                legend.apply {
-                    isEnabled = true
-                    formSize = 10F
-                    formToTextSpace = 5F
-                    form = Legend.LegendForm.DEFAULT
-                    textColor = ThemeManager.theme.textViewTheme.secondaryTextColor
-                    this.xEntrySpace = 20F
-                    this.yEntrySpace = 5F
-                    this.typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), TypeFace.TypefaceStyle.MEDIUM.style, requireContext())
-                    isWordWrapEnabled = true
-                    orientation = Legend.LegendOrientation.HORIZONTAL
-                    verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-                    horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-                }
-
-                holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
-                setHoleColor(Color.TRANSPARENT)
-                setUsePercentValues(false)
-                dragDecelerationFrictionCoef = 0.95f
-                isHighlightPerTapEnabled = true
-                description.isEnabled = false
-                setExtraOffsets(chartOffset, chartOffset, chartOffset, chartOffset)
-                setDrawCenterText(false)
 
                 // animateXY(1000, 500, Easing.EaseOutCubic)
             }
@@ -217,46 +140,7 @@ class Analytics : ScopedFragment(), ThemeChangedListener {
             AnalyticsPreferences.sdkValue -> {
                 analyticsViewModel.refresh()
             }
-            AnalyticsPreferences.pieHoleRadius -> {
-                minimumOsPie.apply {
-                    holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
-                    invalidate()
-                }
-
-                targetOsPie.apply {
-                    holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
-                    invalidate()
-                }
-
-                installLocationPie.apply {
-                    holeRadius = AnalyticsPreferences.getPieHoleRadiusValue()
-                    invalidate()
-                }
-            }
         }
-    }
-
-    override fun onThemeChanged(theme: Theme?) {
-        super.onThemeChanged(theme)
-        minimumOsPie.apply {
-            legend.textColor = ThemeManager.theme.textViewTheme.secondaryTextColor
-            invalidate()
-        }
-
-        targetOsPie.apply {
-            legend.textColor = ThemeManager.theme.textViewTheme.secondaryTextColor
-            invalidate()
-        }
-
-        installLocationPie.apply {
-            legend.textColor = ThemeManager.theme.textViewTheme.secondaryTextColor
-            invalidate()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        ThemeManager.removeListener(this)
     }
 
     companion object {

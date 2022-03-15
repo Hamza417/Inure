@@ -116,7 +116,7 @@
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
-            <com.github.mikephil.charting.charts.PieChart
+            <app.simple.inure.decorations.theme.ThemePieChart
                 android:id="@+id/minimum_os_pie"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
@@ -130,11 +130,10 @@
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
-            <com.github.mikephil.charting.charts.PieChart
+            <app.simple.inure.decorations.theme.ThemePieChart
                 android:id="@+id/target_os_pie"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/pie_chart_height"
-                android:elevation="20dp" />
+                android:layout_height="@dimen/pie_chart_height" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="match_parent"
@@ -145,11 +144,10 @@
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
-            <com.github.mikephil.charting.charts.PieChart
+            <app.simple.inure.decorations.theme.ThemePieChart
                 android:id="@+id/install_location_pie"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/pie_chart_height"
-                android:elevation="20dp" />
+                android:layout_height="@dimen/pie_chart_height" />
 
         </LinearLayout>
     </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

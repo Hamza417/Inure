@@ -96,8 +96,7 @@
 
                 <app.simple.inure.decorations.theme.ThemeDivider
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginBottom="@dimen/popup_padding" />
+                    android:layout_height="1px" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_menu"
@@ -140,7 +139,6 @@
                     app:statusBarPaddingRequired="false" />
 
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </app.simple.inure.decorations.theme.ThemeLinearLayout>
