@@ -28,6 +28,7 @@ import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInfoPanelPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.FormattingPreferences
@@ -70,6 +71,12 @@ class AppInfo : ScopedFragment() {
         meta = view.findViewById(R.id.app_info_menu)
         actions = view.findViewById(R.id.app_info_options)
         miscellaneous = view.findViewById(R.id.app_info_miscellaneous)
+
+        if (AccessibilityPreferences.isAnimationReduced()) {
+            meta.layoutAnimation = null
+            actions.layoutAnimation = null
+            miscellaneous.layoutAnimation = null
+        }
 
         foldMetaDataMenu = view.findViewById(R.id.fold_app_info_menu)
         foldActionsMenu = view.findViewById(R.id.fold_app_info_actions)
@@ -383,11 +390,6 @@ class AppInfo : ScopedFragment() {
                 miscMenuState()
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacksAndMessages(null)
     }
 
     companion object {

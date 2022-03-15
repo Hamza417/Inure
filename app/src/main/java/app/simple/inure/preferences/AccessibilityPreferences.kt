@@ -4,6 +4,7 @@ object AccessibilityPreferences {
 
     private const val isHighlightMode = "is_highlight_mode"
     private const val isDividerEnabled = "is_divider_enabled"
+    private const val reduceAnimations = "reduce_animations"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -23,5 +24,15 @@ object AccessibilityPreferences {
 
     fun isDividerEnabled(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(isDividerEnabled, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setReduceAnimations(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(reduceAnimations, boolean).apply()
+    }
+
+    fun isAnimationReduced(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(reduceAnimations, false)
     }
 }

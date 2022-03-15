@@ -20,7 +20,8 @@ import kotlinx.coroutines.CoroutineScope
  * [ScopedFragment] is lifecycle aware [CoroutineScope] fragment
  * used to bind independent coroutines with the lifecycle of
  * the given fragment. All [Fragment] extension classes must extend
- * this class instead. *
+ * this class instead.
+ *
  * It is recommended to read this code before implementing to know
  * its purpose and importance
  */

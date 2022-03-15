@@ -9,6 +9,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.appcompat.widget.AppCompatEditText
 
 object TextViewUtils {
@@ -30,7 +31,7 @@ object TextViewUtils {
                     textPaint.isUnderlineText = true
                 }
 
-                override fun onClick(view: View) {
+                override fun onClick(@NonNull view: View) {
                     Selection.setSelection((view as TextView).text as Spannable, 0)
                     view.invalidate()
                     link.second.onClick(view)
@@ -38,10 +39,8 @@ object TextViewUtils {
             }
             startIndexOfLink = this.text.toString().indexOf(link.first, startIndexOfLink + 1)
             // if(startIndexOfLink == -1) continue // if you want to verify your texts contains links text
-            spannableString.setSpan(
-                    clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+            spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
+                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
         this.setText(spannableString, TextView.BufferType.SPANNABLE)

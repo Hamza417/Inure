@@ -42,6 +42,9 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                 fastScroll = getBoolean(R.styleable.CustomRecyclerView_isFastScrollRequired, true)
                 manuallyAnimated = getBoolean(R.styleable.CustomRecyclerView_manuallyAnimated, false)
                 isEdgeColorRequired = getBoolean(R.styleable.CustomRecyclerView_isEdgeColorRequired, true)
+
+                if (AccessibilityPreferences.isAnimationReduced())
+                    layoutAnimation = null
             } finally {
                 recycle()
             }
@@ -159,7 +162,8 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
         super.setAdapter(adapter)
 
         if (!manuallyAnimated) {
-            scheduleLayoutAnimation()
+            if (!AccessibilityPreferences.isAnimationReduced())
+                scheduleLayoutAnimation()
         }
 
         /**

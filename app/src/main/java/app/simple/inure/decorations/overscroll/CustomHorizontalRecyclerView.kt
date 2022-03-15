@@ -31,6 +31,8 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
                 }
 
                 isLandscape = StatusBarHeight.isLandscape(context)
+                if (AccessibilityPreferences.isAnimationReduced())
+                    layoutAnimation = null
             } finally {
                 recycle()
             }
@@ -127,7 +129,8 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
     override fun setAdapter(adapter: Adapter<*>?) {
         super.setAdapter(adapter)
         adapter?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
-        scheduleLayoutAnimation()
+        if (!AccessibilityPreferences.isAnimationReduced())
+            scheduleLayoutAnimation()
     }
 
     private inline fun <reified T : HorizontalListViewHolder> RecyclerView.forEachVisibleHolder(action: (T) -> Unit) {

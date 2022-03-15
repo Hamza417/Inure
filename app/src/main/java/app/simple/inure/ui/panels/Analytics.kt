@@ -14,6 +14,7 @@ import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
@@ -69,7 +70,8 @@ class Analytics : ScopedFragment() {
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
 
-                animateXY(1000, 500, Easing.EaseOutCubic)
+                if (!AccessibilityPreferences.isAnimationReduced())
+                    animateXY(1000, 500, Easing.EaseOutCubic)
             }
 
             /**
