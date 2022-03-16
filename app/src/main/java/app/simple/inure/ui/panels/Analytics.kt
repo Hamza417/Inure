@@ -12,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.ChartMarkerView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
@@ -84,6 +85,7 @@ class Analytics : ScopedFragment() {
             minimumOsPie.notifyDataSetChanged()
             minimumOsPie.notifyDataSetChanged()
             minimumOsPie.invalidate()
+            minimumOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
         analyticsViewModel.getTargetOsData().observe(viewLifecycleOwner) {
@@ -105,6 +107,7 @@ class Analytics : ScopedFragment() {
             targetOsPie.notifyDataSetChanged()
             targetOsPie.notifyDataSetChanged()
             targetOsPie.invalidate()
+            targetOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
         analyticsViewModel.getInstallLocationData().observe(viewLifecycleOwner) {
@@ -122,6 +125,7 @@ class Analytics : ScopedFragment() {
             installLocationPie.notifyDataSetChanged()
             installLocationPie.notifyDataSetChanged()
             installLocationPie.invalidate()
+            installLocationPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
         settings.setOnClickListener {

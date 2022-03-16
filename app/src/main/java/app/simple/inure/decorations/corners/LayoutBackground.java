@@ -103,27 +103,35 @@ public class LayoutBackground {
                     .toBuilder()
                     .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
-        }
-        else if (roundTopCorners) {
+        } else if (roundTopCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
                     .setTopLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .setTopRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
-        }
-        else if (roundBottomCorners) {
+        } else if (roundBottomCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
                     .setBottomLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .setBottomRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
-        }
-        else {
+        } else {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
                     .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
+        
+        view.setBackground(new MaterialShapeDrawable(shapeAppearanceModel));
+    }
+    
+    public static void setBackground(View view) {
+        ShapeAppearanceModel shapeAppearanceModel;
+        
+        shapeAppearanceModel = new ShapeAppearanceModel()
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
+                .build();
         
         view.setBackground(new MaterialShapeDrawable(shapeAppearanceModel));
     }

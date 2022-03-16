@@ -101,6 +101,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
                 3 -> this.animateColorChange(ThemeManager.theme.textViewTheme.tertiaryTextColor)
                 4 -> this.animateColorChange(ThemeManager.theme.textViewTheme.quaternaryTextColor)
                 5 -> setTextColor(context.resolveAttrColor(R.attr.colorAppAccent)) // Accent Color won't change on theme change
+                6 -> setTextColor(ColorStateList.valueOf(Color.WHITE))
             }
         } else {
             when (colorMode) {
@@ -110,6 +111,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
                 3 -> setTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
                 4 -> setTextColor(ThemeManager.theme.textViewTheme.quaternaryTextColor)
                 5 -> setTextColor(context.resolveAttrColor(R.attr.colorAppAccent))
+                6 -> setTextColor(ColorStateList.valueOf(Color.WHITE))
             }
         }
     }

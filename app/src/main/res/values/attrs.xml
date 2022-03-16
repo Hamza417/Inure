@@ -52,6 +52,7 @@
             <flag name="tertiary" value="3" />
             <flag name="quaternary" value="4" />
             <flag name="accent" value="5" />
+            <flag name="white" value="6" />
         </attr>
 
         <attr name="drawableTintStyle" format="string">
