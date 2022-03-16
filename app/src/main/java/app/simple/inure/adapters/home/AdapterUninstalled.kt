@@ -78,6 +78,10 @@ class AdapterUninstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.settings.setOnClickListener {
                 appsAdapterCallbacks.onSettingsPressed(it)
             }
+
+            holder.info.setOnClickListener {
+                appsAdapterCallbacks.onInfoPressed(it)
+            }
         }
     }
 
@@ -118,5 +122,6 @@ class AdapterUninstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
+        val info: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_info)
     }
 }

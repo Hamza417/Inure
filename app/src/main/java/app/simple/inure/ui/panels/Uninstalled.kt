@@ -12,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterUninstalled
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.miscellaneous.UninstallInfo
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.ui.app.AppInfo
@@ -69,6 +70,11 @@ class Uninstalled : ScopedFragment() {
                 override fun onSettingsPressed(view: View) {
                     clearExitTransition()
                     FragmentHelper.openFragment(parentFragmentManager, MainPreferencesScreen.newInstance(), "prefs_screen")
+                }
+
+                override fun onInfoPressed(view: View) {
+                    UninstallInfo.newInstance()
+                        .show(childFragmentManager, "uninstall_info")
                 }
             })
         }

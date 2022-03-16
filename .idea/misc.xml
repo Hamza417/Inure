@@ -104,7 +104,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_recently_updated.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_sensors.xml" value="0.424408014571949" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_typeface.xml" value="0.24010416666666667" />
-        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_uninstalled.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_uninstalled.xml" value="0.21203703703703702" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_usage_stats.xml" value="0.21203703703703702" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_home_menu.xml" value="0.2222222222222222" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_home_recently_installed.xml" value="0.24010416666666667" />
@@ -155,6 +155,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_home_path.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_html.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_icon_resize.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_info_uninstalled.xml" value="0.25" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_initial_command.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_intent_action.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_main_settings.xml" value="0.2" />

@@ -4,18 +4,18 @@ import android.content.pm.PackageInfo;
 import android.view.View;
 import android.widget.ImageView;
 
-import org.jetbrains.annotations.NotNull;
+import androidx.annotation.NonNull;
 
 public interface AppsAdapterCallbacks {
-    default void onAppClicked(@NotNull PackageInfo packageInfo, @NotNull ImageView icon) {
+    default void onAppClicked(@NonNull PackageInfo packageInfo, @NonNull ImageView icon) {
     
     }
     
-    default void onAppLongPressed(@NotNull PackageInfo packageInfo, @NotNull ImageView icon) {
+    default void onAppLongPressed(@NonNull PackageInfo packageInfo, @NonNull ImageView icon) {
     
     }
     
-    default void onSearchPressed(@NotNull View view) {
+    default void onSearchPressed(@NonNull View view) {
     
     }
     
@@ -27,7 +27,11 @@ public interface AppsAdapterCallbacks {
     
     }
     
-    default void onSettingsPressed(@NotNull View view) {
+    default void onSettingsPressed(@NonNull View view) {
+    
+    }
+    
+    default void onInfoPressed(@NonNull View view) {
     
     }
     
