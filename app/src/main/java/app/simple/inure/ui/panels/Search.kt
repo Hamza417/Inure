@@ -96,8 +96,11 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
         when (key) {
             SearchPreferences.sortStyle,
             SearchPreferences.isSortingReversed,
-            SearchPreferences.listAppsCategory,
+            SearchPreferences.listAppsCategory -> {
+                searchViewModel.loadSearchData(SearchPreferences.getLastSearchKeyword())
+            }
             SearchPreferences.ignoreCasing -> {
+                appsAdapterSearchSmall.ignoreCasing = SearchPreferences.isCasingIgnored()
                 searchViewModel.loadSearchData(SearchPreferences.getLastSearchKeyword())
             }
         }

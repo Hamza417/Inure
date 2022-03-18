@@ -15,14 +15,14 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.FileSizeHelper.toSize
 
 class AdapterSearch(private var apps: ArrayList<PackageInfo>, private var searchKeyword: String = "") : RecyclerView.Adapter<AdapterSearch.Holder>() {
 
     private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
-    private var xOff = 0f
-    private var yOff = 0f
+    var ignoreCasing = SearchPreferences.isCasingIgnored()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
@@ -51,8 +51,8 @@ class AdapterSearch(private var apps: ArrayList<PackageInfo>, private var search
         }
 
         if (searchKeyword.isNotEmpty()) {
-            AdapterUtils.searchHighlighter(holder.name, searchKeyword)
-            AdapterUtils.searchHighlighter(holder.packageId, searchKeyword)
+            AdapterUtils.searchHighlighter(holder.name, searchKeyword, ignoreCasing)
+            AdapterUtils.searchHighlighter(holder.packageId, searchKeyword, ignoreCasing)
         }
 
         holder.container.setOnLongClickListener {
