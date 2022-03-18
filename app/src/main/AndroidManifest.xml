@@ -50,6 +50,10 @@
         android:windowSoftInputMode="adjustPan"
         tools:ignore="AllowBackup">
 
+        <profileable
+            android:shell="true"
+            tools:targetApi="q" />
+
         <activity
             android:name=".activities.app.MainActivity"
             android:configChanges="uiMode"
@@ -76,8 +80,8 @@
             android:name=".activities.launcher.TerminalLauncher"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:exported="true"
-            android:launchMode="singleTask"
             android:label="@string/terminal"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize" />
 
         <activity

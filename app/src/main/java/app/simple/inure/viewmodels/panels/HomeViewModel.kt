@@ -192,7 +192,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
-    fun loadDisabledApps() {
+    private fun loadDisabledApps() {
         viewModelScope.launch(Dispatchers.Default) {
             val packageManager = packageManager
 

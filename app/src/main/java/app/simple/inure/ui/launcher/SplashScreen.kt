@@ -22,6 +22,7 @@ import app.simple.inure.ui.app.Home
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted
 import app.simple.inure.viewmodels.panels.AppsViewModel
+import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.SearchViewModel
 import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 import app.simple.inure.viewmodels.viewers.SensorsViewModel
@@ -38,6 +39,7 @@ class SplashScreen : ScopedFragment() {
     private var isUsageDataLoaded = false
     private var areSensorsLoaded = false
     private var isSearchLoaded = false
+    private var isUninstalledPackagesLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -88,6 +90,7 @@ class SplashScreen : ScopedFragment() {
         val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsViewModel::class.java]
         val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
         val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
+        val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
         appsViewModel.getAppData().observe(viewLifecycleOwner) {
             isAppDataLoaded = true
@@ -109,6 +112,11 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
+        homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
+            isUninstalledPackagesLoaded = true
+            openApp()
+        }
+
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
             openFragment(
                     requireActivity().supportFragmentManager,
@@ -119,11 +127,10 @@ class SplashScreen : ScopedFragment() {
 
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
-        if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded) {
-            openFragment(
-                    requireActivity().supportFragmentManager,
-                    Home.newInstance(),
-                    requireView().findViewById(R.id.imageView))
+        if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded && isUninstalledPackagesLoaded) {
+            openFragment(requireActivity().supportFragmentManager,
+                         Home.newInstance(),
+                         requireView().findViewById(R.id.imageView))
         }
     }
 

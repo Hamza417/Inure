@@ -237,6 +237,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
+                        android:drawablePadding="5dp"
                         android:text="@string/reduce_animations"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
@@ -276,10 +277,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </app.simple.inure.decorations.theme.ThemeLinearLayout>

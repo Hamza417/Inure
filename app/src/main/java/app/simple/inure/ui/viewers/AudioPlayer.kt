@@ -95,10 +95,8 @@ class AudioPlayer : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        playerContainer.radius = AppearancePreferences.getCornerRadius().toFloat()
+        playerContainer.radius = AppearancePreferences.getCornerRadius()
         ViewUtils.addShadow(playerContainer)
-
-        println(uri?.getMimeType(requireContext()))
 
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -157,7 +155,6 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                         e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
                             override fun onDismiss() {
                                 stopService()
-                                dismiss()
                             }
                         })
                         e.show(childFragmentManager, "error")
@@ -275,6 +272,10 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                 e.printStackTrace()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!)
     }
 

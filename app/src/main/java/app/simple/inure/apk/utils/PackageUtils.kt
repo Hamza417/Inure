@@ -175,7 +175,7 @@ object PackageUtils {
 
     fun isPackageInstalled(packageName: String, packageManager: PackageManager): Boolean {
         return try {
-            val p0 = packageManager.getPackageInfo(packageName, 0)
+            packageManager.getPackageInfo(packageName, 0)
             true
         } catch (e: PackageManager.NameNotFoundException) {
             false
