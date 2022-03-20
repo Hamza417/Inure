@@ -25,6 +25,7 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     @SuppressWarnings ("FieldCanBeLocal")
     private final float chartOffset = 20F;
     private ValueAnimator valueAnimator;
+    private boolean animate = true;
     
     public ThemePieChart(Context context) {
         super(context);
@@ -111,16 +112,25 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     }
     
     private void animateHoleRadius(float value) {
-        if (NullSafety.INSTANCE.isNotNull(valueAnimator)) {
-            valueAnimator.cancel();
-        }
-        valueAnimator = ValueAnimator.ofFloat(getHoleRadius(), value);
-        valueAnimator.setDuration(getResources().getInteger(R.integer.animation_duration));
-        valueAnimator.setInterpolator(new DecelerateInterpolator());
-        valueAnimator.addUpdateListener(animation -> {
-            setHoleRadius((float) animation.getAnimatedValue());
+        if (animate) {
+            if (NullSafety.INSTANCE.isNotNull(valueAnimator)) {
+                valueAnimator.cancel();
+            }
+            valueAnimator = ValueAnimator.ofFloat(getHoleRadius(), value);
+            valueAnimator.setDuration(getResources().getInteger(R.integer.animation_duration));
+            valueAnimator.setInterpolator(new DecelerateInterpolator());
+            valueAnimator.addUpdateListener(animation -> {
+                setHoleRadius((float) animation.getAnimatedValue());
+                invalidate();
+            });
+            valueAnimator.start();
+        } else {
+            setHoleRadius(value);
             invalidate();
-        });
-        valueAnimator.start();
+        }
+    }
+    
+    public void setAnimation(boolean animate) {
+        this.animate = animate;
     }
 }

@@ -37,8 +37,6 @@ class Analytics : ScopedFragment() {
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
 
-    private val chartOffset = 20F
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_analytics, container, false)
 
@@ -82,6 +80,7 @@ class Analytics : ScopedFragment() {
              *
              * TODO - Find a solution
              */
+            minimumOsPie.setAnimation(true)
             minimumOsPie.notifyDataSetChanged()
             minimumOsPie.notifyDataSetChanged()
             minimumOsPie.invalidate()
@@ -104,6 +103,7 @@ class Analytics : ScopedFragment() {
                 // animateXY(1000, 500, Easing.EaseOutCubic)
             }
 
+            targetOsPie.setAnimation(false)
             targetOsPie.notifyDataSetChanged()
             targetOsPie.notifyDataSetChanged()
             targetOsPie.invalidate()
@@ -122,6 +122,7 @@ class Analytics : ScopedFragment() {
                 // animateXY(1000, 500, Easing.EaseOutCubic)
             }
 
+            installLocationPie.setAnimation(false)
             installLocationPie.notifyDataSetChanged()
             installLocationPie.notifyDataSetChanged()
             installLocationPie.invalidate()
