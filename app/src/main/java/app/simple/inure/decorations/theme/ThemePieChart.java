@@ -1,25 +1,30 @@
 package app.simple.inure.decorations.theme;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.animation.DecelerateInterpolator;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 
+import app.simple.inure.R;
 import app.simple.inure.preferences.AnalyticsPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.util.NullSafety;
 import app.simple.inure.util.TypeFace;
 
 public class ThemePieChart extends PieChart implements SharedPreferences.OnSharedPreferenceChangeListener, ThemeChangedListener {
     
     @SuppressWarnings ("FieldCanBeLocal")
     private final float chartOffset = 20F;
+    private ValueAnimator valueAnimator;
     
     public ThemePieChart(Context context) {
         super(context);
@@ -75,8 +80,7 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
         //noinspection SwitchStatementWithTooFewBranches
         switch (key) {
             case AnalyticsPreferences.pieHoleRadius: {
-                setHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
-                invalidate();
+                animateHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
             }
         }
     }
@@ -100,5 +104,23 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
         super.onDetachedFromWindow();
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         ThemeManager.INSTANCE.removeListener(this);
+        if (NullSafety.INSTANCE.isNotNull(valueAnimator)) {
+            valueAnimator.cancel();
+        }
+        clearAnimation();
+    }
+    
+    private void animateHoleRadius(float value) {
+        if (NullSafety.INSTANCE.isNotNull(valueAnimator)) {
+            valueAnimator.cancel();
+        }
+        valueAnimator = ValueAnimator.ofFloat(getHoleRadius(), value);
+        valueAnimator.setDuration(getResources().getInteger(R.integer.animation_duration));
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.addUpdateListener(animation -> {
+            setHoleRadius((float) animation.getAnimatedValue());
+            invalidate();
+        });
+        valueAnimator.start();
     }
 }
