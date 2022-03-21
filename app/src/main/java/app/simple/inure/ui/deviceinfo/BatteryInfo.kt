@@ -37,10 +37,10 @@ class BatteryInfo : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        batteryViewModel.getBasics().observe(viewLifecycleOwner, {
+        batteryViewModel.getBasics().observe(viewLifecycleOwner) {
             adapterBatteryInfo = AdapterDeviceInfoContent(it, getString(R.string.battery))
             setAdapters()
-        })
+        }
     }
 
     private fun setAdapters() {

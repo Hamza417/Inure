@@ -20,7 +20,6 @@ import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
-import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -70,7 +69,7 @@ class Analytics : ScopedFragment() {
                 }
 
                 if (!AccessibilityPreferences.isAnimationReduced())
-                    animateXY(1000, 500, Easing.EaseOutCubic)
+                    minimumOsPie.startAnimation()
             }
 
             /**

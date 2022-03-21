@@ -22,8 +22,10 @@ import app.simple.inure.util.ViewUtils.visible
 
 class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    private var list = TypeFace.list.apply {
-        sortBy { it.typefaceName }
+    private var list = TypeFace.list.also { it ->
+        it.subList(1, it.size).sortBy {
+            it.typefaceName
+        }
     }
 
     private var lastFontPosition = 0

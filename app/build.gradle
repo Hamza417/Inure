@@ -16,9 +16,6 @@ android {
 
     defaultConfig {
         applicationId "app.simple.inure"
-
-        // minSdkVersion 21 is needed for pthread_mutex_timedlock and pthread_condattr_setclock
-        // minSdkVersion 23 is needed for forkpty
         minSdkVersion 23
         targetSdkVersion 31
         versionCode appVersionCode

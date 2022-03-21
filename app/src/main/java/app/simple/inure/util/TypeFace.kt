@@ -45,6 +45,9 @@ object TypeFace {
     private const val CHILLAX = "chillax"
     private const val BONNY = "bonny"
     private const val SOURCE_SANS_PRO = "source_sans_pro"
+    private const val FREDOKA = "fredoka"
+    private const val HEEBO = "heebo"
+    private const val MALI = "mali"
 
     fun getTypeFace(appFont: String, style: Int, context: Context): Typeface? {
         var typeface: Typeface? = null
@@ -443,6 +446,54 @@ object TypeFace {
                     }
                 }
             }
+            FREDOKA -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.fredoka_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.fredoka_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.fredoka_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.fredoka_bold)
+                    }
+                }
+            }
+            HEEBO -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.heebo_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.heebo_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.heebo_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.heebo_bold)
+                    }
+                }
+            }
+            MALI -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.mali_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.mali_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.mali_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.mali_bold)
+                    }
+                }
+            }
         }
 
         return typeface
@@ -452,31 +503,34 @@ object TypeFace {
      * List of all typefaces with their code names and red IDs
      */
     val list: ArrayList<TypeFaceModel> = arrayListOf(
-        TypeFaceModel("Auto (System Default)", 0, AUTO),
-        TypeFaceModel("Lato", R.font.lato_bold, LATO),
-        TypeFaceModel("Plus Jakarta Sans", R.font.plus_jakarta_bold, PLUS_JAKARTA),
-        TypeFaceModel("Mulish", R.font.mulish_bold, MULISH),
-        TypeFaceModel("Jost", R.font.jost_bold, JOST),
-        TypeFaceModel("Epilogue", R.font.epilogue_bold, EPILOGUE),
-        TypeFaceModel("Ubuntu", R.font.ubuntu_bold, UBUNTU),
-        TypeFaceModel("Poppins", R.font.poppins_bold, POPPINS),
-        TypeFaceModel("Manrope", R.font.manrope_bold, MANROPE),
-        TypeFaceModel("Inter", R.font.inter_bold, INTER),
-        TypeFaceModel("Overpass", R.font.overpass_bold, OVERPASS),
-        TypeFaceModel("Urbanist", R.font.urbanist_bold, URBANIST),
-        TypeFaceModel("Nunito", R.font.nunito_bold, NUNITO),
-        TypeFaceModel("Oswald", R.font.oswald_bold, OSWALD),
-        TypeFaceModel("Roboto", R.font.roboto_bold, ROBOTO),
-        TypeFaceModel("Reforma", R.font.reforma_negra, REFORMA),
-        TypeFaceModel("Subjectivity", R.font.subjectivity_bold, SUBJECTIVITY),
-        TypeFaceModel("Mohave", R.font.mohave_bold, MOHAVE),
-        TypeFaceModel("Yessica", R.font.yessica_bold, YESSICA),
-        TypeFaceModel("Audrey", R.font.audrey_bold, AUDREY),
-        TypeFaceModel("Josefin Sans", R.font.josefin_sans_bold, JOSEFIN),
-        TypeFaceModel("Comfortaa", R.font.comfortaa_bold, COMFORTAA),
-        TypeFaceModel("Chillax", R.font.chillax_semi_bold, CHILLAX),
-        TypeFaceModel("Bonny", R.font.bonny_bold, BONNY),
-        TypeFaceModel("SourceSans Pro", R.font.source_code_pro_bold, SOURCE_SANS_PRO),
+            TypeFaceModel("Auto (System Default)", 0, AUTO),
+            TypeFaceModel("Lato", R.font.lato_bold, LATO),
+            TypeFaceModel("Plus Jakarta Sans", R.font.plus_jakarta_bold, PLUS_JAKARTA),
+            TypeFaceModel("Mulish", R.font.mulish_bold, MULISH),
+            TypeFaceModel("Jost", R.font.jost_bold, JOST),
+            TypeFaceModel("Epilogue", R.font.epilogue_bold, EPILOGUE),
+            TypeFaceModel("Ubuntu", R.font.ubuntu_bold, UBUNTU),
+            TypeFaceModel("Poppins", R.font.poppins_bold, POPPINS),
+            TypeFaceModel("Manrope", R.font.manrope_bold, MANROPE),
+            TypeFaceModel("Inter", R.font.inter_bold, INTER),
+            TypeFaceModel("Overpass", R.font.overpass_bold, OVERPASS),
+            TypeFaceModel("Urbanist", R.font.urbanist_bold, URBANIST),
+            TypeFaceModel("Nunito", R.font.nunito_bold, NUNITO),
+            TypeFaceModel("Oswald", R.font.oswald_bold, OSWALD),
+            TypeFaceModel("Roboto", R.font.roboto_bold, ROBOTO),
+            TypeFaceModel("Reforma", R.font.reforma_negra, REFORMA),
+            TypeFaceModel("Subjectivity", R.font.subjectivity_bold, SUBJECTIVITY),
+            TypeFaceModel("Mohave", R.font.mohave_bold, MOHAVE),
+            TypeFaceModel("Yessica", R.font.yessica_bold, YESSICA),
+            TypeFaceModel("Audrey", R.font.audrey_bold, AUDREY),
+            TypeFaceModel("Josefin Sans", R.font.josefin_sans_bold, JOSEFIN),
+            TypeFaceModel("Comfortaa", R.font.comfortaa_bold, COMFORTAA),
+            TypeFaceModel("Chillax", R.font.chillax_semi_bold, CHILLAX),
+            TypeFaceModel("Bonny", R.font.bonny_bold, BONNY),
+            TypeFaceModel("SourceSans Pro", R.font.source_code_pro_bold, SOURCE_SANS_PRO),
+            TypeFaceModel("Fredoka", R.font.fredoka_bold, FREDOKA),
+            TypeFaceModel("Heebo", R.font.heebo_bold, HEEBO),
+            TypeFaceModel("Mali", R.font.mali_bold, MALI)
     )
 
     class TypeFaceModel(
