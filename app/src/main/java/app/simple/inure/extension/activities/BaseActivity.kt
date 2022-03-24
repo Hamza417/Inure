@@ -45,6 +45,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             exitTransition = Fade()
         }
 
+        setTheme()
         setContentView(R.layout.activity_main)
 
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
@@ -64,7 +65,6 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             fixNavigationBarOverlap()
         }
 
-        setTheme()
         ThemeUtils.setAppTheme(resources)
         ThemeUtils.setBarColors(resources, window)
         setNavColor()

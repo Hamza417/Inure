@@ -84,6 +84,38 @@ object ViewUtils {
         this.visibility = View.GONE
     }
 
+    fun View.gone(animate: Boolean) {
+        if (animate) {
+            clearAnimation()
+            this.animate()
+                .scaleY(0.8F)
+                .scaleX(0.8F)
+                .alpha(0F)
+                .setInterpolator(AccelerateInterpolator())
+                .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
+                .setListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animation: Animator?) {
+                        /* no-op */
+                    }
+
+                    override fun onAnimationEnd(animation: Animator?) {
+                        this@gone.visibility = View.GONE
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                        /* no-op */
+                    }
+
+                    override fun onAnimationRepeat(animation: Animator?) {
+                        /* no-op */
+                    }
+                })
+                .start()
+        } else {
+            this.visibility = View.GONE
+        }
+    }
+
     /**
      * Makes the view go away
      *

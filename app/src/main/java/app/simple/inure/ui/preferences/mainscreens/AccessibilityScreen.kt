@@ -17,6 +17,7 @@ class AccessibilityScreen : ScopedFragment() {
     private lateinit var highlight: SwitchView
     private lateinit var divider: SwitchView
     private lateinit var reduceAnimations: SwitchView
+    private lateinit var showTaps: SwitchView
 
     private lateinit var reduceAnimationsDesc: TypeFaceTextView
 
@@ -26,6 +27,7 @@ class AccessibilityScreen : ScopedFragment() {
         highlight = view.findViewById(R.id.highlight_switch)
         divider = view.findViewById(R.id.list_divider_switch)
         reduceAnimations = view.findViewById(R.id.reduce_animation_switch)
+        showTaps = view.findViewById(R.id.show_taps_switch)
 
         reduceAnimationsDesc = view.findViewById(R.id.reduce_animation_desc)
         reduceAnimationsDesc.setText(getString(R.string.desc_reduce_animations, getString(R.string.behaviour)))
@@ -41,6 +43,7 @@ class AccessibilityScreen : ScopedFragment() {
         highlight.setChecked(AccessibilityPreferences.isHighlightMode())
         divider.setChecked(AccessibilityPreferences.isDividerEnabled())
         reduceAnimations.setChecked(AccessibilityPreferences.isAnimationReduced())
+        showTaps.setChecked(AccessibilityPreferences.isTapsShowing())
 
         highlight.setOnSwitchCheckedChangeListener {
             AccessibilityPreferences.setHighlightMode(it)
@@ -60,6 +63,10 @@ class AccessibilityScreen : ScopedFragment() {
                 FragmentHelper.openFragment(parentFragmentManager, BehaviourScreen.newInstance(), "behavior_screen")
             }
         }))
+
+        showTaps.setOnSwitchCheckedChangeListener {
+            AccessibilityPreferences.setTapMode(it)
+        }
     }
 
     companion object {

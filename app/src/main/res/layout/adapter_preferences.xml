@@ -13,6 +13,7 @@
         android:id="@+id/preferences_icon"
         android:layout_width="@dimen/preference_icon_size"
         android:layout_height="@dimen/preference_icon_size"
+        android:layout_gravity="center_vertical"
         android:transitionName="appearance_icon"
         app:tintType="accent"
         tools:ignore="ContentDescription" />
@@ -23,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingHorizontal="20dp"
-        app:textColorStyle="secondary"
-        android:textSize="20sp"
-        app:appFontStyle="bold" />
+        android:textSize="@dimen/list_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="secondary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

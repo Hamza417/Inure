@@ -5,6 +5,7 @@ object AccessibilityPreferences {
     private const val isHighlightMode = "is_highlight_mode"
     private const val isDividerEnabled = "is_divider_enabled"
     private const val reduceAnimations = "reduce_animations"
+    const val showTaps = "show_taps"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -34,5 +35,15 @@ object AccessibilityPreferences {
 
     fun isAnimationReduced(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(reduceAnimations, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setTapMode(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(showTaps, boolean).apply()
+    }
+
+    fun isTapsShowing(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(showTaps, false)
     }
 }

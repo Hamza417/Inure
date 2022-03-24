@@ -484,4 +484,7 @@
     <string name="reduce_animations">Reduce Animations</string>
     <string name="desc_reduce_animations">Disable some unnecessary animations throughout the app. May improve app\'s performance in some devices.\n\nTo disable transition animations, go to %1s panel.</string>
     <string name="info_uninstalled">This list only shows apps that have been deleted with the flag <bold>DELETE_KEEP_DATA</bold> with a possibility of being reinstalled in future.\n\nThis list does not monitor regularly uninstalled applications.</string>
+    <string name="gestures">Gestures</string>
+    <string name="show_taps">Show Taps</string>
+    <string name="show_taps_desc">Show visual feedbacks for touch events in the app.</string>
 </resources>
