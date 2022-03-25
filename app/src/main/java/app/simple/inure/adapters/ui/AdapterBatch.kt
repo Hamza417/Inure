@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.checkbox.CheckBox
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -56,6 +57,8 @@ class AdapterBatch(var apps: ArrayList<PackageInfo> = arrayListOf()) : RecyclerV
             } else {
                 holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
+
+            holder.checkBox.setCheckedWithoutAnimations(false)
 
             holder.container.setOnClickListener {
                 appsAdapterCallbacks?.onAppClicked(apps[position], holder.icon)
@@ -120,6 +123,7 @@ class AdapterBatch(var apps: ArrayList<PackageInfo> = arrayListOf()) : RecyclerV
         val icon: ImageView = itemView.findViewById(R.id.adapter_batch_app_icon)
         val name: TextView = itemView.findViewById(R.id.adapter_batch_app_name)
         val packageId: TextView = itemView.findViewById(R.id.adapter_batch_app_package_id)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_batch_app_container)
     }
 

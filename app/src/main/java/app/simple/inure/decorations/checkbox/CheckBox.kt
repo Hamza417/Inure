@@ -3,6 +3,7 @@ package app.simple.inure.decorations.checkbox
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -92,6 +93,16 @@ class CheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         }
     }
 
+    fun setCheckedWithoutAnimations(boolean: Boolean) {
+        isChecked = if (boolean) {
+            checked()
+            boolean
+        } else {
+            unchecked()
+            boolean
+        }
+    }
+
     private fun animateUnchecked() {
         thumb.animate()
             .scaleX(0F)
@@ -116,6 +127,20 @@ class CheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
         animateColorChange(context.resolveAttrColor(R.attr.colorAppAccent))
         animateElevation(25F)
+    }
+
+    private fun unchecked() {
+        thumb.scaleX = 0F
+        thumb.scaleY = 0F
+        this.backgroundTintList = ColorStateList.valueOf(ThemeManager.theme.switchViewTheme.switchOffColor)
+        elevation = 0F
+    }
+
+    private fun checked() {
+        thumb.scaleX = 1F
+        thumb.scaleY = 1F
+        this.backgroundTintList = ColorStateList.valueOf(context.resolveAttrColor(R.attr.colorAppAccent))
+        elevation = 25F
     }
 
     private fun animateElevation(elevation: Float) {
