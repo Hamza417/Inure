@@ -95,7 +95,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
          */
         if (Build.VERSION.SDK_INT >= 30) {
             /**
-             * Root ViewGroup of my activity
+             * Root ViewGroup of this activity
              */
             val root = findViewById<CoordinatorLayout>(R.id.app_container)
 
@@ -118,9 +118,9 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                      * if that's more appropriate.
                      */
                     view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                        leftMargin = if (AppearancePreferences.isTransparentStatusDisabled()) 0 else insets.left
-                        bottomMargin = if (AppearancePreferences.isTransparentStatusDisabled()) 0 else insets.bottom
-                        rightMargin = if (AppearancePreferences.isTransparentStatusDisabled()) 0 else insets.right
+                        leftMargin = insets.left
+                        bottomMargin = insets.bottom
+                        rightMargin = insets.right
                     }
 
                     /**

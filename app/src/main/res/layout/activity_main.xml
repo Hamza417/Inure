@@ -28,14 +28,4 @@
         android:visibility="invisible"
         tools:ignore="ContentDescription" />
 
-    <ImageView
-        android:id="@+id/tap"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:clickable="false"
-        android:focusable="false"
-        android:src="@drawable/fast_scroller_thumb"
-        android:visibility="gone"
-        tools:ignore="ContentDescription" />
-
 </merge>
