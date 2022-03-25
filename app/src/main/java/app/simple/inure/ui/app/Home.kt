@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.NestedScrollView
@@ -118,7 +117,9 @@ class Home : ScopedFragment() {
                                     Sensors.newInstance(), icon, "sensors")
                         }
                         getString(R.string.batch) -> {
-                            Toast.makeText(requireContext(), "This is a complicated feature and still in development. Likely to be available to test soon.", Toast.LENGTH_SHORT).show()
+                            FragmentHelper.openFragment(
+                                    requireActivity().supportFragmentManager,
+                                    Batch.newInstance(), icon, "batch")
                         }
                     }
                 }

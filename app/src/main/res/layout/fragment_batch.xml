@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+        android:id="@+id/batch_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/list_animation_controller" />
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:id="@+id/batch_menu_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/dialog_padding"
+        android:elevation="@dimen/app_views_elevation"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_delete" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/send"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="@dimen/popup_item_gap_length"
+            android:layout_weight="1"
+            android:src="@drawable/ic_send" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/extract"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="@dimen/popup_item_gap_length"
+            android:layout_weight="1"
+            android:src="@drawable/ic_downloading" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/menu"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_menu" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>
