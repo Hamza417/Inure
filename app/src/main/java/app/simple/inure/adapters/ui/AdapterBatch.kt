@@ -20,8 +20,11 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.DateUtils
+import java.util.stream.Collectors
 
 class AdapterBatch(var apps: ArrayList<BatchPackageInfo> = arrayListOf()) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -71,6 +74,11 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo> = arrayListOf()) : Recy
                     holder.date.text = holder.itemView.context.getString(R.string.selected_on, DateUtils.formatDate(apps[position].dateSelected, pattern))
                 } else {
                     holder.date.setText(R.string.not_selected)
+                }
+
+                if (BatchPreferences.isSelectionOnTop() && it) {
+                    apps.move(position, 0)
+                    notifyItemMoved(position_, 1)
                 }
             }
 
@@ -141,7 +149,20 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo> = arrayListOf()) : Recy
     }
 
     fun getCurrentAppsList(): ArrayList<BatchPackageInfo> {
-        return apps
+        return apps.stream().filter { it.isSelected }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
+    }
+
+    fun moveSelectedItemsToTheTop() {
+        if (BatchPreferences.isSelectionOnTop()) {
+            apps.sortByDescending {
+                it.isSelected
+            }
+        } else {
+            apps.sortBy {
+                it.packageInfo.applicationInfo.name
+            }
+        }
+        for (i in apps.indices) notifyItemChanged(i.plus(1))
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

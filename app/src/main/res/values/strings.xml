@@ -489,4 +489,5 @@
     <string name="show_taps_desc">Show visual feedbacks for touch events in the app.</string>
     <string name="not_selected">Not Selected</string>
     <string name="selected_on">Selected on %1$s</string>
+    <string name="move_selection_on_top">Move Selection on Top</string>
 </resources>

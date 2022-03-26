@@ -13,6 +13,7 @@ import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.models.BatchModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -82,6 +83,12 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
                     }
                     break
                 }
+            }
+        }
+
+        if (BatchPreferences.isSelectionOnTop()) {
+            list.sortByDescending {
+                it.isSelected
             }
         }
 

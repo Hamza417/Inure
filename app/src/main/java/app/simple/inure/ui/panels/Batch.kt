@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,11 +17,12 @@ import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.menus.BatchMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.ui.app.AppInfo
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.BatchViewModel
 
@@ -92,10 +94,8 @@ class Batch : ScopedFragment() {
                 }
 
                 override fun onSettingsPressed(view: View) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(parentFragmentManager,
-                                                MainPreferencesScreen.newInstance(),
-                                                "prefs_screen")
+                    BatchMenu.newInstance()
+                        .show(childFragmentManager, "batch_menu")
                 }
 
                 override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
@@ -124,6 +124,14 @@ class Batch : ScopedFragment() {
 
         menu.setOnClickListener {
 
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            BatchPreferences.moveSelectionTop -> {
+                adapterBatch?.moveSelectedItemsToTheTop()
+            }
         }
     }
 
