@@ -1,10 +1,12 @@
 package app.simple.inure.ui.panels
 
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.marginTop
 import androidx.fragment.app.viewModels
@@ -13,7 +15,12 @@ import app.simple.inure.adapters.ui.AdapterBatch
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.ui.app.AppInfo
+import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.BatchViewModel
 
 class Batch : ScopedFragment() {
@@ -25,6 +32,7 @@ class Batch : ScopedFragment() {
     private lateinit var extract: DynamicRippleImageButton
     private lateinit var menu: DynamicRippleImageButton
 
+    private var adapterBatch: AdapterBatch? = null
     private val batchViewModel: BatchViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,7 +67,35 @@ class Batch : ScopedFragment() {
         })
 
         batchViewModel.getAppData().observe(viewLifecycleOwner) {
-            val adapterBatch = AdapterBatch(it)
+            adapterBatch = AdapterBatch(it)
+
+            adapterBatch?.setOnItemClickListener(object : AppsAdapterCallbacks {
+                override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                AppInfo.newInstance(packageInfo, icon.transitionName),
+                                                icon, "app_info")
+                }
+
+                override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
+                    AppsMenu.newInstance(packageInfo)
+                        .show(childFragmentManager, "apps_menu")
+                }
+
+                override fun onSearchPressed(view: View) {
+                    clearTransitions()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                Search.newInstance(true),
+                                                "search")
+                }
+
+                override fun onSettingsPressed(view: View) {
+                    clearExitTransition()
+                    FragmentHelper.openFragment(parentFragmentManager,
+                                                MainPreferencesScreen.newInstance(),
+                                                "prefs_screen")
+                }
+            })
+
             recyclerView.adapter = adapterBatch
 
             (view.parent as? ViewGroup)?.doOnPreDraw {

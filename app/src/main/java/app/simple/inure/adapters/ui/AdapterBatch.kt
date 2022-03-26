@@ -119,6 +119,10 @@ class AdapterBatch(var apps: ArrayList<PackageInfo> = arrayListOf()) : RecyclerV
         this.appsAdapterCallbacks = appsAdapterCallbacks
     }
 
+    fun getCurrentAppsList(): ArrayList<PackageInfo> {
+        return apps
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_batch_app_icon)
         val name: TextView = itemView.findViewById(R.id.adapter_batch_app_name)

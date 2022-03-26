@@ -43,7 +43,7 @@ class CheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
         ViewUtils.addShadow(this)
 
-        view.setOnClickListener {
+        setOnClickListener {
             isChecked = if (isChecked) {
                 animateUnchecked()
                 switchCallbacks?.onCheckedChanged(false)

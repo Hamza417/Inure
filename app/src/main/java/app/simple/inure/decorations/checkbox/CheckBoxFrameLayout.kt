@@ -15,8 +15,8 @@ open class CheckBoxFrameLayout @JvmOverloads constructor(context: Context, attrs
     : FrameLayout(context, attrs, defStyleAttr) {
 
     init {
-        layoutParams = LayoutParams(context.resources.getDimensionPixelSize(R.dimen.checkbox_dimensions),
-                                    context.resources.getDimensionPixelSize(R.dimen.checkbox_dimensions))
+        layoutParams = LayoutParams(context.resources.getDimensionPixelSize(R.dimen.button_size),
+                                    context.resources.getDimensionPixelSize(R.dimen.button_size))
 
         minimumWidth = resources.getDimensionPixelOffset(R.dimen.checkbox_dimensions)
         minimumHeight = resources.getDimensionPixelOffset(R.dimen.checkbox_dimensions)

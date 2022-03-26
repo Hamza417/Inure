@@ -53,8 +53,8 @@
 
     <app.simple.inure.decorations.checkbox.CheckBox
         android:id="@+id/checkBox"
-        android:layout_width="@dimen/checkbox_dimensions"
-        android:layout_height="@dimen/checkbox_dimensions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

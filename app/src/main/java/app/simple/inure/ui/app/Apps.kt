@@ -57,7 +57,9 @@ class Apps : ScopedFragment() {
 
             adapter.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    openAppInfo(packageInfo, icon)
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                AppInfo.newInstance(packageInfo, icon.transitionName),
+                                                icon, "app_info")
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
@@ -92,12 +94,6 @@ class Apps : ScopedFragment() {
                 Log.d("Apps", if (it) "Apps Loaded" else "Failed")
             }
         }
-    }
-
-    private fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
-        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                    AppInfo.newInstance(packageInfo, icon.transitionName),
-                                    icon, "app_info")
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

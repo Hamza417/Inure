@@ -2,19 +2,17 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/checkbox_dimensions"
-    android:layout_height="@dimen/checkbox_dimensions"
+    android:layout_width="@dimen/button_size"
+    android:layout_height="@dimen/button_size"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:elevation="10dp"
     tools:parentTag="app.simple.inure.decorations.checkbox.CheckBoxFrameLayout">
 
     <ImageView
         android:id="@+id/switch_thumb"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/checkbox_dimensions"
+        android:layout_height="@dimen/checkbox_dimensions"
         android:layout_gravity="center"
-        android:layout_margin="2dp"
         android:src="@drawable/ic_check"
         tools:ignore="ContentDescription"
         app:tint="@android:color/white" />
