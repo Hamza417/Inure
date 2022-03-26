@@ -8,7 +8,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.database.instances.BatchDatabase
 import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.models.BatchModel
+import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
@@ -17,17 +20,20 @@ import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
 class BatchViewModel(application: Application) : WrappedViewModel(application) {
-    private val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
+
+    private var batchDatabase: BatchDatabase? = null
+
+    private val appData: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
+        MutableLiveData<ArrayList<BatchPackageInfo>>().also {
             loadAppData()
         }
     }
 
-    fun getAppData(): LiveData<ArrayList<PackageInfo>> {
+    fun getAppData(): LiveData<ArrayList<BatchPackageInfo>> {
         return appData
     }
 
-    fun loadAppData() {
+    private fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
@@ -50,7 +56,50 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
 
             apps.getSortedList(MainPreferences.getSortStyle(), MainPreferences.isReverseSorting())
 
-            appData.postValue(apps)
+            appData.postValue(getBatchStateDate(apps))
         }
+    }
+
+    private fun getBatchStateDate(apps: ArrayList<PackageInfo>): ArrayList<BatchPackageInfo> {
+        batchDatabase = BatchDatabase.getInstance(context)
+
+        val list = arrayListOf<BatchPackageInfo>()
+
+        for (app in apps) {
+            list.add(BatchPackageInfo(app, false, -1))
+        }
+
+        for (batch in batchDatabase!!.batchDao()!!.getBatch()) {
+            for (item in list) {
+                if (batch.packageName == item.packageInfo.packageName) {
+                    with(batch.isSelected) {
+                        item.isSelected = this
+                        if (this) {
+                            item.dateSelected = batch.dateSelected
+                        } else {
+                            item.dateSelected = -1
+                        }
+                    }
+                    break
+                }
+            }
+        }
+
+        return list
+    }
+
+    fun addBatchItem(batchPackageInfo: BatchPackageInfo) {
+        viewModelScope.launch(Dispatchers.IO) {
+            batchDatabase = BatchDatabase.getInstance(context)
+            batchDatabase?.batchDao()
+                ?.insertBatch(BatchModel(batchPackageInfo.packageInfo.packageName,
+                                         batchPackageInfo.isSelected,
+                                         System.currentTimeMillis()))
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        batchDatabase?.close()
     }
 }

@@ -487,4 +487,6 @@
     <string name="gestures">Gestures</string>
     <string name="show_taps">Show Taps</string>
     <string name="show_taps_desc">Show visual feedbacks for touch events in the app.</string>
+    <string name="not_selected">Not Selected</string>
+    <string name="selected_on">Selected on %1$s</string>
 </resources>

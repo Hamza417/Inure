@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import app.simple.inure.models.BatchPackageInfo;
 
 public interface AppsAdapterCallbacks {
     default void onAppClicked(@NonNull PackageInfo packageInfo, @NonNull ImageView icon) {
@@ -32,6 +33,10 @@ public interface AppsAdapterCallbacks {
     }
     
     default void onInfoPressed(@NonNull View view) {
+    
+    }
+    
+    default void onBatchChanged(@NonNull BatchPackageInfo batchPackageInfo) {
     
     }
     

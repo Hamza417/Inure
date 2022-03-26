@@ -9,7 +9,7 @@ import android.view.ViewTreeObserver
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.marginTop
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatch
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
@@ -18,6 +18,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
@@ -33,7 +34,7 @@ class Batch : ScopedFragment() {
     private lateinit var menu: DynamicRippleImageButton
 
     private var adapterBatch: AdapterBatch? = null
-    private val batchViewModel: BatchViewModel by viewModels()
+    private lateinit var batchViewModel: BatchViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_batch, container, false)
@@ -44,6 +45,8 @@ class Batch : ScopedFragment() {
         send = view.findViewById(R.id.send)
         extract = view.findViewById(R.id.extract)
         menu = view.findViewById(R.id.menu)
+
+        batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
 
         return view
     }
@@ -93,6 +96,10 @@ class Batch : ScopedFragment() {
                     FragmentHelper.openFragment(parentFragmentManager,
                                                 MainPreferencesScreen.newInstance(),
                                                 "prefs_screen")
+                }
+
+                override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
+                    batchViewModel.addBatchItem(batchPackageInfo)
                 }
             })
 

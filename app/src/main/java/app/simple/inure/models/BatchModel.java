@@ -1,6 +1,5 @@
 package app.simple.inure.models;
 
-import android.content.pm.PackageInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,31 +14,31 @@ public class BatchModel implements Parcelable {
     @PrimaryKey
     @ColumnInfo (name = "package_name")
     @NonNull
-    private String packageName;
+    String packageName;
     
     @ColumnInfo (name = "selected")
-    private boolean isSelected;
+    boolean isSelected;
     
-    @ColumnInfo (name = "package_info")
-    private final PackageInfo packageInfo;
+    @ColumnInfo (name = "date_selected")
+    long dateSelected;
     
-    public BatchModel(@NonNull String packageName, boolean isSelected, PackageInfo packageInfo) {
+    public BatchModel(@NonNull String packageName, boolean isSelected, long dateSelected) {
         this.packageName = packageName;
         this.isSelected = isSelected;
-        this.packageInfo = packageInfo;
+        this.dateSelected = dateSelected;
     }
     
     protected BatchModel(Parcel in) {
         packageName = in.readString();
         isSelected = in.readByte() != 0;
-        packageInfo = in.readParcelable(PackageInfo.class.getClassLoader());
+        dateSelected = in.readLong();
     }
     
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(packageName);
         dest.writeByte((byte) (isSelected ? 1 : 0));
-        dest.writeParcelable(packageInfo, flags);
+        dest.writeLong(dateSelected);
     }
     
     @Override
@@ -47,7 +46,7 @@ public class BatchModel implements Parcelable {
         return 0;
     }
     
-    public static final Creator <BatchModel> CREATOR = new Creator <BatchModel>() {
+    public static final Creator <BatchModel> CREATOR = new Creator <>() {
         @Override
         public BatchModel createFromParcel(Parcel in) {
             return new BatchModel(in);
@@ -76,7 +75,11 @@ public class BatchModel implements Parcelable {
         isSelected = selected;
     }
     
-    public PackageInfo getPackageInfo() {
-        return packageInfo;
+    public long getDateSelected() {
+        return dateSelected;
+    }
+    
+    public void setDateSelected(long dateSelected) {
+        this.dateSelected = dateSelected;
     }
 }
