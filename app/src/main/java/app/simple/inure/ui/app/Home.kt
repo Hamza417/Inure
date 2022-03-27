@@ -102,24 +102,24 @@ class Home : ScopedFragment() {
                             }
                         }
                         getString(R.string.usage_statistics) -> {
-                            FragmentHelper.openFragment(
-                                    requireActivity().supportFragmentManager,
-                                    Statistics.newInstance(), icon, "stats")
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Statistics.newInstance(), icon, "stats")
                         }
                         getString(R.string.device_info) -> {
-                            FragmentHelper.openFragment(
-                                    requireActivity().supportFragmentManager,
-                                    DeviceInformation.newInstance(), icon, "info")
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        DeviceInformation.newInstance(), icon, "info")
                         }
                         getString(R.string.sensors) -> {
-                            FragmentHelper.openFragment(
-                                    requireActivity().supportFragmentManager,
-                                    Sensors.newInstance(), icon, "sensors")
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Sensors.newInstance(), icon, "sensors")
                         }
                         getString(R.string.batch) -> {
-                            FragmentHelper.openFragment(
-                                    requireActivity().supportFragmentManager,
-                                    Batch.newInstance(), icon, "batch")
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Batch.newInstance(), icon, "batch")
+                        }
+                        getString(R.string.notes) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Notes.newInstance(), icon, "notes")
                         }
                     }
                 }

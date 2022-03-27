@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import app.simple.inure.models.BatchPackageInfo;
+import app.simple.inure.models.NotesPackageInfo;
 
 public interface AppsAdapterCallbacks {
     default void onAppClicked(@NonNull PackageInfo packageInfo, @NonNull ImageView icon) {
@@ -40,7 +41,7 @@ public interface AppsAdapterCallbacks {
     
     }
     
-    default void onItemSelected(int position) {
+    default void onNoteClicked(@NonNull NotesPackageInfo notesPackageInfo) {
     
     }
 }

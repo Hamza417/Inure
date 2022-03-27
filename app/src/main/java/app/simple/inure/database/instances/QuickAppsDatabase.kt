@@ -30,7 +30,7 @@ abstract class QuickAppsDatabase : RoomDatabase() {
 
         @Synchronized
         fun getInstance(context: Context, db_name: String): QuickAppsDatabase? {
-            if (instance.isNull()) {
+            if (instance.isNull() && instance!!.isOpen) {
                 instance = Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
                     .fallbackToDestructiveMigration()
                     .build()

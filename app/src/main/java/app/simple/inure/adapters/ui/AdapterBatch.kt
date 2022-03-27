@@ -2,8 +2,6 @@ package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
 import android.graphics.Paint
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -135,9 +133,6 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         super.onViewRecycled(holder)
         if (holder is Holder) {
             GlideApp.with(holder.icon).clear(holder.icon)
-        }
-        if (holder is Header) {
-            Handler(Looper.getMainLooper()).removeCallbacksAndMessages(null)
         }
     }
 

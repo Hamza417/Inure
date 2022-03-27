@@ -32,6 +32,7 @@ import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInfoPanelPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.MarketUtils
@@ -48,6 +49,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var storage: DynamicRippleTextView
     private lateinit var directories: DynamicRippleTextView
+    private lateinit var notes: DynamicRippleTextView
     private lateinit var meta: RecyclerView
     private lateinit var actions: RecyclerView
     private lateinit var miscellaneous: RecyclerView
@@ -68,6 +70,7 @@ class AppInfo : ScopedFragment() {
         appInformation = view.findViewById(R.id.app_info_information_tv)
         storage = view.findViewById(R.id.app_info_storage_tv)
         directories = view.findViewById(R.id.app_info_directories_tv)
+        notes = view.findViewById(R.id.app_info_notes_tv)
         meta = view.findViewById(R.id.app_info_menu)
         actions = view.findViewById(R.id.app_info_options)
         miscellaneous = view.findViewById(R.id.app_info_miscellaneous)
@@ -321,12 +324,17 @@ class AppInfo : ScopedFragment() {
 
         storage.setOnClickListener {
             clearExitTransition()
-            openFragment(requireActivity().supportFragmentManager, Storage.newInstance(packageInfo), getString(R.string.storage))
+            openFragment(requireActivity().supportFragmentManager, Storage.newInstance(packageInfo), "storage")
         }
 
         directories.setOnClickListener {
             clearExitTransition()
-            openFragment(requireActivity().supportFragmentManager, Directories.newInstance(packageInfo), getString(R.string.directories))
+            openFragment(requireActivity().supportFragmentManager, Directories.newInstance(packageInfo), "directories")
+        }
+
+        notes.setOnClickListener {
+            clearExitTransition()
+            openFragment(requireActivity().supportFragmentManager, NotesEditor.newInstance(packageInfo), "notes_viewer")
         }
 
         foldMetaDataMenu.setOnClickListener {

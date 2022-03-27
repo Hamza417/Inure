@@ -492,4 +492,7 @@
     <string name="move_selection_on_top">Move Selection on Top</string>
     <string name="notes">Notes</string>
     <string name="highlight_selected">Highlight Selected</string>
+    <string name="saving">Saving…</string>
+    <string name="changes_not_yet_saved">Changes not yet saved…</string>
+    <string name="no_changes">No Changes</string>
 </resources>
