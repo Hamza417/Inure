@@ -141,6 +141,9 @@ class Batch : ScopedFragment() {
             BatchPreferences.moveSelectionTop -> {
                 adapterBatch?.moveSelectedItemsToTheTop()
             }
+            BatchPreferences.highlightSelected -> {
+                adapterBatch?.updateSelectionsHighlights(BatchPreferences.isSelectedBatchHighlighted())
+            }
         }
     }
 

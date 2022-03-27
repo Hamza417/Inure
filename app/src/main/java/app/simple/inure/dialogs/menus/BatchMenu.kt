@@ -16,12 +16,14 @@ import app.simple.inure.util.FragmentHelper
 class BatchMenu : ScopedBottomSheetFragment() {
 
     private lateinit var moveSelectionOnTop: SwitchView
+    private lateinit var highlightSelected: SwitchView
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_batch_menu, container, false)
 
         moveSelectionOnTop = view.findViewById(R.id.move_selection_on_top)
+        highlightSelected = view.findViewById(R.id.highlight_selected)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
         return view
@@ -31,9 +33,14 @@ class BatchMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         moveSelectionOnTop.setChecked(BatchPreferences.isSelectionOnTop())
+        highlightSelected.setChecked(BatchPreferences.isSelectedBatchHighlighted())
 
         moveSelectionOnTop.setOnSwitchCheckedChangeListener {
             BatchPreferences.setMoveSelectionOnTop(it)
+        }
+
+        highlightSelected.setOnSwitchCheckedChangeListener {
+            BatchPreferences.setHighlightSelectedBatch(it)
         }
 
         openSettings.setOnClickListener {

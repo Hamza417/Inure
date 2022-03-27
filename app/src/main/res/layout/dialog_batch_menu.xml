@@ -41,6 +41,30 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/highlight_selected"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.switchview.SwitchView
+                android:id="@+id/highlight_selected"
+                android:layout_width="@dimen/switch_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
             android:layout_height="1px"

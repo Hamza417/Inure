@@ -30,6 +30,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
     private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
     private val pattern = FormattingPreferences.getDateFormat()
+    private var highlight = BatchPreferences.isSelectedBatchHighlighted()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -65,10 +66,20 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
             holder.checkBox.setCheckedWithoutAnimations(apps[position].isSelected)
 
+            if (highlight) {
+                holder.container.setDefaultBackground(apps[position].isSelected)
+            } else {
+                holder.container.setDefaultBackground(false)
+            }
+
             holder.checkBox.setOnCheckedChangeListener {
                 apps[position].isSelected = it
                 apps[position].dateSelected = if (it) System.currentTimeMillis() else -1
                 appsAdapterCallbacks?.onBatchChanged(apps[position])
+
+                if (highlight) {
+                    holder.container.setDefaultBackground(apps[position].isSelected)
+                }
 
                 if (apps[position].isSelected) {
                     holder.date.text = holder.itemView.context.getString(R.string.selected_on, DateUtils.formatDate(apps[position].dateSelected, pattern))
@@ -177,6 +188,16 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             }
         }
         for (i in apps.indices) notifyItemChanged(i.plus(1))
+    }
+
+    fun updateSelectionsHighlights(highlight: Boolean) {
+        this.highlight = highlight
+
+        for (i in apps.indices) {
+            if (apps[i].isSelected) {
+                notifyItemChanged(i.plus(1))
+            }
+        }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
