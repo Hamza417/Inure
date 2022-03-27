@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterNotes
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.menus.BatchMenu
+import app.simple.inure.dialogs.menus.NotesMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.NotesViewModel
 
@@ -55,8 +57,8 @@ class Notes : ScopedFragment() {
                 }
 
                 override fun onSettingsPressed(view: View) {
-                    BatchMenu.newInstance()
-                        .show(childFragmentManager, "batch_menu")
+                    NotesMenu.newInstance()
+                        .show(childFragmentManager, "notes_menu")
                 }
             })
 
@@ -64,6 +66,14 @@ class Notes : ScopedFragment() {
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
+            }
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            NotesPreferences.expandedNotes -> {
+                adapterNotes?.areNotesExpanded = NotesPreferences.areNotesExpanded()
             }
         }
     }

@@ -36,7 +36,7 @@ public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
         setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground()));
         LayoutBackground.setBackground(getContext(), this, attrs, 2F);
         ViewUtils.INSTANCE.addShadow(this);
-        setHighlightColor(ColorUtils.INSTANCE.lightenColor(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccentLight), 0.4F));
+        setHighlightColor(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccentLight));
     }
     
     public void toggleInput() {

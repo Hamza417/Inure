@@ -19,10 +19,19 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.preferences.NotesPreferences
 
 class AdapterNotes(var apps: ArrayList<NotesPackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
+
+    var areNotesExpanded = NotesPreferences.areNotesExpanded()
+        set(value) {
+            field = value
+            for (i in apps.indices) {
+                notifyItemChanged(i.plus(1))
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -43,14 +52,20 @@ class AdapterNotes(var apps: ArrayList<NotesPackageInfo>) : RecyclerView.Adapter
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
         val position = position_ - 1
-        if (holder is Holder) {
 
+        if (holder is Holder) {
             holder.icon.transitionName = "app_$position"
             holder.icon.loadAppIcon(apps[position].packageInfo.packageName)
             holder.name.text = apps[position].packageInfo.applicationInfo.name
             holder.packageId.text = apps[position].packageInfo.packageName
 
             holder.note.text = apps[position].note
+
+            if (areNotesExpanded) {
+                holder.note.maxLines = Int.MAX_VALUE
+            } else {
+                holder.note.maxLines = 7
+            }
 
             if (apps[position].packageInfo.applicationInfo.enabled) {
                 holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()

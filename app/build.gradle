@@ -25,8 +25,6 @@ android {
 
         resValue "string", "versionName", versionName
 
-        ndkVersion '23.1.7779620'
-
         externalNativeBuild {
             cmake {
                 cppFlags ""
@@ -60,6 +58,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
+    dependenciesInfo {
+        includeInApk true
+        includeInBundle true
+    }
+
+    ndkVersion '24.0.8215888'
 }
 
 dependencies {

@@ -495,4 +495,5 @@
     <string name="saving">Saving…</string>
     <string name="changes_not_yet_saved">Changes not yet saved…</string>
     <string name="no_changes">No Changes</string>
+    <string name="expanded_notes">Expanded Notes</string>
 </resources>
