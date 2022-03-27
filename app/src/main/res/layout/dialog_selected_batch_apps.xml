@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.corners.DynamicCornerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_height"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="vertical">
+
+        <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+            android:id="@+id/batch_selected_apps_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadingEdgeLength="@dimen/fading_edge_length"
+            android:requiresFadingEdge="vertical"
+            app:statusBarPaddingRequired="false" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerFrameLayout>
+
+</FrameLayout>

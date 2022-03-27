@@ -57,11 +57,11 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
 
             apps.getSortedList(MainPreferences.getSortStyle(), MainPreferences.isReverseSorting())
 
-            appData.postValue(getBatchStateDate(apps))
+            appData.postValue(getBatchStateData(apps))
         }
     }
 
-    private fun getBatchStateDate(apps: ArrayList<PackageInfo>): ArrayList<BatchPackageInfo> {
+    private fun getBatchStateData(apps: ArrayList<PackageInfo>): ArrayList<BatchPackageInfo> {
         batchDatabase = BatchDatabase.getInstance(context)
 
         val list = arrayListOf<BatchPackageInfo>()
@@ -95,7 +95,7 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
         return list
     }
 
-    fun addBatchItem(batchPackageInfo: BatchPackageInfo) {
+    fun updateBatchItem(batchPackageInfo: BatchPackageInfo) {
         viewModelScope.launch(Dispatchers.IO) {
             batchDatabase = BatchDatabase.getInstance(context)
             batchDatabase?.batchDao()

@@ -80,4 +80,5 @@
     <dimen name="menu_text_button_padding">20dp</dimen>
     <dimen name="pie_chart_height">500dp</dimen>
     <dimen name="list_text_size">20sp</dimen>
+    <dimen name="fading_edge_length">20dp</dimen>
 </resources>

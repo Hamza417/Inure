@@ -26,7 +26,7 @@ import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.DateUtils
 import java.util.stream.Collectors
 
-class AdapterBatch(var apps: ArrayList<BatchPackageInfo> = arrayListOf()) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boolean = true) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
     private val pattern = FormattingPreferences.getDateFormat()
@@ -49,9 +49,9 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo> = arrayListOf()) : Recy
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = position_ - 1
-        if (holder is Holder) {
+        val position = if (headerEnabled) position_ - 1 else position_
 
+        if (holder is Holder) {
             holder.icon.transitionName = "app_$position"
             holder.icon.loadAppIcon(apps[position].packageInfo.packageName)
             holder.name.text = apps[position].packageInfo.applicationInfo.name
@@ -131,7 +131,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo> = arrayListOf()) : Recy
     }
 
     override fun getItemCount(): Int {
-        return apps.size + 1
+        return if (headerEnabled) apps.size + 1 else apps.size
     }
 
     override fun getItemId(position: Int): Long {
@@ -139,9 +139,13 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo> = arrayListOf()) : Recy
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == 0) {
-            RecyclerViewConstants.TYPE_HEADER
-        } else RecyclerViewConstants.TYPE_ITEM
+        return if (headerEnabled) {
+            if (position == 0) {
+                RecyclerViewConstants.TYPE_HEADER
+            } else RecyclerViewConstants.TYPE_ITEM
+        } else {
+            RecyclerViewConstants.TYPE_ITEM
+        }
     }
 
     fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
@@ -150,6 +154,16 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo> = arrayListOf()) : Recy
 
     fun getCurrentAppsList(): ArrayList<BatchPackageInfo> {
         return apps.stream().filter { it.isSelected }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
+    }
+
+    fun updateBatchItem(batchPackageInfo: BatchPackageInfo) {
+        for (i in apps.indices) {
+            if (apps[i].packageInfo.packageName == batchPackageInfo.packageInfo.packageName) {
+                apps[i] = batchPackageInfo
+                notifyItemChanged(i.plus(1))
+                break
+            }
+        }
     }
 
     fun moveSelectedItemsToTheTop() {

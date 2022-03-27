@@ -38,7 +38,7 @@ class BatchMenu : ScopedBottomSheetFragment() {
 
         openSettings.setOnClickListener {
             (parentFragment as ScopedFragment).clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager,
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         MainPreferencesScreen.newInstance(),
                                         "prefs_screen")
         }

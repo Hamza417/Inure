@@ -16,6 +16,7 @@ import app.simple.inure.adapters.ui.AdapterBatch
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.dialogs.batch.DialogBatchSelectedApps
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.menus.BatchMenu
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -33,7 +34,7 @@ class Batch : ScopedFragment() {
     private lateinit var delete: DynamicRippleImageButton
     private lateinit var send: DynamicRippleImageButton
     private lateinit var extract: DynamicRippleImageButton
-    private lateinit var menu: DynamicRippleImageButton
+    private lateinit var checklist: DynamicRippleImageButton
 
     private var adapterBatch: AdapterBatch? = null
     private lateinit var batchViewModel: BatchViewModel
@@ -46,7 +47,7 @@ class Batch : ScopedFragment() {
         delete = view.findViewById(R.id.delete)
         send = view.findViewById(R.id.send)
         extract = view.findViewById(R.id.extract)
-        menu = view.findViewById(R.id.menu)
+        checklist = view.findViewById(R.id.menu)
 
         batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
 
@@ -99,7 +100,7 @@ class Batch : ScopedFragment() {
                 }
 
                 override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
-                    batchViewModel.addBatchItem(batchPackageInfo)
+                    batchViewModel.updateBatchItem(batchPackageInfo)
                 }
             })
 
@@ -122,8 +123,16 @@ class Batch : ScopedFragment() {
 
         }
 
-        menu.setOnClickListener {
+        checklist.setOnClickListener {
+            val d = DialogBatchSelectedApps.newInstance(adapterBatch!!.getCurrentAppsList())
 
+            d.setOnBatchSelectedAppsCallbacks(object : DialogBatchSelectedApps.Companion.BatchSelectedAppsCallbacks {
+                override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
+                    adapterBatch?.updateBatchItem(batchPackageInfo)
+                }
+            })
+
+            d.show(childFragmentManager, "batch_selected_apps")
         }
     }
 

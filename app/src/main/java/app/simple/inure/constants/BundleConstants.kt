@@ -17,4 +17,5 @@ object BundleConstants {
     const val canPaste = "terminal_can_paste"
     const val wifilock: String = "wifi_lock_state"
     const val wakelock: String = "wake_lock_state"
+    const val selectedBatchApps = "selected_batch_apps"
 }
