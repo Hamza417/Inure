@@ -14,8 +14,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:layout_height="wrap_content">
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/fragment_app_name"
@@ -60,6 +59,7 @@
             android:id="@+id/app_notes_edit_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginVertical="10dp"
             android:layout_weight="1"
             android:fadingEdge="vertical"
             android:fadingEdgeLength="@dimen/fading_edge_length"
@@ -78,7 +78,6 @@
         <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:elevation="@dimen/app_views_elevation"
             android:orientation="horizontal"
             android:padding="5dp">
@@ -102,18 +101,20 @@
                 android:src="@drawable/ic_format_underlined" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/undo"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/button_size"
                 android:layout_weight="1"
                 android:src="@drawable/ic_undo" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/redo"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/button_size"
                 android:layout_weight="1"
+                app:buttonTintType="regular"
                 android:src="@drawable/ic_redo" />
 
         </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
-
     </LinearLayout>
 </app.simple.inure.decorations.padding.PaddingAwareFrameLayout>

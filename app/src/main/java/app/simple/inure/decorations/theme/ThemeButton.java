@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 
@@ -19,7 +20,7 @@ import app.simple.inure.util.ColorUtils;
 public class ThemeButton extends AppCompatImageButton implements ThemeChangedListener {
     
     private ValueAnimator valueAnimator;
-    private int tintMode;
+    protected int tintMode;
     
     public ThemeButton(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -60,9 +61,22 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
             case 2: {
                 return ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent);
             }
+            case 3: {
+                return Color.GRAY;
+            }
         }
-        
+    
         return -1;
+    }
+    
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (enabled) {
+            setTint(getTintColor(tintMode), false);
+        } else {
+            setTint(getTintColor(3), false);
+        }
     }
     
     @Override
