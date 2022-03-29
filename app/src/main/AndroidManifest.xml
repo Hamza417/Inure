@@ -183,8 +183,8 @@
             android:configChanges="uiMode|orientation|screenSize"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
-            android:label="@string/audio_player"
-            android:theme="@style/Inure.Transparent">
+            android:theme="@style/Inure.Transparent"
+            android:label="@string/audio_player">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -201,6 +201,7 @@
         <activity
             android:name=".activities.association.AudioPlayerActivity"
             android:configChanges="uiMode"
+            android:theme="@style/Inure.Transparent"
             android:documentLaunchMode="intoExisting"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />

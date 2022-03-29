@@ -3,6 +3,7 @@ package app.simple.inure.activities.launcher
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.activities.association.FullScreenAudioPlayerActivity
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.SharedPreferences
@@ -18,7 +19,7 @@ class AudioLauncherActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         } else {
-            val intent = Intent(this, AudioLauncherActivity::class.java)
+            val intent = Intent(this, AudioPlayerActivity::class.java)
             intent.data = this.intent.data
             startActivity(intent)
             finish()
