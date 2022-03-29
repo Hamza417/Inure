@@ -5,20 +5,9 @@ import org.jetbrains.annotations.NotNull
 
 object FormattingPreferences {
 
-    private const val isWebViewXmlViewer = "is_xml_viewer_web_view"
     private const val sizeType = "size_type"
     private const val largeStrings = "load_large_strings"
     private const val dateFormat = "app_date_format"
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setWebViewXmlViewer(@NotNull value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(isWebViewXmlViewer, value).apply()
-    }
-
-    fun isWebViewXmlViewer(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(isWebViewXmlViewer, false)
-    }
 
     // ---------------------------------------------------------------------------------------------------------- //
 

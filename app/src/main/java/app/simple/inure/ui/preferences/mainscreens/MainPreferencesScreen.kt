@@ -39,51 +39,57 @@ class MainPreferencesScreen : ScopedFragment() {
             adapterPreferences = AdapterPreferences(it)
 
             adapterPreferences.setOnPreferencesCallbackListener(object : AdapterPreferences.Companion.PreferencesCallbacks {
-                override fun onPrefsClicked(imageView: ImageView, category: String) {
+                override fun onPrefsClicked(imageView: ImageView, category: Int) {
                     when (category) {
-                        getString(R.string.appearance) -> {
+                        R.string.appearance -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               AppearanceScreen.newInstance(),
                                                               imageView,
                                                               "appearance_prefs")
                         }
-                        getString(R.string.behaviour) -> {
+                        R.string.behaviour -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               BehaviourScreen.newInstance(),
                                                               imageView,
                                                               "behaviour_prefs")
                         }
-                        getString(R.string.configuration) -> {
+                        R.string.configuration -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               ConfigurationScreen.newInstance(),
                                                               imageView,
                                                               "config_prefs")
                         }
-                        getString(R.string.formatting) -> {
+                        R.string.formatting -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               FormattingScreen.newInstance(),
                                                               imageView,
                                                               "formatting_prefs")
                         }
-                        getString(R.string.terminal) -> {
+                        R.string.terminal -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               TerminalScreen.newInstance(),
                                                               imageView,
                                                               "terminal_prefs")
                         }
-                        getString(R.string.shell_preferences) -> {
+                        R.string.shell_preferences -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               ShellScreen.newInstance(),
                                                               imageView,
                                                               "shell_prefs")
                         }
-                        getString(R.string.accessibility) -> {
+                        R.string.accessibility -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               AccessibilityScreen.newInstance(),
                                                               imageView,
                                                               "accessibility_prefs")
                         }
-                        getString(R.string.about) -> {
+                        R.string.development -> {
+                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
+                                                              DevelopmentScreen.newInstance(),
+                                                              imageView,
+                                                              "development_prefs")
+                        }
+                        R.string.about -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               AboutScreen.newInstance(),
                                                               imageView,

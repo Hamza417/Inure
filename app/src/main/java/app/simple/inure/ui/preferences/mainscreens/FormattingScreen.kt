@@ -13,7 +13,6 @@ import app.simple.inure.preferences.FormattingPreferences
 
 class FormattingScreen : ScopedFragment() {
 
-    private lateinit var textViewXmlViewerSwitchView: SwitchView
     private lateinit var useBinaryFormat: SwitchView
     private lateinit var loadLargeStrings: SwitchView
     private lateinit var dateFormat: DynamicRippleConstraintLayout
@@ -23,7 +22,6 @@ class FormattingScreen : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        textViewXmlViewerSwitchView = view.findViewById(R.id.configuration_use_text_view)
         useBinaryFormat = view.findViewById(R.id.configuration_use_binary_format)
         loadLargeStrings = view.findViewById(R.id.configuration_lift_string_limit)
         dateFormat = view.findViewById(R.id.date_format_container)
@@ -34,13 +32,8 @@ class FormattingScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        textViewXmlViewerSwitchView.setChecked(FormattingPreferences.isWebViewXmlViewer())
         loadLargeStrings.setChecked(FormattingPreferences.isLoadingLargeStrings())
         useBinaryFormat.setChecked(FormattingPreferences.getSizeType() == "binary")
-
-        textViewXmlViewerSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
-            FormattingPreferences.setWebViewXmlViewer(isChecked)
-        }
 
         loadLargeStrings.setOnSwitchCheckedChangeListener {
             FormattingPreferences.setLoadLargeStrings(it)

@@ -20,7 +20,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.popups.viewers.PopupGraphicsFilter
 import app.simple.inure.popups.viewers.PopupGraphicsMenu
-import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNull
@@ -75,7 +75,7 @@ class Graphics : ScopedFragment() {
                     }
 
                     override fun onGraphicsLongPressed(filePath: String) {
-                        if (FormattingPreferences.isWebViewXmlViewer()) {
+                        if (DevelopmentPreferences.isWebViewXmlViewer()) {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         XMLViewerWebView.newInstance(packageInfo, false, filePath),
                                                         "wv_xml")

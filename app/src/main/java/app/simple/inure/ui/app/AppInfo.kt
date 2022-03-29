@@ -31,7 +31,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInfoPanelPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper.openFragment
@@ -124,7 +124,7 @@ class AppInfo : ScopedFragment() {
                 override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
                     when (source) {
                         getString(R.string.manifest) -> {
-                            if (FormattingPreferences.isWebViewXmlViewer()) {
+                            if (DevelopmentPreferences.isWebViewXmlViewer()) {
                                 openFragment(requireActivity().supportFragmentManager, XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             } else {
                                 openFragment(requireActivity().supportFragmentManager, XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")

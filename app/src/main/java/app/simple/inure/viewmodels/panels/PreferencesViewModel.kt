@@ -11,13 +11,13 @@ import kotlinx.coroutines.launch
 
 class PreferencesViewModel(application: Application) : WrappedViewModel(application) {
 
-    private val preferences: MutableLiveData<ArrayList<Pair<Int, String>>> by lazy {
-        MutableLiveData<ArrayList<Pair<Int, String>>>().also {
+    private val preferences: MutableLiveData<ArrayList<Pair<Int, Int>>> by lazy {
+        MutableLiveData<ArrayList<Pair<Int, Int>>>().also {
             loadPreferencesData()
         }
     }
 
-    fun getPreferences(): LiveData<ArrayList<Pair<Int, String>>> {
+    fun getPreferences(): LiveData<ArrayList<Pair<Int, Int>>> {
         return preferences
     }
 
@@ -26,14 +26,15 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
             val context = context
 
             val list = arrayListOf(
-                    Pair(R.drawable.ic_appearance, context.getString(R.string.appearance)),
-                    Pair(R.drawable.ic_behaviour, context.getString(R.string.behaviour)),
-                    Pair(R.drawable.ic_app_settings, context.getString(R.string.configuration)),
-                    Pair(R.drawable.ic_formatting, context.getString(R.string.formatting)),
-                    Pair(R.drawable.ic_accessibility, context.getString(R.string.accessibility)),
-                    Pair(R.drawable.ic_terminal_black, context.getString(R.string.terminal)),
-                    Pair(R.drawable.ic_shell, context.getString(R.string.shell_preferences)),
-                    Pair(R.drawable.ic_audio_placeholder, context.getString(R.string.about))
+                    Pair(R.drawable.ic_appearance, R.string.appearance),
+                    Pair(R.drawable.ic_behaviour, R.string.behaviour),
+                    Pair(R.drawable.ic_app_settings, R.string.configuration),
+                    Pair(R.drawable.ic_formatting, R.string.formatting),
+                    Pair(R.drawable.ic_accessibility, R.string.accessibility),
+                    Pair(R.drawable.ic_terminal_black, R.string.terminal),
+                    Pair(R.drawable.ic_shell, R.string.shell_preferences),
+                    Pair(R.drawable.ic_adb, R.string.development),
+                    Pair(R.drawable.ic_audio_placeholder, R.string.about)
             )
 
             preferences.postValue(list)

@@ -24,7 +24,7 @@ import app.simple.inure.extension.fragments.ScopedDialogFragment
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
-import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.StatusBarHeight
@@ -173,7 +173,7 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         manifest.setOnClickListener {
-            if (FormattingPreferences.isWebViewXmlViewer()) {
+            if (DevelopmentPreferences.isWebViewXmlViewer()) {
                 FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                             XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"),
                                             "xml")

@@ -83,6 +83,7 @@
             android:padding="5dp">
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/bold"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/button_size"
                 android:layout_weight="1"

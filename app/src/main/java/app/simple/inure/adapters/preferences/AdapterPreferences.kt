@@ -10,7 +10,7 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 
-class AdapterPreferences(private val list: ArrayList<Pair<Int, String>>) : RecyclerView.Adapter<AdapterPreferences.Holder>() {
+class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : RecyclerView.Adapter<AdapterPreferences.Holder>() {
 
     private var preferencesCallbacks: PreferencesCallbacks? = null
 
@@ -19,9 +19,9 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, String>>) : Recyc
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.text.text = list[position].second
+        holder.text.text = holder.itemView.context.getString(list[position].second)
         holder.icon.setImageResource(list[position].first)
-        holder.icon.transitionName = list[position].second
+        holder.icon.transitionName = holder.itemView.context.getString(list[position].second)
 
         holder.container.setOnClickListener {
             preferencesCallbacks?.onPrefsClicked(holder.icon, list[position].second)
@@ -44,7 +44,7 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
     companion object {
         interface PreferencesCallbacks {
-            fun onPrefsClicked(imageView: ImageView, category: String)
+            fun onPrefsClicked(imageView: ImageView, category: Int)
         }
     }
 }

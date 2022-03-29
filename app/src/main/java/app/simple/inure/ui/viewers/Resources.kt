@@ -17,7 +17,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
-import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.ResourcesPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
@@ -64,7 +64,7 @@ class Resources : ScopedFragment() {
                 override fun onResourceClicked(path: String) {
                     clearExitTransition()
 
-                    if (FormattingPreferences.isWebViewXmlViewer()) {
+                    if (DevelopmentPreferences.isWebViewXmlViewer()) {
                         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                     XMLViewerWebView.newInstance(packageInfo, false, path),
                                                     "wv_xml")

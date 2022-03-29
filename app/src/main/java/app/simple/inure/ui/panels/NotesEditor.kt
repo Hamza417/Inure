@@ -15,6 +15,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
+import app.simple.inure.helper.EditTextHelper.toBold
 import app.simple.inure.helper.TextViewUndoRedo
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.util.NullSafety.isNull
@@ -29,6 +30,7 @@ class NotesEditor : ScopedFragment() {
     private lateinit var loader: LoaderImageView
     private lateinit var text: TypeFaceEditTextDynamicCorner
 
+    private lateinit var bold: DynamicRippleImageButton
     private lateinit var undo: DynamicRippleImageButton
     private lateinit var redo: DynamicRippleImageButton
 
@@ -44,6 +46,7 @@ class NotesEditor : ScopedFragment() {
         loader = view.findViewById(R.id.loader)
         text = view.findViewById(R.id.app_notes_edit_text)
 
+        bold = view.findViewById(R.id.bold)
         undo = view.findViewById(R.id.undo)
         redo = view.findViewById(R.id.redo)
 
@@ -119,6 +122,12 @@ class NotesEditor : ScopedFragment() {
 
         undo.isEnabled = textViewUndoRedo?.canUndo ?: false
         redo.isEnabled = textViewUndoRedo?.canRedo ?: false
+
+        bold.setOnClickListener {
+            if (text.toString().isNotEmpty()) {
+                text.toBold()
+            }
+        }
     }
 
     override fun onDestroy() {
