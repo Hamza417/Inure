@@ -177,7 +177,7 @@
         </activity>
 
         <activity
-            android:name=".activities.association.AudioPlayerActivity"
+            android:name=".activities.launcher.AudioLauncherActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:configChanges="uiMode|orientation|screenSize"
@@ -197,6 +197,20 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activities.association.AudioPlayerActivity"
+            android:configChanges="uiMode"
+            android:documentLaunchMode="intoExisting"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".activities.association.FullScreenAudioPlayerActivity"
+            android:configChanges="uiMode"
+            android:documentLaunchMode="intoExisting"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.association.TextViewerActivity"

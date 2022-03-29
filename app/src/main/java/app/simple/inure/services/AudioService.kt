@@ -345,6 +345,8 @@ class AudioService : Service(),
     }
 
     private fun pause() {
+        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPause, applicationContext)
+
         if (timerTask != null && timer != null) {
             timer!!.cancel()
             timerTask!!.cancel()
@@ -371,7 +373,6 @@ class AudioService : Service(),
                             setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
                             showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlay))
                             stopForeground(false)
-                            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPause, applicationContext)
                         }
                         timer!!.cancel()
                         timer!!.purge()

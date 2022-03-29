@@ -22,4 +22,18 @@ object SharedPreferences {
     fun getSharedPreferences(): SharedPreferences {
         return sharedPreferences ?: throw NullPointerException()
     }
+
+    /**
+     * Singleton to hold reference of SharedPreference.
+     *
+     * @see init
+     */
+    fun getSharedPreferences(context: Context): SharedPreferences {
+        kotlin.runCatching {
+            return sharedPreferences ?: throw NullPointerException()
+        }.getOrElse {
+            init(context)
+            return sharedPreferences!!
+        }
+    }
 }

@@ -62,6 +62,9 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
                 return ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent);
             }
             case 3: {
+                return Color.WHITE;
+            }
+            case 4: {
                 return Color.GRAY;
             }
         }
@@ -75,7 +78,7 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
         if (enabled) {
             setTint(getTintColor(tintMode), false);
         } else {
-            setTint(getTintColor(3), false);
+            setTint(getTintColor(4), false);
         }
     }
     
