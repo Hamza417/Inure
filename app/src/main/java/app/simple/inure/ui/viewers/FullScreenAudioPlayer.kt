@@ -295,7 +295,6 @@ class FullScreenAudioPlayer : ScopedFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        requireActivity().finish()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!)
     }
 

@@ -43,6 +43,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
+
+            dependenciesInfo {
+                includeInApk true
+                includeInBundle true
+            }
         }
         debug {
             versionNameSuffix "_debug"
@@ -57,10 +62,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
-    }
-    dependenciesInfo {
-        includeInApk true
-        includeInBundle true
     }
 
     ndkVersion '24.0.8215888'

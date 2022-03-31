@@ -17,9 +17,11 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationCompat
 import app.simple.inure.R
 import app.simple.inure.activities.association.AudioPlayerActivity
+import app.simple.inure.activities.association.FullScreenAudioPlayerActivity
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.exceptions.InureMediaEngineException
 import app.simple.inure.models.AudioMetaData
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.receivers.MediaButtonIntentReceiver
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.MetadataHelper
@@ -37,7 +39,8 @@ class AudioService : Service(),
                      MediaPlayer.OnCompletionListener,
                      MediaPlayer.OnPreparedListener,
                      MediaPlayer.OnErrorListener,
-                     MediaPlayer.OnSeekCompleteListener {
+                     MediaPlayer.OnSeekCompleteListener,
+                     SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val binder = AudioBinder()
     private val mediaPlayer = MediaPlayer()
@@ -116,6 +119,9 @@ class AudioService : Service(),
 
     override fun onCreate() {
         super.onCreate()
+
+        app.simple.inure.preferences.SharedPreferences.init(applicationContext)
+        app.simple.inure.preferences.SharedPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
@@ -471,7 +477,12 @@ class AudioService : Service(),
     private fun showNotification(action: NotificationCompat.Action) {
         notificationManager = baseContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        val intentAction = Intent(this, AudioPlayerActivity::class.java)
+        val intentAction = if (DevelopmentPreferences.isAudioPlayerFullScreen()) {
+            Intent(this, FullScreenAudioPlayerActivity::class.java)
+        } else {
+            Intent(this, AudioPlayerActivity::class.java)
+        }
+
         intentAction.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         intentAction.data = audioUri
 
@@ -506,6 +517,18 @@ class AudioService : Service(),
         return NotificationCompat.Action.Builder(icon, title, close).build()
     }
 
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            DevelopmentPreferences.isAudioPlayerFullScreen -> {
+                if (mediaPlayer.isPlaying) {
+                    showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
+                } else {
+                    showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlay))
+                }
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.stop()
@@ -513,5 +536,6 @@ class AudioService : Service(),
         mediaPlayer.release()
         removeAudioFocus()
         unregisterReceiver(becomingNoisyReceiver)
+        app.simple.inure.preferences.SharedPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 }

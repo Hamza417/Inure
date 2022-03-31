@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull
 object DevelopmentPreferences {
 
     private const val isWebViewXmlViewer = "is_xml_viewer_web_view"
-    private const val isAudioPlayerFullScreen = "is_audio_player_full_screen"
+    const val isAudioPlayerFullScreen = "is_audio_player_full_screen"
 
     // ---------------------------------------------------------------------------------------------------------- //
 

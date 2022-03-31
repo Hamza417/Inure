@@ -50,10 +50,6 @@
         android:windowSoftInputMode="adjustPan"
         tools:ignore="AllowBackup">
 
-        <profileable
-            android:shell="true"
-            tools:targetApi="q" />
-
         <activity
             android:name=".activities.app.MainActivity"
             android:configChanges="uiMode"
@@ -179,12 +175,11 @@
         <activity
             android:name=".activities.launcher.AudioLauncherActivity"
             android:autoRemoveFromRecents="true"
-            android:clearTaskOnLaunch="true"
             android:configChanges="uiMode|orientation|screenSize"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
-            android:theme="@style/Inure.Transparent"
-            android:label="@string/audio_player">
+            android:label="@string/audio_player"
+            android:theme="@style/Inure.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -200,14 +195,16 @@
 
         <activity
             android:name=".activities.association.AudioPlayerActivity"
+            android:autoRemoveFromRecents="true"
             android:configChanges="uiMode"
-            android:theme="@style/Inure.Transparent"
             android:documentLaunchMode="intoExisting"
             android:exported="false"
+            android:theme="@style/Inure.Transparent"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.association.FullScreenAudioPlayerActivity"
+            android:autoRemoveFromRecents="true"
             android:configChanges="uiMode"
             android:documentLaunchMode="intoExisting"
             android:exported="false"
