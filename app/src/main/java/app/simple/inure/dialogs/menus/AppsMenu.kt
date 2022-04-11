@@ -26,6 +26,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.viewers.*
+import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
@@ -185,14 +186,18 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         quickAppsViewModel.getSimpleQuickAppList().observe(viewLifecycleOwner) {
-            for (i in it) {
-                if (i.packageName == packageInfo.packageName) {
-                    toQuickApp.setText(R.string.remove_from_quick_apps)
-                    isAlreadyInQuickApp = true
-                    break
-                } else {
-                    isAlreadyInQuickApp = false
+            if (it.size.isNotZero()) {
+                for (i in it) {
+                    if (i.packageName == packageInfo.packageName) {
+                        toQuickApp.setText(R.string.remove_from_quick_apps)
+                        isAlreadyInQuickApp = true
+                        break
+                    } else {
+                        isAlreadyInQuickApp = false
+                    }
                 }
+            } else {
+                isAlreadyInQuickApp = false
             }
 
             if (!isAlreadyInQuickApp) {

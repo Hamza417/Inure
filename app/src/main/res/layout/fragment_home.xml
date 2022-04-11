@@ -83,6 +83,7 @@
             android:id="@+id/home_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/popup_padding"
@@ -116,6 +117,7 @@
                     android:overScrollMode="never" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/quick_apps_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/popup_padding"
@@ -124,6 +126,7 @@
                     android:paddingVertical="@dimen/header_padding"
                     android:text="@string/quick_apps"
                     android:textSize="@dimen/home_heading_text_size"
+                    android:visibility="gone"
                     app:appFontStyle="bold"
                     app:textColorStyle="primary" />
 
@@ -136,6 +139,7 @@
                     android:layoutAnimation="@anim/horizontal_list_controller"
                     android:nestedScrollingEnabled="false"
                     android:paddingHorizontal="@dimen/dialog_padding"
+                    android:visibility="gone"
                     app:statusBarPaddingRequired="false" />
 
             </LinearLayout>

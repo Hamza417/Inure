@@ -20,6 +20,7 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.extension.popup.PopupMenuCallback
@@ -28,7 +29,10 @@ import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.panels.*
 import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.ViewUtils.invisible
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 
@@ -38,6 +42,7 @@ class Home : ScopedFragment() {
     private lateinit var header: PaddingAwareLinearLayout
     private lateinit var navigationRecyclerView: RecyclerView
     private lateinit var appsCategoryRecyclerView: RecyclerView
+    private lateinit var quickAppsHeader: TypeFaceTextView
     private lateinit var quickAppsRecyclerView: CustomHorizontalRecyclerView
     private lateinit var icon: ImageView
     private lateinit var search: DynamicRippleImageButton
@@ -52,6 +57,7 @@ class Home : ScopedFragment() {
 
         scrollView = view.findViewById(R.id.home_scroll_view)
         appsCategoryRecyclerView = view.findViewById(R.id.apps_categories)
+        quickAppsHeader = view.findViewById(R.id.quick_apps_tv)
         quickAppsRecyclerView = view.findViewById(R.id.quick_app_recycler_view)
         navigationRecyclerView = view.findViewById(R.id.home_menu)
 
@@ -177,6 +183,14 @@ class Home : ScopedFragment() {
         }
 
         quickAppViewModel.getQuickApps().observe(viewLifecycleOwner) {
+            if (it.size.isZero()) {
+                quickAppsHeader.invisible(false)
+                quickAppsRecyclerView.invisible(false)
+            } else {
+                quickAppsHeader.visible(false)
+                quickAppsRecyclerView.visible(false)
+            }
+
             val adapterQuickApps = AdapterQuickApps(it as ArrayList<PackageInfo>)
 
             adapterQuickApps.seyOnQuickAppAdapterCallbackListener(object : AdapterQuickApps.Companion.QuickAppsAdapterCallbacks {
