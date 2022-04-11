@@ -57,15 +57,15 @@ object FragmentHelper {
      * @param view [View] that needs to be animated
      * @param tag back stack tag for fragment
      */
-    fun openFragmentLinear(fragmentManager: FragmentManager, fragment: ScopedFragment, view: View, tag: String) {
-        fragment.setLinearTransitions()
+    fun openFragmentLinear(fragmentManager: FragmentManager, fragment: ScopedFragment, view: View, tag: String, duration: Long? = null) {
+        fragment.setLinearTransitions(duration ?: view.resources.getInteger(R.integer.animation_duration).toLong())
 
         fragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .addSharedElement(view, view.transitionName)
-                .replace(R.id.app_container, fragment, tag)
-                .addToBackStack(tag)
-                .commit()
+            .setReorderingAllowed(true)
+            .addSharedElement(view, view.transitionName)
+            .replace(R.id.app_container, fragment, tag)
+            .addToBackStack(tag)
+            .commit()
     }
 
     /**

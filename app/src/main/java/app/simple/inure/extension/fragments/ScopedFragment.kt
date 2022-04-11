@@ -136,7 +136,8 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         clearExitTransition()
     }
 
-    open fun setLinearTransitions() {
+    open fun setLinearTransitions(duration: Long) {
+
         /**
          * Animations are expensive, every time a view is added into the
          * animating view transaction time will increase a little
@@ -151,8 +152,8 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
 
         if (BehaviourPreferences.isAnimationOn()) {
-            sharedElementEnterTransition = DetailsTransition()
-            sharedElementReturnTransition = DetailsTransition()
+            sharedElementEnterTransition = DetailsTransition(duration)
+            sharedElementReturnTransition = DetailsTransition(duration)
         }
     }
 

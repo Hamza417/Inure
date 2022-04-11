@@ -19,10 +19,16 @@ abstract class QuickAppsDatabase : RoomDatabase() {
 
         @Synchronized
         fun getInstance(context: Context): QuickAppsDatabase? {
-            if (instance.isNull()) {
-                instance = Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
-                    .fallbackToDestructiveMigration()
+            instance = if (instance.isNull()) {
+                Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
                     .build()
+            } else {
+                if (instance!!.isOpen) {
+                    return instance
+                } else {
+                    Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
+                        .build()
+                }
             }
 
             return instance
@@ -30,10 +36,16 @@ abstract class QuickAppsDatabase : RoomDatabase() {
 
         @Synchronized
         fun getInstance(context: Context, db_name: String): QuickAppsDatabase? {
-            if (instance.isNull() && instance!!.isOpen) {
-                instance = Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
-                    .fallbackToDestructiveMigration()
+            instance = if (instance.isNull()) {
+                Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
                     .build()
+            } else {
+                if (instance!!.isOpen) {
+                    return instance
+                } else {
+                    Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
+                        .build()
+                }
             }
 
             return instance

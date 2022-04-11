@@ -87,13 +87,13 @@ class MainPreferencesScreen : ScopedFragment() {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               DevelopmentScreen.newInstance(),
                                                               imageView,
-                                                              "development_prefs")
+                                                              "development_prefs", 600)
                         }
                         R.string.about -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               AboutScreen.newInstance(),
                                                               imageView,
-                                                              "about_prefs")
+                                                              "about_prefs", 600)
                         }
                     }
                 }
