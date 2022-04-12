@@ -274,7 +274,6 @@
             android:clickable="false"
             android:gravity="start"
             android:padding="@dimen/panel_item_padding"
-            android:text="@string/start_app_now"
             app:textColorStyle="accent"
             android:textSize="@dimen/header_name_text_size"
             app:appFontStyle="bold" />

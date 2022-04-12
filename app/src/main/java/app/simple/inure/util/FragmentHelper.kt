@@ -57,7 +57,7 @@ object FragmentHelper {
      * @param view [View] that needs to be animated
      * @param tag back stack tag for fragment
      */
-    fun openFragmentLinear(fragmentManager: FragmentManager, fragment: ScopedFragment, view: View, tag: String, duration: Long? = null) {
+    fun openFragmentLinear(fragmentManager: FragmentManager, fragment: ScopedFragment, view: View, tag: String? = null, duration: Long? = null) {
         fragment.setLinearTransitions(duration ?: view.resources.getInteger(R.integer.animation_duration).toLong())
 
         fragmentManager.beginTransaction()

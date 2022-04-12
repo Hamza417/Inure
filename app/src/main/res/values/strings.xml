@@ -172,9 +172,8 @@
     <string name="desc_storage_permission">Storage permission is required and used to perform various app actions such as sharing app, making backup files or associate with file available in external storage.</string>
     <string name="granted">Granted</string>
     <string name="rejected">Rejected</string>
-    <string name="start_app_now">Start App Now</string>
-    <string name="desc_setup">Before moving ahead it is recommended to perform the necessary actions to make the all the features of the app work.</string>
-    <string name="skip">Skip for Now</string>
+    <string name="desc_setup">Before moving ahead it is recommended to perform the necessary actions to make sure all the features of the app work.</string>
+    <string name="skip">Skip</string>
     <string name="executing_command">Executing Command…</string>
     <string name="force_stop">Force Stop</string>
     <string name="are_you_sure">Are You Sure?</string>
