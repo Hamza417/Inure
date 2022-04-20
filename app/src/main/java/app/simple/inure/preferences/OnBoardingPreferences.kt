@@ -4,7 +4,8 @@ import org.jetbrains.annotations.NotNull
 
 object OnBoardingPreferences {
 
-    const val isWelcomeDone = "is_welcome_done"
+    private const val isWelcomeDone = "is_welcome_done"
+    private const val isTypefaceDone = "is_type_face_done"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -14,6 +15,16 @@ object OnBoardingPreferences {
 
     fun isWelcomeDone(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(isWelcomeDone, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setTypeFaceState(@NotNull value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(isTypefaceDone, value).apply()
+    }
+
+    fun isTypeFaceDone(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(isTypefaceDone, false)
     }
 
 }

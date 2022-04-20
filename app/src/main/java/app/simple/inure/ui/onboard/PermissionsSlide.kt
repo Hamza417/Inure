@@ -21,10 +21,10 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted
 import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 
 class PermissionsSlide : ScopedFragment() {
@@ -95,7 +95,10 @@ class PermissionsSlide : ScopedFragment() {
         }
 
         next.setOnClickListener {
-
+            clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        TypeFaceSlide.newInstance(),
+                                        null)
         }
     }
 
@@ -173,7 +176,6 @@ class PermissionsSlide : ScopedFragment() {
         intent.addFlags(flags)
         appStorageAccessResult.launch(intent)
     }
-
 
     companion object {
         fun newInstance(): PermissionsSlide {

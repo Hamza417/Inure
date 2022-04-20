@@ -75,16 +75,16 @@ object FragmentHelper {
      * @param fragment [Fragment]
      * @param tag back stack tag for fragment
      */
-    fun openFragment(fragmentManager: FragmentManager, fragment: ScopedFragment, @Nullable tag: String) {
+    fun openFragment(fragmentManager: FragmentManager, fragment: ScopedFragment, @Nullable tag: String?) {
         fragment.clearExitTransition()
         fragment.clearEnterTransition()
 
         fragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                .replace(R.id.app_container, fragment, tag)
-                .addToBackStack(tag)
-                .commit()
+            .setReorderingAllowed(true)
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+            .replace(R.id.app_container, fragment, tag)
+            .addToBackStack(tag)
+            .commit()
     }
 
     /**

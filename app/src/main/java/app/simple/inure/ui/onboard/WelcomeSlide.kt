@@ -49,6 +49,10 @@ class WelcomeSlide : ScopedFragment() {
 
         next.setOnClickListener {
             OnBoardingPreferences.setWelcomeState(true)
+            clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        PermissionsSlide.newInstance(),
+                                        null)
         }
 
         skip.setOnClickListener {

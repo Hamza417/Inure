@@ -18,11 +18,8 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.preferences.OnBoardingPreferences
 import app.simple.inure.ui.app.Home
-import app.simple.inure.ui.onboard.WelcomeSlide
 import app.simple.inure.util.FragmentHelper.openFragment
-import app.simple.inure.util.FragmentHelper.openFragmentLinear
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted
 import app.simple.inure.viewmodels.panels.AppsViewModel
 import app.simple.inure.viewmodels.panels.HomeViewModel
@@ -71,14 +68,10 @@ class SplashScreen : ScopedFragment() {
                 requireArguments().getBoolean("skip") -> {
                     proceed()
                 }
-                !OnBoardingPreferences.isWelcomeDone() -> {
-                    openFragmentLinear(requireActivity().supportFragmentManager,
-                                       WelcomeSlide.newInstance(),
-                                       view.findViewById(R.id.imageView), "welcome", 1000L)
-                }
                 !checkForPermission() -> {
                     openFragment(requireActivity().supportFragmentManager,
-                                 Setup.newInstance(), view.findViewById(R.id.imageView))
+                                 Setup.newInstance(),
+                                 "setup")
                 }
                 else -> {
                     proceed()

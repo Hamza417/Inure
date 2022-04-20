@@ -110,9 +110,7 @@ class Setup : ScopedFragment() {
 
         startApp.setOnClickListener {
             if (checkForPermission() && !requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty()) {
-                FragmentHelper.openFragment(
-                        requireActivity().supportFragmentManager,
-                        SplashScreen.newInstance(false), view.findViewById(R.id.imageView3))
+                requireActivity().onBackPressed()
             }
         }
 
