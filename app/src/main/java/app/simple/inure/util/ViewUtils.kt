@@ -161,9 +161,10 @@ object ViewUtils {
     fun View.visible(animate: Boolean) {
         if (animate) {
             clearAnimation()
-            alpha = 0F
 
             this.animate()
+                .scaleX(1F)
+                .scaleY(1F)
                 .alpha(1F)
                 .setInterpolator(LinearOutSlowInInterpolator())
                 .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())

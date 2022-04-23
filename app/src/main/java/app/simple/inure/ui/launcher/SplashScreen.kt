@@ -70,8 +70,7 @@ class SplashScreen : ScopedFragment() {
                 }
                 !checkForPermission() -> {
                     openFragment(requireActivity().supportFragmentManager,
-                                 Setup.newInstance(),
-                                 "setup")
+                                 Setup.newInstance(), icon)
                 }
                 else -> {
                     proceed()

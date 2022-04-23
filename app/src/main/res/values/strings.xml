@@ -18,7 +18,7 @@
     <string name="both">Both</string>
     <string name="typeface_icon">Typeface Icon</string>
     <string name="app_typeface">App Typeface</string>
-    <string name="select_the_application_s_typeface">Change application\'s font style.</string>
+    <string name="select_the_application_s_typeface">Change application\'s font style (English glyphs only).</string>
     <string name="appearance">Appearance</string>
     <string name="appearance_icon">Appearance Icon</string>
     <string name="total_apps">%1$s Apps</string>

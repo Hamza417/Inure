@@ -6,11 +6,48 @@
     android:clipToPadding="true"
     android:orientation="vertical">
 
-    <include layout="@layout/header_setup" />
-
-    <app.simple.inure.decorations.theme.ThemeDivider
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1px" />
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="1dp"
+        android:orientation="vertical"
+        android:padding="@dimen/header_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.theme.ThemeIcon
+                android:id="@+id/imageView3"
+                android:layout_width="@dimen/adapter_header_icon_size"
+                android:layout_height="@dimen/adapter_header_icon_size"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_app_icon"
+                android:transitionName="main_app_icon"
+                app:tintType="secondary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/typeFaceTextView02"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="16dp"
+                android:layout_weight="1"
+                android:text="@string/setup"
+                android:textSize="@dimen/header_font_size"
+                android:transitionName="@string/setup"
+                app:appFontStyle="light"
+                app:textColorStyle="heading" />
+
+        </LinearLayout>
+
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -26,6 +63,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <app.simple.inure.decorations.theme.ThemeDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1px" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/adapter_total_apps"
