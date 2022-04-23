@@ -1,4 +1,4 @@
-package app.simple.inure.popups.apps
+package app.simple.inure.popups.batch
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +7,12 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extension.popup.BasePopupWindow
 import app.simple.inure.extension.popup.PopupLinearLayout
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.popups.apps.PopupAppsCategory.Companion.BOTH
+import app.simple.inure.popups.apps.PopupAppsCategory.Companion.SYSTEM
+import app.simple.inure.popups.apps.PopupAppsCategory.Companion.USER
+import app.simple.inure.preferences.BatchPreferences
 
-class PopupAppsCategory(view: View) : BasePopupWindow() {
+class PopupBatchAppsCategory(view: View) : BasePopupWindow() {
 
     private val system: DynamicRippleTextView
     private val user: DynamicRippleTextView
@@ -26,7 +29,7 @@ class PopupAppsCategory(view: View) : BasePopupWindow() {
         user.onClick(USER)
         both.onClick(BOTH)
 
-        when (MainPreferences.getAppsCategory()) {
+        when (BatchPreferences.getAppsCategory()) {
             USER -> user.isSelected = true
             SYSTEM -> system.isSelected = true
             BOTH -> both.isSelected = true
@@ -37,14 +40,8 @@ class PopupAppsCategory(view: View) : BasePopupWindow() {
 
     private fun TextView.onClick(category: String) {
         this.setOnClickListener {
-            MainPreferences.setAppsCategory(category)
+            BatchPreferences.setAppsCategory(category)
             dismiss()
         }
-    }
-
-    companion object {
-        const val SYSTEM = "system"
-        const val USER = "user"
-        const val BOTH = "both"
     }
 }

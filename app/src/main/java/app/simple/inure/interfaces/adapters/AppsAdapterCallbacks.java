@@ -21,11 +21,11 @@ public interface AppsAdapterCallbacks {
     
     }
     
-    default void onFilterPressed(View view) {
+    default void onFilterPressed(@NonNull View view) {
     
     }
     
-    default void onSortPressed(View view) {
+    default void onSortPressed(@NonNull View view) {
     
     }
     

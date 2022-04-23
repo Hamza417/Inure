@@ -21,10 +21,10 @@ High priority features
 - [ ] App directories panel
 - [ ] APK browser for apps that are not yet installed
 
-Low priotiy features
+Low priority features
 
 - [ ] Code highlights for all languages an Android app possibly contains
-- [ ] Dedicated TextEditor
+- [x] Dedicated TextEditor
 - [ ] ImageViewer scalable zoom support
 - [ ] APK data extraction
 

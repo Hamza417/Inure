@@ -22,6 +22,8 @@ import app.simple.inure.dialogs.menus.BatchMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.popups.batch.PopupBatchAppsCategory
+import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
@@ -102,6 +104,14 @@ class Batch : ScopedFragment() {
                 override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
                     batchViewModel.updateBatchItem(batchPackageInfo)
                 }
+
+                override fun onSortPressed(view: View) {
+                    PopupBatchSortingStyle(view)
+                }
+
+                override fun onFilterPressed(view: View) {
+                    PopupBatchAppsCategory(view)
+                }
             })
 
             recyclerView.adapter = adapterBatch
@@ -143,6 +153,11 @@ class Batch : ScopedFragment() {
             }
             BatchPreferences.highlightSelected -> {
                 adapterBatch?.updateSelectionsHighlights(BatchPreferences.isSelectedBatchHighlighted())
+            }
+            BatchPreferences.isSortingReversed,
+            BatchPreferences.listAppsCategory,
+            BatchPreferences.sortStyle -> {
+                batchViewModel.refresh()
             }
         }
     }

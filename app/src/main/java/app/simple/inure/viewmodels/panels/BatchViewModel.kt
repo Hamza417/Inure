@@ -14,7 +14,6 @@ import app.simple.inure.models.BatchModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatchPreferences
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +37,7 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
 
-            when (MainPreferences.getAppsCategory()) {
+            when (BatchPreferences.getAppsCategory()) {
                 PopupAppsCategory.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
@@ -52,10 +51,11 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
             }
 
             for (i in apps.indices) {
-                apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                apps[i].applicationInfo.name = PackageUtils.getApplicationName(
+                        getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
 
-            apps.getSortedList(MainPreferences.getSortStyle(), MainPreferences.isReverseSorting())
+            apps.getSortedList(BatchPreferences.getSortStyle(), BatchPreferences.isReverseSorting())
 
             appData.postValue(getBatchStateData(apps))
         }
@@ -103,6 +103,10 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
                                          batchPackageInfo.isSelected,
                                          System.currentTimeMillis()))
         }
+    }
+
+    fun refresh() {
+        loadAppData()
     }
 
     override fun onCleared() {
