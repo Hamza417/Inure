@@ -90,12 +90,14 @@
                 android:src="@drawable/ic_format_bold" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/italics"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/button_size"
                 android:layout_weight="1"
                 android:src="@drawable/ic_format_italic" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/underline"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/button_size"
                 android:layout_weight="1"

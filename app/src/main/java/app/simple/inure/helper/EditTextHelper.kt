@@ -2,27 +2,20 @@ package app.simple.inure.helper
 
 import android.graphics.Typeface
 import android.text.Spannable
-import android.text.style.TextAppearanceSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import android.widget.EditText
-import androidx.core.text.toSpannable
 
 object EditTextHelper {
     fun EditText.toBold() {
-        var min = 0
-        var max: Int = text.length
+        text.setSpan(StyleSpan(Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+    }
 
-        if (isFocused) {
-            val selStart: Int = selectionStart
-            val selEnd: Int = selectionEnd
-            min = 0.coerceAtLeast(selStart.coerceAtMost(selEnd))
-            max = 0.coerceAtLeast(selStart.coerceAtLeast(selEnd))
-        }
+    fun EditText.toItalics() {
+        text.setSpan(StyleSpan(Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+    }
 
-        val string = text.toString().subSequence(min, max).toSpannable()
-
-        val highlightSpan = TextAppearanceSpan(null, Typeface.BOLD, -1, textColors, null)
-        string.setSpan(highlightSpan, min, max, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-
-        setText(string)
+    fun EditText.toUnderline() {
+        text.setSpan(UnderlineSpan(), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
     }
 }

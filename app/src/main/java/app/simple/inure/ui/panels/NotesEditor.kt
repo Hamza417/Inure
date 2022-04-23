@@ -13,9 +13,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
 import app.simple.inure.helper.EditTextHelper.toBold
+import app.simple.inure.helper.EditTextHelper.toItalics
+import app.simple.inure.helper.EditTextHelper.toUnderline
 import app.simple.inure.helper.TextViewUndoRedo
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.util.NullSafety.isNull
@@ -31,6 +34,8 @@ class NotesEditor : ScopedFragment() {
     private lateinit var text: TypeFaceEditTextDynamicCorner
 
     private lateinit var bold: DynamicRippleImageButton
+    private lateinit var italics: DynamicRippleImageButton
+    private lateinit var underline: DynamicRippleImageButton
     private lateinit var undo: DynamicRippleImageButton
     private lateinit var redo: DynamicRippleImageButton
 
@@ -47,6 +52,8 @@ class NotesEditor : ScopedFragment() {
         text = view.findViewById(R.id.app_notes_edit_text)
 
         bold = view.findViewById(R.id.bold)
+        italics = view.findViewById(R.id.italics)
+        underline = view.findViewById(R.id.underline)
         undo = view.findViewById(R.id.undo)
         redo = view.findViewById(R.id.redo)
 
@@ -124,10 +131,44 @@ class NotesEditor : ScopedFragment() {
         redo.isEnabled = textViewUndoRedo?.canRedo ?: false
 
         bold.setOnClickListener {
-            if (text.toString().isNotEmpty()) {
-                text.toBold()
+            kotlin.runCatching {
+                if (text.toString().isNotEmpty()) {
+                    text.toBold()
+                }
+            }.getOrElse {
+                printError(it)
             }
         }
+
+        italics.setOnClickListener {
+            kotlin.runCatching {
+                if (text.toString().isNotEmpty()) {
+                    text.toItalics()
+                }
+            }.getOrElse {
+                printError(it)
+            }
+        }
+
+        underline.setOnClickListener {
+            kotlin.runCatching {
+                if (text.toString().isNotEmpty()) {
+                    text.toUnderline()
+                }
+            }.getOrElse {
+                printError(it)
+            }
+        }
+    }
+
+    private fun printError(throwable: Throwable) {
+        val e = Error.newInstance(throwable.stackTraceToString())
+        e.show(childFragmentManager, "error_dialog")
+        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+            override fun onDismiss() {
+                requireActivity().onBackPressed()
+            }
+        })
     }
 
     override fun onDestroy() {

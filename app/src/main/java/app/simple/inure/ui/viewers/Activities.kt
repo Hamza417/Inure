@@ -64,7 +64,7 @@ class Activities : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activitiesViewModel.getActivities().observe(viewLifecycleOwner, { it ->
+        activitiesViewModel.getActivities().observe(viewLifecycleOwner) { it ->
             adapterActivities = AdapterActivities(packageInfo, it, searchBox.text.toString())
             recyclerView.adapter = adapterActivities
 
@@ -107,13 +107,13 @@ class Activities : ScopedFragment() {
                         ActivityUtils.launchPackage(requireContext(), packageName, name)
                     }.getOrElse {
                         Error.newInstance(it.message ?: getString(R.string.unknown))
-                                .show(childFragmentManager, "error_dialog")
+                            .show(childFragmentManager, "error_dialog")
                     }
                 }
             })
-        })
+        }
 
-        activitiesViewModel.getError().observe(viewLifecycleOwner, {
+        activitiesViewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -121,7 +121,7 @@ class Activities : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
 
         search.setOnClickListener {
             if (searchBox.text.isNullOrEmpty()) {
