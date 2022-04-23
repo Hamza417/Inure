@@ -37,6 +37,10 @@ public interface AppsAdapterCallbacks {
     
     }
     
+    default void onNoteDelete(@NonNull View view, NotesPackageInfo notesPackageInfo) {
+    
+    }
+    
     default void onBatchChanged(@NonNull BatchPackageInfo batchPackageInfo) {
     
     }

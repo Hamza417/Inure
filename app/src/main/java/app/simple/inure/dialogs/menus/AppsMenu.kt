@@ -25,6 +25,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.FragmentHelper
@@ -48,6 +49,7 @@ class AppsMenu : ScopedDialogFragment() {
     private lateinit var receivers: DynamicRippleTextView
     private lateinit var providers: DynamicRippleTextView
     private lateinit var manifest: DynamicRippleTextView
+    private lateinit var notes: DynamicRippleTextView
     private lateinit var toQuickApp: DynamicRippleTextView
 
     private lateinit var quickAppsViewModel: QuickAppsViewModel
@@ -70,6 +72,7 @@ class AppsMenu : ScopedDialogFragment() {
         receivers = view.findViewById(R.id.receivers)
         providers = view.findViewById(R.id.providers)
         manifest = view.findViewById(R.id.manifest)
+        notes = view.findViewById(R.id.notes)
         toQuickApp = view.findViewById(R.id.to_quick_app)
 
         quickAppsViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
@@ -183,6 +186,12 @@ class AppsMenu : ScopedDialogFragment() {
                                             XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"),
                                             "xml")
             }
+        }
+
+        notes.setOnClickListener {
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        NotesEditor.newInstance(packageInfo),
+                                        "notes_editor")
         }
 
         quickAppsViewModel.getSimpleQuickAppList().observe(viewLifecycleOwner) {

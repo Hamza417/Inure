@@ -123,7 +123,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_home_recently_installed.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_home_recently_updated.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_information.xml" value="0.24010416666666667" />
-        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_notes.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_notes.xml" value="0.22" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_permissions.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_preferences.xml" value="0.25" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_providers.xml" value="0.21296296296296297" />
@@ -146,6 +146,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/analytics_ram.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/analytics_sensor.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/appearance_behavior.xml" value="0.19" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/blank_fragment.xml" value="0.22604166666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/configuration_information.xml" value="0.22" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/configuration_root.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dalog_activity_launcher.xml" value="0.24010416666666667" />

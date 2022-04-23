@@ -184,6 +184,20 @@
                 app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
+                android:gravity="center_vertical"
+                android:padding="@dimen/menu_text_button_padding"
+                android:text="@string/notes"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/to_quick_app"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

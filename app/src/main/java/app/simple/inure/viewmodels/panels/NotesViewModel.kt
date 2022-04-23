@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.models.NotesModel
 import app.simple.inure.models.NotesPackageInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,6 +61,24 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
         }
 
         return list
+    }
+
+    fun deleteNoteData(notesPackageInfo: NotesPackageInfo?) {
+        viewModelScope.launch(Dispatchers.Default) {
+            kotlin.runCatching {
+                notesDatabase = NotesDatabase.getInstance(context)
+
+                val notesModel = NotesModel(
+                        notesPackageInfo!!.note,
+                        notesPackageInfo.packageInfo.packageName,
+                        notesPackageInfo.dateCreated,
+                        notesPackageInfo.dateUpdated)
+
+                notesDatabase?.getNotesDao()?.deleteNote(notesModel)
+            }.onSuccess {
+                loadNotesData()
+            }
+        }
     }
 
     override fun onCleared() {
