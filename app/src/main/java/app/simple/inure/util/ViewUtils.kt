@@ -88,8 +88,8 @@ object ViewUtils {
         if (animate) {
             clearAnimation()
             this.animate()
-                .scaleY(0.8F)
-                .scaleX(0.8F)
+                .scaleY(0F)
+                .scaleX(0F)
                 .alpha(0F)
                 .setInterpolator(AccelerateInterpolator())
                 .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())

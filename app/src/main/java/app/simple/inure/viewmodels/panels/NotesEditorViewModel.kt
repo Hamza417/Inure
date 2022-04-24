@@ -48,16 +48,20 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
 
     fun updateNoteData(notesPackageInfo: NotesPackageInfo, delay: Int = 0) {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(delay.toLong())
+            kotlin.runCatching {
+                delay(delay.toLong())
 
-            notesDatabase!!.getNotesDao()!!
-                .insertNote(NotesModel(
-                        notesPackageInfo.note,
-                        notesPackageInfo.packageInfo.packageName,
-                        notesPackageInfo.dateCreated,
-                        System.currentTimeMillis()))
+                notesDatabase!!.getNotesDao()!!
+                    .insertNote(NotesModel(
+                            notesPackageInfo.note,
+                            notesPackageInfo.packageInfo.packageName,
+                            notesPackageInfo.dateCreated,
+                            System.currentTimeMillis()))
 
-            saved.postValue(saved.value?.plus(1) ?: 0)
+                saved.postValue(saved.value?.plus(1) ?: 0)
+            }.onFailure {
+                saved.postValue(-1 /* Save has failed, tell the UI */)
+            }
         }
     }
 

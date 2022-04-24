@@ -14,17 +14,18 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/fragment_app_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:textSize="@dimen/app_name_text_size"
                 app:appFontStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/fragment_app_package_id"
-                app:layout_constraintEnd_toStartOf="@+id/loader"
+                app:layout_constraintEnd_toStartOf="@+id/undo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:textColorStyle="primary" />
@@ -33,22 +34,48 @@
                 android:id="@+id/fragment_app_package_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:ellipsize="marquee"
                 android:fontFamily="@font/lato_regular"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textSize="@dimen/app_package_text_size"
                 app:appFontStyle="regular"
-                app:layout_constraintEnd_toStartOf="@+id/loader"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/undo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fragment_app_name"
                 app:textColorStyle="secondary" />
 
-            <app.simple.inure.decorations.views.LoaderImageView
-                android:id="@+id/loader"
-                android:layout_width="@dimen/loader_size"
-                android:layout_height="@dimen/loader_size"
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/undo"
+                android:layout_width="@dimen/button_size"
+                android:layout_height="@dimen/button_size"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_undo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/redo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/redo"
+                android:layout_width="@dimen/button_size"
+                android:layout_height="@dimen/button_size"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_redo"
+                app:buttonTintType="regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/save"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/save"
+                android:layout_width="@dimen/button_size"
+                android:layout_height="@dimen/button_size"
+                android:layout_weight="1"
+                android:src="@drawable/ic_save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -75,49 +102,87 @@
             app:appFontStyle="regular"
             app:textColorStyle="primary" />
 
-        <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        <app.simple.inure.decorations.corners.DynamicCornerHorizontalScrollViewWithFactor
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/app_views_elevation"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:fadingEdge="horizontal"
+            android:fadingEdgeLength="24dp"
+            android:overScrollMode="never"
+            android:requiresFadingEdge="horizontal"
+            android:scrollbarSize="0dp">
 
-            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                android:id="@+id/bold"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_size"
-                android:layout_weight="1"
-                android:src="@drawable/ic_format_bold" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp">
 
-            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                android:id="@+id/italics"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_size"
-                android:layout_weight="1"
-                android:src="@drawable/ic_format_italic" />
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/bold"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_format_bold" />
 
-            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                android:id="@+id/underline"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_size"
-                android:layout_weight="1"
-                android:src="@drawable/ic_format_underlined" />
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/italics"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_format_italic" />
 
-            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                android:id="@+id/undo"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_size"
-                android:layout_weight="1"
-                android:src="@drawable/ic_undo" />
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/underline"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_format_underlined" />
 
-            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                android:id="@+id/redo"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_size"
-                android:layout_weight="1"
-                app:buttonTintType="regular"
-                android:src="@drawable/ic_redo" />
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/strikethrough"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_format_strikethrough" />
 
-        </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/decrease"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_format_size_lower" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/increase"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_format_size_upper" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/bullet"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_format_list_bulleted" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/superscript"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_format_superscript" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/subscript"
+                    android:layout_width="60dp"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_format_subscript" />
+
+            </LinearLayout>
+
+        </app.simple.inure.decorations.corners.DynamicCornerHorizontalScrollViewWithFactor>
     </LinearLayout>
 </app.simple.inure.decorations.padding.PaddingAwareFrameLayout>
