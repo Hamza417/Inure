@@ -20,6 +20,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
+import app.simple.inure.util.HtmlHelper
 
 class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -59,7 +60,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             holder.name.text = notes[position].packageInfo.applicationInfo.name
             holder.packageId.text = notes[position].packageInfo.packageName
 
-            holder.note.text = notes[position].note
+            holder.note.text = HtmlHelper.fromHtml(notes[position].note)
 
             if (areNotesExpanded) {
                 holder.note.maxLines = Int.MAX_VALUE

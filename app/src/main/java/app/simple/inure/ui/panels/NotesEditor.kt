@@ -9,9 +9,11 @@ import androidx.core.text.toHtml
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.adapters.details.AdapterFormattingStrip
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
+import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extension.fragments.ScopedFragment
@@ -26,6 +28,7 @@ import app.simple.inure.helper.EditTextHelper.toSubscript
 import app.simple.inure.helper.EditTextHelper.toSuperscript
 import app.simple.inure.helper.EditTextHelper.toUnderline
 import app.simple.inure.helper.TextViewUndoRedo
+import app.simple.inure.helper.richtextutils.SpannedXhtmlGenerator
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.util.HtmlHelper
 import app.simple.inure.util.NullSafety.isNull
@@ -37,24 +40,25 @@ class NotesEditor : ScopedFragment() {
 
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
-    private lateinit var text: TypeFaceEditTextDynamicCorner
-
-    private lateinit var bold: DynamicRippleImageButton
-    private lateinit var italics: DynamicRippleImageButton
-    private lateinit var underline: DynamicRippleImageButton
-    private lateinit var strikethrough: DynamicRippleImageButton
-    private lateinit var decrease: DynamicRippleImageButton
-    private lateinit var increase: DynamicRippleImageButton
-    private lateinit var bullet: DynamicRippleImageButton
-    private lateinit var superscript: DynamicRippleImageButton
-    private lateinit var subscripts: DynamicRippleImageButton
+    private lateinit var text: TypeFaceEditText
     private lateinit var undo: DynamicRippleImageButton
     private lateinit var redo: DynamicRippleImageButton
     private lateinit var save: DynamicRippleImageButton
+    private lateinit var formattingStrip: CustomHorizontalRecyclerView
 
     private lateinit var notesViewModel: NotesEditorViewModel
     private var notesPackageInfo: NotesPackageInfo? = null
     private var textViewUndoRedo: TextViewUndoRedo? = null
+
+    private val bold = 1
+    private val italics = 2
+    private val underline = 3
+    private val strikethrough = 4
+    private val decrease = 5
+    private val increase = 6
+    private val bullet = 7
+    private val superscript = 8
+    private val subscripts = 9
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_notes_viewer, container, false)
@@ -62,19 +66,10 @@ class NotesEditor : ScopedFragment() {
         name = view.findViewById(R.id.fragment_app_name)
         packageId = view.findViewById(R.id.fragment_app_package_id)
         text = view.findViewById(R.id.app_notes_edit_text)
-
-        bold = view.findViewById(R.id.bold)
-        italics = view.findViewById(R.id.italics)
-        underline = view.findViewById(R.id.underline)
-        strikethrough = view.findViewById(R.id.strikethrough)
-        decrease = view.findViewById(R.id.decrease)
-        increase = view.findViewById(R.id.increase)
-        bullet = view.findViewById(R.id.bullet)
-        superscript = view.findViewById(R.id.superscript)
-        subscripts = view.findViewById(R.id.subscript)
         undo = view.findViewById(R.id.undo)
         redo = view.findViewById(R.id.redo)
         save = view.findViewById(R.id.save)
+        formattingStrip = view.findViewById(R.id.formatting_strip_rv)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         val factory = NotesViewModelFactory(requireApplication(), packageInfo)
@@ -101,6 +96,50 @@ class NotesEditor : ScopedFragment() {
             textViewUndoRedo = TextViewUndoRedo(text)
         }
 
+        notesViewModel.getFormattingStrip().observe(viewLifecycleOwner) {
+            val adapterFormattingStrip = AdapterFormattingStrip(it)
+
+            adapterFormattingStrip.setOnFormattingStripCallbackListener(object : AdapterFormattingStrip.Companion.FormattingStripCallbacks {
+                override fun onFormattingButtonClicked(position: Int) {
+                    kotlin.runCatching {
+                        when (position) {
+                            bold -> {
+                                text.toBold()
+                            }
+                            italics -> {
+                                text.toItalics()
+                            }
+                            underline -> {
+                                text.toUnderline()
+                            }
+                            strikethrough -> {
+                                text.toStrikethrough()
+                            }
+                            decrease -> {
+                                text.decreaseTextSize()
+                            }
+                            increase -> {
+                                text.increaseTextSize()
+                            }
+                            bullet -> {
+                                text.addBullet()
+                            }
+                            superscript -> {
+                                text.toSuperscript()
+                            }
+                            subscripts -> {
+                                text.toSubscript()
+                            }
+                        }
+                    }.getOrElse {
+                        printError(it)
+                    }
+                }
+            })
+
+            formattingStrip.adapter = adapterFormattingStrip
+        }
+
         notesViewModel.getSavedState().observe(viewLifecycleOwner) {
             if (it >= 0) {
                 save.gone(true)
@@ -124,106 +163,6 @@ class NotesEditor : ScopedFragment() {
         undo.isEnabled = textViewUndoRedo?.canUndo ?: false
         redo.isEnabled = textViewUndoRedo?.canRedo ?: false
 
-        bold.setOnClickListener {
-            kotlin.runCatching {
-                if (text.toString().isNotEmpty()) {
-                    text.toBold()
-                    save.visible(true)
-                }
-            }.getOrElse {
-                printError(it)
-            }
-        }
-
-        italics.setOnClickListener {
-            kotlin.runCatching {
-                if (text.toString().isNotEmpty()) {
-                    text.toItalics()
-                    save.visible(true)
-                }
-            }.getOrElse {
-                printError(it)
-            }
-        }
-
-        underline.setOnClickListener {
-            kotlin.runCatching {
-                if (text.toString().isNotEmpty()) {
-                    text.toUnderline()
-                    save.visible(true)
-                }
-            }.getOrElse {
-                printError(it)
-            }
-        }
-
-        strikethrough.setOnClickListener {
-            kotlin.runCatching {
-                if (text.toString().isNotEmpty()) {
-                    text.toStrikethrough()
-                    save.visible(true)
-                }
-            }.getOrElse {
-                printError(it)
-            }
-        }
-
-        decrease.setOnClickListener {
-            kotlin.runCatching {
-                if (text.toString().isNotEmpty()) {
-                    text.decreaseTextSize()
-                    save.visible(true)
-                }
-            }.getOrElse {
-                printError(it)
-            }
-        }
-
-        increase.setOnClickListener {
-            kotlin.runCatching {
-                if (text.toString().isNotEmpty()) {
-                    text.increaseTextSize()
-                    text.requestLayout()
-                    save.visible(true)
-                }
-            }.getOrElse {
-                printError(it)
-            }
-        }
-
-        bullet.setOnClickListener {
-            kotlin.runCatching {
-                if (text.toString().isNotEmpty()) {
-                    text.addBullet()
-                    save.visible(true)
-                }
-            }.getOrElse {
-                printError(it)
-            }
-        }
-
-        superscript.setOnClickListener {
-            kotlin.runCatching {
-                if (text.toString().isNotEmpty()) {
-                    text.toSuperscript()
-                    save.visible(true)
-                }
-            }.getOrElse {
-                printError(it)
-            }
-        }
-
-        subscripts.setOnClickListener {
-            kotlin.runCatching {
-                if (text.toString().isNotEmpty()) {
-                    text.toSubscript()
-                    save.visible(true)
-                }
-            }.getOrElse {
-                printError(it)
-            }
-        }
-
         save.setOnClickListener {
             handleTextChange()
         }
@@ -236,7 +175,7 @@ class NotesEditor : ScopedFragment() {
         if (notesPackageInfo.isNull()) {
             notesPackageInfo = NotesPackageInfo(
                     packageInfo,
-                    this@NotesEditor.text.text!!.toHtml(),
+                    SpannedXhtmlGenerator().toXhtml(this@NotesEditor.text.text!!),
                     System.currentTimeMillis(),
                     System.currentTimeMillis())
         } else {

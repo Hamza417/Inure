@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.R
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.models.NotesModel
@@ -23,10 +24,20 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
         }
     }
 
+    private val formattingButtons: MutableLiveData<List<Int>> by lazy {
+        MutableLiveData<List<Int>>().also {
+            loadFormattingItems()
+        }
+    }
+
     private val saved = MutableLiveData<Int>()
 
     fun getNoteData(): LiveData<NotesPackageInfo> {
         return noteData
+    }
+
+    fun getFormattingStrip(): LiveData<List<Int>> {
+        return formattingButtons
     }
 
     fun getSavedState(): LiveData<Int> {
@@ -62,6 +73,23 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
             }.onFailure {
                 saved.postValue(-1 /* Save has failed, tell the UI */)
             }
+        }
+    }
+
+    private fun loadFormattingItems() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val list = listOf(
+                    R.drawable.ic_format_bold,
+                    R.drawable.ic_format_italic,
+                    R.drawable.ic_format_underlined,
+                    R.drawable.ic_format_strikethrough,
+                    R.drawable.ic_format_size_lower,
+                    R.drawable.ic_format_size_upper,
+                    R.drawable.ic_format_list_bulleted,
+                    R.drawable.ic_format_superscript,
+                    R.drawable.ic_format_subscript)
+
+            formattingButtons.postValue(list)
         }
     }
 
