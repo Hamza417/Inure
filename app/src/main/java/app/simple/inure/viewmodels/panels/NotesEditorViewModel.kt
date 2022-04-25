@@ -110,6 +110,7 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
                     R.drawable.ic_format_list_bulleted,
                     R.drawable.ic_format_superscript,
                     R.drawable.ic_format_subscript,
+                    R.drawable.ic_format_paint
                     // R.drawable.ic_format_align_left,
                     // R.drawable.ic_format_align_center,
                     // R.drawable.ic_format_align_right

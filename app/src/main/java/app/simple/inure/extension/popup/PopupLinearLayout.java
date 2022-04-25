@@ -12,9 +12,20 @@ public class PopupLinearLayout extends DynamicCornerLinearLayout {
         init();
     }
     
+    public PopupLinearLayout(Context context, int orientation) {
+        super(context);
+        init(orientation);
+    }
+    
     private void init() {
         int p = getResources().getDimensionPixelOffset(R.dimen.popup_padding);
         setPadding(p, p, p, p);
         setOrientation(LinearLayout.VERTICAL);
+    }
+    
+    private void init(int orientation) {
+        int p = getResources().getDimensionPixelOffset(R.dimen.popup_padding);
+        setPadding(p, p, p, p);
+        setOrientation(orientation);
     }
 }

@@ -21,9 +21,11 @@ import app.simple.inure.dialogs.notes.NotesEditorMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
 import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.popups.notes.PopupBackgroundSpan
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.text.EditTextHelper.addBullet
 import app.simple.inure.text.EditTextHelper.decreaseTextSize
+import app.simple.inure.text.EditTextHelper.highlightText
 import app.simple.inure.text.EditTextHelper.increaseTextSize
 import app.simple.inure.text.EditTextHelper.toBold
 import app.simple.inure.text.EditTextHelper.toItalics
@@ -66,6 +68,7 @@ class NotesEditor : ScopedFragment() {
     private val bullet = 7
     private val superscript = 8
     private val subscripts = 9
+    private val backgroundSpan = 10
 
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
@@ -123,7 +126,7 @@ class NotesEditor : ScopedFragment() {
             val adapterFormattingStrip = AdapterFormattingStrip(list)
 
             adapterFormattingStrip.setOnFormattingStripCallbackListener(object : AdapterFormattingStrip.Companion.FormattingStripCallbacks {
-                override fun onFormattingButtonClicked(position: Int) {
+                override fun onFormattingButtonClicked(position: Int, view: View) {
                     kotlin.runCatching {
                         when (position) {
                             bold -> {
@@ -152,6 +155,14 @@ class NotesEditor : ScopedFragment() {
                             }
                             subscripts -> {
                                 noteEditText.toSubscript()
+                            }
+                            backgroundSpan -> {
+                                val p = PopupBackgroundSpan(view)
+                                p.setOnPopupBackgroundCallbackListener(object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
+                                    override fun onColorClicked(color: Int) {
+                                        noteEditText.highlightText(color)
+                                    }
+                                })
                             }
                         }
                     }.getOrElse {

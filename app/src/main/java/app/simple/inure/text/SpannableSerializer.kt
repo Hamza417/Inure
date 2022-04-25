@@ -13,6 +13,7 @@ class SpannableSerializer : JsonSerializer<SpannableStringBuilder?>, JsonDeseria
             val runtimeTypeAdapterFactory = RuntimeTypeAdapterFactory
                 .of(ParcelableSpan::class.java, ParcelableSpan::class.java.simpleName)
                 .registerSubtype(ForegroundColorSpan::class.java, ForegroundColorSpan::class.java.simpleName)
+                .registerSubtype(BackgroundColorSpan::class.java, BackgroundColorSpan::class.java.simpleName)
                 .registerSubtype(StyleSpan::class.java, StyleSpan::class.java.simpleName)
                 .registerSubtype(RelativeSizeSpan::class.java, RelativeSizeSpan::class.java.simpleName)
                 .registerSubtype(SuperscriptSpan::class.java, SuperscriptSpan::class.java.simpleName)

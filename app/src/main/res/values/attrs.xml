@@ -119,6 +119,7 @@
             <flag name="secondary" value="1" />
             <flag name="accent" value="2" />
             <flag name="white" value="3" />
+            <flag name="custom" value="-1" />
         </attr>
     </declare-styleable>
 </resources>

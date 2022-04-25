@@ -69,7 +69,7 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
             }
         }
     
-        return -1;
+        return getImageTintList().getDefaultColor();
     }
     
     @Override

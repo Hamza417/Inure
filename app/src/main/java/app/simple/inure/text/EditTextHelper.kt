@@ -29,7 +29,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(StyleSpan(Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            text.setSpan(StyleSpan(Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -45,7 +45,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(StyleSpan(Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            text.setSpan(StyleSpan(Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -59,7 +59,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(UnderlineSpan(), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            text.setSpan(UnderlineSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -73,7 +73,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(StrikethroughSpan(), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            text.setSpan(StrikethroughSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -109,7 +109,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(SuperscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            text.setSpan(SuperscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -123,7 +123,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(SubscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            text.setSpan(SubscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -157,6 +157,20 @@ object EditTextHelper {
         text.setSpan(AbsoluteSizeSpan(fontSize), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
     }
 
+    fun EditText.highlightText(color: Int) {
+        val spans: Array<BackgroundColorSpan> = text.getSpans(selectionStart, selectionEnd, BackgroundColorSpan::class.java)
+        var exists = false
+
+        for (span in spans) {
+            text.removeSpan(span)
+            exists = true
+        }
+
+        if (!exists) {
+            text.setSpan(BackgroundColorSpan(color), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+
     fun EditText.alignCenter() {
         val spans: Array<AlignmentSpan> = text.getSpans(selectionStart, selectionEnd, AlignmentSpan::class.java)
         var exists = false
@@ -167,7 +181,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            text.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         }
     }
 }

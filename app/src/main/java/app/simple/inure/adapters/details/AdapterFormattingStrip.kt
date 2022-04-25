@@ -20,7 +20,7 @@ class AdapterFormattingStrip(private val list: List<Int>) : RecyclerView.Adapter
         holder.button.setImageResource(list[position])
 
         holder.button.setOnClickListener {
-            formattingStripCallbacks?.onFormattingButtonClicked(position.plus(1))
+            formattingStripCallbacks?.onFormattingButtonClicked(position.plus(1), it)
         }
     }
 
@@ -38,7 +38,7 @@ class AdapterFormattingStrip(private val list: List<Int>) : RecyclerView.Adapter
 
     companion object {
         interface FormattingStripCallbacks {
-            fun onFormattingButtonClicked(position: Int)
+            fun onFormattingButtonClicked(position: Int, view: View)
         }
     }
 }
