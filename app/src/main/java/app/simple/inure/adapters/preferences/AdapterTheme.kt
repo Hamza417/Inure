@@ -3,18 +3,17 @@ package app.simple.inure.adapters.preferences
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.ThemeStateIcon
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.StatusBarHeight
@@ -33,7 +32,10 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
             ThemeConstants.DAY_NIGHT
     )
 
-    var onTouch: (x: Float, y: Float) -> Unit = { _: Float, _: Float -> }
+    var onTouch: (x: Int, y: Int) -> Unit = { _: Int, _: Int -> }
+    var x = 0
+    var y = 0
+
     private var oldPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -42,7 +44,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_type_face, parent, false))
             }
             RecyclerViewConstants.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_typeface, parent, false))
+                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_app_theme, parent, false))
             }
             else -> {
                 throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")
@@ -58,24 +60,6 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
         when (holder) {
             is Holder -> {
                 holder.textView.text = holder.itemView.context.getThemeName(list[position])
-
-                holder.textView.setOnTouchListener { view, event ->
-                    when (event.action) {
-                        MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
-                            val location = IntArray(2)
-                            view.getLocationOnScreen(location)
-                            val x = location[0] + holder.textView.measuredWidth / 2
-                            val y = location[1] + holder.textView.measuredHeight / 2
-
-                            if (AppearancePreferences.isTransparentStatusDisabled()) {
-                                onTouch.invoke(event.rawX, event.rawY - StatusBarHeight.getStatusBarHeight(holder.itemView.resources))
-                            } else {
-                                onTouch.invoke(x.toFloat(), y.toFloat())
-                            }
-                        }
-                    }
-                    false
-                }
 
                 if (AppearancePreferences.getTheme() == list[position]) {
                     holder.icon.visible(false)
@@ -97,12 +81,24 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                         notifyItemChanged(oldPosition)
                         notifyItemChanged(holder.absoluteAdapterPosition)
+                        onTouch.invoke(x, y)
                     }
                 }
             }
             is Header -> {
                 holder.title.text = holder.itemView.context.getString(R.string.application_theme)
                 holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
+
+                holder.icon.post {
+                    val point = IntArray(2)
+                    holder.icon.getLocationOnScreen(point) // or getLocationInWindow(point)
+                    x = point[0].plus(holder.icon.width / 2)
+                    y = if (AppearancePreferences.isTransparentStatusDisabled()) {
+                        point[1].minus(holder.icon.height / 2)
+                    } else {
+                        point[1].minus(holder.icon.height / 2).plus(StatusBarHeight.getStatusBarHeight(holder.context.resources))
+                    }
+                }
             }
         }
     }
@@ -138,6 +134,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_title)
-        val total: TextView = itemView.findViewById(R.id.adapter_type_face_total)
+        val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_type_face_total)
+        val icon: ThemeStateIcon = itemView.findViewById(R.id.theme_icon)
     }
 }

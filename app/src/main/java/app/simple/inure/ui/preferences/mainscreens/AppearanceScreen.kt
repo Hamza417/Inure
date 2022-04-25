@@ -36,7 +36,7 @@ class AppearanceScreen : ScopedFragment() {
     private lateinit var descTransparentStatus: TypeFaceTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_appearances, container, false)
+        val view = inflater.inflate(R.layout.preferences_appearances, container, false)
 
         accent = view.findViewById(R.id.appearance_accent_color)
         typeface = view.findViewById(R.id.appearance_app_typeface)

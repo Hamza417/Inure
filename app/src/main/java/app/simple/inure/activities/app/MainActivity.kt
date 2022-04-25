@@ -113,6 +113,8 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         animator!!.doOnEnd {
             circularRevealImageView.setImageDrawable(null)
             circularRevealImageView.isVisible = false
+            xPoint = w.div(2)
+            yPoint = h.div(2)
         }
 
         animator!!.start()
@@ -124,9 +126,9 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
     }
 
-    override fun onTouchCoordinates(x: Float, y: Float) {
-        xPoint = x.toInt()
-        yPoint = y.toInt()
+    override fun onTouchCoordinates(x: Int, y: Int) {
+        xPoint = x
+        yPoint = y
     }
 
     override fun onDestroy() {

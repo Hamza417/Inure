@@ -73,7 +73,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:padding="15dp">
 
-                    <app.simple.inure.decorations.theme.ThemeIcon
+                    <app.simple.inure.decorations.views.ThemeStateIcon
                         android:id="@+id/app_theme_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"

@@ -10,12 +10,16 @@ import app.simple.inure.adapters.preferences.AdapterTheme
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener
+import app.simple.inure.themes.manager.Theme
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ThemeUtils
 
-class AppearanceAppTheme : ScopedFragment() {
+class AppearanceAppTheme : ScopedFragment(), ThemeChangedListener {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var adapterTheme: AdapterTheme
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.terminal_font_size, container, false)
@@ -29,9 +33,10 @@ class AppearanceAppTheme : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        val adapterTheme = AdapterTheme()
+        ThemeManager.addListener(this)
+        adapterTheme = AdapterTheme()
 
-        adapterTheme.onTouch = { x: Float, y: Float ->
+        adapterTheme.onTouch = { x: Int, y: Int ->
             (requireActivity() as ThemeRevealCoordinatesListener).onTouchCoordinates(x, y)
         }
 
@@ -44,6 +49,16 @@ class AppearanceAppTheme : ScopedFragment() {
                 handler.postDelayed({ ThemeUtils.setAppTheme(resources) }, 200)
             }
         }
+    }
+
+    override fun onThemeChanged(theme: Theme?) {
+        super.onThemeChanged(theme)
+        // adapterTheme.notifyItemChanged(0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ThemeManager.removeListener(this)
     }
 
     companion object {

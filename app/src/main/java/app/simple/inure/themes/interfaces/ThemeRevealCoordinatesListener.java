@@ -1,5 +1,5 @@
 package app.simple.inure.themes.interfaces;
 
 public interface ThemeRevealCoordinatesListener {
-    void onTouchCoordinates(float x, float y);
+    void onTouchCoordinates(int x, int y);
 }
