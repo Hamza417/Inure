@@ -34,15 +34,32 @@
         app:layout_constraintEnd_toStartOf="@+id/adapter_delete_button"
         app:layout_constraintStart_toEndOf="@id/adapter_all_app_icon"
         app:layout_constraintTop_toTopOf="@+id/adapter_all_app_icon"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_recently_app_package_id"
+        android:id="@+id/adapter_notes_package_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="16dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/lato_regular"
+        android:maxLines="1"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_notes_updated"
+        app:layout_constraintEnd_toStartOf="@+id/adapter_delete_button"
+        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
+        app:layout_constraintTop_toBottomOf="@id/adapter_all_app_name"
+        app:layout_constraintVertical_bias="0.0"
+        app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_notes_updated"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="8dp"
         android:ellipsize="end"
         android:fontFamily="@font/lato_regular"
         android:maxLines="1"
@@ -51,8 +68,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon"
         app:layout_constraintEnd_toStartOf="@+id/adapter_delete_button"
         app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_all_app_name"
-        app:textColorStyle="secondary" />
+        app:layout_constraintTop_toBottomOf="@id/adapter_notes_package_id"
+        app:textColorStyle="accent" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/adapter_delete_button"
@@ -63,9 +80,9 @@
         android:contentDescription="@string/configuration_button"
         android:src="@drawable/ic_delete"
         app:buttonTintType="regular"
-        app:layout_constraintBottom_toBottomOf="@+id/adapter_recently_app_package_id"
+        app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/adapter_all_app_name" />
+        app:layout_constraintTop_toTopOf="@+id/adapter_all_app_icon" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_note"

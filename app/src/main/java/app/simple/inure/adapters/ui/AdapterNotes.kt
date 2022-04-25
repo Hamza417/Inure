@@ -20,6 +20,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
+import app.simple.inure.util.DateUtils
 
 class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -66,6 +67,8 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             } else {
                 holder.note.maxLines = 7
             }
+
+            holder.updated.text = holder.context.getString(R.string.edited_on, DateUtils.formatDate(notes[position].dateUpdated))
 
             if (notes[position].packageInfo.applicationInfo.enabled) {
                 holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
@@ -131,7 +134,8 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_all_app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_all_app_name)
-        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_notes_package_id)
+        val updated: TypeFaceTextView = itemView.findViewById(R.id.adapter_notes_updated)
         val delete: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_delete_button)
         val note: TypeFaceTextView = itemView.findViewById(R.id.adapter_note)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)

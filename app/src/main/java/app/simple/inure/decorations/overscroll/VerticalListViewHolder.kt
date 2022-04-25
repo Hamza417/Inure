@@ -1,5 +1,6 @@
 package app.simple.inure.decorations.overscroll
 
+import android.content.Context
 import android.view.View
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
@@ -8,7 +9,9 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants.bouncyValue
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.stiffnessValue
 
 open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    var currentVelocity = 0f
+    val context: Context = itemView.context
+
+    private var currentVelocity = 0f
 
     /**
      * A [SpringAnimation] for this RecyclerView item. This animation rotates the view with a bouncy
@@ -17,7 +20,7 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
      * The animation is started in [RecyclerView.addOnScrollListener].
      */
     val rotation: SpringAnimation = SpringAnimation(itemView, SpringAnimation.ROTATION)
-            .setSpring(
+        .setSpring(
                 SpringForce()
                         .setFinalPosition(0f)
                         .setDampingRatio(bouncyValue)
@@ -36,4 +39,5 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
                         .setFinalPosition(0f)
                         .setDampingRatio(bouncyValue)
                         .setStiffness(stiffnessValue))
+
 }
