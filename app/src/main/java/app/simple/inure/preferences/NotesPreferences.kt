@@ -4,6 +4,7 @@ object NotesPreferences {
 
     const val expandedNotes = "expanded_notes"
     const val jsonSpans = "notes_editor_json_spans"
+    const val autoSave = "notes_editor_auto_save"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -23,5 +24,15 @@ object NotesPreferences {
 
     fun areJSONSpans(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(jsonSpans, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setAutoSave(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(autoSave, boolean).apply()
+    }
+
+    fun isAutoSave(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(autoSave, false)
     }
 }

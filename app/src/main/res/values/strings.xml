@@ -496,4 +496,5 @@
     <string name="full_screen_audio_player">Full Screen Audio Player</string>
     <string name="desc_full_screen_audio_player">Use full screen audio player instead of the modal window dialog.</string>
     <string name="start_app_now">Start App Now</string>
+    <string name="auto_save">Auto Save</string>
 </resources>

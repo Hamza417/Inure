@@ -8,6 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
         android:layout_marginHorizontal="@dimen/panel_item_padding"
         android:layout_marginTop="@dimen/panel_item_padding"
         android:animateLayoutChanges="true">
@@ -17,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:textSize="@dimen/app_name_text_size"
+            android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/fragment_app_package_id"
             app:layout_constraintEnd_toStartOf="@+id/undo"
@@ -34,7 +35,7 @@
             android:fontFamily="@font/lato_regular"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:textSize="@dimen/app_package_text_size"
+            android:textSize="@dimen/app_name_text_size"
             app:appFontStyle="regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/undo"

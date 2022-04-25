@@ -67,7 +67,7 @@ class NotesEditor : ScopedFragment() {
     private val superscript = 8
     private val subscripts = 9
 
-    val gson: Gson by lazy {
+    private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
         GsonBuilder()
             .registerTypeAdapter(type, SpannableSerializer())
@@ -100,19 +100,22 @@ class NotesEditor : ScopedFragment() {
 
         name.text = packageInfo.applicationInfo.name
         packageId.text = packageInfo.packageName
+        handleFormattingState()
 
         noteEditText.doOnTextChanged { _, _, _, _ ->
-            handleTextChange()
+            if (!NotesPreferences.isAutoSave()) {
+                handleTextChange()
+            }
         }
 
         notesViewModel.getNoteData().observe(viewLifecycleOwner) {
             notesPackageInfo = it
             if (NotesPreferences.areJSONSpans()) {
-                println(gson.toJson(it.note))
                 noteEditText.setText(gson.toJson(it.note))
             } else {
                 noteEditText.setText(it.note)
             }
+            textViewUndoRedo?.clearHistory()
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
 
@@ -162,7 +165,9 @@ class NotesEditor : ScopedFragment() {
 
         notesViewModel.getSavedState().observe(viewLifecycleOwner) {
             if (it >= 0) {
-                save.gone(true)
+                if (!NotesPreferences.isAutoSave()) {
+                    save.gone(true)
+                }
             }
         }
 
@@ -233,10 +238,26 @@ class NotesEditor : ScopedFragment() {
             .show(childFragmentManager, "error_dialog")
     }
 
+    private fun handleFormattingState() {
+        if (NotesPreferences.areJSONSpans()) {
+            formattingStrip.gone()
+        } else {
+            formattingStrip.visible(false)
+        }
+    }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             NotesPreferences.jsonSpans -> {
                 notesViewModel.refresh()
+                handleFormattingState()
+            }
+            NotesPreferences.autoSave -> {
+                if (!NotesPreferences.isAutoSave()) {
+                    save.visible(true)
+                } else {
+                    handleTextChange()
+                }
             }
         }
     }

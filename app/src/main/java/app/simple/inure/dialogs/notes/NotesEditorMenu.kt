@@ -16,12 +16,14 @@ import app.simple.inure.util.FragmentHelper
 class NotesEditorMenu : ScopedBottomSheetFragment() {
 
     private lateinit var jsonSpansSwitch: SwitchView
+    private lateinit var autoSave: SwitchView
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_notes_editor_settings, container, false)
 
         jsonSpansSwitch = view.findViewById(R.id.html_spans)
+        autoSave = view.findViewById(R.id.auto_save)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
         return view
@@ -31,9 +33,14 @@ class NotesEditorMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         jsonSpansSwitch.setChecked(NotesPreferences.areJSONSpans())
+        autoSave.setChecked(NotesPreferences.isAutoSave())
 
         jsonSpansSwitch.setOnSwitchCheckedChangeListener {
             NotesPreferences.setJSONSpans(it)
+        }
+
+        autoSave.setOnSwitchCheckedChangeListener {
+            NotesPreferences.setAutoSave(it)
         }
 
         openSettings.setOnClickListener {
