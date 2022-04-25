@@ -159,6 +159,8 @@ object ViewUtils {
      * @param animate adds animation to the process
      */
     fun View.visible(animate: Boolean) {
+        if (visibility == View.VISIBLE) return
+
         if (animate) {
             clearAnimation()
 

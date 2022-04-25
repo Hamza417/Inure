@@ -121,6 +121,7 @@ dependencies {
     implementation "com.anggrayudi:storage:0.13.0"
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'org.jsoup:jsoup:1.14.3'
 
     // root
     def libsuVersion = '3.1.2'

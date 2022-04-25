@@ -93,6 +93,10 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
         }
     }
 
+    fun refresh() {
+        loadNoteData()
+    }
+
     override fun onCleared() {
         super.onCleared()
         notesDatabase?.close()

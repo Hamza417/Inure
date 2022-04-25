@@ -43,6 +43,16 @@
             app:textColorStyle="secondary" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/settings"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_weight="1"
+            android:src="@drawable/ic_settings"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/undo"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
@@ -69,10 +79,11 @@
             android:id="@+id/save"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:src="@drawable/ic_save"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/settings"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

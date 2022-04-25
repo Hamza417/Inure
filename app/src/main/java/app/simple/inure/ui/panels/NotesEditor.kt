@@ -1,11 +1,13 @@
 package app.simple.inure.ui.panels
 
+import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.toHtml
+import androidx.core.text.toSpanned
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -16,6 +18,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.dialogs.notes.NotesEditorMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
 import app.simple.inure.helper.EditTextHelper.addBullet
@@ -28,22 +31,24 @@ import app.simple.inure.helper.EditTextHelper.toSubscript
 import app.simple.inure.helper.EditTextHelper.toSuperscript
 import app.simple.inure.helper.EditTextHelper.toUnderline
 import app.simple.inure.helper.TextViewUndoRedo
-import app.simple.inure.helper.richtextutils.SpannedXhtmlGenerator
 import app.simple.inure.models.NotesPackageInfo
-import app.simple.inure.util.HtmlHelper
+import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.TextViewUtils.toHtmlSpanned
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
+import org.jsoup.Jsoup
 
 class NotesEditor : ScopedFragment() {
 
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
-    private lateinit var text: TypeFaceEditText
+    private lateinit var noteEditText: TypeFaceEditText
     private lateinit var undo: DynamicRippleImageButton
     private lateinit var redo: DynamicRippleImageButton
     private lateinit var save: DynamicRippleImageButton
+    private lateinit var settings: DynamicRippleImageButton
     private lateinit var formattingStrip: CustomHorizontalRecyclerView
 
     private lateinit var notesViewModel: NotesEditorViewModel
@@ -65,10 +70,11 @@ class NotesEditor : ScopedFragment() {
 
         name = view.findViewById(R.id.fragment_app_name)
         packageId = view.findViewById(R.id.fragment_app_package_id)
-        text = view.findViewById(R.id.app_notes_edit_text)
+        noteEditText = view.findViewById(R.id.app_notes_edit_text)
         undo = view.findViewById(R.id.undo)
         redo = view.findViewById(R.id.redo)
         save = view.findViewById(R.id.save)
+        settings = view.findViewById(R.id.settings)
         formattingStrip = view.findViewById(R.id.formatting_strip_rv)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
@@ -85,50 +91,55 @@ class NotesEditor : ScopedFragment() {
 
         name.text = packageInfo.applicationInfo.name
         packageId.text = packageInfo.packageName
+        noteSpanTypeUpdate()
 
-        text.doOnTextChanged { _, _, _, _ ->
+        noteEditText.doOnTextChanged { text, _, _, _ ->
             handleTextChange()
         }
 
         notesViewModel.getNoteData().observe(viewLifecycleOwner) {
             notesPackageInfo = it
-            text.setText(HtmlHelper.fromHtml(it.note))
-            textViewUndoRedo = TextViewUndoRedo(text)
+            if (NotesPreferences.areHTMLSpans()) {
+                noteEditText.setText(it.note.toHtmlSpanned().toHtml())
+            } else {
+                noteEditText.setText(it.note.toHtmlSpanned())
+            }
+            textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
 
-        notesViewModel.getFormattingStrip().observe(viewLifecycleOwner) {
-            val adapterFormattingStrip = AdapterFormattingStrip(it)
+        notesViewModel.getFormattingStrip().observe(viewLifecycleOwner) { list ->
+            val adapterFormattingStrip = AdapterFormattingStrip(list)
 
             adapterFormattingStrip.setOnFormattingStripCallbackListener(object : AdapterFormattingStrip.Companion.FormattingStripCallbacks {
                 override fun onFormattingButtonClicked(position: Int) {
                     kotlin.runCatching {
                         when (position) {
                             bold -> {
-                                text.toBold()
+                                noteEditText.toBold()
                             }
                             italics -> {
-                                text.toItalics()
+                                noteEditText.toItalics()
                             }
                             underline -> {
-                                text.toUnderline()
+                                noteEditText.toUnderline()
                             }
                             strikethrough -> {
-                                text.toStrikethrough()
+                                noteEditText.toStrikethrough()
                             }
                             decrease -> {
-                                text.decreaseTextSize()
+                                noteEditText.decreaseTextSize()
                             }
                             increase -> {
-                                text.increaseTextSize()
+                                noteEditText.increaseTextSize()
                             }
                             bullet -> {
-                                text.addBullet()
+                                noteEditText.addBullet()
                             }
                             superscript -> {
-                                text.toSuperscript()
+                                noteEditText.toSuperscript()
                             }
                             subscripts -> {
-                                text.toSubscript()
+                                noteEditText.toSubscript()
                             }
                         }
                     }.getOrElse {
@@ -166,27 +177,34 @@ class NotesEditor : ScopedFragment() {
         save.setOnClickListener {
             handleTextChange()
         }
+
+        settings.setOnClickListener {
+            NotesEditorMenu.newInstance()
+                .show(childFragmentManager, "notes_editor_menu")
+        }
     }
 
     private fun handleTextChange() {
         handler.removeCallbacksAndMessages(null)
         save.visible(true)
 
+        println(noteEditText.text?.toString())
+
         if (notesPackageInfo.isNull()) {
             notesPackageInfo = NotesPackageInfo(
                     packageInfo,
-                    SpannedXhtmlGenerator().toXhtml(this@NotesEditor.text.text!!),
+                    if (NotesPreferences.areHTMLSpans()) {
+                        Jsoup.parse(noteEditText.text?.toString()!!).toString()
+                    } else {
+                        noteEditText.text?.toSpanned()?.toHtml()
+                    },
                     System.currentTimeMillis(),
                     System.currentTimeMillis())
         } else {
-            notesPackageInfo?.dateUpdated = System.currentTimeMillis()
-
-            with(this@NotesEditor.text.text!!.toHtml()) {
-                if (notesPackageInfo?.note != this) {
-                    notesPackageInfo?.note = this
-                } else {
-                    return
-                }
+            if (NotesPreferences.areHTMLSpans()) {
+                notesPackageInfo?.note = Jsoup.parse(noteEditText.text?.toHtml()!!).toString()
+            } else {
+                notesPackageInfo?.note = noteEditText.text?.toSpanned()!!.toHtml()
             }
         }
 
@@ -207,6 +225,25 @@ class NotesEditor : ScopedFragment() {
                 requireActivity().onBackPressed()
             }
         })
+    }
+
+    private fun noteSpanTypeUpdate() {
+        if (NotesPreferences.areHTMLSpans()) {
+            formattingStrip.gone()
+            noteEditText.setText(notesPackageInfo?.note)
+        } else {
+            formattingStrip.visible(true)
+            noteEditText.setText(notesPackageInfo?.note?.toHtmlSpanned())
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            NotesPreferences.htmlSpans -> {
+                noteSpanTypeUpdate()
+                notesViewModel.refresh()
+            }
+        }
     }
 
     override fun onDestroy() {
