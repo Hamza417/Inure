@@ -33,7 +33,8 @@
         android:src="@drawable/ic_dark_mode"
         app:layout_constraintBottom_toBottomOf="@+id/adapter_type_face_total"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tintType="secondary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_type_face_total"

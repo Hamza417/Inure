@@ -51,8 +51,15 @@ object ColorUtils {
         return String.format("#%06X", 0xFFFFFF and this)
     }
 
+    /**
+     * Lightens the given color int
+     *
+     * @param value between 0.0F - 1.0F of which closer to one being
+     *              the transparent while 0.0 will be original
+     *              strength
+     */
     @ColorInt
-    fun lightenColor(@ColorInt color: Int, value: Float): Int {
+    fun lightenColor(@ColorInt color: Int, value: Float = 0.4F): Int {
         val hsl = colorToHSL(color)
         hsl[2] += value
         hsl[2] = 0f.coerceAtLeast(hsl[2].coerceAtMost(1f))

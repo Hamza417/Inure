@@ -47,8 +47,11 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         content = findViewById(android.R.id.content)
 
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
-        xPoint = container.measuredWidth / 2
-        yPoint = container.measuredHeight / 2
+
+        container.post {
+            xPoint = container.measuredWidth / 2
+            yPoint = container.measuredHeight / 2
+        }
 
         if (savedInstanceState.isNull()) {
             supportFragmentManager.beginTransaction()

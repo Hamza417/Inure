@@ -2,6 +2,7 @@ package app.simple.inure.decorations.typeface
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import app.simple.inure.R
@@ -13,6 +14,7 @@ import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.TextViewUtils.setDrawableTint
+import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.TypeFace
 
 open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
@@ -33,8 +35,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     fun init() {
         typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, -1), context)
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
-
-        highlightColor = ColorUtils.lightenColor(context.resolveAttrColor(R.attr.colorAppAccentLight), 0.4F)
+        setHighlightColor()
         setTextColor(colorMode, false)
         setHintTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
         setDrawableTint(ThemeManager.theme.iconTheme.secondaryIconColor)
@@ -52,6 +53,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
 
     override fun onThemeChanged(theme: Theme) {
         setTextColor(colorMode, true)
+        setHighlightColor()
     }
 
     private fun setTextColor(mode: Int, animate: Boolean) {
@@ -73,6 +75,14 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
                 4 -> setTextColor(ThemeManager.theme.textViewTheme.quaternaryTextColor)
                 5 -> setTextColor(context.resolveAttrColor(R.attr.colorAppAccent))
             }
+        }
+    }
+
+    private fun setHighlightColor() {
+        if (ThemeUtils.isNightMode(resources)) {
+            highlightColor = ColorUtils.lightenColor(Color.DKGRAY, 0.2F)
+        } else {
+            highlightColor = ColorUtils.lightenColor(Color.GRAY)
         }
     }
 }

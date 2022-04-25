@@ -1,51 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_corner_dialog_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:elevation="@dimen/dialog_elevation"
+    android:orientation="horizontal"
+    android:padding="@dimen/dialog_padding">
 
-    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
-        android:id="@+id/app_corner_dialog_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dialog_padding"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:elevation="@dimen/dialog_elevation"
-        android:orientation="vertical"
-        android:padding="@dimen/dialog_padding">
+    <app.simple.inure.decorations.views.SquareImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="QR Code"
+        android:src="@drawable/qr_code"
+        tools:ignore="HardcodedText" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="@integer/material_motion_duration_long_1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:text="@string/desc_share_02"
+            app:appFontStyle="medium" />
 
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
-                android:contentDescription="QR Code"
-                android:src="@drawable/qr_code"
-                tools:ignore="HardcodedText" />
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
-                android:text="@string/desc_share_02"
-                app:appFontStyle="medium" />
-
-        </LinearLayout>
 
         <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
             android:id="@+id/share_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginVertical="10dp"
+            android:layout_weight="1"
+            android:gravity="top"
             android:hint="@string/share_message"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
@@ -84,6 +79,7 @@
 
         </LinearLayout>
 
-    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+    </LinearLayout>
 
-</FrameLayout>
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+

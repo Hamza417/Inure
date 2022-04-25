@@ -500,4 +500,5 @@
     <string name="edited_on">Edited on %1$s</string>
     <string name="stroke">Stroke</string>
     <string name="desc_highlight_stroke">Add stroke on all the clickable items having static backgrounds set as background.</string>
+    <string name="desc_development_prefs">These preferences/features are only added for the convenience of the development and may or may not serve the actual purpose of the app but can still come handy.</string>
 </resources>
