@@ -1,7 +1,8 @@
-package app.simple.inure.helper
+package app.simple.inure.text
 
 import android.graphics.Typeface
 import android.os.Build
+import android.text.Layout
 import android.text.Spannable
 import android.text.style.*
 import android.widget.EditText
@@ -154,5 +155,19 @@ object EditTextHelper {
         }
 
         text.setSpan(AbsoluteSizeSpan(fontSize), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+    }
+
+    fun EditText.alignCenter() {
+        val spans: Array<AlignmentSpan> = text.getSpans(selectionStart, selectionEnd, AlignmentSpan::class.java)
+        var exists = false
+
+        for (span in spans) {
+            text.removeSpan(span)
+            exists = true
+        }
+
+        if (!exists) {
+            text.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        }
     }
 }

@@ -5,18 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.NotesPreferences
+import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.util.FragmentHelper
 
 class NotesEditorMenu : ScopedBottomSheetFragment() {
 
-    private lateinit var htmlSpans: SwitchView
+    private lateinit var jsonSpansSwitch: SwitchView
+    private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_notes_editor_settings, container, false)
 
-        htmlSpans = view.findViewById(R.id.html_spans)
+        jsonSpansSwitch = view.findViewById(R.id.html_spans)
+        openSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
         return view
     }
@@ -24,10 +30,17 @@ class NotesEditorMenu : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        htmlSpans.setChecked(NotesPreferences.areHTMLSpans())
+        jsonSpansSwitch.setChecked(NotesPreferences.areJSONSpans())
 
-        htmlSpans.setOnSwitchCheckedChangeListener {
-            NotesPreferences.setHTMLSpans(it)
+        jsonSpansSwitch.setOnSwitchCheckedChangeListener {
+            NotesPreferences.setJSONSpans(it)
+        }
+
+        openSettings.setOnClickListener {
+            (parentFragment as ScopedFragment).clearExitTransition()
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        MainPreferencesScreen.newInstance(),
+                                        "prefs_screen")
         }
     }
 

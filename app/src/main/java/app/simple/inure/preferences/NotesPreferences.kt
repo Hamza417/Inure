@@ -3,7 +3,7 @@ package app.simple.inure.preferences
 object NotesPreferences {
 
     const val expandedNotes = "expanded_notes"
-    const val htmlSpans = "notes_editor_html_spans"
+    const val jsonSpans = "notes_editor_json_spans"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -17,11 +17,11 @@ object NotesPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setHTMLSpans(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(htmlSpans, boolean).apply()
+    fun setJSONSpans(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(jsonSpans, boolean).apply()
     }
 
-    fun areHTMLSpans(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(htmlSpans, false)
+    fun areJSONSpans(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(jsonSpans, false)
     }
 }

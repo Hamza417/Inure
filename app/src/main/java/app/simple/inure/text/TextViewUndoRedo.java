@@ -1,4 +1,4 @@
-package app.simple.inure.helper;
+package app.simple.inure.text;
 
 /*
  * THIS CLASS IS PROVIDED TO THE PUBLIC DOMAIN FOR FREE WITHOUT ANY

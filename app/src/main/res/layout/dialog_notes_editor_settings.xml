@@ -29,7 +29,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
-                android:text="HTML Spans"
+                android:text="JSON Spans"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary"

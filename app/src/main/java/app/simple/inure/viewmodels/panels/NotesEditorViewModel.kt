@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.text.SpannableStringBuilder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,13 +11,25 @@ import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.models.NotesModel
 import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.text.SpannableSerializer
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.reflect.Type
 
 class NotesEditorViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private var notesDatabase: NotesDatabase? = null
+
+    private val gson: Gson by lazy {
+        val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
+        GsonBuilder()
+            .registerTypeAdapter(type, SpannableSerializer())
+            .create()
+    }
 
     private val noteData: MutableLiveData<NotesPackageInfo> by lazy {
         MutableLiveData<NotesPackageInfo>().also {
@@ -28,6 +41,10 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
         MutableLiveData<List<Int>>().also {
             loadFormattingItems()
         }
+    }
+
+    private val error: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
     }
 
     private val saved = MutableLiveData<Int>()
@@ -44,13 +61,17 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
         return saved
     }
 
+    fun getError(): LiveData<String> {
+        return error
+    }
+
     private fun loadNoteData() {
         viewModelScope.launch(Dispatchers.IO) {
             notesDatabase = NotesDatabase.getInstance(context)
 
             for (note in notesDatabase!!.getNotesDao()!!.getAllNotes()) {
                 if (note.packageName == packageInfo.packageName) {
-                    noteData.postValue(NotesPackageInfo(packageInfo, note.note, note.dateCreated, note.dateChanged))
+                    noteData.postValue(NotesPackageInfo(packageInfo, gson.fromJson(note.note, SpannableStringBuilder::class.java), note.dateCreated, note.dateChanged))
                     break
                 }
             }
@@ -64,13 +85,14 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
 
                 notesDatabase!!.getNotesDao()!!
                     .insertNote(NotesModel(
-                            notesPackageInfo.note,
+                            gson.toJson(notesPackageInfo.note),
                             notesPackageInfo.packageInfo.packageName,
                             notesPackageInfo.dateCreated,
                             System.currentTimeMillis()))
 
                 saved.postValue(saved.value?.plus(1) ?: 0)
             }.onFailure {
+                error.postValue(it.stackTraceToString())
                 saved.postValue(-1 /* Save has failed, tell the UI */)
             }
         }
@@ -87,7 +109,11 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
                     R.drawable.ic_format_size_upper,
                     R.drawable.ic_format_list_bulleted,
                     R.drawable.ic_format_superscript,
-                    R.drawable.ic_format_subscript)
+                    R.drawable.ic_format_subscript,
+                    // R.drawable.ic_format_align_left,
+                    R.drawable.ic_format_align_center,
+                    // R.drawable.ic_format_align_right
+            )
 
             formattingButtons.postValue(list)
         }

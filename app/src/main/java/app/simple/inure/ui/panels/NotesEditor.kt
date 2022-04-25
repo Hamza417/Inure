@@ -3,11 +3,10 @@ package app.simple.inure.ui.panels
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.text.toHtml
-import androidx.core.text.toSpanned
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -21,24 +20,27 @@ import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.notes.NotesEditorMenu
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
-import app.simple.inure.helper.EditTextHelper.addBullet
-import app.simple.inure.helper.EditTextHelper.decreaseTextSize
-import app.simple.inure.helper.EditTextHelper.increaseTextSize
-import app.simple.inure.helper.EditTextHelper.toBold
-import app.simple.inure.helper.EditTextHelper.toItalics
-import app.simple.inure.helper.EditTextHelper.toStrikethrough
-import app.simple.inure.helper.EditTextHelper.toSubscript
-import app.simple.inure.helper.EditTextHelper.toSuperscript
-import app.simple.inure.helper.EditTextHelper.toUnderline
-import app.simple.inure.helper.TextViewUndoRedo
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
+import app.simple.inure.text.EditTextHelper.addBullet
+import app.simple.inure.text.EditTextHelper.decreaseTextSize
+import app.simple.inure.text.EditTextHelper.increaseTextSize
+import app.simple.inure.text.EditTextHelper.toBold
+import app.simple.inure.text.EditTextHelper.toItalics
+import app.simple.inure.text.EditTextHelper.toStrikethrough
+import app.simple.inure.text.EditTextHelper.toSubscript
+import app.simple.inure.text.EditTextHelper.toSuperscript
+import app.simple.inure.text.EditTextHelper.toUnderline
+import app.simple.inure.text.SpannableSerializer
+import app.simple.inure.text.TextViewUndoRedo
 import app.simple.inure.util.NullSafety.isNull
-import app.simple.inure.util.TextViewUtils.toHtmlSpanned
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
-import org.jsoup.Jsoup
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
 class NotesEditor : ScopedFragment() {
 
@@ -64,6 +66,13 @@ class NotesEditor : ScopedFragment() {
     private val bullet = 7
     private val superscript = 8
     private val subscripts = 9
+
+    val gson: Gson by lazy {
+        val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
+        GsonBuilder()
+            .registerTypeAdapter(type, SpannableSerializer())
+            .create()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_notes_viewer, container, false)
@@ -91,18 +100,18 @@ class NotesEditor : ScopedFragment() {
 
         name.text = packageInfo.applicationInfo.name
         packageId.text = packageInfo.packageName
-        noteSpanTypeUpdate()
 
-        noteEditText.doOnTextChanged { text, _, _, _ ->
+        noteEditText.doOnTextChanged { _, _, _, _ ->
             handleTextChange()
         }
 
         notesViewModel.getNoteData().observe(viewLifecycleOwner) {
             notesPackageInfo = it
-            if (NotesPreferences.areHTMLSpans()) {
-                noteEditText.setText(it.note.toHtmlSpanned().toHtml())
+            if (NotesPreferences.areJSONSpans()) {
+                println(gson.toJson(it.note))
+                noteEditText.setText(gson.toJson(it.note))
             } else {
-                noteEditText.setText(it.note.toHtmlSpanned())
+                noteEditText.setText(it.note)
             }
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
@@ -143,7 +152,7 @@ class NotesEditor : ScopedFragment() {
                             }
                         }
                     }.getOrElse {
-                        printError(it)
+                        printError(it.stackTraceToString())
                     }
                 }
             })
@@ -182,29 +191,31 @@ class NotesEditor : ScopedFragment() {
             NotesEditorMenu.newInstance()
                 .show(childFragmentManager, "notes_editor_menu")
         }
+
+        notesViewModel.getError().observe(viewLifecycleOwner) {
+            printError(it)
+        }
     }
 
     private fun handleTextChange() {
         handler.removeCallbacksAndMessages(null)
         save.visible(true)
 
-        println(noteEditText.text?.toString())
-
         if (notesPackageInfo.isNull()) {
             notesPackageInfo = NotesPackageInfo(
                     packageInfo,
-                    if (NotesPreferences.areHTMLSpans()) {
-                        Jsoup.parse(noteEditText.text?.toString()!!).toString()
-                    } else {
-                        noteEditText.text?.toSpanned()?.toHtml()
-                    },
+                    SpannableStringBuilder(noteEditText.text),
                     System.currentTimeMillis(),
                     System.currentTimeMillis())
         } else {
-            if (NotesPreferences.areHTMLSpans()) {
-                notesPackageInfo?.note = Jsoup.parse(noteEditText.text?.toHtml()!!).toString()
+            if (NotesPreferences.areJSONSpans()) {
+                kotlin.runCatching {
+                    notesPackageInfo?.note = gson.fromJson(noteEditText.text.toString(), SpannableStringBuilder::class.java)
+                }.onFailure {
+                    notesPackageInfo?.note = SpannableStringBuilder(noteEditText.text)
+                }
             } else {
-                notesPackageInfo?.note = noteEditText.text?.toSpanned()!!.toHtml()
+                notesPackageInfo?.note = SpannableStringBuilder(noteEditText.text)
             }
         }
 
@@ -217,30 +228,14 @@ class NotesEditor : ScopedFragment() {
                          }, 1000)
     }
 
-    private fun printError(throwable: Throwable) {
-        val e = Error.newInstance(throwable.stackTraceToString())
-        e.show(childFragmentManager, "error_dialog")
-        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-            override fun onDismiss() {
-                requireActivity().onBackPressed()
-            }
-        })
-    }
-
-    private fun noteSpanTypeUpdate() {
-        if (NotesPreferences.areHTMLSpans()) {
-            formattingStrip.gone()
-            noteEditText.setText(notesPackageInfo?.note)
-        } else {
-            formattingStrip.visible(true)
-            noteEditText.setText(notesPackageInfo?.note?.toHtmlSpanned())
-        }
+    private fun printError(error: String) {
+        Error.newInstance(error)
+            .show(childFragmentManager, "error_dialog")
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            NotesPreferences.htmlSpans -> {
-                noteSpanTypeUpdate()
+            NotesPreferences.jsonSpans -> {
                 notesViewModel.refresh()
             }
         }
