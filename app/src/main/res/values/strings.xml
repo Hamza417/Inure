@@ -498,4 +498,6 @@
     <string name="start_app_now">Start App Now</string>
     <string name="auto_save">Auto Save</string>
     <string name="edited_on">Edited on %1$s</string>
+    <string name="stroke">Stroke</string>
+    <string name="desc_highlight_stroke">Add stroke on all the clickable items having static backgrounds set as background.</string>
 </resources>

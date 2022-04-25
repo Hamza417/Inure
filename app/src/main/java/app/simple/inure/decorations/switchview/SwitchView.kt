@@ -47,6 +47,8 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         ViewUtils.addShadow(this)
 
         view.setOnClickListener {
+            if (!isEnabled) return@setOnClickListener
+
             isChecked = if (isChecked) {
                 animateUnchecked()
                 switchCallbacks?.onCheckedChanged(false)
@@ -63,27 +65,28 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                thumb.animate()
-                    .scaleY(1.5F)
-                    .scaleX(1.5F)
-                    .setInterpolator(DecelerateInterpolator(1.5F))
-                    .setDuration(500L)
-                    .start()
-            }
-            MotionEvent.ACTION_MOVE,
-            MotionEvent.ACTION_UP,
-            -> {
-                thumb.animate()
-                    .scaleY(1.0F)
-                    .scaleX(1.0F)
-                    .setInterpolator(DecelerateInterpolator(1.5F))
-                    .setDuration(500L)
-                    .start()
+        if (isEnabled) {
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    thumb.animate()
+                        .scaleY(1.5F)
+                        .scaleX(1.5F)
+                        .setInterpolator(DecelerateInterpolator(1.5F))
+                        .setDuration(500L)
+                        .start()
+                }
+                MotionEvent.ACTION_MOVE,
+                MotionEvent.ACTION_UP,
+                -> {
+                    thumb.animate()
+                        .scaleY(1.0F)
+                        .scaleX(1.0F)
+                        .setInterpolator(DecelerateInterpolator(1.5F))
+                        .setDuration(500L)
+                        .start()
+                }
             }
         }
-
         return super.onTouchEvent(event)
     }
 
@@ -162,6 +165,8 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
         valueAnimator.start()
     }
+
+    fun isChecked() = isChecked
 
     fun setOnSwitchCheckedChangeListener(switchCallbacks: SwitchCallbacks) {
         this.switchCallbacks = switchCallbacks

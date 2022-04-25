@@ -11,9 +11,14 @@ import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
 
 import app.simple.inure.R;
+import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.util.ColorUtils;
 
 public class LayoutBackground {
+    
+    private static final float strokeWidth = 1F;
+    
     public static void setBackground(Context context, ViewGroup viewGroup, AttributeSet attrs) {
         TypedArray theme = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DynamicCornerLayout, 0, 0);
         
@@ -27,22 +32,19 @@ public class LayoutBackground {
                     .toBuilder()
                     .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
-        }
-        else if (roundTopCorners) {
+        } else if (roundTopCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
                     .setTopLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .setTopRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
-        }
-        else if (roundBottomCorners) {
+        } else if (roundBottomCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
                     .setBottomLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .setBottomRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
-        }
-        else {
+        } else {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
                     .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
@@ -65,29 +67,32 @@ public class LayoutBackground {
                     .toBuilder()
                     .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius() / factor)
                     .build();
-        }
-        else if (roundTopCorners) {
+        } else if (roundTopCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
                     .setTopLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius() / factor)
                     .setTopRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius() / factor)
                     .build();
-        }
-        else if (roundBottomCorners) {
+        } else if (roundBottomCorners) {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
                     .setBottomLeftCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius() / factor)
                     .setBottomRightCorner(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius() / factor)
                     .build();
-        }
-        else {
+        } else {
             shapeAppearanceModel = new ShapeAppearanceModel()
                     .toBuilder()
                     .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius() / factor)
                     .build();
         }
-        
-        viewGroup.setBackground(new MaterialShapeDrawable(shapeAppearanceModel));
+    
+        MaterialShapeDrawable materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
+    
+        if (AccessibilityPreferences.INSTANCE.isHighlightStroke()) {
+            materialShapeDrawable.setStroke(strokeWidth, ColorUtils.INSTANCE.resolveAttrColor(context, R.attr.colorAppAccent));
+        }
+    
+        viewGroup.setBackground(materialShapeDrawable);
     }
     
     public static void setBackground(Context context, View view, AttributeSet attrs) {
@@ -121,8 +126,14 @@ public class LayoutBackground {
                     .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
-        
-        view.setBackground(new MaterialShapeDrawable(shapeAppearanceModel));
+    
+        MaterialShapeDrawable materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
+    
+        if (AccessibilityPreferences.INSTANCE.isHighlightStroke()) {
+            materialShapeDrawable.setStroke(strokeWidth, ColorUtils.INSTANCE.resolveAttrColor(context, R.attr.colorAppAccent));
+        }
+    
+        view.setBackground(materialShapeDrawable);
     }
     
     public static void setBackground(View view) {
