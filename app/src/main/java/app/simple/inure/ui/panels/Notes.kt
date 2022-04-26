@@ -16,6 +16,7 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
+import app.simple.inure.ui.viewers.Note
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.NotesViewModel
 
@@ -47,6 +48,13 @@ class Notes : ScopedFragment() {
                     clearExitTransition()
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                 NotesEditor.newInstance(notesPackageInfo.packageInfo),
+                                                "notes_editor")
+                }
+
+                override fun onNoteLongClicked(notesPackageInfo: NotesPackageInfo) {
+                    clearExitTransition()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                Note.newInstance(notesPackageInfo.packageInfo),
                                                 "notes_viewer")
                 }
 

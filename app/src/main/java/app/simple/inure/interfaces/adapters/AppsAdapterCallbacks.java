@@ -48,4 +48,8 @@ public interface AppsAdapterCallbacks {
     default void onNoteClicked(@NonNull NotesPackageInfo notesPackageInfo) {
     
     }
+    
+    default void onNoteLongClicked(@NonNull NotesPackageInfo notesPackageInfo) {
+    
+    }
 }

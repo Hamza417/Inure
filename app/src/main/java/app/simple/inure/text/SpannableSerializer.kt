@@ -22,6 +22,16 @@ class SpannableSerializer : JsonSerializer<SpannableStringBuilder?>, JsonDeseria
                 .registerSubtype(SubscriptSpan::class.java, SubscriptSpan::class.simpleName)
                 .registerSubtype(StrikethroughSpan::class.java, StrikethroughSpan::class.simpleName)
                 .registerSubtype(AbsoluteSizeSpan::class.java, AbsoluteSizeSpan::class.simpleName)
+                .registerSubtype(SuggestionSpan::class.java, SuggestionSpan::class.simpleName)
+                .registerSubtype(EasyEditSpan::class.java, EasyEditSpan::class.simpleName)
+                .registerSubtype(URLSpan::class.java, URLSpan::class.simpleName)
+                .registerSubtype(QuoteSpan::class.java, QuoteSpan::class.simpleName)
+
+            /**
+             * Cannot be serialized since [MaskFilterSpan] does not implement
+             * [ParcelableSpan] class interface
+             */
+            // .registerSubtype(MaskFilterSpan::class.java, MaskFilterSpan::class.simpleName)
 
             return GsonBuilder()
                 .registerTypeAdapterFactory(runtimeTypeAdapterFactory)

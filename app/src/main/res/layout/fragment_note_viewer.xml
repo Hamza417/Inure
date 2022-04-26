@@ -1,0 +1,63 @@
+<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/xml_nested_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    app:layout_behavior="@string/over_scroll_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/fragment_app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/fragment_app_package_id"
+            app:layout_constraintEnd_toStartOf="@+id/undo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/fragment_app_package_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/lato_regular"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textSize="@dimen/app_name_text_size"
+            app:appFontStyle="regular"
+            app:textColorStyle="secondary" />
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/text_viewer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:padding="10dp"
+            android:textCursorDrawable="@drawable/text_cursor"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="regular"
+            app:textColorStyle="secondary" />
+
+    </LinearLayout>
+</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

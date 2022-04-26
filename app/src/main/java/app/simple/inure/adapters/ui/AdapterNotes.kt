@@ -85,7 +85,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks?.onAppLongPressed(notes[position].packageInfo, holder.icon)
+                appsAdapterCallbacks?.onNoteLongClicked(notes[position])
                 true
             }
         }

@@ -1,5 +1,6 @@
 package app.simple.inure.text
 
+import android.graphics.BlurMaskFilter
 import android.graphics.Typeface
 import android.os.Build
 import android.text.Layout
@@ -14,6 +15,8 @@ object EditTextHelper {
 
     private const val bulletGap = 16
     private const val bulletRadius = 8
+    private const val stripWidth = 6
+    private const val blurRadius = 5f
     private const val spanUpperThreshold = 96
     private const val spanLowerThreshold = 12
 
@@ -168,6 +171,43 @@ object EditTextHelper {
 
         if (!exists) {
             text.setSpan(BackgroundColorSpan(color), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+
+    fun EditText.toQuote() {
+        val spans: Array<QuoteSpan> = text.getSpans(selectionStart, selectionEnd, QuoteSpan::class.java)
+        var exists = false
+
+        for (span in spans) {
+            text.removeSpan(span)
+            exists = true
+        }
+
+        if (!exists) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                text.setSpan(QuoteSpan(context.resolveAttrColor(R.attr.colorAppAccent), stripWidth, bulletGap),
+                             selectionStart, selectionEnd,
+                             Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            } else {
+                text.setSpan(QuoteSpan(context.resolveAttrColor(R.attr.colorAppAccent)),
+                             selectionStart, selectionEnd,
+                             Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            }
+        }
+    }
+
+    fun EditText.blur() {
+        val spans: Array<MaskFilterSpan> = text.getSpans(selectionStart, selectionEnd, MaskFilterSpan::class.java)
+        var exists = false
+
+        for (span in spans) {
+            text.removeSpan(span)
+            exists = true
+        }
+
+        if (!exists) {
+            val blurMaskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.SOLID)
+            text.setSpan(MaskFilterSpan(blurMaskFilter), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 

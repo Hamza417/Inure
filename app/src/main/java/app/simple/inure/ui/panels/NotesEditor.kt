@@ -24,11 +24,13 @@ import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.popups.notes.PopupBackgroundSpan
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.text.EditTextHelper.addBullet
+import app.simple.inure.text.EditTextHelper.blur
 import app.simple.inure.text.EditTextHelper.decreaseTextSize
 import app.simple.inure.text.EditTextHelper.highlightText
 import app.simple.inure.text.EditTextHelper.increaseTextSize
 import app.simple.inure.text.EditTextHelper.toBold
 import app.simple.inure.text.EditTextHelper.toItalics
+import app.simple.inure.text.EditTextHelper.toQuote
 import app.simple.inure.text.EditTextHelper.toStrikethrough
 import app.simple.inure.text.EditTextHelper.toSubscript
 import app.simple.inure.text.EditTextHelper.toSuperscript
@@ -69,6 +71,8 @@ class NotesEditor : ScopedFragment() {
     private val superscript = 8
     private val subscripts = 9
     private val backgroundSpan = 10
+    private val quote = 11
+    private val blur = 12
 
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
@@ -78,7 +82,7 @@ class NotesEditor : ScopedFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_notes_viewer, container, false)
+        val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
 
         name = view.findViewById(R.id.fragment_app_name)
         packageId = view.findViewById(R.id.fragment_app_package_id)
@@ -156,6 +160,9 @@ class NotesEditor : ScopedFragment() {
                             subscripts -> {
                                 noteEditText.toSubscript()
                             }
+                            quote -> {
+                                noteEditText.toQuote()
+                            }
                             backgroundSpan -> {
                                 val p = PopupBackgroundSpan(view)
                                 p.setOnPopupBackgroundCallbackListener(object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
@@ -163,6 +170,9 @@ class NotesEditor : ScopedFragment() {
                                         noteEditText.highlightText(color)
                                     }
                                 })
+                            }
+                            blur -> {
+                                noteEditText.blur()
                             }
                         }
                     }.getOrElse {

@@ -92,6 +92,7 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
 
                 saved.postValue(saved.value?.plus(1) ?: 0)
             }.onFailure {
+                it.printStackTrace()
                 error.postValue(it.stackTraceToString())
                 saved.postValue(-1 /* Save has failed, tell the UI */)
             }
@@ -110,7 +111,9 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
                     R.drawable.ic_format_list_bulleted,
                     R.drawable.ic_format_superscript,
                     R.drawable.ic_format_subscript,
-                    R.drawable.ic_format_paint
+                    R.drawable.ic_format_paint,
+                    R.drawable.ic_format_quote,
+                    R.drawable.ic_blur_on
                     // R.drawable.ic_format_align_left,
                     // R.drawable.ic_format_align_center,
                     // R.drawable.ic_format_align_right
