@@ -25,13 +25,13 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/sc_device_info"
-        android:shortcutId="dev_info"
-        android:shortcutLongLabel="@string/device_info"
-        android:shortcutShortLabel="@string/device_info">
+        android:icon="@drawable/sc_terminal"
+        android:shortcutId="terminal"
+        android:shortcutLongLabel="@string/terminal"
+        android:shortcutShortLabel="@string/terminal">
         <intent
-            android:action="open_device_info"
-            android:targetClass="app.simple.inure.activities.app.MainActivity"
+            android:action="open_terminal"
+            android:targetClass="app.simple.inure.terminal.Term"
             android:targetPackage="app.simple.inure" />
     </shortcut>
 

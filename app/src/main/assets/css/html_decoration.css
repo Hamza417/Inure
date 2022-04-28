@@ -66,6 +66,13 @@ hr {
     background-color: grey;
 }
 
+code {
+    border: 1px solid #f6f6f6;
+    display: block;
+    padding: 20px;
+    width: auto;
+}
+
 /* Collapsible */
 
 input[type='checkbox'] {

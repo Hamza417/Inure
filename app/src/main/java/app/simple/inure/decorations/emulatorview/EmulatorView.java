@@ -529,7 +529,6 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     }
     
     private void commonConstructor(Context context) {
-        // TODO: See if we want to use the API level 11 constructor to get new flywheel feature.
         mScroller = new Scroller(context);
         cursorBlink = TerminalPreferences.INSTANCE.getCursorBlinkState();
         mMouseTrackingFlingRunner.mScroller = new Scroller(context);

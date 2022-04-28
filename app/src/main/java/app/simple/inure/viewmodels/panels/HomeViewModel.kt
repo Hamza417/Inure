@@ -222,7 +222,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     Pair(R.drawable.ic_apps, getString(R.string.apps)),
                     Pair(R.drawable.ic_terminal, getString(R.string.terminal)),
                     Pair(R.drawable.ic_stats, getString(R.string.usage_statistics)),
-                    Pair(R.drawable.ic_memory, getString(R.string.device_info)),
+                    // Pair(R.drawable.ic_memory, getString(R.string.device_info)),
                     Pair(R.drawable.ic_sensors, getString(R.string.sensors)),
                     Pair(R.drawable.ic_layers, getString(R.string.batch)),
                     Pair(R.drawable.ic_analytics, getString(R.string.analytics)),

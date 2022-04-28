@@ -10,74 +10,110 @@
 </p>
 <br>
 <sub>(Current Version)</sub>
-<h2>Build27</h2>
-<sub>Released on 28 April, 2022</sub>
+<h2>Build28</h2>
+
 <h4>User Interface</h4>
 
-<ul>
-    <li><b>Quick Apps</b> list will be hidden from <b>Home</b> panel if there are no apps added in
-        quick apps list.
-    </li>
-    <li>Added <b>Delete</b> buttons in <b>Notes</b> list panel.</li>
-    <li>Added <i>Notes</i> option in <b>Apps Menu</b>.</li>
-    <li>Added <i>Stroke</i> option in <b>Accessibility</b> preferences panel to add stroke on
-        clickable items if <i>Static Backgrounds</i> is toggled.
-    </li>
-    <li>Added theme state icon.</li>
-</ul>
 
-<h4>Bug Fixes</h4>
+<hr>
+<p>
+    <b>Device Info</b> removed from the home and its development won't be carried out as developing
+    it will take too much of development which could be spent on refining the other aspects of the
+    app.
+    <br>
+    <br>
+    The codebase is left inside the app so it can still be launched by using this command in the
+    terminal emulator
+</p>
 
-<ul>
-    <li>Fixed <i>Remove from Quick Apps</i> option not working in <b>Apps Menu</b> if there are no
-        apps in quick apps.
-    </li>
-    <li>Fixed crash caused by Quick Apps database closing unexpectedly.</li>
-    <li>Fixed icon animation duration not synchronized in <b>Preferences</b> panel.</li>
-    <li>Fixed few UI issues in <b>Terminal Preferences</b> panel.</li>
-    <li>Added quick shortcuts for post nougat android versions.</li>
-</ul>
-
-<h4>Improvements</h4>
-
-<ul>
-    <li>Improved theme change animation in theme selection panel.</li>
-    <li>Improved <b>Share</b> panel interface.</li>
-</ul>
-
-<h4>Notes</h4>
-
-<ul>
-    <li>Implemented <b>Bold</b> function.</li>
-    <li>Implemented <b>Italic</b> function.</li>
-    <li>Implemented <b>Underline</b> function.</li>
-    <li>Added <b>Strikethrough</b> function.</li>
-    <li>Added text size function.</li>
-    <li>Added <b>Bullet</b> function.</li>
-    <li>Added <b>Superscript</b> and <b>Subscript</b> function.</li>
-    <li>Added <b>Highlight</b> function.</li>
-    <li>Added <b>Quote</b> function.</li>
-    <li>Adjusted interface to move utility controls such as <i>Save</i>, <i>Undo</i> and <i>Redo</i>
-        on top left corner of the panel and character formatting controls at the bottom strip.
-    </li>
-    <li>Added <b>Save</b> button on top of <i>Auto Save</i> mechanism.</li>
-    <li>Added recycler view based <i>Formatting Strip</i> for <b>Notes Panel</b>.</li>
-    <li>Added <s><i>HTML</i></s> <b>JSON Spans</b> mode to raw edit note spans.</li>
-    <li>Added option to toggle <i>Auto Save</i> mechanism.</li>
-    <li>Added note updated date in <b>Notes</b> panel.</li>
-    <li>Added dedicated note viewer.<br></li>
-    <li><b>Known Issues:</b>
-        <ul>
-            <li>Sometimes auto saving notes gives error <i>Cannot serialize SpellCheckSpan...</i>
-                which I am working on it, the reason it cannot be fixed atm is because the official
-                Android SDK restricted its access to system framework only. It will be fixed later.
-            </li>
-            <li><i>Undo</i> and <i>Redo</i> does not change span states of the text as of now.</li>
-        </ul>
-    </li>
-</ul>
+<pre>
+    <code>am start -n app.simple.inure/app.simple.inure.activities.app.MainActivity -a "open_device_info"</code>
+</pre>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input id="build_27" class="toggle" type="checkbox">
+    <label for="build_27" class="lbl-toggle">Build27</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li><b>Quick Apps</b> list will be hidden from <b>Home</b> panel if there are no
+                    apps added in
+                    quick apps list.
+                </li>
+                <li>Added <b>Delete</b> buttons in <b>Notes</b> list panel.</li>
+                <li>Added <i>Notes</i> option in <b>Apps Menu</b>.</li>
+                <li>Added <i>Stroke</i> option in <b>Accessibility</b> preferences panel to add
+                    stroke on
+                    clickable items if <i>Static Backgrounds</i> is toggled.
+                </li>
+                <li>Added theme state icon.</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed <i>Remove from Quick Apps</i> option not working in <b>Apps Menu</b> if
+                    there are no
+                    apps in quick apps.
+                </li>
+                <li>Fixed crash caused by Quick Apps database closing unexpectedly.</li>
+                <li>Fixed icon animation duration not synchronized in <b>Preferences</b> panel.</li>
+                <li>Fixed few UI issues in <b>Terminal Preferences</b> panel.</li>
+                <li>Added quick shortcuts for post nougat android versions.</li>
+            </ul>
+
+            <h4>Improvements</h4>
+
+            <ul>
+                <li>Improved theme change animation in theme selection panel.</li>
+                <li>Improved <b>Share</b> panel interface.</li>
+            </ul>
+
+            <h4>Notes</h4>
+
+            <ul>
+                <li>Implemented <b>Bold</b> function.</li>
+                <li>Implemented <b>Italic</b> function.</li>
+                <li>Implemented <b>Underline</b> function.</li>
+                <li>Added <b>Strikethrough</b> function.</li>
+                <li>Added text size function.</li>
+                <li>Added <b>Bullet</b> function.</li>
+                <li>Added <b>Superscript</b> and <b>Subscript</b> function.</li>
+                <li>Added <b>Highlight</b> function.</li>
+                <li>Added <b>Quote</b> function.</li>
+                <li>Adjusted interface to move utility controls such as <i>Save</i>, <i>Undo</i> and
+                    <i>Redo</i>
+                    on top left corner of the panel and character formatting controls at the bottom
+                    strip.
+                </li>
+                <li>Added <b>Save</b> button on top of <i>Auto Save</i> mechanism.</li>
+                <li>Added recycler view based <i>Formatting Strip</i> for <b>Notes Panel</b>.</li>
+                <li>Added <s><i>HTML</i></s> <b>JSON Spans</b> mode to raw edit note spans.</li>
+                <li>Added option to toggle <i>Auto Save</i> mechanism.</li>
+                <li>Added note updated date in <b>Notes</b> panel.</li>
+                <li>Added dedicated note viewer.<br></li>
+                <li><b>Known Issues:</b>
+                    <ul>
+                        <li>Sometimes auto saving notes gives error <i>Cannot serialize
+                            SpellCheckSpan...</i>
+                            which I am working on it, the reason it cannot be fixed atm is because
+                            the official
+                            Android SDK restricted its access to system framework only. It will be
+                            fixed later.
+                        </li>
+                        <li><i>Undo</i> and <i>Redo</i> does not change span states of the text as
+                            of now.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input id="build_26" class="toggle" type="checkbox">
