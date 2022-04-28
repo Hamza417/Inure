@@ -59,7 +59,7 @@ class Permissions : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        permissionsViewModel.getPermissions().observe(viewLifecycleOwner, {
+        permissionsViewModel.getPermissions().observe(viewLifecycleOwner) {
             adapterPermissions = AdapterPermissions(it, searchBox.text.toString())
             recyclerView.adapter = adapterPermissions
 
@@ -94,9 +94,15 @@ class Permissions : ScopedFragment() {
                     })
                 }
             })
-        })
 
-        permissionsViewModel.getError().observe(viewLifecycleOwner, {
+            searchBox.doOnTextChanged { text, _, _, _ ->
+                if (searchBox.isFocused) {
+                    permissionsViewModel.loadPermissionData(text.toString())
+                }
+            }
+        }
+
+        permissionsViewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -104,7 +110,7 @@ class Permissions : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
 
         options.setOnClickListener {
             PermissionsMenu.newInstance()
@@ -116,12 +122,6 @@ class Permissions : ScopedFragment() {
                 PermissionPreferences.setSearchVisibility(!PermissionPreferences.isSearchVisible())
             } else {
                 searchBox.text?.clear()
-            }
-        }
-
-        searchBox.doOnTextChanged { text, _, _, _ ->
-            if (searchBox.isFocused) {
-                permissionsViewModel.loadPermissionData(text.toString())
             }
         }
     }

@@ -111,6 +111,12 @@ class Activities : ScopedFragment() {
                     }
                 }
             })
+
+            searchBox.doOnTextChanged { text, _, _, _ ->
+                if (searchBox.isFocused) {
+                    activitiesViewModel.getActivitiesData(text.toString())
+                }
+            }
         }
 
         activitiesViewModel.getError().observe(viewLifecycleOwner) {
@@ -128,12 +134,6 @@ class Activities : ScopedFragment() {
                 ActivitiesPreferences.setSearchVisibility(!ActivitiesPreferences.isSearchVisible())
             } else {
                 searchBox.text?.clear()
-            }
-        }
-
-        searchBox.doOnTextChanged { text, _, _, _ ->
-            if (searchBox.isFocused) {
-                activitiesViewModel.getActivitiesData(text.toString())
             }
         }
     }

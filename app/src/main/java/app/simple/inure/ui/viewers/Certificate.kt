@@ -39,7 +39,7 @@ class Certificate : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        viewModel.getCertificateData().observe(viewLifecycleOwner, {
+        viewModel.getCertificateData().observe(viewLifecycleOwner) {
             val adapterInformation = AdapterInformation(it)
 
             adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {
@@ -49,9 +49,9 @@ class Certificate : ScopedFragment() {
             })
 
             recyclerView.adapter = adapterInformation
-        })
+        }
 
-        viewModel.getError().observe(viewLifecycleOwner, {
+        viewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -59,7 +59,7 @@ class Certificate : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
     }
 
     companion object {

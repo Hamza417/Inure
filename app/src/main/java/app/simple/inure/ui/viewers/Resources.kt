@@ -83,9 +83,15 @@ class Resources : ScopedFragment() {
                                                 "txt_tv_xml")
                 }
             })
+
+            searchBox.doOnTextChanged { text, _, _, _ ->
+                if (searchBox.isFocused) {
+                    componentsViewModel.getResourceData(text.toString())
+                }
+            }
         }
 
-        componentsViewModel.getError().observe(viewLifecycleOwner, {
+        componentsViewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -93,7 +99,7 @@ class Resources : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
 
         options.setOnClickListener {
 
@@ -104,12 +110,6 @@ class Resources : ScopedFragment() {
                 ResourcesPreferences.setSearchVisibility(!ResourcesPreferences.isSearchVisible())
             } else {
                 searchBox.text?.clear()
-            }
-        }
-
-        searchBox.doOnTextChanged { text, _, _, _ ->
-            if (searchBox.isFocused) {
-                componentsViewModel.getResourceData(text.toString())
             }
         }
     }

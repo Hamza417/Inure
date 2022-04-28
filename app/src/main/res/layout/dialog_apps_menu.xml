@@ -5,6 +5,7 @@
     android:maxHeight="@dimen/dialog_height">
 
     <app.simple.inure.decorations.corners.DynamicCornersNestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/apps_menu_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fadingEdge="vertical"

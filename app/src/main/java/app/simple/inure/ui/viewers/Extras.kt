@@ -62,7 +62,7 @@ class Extras : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        extrasViewModel.getExtras().observe(viewLifecycleOwner, {
+        extrasViewModel.getExtras().observe(viewLifecycleOwner) {
             if (recyclerView.adapter.isNull()) {
                 adapterExtras = AdapterExtras(it, searchBox.text.toString())
                 recyclerView.adapter = adapterExtras
@@ -144,9 +144,15 @@ class Extras : ScopedFragment() {
             } else {
                 adapterExtras?.updateData(it, searchBox.text.toString())
             }
-        })
 
-        extrasViewModel.getError().observe(viewLifecycleOwner, {
+            searchBox.doOnTextChanged { text, _, _, _ ->
+                if (searchBox.isFocused) {
+                    extrasViewModel.keyword = text.toString()
+                }
+            }
+        }
+
+        extrasViewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -154,7 +160,7 @@ class Extras : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
 
         options.setOnClickListener {
             PopupExtrasMenu(it)
@@ -169,12 +175,6 @@ class Extras : ScopedFragment() {
                 ExtrasPreferences.setSearchVisibility(!ExtrasPreferences.isSearchVisible())
             } else {
                 searchBox.text?.clear()
-            }
-        }
-
-        searchBox.doOnTextChanged { text, _, _, _ ->
-            if (searchBox.isFocused) {
-                extrasViewModel.keyword = text.toString()
             }
         }
     }

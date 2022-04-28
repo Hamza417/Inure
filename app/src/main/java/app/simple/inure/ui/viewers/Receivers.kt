@@ -61,7 +61,7 @@ class Receivers : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        receiversViewModel.getReceivers().observe(viewLifecycleOwner, {
+        receiversViewModel.getReceivers().observe(viewLifecycleOwner) {
             adapterReceivers = AdapterReceivers(it, packageInfo, searchBox.text.toString())
             recyclerView.adapter = adapterReceivers
 
@@ -93,9 +93,15 @@ class Receivers : ScopedFragment() {
                     })
                 }
             })
-        })
 
-        receiversViewModel.getError().observe(viewLifecycleOwner, {
+            searchBox.doOnTextChanged { text, _, _, _ ->
+                if (searchBox.isFocused) {
+                    receiversViewModel.getReceiversData(text.toString())
+                }
+            }
+        }
+
+        receiversViewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -103,19 +109,13 @@ class Receivers : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
 
         search.setOnClickListener {
             if (searchBox.text.isNullOrEmpty()) {
                 ReceiversPreferences.setSearchVisibility(!ReceiversPreferences.isSearchVisible())
             } else {
                 searchBox.text?.clear()
-            }
-        }
-
-        searchBox.doOnTextChanged { text, _, _, _ ->
-            if (searchBox.isFocused) {
-                receiversViewModel.getReceiversData(text.toString())
             }
         }
     }

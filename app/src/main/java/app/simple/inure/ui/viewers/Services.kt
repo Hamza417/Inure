@@ -61,7 +61,7 @@ class Services : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        servicesViewModel.getServices().observe(viewLifecycleOwner, {
+        servicesViewModel.getServices().observe(viewLifecycleOwner) {
             adapterServices = AdapterServices(it, packageInfo, searchBox.text.toString())
             recyclerView.adapter = adapterServices
 
@@ -93,9 +93,15 @@ class Services : ScopedFragment() {
                     })
                 }
             })
-        })
 
-        servicesViewModel.getError().observe(viewLifecycleOwner, {
+            searchBox.doOnTextChanged { text, _, _, _ ->
+                if (searchBox.isFocused) {
+                    servicesViewModel.getServicesData(text.toString())
+                }
+            }
+        }
+
+        servicesViewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -103,19 +109,13 @@ class Services : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
 
         search.setOnClickListener {
             if (searchBox.text.isNullOrEmpty()) {
                 ServicesPreferences.setSearchVisibility(!ServicesPreferences.isSearchVisible())
             } else {
                 searchBox.text?.clear()
-            }
-        }
-
-        searchBox.doOnTextChanged { text, _, _, _ ->
-            if (searchBox.isFocused) {
-                servicesViewModel.getServicesData(text.toString())
             }
         }
     }
