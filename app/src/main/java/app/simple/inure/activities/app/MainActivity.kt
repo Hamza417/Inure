@@ -18,7 +18,11 @@ import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.ui.app.Apps
 import app.simple.inure.ui.launcher.SplashScreen
+import app.simple.inure.ui.panels.Batch
+import app.simple.inure.ui.panels.DeviceInformation
+import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ThemeUtils
@@ -54,9 +58,33 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         }
 
         if (savedInstanceState.isNull()) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                .commit()
+            when (intent.action) {
+                "open_apps" -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Apps.newInstance(), "apps")
+                        .commit()
+                }
+                "open_stats" -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Statistics.newInstance(), "stats")
+                        .commit()
+                }
+                "open_device_info" -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, DeviceInformation.newInstance(), "device_info")
+                        .commit()
+                }
+                "open_batch" -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Batch.newInstance(), "batch")
+                        .commit()
+                }
+                else -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                        .commit()
+                }
+            }
         }
     }
 

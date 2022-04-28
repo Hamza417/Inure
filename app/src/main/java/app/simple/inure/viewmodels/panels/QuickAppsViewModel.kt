@@ -79,6 +79,7 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
 
     private fun loadSimpleQuickAppsData() {
         viewModelScope.launch(Dispatchers.Default) {
+            db = QuickAppsDatabase.getInstance(context)
             simpleQuickAppList.postValue(db?.quickAppsDao()?.getQuickApps())
         }
     }

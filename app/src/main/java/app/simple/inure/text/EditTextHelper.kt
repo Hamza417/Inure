@@ -187,11 +187,11 @@ object EditTextHelper {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 text.setSpan(QuoteSpan(context.resolveAttrColor(R.attr.colorAppAccent), stripWidth, bulletGap),
                              selectionStart, selectionEnd,
-                             Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             } else {
                 text.setSpan(QuoteSpan(context.resolveAttrColor(R.attr.colorAppAccent)),
                              selectionStart, selectionEnd,
-                             Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
         }
     }

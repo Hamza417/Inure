@@ -1,0 +1,49 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/sc_apps"
+        android:shortcutId="apps"
+        android:shortcutLongLabel="@string/apps"
+        android:shortcutShortLabel="@string/apps">
+        <intent
+            android:action="open_apps"
+            android:targetClass="app.simple.inure.activities.app.MainActivity"
+            android:targetPackage="app.simple.inure" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/sc_stats"
+        android:shortcutId="stats"
+        android:shortcutLongLabel="@string/usage_statistics"
+        android:shortcutShortLabel="@string/usage_statistics">
+        <intent
+            android:action="open_stats"
+            android:targetClass="app.simple.inure.activities.app.MainActivity"
+            android:targetPackage="app.simple.inure" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/sc_device_info"
+        android:shortcutId="dev_info"
+        android:shortcutLongLabel="@string/device_info"
+        android:shortcutShortLabel="@string/device_info">
+        <intent
+            android:action="open_device_info"
+            android:targetClass="app.simple.inure.activities.app.MainActivity"
+            android:targetPackage="app.simple.inure" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/sc_batch"
+        android:shortcutId="batch"
+        android:shortcutLongLabel="@string/batch"
+        android:shortcutShortLabel="@string/batch">
+        <intent
+            android:action="open_batch"
+            android:targetClass="app.simple.inure.activities.app.MainActivity"
+            android:targetPackage="app.simple.inure" />
+    </shortcut>
+</shortcuts>

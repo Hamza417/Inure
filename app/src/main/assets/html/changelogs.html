@@ -11,6 +11,7 @@
 <br>
 <sub>(Current Version)</sub>
 <h2>Build27</h2>
+<sub>Released on 28 April, 2022</sub>
 <h4>User Interface</h4>
 
 <ul>
@@ -34,6 +35,7 @@
     <li>Fixed crash caused by Quick Apps database closing unexpectedly.</li>
     <li>Fixed icon animation duration not synchronized in <b>Preferences</b> panel.</li>
     <li>Fixed few UI issues in <b>Terminal Preferences</b> panel.</li>
+    <li>Added quick shortcuts for post nougat android versions.</li>
 </ul>
 
 <h4>Improvements</h4>
@@ -63,7 +65,16 @@
     <li>Added <s><i>HTML</i></s> <b>JSON Spans</b> mode to raw edit note spans.</li>
     <li>Added option to toggle <i>Auto Save</i> mechanism.</li>
     <li>Added note updated date in <b>Notes</b> panel.</li>
-    <li>Added dedicated note viewer.</li>
+    <li>Added dedicated note viewer.<br></li>
+    <li><b>Known Issues:</b>
+        <ul>
+            <li>Sometimes auto saving notes gives error <i>Cannot serialize SpellCheckSpan...</i>
+                which I am working on it, the reason it cannot be fixed atm is because the official
+                Android SDK restricted its access to system framework only. It will be fixed later.
+            </li>
+            <li><i>Undo</i> and <i>Redo</i> does not change span states of the text as of now.</li>
+        </ul>
+    </li>
 </ul>
 
 <br>
