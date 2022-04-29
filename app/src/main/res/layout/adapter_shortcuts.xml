@@ -1,0 +1,63 @@
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shortcut_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="horizontal"
+    android:padding="15dp">
+
+    <app.simple.inure.decorations.theme.ThemeIcon
+        android:id="@+id/shortcut_icon"
+        android:layout_width="@dimen/preference_icon_size"
+        android:layout_height="@dimen/preference_icon_size"
+        android:layout_gravity="center_vertical"
+        app:tintType="custom" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/shortcut_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/preferences_title_text_size"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/shortcut_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/preferences_description_text_size"
+            app:appFontStyle="regular"
+            app:textColorStyle="tertiary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/shortcut_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/preferences_description_text_size"
+            app:appFontStyle="regular"
+            app:textColorStyle="tertiary" />
+
+    </LinearLayout>
+
+    <app.simple.inure.decorations.checkbox.CheckBox
+        android:id="@+id/shortcut_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

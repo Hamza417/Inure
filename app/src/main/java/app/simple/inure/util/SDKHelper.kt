@@ -49,7 +49,8 @@ object SDKHelper {
             29 -> "Android 10"
             30 -> "Android 11"
             31 -> "Android 12"
-            32 -> "Android 13"
+            32 -> "Android 12L"
+            33 -> "Android 13"
             else -> ""
         }
     }
@@ -93,7 +94,8 @@ object SDKHelper {
             29 -> "10"
             30 -> "11"
             31 -> "12"
-            32 -> "13"
+            32 -> "12L"
+            33 -> "13"
             else -> ""
         }
     }
@@ -137,7 +139,8 @@ object SDKHelper {
             "29" -> "Android 10"
             "30" -> "Android 11"
             "31" -> "Android 12"
-            "32" -> "Android 13"
+            "32" -> "Android 12L"
+            "33" -> "Android 13"
             else -> ""
         }
     }
@@ -181,7 +184,8 @@ object SDKHelper {
             29 -> getColor(context, R.color.android_10)
             30 -> getColor(context, R.color.android_11)
             31 -> getColor(context, R.color.android_12)
-            32 -> getColor(context, R.color.android_13)
+            32 -> getColor(context, R.color.android_12L)
+            33 -> getColor(context, R.color.android_13)
             else -> Color.WHITE
         }
     }

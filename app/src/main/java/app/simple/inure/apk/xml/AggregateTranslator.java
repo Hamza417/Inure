@@ -31,5 +31,4 @@ class AggregateTranslator extends CharSequenceTranslator {
         }
         return 0;
     }
-    
 }

@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.ui.preferences.subscreens.Shortcuts
+import app.simple.inure.util.FragmentHelper
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,14 +22,14 @@ import kotlinx.coroutines.withContext
 class ConfigurationScreen : ScopedFragment() {
 
     private lateinit var keepScreenOnSwitchView: SwitchView
+    private lateinit var shortcuts: DynamicRippleRelativeLayout
     private lateinit var rootSwitchView: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_configuration, container, false)
 
-        startPostponedEnterTransition()
-
         keepScreenOnSwitchView = view.findViewById(R.id.configuration_switch_keep_screen_on)
+        shortcuts = view.findViewById(R.id.configuration_shortcuts)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
 
         return view
@@ -34,6 +37,7 @@ class ConfigurationScreen : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        startPostponedEnterTransition()
 
         keepScreenOnSwitchView.setChecked(ConfigurationPreferences.isKeepScreenOn())
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
@@ -46,6 +50,11 @@ class ConfigurationScreen : ScopedFragment() {
             } else {
                 requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
+        }
+
+        shortcuts.setOnClickListener {
+            clearExitTransition()
+            FragmentHelper.openFragment(parentFragmentManager, Shortcuts.newInstance(), "shortcuts")
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener {

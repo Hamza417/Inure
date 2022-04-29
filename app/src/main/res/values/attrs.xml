@@ -110,6 +110,7 @@
             <flag name="regular" value="0" />
             <flag name="secondary" value="1" />
             <flag name="accent" value="2" />
+            <flag name="custom" value="3" />
         </attr>
     </declare-styleable>
 

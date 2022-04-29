@@ -248,10 +248,7 @@ class NotesEditor : ScopedFragment() {
         undo.isEnabled = textViewUndoRedo?.canUndo ?: false
         redo.isEnabled = textViewUndoRedo?.canRedo ?: false
 
-        handler
-            .postDelayed({
-                             notesViewModel.updateNoteData(notesPackageInfo!!, 500)
-                         }, 1000)
+        notesViewModel.updateNoteData(notesPackageInfo!!)
     }
 
     private fun printError(error: String) {

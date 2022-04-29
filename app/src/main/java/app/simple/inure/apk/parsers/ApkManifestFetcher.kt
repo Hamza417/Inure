@@ -170,9 +170,9 @@ object ApkManifestFetcher {
 
             // XML START TAG
             if (tag0 == startTag) {
-                //                val tag6 = lew(xml, off + 6 * 4)  // Expected to be 14001400
+                // val tag6 = lew(xml, off + 6 * 4)  // Expected to be 14001400
                 val numbAttrs = lew(xml, off + 7 * 4)  // Number of Attributes to follow
-                //int tag8 = LEW(xml, off+8*4);  // Expected to be 00000000
+                // int tag8 = LEW(xml, off+8*4);  // Expected to be 00000000
                 off += 9 * 4  // Skip over 6+3 words of startTag data
                 val name = compXmlString(xml, sitOff, stOff, nameSi)
                 // tr.addSelect(name, null);

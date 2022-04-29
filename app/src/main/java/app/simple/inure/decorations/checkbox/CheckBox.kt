@@ -55,6 +55,7 @@ class CheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             }
         }
 
+        unchecked()
         requestLayout()
     }
 

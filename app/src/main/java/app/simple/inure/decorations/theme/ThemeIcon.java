@@ -34,7 +34,7 @@ public class ThemeIcon extends AppCompatImageView implements ThemeChangedListene
     private void init(AttributeSet attrs) {
         TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ThemeIcon, 0, 0);
         tintMode = typedArray.getInteger(R.styleable.ThemeIcon_tintType, 0);
-        setTint(getTintColor(tintMode), false);
+        setTintColor(tintMode, false);
     }
     
     private void setTint(int endColor, boolean animate) {
@@ -49,20 +49,24 @@ public class ThemeIcon extends AppCompatImageView implements ThemeChangedListene
         }
     }
     
-    private int getTintColor(int tintMode) {
+    private void setTintColor(int tintMode, boolean animate) {
         switch (tintMode) {
             case 0: {
-                return ThemeManager.INSTANCE.getTheme().getIconTheme().getRegularIconColor();
+                setTint(ThemeManager.INSTANCE.getTheme().getIconTheme().getRegularIconColor(), animate);
+                break;
             }
             case 1: {
-                return ThemeManager.INSTANCE.getTheme().getIconTheme().getSecondaryIconColor();
+                setTint(ThemeManager.INSTANCE.getTheme().getIconTheme().getSecondaryIconColor(), animate);
+                break;
             }
             case 2: {
-                return ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent);
+                setTint(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent), animate);
+                break;
+            }
+            case 3: {
+                // custom tint
             }
         }
-        
-        return -1;
     }
     
     @Override
@@ -73,7 +77,7 @@ public class ThemeIcon extends AppCompatImageView implements ThemeChangedListene
     
     @Override
     public void onThemeChanged(@NonNull Theme theme) {
-        setTint(getTintColor(tintMode), true);
+        setTintColor(tintMode, true);
     }
     
     @Override

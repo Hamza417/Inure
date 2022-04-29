@@ -1,6 +1,7 @@
 package app.simple.inure.activities.app
 
 import android.animation.Animator
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -13,16 +14,16 @@ import android.widget.Toast
 import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import app.simple.inure.R
+import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extension.activities.BaseActivity
+import app.simple.inure.terminal.Term
 import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.app.Apps
 import app.simple.inure.ui.launcher.SplashScreen
-import app.simple.inure.ui.panels.Batch
-import app.simple.inure.ui.panels.DeviceInformation
-import app.simple.inure.ui.panels.Statistics
+import app.simple.inure.ui.panels.*
 import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ThemeUtils
@@ -59,12 +60,51 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
 
         if (savedInstanceState.isNull()) {
             when (intent.action) {
-                "open_apps" -> {
+                ShortcutConstants.ANALYTICS_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Analytics.newInstance(), "apps")
+                        .commit()
+                }
+                ShortcutConstants.APPS_ACTION -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.app_container, Apps.newInstance(), "apps")
                         .commit()
                 }
-                "open_stats" -> {
+                ShortcutConstants.BATCH_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Batch.newInstance(), "batch")
+                        .commit()
+                }
+                ShortcutConstants.MOST_USED_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, MostUsed.newInstance(), "most_used")
+                        .commit()
+                }
+                ShortcutConstants.NOTES_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Notes.newInstance(), "notes")
+                        .commit()
+                }
+                ShortcutConstants.RECENTLY_INSTALLED_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, RecentlyInstalled.newInstance(), "recently_installed")
+                        .commit()
+                }
+                ShortcutConstants.RECENTLY_UPDATED_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, RecentlyUpdated.newInstance(), "recently_updated")
+                        .commit()
+                }
+                ShortcutConstants.TERMINAL_ACTION -> {
+                    startActivity(Intent(this, Term::class.java))
+                    finish()
+                }
+                ShortcutConstants.UNINSTALLED_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Uninstalled.newInstance(), "uninstalled")
+                        .commit()
+                }
+                ShortcutConstants.USAGE_STATS_ACTION -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.app_container, Statistics.newInstance(), "stats")
                         .commit()
@@ -72,11 +112,6 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
                 "open_device_info" -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.app_container, DeviceInformation.newInstance(), "device_info")
-                        .commit()
-                }
-                "open_batch" -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, Batch.newInstance(), "batch")
                         .commit()
                 }
                 else -> {

@@ -2,7 +2,7 @@
     <shortcut
         android:enabled="true"
         android:icon="@drawable/sc_apps"
-        android:shortcutId="apps"
+        android:shortcutId="sc_apps"
         android:shortcutLongLabel="@string/apps"
         android:shortcutShortLabel="@string/apps">
         <intent
@@ -14,7 +14,7 @@
     <shortcut
         android:enabled="true"
         android:icon="@drawable/sc_stats"
-        android:shortcutId="stats"
+        android:shortcutId="sc_stats"
         android:shortcutLongLabel="@string/usage_statistics"
         android:shortcutShortLabel="@string/usage_statistics">
         <intent
@@ -26,7 +26,7 @@
     <shortcut
         android:enabled="true"
         android:icon="@drawable/sc_terminal"
-        android:shortcutId="terminal"
+        android:shortcutId="sc_terminal"
         android:shortcutLongLabel="@string/terminal"
         android:shortcutShortLabel="@string/terminal">
         <intent
@@ -38,7 +38,7 @@
     <shortcut
         android:enabled="true"
         android:icon="@drawable/sc_batch"
-        android:shortcutId="batch"
+        android:shortcutId="sc_batch"
         android:shortcutLongLabel="@string/batch"
         android:shortcutShortLabel="@string/batch">
         <intent

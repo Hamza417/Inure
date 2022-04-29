@@ -62,7 +62,7 @@
                     android:layout_marginStart="70dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
-                    android:text="@string/screen"
+                    android:text="@string/application"
                     app:appFontStyle="medium"
                     app:textColorStyle="accent" />
 
@@ -129,6 +129,54 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                    android:id="@+id/configuration_shortcuts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/shortcut_icon"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/typeface_icon"
+                        android:src="@drawable/ic_shortcut"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/shortcut_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_toEndOf="@id/shortcut_icon"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/shortcuts"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                        app:drawableTintStyle="accent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/shortcut_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/shortcut_tag"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="60dp"
+                        android:layout_toEndOf="@id/shortcut_icon"
+                        android:text="@string/shortcuts_desc"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
+
+                </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"
