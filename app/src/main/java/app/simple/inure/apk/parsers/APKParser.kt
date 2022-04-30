@@ -1,7 +1,9 @@
 package app.simple.inure.apk.parsers
 
+import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import app.simple.inure.R
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.CertificateParseException
 import app.simple.inure.exceptions.DexClassesNotFoundException
@@ -18,9 +20,15 @@ import java.io.IOException
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
-import kotlin.collections.ArrayList
 
 object APKParser {
+
+    const val ARMEABI = "“generic” 32-bit ARM"
+    const val ARM64 = "arm64-v8a"
+    const val ARMv7 = "armeabi-v7a"
+    const val x86 = "x86"
+    const val x86_64 = "x86_64"
+
     /**
      * Fetch the decompiled manifest from an APK file
      */
@@ -161,6 +169,131 @@ object APKParser {
         }.getOrElse {
             throw ApkParserException("Couldn't fetch receivers due to error : ${it.message}")
         }
+    }
+
+    fun PackageInfo.getNativeLibraries(context: Context): StringBuilder {
+        val stringBuilder = StringBuilder()
+        var zipFile: ZipFile? = null
+        try {
+            zipFile = ZipFile(applicationInfo.sourceDir)
+            val entries: Enumeration<out ZipEntry?> = zipFile.entries()
+            while (entries.hasMoreElements()) {
+                val entry: ZipEntry? = entries.nextElement()
+                val name: String = entry!!.name
+                if (name.contains("lib") || name.contains("libs")) {
+                    if (name.endsWith(".so")) {
+                        if (stringBuilder.isNotEmpty()) {
+                            stringBuilder.append("\n")
+                        }
+
+                        stringBuilder.append(name)
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            if (stringBuilder.isBlank()) {
+                stringBuilder.append(context.getString(R.string.error))
+            }
+        } finally {
+            if (zipFile != null) {
+                try {
+                    zipFile.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        if (stringBuilder.isBlank()) {
+            stringBuilder.append(context.getString(R.string.none))
+        }
+
+        return stringBuilder
+    }
+
+    fun PackageInfo.getApkArchitecture(context: Context): StringBuilder {
+        var zipFile: ZipFile? = null
+        val stringBuilder = StringBuilder()
+
+        try {
+            zipFile = ZipFile(applicationInfo.sourceDir)
+            val entries: Enumeration<out ZipEntry?> = zipFile.entries()
+            while (entries.hasMoreElements()) {
+                val entry: ZipEntry? = entries.nextElement()
+                val name: String = entry!!.name
+                if (name.contains("lib")) {
+                    if (name.contains(ARMEABI)) {
+                        if (!stringBuilder.contains(ARMEABI)) {
+                            if (stringBuilder.isNotBlank()) {
+                                stringBuilder.append(" | ")
+                            }
+
+                            stringBuilder.append(ARMEABI)
+                        }
+                    }
+
+                    if (name.contains(ARM64)) {
+                        if (!stringBuilder.contains(ARM64)) {
+                            if (stringBuilder.isNotBlank()) {
+                                stringBuilder.append(" | ")
+                            }
+
+                            stringBuilder.append(ARM64)
+                        }
+                    }
+
+                    if (name.contains(ARMv7)) {
+                        if (!stringBuilder.contains(ARMv7)) {
+                            if (stringBuilder.isNotBlank()) {
+                                stringBuilder.append(" | ")
+                            }
+
+                            stringBuilder.append(ARMv7)
+                        }
+                    }
+
+                    if (name.contains(x86)) {
+                        if (!stringBuilder.contains(x86)) {
+                            if (stringBuilder.isNotBlank()) {
+                                stringBuilder.append(" | ")
+                            }
+
+                            stringBuilder.append(x86)
+                        }
+                    }
+
+                    if (name.contains(x86_64)) {
+                        if (!stringBuilder.contains(x86_64)) {
+                            if (stringBuilder.isNotBlank()) {
+                                stringBuilder.append(" | ")
+                            }
+
+                            stringBuilder.append(x86_64)
+                        }
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            if (stringBuilder.isBlank()) {
+                stringBuilder.append(context.getString(R.string.error))
+            }
+        } finally {
+            if (zipFile != null) {
+                try {
+                    zipFile.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        if (stringBuilder.isBlank()) {
+            stringBuilder.append(context.getString(R.string.unspecified))
+        }
+
+        return stringBuilder
     }
 
     /**

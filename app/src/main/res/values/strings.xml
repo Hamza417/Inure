@@ -503,4 +503,6 @@
     <string name="desc_development_prefs">These preferences/features are only added for the convenience of the development and may or may not serve the actual purpose of the app but can still come handy.</string>
     <string name="shortcuts">Shortcuts</string>
     <string name="shortcuts_desc">Edit app\'s quick shortcuts.</string>
+    <string name="architecture">Architecture</string>
+    <string name="native_libraries">Native Libraries</string>
 </resources>

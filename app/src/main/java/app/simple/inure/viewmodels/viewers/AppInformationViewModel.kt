@@ -10,9 +10,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.APKParser.getApkArchitecture
 import app.simple.inure.apk.parsers.APKParser.getApkMeta
 import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
+import app.simple.inure.apk.parsers.APKParser.getNativeLibraries
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
@@ -48,6 +50,8 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
                 getVersionCode(),
                 getInstallLocation(),
                 getGlesVersion(),
+                getArchitecture(),
+                getNativeLibraries(),
                 getUID(),
                 getInstallDate(),
                 getUpdateDate(),
@@ -113,6 +117,16 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
         return Pair(getString(R.string.gles_version),
                     glesVersion.applySecondaryTextColor())
+    }
+
+    private fun getArchitecture(): Pair<String, Spannable> {
+        return Pair(getString(R.string.architecture),
+                    packageInfo.getApkArchitecture(context).toString().applyAccentColor())
+    }
+
+    private fun getNativeLibraries(): Pair<String, Spannable> {
+        return Pair(getString(R.string.native_libraries),
+                    packageInfo.getNativeLibraries(context).toString().applySecondaryTextColor())
     }
 
     private fun getUID(): Pair<String, Spannable> {
