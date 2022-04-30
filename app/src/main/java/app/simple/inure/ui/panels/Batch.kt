@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.marginTop
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatch
@@ -27,6 +25,8 @@ import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.BatchViewModel
 
 class Batch : ScopedFragment() {
@@ -59,23 +59,9 @@ class Batch : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        batchMenuContainer.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                recyclerView.apply {
-                    setPadding(paddingLeft,
-                               paddingTop,
-                               paddingRight,
-                               batchMenuContainer.measuredHeight +
-                                       batchMenuContainer.marginTop +
-                                       paddingBottom)
-                }
-
-                batchMenuContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            }
-        })
-
         batchViewModel.getAppData().observe(viewLifecycleOwner) {
             adapterBatch = AdapterBatch(it)
+            batchMenuState(it)
 
             adapterBatch?.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
@@ -103,6 +89,7 @@ class Batch : ScopedFragment() {
 
                 override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
                     batchViewModel.updateBatchItem(batchPackageInfo)
+                    batchMenuState(adapterBatch!!.getCurrentAppsList())
                 }
 
                 override fun onSortPressed(view: View) {
@@ -144,6 +131,17 @@ class Batch : ScopedFragment() {
 
             d.show(childFragmentManager, "batch_selected_apps")
         }
+    }
+
+    private fun batchMenuState(arrayList: ArrayList<BatchPackageInfo>) {
+        for (batch in arrayList) {
+            if (batch.isSelected) {
+                batchMenuContainer.visible(false)
+                return
+            }
+        }
+
+        batchMenuContainer.gone()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

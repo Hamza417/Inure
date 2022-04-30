@@ -7,6 +7,7 @@ object RecyclerViewConstants {
     const val stiffnessValue = SpringForce.STIFFNESS_LOW
     const val TYPE_HEADER = 0
     const val TYPE_ITEM = 1
+    const val TYPE_DIVIDER = 2
 
     private const val value = 1.0f
     const val flingTranslationMagnitude = value

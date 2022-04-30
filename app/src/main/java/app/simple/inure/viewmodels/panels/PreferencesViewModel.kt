@@ -23,7 +23,6 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
 
     private fun loadPreferencesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val context = context
 
             val list = arrayListOf(
                     Pair(R.drawable.ic_appearance, R.string.appearance),
@@ -31,8 +30,11 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
                     Pair(R.drawable.ic_app_settings, R.string.configuration),
                     Pair(R.drawable.ic_formatting, R.string.formatting),
                     Pair(R.drawable.ic_accessibility, R.string.accessibility),
+                    Pair(0, 0), // Divider
                     Pair(R.drawable.ic_terminal_black, R.string.terminal),
                     Pair(R.drawable.ic_shell, R.string.shell_preferences),
+                    Pair(R.drawable.ic_layers, R.string.batch),
+                    Pair(0, 0), // Divider
                     Pair(R.drawable.ic_adb, R.string.development),
                     Pair(R.drawable.ic_audio_placeholder, R.string.about)
             )
