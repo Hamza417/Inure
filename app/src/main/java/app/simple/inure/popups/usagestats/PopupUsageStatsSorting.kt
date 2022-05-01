@@ -29,15 +29,6 @@ class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
         wifiSent = contentView.findViewById(R.id.sort_wifi_sent)
         wifiReceived = contentView.findViewById(R.id.sort_wifi_received)
 
-        when (StatisticsPreferences.getSortedBy()) {
-            SortUsageStats.NAME -> name.isSelected = true
-            SortUsageStats.TIME -> time.isSelected = true
-            SortUsageStats.DATA_SENT -> dataSent.isSelected = true
-            SortUsageStats.DATA_RECEIVED -> dataReceived.isSelected = true
-            SortUsageStats.WIFI_SENT -> wifiSent.isSelected = true
-            SortUsageStats.WIFI_RECEIVED -> wifiReceived.isSelected = true
-        }
-
         name.setOnClickListener {
             setOnClick(SortUsageStats.NAME)
         }
@@ -60,6 +51,15 @@ class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
 
         wifiReceived.setOnClickListener {
             setOnClick(SortUsageStats.WIFI_RECEIVED)
+        }
+
+        when (StatisticsPreferences.getSortedBy()) {
+            SortUsageStats.NAME -> name.isSelected = true
+            SortUsageStats.TIME -> time.isSelected = true
+            SortUsageStats.DATA_SENT -> dataSent.isSelected = true
+            SortUsageStats.DATA_RECEIVED -> dataReceived.isSelected = true
+            SortUsageStats.WIFI_SENT -> wifiSent.isSelected = true
+            SortUsageStats.WIFI_RECEIVED -> wifiReceived.isSelected = true
         }
 
         with(contentView.findViewById<CheckBox>(R.id.sort_reversed_checkbox)) {

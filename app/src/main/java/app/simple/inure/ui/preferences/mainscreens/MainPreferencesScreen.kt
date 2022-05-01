@@ -33,67 +33,74 @@ class MainPreferencesScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         preferencesViewModel.getPreferences().observe(viewLifecycleOwner) {
-
             postponeEnterTransition()
 
             adapterPreferences = AdapterPreferences(it)
 
             adapterPreferences.setOnPreferencesCallbackListener(object : AdapterPreferences.Companion.PreferencesCallbacks {
-                override fun onPrefsClicked(imageView: ImageView, category: Int) {
+                override fun onPrefsClicked(imageView: ImageView, category: Int, position: Int) {
+
+                    /**
+                     * Workaround for shared animation lag
+                     */
+                    var duration = 500L
+                    duration *= position.div(4)
+                    if (duration < 250) duration = 400L
+
                     when (category) {
                         R.string.appearance -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               AppearanceScreen.newInstance(),
                                                               imageView,
-                                                              "appearance_prefs")
+                                                              "appearance_prefs", duration)
                         }
                         R.string.behaviour -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               BehaviourScreen.newInstance(),
                                                               imageView,
-                                                              "behaviour_prefs")
+                                                              "behaviour_prefs", duration)
                         }
                         R.string.configuration -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               ConfigurationScreen.newInstance(),
                                                               imageView,
-                                                              "config_prefs")
+                                                              "config_prefs", duration)
                         }
                         R.string.formatting -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               FormattingScreen.newInstance(),
                                                               imageView,
-                                                              "formatting_prefs")
+                                                              "formatting_prefs", duration)
                         }
                         R.string.terminal -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               TerminalScreen.newInstance(),
                                                               imageView,
-                                                              "terminal_prefs")
+                                                              "terminal_prefs", duration)
                         }
                         R.string.shell_preferences -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               ShellScreen.newInstance(),
                                                               imageView,
-                                                              "shell_prefs")
+                                                              "shell_prefs", duration)
                         }
                         R.string.accessibility -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               AccessibilityScreen.newInstance(),
                                                               imageView,
-                                                              "accessibility_prefs")
+                                                              "accessibility_prefs", duration)
                         }
                         R.string.development -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               DevelopmentScreen.newInstance(),
                                                               imageView,
-                                                              "development_prefs", 600)
+                                                              "development_prefs", duration)
                         }
                         R.string.about -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               AboutScreen.newInstance(),
                                                               imageView,
-                                                              "about_prefs", 600)
+                                                              "about_prefs", duration)
                         }
                     }
                 }

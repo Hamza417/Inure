@@ -10,6 +10,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.util.ConditionUtils.isZero
 
 class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -36,7 +37,7 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : Recycler
             holder.icon.transitionName = holder.itemView.context.getString(list[position].second)
 
             holder.container.setOnClickListener {
-                preferencesCallbacks?.onPrefsClicked(holder.icon, list[position].second)
+                preferencesCallbacks?.onPrefsClicked(holder.icon, list[position].second, position)
             }
         }
     }
@@ -46,7 +47,7 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : Recycler
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == 5 || position == 9) {
+        return if (list[position].first.isZero()) {
             RecyclerViewConstants.TYPE_DIVIDER
         } else RecyclerViewConstants.TYPE_ITEM
     }
@@ -65,7 +66,7 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : Recycler
 
     companion object {
         interface PreferencesCallbacks {
-            fun onPrefsClicked(imageView: ImageView, category: Int)
+            fun onPrefsClicked(imageView: ImageView, category: Int, position: Int)
         }
     }
 }

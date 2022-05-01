@@ -30,6 +30,7 @@
             android:layout_weight="1"
             android:drawableEnd="@drawable/ic_arrow_drop_down_24dp"
             android:gravity="center_vertical"
+            android:paddingHorizontal="8dp"
             android:textSize="@dimen/popup_text_size"
             app:drawableTintStyle="secondary"
             app:textColorStyle="secondary" />
