@@ -234,10 +234,10 @@ public final class RuntimeTypeAdapterFactory <T> implements TypeAdapterFactory {
                 @SuppressWarnings ("unchecked") // registration requires that subtype extends T
                 TypeAdapter <R> delegate = (TypeAdapter <R>) subtypeToDelegate.get(srcType);
     
-                // TODO - fix SpellCheckSpan error
+                // TODO - fix spel
                 if (delegate == null) {
-                    // throw new JsonParseException("cannot serialize " + srcType.getName() + "; did you forget to register a subtype?");
-                    System.out.println("cannot serialize " + srcType.getName() + "; did you forget to register a subtype?");
+                    throw new JsonParseException("cannot serialize " + srcType.getName() + "; did you forget to register a subtype?");
+                    // System.out.println("cannot serialize " + srcType.getName() + "; did you forget to register a subtype?");
                 }
                 JsonObject jsonObject = delegate.toJsonTree(value).getAsJsonObject();
     

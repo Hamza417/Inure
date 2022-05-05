@@ -13,8 +13,7 @@ add_library(inure_terminal_emulator
         fileCompat.cpp
         process.cpp)
 
-find_library(log-lib
-        log)
+find_library(log-lib log)
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in the

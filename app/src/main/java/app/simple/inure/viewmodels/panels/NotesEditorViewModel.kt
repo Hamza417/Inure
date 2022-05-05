@@ -90,6 +90,7 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
                             notesPackageInfo.dateCreated,
                             System.currentTimeMillis()))
 
+                delay(1500)
                 saved.postValue(saved.value?.plus(1) ?: 0)
             }.onFailure {
                 it.printStackTrace()

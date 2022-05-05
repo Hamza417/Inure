@@ -5,10 +5,12 @@ import android.graphics.Typeface
 import android.os.Build
 import android.text.Layout
 import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.style.*
 import android.widget.EditText
 import app.simple.inure.R
 import app.simple.inure.util.ColorUtils.resolveAttrColor
+import java.util.*
 import kotlin.math.roundToInt
 
 object EditTextHelper {
@@ -32,7 +34,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(StyleSpan(Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            text.setSpan(StyleSpan(Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 
@@ -48,7 +50,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(StyleSpan(Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            text.setSpan(StyleSpan(Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 
@@ -62,7 +64,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(UnderlineSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            text.setSpan(UnderlineSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 
@@ -76,7 +78,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(StrikethroughSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            text.setSpan(StrikethroughSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 
@@ -112,7 +114,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(SuperscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            text.setSpan(SuperscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 
@@ -126,7 +128,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(SubscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            text.setSpan(SubscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 
@@ -221,7 +223,21 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            text.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
+    }
+
+    // ************************************************************ //
+
+    fun EditText.fixBrokenSpans(sequence: CharSequence): SpannableStringBuilder {
+        val spans: Array<Objects> = text.getSpans(selectionStart, selectionEnd, Objects::class.java)
+        val spannableStringBuilder = SpannableStringBuilder(sequence)
+
+        for (span in spans) {
+            text.removeSpan(span)
+            spannableStringBuilder.setSpan(span, 0, sequence.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        return spannableStringBuilder
     }
 }

@@ -9,6 +9,7 @@ import android.os.ResultReceiver;
 // https://kevinhartman.github.io/blog/2012/07/23/inheritance-through-ipc-using-aidl-in-android/
 // some (possibly outdated) notes on preserving backward compatibility:
 // https://stackoverflow.com/questions/18197783/android-aidl-interface-parcelables-and-backwards-compatibility
+
 /**
   * An interface for interacting with Terminal implementation.
   *
@@ -27,7 +28,7 @@ interface ITerminal {
       * and new call types can be introduced, so prepare to ignore unknown event codes.
       *
       * So far only notifications about session end (code 0) are supported. This notification is
-      * issued after abovementioned file descriptor is closed and the session is ended from
+      * issued after above mentioned file descriptor is closed and the session is ended from
       * Terminal's standpoint.
       *
       * @param pseudoTerminalMultiplexerFd file descriptor, obtained by opening /dev/ptmx.

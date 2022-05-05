@@ -24,11 +24,9 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
 
     private var notesDatabase: NotesDatabase? = null
 
-    val gson: Gson by lazy {
+    private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
-        GsonBuilder()
-            .registerTypeAdapter(type, SpannableSerializer())
-            .create()
+        GsonBuilder().registerTypeAdapter(type, SpannableSerializer()).create()
     }
 
     private val notesData: MutableLiveData<ArrayList<NotesPackageInfo>> by lazy {

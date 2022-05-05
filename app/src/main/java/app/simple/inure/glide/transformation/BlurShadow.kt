@@ -26,7 +26,7 @@ import kotlin.math.sin
  *
  * Images should be padded with transparent pixels by at least the
  * blur radius plus the elevation in order for the drawn shadow to
- * display properly without clipping. See: Padding
+ * display properly without clipping. See: [Padding]
  */
 @Suppress("unused")
 
@@ -162,6 +162,7 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
             } else {
                 Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
             }
+
             //Draw to Canvas
             val canvas = Canvas(bitmap)
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
@@ -173,12 +174,14 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
             val scaledWidth = 1.coerceAtLeast((source.width.toFloat() * scaleFactor).roundToInt())
             val scaledHeight = 1.coerceAtLeast((source.height.toFloat() * scaleFactor).roundToInt())
             val scaled = Bitmap.createScaledBitmap(source, source.width, source.height, true)
+
             //Apply Blur
             shadow = if (AppearancePreferences.isIconShadowsOn()) {
                 Toolkit.blur(scaled, MAX_BLUR_RADIUS.toInt())
             } else {
                 Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
             }
+
             //Draw to Canvas
             val canvas = Canvas(bitmap)
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
@@ -205,15 +208,11 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
         val messages = ArrayList<ByteArray>()
         messages.add(ID_BYTES)
-        messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE)
-                         .putFloat(blurRadius).array())
-        messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE)
-                         .putFloat(elevation).array())
-        messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE).putFloat(angle)
-                         .array())
+        messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE).putFloat(blurRadius).array())
+        messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE).putFloat(elevation).array())
+        messages.add(ByteBuffer.allocate(java.lang.Float.SIZE / java.lang.Byte.SIZE).putFloat(angle).array())
         messages.add(ByteBuffer.allocate(Integer.SIZE / java.lang.Byte.SIZE).putInt(colour).array())
-        messages.add(ByteBuffer.allocate(java.lang.Long.SIZE).putLong(System.currentTimeMillis())
-                         .array())
+        messages.add(ByteBuffer.allocate(java.lang.Long.SIZE).putLong(System.currentTimeMillis()).array())
         for (c in messages.indices) {
             messageDigest.update(messages[c])
         }

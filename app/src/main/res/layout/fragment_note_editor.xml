@@ -101,7 +101,7 @@
         android:gravity="top"
         android:hint="@string/notes"
         android:importantForAutofill="no"
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textNoSuggestions"
         android:paddingHorizontal="@dimen/panel_item_padding"
         android:requiresFadingEdge="vertical"
         android:saveEnabled="true"

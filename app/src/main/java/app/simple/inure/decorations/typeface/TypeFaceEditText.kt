@@ -79,10 +79,10 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     }
 
     private fun setHighlightColor() {
-        if (ThemeUtils.isNightMode(resources)) {
-            highlightColor = ColorUtils.lightenColor(Color.DKGRAY, 0.2F)
+        highlightColor = if (ThemeUtils.isNightMode(resources)) {
+            ColorUtils.lightenColor(Color.DKGRAY, 0.2F)
         } else {
-            highlightColor = ColorUtils.lightenColor(Color.GRAY)
+            ColorUtils.lightenColor(Color.GRAY)
         }
     }
 }

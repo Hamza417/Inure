@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.Editable;
 import android.text.Selection;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.UnderlineSpan;
 import android.widget.TextView;
@@ -25,22 +26,22 @@ public class TextViewUndoRedo {
      * operation is currently being performed. Changes in the text during
      * undo/redo are not recorded because it would mess up the undo history.
      */
-    private boolean mIsUndoOrRedo = false;
+    private boolean isUndoOrRedo = false;
     
     /**
      * The edit history.
      */
-    private EditHistory mEditHistory;
+    private final EditHistory editHistory;
     
     /**
      * The change listener.
      */
-    private EditTextChangeListener mChangeListener;
+    private final EditTextChangeListener editTextChangeListener;
     
     /**
      * The edit text.
      */
-    private TextView mTextView;
+    private final TextView textView;
     
     // =================================================================== //
     
@@ -50,10 +51,10 @@ public class TextViewUndoRedo {
      * @param textView The text view for which the undo/redo is implemented.
      */
     public TextViewUndoRedo(TextView textView) {
-        mTextView = textView;
-        mEditHistory = new EditHistory();
-        mChangeListener = new EditTextChangeListener();
-        mTextView.addTextChangedListener(mChangeListener);
+        this.textView = textView;
+        editHistory = new EditHistory();
+        editTextChangeListener = new EditTextChangeListener();
+        this.textView.addTextChangedListener(editTextChangeListener);
     }
     
     // =================================================================== //
@@ -62,7 +63,7 @@ public class TextViewUndoRedo {
      * Disconnect this undo/redo from the text view.
      */
     public void disconnect() {
-        mTextView.removeTextChangedListener(mChangeListener);
+        textView.removeTextChangedListener(editTextChangeListener);
     }
     
     /**
@@ -70,82 +71,84 @@ public class TextViewUndoRedo {
      * only limited by the device memory.
      */
     public void setMaxHistorySize(int maxHistorySize) {
-        mEditHistory.setMaxHistorySize(maxHistorySize);
+        editHistory.setMaxHistorySize(maxHistorySize);
     }
     
     /**
      * Clear history.
      */
     public void clearHistory() {
-        mEditHistory.clear();
+        editHistory.clear();
     }
     
     /**
      * Can undo be performed?
      */
     public boolean getCanUndo() {
-        return (mEditHistory.mmPosition > 0);
+        return (editHistory.mmPosition > 0);
     }
     
     /**
      * Perform undo.
      */
     public void undo() {
-        EditItem edit = mEditHistory.getPrevious();
+        EditItem edit = editHistory.getPrevious();
         if (edit == null) {
             return;
         }
-        
-        Editable text = mTextView.getEditableText();
+    
+        Editable text = textView.getEditableText();
         int start = edit.mmStart;
         int end = start + (edit.mmAfter != null ? edit.mmAfter.length() : 0);
-        
-        mIsUndoOrRedo = true;
+    
+        isUndoOrRedo = true;
         text.replace(start, end, edit.mmBefore);
-        mIsUndoOrRedo = false;
-        
-        // This will get rid of underlines inserted when editor tries to come
-        // up with a suggestion.
-        for (Object o : text.getSpans(0, text.length(), UnderlineSpan.class)) {
-            text.removeSpan(o);
+        isUndoOrRedo = false;
+    
+        /*
+         * This will get rid of underlines inserted when editor tries to come
+         * up with a suggestion.
+         */
+        for (UnderlineSpan underlineSpan : text.getSpans(0, text.length(), UnderlineSpan.class)) {
+            text.removeSpan(underlineSpan);
         }
-        
-        Selection.setSelection(text, edit.mmBefore == null ? start
-                : (start + edit.mmBefore.length()));
+    
+        Selection.setSelection(text, edit.mmBefore == null ? start : (start + edit.mmBefore.length()));
     }
     
     /**
      * Can redo be performed?
      */
     public boolean getCanRedo() {
-        return (mEditHistory.mmPosition < mEditHistory.mmHistory.size());
+        return (editHistory.mmPosition < editHistory.mmHistory.size());
     }
     
     /**
      * Perform redo.
      */
     public void redo() {
-        EditItem edit = mEditHistory.getNext();
+        EditItem edit = editHistory.getNext();
         if (edit == null) {
             return;
         }
-        
-        Editable text = mTextView.getEditableText();
+    
+        Editable text = textView.getEditableText();
         int start = edit.mmStart;
         int end = start + (edit.mmBefore != null ? edit.mmBefore.length() : 0);
-        
-        mIsUndoOrRedo = true;
+    
+        isUndoOrRedo = true;
         text.replace(start, end, edit.mmAfter);
-        mIsUndoOrRedo = false;
-        
-        // This will get rid of underlines inserted when editor tries to come
-        // up with a suggestion.
-        for (Object o : text.getSpans(0, text.length(), UnderlineSpan.class)) {
-            text.removeSpan(o);
+        isUndoOrRedo = false;
+    
+        /*
+         * This will get rid of underlines inserted when editor tries to come
+         * up with a suggestion.
+         */
+        for (UnderlineSpan span : text.getSpans(0, text.length(), UnderlineSpan.class)) {
+            text.removeSpan(span);
         }
-        
-        Selection.setSelection(text, edit.mmAfter == null ? start
-                : (start + edit.mmAfter.length()));
+    
+        Selection.setSelection(text, edit.mmAfter == null ? start : (start + edit.mmAfter.length()));
     }
     
     /**
@@ -155,19 +158,19 @@ public class TextViewUndoRedo {
         // Store hash code of text in the editor so that we can check if the
         // editor contents has changed.
         editor.putString(prefix + ".hash",
-                String.valueOf(mTextView.getText().toString().hashCode()));
-        editor.putInt(prefix + ".maxSize", mEditHistory.mmMaxHistorySize);
-        editor.putInt(prefix + ".position", mEditHistory.mmPosition);
-        editor.putInt(prefix + ".size", mEditHistory.mmHistory.size());
-        
+                String.valueOf(textView.getText().toString().hashCode()));
+        editor.putInt(prefix + ".maxSize", editHistory.mmMaxHistorySize);
+        editor.putInt(prefix + ".position", editHistory.mmPosition);
+        editor.putInt(prefix + ".size", editHistory.mmHistory.size());
+    
         int i = 0;
-        for (EditItem ei : mEditHistory.mmHistory) {
+        for (EditItem ei : editHistory.mmHistory) {
             String pre = prefix + "." + i;
-            
+        
             editor.putInt(pre + ".start", ei.mmStart);
             editor.putString(pre + ".before", ei.mmBefore.toString());
             editor.putString(pre + ".after", ei.mmAfter.toString());
-            
+        
             i++;
         }
     }
@@ -181,31 +184,30 @@ public class TextViewUndoRedo {
      */
     public boolean restorePersistentState(SharedPreferences sp, String prefix)
             throws IllegalStateException {
-        
+    
         boolean ok = doRestorePersistentState(sp, prefix);
         if (!ok) {
-            mEditHistory.clear();
+            editHistory.clear();
         }
-        
+    
         return ok;
     }
     
-    private boolean doRestorePersistentState(SharedPreferences sp, String prefix) {
-        
-        String hash = sp.getString(prefix + ".hash", null);
+    private boolean doRestorePersistentState(SharedPreferences sharedPreferences, String prefix) {
+        String hash = sharedPreferences.getString(prefix + ".hash", null);
         if (hash == null) {
             // No state to be restored.
             return true;
         }
         
-        if (Integer.valueOf(hash) != mTextView.getText().toString().hashCode()) {
+        if (Integer.parseInt(hash) != textView.getText().toString().hashCode()) {
             return false;
         }
         
-        mEditHistory.clear();
-        mEditHistory.mmMaxHistorySize = sp.getInt(prefix + ".maxSize", -1);
+        editHistory.clear();
+        editHistory.mmMaxHistorySize = sharedPreferences.getInt(prefix + ".maxSize", -1);
         
-        int count = sp.getInt(prefix + ".size", -1);
+        int count = sharedPreferences.getInt(prefix + ".size", -1);
         if (count == -1) {
             return false;
         }
@@ -213,22 +215,23 @@ public class TextViewUndoRedo {
         for (int i = 0; i < count; i++) {
             String pre = prefix + "." + i;
             
-            int start = sp.getInt(pre + ".start", -1);
-            String before = sp.getString(pre + ".before", null);
-            String after = sp.getString(pre + ".after", null);
+            int start = sharedPreferences.getInt(pre + ".start", -1);
+            SpannableStringBuilder before = new SpannableStringBuilder(sharedPreferences.getString(pre + ".before", null));
+            SpannableStringBuilder after = new SpannableStringBuilder(sharedPreferences.getString(pre + ".after", null));
             
             if (start == -1 || before == null || after == null) {
                 return false;
             }
-            mEditHistory.add(new EditItem(start, before, after));
+            
+            editHistory.add(new EditItem(start, before, after));
         }
         
-        mEditHistory.mmPosition = sp.getInt(prefix + ".position", -1);
-        if (mEditHistory.mmPosition == -1) {
-            return false;
-        }
-        
-        return true;
+        editHistory.mmPosition = sharedPreferences.getInt(prefix + ".position", -1);
+        return editHistory.mmPosition != -1;
+    }
+    
+    public void addHistory(int start, Editable beforeChange, Editable afterChange) {
+        editHistory.add(new EditItem(start, beforeChange, afterChange));
     }
     
     // =================================================================== //
@@ -236,7 +239,7 @@ public class TextViewUndoRedo {
     /**
      * Keeps track of all the edit history of a text.
      */
-    private final class EditHistory {
+    private static final class EditHistory {
         
         /**
          * The position from which an EditItem will be retrieved when getNext()
@@ -253,7 +256,7 @@ public class TextViewUndoRedo {
         /**
          * The list of edits in chronological order.
          */
-        private final LinkedList <EditItem> mmHistory = new LinkedList <EditItem>();
+        private final LinkedList <EditItem> mmHistory = new LinkedList <>();
         
         /**
          * Clear history.
@@ -335,16 +338,16 @@ public class TextViewUndoRedo {
     /**
      * Represents the changes performed by a single edit operation.
      */
-    private final class EditItem {
+    private static final class EditItem {
         private final int mmStart;
-        private final CharSequence mmBefore;
-        private final CharSequence mmAfter;
+        private final Editable mmBefore;
+        private final Editable mmAfter;
         
         /**
          * Constructs EditItem of a modification that was applied at position
          * start and replaced CharSequence before with CharSequence after.
          */
-        public EditItem(int start, CharSequence before, CharSequence after) {
+        public EditItem(int start, Editable before, Editable after) {
             mmStart = start;
             mmBefore = before;
             mmAfter = after;
@@ -355,37 +358,38 @@ public class TextViewUndoRedo {
      * Class that listens to changes in the text.
      */
     private final class EditTextChangeListener implements TextWatcher {
-        
+    
         /**
          * The text that will be removed by the change event.
          */
-        private CharSequence mBeforeChange;
-        
+        private Editable beforeChange;
+    
         /**
          * The text that was inserted by the change event.
          */
-        private CharSequence mAfterChange;
-        
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                int after) {
-            if (mIsUndoOrRedo) {
+        private Editable afterChange;
+    
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (isUndoOrRedo) {
                 return;
             }
-            
-            mBeforeChange = s.subSequence(start, start + count);
-        }
         
-        public void onTextChanged(CharSequence s, int start, int before,
-                int count) {
-            if (mIsUndoOrRedo) {
+            beforeChange = (Editable) s.subSequence(start, start + count);
+        }
+    
+        public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+            if (isUndoOrRedo) {
                 return;
             }
-            
-            mAfterChange = s.subSequence(start, start + count);
-            mEditHistory.add(new EditItem(start, mBeforeChange, mAfterChange));
-        }
         
+            afterChange = (Editable) charSequence.subSequence(start, start + count);
+            editHistory.add(new EditItem(start, beforeChange, afterChange));
+        }
+    
         public void afterTextChanged(Editable s) {
+            /*
+             * No op
+             */
         }
     }
 }

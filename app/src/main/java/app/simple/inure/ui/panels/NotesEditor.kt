@@ -3,11 +3,13 @@ package app.simple.inure.ui.panels
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
+import android.widget.TextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterFormattingStrip
@@ -26,6 +28,7 @@ import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.text.EditTextHelper.addBullet
 import app.simple.inure.text.EditTextHelper.blur
 import app.simple.inure.text.EditTextHelper.decreaseTextSize
+import app.simple.inure.text.EditTextHelper.fixBrokenSpans
 import app.simple.inure.text.EditTextHelper.highlightText
 import app.simple.inure.text.EditTextHelper.increaseTextSize
 import app.simple.inure.text.EditTextHelper.toBold
@@ -74,6 +77,8 @@ class NotesEditor : ScopedFragment() {
     private val quote = 11
     private val blur = 12
 
+    private var saved = false
+
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
         GsonBuilder()
@@ -109,8 +114,8 @@ class NotesEditor : ScopedFragment() {
         packageId.text = packageInfo.packageName
         handleFormattingState()
 
-        noteEditText.doOnTextChanged { _, _, _, _ ->
-            if (!NotesPreferences.isAutoSave()) {
+        noteEditText.doAfterTextChanged {
+            if (NotesPreferences.isAutoSave()) {
                 handleTextChange()
             }
         }
@@ -118,9 +123,9 @@ class NotesEditor : ScopedFragment() {
         notesViewModel.getNoteData().observe(viewLifecycleOwner) {
             notesPackageInfo = it
             if (NotesPreferences.areJSONSpans()) {
-                noteEditText.setText(gson.toJson(it.note))
+                noteEditText.setText(gson.toJson(it.note), TextView.BufferType.SPANNABLE)
             } else {
-                noteEditText.setText(it.note)
+                noteEditText.setText(it.note, TextView.BufferType.SPANNABLE)
             }
             textViewUndoRedo?.clearHistory()
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
@@ -128,10 +133,12 @@ class NotesEditor : ScopedFragment() {
 
         notesViewModel.getFormattingStrip().observe(viewLifecycleOwner) { list ->
             val adapterFormattingStrip = AdapterFormattingStrip(list)
-
             adapterFormattingStrip.setOnFormattingStripCallbackListener(object : AdapterFormattingStrip.Companion.FormattingStripCallbacks {
                 override fun onFormattingButtonClicked(position: Int, view: View) {
                     kotlin.runCatching {
+                        val start = noteEditText.selectionStart
+                        val beforeChange: Editable = noteEditText.fixBrokenSpans(noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd))
+
                         when (position) {
                             bold -> {
                                 noteEditText.toBold()
@@ -175,6 +182,11 @@ class NotesEditor : ScopedFragment() {
                                 noteEditText.blur()
                             }
                         }
+
+                        val afterChange: Editable = noteEditText.fixBrokenSpans(noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd))
+
+                        textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
+                        undoRedoButtonState()
                     }.getOrElse {
                         printError(it.stackTraceToString())
                     }
@@ -195,19 +207,16 @@ class NotesEditor : ScopedFragment() {
         undo.setOnClickListener {
             if (textViewUndoRedo?.canUndo == true) {
                 textViewUndoRedo?.undo()
-                undo.isEnabled = textViewUndoRedo?.canUndo ?: false
+                undoRedoButtonState()
             }
         }
 
         redo.setOnClickListener {
             if (textViewUndoRedo?.canRedo == true) {
                 textViewUndoRedo?.redo()
-                redo.isEnabled = textViewUndoRedo?.canRedo ?: false
+                undoRedoButtonState()
             }
         }
-
-        undo.isEnabled = textViewUndoRedo?.canUndo ?: false
-        redo.isEnabled = textViewUndoRedo?.canRedo ?: false
 
         save.setOnClickListener {
             handleTextChange()
@@ -221,6 +230,8 @@ class NotesEditor : ScopedFragment() {
         notesViewModel.getError().observe(viewLifecycleOwner) {
             printError(it)
         }
+
+        undoRedoButtonState()
     }
 
     private fun handleTextChange() {
@@ -262,6 +273,11 @@ class NotesEditor : ScopedFragment() {
         } else {
             formattingStrip.visible(false)
         }
+    }
+
+    private fun undoRedoButtonState() {
+        undo.isEnabled = textViewUndoRedo?.canUndo ?: false
+        redo.isEnabled = textViewUndoRedo?.canRedo ?: false
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
