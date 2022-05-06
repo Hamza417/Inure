@@ -19,5 +19,8 @@
     <string name="fdroid">F-Droid</string>
     <string name="px">%1$s px</string>
     <string name="amoled">AMOLED</string>
+    <string name="shell">Shell</string>
+    <string name="text">Text</string>
     <string name="over_scroll_behavior">app.simple.inure.decorations.behaviors.OverScrollBehavior</string>
+    <string name="github">GitHub</string>
 </resources>

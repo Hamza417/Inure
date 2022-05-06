@@ -107,7 +107,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="75dp"
                         android:layout_toEndOf="@id/app_theme_icon"
-                        android:text="@string/theme_desc"
+                        android:text="@string/desc_application_theme"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:textColorStyle="tertiary" />
@@ -277,7 +277,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@id/appearance_app_typeface_iv"
-                        android:text="@string/select_the_application_s_typeface"
+                        android:text="@string/desc_app_typeface"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:textColorStyle="tertiary" />
@@ -489,7 +489,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/typeface_icon"
-                        android:src="@drawable/ic_straighten"
+                        android:src="@drawable/ic_ruler"
                         app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView

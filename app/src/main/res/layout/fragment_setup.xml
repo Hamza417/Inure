@@ -215,7 +215,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="@string/select_the_application_s_typeface"
+                        android:text="@string/desc_app_typeface"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:textColorStyle="tertiary" />

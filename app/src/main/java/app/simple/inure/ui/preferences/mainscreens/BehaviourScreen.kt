@@ -19,7 +19,7 @@ class BehaviourScreen : ScopedFragment() {
     private lateinit var skipLoading: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_behaviour, container, false)
+        val view = inflater.inflate(R.layout.fragment_preferences_behaviour, container, false)
 
         dimWindows = view.findViewById(R.id.appearance_switch_dim_windows)
         shadows = view.findViewById(R.id.appearance_switch_shadows)

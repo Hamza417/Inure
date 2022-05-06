@@ -18,7 +18,7 @@
     <string name="both">Both</string>
     <string name="typeface_icon">Typeface Icon</string>
     <string name="app_typeface">App Typeface</string>
-    <string name="select_the_application_s_typeface">Change application\'s font style (English glyphs only).</string>
+    <string name="desc_app_typeface">Change application\'s font style (English glyphs only).</string>
     <string name="appearance">Appearance</string>
     <string name="appearance_icon">Appearance Icon</string>
     <string name="total_apps">%1$s Apps</string>
@@ -45,7 +45,7 @@
     <string name="shadows_desc">Adds the nice looking accent colored ambient shadows to various elevated views of the app.\n\nOnly available in API 28 or above.</string>
     <string name="show_colored_shadows">Show Colored Shadows</string>
     <string name="configuration">Configuration</string>
-    <string name="theme_desc">Change whether the application uses dark or light mode.</string>
+    <string name="desc_application_theme">Change whether the application uses dark or light mode.</string>
     <string name="application_theme">Application Theme</string>
     <string name="follow_system">Follow System</string>
     <string name="dark">Dark</string>
@@ -90,7 +90,7 @@
     <string name="sign_algorithm_oid">Sign Algorithm OID</string>
     <string name="public_key">Public Key</string>
     <string name="information">Information</string>
-    <string name="us_xml_viewer_desc">Use WebView based Xml Viewer instead of TextView to view Xml resource files.</string>
+    <string name="use_webview_xml_viewer_desc">Use WebView based Xml Viewer instead of TextView to view Xml resource files.</string>
     <string name="use_webview_xml_viewer"><strike>Use WebView Xml Viewer</strike></string>
     <string name="save">Save</string>
     <string name="copy">Copy</string>
@@ -211,7 +211,7 @@
     <string name="transition_desc">Enables fade transition animation between panels. Turning this off is recommended because this will make the other animations of the UI snappier.\n\nThis option does not override if animations are disabled by the System itself.</string>
     <string name="transitions">Transitions</string>
     <string name="arc_animations">Arc Animations</string>
-    <string name="desc_animations">Enables or Disables circular path animations for the icons.\n\nThis option does not override if animations are disabled by the System itself.</string>
+    <string name="desc_arc_animations">Enables or Disables circular path animations for the icons.\n\nThis option does not override if animations are disabled by the System itself.</string>
     <string name="valid_to">Valid until</string>
     <string name="pdf_viewer">PDF Viewer</string>
     <string name="ttf_viewer">TTF Viewer</string>
@@ -505,4 +505,10 @@
     <string name="shortcuts_desc">Edit app\'s quick shortcuts.</string>
     <string name="architecture">Architecture</string>
     <string name="native_libraries">Native Libraries</string>
+    <string name="toggleable">Toggleable</string>
+    <string name="options">Options</string>
+    <string name="link">Link</string>
+    <string name="popup">Popup</string>
+    <string name="multi_toggleable">Multi Toggleable</string>
+    <string name="web_page">Web Page</string>
 </resources>

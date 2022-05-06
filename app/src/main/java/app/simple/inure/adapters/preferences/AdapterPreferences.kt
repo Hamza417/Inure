@@ -10,6 +10,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.util.ConditionUtils.isZero
 
 class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
@@ -62,11 +63,5 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : Recycler
 
     fun setOnPreferencesCallbackListener(preferencesCallbacks: PreferencesCallbacks) {
         this.preferencesCallbacks = preferencesCallbacks
-    }
-
-    companion object {
-        interface PreferencesCallbacks {
-            fun onPrefsClicked(imageView: ImageView, category: Int, position: Int)
-        }
     }
 }

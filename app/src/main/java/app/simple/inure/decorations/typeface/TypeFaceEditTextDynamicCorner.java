@@ -2,6 +2,7 @@ package app.simple.inure.decorations.typeface;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -63,5 +64,17 @@ public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
         clearFocus();
         ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+    }
+    
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+        System.out.println(focused);
+    }
+    
+    @Override
+    protected void onDetachedFromWindow() {
+        clearFocus();
+        super.onDetachedFromWindow();
     }
 }

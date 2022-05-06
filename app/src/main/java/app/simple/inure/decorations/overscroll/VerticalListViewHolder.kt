@@ -11,6 +11,10 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants.stiffnessVa
 open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val context: Context = itemView.context
 
+    fun getString(resId: Int): String {
+        return context.getString(resId)
+    }
+
     private var currentVelocity = 0f
 
     /**

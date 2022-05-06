@@ -1,30 +1,49 @@
 package app.simple.inure.ui.preferences.mainscreens
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
+import app.simple.inure.adapters.preferences.AdapterPreferenceSearch
 import app.simple.inure.adapters.preferences.AdapterPreferences
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.interfaces.adapters.PreferencesCallbacks
+import app.simple.inure.preferences.PreferencesSearchData
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.PreferencesViewModel
 
 class MainPreferencesScreen : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterPreferences: AdapterPreferences
+    private lateinit var search: DynamicRippleImageButton
+    private lateinit var title: TypeFaceTextView
+    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
 
+    private val adapterPreferenceSearch = AdapterPreferenceSearch()
     private val preferencesViewModel: PreferencesViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_preference, container, false)
 
         recyclerView = view.findViewById(R.id.preferences_recycler_view)
+        search = view.findViewById(R.id.preferences_search_btn)
+        searchBox = view.findViewById(R.id.preferences_search)
+        title = view.findViewById(R.id.preferences_title)
+
+        searchBoxState()
 
         return view
     }
@@ -37,7 +56,7 @@ class MainPreferencesScreen : ScopedFragment() {
 
             adapterPreferences = AdapterPreferences(it)
 
-            adapterPreferences.setOnPreferencesCallbackListener(object : AdapterPreferences.Companion.PreferencesCallbacks {
+            adapterPreferences.setOnPreferencesCallbackListener(object : PreferencesCallbacks {
                 override fun onPrefsClicked(imageView: ImageView, category: Int, position: Int) {
 
                     /**
@@ -110,6 +129,104 @@ class MainPreferencesScreen : ScopedFragment() {
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
+            }
+
+            searchBox.doOnTextChanged { text, _, _, _ ->
+                if (searchBox.isFocused) {
+                    preferencesViewModel.keyword = text.toString()
+                }
+            }
+        }
+
+        preferencesViewModel.getPreferencesSearchData().observe(viewLifecycleOwner) {
+            if (searchBox.text.toString().isEmpty()) return@observe
+            adapterPreferenceSearch.list = it
+            adapterPreferenceSearch.keyword = searchBox.text.toString()
+
+            adapterPreferenceSearch.setOnPreferencesCallbackListener(object : PreferencesCallbacks {
+                override fun onPrefsClicked(imageView: ImageView, category: Int, position: Int) {
+                    clearExitTransition()
+                    when (category) {
+                        R.string.appearance -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        AppearanceScreen.newInstance(),
+                                                        "appearance_prefs")
+                        }
+                        R.string.behaviour -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        BehaviourScreen.newInstance(),
+                                                        "behaviour_prefs")
+                        }
+                        R.string.configuration -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        ConfigurationScreen.newInstance(),
+                                                        "config_prefs")
+                        }
+                        R.string.formatting -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        FormattingScreen.newInstance(),
+                                                        "formatting_prefs")
+                        }
+                        R.string.terminal -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        TerminalScreen.newInstance(),
+                                                        "terminal_prefs")
+                        }
+                        R.string.shell_preferences -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        ShellScreen.newInstance(),
+                                                        "shell_prefs")
+                        }
+                        R.string.accessibility -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        AccessibilityScreen.newInstance(),
+                                                        "accessibility_prefs")
+                        }
+                        R.string.development -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        DevelopmentScreen.newInstance(),
+                                                        "development_prefs")
+                        }
+                        R.string.about -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        AboutScreen.newInstance(),
+                                                        "about_prefs")
+                        }
+                    }
+                }
+            })
+
+            recyclerView.adapter = adapterPreferenceSearch
+            recyclerView.scheduleLayoutAnimation()
+        }
+
+        search.setOnClickListener {
+            if (searchBox.text.isNullOrEmpty()) {
+                PreferencesSearchData.setSearchVisibility(!PreferencesSearchData.isSearchVisible())
+            } else {
+                searchBox.text?.clear()
+            }
+        }
+    }
+
+    private fun searchBoxState() {
+        if (PreferencesSearchData.isSearchVisible()) {
+            search.setImageResource(R.drawable.ic_close)
+            title.gone()
+            searchBox.visible(true)
+            searchBox.showInput()
+        } else {
+            search.setImageResource(R.drawable.ic_search)
+            title.visible(true)
+            searchBox.gone()
+            searchBox.hideInput()
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            PreferencesSearchData.preferencesSearch -> {
+                searchBoxState()
             }
         }
     }
