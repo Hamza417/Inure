@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.constants.PreferencesSearchConstants
 import app.simple.inure.extension.viewmodels.WrappedViewModel
 import app.simple.inure.models.PreferenceSearchModel
-import app.simple.inure.preferences.PreferencesSearchData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -20,15 +20,15 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
         }
 
     private val preferencesStructureData =
-        PreferencesSearchData.appearanceData +
-                PreferencesSearchData.behaviourData +
-                PreferencesSearchData.configurationData +
-                PreferencesSearchData.formattingData +
-                PreferencesSearchData.accessibilityData +
-                PreferencesSearchData.terminalData +
-                PreferencesSearchData.shellData +
-                PreferencesSearchData.developmentData +
-                PreferencesSearchData.aboutData
+        PreferencesSearchConstants.appearanceData +
+                PreferencesSearchConstants.behaviourData +
+                PreferencesSearchConstants.configurationData +
+                PreferencesSearchConstants.formattingData +
+                PreferencesSearchConstants.accessibilityData +
+                PreferencesSearchConstants.terminalData +
+                PreferencesSearchConstants.shellData +
+                PreferencesSearchConstants.developmentData +
+                PreferencesSearchConstants.aboutData
 
     private val preferences: MutableLiveData<ArrayList<Pair<Int, Int>>> by lazy {
         MutableLiveData<ArrayList<Pair<Int, Int>>>().also {

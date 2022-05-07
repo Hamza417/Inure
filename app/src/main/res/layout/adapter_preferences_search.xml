@@ -20,15 +20,19 @@
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/title"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:drawablePadding="5dp"
         android:ellipsize="end"
+        android:gravity="center_vertical"
         android:maxLines="1"
         android:textSize="@dimen/preferences_title_text_size"
         app:appFontStyle="bold"
+        app:drawableTintStyle="accent"
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toTopOf="parent"
         app:textColorStyle="primary" />

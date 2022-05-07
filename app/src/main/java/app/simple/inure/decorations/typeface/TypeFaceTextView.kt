@@ -90,6 +90,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
     override fun setCompoundDrawablesWithIntrinsicBounds(left: Int, top: Int, right: Int, bottom: Int) {
         super.setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom)
         setDrawableTint(false)
+        requestLayout()
     }
 
     private fun setTextColor(animate: Boolean) {

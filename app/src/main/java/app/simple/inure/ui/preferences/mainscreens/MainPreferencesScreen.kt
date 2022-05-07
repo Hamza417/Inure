@@ -1,6 +1,8 @@
 package app.simple.inure.ui.preferences.mainscreens
 
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +14,22 @@ import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterPreferenceSearch
 import app.simple.inure.adapters.preferences.AdapterPreferences
+import app.simple.inure.constants.PreferencesSearchConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.dialogs.appearance.IconSize
+import app.simple.inure.dialogs.appearance.RoundedCorner
+import app.simple.inure.dialogs.configuration.DateFormat
+import app.simple.inure.dialogs.terminal.DialogCommandLine
+import app.simple.inure.dialogs.terminal.DialogHomePath
+import app.simple.inure.dialogs.terminal.DialogInitialCommand
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
-import app.simple.inure.preferences.PreferencesSearchData
+import app.simple.inure.models.PreferenceSearchModel
+import app.simple.inure.ui.panels.WebPage
+import app.simple.inure.ui.preferences.subscreens.*
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -43,13 +54,15 @@ class MainPreferencesScreen : ScopedFragment() {
         searchBox = view.findViewById(R.id.preferences_search)
         title = view.findViewById(R.id.preferences_title)
 
-        searchBoxState()
+        searchBoxState(false)
 
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        startPostponedEnterTransition()
 
         preferencesViewModel.getPreferences().observe(viewLifecycleOwner) {
             postponeEnterTransition()
@@ -144,13 +157,32 @@ class MainPreferencesScreen : ScopedFragment() {
             adapterPreferenceSearch.keyword = searchBox.text.toString()
 
             adapterPreferenceSearch.setOnPreferencesCallbackListener(object : PreferencesCallbacks {
-                override fun onPrefsClicked(imageView: ImageView, category: Int, position: Int) {
+                override fun onPrefsSearchItemClicked(preferenceSearchModel: PreferenceSearchModel) {
                     clearExitTransition()
-                    when (category) {
+                    when (preferenceSearchModel.panel) {
                         R.string.appearance -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        AppearanceScreen.newInstance(),
-                                                        "appearance_prefs")
+                            when (preferenceSearchModel.title) {
+                                R.string.application_theme -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, AppearanceAppTheme.newInstance(), "theme")
+                                }
+                                R.string.accent_colors -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, AccentColor.newInstance(), "accent_color")
+                                }
+                                R.string.app_typeface -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, AppearanceTypeFace.newInstance(), "typeface")
+                                }
+                                R.string.corner_radius -> {
+                                    RoundedCorner.newInstance().show(childFragmentManager, "rounded_corner")
+                                }
+                                R.string.icon_size -> {
+                                    IconSize.newInstance().show(childFragmentManager, "icon_size")
+                                }
+                                else -> {
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                AppearanceScreen.newInstance(),
+                                                                "appearance_prefs")
+                                }
+                            }
                         }
                         R.string.behaviour -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
@@ -158,24 +190,76 @@ class MainPreferencesScreen : ScopedFragment() {
                                                         "behaviour_prefs")
                         }
                         R.string.configuration -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        ConfigurationScreen.newInstance(),
-                                                        "config_prefs")
+                            when (preferenceSearchModel.title) {
+                                R.string.shortcuts -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, Shortcuts.newInstance(), "shortcuts")
+                                }
+                                else -> {
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                ConfigurationScreen.newInstance(),
+                                                                "config_prefs")
+                                }
+                            }
                         }
                         R.string.formatting -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        FormattingScreen.newInstance(),
-                                                        "formatting_prefs")
+                            when (preferenceSearchModel.title) {
+                                R.string.date_format -> {
+                                    DateFormat.newInstance().show(childFragmentManager, "date_format")
+                                }
+                                else -> {
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                FormattingScreen.newInstance(),
+                                                                "formatting_prefs")
+                                }
+                            }
                         }
                         R.string.terminal -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        TerminalScreen.newInstance(),
-                                                        "terminal_prefs")
+                            when (preferenceSearchModel.title) {
+                                R.string.title_fontsize_preference -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, TerminalFontSize.newInstance(), "font_size")
+                                }
+                                R.string.title_color_preference -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, TerminalColor.newInstance(), "color")
+                                }
+                                R.string.title_backaction_preference -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, TerminalBackButtonAction.newInstance(), "back_button")
+                                }
+                                R.string.title_controlkey_preference -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, TerminalControlKey.newInstance(), "control_key")
+                                }
+                                R.string.title_fnkey_preference -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, TerminalFnKey.newInstance(), "fn_key")
+                                }
+                                else -> {
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                TerminalScreen.newInstance(),
+                                                                "terminal_prefs")
+                                }
+                            }
                         }
                         R.string.shell_preferences -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        ShellScreen.newInstance(),
-                                                        "shell_prefs")
+                            when (preferenceSearchModel.title) {
+                                R.string.title_shell_preference -> {
+                                    DialogCommandLine.newInstance()
+                                        .show(childFragmentManager, "command_line")
+                                }
+                                R.string.title_initialcommand_preference -> {
+                                    DialogInitialCommand.newInstance()
+                                        .show(childFragmentManager, "initial_command")
+                                }
+                                R.string.title_termtype_preference -> {
+                                    FragmentHelper.openFragment(parentFragmentManager, ShellTerminalType.newInstance(), "terminal_type")
+                                }
+                                R.string.title_home_path_preference -> {
+                                    DialogHomePath.newInstance()
+                                        .show(childFragmentManager, "home_path")
+                                }
+                                else -> {
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                ShellScreen.newInstance(),
+                                                                "shell_prefs")
+                                }
+                            }
                         }
                         R.string.accessibility -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
@@ -188,9 +272,50 @@ class MainPreferencesScreen : ScopedFragment() {
                                                         "development_prefs")
                         }
                         R.string.about -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        AboutScreen.newInstance(),
-                                                        "about_prefs")
+                            when (preferenceSearchModel.title) {
+                                R.string.change_logs -> {
+                                    FragmentHelper.openFragment(parentFragmentManager,
+                                                                WebPage.newInstance(getString(R.string.change_logs)),
+                                                                "web_page")
+                                }
+                                R.string.user_agreements -> {
+                                    FragmentHelper.openFragment(parentFragmentManager,
+                                                                WebPage.newInstance(getString(R.string.user_agreements)),
+                                                                "web_page")
+                                }
+                                R.string.credits -> {
+                                    FragmentHelper.openFragment(parentFragmentManager,
+                                                                WebPage.newInstance(getString(R.string.credits)),
+                                                                "web_page")
+                                }
+                                R.string.open_source_licenses -> {
+                                    FragmentHelper.openFragment(parentFragmentManager,
+                                                                WebPage.newInstance(getString(R.string.open_source_licenses)),
+                                                                "web_page")
+                                }
+                                R.string.share -> {
+                                    FragmentHelper.openFragment(parentFragmentManager,
+                                                                Share.newInstance(),
+                                                                "share")
+                                }
+                                R.string.github -> {
+                                    val uri: Uri = Uri.parse("https://github.com/Hamza417/Inure")
+                                    startActivity(Intent(Intent.ACTION_VIEW, uri))
+                                }
+                                R.string.translate -> {
+                                    val uri: Uri = Uri.parse("https://crowdin.com/project/inure")
+                                    startActivity(Intent(Intent.ACTION_VIEW, uri))
+                                }
+                                R.string.join_telegram -> {
+                                    val uri: Uri = Uri.parse("https://t.me/inure_app_manager")
+                                    startActivity(Intent(Intent.ACTION_VIEW, uri))
+                                }
+                                else -> {
+                                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                                AboutScreen.newInstance(),
+                                                                "about_prefs")
+                                }
+                            }
                         }
                     }
                 }
@@ -202,22 +327,22 @@ class MainPreferencesScreen : ScopedFragment() {
 
         search.setOnClickListener {
             if (searchBox.text.isNullOrEmpty()) {
-                PreferencesSearchData.setSearchVisibility(!PreferencesSearchData.isSearchVisible())
+                PreferencesSearchConstants.setSearchVisibility(!PreferencesSearchConstants.isSearchVisible())
             } else {
                 searchBox.text?.clear()
             }
         }
     }
 
-    private fun searchBoxState() {
-        if (PreferencesSearchData.isSearchVisible()) {
+    private fun searchBoxState(animate: Boolean) {
+        if (PreferencesSearchConstants.isSearchVisible()) {
             search.setImageResource(R.drawable.ic_close)
             title.gone()
-            searchBox.visible(true)
+            searchBox.visible(animate)
             searchBox.showInput()
         } else {
             search.setImageResource(R.drawable.ic_search)
-            title.visible(true)
+            title.visible(animate)
             searchBox.gone()
             searchBox.hideInput()
         }
@@ -225,8 +350,8 @@ class MainPreferencesScreen : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            PreferencesSearchData.preferencesSearch -> {
-                searchBoxState()
+            PreferencesSearchConstants.preferencesSearch -> {
+                searchBoxState(true)
             }
         }
     }

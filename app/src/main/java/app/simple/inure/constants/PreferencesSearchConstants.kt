@@ -1,9 +1,10 @@
-package app.simple.inure.preferences
+package app.simple.inure.constants
 
 import app.simple.inure.R
 import app.simple.inure.models.PreferenceSearchModel
+import app.simple.inure.preferences.SharedPreferences
 
-object PreferencesSearchData {
+object PreferencesSearchConstants {
 
     const val preferencesSearch = "preferences_search"
 

@@ -57,8 +57,29 @@ class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Hol
             holder.flags.text = this
         }
 
+        when (list[position].type) {
+            R.string.options -> {
+                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_right_tiny, 0)
+            }
+            R.string.popup -> {
+                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_dot_tiny, 0)
+            }
+            R.string.link -> {
+                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_link_tiny, 0)
+            }
+            R.string.toggleable -> {
+                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_toggle_off_tiny, 0)
+            }
+            R.string.web_page -> {
+                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_web_page_tiny, 0)
+            }
+            else -> {
+                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            }
+        }
+
         holder.container.setOnClickListener {
-            preferencesCallbacks?.onPrefsClicked(holder.icon, list[position].panel, position)
+            preferencesCallbacks?.onPrefsSearchItemClicked(list[position])
         }
 
         if (!keyword.isNullOrEmpty()) {
