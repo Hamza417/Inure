@@ -50,7 +50,7 @@ class Services : ScopedFragment() {
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
-        servicesViewModel = ViewModelProvider(this, packageInfoFactory).get(ServicesViewModel::class.java)
+        servicesViewModel = ViewModelProvider(this, packageInfoFactory)[ServicesViewModel::class.java]
 
         searchBoxState()
         startPostponedEnterTransition()
@@ -62,7 +62,7 @@ class Services : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         servicesViewModel.getServices().observe(viewLifecycleOwner) {
-            adapterServices = AdapterServices(it, packageInfo, searchBox.text.toString())
+            adapterServices = AdapterServices(it, packageInfo, searchBox.text.toString().trim())
             recyclerView.adapter = adapterServices
 
             adapterServices?.setOnServiceCallbackListener(object : AdapterServices.Companion.ServicesCallbacks {
@@ -96,7 +96,7 @@ class Services : ScopedFragment() {
 
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
-                    servicesViewModel.getServicesData(text.toString())
+                    servicesViewModel.getServicesData(text.toString().trim())
                 }
             }
         }

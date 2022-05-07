@@ -64,7 +64,7 @@ class Extras : ScopedFragment() {
 
         extrasViewModel.getExtras().observe(viewLifecycleOwner) {
             if (recyclerView.adapter.isNull()) {
-                adapterExtras = AdapterExtras(it, searchBox.text.toString())
+                adapterExtras = AdapterExtras(it, searchBox.text.toString().trim())
                 recyclerView.adapter = adapterExtras
 
                 adapterExtras?.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
@@ -147,7 +147,7 @@ class Extras : ScopedFragment() {
 
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
-                    extrasViewModel.keyword = text.toString()
+                    extrasViewModel.keyword = text.toString().trim()
                 }
             }
         }

@@ -65,7 +65,7 @@ class Activities : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activitiesViewModel.getActivities().observe(viewLifecycleOwner) { it ->
-            adapterActivities = AdapterActivities(packageInfo, it, searchBox.text.toString())
+            adapterActivities = AdapterActivities(packageInfo, it, searchBox.text.toString().trim())
             recyclerView.adapter = adapterActivities
 
             adapterActivities?.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
@@ -114,7 +114,7 @@ class Activities : ScopedFragment() {
 
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
-                    activitiesViewModel.getActivitiesData(text.toString())
+                    activitiesViewModel.getActivitiesData(text.toString().trim())
                 }
             }
         }

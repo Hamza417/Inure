@@ -21,6 +21,10 @@ class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Hol
     private var isDrawableHidden = DevelopmentPreferences.isPreferencesIndicatorHidden()
 
     var keyword: String? = null
+        set(value) {
+            field = value?.trim()
+        }
+
     var list = arrayListOf<PreferenceSearchModel>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {

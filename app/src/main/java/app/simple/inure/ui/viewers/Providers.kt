@@ -62,7 +62,7 @@ class Providers : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         providersViewModel.getProviders().observe(viewLifecycleOwner) {
-            adapterProviders = AdapterProviders(it, packageInfo, searchBox.text.toString())
+            adapterProviders = AdapterProviders(it, packageInfo, searchBox.text.toString().trim())
             recyclerView.adapter = adapterProviders
 
             adapterProviders?.setOnProvidersCallbackListener(object : AdapterProviders.Companion.ProvidersCallbacks {
@@ -96,7 +96,7 @@ class Providers : ScopedFragment() {
 
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
-                    providersViewModel.getProvidersData(text.toString())
+                    providersViewModel.getProvidersData(text.toString().trim())
                 }
             }
         }

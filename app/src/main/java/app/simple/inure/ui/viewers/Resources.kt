@@ -56,7 +56,7 @@ class Resources : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         componentsViewModel.getResources().observe(viewLifecycleOwner) {
-            val adapterResources = AdapterResources(it, searchBox.text.toString())
+            val adapterResources = AdapterResources(it, searchBox.text.toString().trim())
 
             recyclerView.adapter = adapterResources
 
@@ -86,7 +86,7 @@ class Resources : ScopedFragment() {
 
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
-                    componentsViewModel.getResourceData(text.toString())
+                    componentsViewModel.getResourceData(text.toString().trim())
                 }
             }
         }

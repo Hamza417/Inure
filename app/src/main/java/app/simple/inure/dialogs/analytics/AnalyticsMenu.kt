@@ -11,7 +11,7 @@ import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.analytics.PopupSdkValue
 import app.simple.inure.preferences.AnalyticsPreferences
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.util.FragmentHelper
 
 class AnalyticsMenu : ScopedBottomSheetFragment() {
@@ -49,7 +49,7 @@ class AnalyticsMenu : ScopedBottomSheetFragment() {
         settings.setOnClickListener {
             (parentFragment as ScopedFragment).clearExitTransition()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        MainPreferencesScreen.newInstance(),
+                                        Preferences.newInstance(),
                                         "preferences_screen")
         }
     }

@@ -19,17 +19,6 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
             loadPreferencesSearchData()
         }
 
-    private val preferencesStructureData =
-        PreferencesSearchConstants.appearanceData +
-                PreferencesSearchConstants.behaviourData +
-                PreferencesSearchConstants.configurationData +
-                PreferencesSearchConstants.formattingData +
-                PreferencesSearchConstants.accessibilityData +
-                PreferencesSearchConstants.terminalData +
-                PreferencesSearchConstants.shellData +
-                PreferencesSearchConstants.developmentData +
-                PreferencesSearchConstants.aboutData
-
     private val preferences: MutableLiveData<ArrayList<Pair<Int, Int>>> by lazy {
         MutableLiveData<ArrayList<Pair<Int, Int>>>().also {
             loadPreferencesData()
@@ -58,7 +47,7 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
                     Pair(R.drawable.ic_accessibility, R.string.accessibility),
                     Pair(0, 0), // Divider
                     Pair(R.drawable.ic_terminal_black, R.string.terminal),
-                    Pair(R.drawable.ic_shell, R.string.shell_preferences),
+                    Pair(R.drawable.ic_shell, R.string.shell),
                     Pair(R.drawable.ic_layers, R.string.batch),
                     Pair(0, 0), // Divider
                     Pair(R.drawable.ic_adb, R.string.development),
@@ -78,7 +67,7 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
             } else {
                 val context = context
 
-                for (prefs in preferencesStructureData) {
+                for (prefs in PreferencesSearchConstants.preferencesStructureData) {
                     if (context.getString(prefs.title).lowercase().contains(keyword!!) ||
                         context.getString(prefs.description).lowercase().contains(keyword!!) ||
                         context.getString(prefs.category).lowercase().contains(keyword!!) ||

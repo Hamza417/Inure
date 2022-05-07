@@ -64,7 +64,7 @@ class Graphics : ScopedFragment() {
 
         graphicsViewModel.getGraphics().observe(viewLifecycleOwner) {
             if (recyclerView.adapter.isNull()) {
-                adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, it, searchBox.text.toString())
+                adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, it, searchBox.text.toString().trim())
                 recyclerView.adapter = adapterGraphics
 
                 adapterGraphics!!.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
@@ -92,7 +92,7 @@ class Graphics : ScopedFragment() {
 
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
-                    graphicsViewModel.keyword = text.toString()
+                    graphicsViewModel.keyword = text.toString().trim()
                 }
             }
         }

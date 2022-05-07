@@ -16,7 +16,6 @@ import app.simple.inure.dialogs.miscellaneous.UninstallInfo
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.ui.app.AppInfo
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
@@ -69,7 +68,7 @@ class Uninstalled : ScopedFragment() {
 
                 override fun onSettingsPressed(view: View) {
                     clearExitTransition()
-                    FragmentHelper.openFragment(parentFragmentManager, MainPreferencesScreen.newInstance(), "prefs_screen")
+                    FragmentHelper.openFragment(parentFragmentManager, Preferences.newInstance(), "prefs_screen")
                 }
 
                 override fun onInfoPressed(view: View) {

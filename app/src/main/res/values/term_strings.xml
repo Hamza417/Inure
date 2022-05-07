@@ -44,18 +44,6 @@
     <!-- Preference dialog -->
     <string name="screen_preferences">Screen</string>
 
-    <string name="title_actionbar_preference">Action bar</string>
-    <string name="summary_actionbar_preference">Choose the action bar\'s behavior (Android 3.0 and up).</string>
-    <string name="dialog_title_actionbar_preference">Action bar behavior</string>
-
-    <string name="title_orientation_preference">Screen orientation</string>
-    <string name="summary_orientation_preference">Choose the screen orientation behavior.</string>
-    <string name="dialog_title_orientation_preference">Screen orientation behavior</string>
-
-    <string name="title_cursorstyle_preference">Cursor style</string>
-    <string name="summary_cursorstyle_preference">Choose cursor style.</string>
-    <string name="dialog_title_cursorstyle_preference">Cursor style</string>
-
     <string name="title_cursorblink_preference">Cursor Blink</string>
     <string name="summary_cursorblink_preference">Blink cursor periodically in terminal windows.</string>
 
@@ -86,7 +74,6 @@
     <string name="title_ime_preference">Input method</string>
     <string name="summary_ime_preference">Choose input method for soft keyboard.</string>
 
-    <string name="shell_preferences">Shell</string>
     <string name="title_shell_preference">Command line</string>
     <string name="summary_shell_preference">Specify the shell command line.</string>
 

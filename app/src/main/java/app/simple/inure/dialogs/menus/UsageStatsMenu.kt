@@ -12,7 +12,7 @@ import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.usagestats.PopupUsageIntervals
 import app.simple.inure.preferences.StatisticsPreferences
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.UsageInterval
 
@@ -56,7 +56,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         settings.setOnClickListener {
             (parentFragment as ScopedFragment).clearExitTransition()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        MainPreferencesScreen.newInstance(),
+                                        Preferences.newInstance(),
                                         "prefs")
         }
     }

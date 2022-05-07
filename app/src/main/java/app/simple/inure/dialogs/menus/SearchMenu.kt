@@ -12,7 +12,7 @@ import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.search.PopupSortingStyle
 import app.simple.inure.preferences.SearchPreferences
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.Sort
 
@@ -51,7 +51,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
 
         openAppsSettings.setOnClickListener {
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        MainPreferencesScreen.newInstance(),
+                                        Preferences.newInstance(),
                                         "prefs")
         }
 

@@ -60,7 +60,7 @@ class Permissions : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         permissionsViewModel.getPermissions().observe(viewLifecycleOwner) {
-            adapterPermissions = AdapterPermissions(it, searchBox.text.toString())
+            adapterPermissions = AdapterPermissions(it, searchBox.text.toString().trim())
             recyclerView.adapter = adapterPermissions
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
@@ -97,7 +97,7 @@ class Permissions : ScopedFragment() {
 
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
-                    permissionsViewModel.loadPermissionData(text.toString())
+                    permissionsViewModel.loadPermissionData(text.toString().trim())
                 }
             }
         }

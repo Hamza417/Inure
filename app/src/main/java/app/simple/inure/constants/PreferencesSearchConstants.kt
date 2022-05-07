@@ -49,7 +49,7 @@ object PreferencesSearchConstants {
     private const val about = R.string.about
 
     val appearanceData = arrayListOf(
-            PreferenceSearchModel(-1, R.string.application_theme, R.string.desc_application_theme, options, color, appearance),
+            PreferenceSearchModel(R.drawable.ic_dark_mode, R.string.application_theme, R.string.desc_application_theme, options, color, appearance),
             PreferenceSearchModel(R.drawable.ic_colors, R.string.accent_colors, R.string.accent_colors, options, color, appearance),
             PreferenceSearchModel(R.drawable.ic_navigation_color, R.string.accent_for_nav, R.string.desc_accent_on_nav, toggleable, color, appearance),
             PreferenceSearchModel(R.drawable.ic_text_fields, R.string.app_typeface, R.string.desc_app_typeface, options, layouts, appearance),
@@ -132,6 +132,19 @@ object PreferencesSearchConstants {
             PreferenceSearchModel(R.drawable.ic_telegram, R.string.join_telegram, R.string.desc_telegram, link, contribute, about),
             PreferenceSearchModel(R.drawable.ic_share, R.string.share, R.string.desc_share, popup, contribute, about),
     )
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    val preferencesStructureData =
+        appearanceData +
+                behaviourData +
+                configurationData +
+                formattingData +
+                accessibilityData +
+                terminalData +
+                shellData +
+                developmentData +
+                aboutData
 
     // ---------------------------------------------------------------------------------------------------------- //
 

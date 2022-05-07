@@ -10,7 +10,7 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.preferences.BatchPreferences
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.util.FragmentHelper
 
 class BatchMenu : ScopedBottomSheetFragment() {
@@ -46,7 +46,7 @@ class BatchMenu : ScopedBottomSheetFragment() {
         openSettings.setOnClickListener {
             (parentFragment as ScopedFragment).clearExitTransition()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        MainPreferencesScreen.newInstance(),
+                                        Preferences.newInstance(),
                                         "prefs_screen")
         }
     }

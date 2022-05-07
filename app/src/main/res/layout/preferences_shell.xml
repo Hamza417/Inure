@@ -18,7 +18,7 @@
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_shell"
-            android:transitionName="@string/shell_preferences"
+            android:transitionName="@string/shell"
             app:tintType="accent"
             tools:ignore="ContentDescription" />
 
@@ -28,7 +28,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="@string/shell_preferences"
+            android:text="@string/shell"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold"
             app:textColorStyle="accent" />

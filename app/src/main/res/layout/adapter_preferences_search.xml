@@ -5,7 +5,7 @@
     android:id="@+id/adapter_preference_search_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="@dimen/popup_padding"
     android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.theme.ThemeIcon
@@ -78,6 +78,5 @@
         app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toBottomOf="@+id/flags"
         app:textColorStyle="tertiary" />
-
 
 </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

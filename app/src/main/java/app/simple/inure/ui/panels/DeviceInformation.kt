@@ -13,7 +13,6 @@ import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.ui.deviceinfo.BatteryInfo
 import app.simple.inure.ui.deviceinfo.DeviceInfo
 import app.simple.inure.ui.deviceinfo.SystemInfo
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.deviceinfo.PanelItemsViewModel
 
@@ -70,7 +69,7 @@ class DeviceInformation : ScopedFragment() {
 
                 override fun onSettingsClicked() {
                     clearExitTransition()
-                    FragmentHelper.openFragment(parentFragmentManager, MainPreferencesScreen.newInstance(), "prefs_screen")
+                    FragmentHelper.openFragment(parentFragmentManager, Preferences.newInstance(), "prefs_screen")
                 }
             })
 

@@ -28,7 +28,6 @@ import app.simple.inure.popups.app.PopupHome
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.panels.*
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.invisible
@@ -215,7 +214,7 @@ class Home : ScopedFragment() {
 
         settings.setOnClickListener {
             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                              MainPreferencesScreen.newInstance(),
+                                              Preferences.newInstance(),
                                               icon,
                                               "preferences_screen")
         }
@@ -229,7 +228,7 @@ class Home : ScopedFragment() {
                         }
                         getString(R.string.preferences) -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                                              MainPreferencesScreen.newInstance(),
+                                                              Preferences.newInstance(),
                                                               icon,
                                                               "preferences_screen")
                         }

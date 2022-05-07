@@ -333,10 +333,6 @@
         </activity>
 
         <activity
-            android:name=".terminal.TermPreferences"
-            android:label="@string/preferences" />
-
-        <activity
             android:name=".terminal.shortcuts.AddShortcut"
             android:configChanges="orientation|keyboard|keyboardHidden"
             android:exported="true"

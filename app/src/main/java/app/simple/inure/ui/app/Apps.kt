@@ -19,8 +19,8 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.ui.panels.Search
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.AppsViewModel
 
@@ -84,7 +84,7 @@ class Apps : ScopedFragment() {
 
                 override fun onSettingsPressed(view: View) {
                     clearExitTransition()
-                    FragmentHelper.openFragment(parentFragmentManager, MainPreferencesScreen.newInstance(), "prefs_screen")
+                    FragmentHelper.openFragment(parentFragmentManager, Preferences.newInstance(), "prefs_screen")
                 }
             })
         }

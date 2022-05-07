@@ -8,7 +8,7 @@ import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extension.activities.BaseActivity
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.util.NullSafety.isNull
 
 class PreferenceActivity : BaseActivity(), ThemeChangedListener {
@@ -30,7 +30,7 @@ class PreferenceActivity : BaseActivity(), ThemeChangedListener {
 
         if (savedInstanceState.isNull()) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.app_container, MainPreferencesScreen.newInstance(), "preferences")
+                .replace(R.id.app_container, Preferences.newInstance(), "preferences")
                 .commit()
         }
     }

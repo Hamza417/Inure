@@ -11,7 +11,7 @@ import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.popups.viewers.PopupLabelType
 import app.simple.inure.preferences.PermissionPreferences
-import app.simple.inure.ui.preferences.mainscreens.MainPreferencesScreen
+import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.util.FragmentHelper
 
 class PermissionsMenu : ScopedBottomSheetFragment() {
@@ -40,7 +40,7 @@ class PermissionsMenu : ScopedBottomSheetFragment() {
         appSettings.setOnClickListener {
             (parentFragment as ScopedFragment).clearExitTransition()
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        MainPreferencesScreen.newInstance(),
+                                        Preferences.newInstance(),
                                         "prefs")
         }
     }

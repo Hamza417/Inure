@@ -1,4 +1,4 @@
-package app.simple.inure.ui.preferences.mainscreens
+package app.simple.inure.ui.panels
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -28,14 +28,14 @@ import app.simple.inure.dialogs.terminal.DialogInitialCommand
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.models.PreferenceSearchModel
-import app.simple.inure.ui.panels.WebPage
+import app.simple.inure.ui.preferences.mainscreens.*
 import app.simple.inure.ui.preferences.subscreens.*
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.PreferencesViewModel
 
-class MainPreferencesScreen : ScopedFragment() {
+class Preferences : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterPreferences: AdapterPreferences
@@ -110,7 +110,7 @@ class MainPreferencesScreen : ScopedFragment() {
                                                               imageView,
                                                               "terminal_prefs", duration)
                         }
-                        R.string.shell_preferences -> {
+                        R.string.shell -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               ShellScreen.newInstance(),
                                                               imageView,
@@ -146,7 +146,7 @@ class MainPreferencesScreen : ScopedFragment() {
 
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
-                    preferencesViewModel.keyword = text.toString()
+                    preferencesViewModel.keyword = text.toString().trim()
                 }
             }
         }
@@ -237,7 +237,7 @@ class MainPreferencesScreen : ScopedFragment() {
                                 }
                             }
                         }
-                        R.string.shell_preferences -> {
+                        R.string.shell -> {
                             when (preferenceSearchModel.title) {
                                 R.string.title_shell_preference -> {
                                     DialogCommandLine.newInstance()
@@ -357,9 +357,9 @@ class MainPreferencesScreen : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): MainPreferencesScreen {
+        fun newInstance(): Preferences {
             val args = Bundle()
-            val fragment = MainPreferencesScreen()
+            val fragment = Preferences()
             fragment.arguments = args
             return fragment
         }

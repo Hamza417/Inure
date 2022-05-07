@@ -70,7 +70,7 @@ public class SearchView extends PaddingAwareLinearLayout {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (editText.isFocused()) {
-                    searchViewEventListener.onSearchTextChanged(s.toString(), count);
+                    searchViewEventListener.onSearchTextChanged(s.toString().trim(), count);
                 }
             }
             
