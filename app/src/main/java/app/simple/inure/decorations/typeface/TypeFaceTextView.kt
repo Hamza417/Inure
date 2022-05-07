@@ -11,6 +11,7 @@ import androidx.core.widget.TextViewCompat
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences.getAppFont
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
@@ -26,6 +27,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
     private val typedArray: TypedArray
     private var colorMode: Int = 1
     private var drawableTintMode = 2
+    private var isDrawableHidden = true
     private var lastDrawableColor = Color.GRAY
 
     constructor(context: Context) : super(context) {
@@ -47,9 +49,15 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
         typeface = TypeFace.getTypeFace(getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, 0), context)
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
         drawableTintMode = typedArray.getInt(R.styleable.TypeFaceTextView_drawableTintStyle, 3)
+        isDrawableHidden = typedArray.getBoolean(R.styleable.TypeFaceTextView_isDrawableHidden, true)
 
         setTextColor(false)
-        setDrawableTint(false)
+
+        if (DevelopmentPreferences.isPreferencesIndicatorHidden() && isDrawableHidden) {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        } else {
+            setDrawableTint(false)
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (isSingleLine) {
@@ -90,7 +98,6 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
     override fun setCompoundDrawablesWithIntrinsicBounds(left: Int, top: Int, right: Int, bottom: Int) {
         super.setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom)
         setDrawableTint(false)
-        requestLayout()
     }
 
     private fun setTextColor(animate: Boolean) {

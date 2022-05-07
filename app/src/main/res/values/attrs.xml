@@ -60,6 +60,8 @@
             <flag name="regular" value="1" />
             <flag name="secondary" value="2" />
         </attr>
+
+        <attr name="isDrawableHidden" format="boolean" />
     </declare-styleable>
 
     <!-- Use <code>scale</code>as the root tag of the XML resource that

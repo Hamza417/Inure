@@ -511,4 +511,6 @@
     <string name="popup">Popup</string>
     <string name="multi_toggleable">Multi Toggleable</string>
     <string name="web_page">Web Page</string>
+    <string name="hide_preferences_indicators">Hide Preferences Indicators</string>
+    <string name="desc_hide_preferences_indicators">Hide the preference type indicator from all preference titles.</string>
 </resources>

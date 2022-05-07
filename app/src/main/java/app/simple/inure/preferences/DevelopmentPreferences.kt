@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull
 object DevelopmentPreferences {
 
     private const val isWebViewXmlViewer = "is_xml_viewer_web_view"
+    private const val preferencesIndicator = "is_preferences_indicator_hidden"
     const val isAudioPlayerFullScreen = "is_audio_player_full_screen"
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -25,5 +26,15 @@ object DevelopmentPreferences {
 
     fun isAudioPlayerFullScreen(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(isAudioPlayerFullScreen, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setHidePreferencesIndicator(@NotNull value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(preferencesIndicator, value).apply()
+    }
+
+    fun isPreferencesIndicatorHidden(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(preferencesIndicator, false)
     }
 }

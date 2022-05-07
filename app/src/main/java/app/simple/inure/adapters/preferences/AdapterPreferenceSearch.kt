@@ -12,11 +12,13 @@ import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.models.PreferenceSearchModel
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.AdapterUtils
 
 class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Holder>() {
 
     private var preferencesCallbacks: PreferencesCallbacks? = null
+    private var isDrawableHidden = DevelopmentPreferences.isPreferencesIndicatorHidden()
 
     var keyword: String? = null
     var list = arrayListOf<PreferenceSearchModel>()
@@ -57,24 +59,26 @@ class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Hol
             holder.flags.text = this
         }
 
-        when (list[position].type) {
-            R.string.options -> {
-                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_right_tiny, 0)
-            }
-            R.string.popup -> {
-                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_dot_tiny, 0)
-            }
-            R.string.link -> {
-                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_link_tiny, 0)
-            }
-            R.string.toggleable -> {
-                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_toggle_off_tiny, 0)
-            }
-            R.string.web_page -> {
-                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_web_page_tiny, 0)
-            }
-            else -> {
-                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        if (!isDrawableHidden) {
+            when (list[position].type) {
+                R.string.options -> {
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_right_tiny, 0)
+                }
+                R.string.popup -> {
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_dot_tiny, 0)
+                }
+                R.string.link -> {
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_link_tiny, 0)
+                }
+                R.string.toggleable -> {
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_toggle_off_tiny, 0)
+                }
+                R.string.web_page -> {
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_web_page_tiny, 0)
+                }
+                else -> {
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                }
             }
         }
 
@@ -95,7 +99,7 @@ class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Hol
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: ThemeIcon = itemView.findViewById(R.id.icon);
+        val icon: ThemeIcon = itemView.findViewById(R.id.icon)
         val title: TypeFaceTextView = itemView.findViewById(R.id.title)
         val description: TypeFaceTextView = itemView.findViewById(R.id.description)
         val flags: TypeFaceTextView = itemView.findViewById(R.id.flags)
