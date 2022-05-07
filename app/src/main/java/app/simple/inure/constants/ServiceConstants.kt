@@ -22,6 +22,9 @@ object ServiceConstants {
     const val actionMetaData = "$appPackageName.metadata"
     const val actionMediaError = "$appPackageName.media.error"
 
+    const val actionApkType = "$appPackageName.apk.type"
+    const val actionCopyProgress = "$appPackageName.copy.progress"
+
     fun getMediaErrorString(extra: Int): String {
         return when (extra) {
             MediaPlayer.MEDIA_ERROR_IO -> {

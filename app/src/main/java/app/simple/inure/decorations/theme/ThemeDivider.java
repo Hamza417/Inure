@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
@@ -42,8 +43,8 @@ public class ThemeDivider extends View implements ThemeChangedListener {
     }
     
     @Override
-    public void onThemeChanged(Theme theme) {
-        setTint(true);
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
+        setTint(animate);
     }
     
     @Override

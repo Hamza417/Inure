@@ -34,6 +34,7 @@ object PreferencesSearchConstants {
     private const val viewers = R.string.viewers
     private const val legalNotes = R.string.legal_notes
     private const val contribute = R.string.contribute
+    private const val preferences = R.string.preferences
 
     // Panel
     private const val appearance = R.string.appearance
@@ -117,6 +118,7 @@ object PreferencesSearchConstants {
     val developmentData = arrayListOf(
             PreferenceSearchModel(R.drawable.ic_code, R.string.use_webview_xml_viewer, R.string.use_webview_xml_viewer_desc, toggleable, viewers, development),
             PreferenceSearchModel(R.drawable.ic_music_note, R.string.full_screen_audio_player, R.string.desc_full_screen_audio_player, toggleable, viewers, development),
+            PreferenceSearchModel(R.drawable.ic_preference_indicators, R.string.hide_preferences_indicators, R.string.desc_hide_preferences_indicators, toggleable, preferences, development),
     )
 
     val aboutData = arrayListOf(

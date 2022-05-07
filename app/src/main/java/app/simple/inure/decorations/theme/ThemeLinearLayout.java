@@ -44,8 +44,8 @@ public class ThemeLinearLayout extends LinearLayout implements ThemeChangedListe
     }
     
     @Override
-    public void onThemeChanged(@NonNull Theme theme) {
-        setBackground(true);
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
+        setBackground(animate);
     }
     
     private void setBackground(boolean animate) {

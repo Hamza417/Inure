@@ -89,8 +89,8 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
     }
     
     @Override
-    public void onThemeChanged(@NonNull Theme theme) {
-        setTint(getTintColor(tintMode), true);
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
+        setTint(getTintColor(tintMode), animate);
     }
     
     @Override

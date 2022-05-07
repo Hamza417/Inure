@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 
 import com.google.android.material.card.MaterialCardView;
 
+import androidx.annotation.NonNull;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
@@ -32,8 +33,8 @@ public class ThemeMaterialCardView extends MaterialCardView implements ThemeChan
     }
     
     @Override
-    public void onThemeChanged(Theme theme) {
-        setBackground(true);
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
+        setBackground(animate);
     }
     
     @Override

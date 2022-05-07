@@ -256,33 +256,6 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
-
-        <service
-            android:name=".terminal.TermService"
-            android:enabled="true"
-            android:exported="false"
-            android:icon="@mipmap/ic_terminal">
-            <intent-filter>
-                <action android:name="inure.terminal.action.START_TERM.v1" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".services.AudioService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="mediaPlayback" />
-
         <activity-alias
             android:name=".activities.alias.TerminalAlias"
             android:enabled="false"
@@ -403,6 +376,39 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <service
+            android:name=".terminal.TermService"
+            android:enabled="true"
+            android:exported="false"
+            android:icon="@mipmap/ic_terminal">
+            <intent-filter>
+                <action android:name="inure.terminal.action.START_TERM.v1" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".services.AudioService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
+        <service
+            android:name=".services.BatchCopyService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
         <receiver
             android:name="app.simple.inure.receivers.MediaButtonIntentReceiver"

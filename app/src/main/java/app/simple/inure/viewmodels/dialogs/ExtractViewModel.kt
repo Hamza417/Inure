@@ -57,7 +57,6 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
     private fun extractAppFile() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-
                 if (!context.arePermissionsGranted(MainPreferences.getStoragePermissionUri())) {
                     throw SecurityException("Storage Permission not granted")
                 }

@@ -51,8 +51,8 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         ThemeManager.removeListener(this)
     }
 
-    override fun onThemeChanged(theme: Theme) {
-        setTextColor(colorMode, true)
+    override fun onThemeChanged(theme: Theme, animate: Boolean) {
+        setTextColor(colorMode, animate)
         setHighlightColor()
     }
 

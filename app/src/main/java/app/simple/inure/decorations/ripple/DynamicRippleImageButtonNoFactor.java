@@ -66,8 +66,7 @@ public class DynamicRippleImageButtonNoFactor extends ThemeButton {
     }
     
     @Override
-    public void onThemeChanged(@NonNull Theme theme) {
-        super.onThemeChanged(theme);
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         if (isClickable()) {
             setHighlightBackgroundColor();
         }

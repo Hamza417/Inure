@@ -84,8 +84,7 @@ public class DynamicRippleTextView extends TypeFaceTextView {
     }
     
     @Override
-    public void onThemeChanged(@NonNull Theme theme) {
-        super.onThemeChanged(theme);
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         if (isClickable()) {
             setHighlightBackgroundColor();
         } else if (isSelected()) {

@@ -35,7 +35,7 @@ class AudioPlayerActivity : TransparentBaseActivity() {
         ThemeUtils.setBarColors(resources, window)
     }
 
-    override fun onThemeChanged(theme: Theme) {
+    override fun onThemeChanged(theme: Theme, animate: Boolean) {
         ThemeUtils.setBarColors(resources, window)
     }
 }

@@ -80,7 +80,7 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
     }
     
     @Override
-    public void onThemeChanged(@NonNull Theme theme) {
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         if (isClickable()) {
             setHighlightBackgroundColor();
         }

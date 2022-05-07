@@ -90,9 +90,9 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
         ThemeManager.removeListener(this)
     }
 
-    override fun onThemeChanged(theme: Theme) {
-        setTextColor(true)
-        setDrawableTint(true)
+    override fun onThemeChanged(theme: Theme, animate: Boolean) {
+        setTextColor(animate = animate)
+        setDrawableTint(animate = animate)
     }
 
     override fun setCompoundDrawablesWithIntrinsicBounds(left: Int, top: Int, right: Int, bottom: Int) {

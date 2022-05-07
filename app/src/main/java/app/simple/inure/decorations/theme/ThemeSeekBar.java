@@ -50,7 +50,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     }
     
     @Override
-    public void onThemeChanged(Theme theme) {
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         setThumb();
     }
     

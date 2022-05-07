@@ -144,7 +144,7 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
 
     private fun setTheme(theme: Theme, animate: Boolean = true) {
         if (!animate) {
-            ThemeManager.theme = theme
+            // ThemeManager.theme = theme
             return
         }
 
@@ -186,8 +186,8 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         animator!!.start()
     }
 
-    override fun onThemeChanged(theme: Theme) {
-        setTheme(theme)
+    override fun onThemeChanged(theme: Theme, animate: Boolean) {
+        setTheme(theme, animate)
         ThemeUtils.setBarColors(resources, window)
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
     }

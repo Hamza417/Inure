@@ -51,8 +51,7 @@ class AppearanceAppTheme : ScopedFragment(), ThemeChangedListener {
         }
     }
 
-    override fun onThemeChanged(theme: Theme?) {
-        super.onThemeChanged(theme)
+    override fun onThemeChanged(theme: Theme, animate: Boolean) {
         // adapterTheme.notifyItemChanged(0)
     }
 

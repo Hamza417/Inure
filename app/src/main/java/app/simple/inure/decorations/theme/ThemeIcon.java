@@ -76,8 +76,8 @@ public class ThemeIcon extends AppCompatImageView implements ThemeChangedListene
     }
     
     @Override
-    public void onThemeChanged(@NonNull Theme theme) {
-        setTintColor(tintMode, true);
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
+        setTintColor(tintMode, animate);
     }
     
     @Override

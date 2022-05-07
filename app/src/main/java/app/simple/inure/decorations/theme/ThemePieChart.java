@@ -11,6 +11,7 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 
+import androidx.annotation.NonNull;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AnalyticsPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
@@ -87,8 +88,7 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     }
     
     @Override
-    public void onThemeChanged(Theme theme) {
-        ThemeChangedListener.super.onThemeChanged(theme);
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         getLegend().setTextColor(theme.getTextViewTheme().getSecondaryTextColor());
         invalidate();
     }
