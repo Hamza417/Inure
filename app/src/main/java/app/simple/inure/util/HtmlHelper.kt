@@ -18,4 +18,12 @@ object HtmlHelper {
     private fun formatString(str: String): String {
         return String.format(Locale.getDefault(), "%s", str)
     }
+
+    fun String.escapeHtml5(): String {
+        return replace("&".toRegex(), "&amp;")
+            .replace("\"".toRegex(), "&quot;")
+            .replace("'".toRegex(), "&apos;")
+            .replace("<".toRegex(), "&lt;")
+            .replace(">".toRegex(), "&gt;")
+    }
 }

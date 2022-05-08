@@ -92,7 +92,7 @@ class Extras : ScopedFragment() {
                                     path.endsWith(".proto") ||
                                     path.endsWith(".js") -> {
                                 FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            TextViewer.newInstance(packageInfo, path),
+                                                            Text.newInstance(packageInfo, path),
                                                             "text_viewer")
                             }
                             path.endsWith(".md") -> {
@@ -107,7 +107,7 @@ class Extras : ScopedFragment() {
                             }
                             else -> {
                                 FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            TextViewer.newInstance(packageInfo, path),
+                                                            Text.newInstance(packageInfo, path),
                                                             "text_viewer")
                             }
                         }
@@ -130,12 +130,12 @@ class Extras : ScopedFragment() {
                                     path.endsWith(".js") ||
                                     path.endsWith(".md") -> {
                                 FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            TextViewer.newInstance(packageInfo, path),
+                                                            Text.newInstance(packageInfo, path),
                                                             "text_viewer")
                             }
                             else -> {
                                 FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            TextViewer.newInstance(packageInfo, path),
+                                                            Text.newInstance(packageInfo, path),
                                                             "text_viewer")
                             }
                         }

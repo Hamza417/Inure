@@ -43,6 +43,15 @@
             app:appFontStyle="bold"
             app:textColorStyle="accent" />
 
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/trackers_data_progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/panel_icon_size"
+            android:layout_height="@dimen/panel_icon_size"
+            android:layout_gravity="center_vertical"
+            android:indeterminateTint="?attr/colorAppAccent"
+            android:padding="10dp" />
+
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/trackers_option_btn"
             android:layout_width="@dimen/button_size"
@@ -86,8 +95,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
-        android:paddingVertical="@dimen/header_padding"
-        app:isFastScrollRequired="false"
+        app:isFastScrollRequired="true"
         app:statusBarPaddingRequired="false" />
 
 </app.simple.inure.decorations.theme.ThemeLinearLayout>

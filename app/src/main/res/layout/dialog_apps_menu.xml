@@ -67,8 +67,8 @@
                 android:text="@string/send"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
-                app:drawableTintStyle="accent"
                 app:drawableEndCompat="@drawable/ic_dot_tiny"
+                app:drawableTintStyle="accent"
                 app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.theme.ThemeDivider
@@ -152,18 +152,40 @@
 
             </LinearLayout>
 
-            <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/providers"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="@dimen/menu_text_button_padding"
-                android:text="@string/providers"
-                android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                app:drawableTintStyle="accent"
-                app:textColorStyle="secondary" />
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/providers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/menu_text_button_padding"
+                    android:text="@string/providers"
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/trackers"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/menu_text_button_padding"
+                    android:text="@string/trackers"
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+            </LinearLayout>
 
             <app.simple.inure.decorations.theme.ThemeDivider
                 android:layout_width="match_parent"

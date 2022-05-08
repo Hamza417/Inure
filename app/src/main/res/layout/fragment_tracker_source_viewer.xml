@@ -1,0 +1,73 @@
+<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/text_viewer_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@android:color/white"
+    android:clipToPadding="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/header_padding">
+
+            <ImageView
+                android:id="@+id/tracker_header_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/header_padding"
+                android:src="@drawable/ic_radiation_nuclear"
+                android:transitionName="@string/trackers"
+                app:tint="?attr/colorAppAccent"
+                tools:ignore="ContentDescription" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/tracker_class_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:textSize="@dimen/header_name_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/tracker_viewer_options"
+                android:layout_width="@dimen/button_size"
+                android:layout_height="@dimen/button_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_more_vert"
+                app:buttonTintType="accent" />
+
+        </LinearLayout>
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceEditText
+            android:id="@+id/tracker_viewer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:paddingHorizontal="10dp"
+            android:textCursorDrawable="@drawable/text_cursor"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="regular"
+            app:textColorStyle="primary" />
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

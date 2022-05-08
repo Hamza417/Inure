@@ -48,6 +48,7 @@ class AppsMenu : ScopedDialogFragment() {
     private lateinit var services: DynamicRippleTextView
     private lateinit var receivers: DynamicRippleTextView
     private lateinit var providers: DynamicRippleTextView
+    private lateinit var trackers: DynamicRippleTextView
     private lateinit var manifest: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
     private lateinit var toQuickApp: DynamicRippleTextView
@@ -71,6 +72,7 @@ class AppsMenu : ScopedDialogFragment() {
         services = view.findViewById(R.id.services)
         receivers = view.findViewById(R.id.receivers)
         providers = view.findViewById(R.id.providers)
+        trackers = view.findViewById(R.id.trackers)
         manifest = view.findViewById(R.id.manifest)
         notes = view.findViewById(R.id.notes)
         toQuickApp = view.findViewById(R.id.to_quick_app)
@@ -174,6 +176,12 @@ class AppsMenu : ScopedDialogFragment() {
             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                         Providers.newInstance(packageInfo),
                                         "providers")
+        }
+
+        trackers.setOnClickListener {
+            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                        Trackers.newInstance(packageInfo),
+                                        "trackers")
         }
 
         manifest.setOnClickListener {

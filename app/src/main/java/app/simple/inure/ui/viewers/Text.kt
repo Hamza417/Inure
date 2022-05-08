@@ -27,7 +27,7 @@ import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel
 import java.io.IOException
 
-class TextViewer : ScopedFragment() {
+class Text : ScopedFragment() {
 
     private lateinit var txt: TypeFaceEditText
     private lateinit var path: TypeFaceTextView
@@ -85,7 +85,7 @@ class TextViewer : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        textViewerViewModel.getText().observe(viewLifecycleOwner, {
+        textViewerViewModel.getText().observe(viewLifecycleOwner) {
             runCatching {
                 if (it.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
                     throw LargeStringException("String size ${it.length} is too big to render without freezing the app")
@@ -95,7 +95,7 @@ class TextViewer : ScopedFragment() {
                 txt.setText(it.stackTraceToString())
                 txt.setTextColor(Color.RED)
             }
-        })
+        }
 
         options.setOnClickListener {
             val p = PopupXmlViewer(it)
@@ -119,11 +119,11 @@ class TextViewer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo, path: String): TextViewer {
+        fun newInstance(applicationInfo: PackageInfo, path: String): Text {
             val args = Bundle()
             args.putParcelable("application_info", applicationInfo)
             args.putString("path", path)
-            val fragment = TextViewer()
+            val fragment = Text()
             fragment.arguments = args
             return fragment
         }

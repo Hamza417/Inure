@@ -80,7 +80,7 @@ class Resources : ScopedFragment() {
                     clearExitTransition()
 
                     FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                TextViewer.newInstance(packageInfo, path),
+                                                Text.newInstance(packageInfo, path),
                                                 "txt_tv_xml")
                 }
             })

@@ -7,15 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.details.AdapterClasses
+import app.simple.inure.adapters.details.AdapterTrackers
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.ui.subviewers.TrackerSourceViewer
+import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.TrackersViewModel
 
 class Trackers : ScopedFragment() {
 
+    private lateinit var progress: CustomProgressBar
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var trackersViewModel: TrackersViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -23,6 +28,7 @@ class Trackers : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_trackers, container, false)
 
+        progress = view.findViewById(R.id.trackers_data_progress)
         recyclerView = view.findViewById(R.id.trackers_recycler_view)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
@@ -37,8 +43,23 @@ class Trackers : ScopedFragment() {
         startPostponedEnterTransition()
 
         trackersViewModel.getClassesList().observe(viewLifecycleOwner) {
-            val adapterResources = AdapterClasses(it, "")
-            recyclerView.adapter = adapterResources
+            progress.gone(true)
+            val adapterTrackers = AdapterTrackers(it, "")
+
+            adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
+                override fun onTrackersClicked(className: String) {
+                    clearExitTransition()
+                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                TrackerSourceViewer.newInstance(className, packageInfo),
+                                                "tracker_source_viewer")
+                }
+
+                override fun onTrackersLongClicked(className: String) {
+                    clearExitTransition()
+                }
+            })
+
+            recyclerView.adapter = adapterTrackers
         }
     }
 

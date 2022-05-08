@@ -55,7 +55,6 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
             val uriStream = UriUtils.getStreamFromUri(context, Uri.fromFile(File(packageInfo.applicationInfo.publicSourceDir)))
 
             try {
-                println(Thread.currentThread().id)
                 val incomeFile = File.createTempFile("classes" + Thread.currentThread().id, ".dex", context.cacheDir)
                 val bytes = IOUtils.toByteArray(uriStream)
                 IOUtils.bytesToFile(bytes, incomeFile)
@@ -110,6 +109,6 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
 
         // Post classes list to the UI Controller
-        classesListData.postValue(classesListAll)
+        classesListData.postValue(classesList)
     }
 }

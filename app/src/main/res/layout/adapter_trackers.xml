@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adapter_tracker_class_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
+    android:padding="@dimen/header_padding"
+    android:layout_marginHorizontal="@dimen/header_padding"
+    app:textColorStyle="primary"
+    android:textSize="@dimen/resource_name_text_size"
+    app:appFontStyle="bold" />
