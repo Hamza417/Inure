@@ -9,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 
-class AdapterMenu(private val list: List<Pair<Int, String>>) : RecyclerView.Adapter<AdapterMenu.Holder>() {
+class AdapterMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Adapter<AdapterMenu.Holder>() {
 
     private var adapterMenuCallbacks: AdapterMenuCallbacks? = null
 
@@ -18,9 +18,9 @@ class AdapterMenu(private val list: List<Pair<Int, String>>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.icon.transitionName = list[position].second
+        holder.icon.transitionName = holder.itemView.context.getString(list[position].second)
         holder.icon.setImageResource(list[position].first)
-        holder.text.text = list[position].second
+        holder.text.setText(list[position].second)
         holder.container.setOnClickListener {
             adapterMenuCallbacks?.onAppInfoMenuClicked(list[position].second, holder.icon)
         }
@@ -45,6 +45,6 @@ class AdapterMenu(private val list: List<Pair<Int, String>>) : RecyclerView.Adap
     }
 
     interface AdapterMenuCallbacks {
-        fun onAppInfoMenuClicked(source: String, icon: ImageView)
+        fun onAppInfoMenuClicked(source: Int, icon: ImageView)
     }
 }

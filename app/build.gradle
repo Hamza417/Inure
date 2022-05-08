@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
 
     def appVersionCode = 27
     def appVersionName = "build_${appVersionCode} (alpha)"
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "app.simple.inure"
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode appVersionCode
         versionName appVersionName
         vectorDrawables.useSupportLibrary = true

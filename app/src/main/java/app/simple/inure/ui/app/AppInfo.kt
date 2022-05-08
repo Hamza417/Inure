@@ -121,50 +121,53 @@ class AppInfo : ScopedFragment() {
             }
 
             adapterMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
-                override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
+                override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
-                        getString(R.string.manifest) -> {
+                        R.string.manifest -> {
                             if (DevelopmentPreferences.isWebViewXmlViewer()) {
                                 openFragment(requireActivity().supportFragmentManager, XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             } else {
                                 openFragment(requireActivity().supportFragmentManager, XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             }
                         }
-                        getString(R.string.services) -> {
+                        R.string.services -> {
                             openFragment(requireActivity().supportFragmentManager, Services.newInstance(packageInfo), icon, "services")
                         }
-                        getString(R.string.activities) -> {
+                        R.string.activities -> {
                             openFragment(requireActivity().supportFragmentManager, Activities.newInstance(packageInfo), icon, "activities")
                         }
-                        getString(R.string.providers) -> {
+                        R.string.providers -> {
                             openFragment(requireActivity().supportFragmentManager, Providers.newInstance(packageInfo), icon, "providers")
                         }
-                        getString(R.string.permissions) -> {
+                        R.string.permissions -> {
                             openFragment(requireActivity().supportFragmentManager, Permissions.newInstance(packageInfo), icon, "permissions")
                         }
-                        getString(R.string.certificate) -> {
+                        R.string.certificate -> {
                             openFragment(requireActivity().supportFragmentManager, Certificate.newInstance(packageInfo), icon, "certificate")
                         }
-                        getString(R.string.receivers) -> {
+                        R.string.receivers -> {
                             openFragment(requireActivity().supportFragmentManager, Receivers.newInstance(packageInfo), icon, "broadcasts")
                         }
-                        getString(R.string.resources) -> {
+                        R.string.resources -> {
                             openFragment(requireActivity().supportFragmentManager, Resources.newInstance(packageInfo), icon, "resources")
                         }
-                        getString(R.string.uses_feature) -> {
+                        R.string.uses_feature -> {
                             openFragment(requireActivity().supportFragmentManager, Features.newInstance(packageInfo), icon, "uses_feature")
                         }
-                        getString(R.string.graphics) -> {
+                        R.string.graphics -> {
                             openFragment(requireActivity().supportFragmentManager, Graphics.newInstance(packageInfo), icon, "graphics")
                         }
-                        getString(R.string.extras) -> {
+                        R.string.extras -> {
                             openFragment(requireActivity().supportFragmentManager, Extras.newInstance(packageInfo), icon, "extras")
                         }
-                        getString(R.string.shared_libs) -> {
+                        R.string.shared_libs -> {
                             openFragment(requireActivity().supportFragmentManager, SharedLibs.newInstance(packageInfo), icon, "shared_libs")
                         }
-                        getString(R.string.dex_classes) -> {
+                        R.string.dex_classes -> {
                             openFragment(requireActivity().supportFragmentManager, Dexs.newInstance(packageInfo), icon, "dexs")
+                        }
+                        R.string.trackers -> {
+                            openFragment(requireActivity().supportFragmentManager, Trackers.newInstance(packageInfo), icon, "trackers")
                         }
                     }
                 }
@@ -181,12 +184,12 @@ class AppInfo : ScopedFragment() {
             actions.scheduleLayoutAnimation()
 
             adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
-                override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
+                override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
-                        getString(R.string.launch) -> {
+                        R.string.launch -> {
                             packageInfo.launchThisPackage(requireActivity())
                         }
-                        getString(R.string.uninstall) -> {
+                        R.string.uninstall -> {
                             if (ConfigurationPreferences.isUsingRoot()) {
                                 val p = Sure.newInstance()
                                 p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
@@ -212,10 +215,10 @@ class AppInfo : ScopedFragment() {
                                 p.show(childFragmentManager, "uninstaller")
                             }
                         }
-                        getString(R.string.send) -> {
+                        R.string.send -> {
                             Preparing.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")
                         }
-                        getString(R.string.clear_data) -> {
+                        R.string.clear_data -> {
                             val p = Sure.newInstance()
                             p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
                                 override fun onSure() {
@@ -225,7 +228,7 @@ class AppInfo : ScopedFragment() {
 
                             p.show(childFragmentManager, "sure")
                         }
-                        getString(R.string.clear_cache) -> {
+                        R.string.clear_cache -> {
                             val p = Sure.newInstance()
                             p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
                                 override fun onSure() {
@@ -235,7 +238,7 @@ class AppInfo : ScopedFragment() {
 
                             p.show(childFragmentManager, "sure")
                         }
-                        getString(R.string.force_stop) -> {
+                        R.string.force_stop -> {
                             val p = Sure.newInstance()
                             p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
                                 override fun onSure() {
@@ -245,7 +248,7 @@ class AppInfo : ScopedFragment() {
 
                             p.show(childFragmentManager, "sure")
                         }
-                        getString(R.string.disable), getString(R.string.enable) -> {
+                        R.string.disable, R.string.enable -> {
                             val p = Sure.newInstance()
                             p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
                                 override fun onSure() {
@@ -261,7 +264,7 @@ class AppInfo : ScopedFragment() {
 
                             p.show(childFragmentManager, "sure")
                         }
-                        getString(R.string.open_in_settings) -> {
+                        R.string.open_in_settings -> {
                             startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                                 data = Uri.fromParts("package", packageInfo.packageName, null)
                             })
@@ -281,19 +284,19 @@ class AppInfo : ScopedFragment() {
             miscellaneous.scheduleLayoutAnimation()
 
             adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
-                override fun onAppInfoMenuClicked(source: String, icon: ImageView) {
+                override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
-                        getString(R.string.extract) -> {
+                        R.string.extract -> {
                             Extract.newInstance(packageInfo)
                                 .show(parentFragmentManager, "extract")
                         }
-                        getString(R.string.play_store) -> {
+                        R.string.play_store -> {
                             MarketUtils.openAppOnPlayStore(requireContext(), packageInfo.packageName)
                         }
-                        getString(R.string.amazon) -> {
+                        R.string.amazon -> {
                             MarketUtils.openAppOnAmazonStore(requireContext(), packageInfo.packageName)
                         }
-                        getString(R.string.fdroid) -> {
+                        R.string.fdroid -> {
                             MarketUtils.openAppOnFdroid(requireContext(), packageInfo.packageName)
                         }
                     }

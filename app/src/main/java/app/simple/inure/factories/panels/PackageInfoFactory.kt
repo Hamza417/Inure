@@ -56,6 +56,9 @@ class PackageInfoFactory(private val application: Application, private val packa
             modelClass.isAssignableFrom(SharedLibrariesViewModel::class.java) -> {
                 return SharedLibrariesViewModel(application, packageInfo) as T
             }
+            modelClass.isAssignableFrom(TrackersViewModel::class.java) -> {
+                return TrackersViewModel(application, packageInfo) as T
+            }
             else -> {
                 throw IllegalArgumentException("Nope!!, Wrong Viewmodel!!")
             }

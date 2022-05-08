@@ -10,6 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterResources
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
@@ -42,9 +43,9 @@ class Resources : ScopedFragment() {
         searchBox = view.findViewById(R.id.resources_search)
         title = view.findViewById(R.id.resources_title)
         recyclerView = view.findViewById(R.id.resources_recycler_view)
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
-        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
+        componentsViewModel = ViewModelProvider(this, packageInfoFactory)[ApkDataViewModel::class.java]
 
         searchBoxState()
         startPostponedEnterTransition()
@@ -139,7 +140,7 @@ class Resources : ScopedFragment() {
     companion object {
         fun newInstance(applicationInfo: PackageInfo): Resources {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
             val fragment = Resources()
             fragment.arguments = args
             return fragment
