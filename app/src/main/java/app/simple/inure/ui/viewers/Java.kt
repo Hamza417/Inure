@@ -27,18 +27,18 @@ import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.viewers.JSONViewerViewModel
+import app.simple.inure.viewmodels.viewers.JavaViewModel
 import java.io.IOException
 
-class JSONViewer : ScopedFragment() {
+class Java : ScopedFragment() {
 
-    private lateinit var json: TypeFaceEditText
+    private lateinit var java: TypeFaceEditText
     private lateinit var name: TypeFaceTextView
     private lateinit var progressBar: CustomProgressBar
     private lateinit var scrollView: PaddingAwareNestedScrollView
     private lateinit var options: DynamicRippleImageButton
     private lateinit var codeViewModelFactory: CodeViewModelFactory
-    private lateinit var jsonViewerViewModel: JSONViewerViewModel
+    private lateinit var javaViewModel: JavaViewModel
 
     private var path: String? = null
 
@@ -50,7 +50,7 @@ class JSONViewer : ScopedFragment() {
         try {
             requireContext().contentResolver.openOutputStream(uri).use { outputStream ->
                 if (outputStream == null) throw IOException()
-                outputStream.write(json.text.toString().toByteArray())
+                outputStream.write(java.text.toString().toByteArray())
                 outputStream.flush()
                 Toast.makeText(requireContext(), R.string.saved_successfully, Toast.LENGTH_SHORT).show()
             }
@@ -61,15 +61,15 @@ class JSONViewer : ScopedFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_json_viewer, container, false)
+        val view = inflater.inflate(R.layout.fragment_java, container, false)
 
-        json = view.findViewById(R.id.json_viewer)
-        name = view.findViewById(R.id.json_name)
-        scrollView = view.findViewById(R.id.json_nested_scroll_view)
-        progressBar = view.findViewById(R.id.json_loader)
-        options = view.findViewById(R.id.json_viewer_options)
+        java = view.findViewById(R.id.java_viewer)
+        name = view.findViewById(R.id.java_name)
+        scrollView = view.findViewById(R.id.java_nested_scroll_view)
+        progressBar = view.findViewById(R.id.java_loader)
+        options = view.findViewById(R.id.java_viewer_options)
 
-        path = requireArguments().getString(BundleConstants.pathToJSON)!!
+        path = requireArguments().getString(BundleConstants.pathToJava)!!
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         codeViewModelFactory = CodeViewModelFactory(requireActivity().application,
@@ -77,10 +77,9 @@ class JSONViewer : ScopedFragment() {
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent),
                                                     path!!)
 
-        jsonViewerViewModel = ViewModelProvider(this, codeViewModelFactory).get(JSONViewerViewModel::class.java)
+        javaViewModel = ViewModelProvider(this, codeViewModelFactory).get(JavaViewModel::class.java)
 
         startPostponedEnterTransition()
-
         FastScrollerBuilder(scrollView).setupAesthetics().build()
 
         return view
@@ -91,13 +90,13 @@ class JSONViewer : ScopedFragment() {
 
         name.text = path
 
-        jsonViewerViewModel.getSpanned().observe(viewLifecycleOwner, {
-            json.setText(it)
+        javaViewModel.getSpanned().observe(viewLifecycleOwner) {
+            java.setText(it)
             progressBar.gone()
             options.visible(true)
-        })
+        }
 
-        jsonViewerViewModel.getError().observe(viewLifecycleOwner, {
+        javaViewModel.getError().observe(viewLifecycleOwner) {
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -105,7 +104,7 @@ class JSONViewer : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
 
         options.setOnClickListener {
             PopupXmlViewer(it).setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
@@ -113,7 +112,7 @@ class JSONViewer : ScopedFragment() {
                     when (source) {
                         getString(R.string.copy) -> {
                             val clipboard: ClipboardManager? = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-                            val clip = ClipData.newPlainText("xml", json.text.toString())
+                            val clip = ClipData.newPlainText("xml", java.text.toString())
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {
@@ -127,11 +126,11 @@ class JSONViewer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, path: String): JSONViewer {
+        fun newInstance(packageInfo: PackageInfo, path: String): Java {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.pathToJSON, path)
-            val fragment = JSONViewer()
+            args.putString(BundleConstants.pathToJava, path)
+            val fragment = Java()
             fragment.arguments = args
             return fragment
         }

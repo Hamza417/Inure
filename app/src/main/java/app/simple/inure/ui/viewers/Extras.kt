@@ -82,18 +82,10 @@ class Extras : ScopedFragment() {
                                                             HtmlViewer.newInstance(packageInfo, path),
                                                             "html_viewer")
                             }
-                            /**
-                             * TODO - Add a delicious looking code viewer
-                             *
-                             * JSON done
-                             */
-                            path.endsWith(".java") ||
-                                    path.endsWith(".css") ||
-                                    path.endsWith(".proto") ||
-                                    path.endsWith(".js") -> {
+                            path.endsWith(".java") -> {
                                 FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            Text.newInstance(packageInfo, path),
-                                                            "text_viewer")
+                                                            Java.newInstance(packageInfo, path),
+                                                            "java_viewer")
                             }
                             path.endsWith(".md") -> {
                                 FragmentHelper.openFragment(requireActivity().supportFragmentManager,
@@ -102,9 +94,15 @@ class Extras : ScopedFragment() {
                             }
                             path.endsWith(".json") -> {
                                 FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            JSONViewer.newInstance(packageInfo, path),
+                                                            JSON.newInstance(packageInfo, path),
                                                             "json_viewer")
                             }
+                            /**
+                             * TODO - Add a delicious looking code viewers
+                             *
+                             * JSON done
+                             * JAVA done
+                             */
                             else -> {
                                 FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                             Text.newInstance(packageInfo, path),

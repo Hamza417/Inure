@@ -421,7 +421,7 @@ object APKParser {
         val ttf = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.ttf)
         val md = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.md)
         val ini = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.ini)
-        val version = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.version)
+        // val version = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.version)
 
         val extraFiles: MutableList<String> = ArrayList()
         var zipFile: ZipFile? = null
@@ -448,7 +448,7 @@ object APKParser {
                         name.endsWith(".ttf") -> if (ttf) extraFiles.add(name)
                         name.endsWith(".md") -> if (md) extraFiles.add(name)
                         name.endsWith(".ini") -> if (ini) extraFiles.add(name)
-                        name.endsWith(".version") -> if (version) extraFiles.add(name)
+                        // name.endsWith(".version") -> if (version) extraFiles.add(name)
                     }
                 }
             }

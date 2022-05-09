@@ -55,7 +55,7 @@ class AdapterExtrasFilter : RecyclerView.Adapter<AdapterExtrasFilter.Holder>() {
                 Pair(".ttf", ExtrasPreferences.ttf),
                 Pair(".md", ExtrasPreferences.md),
                 Pair(".ini", ExtrasPreferences.ini),
-                Pair(".version", ExtrasPreferences.version)
+                // Pair(".version", ExtrasPreferences.version)
         )
     }
 }

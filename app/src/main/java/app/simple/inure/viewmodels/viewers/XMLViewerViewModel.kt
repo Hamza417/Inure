@@ -34,20 +34,21 @@ class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: B
 
     private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
 
+    @Suppress("RegExpDuplicateAlternationBranch")
     private val tags = Pattern.compile("" /*Only for indentation */ +
-                                               "\\<\\w+\\.+\\S+" + // <xml.yml.zml>
-                                               "|\\<\\w+\\.+\\S+" + // <xml.yml.zml...nthml
-                                               "|\\<\\/\\w+.+\\>" + // </xml.yml.zml>
-                                               "|\\<\\/\\w+\\-+\\S+\\>" + // </xml-yml>
-                                               "|\\<\\w+\\-+\\S+" + // <xml-yml-zml...nthml
-                                               "|\\</\\w+>" + // </xml>
-                                               "|\\</\\w+" + // </xml
-                                               "|\\<\\w+\\/>" + // <xml/>
-                                               "|\\<\\w+\\>" +  // <xml>
-                                               "|\\<\\w+" +  // <xml
-                                               "|\\<.\\w+" + // <?xml
-                                               "|\\?\\>" + // ?>
-                                               "|\\/>", // />
+                                               "<\\w+\\.+\\S+" + // <xml.yml.zml>
+                                               "|<\\w+\\.+\\S+" + // <xml.yml.zml...nthml
+                                               "|</\\w+.+>" + // </xml.yml.zml>
+                                               "|</\\w+-+\\S+>" + // </xml-yml>
+                                               "|<\\w+-+\\S+" + // <xml-yml-zml...nthml
+                                               "|</\\w+>" + // </xml>
+                                               "|</\\w+" + // </xml
+                                               "|<\\w+/>" + // <xml/>
+                                               "|<\\w+>" +  // <xml>
+                                               "|<\\w+" +  // <xml
+                                               "|<.\\w+" + // <?xml
+                                               "|\\?>" + // ?>
+                                               "|/>", // />
                                        Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
 
     private val spanned: MutableLiveData<Spanned> by lazy {

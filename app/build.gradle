@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdkVersion 32
 
-    def appVersionCode = 27
+    def appVersionCode = 28
     def appVersionName = "build_${appVersionCode} (alpha)"
 
     buildFeatures {
@@ -104,7 +104,7 @@ dependencies {
     implementation 'androidx.media:media:1.6.0'
 
     // Google
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.6.0'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'

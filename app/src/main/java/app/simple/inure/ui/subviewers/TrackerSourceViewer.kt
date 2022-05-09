@@ -20,6 +20,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.subpanels.TrackerSourceViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
+import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.viewmodels.subviewers.TrackerSourceViewModel
 import java.io.IOException
 
@@ -58,7 +59,10 @@ class TrackerSourceViewer() : ScopedFragment() {
         text = view.findViewById(R.id.tracker_viewer)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        trackerSourceViewModelFactory = TrackerSourceViewModelFactory(requireApplication(), requireArguments().getString(BundleConstants.className)!!, packageInfo)
+        trackerSourceViewModelFactory = TrackerSourceViewModelFactory(requireApplication(),
+                                                                      requireArguments().getString(BundleConstants.className)!!,
+                                                                      packageInfo,
+                                                                      requireContext().resolveAttrColor(R.attr.colorAppAccent))
         trackerSourceViewModel = ViewModelProvider(this, trackerSourceViewModelFactory)[TrackerSourceViewModel::class.java]
 
         return view
