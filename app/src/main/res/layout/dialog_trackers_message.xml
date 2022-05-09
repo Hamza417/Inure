@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:maxHeight="@dimen/dialog_height">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_padding"
+        android:backgroundTint="@android:color/white"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawablePadding="@dimen/dialog_padding"
+                android:drawableTint="?attr/colorAppAccent"
+                android:gravity="center_vertical"
+                android:text="@string/error"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:drawableStartCompat="@drawable/ic_radiation_nuclear"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/copy_button"
+                android:layout_width="@dimen/small_button_size"
+                android:layout_height="@dimen/small_button_size"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_copy_all"
+                android:visibility="gone"
+                app:buttonTintType="regular" />
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/trackers_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:text="@string/executing_command"
+                android:textSize="@dimen/error_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="tertiary" />
+
+        </androidx.core.widget.NestedScrollView>
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

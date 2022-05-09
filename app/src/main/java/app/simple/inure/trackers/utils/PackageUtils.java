@@ -1,17 +1,13 @@
 package app.simple.inure.trackers.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
 import android.content.pm.ServiceInfo;
 import android.content.pm.Signature;
-import android.content.res.Resources;
-import android.widget.TextView;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
@@ -20,9 +16,8 @@ import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
-import androidx.appcompat.app.AlertDialog;
-import app.simple.inure.R;
 import app.simple.inure.apk.utils.PermissionUtils;
 
 public class PackageUtils {
@@ -69,7 +64,7 @@ public class PackageUtils {
     
     public static String apkPro(PackageInfo packageInfo, Context context) {
         String[] aPermissionsUse;
-        String s = apkCert(packageInfo);
+        StringBuilder s = new StringBuilder(apkCert(packageInfo));
         String tmp = "";
         PermissionInfo pI;
         
@@ -101,13 +96,13 @@ public class PackageUtils {
                 Arrays.sort(aPermissionsUse);
             } catch (NullPointerException e) {
             }
-            s += "\n";
+            s.append("\n");
             for (int i = 0; i < aPermissionsUse.length; i++) {
-                s += "\n\n" + aPermissionsUse[i];
+                s.append("\n\n").append(aPermissionsUse[i]);
             }
         }
         if (packageInfo.permissions != null) {
-            s += "\n\n#######################\n### Declared Permissions ###";
+            s.append("\n\n#######################\n### Declared Permissions ###");
             try {
                 Collections.sort(Arrays.asList(packageInfo.permissions), new Comparator <PermissionInfo>() {
                     public int compare(PermissionInfo o1, PermissionInfo o2) {
@@ -118,58 +113,24 @@ public class PackageUtils {
             
             }
             for (int i = 0; i < packageInfo.permissions.length; i++) {
-                s += "\n\n\u25a0" + packageInfo.permissions[i].name
-                        + "\n" + packageInfo.permissions[i].loadLabel(context.getPackageManager())
-                        + "\n" + packageInfo.permissions[i].loadDescription(context.getPackageManager())
-                        + "\n" + packageInfo.permissions[i].group;
+                s.append("\n\n\u25a0")
+                        .append(packageInfo.permissions[i].name)
+                        .append("\n")
+                        .append(packageInfo.permissions[i].loadLabel(context.getPackageManager()))
+                        .append("\n")
+                        .append(packageInfo.permissions[i].loadDescription(context.getPackageManager()))
+                        .append("\n").append(packageInfo.permissions[i].group);
             }
             
         }
-        return s;
+        return s.toString();
     }
     
     public static String convertS(byte[] digest) {
-        String s = "";
-        for (byte b : digest) {
-            s += String.format("%02X", b).toLowerCase();
-        }
-        return s;
-    }
-    
-    public static File appPublicSourceDir(Context context, String packageName) {
-        try {
-            return new File(context.getPackageManager().getApplicationInfo(packageName, 0).publicSourceDir);
-        } catch (PackageManager.NameNotFoundException e) {
-            return null;
-        }
-    }
-    
-    @SuppressLint ("SetTextI18n")
-    public static void manifestPackage(Resources r, String code, Context ctx) {
         StringBuilder s = new StringBuilder();
-        String[] Sign;
-        int Signz = 0;
-        int Totalz = 0;
-        String[] Names;
-        
-        Names = r.getStringArray(R.array.tname);
-        Sign = r.getStringArray(R.array.trackers);
-        for (Signz = 0; Signz < Sign.length; Signz++) {
-            if (code.contains(Sign[Signz])) {
-                s.append("_").append(Names[Signz]).append(": ").append(Sign[Signz]).append("\n\n");
-                Totalz++;
-            }
+        for (byte b : digest) {
+            s.append(String.format("%02X", b).toLowerCase(Locale.getDefault()));
         }
-        //Log.e("zzz",s);
-        TextView showText = new TextView(ctx);
-        showText.setText("\u2211 = " + Totalz + " exoTracker(s)\n\n" + s);
-        showText.setTextIsSelectable(true);
-        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setView(showText)
-                .setTitle(r.getString(R.string.exodus) + " " + r.getString(R.string.scan))
-                .setIcon(R.mipmap.ic_launcher_round)
-                .setCancelable(true)
-                .setNegativeButton(android.R.string.ok, null)
-                .show();
+        return s.toString();
     }
 }

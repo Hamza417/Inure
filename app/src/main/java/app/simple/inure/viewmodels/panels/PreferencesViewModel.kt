@@ -68,11 +68,11 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
                 val context = context
 
                 for (prefs in PreferencesSearchConstants.preferencesStructureData) {
-                    if (context.getString(prefs.title).lowercase().contains(keyword!!) ||
-                        context.getString(prefs.description).lowercase().contains(keyword!!) ||
-                        context.getString(prefs.category).lowercase().contains(keyword!!) ||
-                        context.getString(prefs.type).lowercase().contains(keyword!!) ||
-                        context.getString(prefs.panel).lowercase().contains(keyword!!)) {
+                    if (context.getString(prefs.title).lowercase().contains(keyword!!.lowercase()) ||
+                        context.getString(prefs.description).lowercase().contains(keyword!!.lowercase()) ||
+                        context.getString(prefs.category).lowercase().contains(keyword!!.lowercase()) ||
+                        context.getString(prefs.type).lowercase().contains(keyword!!.lowercase()) ||
+                        context.getString(prefs.panel).lowercase().contains(keyword!!.lowercase())) {
 
                         list.add(prefs)
                     }

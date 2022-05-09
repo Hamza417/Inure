@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val trackersMessage: String = "trackers_message"
     const val className = "class_name"
     const val packageInfo = "package_info"
     const val permissionInfo = "permission_info"

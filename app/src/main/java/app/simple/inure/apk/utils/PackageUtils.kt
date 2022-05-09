@@ -15,7 +15,7 @@ import app.simple.inure.R
 import app.simple.inure.models.PackageSizes
 import app.simple.inure.util.DateUtils
 import java.lang.reflect.Method
-
+import java.util.*
 
 object PackageUtils {
 
@@ -144,7 +144,7 @@ object PackageUtils {
         } else {
             mActivityManager.killBackgroundProcesses(this.packageName)
             Toast.makeText(activity.baseContext, activity.baseContext.getString(R.string.alert_app_killed), Toast.LENGTH_SHORT)
-                    .show()
+                .show()
         }
     }
 
@@ -224,14 +224,14 @@ object PackageUtils {
                 override fun onGetStatsCompleted(packageStats: PackageStats, succeeded: Boolean) {
                     if (succeeded) {
                         packageSizes = PackageSizes(
-                            dataSize = packageStats.dataSize,
-                            cacheSize = packageStats.cacheSize,
-                            codeSize = packageStats.codeSize,
-                            externalDataSize = packageStats.externalDataSize,
-                            externalCacheSize = packageStats.externalCacheSize,
-                            externalCodeSize = packageStats.externalCodeSize,
-                            externalMediaSize = packageStats.externalMediaSize,
-                            externalObbSize = packageStats.externalObbSize
+                                dataSize = packageStats.dataSize,
+                                cacheSize = packageStats.cacheSize,
+                                codeSize = packageStats.codeSize,
+                                externalDataSize = packageStats.externalDataSize,
+                                externalCacheSize = packageStats.externalCacheSize,
+                                externalCodeSize = packageStats.externalCodeSize,
+                                externalMediaSize = packageStats.externalMediaSize,
+                                externalObbSize = packageStats.externalObbSize
                         )
                     }
                 }
@@ -239,5 +239,13 @@ object PackageUtils {
 
             return packageSizes
         }
+    }
+
+    fun convertS(digest: ByteArray): String {
+        var s = ""
+        for (b in digest) {
+            s += String.format("%02X", b).lowercase(Locale.getDefault())
+        }
+        return s
     }
 }

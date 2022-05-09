@@ -19,8 +19,9 @@ object AdapterUtils {
         if (startPos != -1) {
             val colorKeyword = ColorStateList(arrayOf(intArrayOf()), intArrayOf(textView.context.resolveAttrColor(R.attr.colorAppAccent)))
             val highlightSpan = TextAppearanceSpan(null, Typeface.NORMAL, -1, colorKeyword, null)
-            string.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            string.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
+
         textView.text = string
     }
 
@@ -38,7 +39,7 @@ object AdapterUtils {
         if (startPos != -1) {
             val colorKeyword = ColorStateList(arrayOf(intArrayOf()), intArrayOf(textView.context.resolveAttrColor(R.attr.colorAppAccent)))
             val highlightSpan = TextAppearanceSpan(null, Typeface.NORMAL, -1, colorKeyword, null)
-            string.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            string.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
         textView.text = string

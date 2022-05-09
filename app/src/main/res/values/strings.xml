@@ -516,4 +516,7 @@
     <string name="trackers">Trackers</string>
     <string name="scan">Scan</string>
     <string name="exodus">εxodus</string>
+    <string name="show_all_classes">Show All Classes</string>
+    <string name="show_all_classes_desc">Keep classes in the list that may or may not be related to tracking.</string>
+    <string name="show_trackers_analytics_automatically">Show Tracker Analytics Automatically</string>
 </resources>

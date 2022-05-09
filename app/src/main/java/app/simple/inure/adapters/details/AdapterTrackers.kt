@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.trackers.reflector.ClassesNamesList
 import app.simple.inure.util.AdapterUtils
 
-class AdapterTrackers(private val list: ClassesNamesList, private val keyword: String) : RecyclerView.Adapter<AdapterTrackers.Holder>() {
+class AdapterTrackers(private val list: ArrayList<String>, private val keyword: String) : RecyclerView.Adapter<AdapterTrackers.Holder>() {
 
     private var trackersCallbacks: TrackersCallbacks? = null
 
@@ -19,14 +18,14 @@ class AdapterTrackers(private val list: ClassesNamesList, private val keyword: S
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.className.text = list.classNames[position]
+        holder.className.text = list[position]
 
         holder.className.setOnClickListener {
-            trackersCallbacks?.onTrackersClicked(list.classNames[position])
+            trackersCallbacks?.onTrackersClicked(list[position])
         }
 
         holder.className.setOnLongClickListener {
-            trackersCallbacks?.onTrackersLongClicked(list.classNames[position])
+            trackersCallbacks?.onTrackersLongClicked(list[position])
             true
         }
 
@@ -34,7 +33,7 @@ class AdapterTrackers(private val list: ClassesNamesList, private val keyword: S
     }
 
     override fun getItemCount(): Int {
-        return list.classNames.size
+        return list.size
     }
 
     fun setOnTrackersClickListener(trackersCallbacks: TrackersCallbacks) {
