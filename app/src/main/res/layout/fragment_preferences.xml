@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
@@ -13,9 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
+        android:background="@android:color/white"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:elevation="1dp"
+        android:translationZ="1dp"
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
