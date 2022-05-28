@@ -10,82 +10,119 @@
 </p>
 <br>
 <sub>(Current Version)</sub>
-<h2>Build28</h2>
+<h2>Build29</h2>
 
 <h4>User Interface</h4>
 
 <ul>
-    <li>Added <b>Shortcuts</b> editor panel in <b>Configuration</b> panel.</li>
-    <li>Added <i>Native Libraries</i> in <b>App Information</b> panel.</li>
-    <li>Added <i>Architecture</i> in <b>App Information</b> panel.</li>
-    <li>Redesigned <b>Batch Bottom Menu</b> and hide them if no item is selected.</li>
-    <li>Added dividers between app and ui level preferences.</li>
-    <li>Added <i>Search</i> option in <b>Preferences</b> panel.</li>
-    <li>Added option to hide preference indicators in <b>Development</b> preference.</li>
-    <li>Added <i>Trackers</i> options in <b>Apps Menu</b>.</li>
-    <li>Added partial Java syntax highlighter <i>(work in progress)</i> to support tracker code
-        viewing.
+    <li>Changed text hyphenation frequency to none to prevent breaking of words in some cases when
+        complete text is larger than the layout specified.
     </li>
 </ul>
 
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed list state loss in viewer panels when search box is visible/focused.</li>
-    <li>Addressed missing Android 12L tag issue in sdk metadata.</li>
-    <li>Fixed a delay in saving persistent notes.</li>
-    <li>Added an abstraction for SpellCheckSpan error, although not completely fixed, this won't
-        prevent the notes from saving anymore rather this span will be ignored if it cannot be
-        serialized. (I disabled the spell check for the notes panel :))
-    </li>
-    <li>Fixed keyboard not hiding sometimes when panel is changed or search box is collapsed.</li>
+    <li>Fixed <b>Preferences</b> panel icon animation duration issue.</li>
 </ul>
-
-<h4>Improvements</h4>
-
-<ul>
-    <li>Fixed leading and trailing whitespace issue for various text fields of the app.</li>
-</ul>
-
-<h4>Trackers</h4>
-
-<ul>
-    <li>Added <b>Trackers</b> in <b>Application Information</b> panel.</li>
-    <li>Added tracker source parser and viewer.</li>
-    <li>Added search option for trackers.</li>
-    <li>Added <b>Trackers Menu</b> and added preference option to keep non-tracking classes in the
-        list.
-    </li>
-    <li>Added trackers analytics details.</li>
-    <li>Added option to show tracker analytics automatically after trackers have loaded.</li>
-</ul>
-
-<h4>Batch</h4>
-
-<ul>
-    <li>Written complete backend for <b>Batch</b> function.
-        <br>
-        <sub>After this update, I will be beginning working on implementing and finalizing
-            <b>Batch</b> and hopefully they will be available by the next update.</sub>
-    </li>
-</ul>
-
-<hr>
-<p>
-    <b>Device Info</b> removed from the home and its development won't be carried out as developing
-    it will take too much of development which could be spent on refining the other aspects of the
-    app.
-    <br>
-    <br>
-    The codebase is left inside the app so it can still be launched by using this command in the
-    terminal emulator or ADB Shell.
-</p>
-
-<pre>
-    <code>am start -n app.simple.inure/app.simple.inure.activities.app.MainActivity -a "open_device_info"</code>
-</pre>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input id="build_28" class="toggle" type="checkbox">
+    <label for="build_28" class="lbl-toggle">Build28</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added <b>Shortcuts</b> editor panel in <b>Configuration</b> panel.</li>
+                <li>Added <i>Native Libraries</i> in <b>App Information</b> panel.</li>
+                <li>Added <i>Architecture</i> in <b>App Information</b> panel.</li>
+                <li>Redesigned <b>Batch Bottom Menu</b> and hide them if no item is selected.</li>
+                <li>Added dividers between app and ui level preferences.</li>
+                <li>Added <i>Search</i> option in <b>Preferences</b> panel.</li>
+                <li>Added option to hide preference indicators in <b>Development</b> preference.
+                </li>
+                <li>Added <i>Trackers</i> options in <b>Apps Menu</b>.</li>
+                <li>Added partial Java syntax highlighter <i>(work in progress)</i> to support
+                    tracker code
+                    viewing.
+                </li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed list state loss in viewer panels when search box is visible/focused.</li>
+                <li>Addressed missing Android 12L tag issue in sdk metadata.</li>
+                <li>Fixed a delay in saving persistent notes.</li>
+                <li>Added an abstraction for SpellCheckSpan error, although not completely fixed,
+                    this won't
+                    prevent the notes from saving anymore rather this span will be ignored if it
+                    cannot be
+                    serialized. (I disabled the spell check for the notes panel :))
+                </li>
+                <li>Fixed keyboard not hiding sometimes when panel is changed or search box is
+                    collapsed.
+                </li>
+            </ul>
+
+            <h4>Improvements</h4>
+
+            <ul>
+                <li>Fixed leading and trailing whitespace issue for various text fields of the
+                    app.
+                </li>
+            </ul>
+
+            <h4>Trackers</h4>
+
+            <ul>
+                <li>Added <b>Trackers</b> in <b>Application Information</b> panel.</li>
+                <li>Added tracker source parser and viewer.</li>
+                <li>Added search option for trackers.</li>
+                <li>Added <b>Trackers Menu</b> and added preference option to keep non-tracking
+                    classes in the
+                    list.
+                </li>
+                <li>Added trackers analytics details.</li>
+                <li>Added option to show tracker analytics automatically after trackers have
+                    loaded.
+                </li>
+            </ul>
+
+            <h4>Batch</h4>
+
+            <ul>
+                <li>Written complete backend for <b>Batch</b> function.
+                    <br>
+                    <sub>After this update, I will be beginning working on implementing and
+                        finalizing
+                        <b>Batch</b> and hopefully they will be available by the next update.</sub>
+                </li>
+            </ul>
+
+            <hr>
+            <p>
+                <b>Device Info</b> removed from the home and its development won't be carried out as
+                developing
+                it will take too much of development which could be spent on refining the other
+                aspects of the
+                app.
+                <br>
+                <br>
+                The codebase is left inside the app so it can still be launched by using this
+                command in the
+                terminal emulator or ADB Shell.
+            </p>
+
+            <pre>
+                <code>am start -n app.simple.inure/app.simple.inure.activities.app.MainActivity -a "open_device_info"</code>
+            </pre>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input id="build_27" class="toggle" type="checkbox">

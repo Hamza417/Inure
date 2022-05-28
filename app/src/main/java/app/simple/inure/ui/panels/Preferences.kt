@@ -47,7 +47,7 @@ class Preferences : ScopedFragment() {
     private val preferencesViewModel: PreferencesViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_preference, container, false)
+        val view = inflater.inflate(R.layout.fragment_preferences, container, false)
 
         recyclerView = view.findViewById(R.id.preferences_recycler_view)
         search = view.findViewById(R.id.preferences_search_btn)
@@ -75,9 +75,9 @@ class Preferences : ScopedFragment() {
                     /**
                      * Workaround for shared animation lag
                      */
-                    var duration = 500L
-                    duration *= position.div(4)
-                    if (duration < 250) duration = 400L
+                    var duration = 100L
+                    duration *= position
+                    duration = duration.coerceIn(500L, 800L)
 
                     when (category) {
                         R.string.appearance -> {

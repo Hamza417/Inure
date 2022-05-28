@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
+import android.graphics.text.LineBreaker
 import android.os.Build
+import android.text.Layout
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.TextViewCompat
@@ -50,6 +52,12 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
         drawableTintMode = typedArray.getInt(R.styleable.TypeFaceTextView_drawableTintStyle, 3)
         isDrawableHidden = typedArray.getBoolean(R.styleable.TypeFaceTextView_isDrawableHidden, true)
+
+        hyphenationFrequency = Layout.HYPHENATION_FREQUENCY_NONE
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            breakStrategy = LineBreaker.BREAK_STRATEGY_SIMPLE
+        }
 
         setTextColor(false)
 

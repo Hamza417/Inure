@@ -28,8 +28,6 @@
 #include <csignal>
 #include <cstring>
 
-typedef char16_t;
-
 class String8 {
 public:
     String8() {

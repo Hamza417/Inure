@@ -1,19 +1,26 @@
 package app.simple.inure.activities.association
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
-import android.widget.Toast
+import androidx.documentfile.provider.DocumentFile
 import app.simple.inure.extension.activities.BaseActivity
+import com.anggrayudi.storage.file.getAbsolutePath
 import java.io.File
 
 class AppDetailsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Toast.makeText(applicationContext, handleIntent(), Toast.LENGTH_LONG).show()
+        println(DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)?.getAbsolutePath(applicationContext)!!)
+
+        val p = packageManager.getPackageArchiveInfo(DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)?.getAbsolutePath(applicationContext)!!,
+                                                     PackageManager.GET_META_DATA)
+
+        println(p!!.packageName)
     }
 
     private fun handleIntent(): String? {
