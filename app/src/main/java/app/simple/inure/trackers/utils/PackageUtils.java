@@ -38,19 +38,19 @@ public class PackageUtils {
     }
     
     public static String apkCert(PackageInfo packageInfo) {
-        Signature[] z = packageInfo.signatures;
+        Signature[] signatures = packageInfo.signatures;
         String s = "";
-        X509Certificate c;
+        X509Certificate x509Certificate;
         try {
-            for (Signature sg : z) {
-                c = (X509Certificate) CertificateFactory.getInstance("X.509")
+            for (Signature sg : signatures) {
+                x509Certificate = (X509Certificate) CertificateFactory.getInstance("X.509")
                         .generateCertificate(new ByteArrayInputStream(sg.toByteArray()));
-                s = "\n\n" + c.getIssuerX500Principal().getName() + "\n\n" + c.getSigAlgName();
+                s = "\n\n" + x509Certificate.getIssuerX500Principal().getName() + "\n\n" + x509Certificate.getSigAlgName();
                 try {
                     s += "\n\nCERTIFICATE fingerprints: \nmd5: " + convertS(MessageDigest.getInstance("md5").digest(sg.toByteArray()));
                     s += "\nsha1: " + convertS(MessageDigest.getInstance("sha1").digest(sg.toByteArray()));
                     s += "\nsha256: " + convertS(MessageDigest.getInstance("sha256").digest(sg.toByteArray()));
-                    
+            
                 } catch (NoSuchAlgorithmException e) {
                     return e.getMessage();
                 }

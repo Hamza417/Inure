@@ -63,4 +63,17 @@
         app:drawableTintStyle="regular"
         app:textColorStyle="primary" />
 
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/app_info_unpack_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableEnd="@drawable/ic_chevron"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text="@string/unpack"
+        android:textSize="@dimen/app_info_options_text_size"
+        app:appFontStyle="bold"
+        app:drawableTintStyle="regular"
+        app:textColorStyle="primary" />
 </LinearLayout>

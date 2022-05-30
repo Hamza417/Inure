@@ -1,5 +1,6 @@
 package app.simple.inure.viewmodels.viewers
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -55,6 +56,8 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         MutableLiveData<Pair<String, String>>()
     }
 
+    val error = MutableLiveData<String>()
+
     fun getClassesList(): LiveData<ArrayList<String>> {
         return classesListData
     }
@@ -86,8 +89,16 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
+    @SuppressLint("PackageManagerGetSignatures")
     private fun loadClasses() {
         runBlocking {
+            val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA or PackageManager.GET_SIGNING_CERTIFICATES)
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA or PackageManager.GET_SIGNATURES)
+            }
+
             val uriStream = UriUtils.getStreamFromUri(context, Uri.fromFile(File(packageInfo.applicationInfo.publicSourceDir)))
 
             try {

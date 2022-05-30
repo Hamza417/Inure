@@ -47,6 +47,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Inure"
+        android:largeHeap="true"
         android:windowSoftInputMode="adjustPan"
         tools:ignore="AllowBackup">
 

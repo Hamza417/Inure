@@ -17,6 +17,7 @@ import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.menus.TrackersMenu
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.trackers.TrackersMessage
 import app.simple.inure.extension.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
@@ -107,6 +108,16 @@ class Trackers : ScopedFragment() {
                 TrackersMessage.newInstance(message)
                     .show(childFragmentManager, "tracker_message")
             }
+        }
+
+        trackersViewModel.error.observe(viewLifecycleOwner) {
+            val e = Error.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
+                }
+            })
         }
 
         options.setOnClickListener {
