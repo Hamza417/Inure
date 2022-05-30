@@ -19,6 +19,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.dialogs.app.AppMemory
 import app.simple.inure.dialogs.appearance.IconSize
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.dialogs.configuration.DateFormat
@@ -40,6 +41,7 @@ class Preferences : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterPreferences: AdapterPreferences
     private lateinit var search: DynamicRippleImageButton
+    private lateinit var memory: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
     private lateinit var searchBox: TypeFaceEditTextDynamicCorner
 
@@ -51,6 +53,7 @@ class Preferences : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.preferences_recycler_view)
         search = view.findViewById(R.id.preferences_search_btn)
+        memory = view.findViewById(R.id.preferences_memory_btn)
         searchBox = view.findViewById(R.id.preferences_search)
         title = view.findViewById(R.id.preferences_title)
 
@@ -323,6 +326,11 @@ class Preferences : ScopedFragment() {
 
             recyclerView.adapter = adapterPreferenceSearch
             recyclerView.scheduleLayoutAnimation()
+        }
+
+        memory.setOnClickListener {
+            AppMemory.newInstance()
+                .show(childFragmentManager, "app_memory")
         }
 
         search.setOnClickListener {

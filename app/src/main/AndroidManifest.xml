@@ -44,10 +44,11 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Inure"
-        android:largeHeap="true"
         android:windowSoftInputMode="adjustPan"
         tools:ignore="AllowBackup">
 

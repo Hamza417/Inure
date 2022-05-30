@@ -109,6 +109,11 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
                         .replace(R.id.app_container, Statistics.newInstance(), "stats")
                         .commit()
                 }
+                ShortcutConstants.PREFERENCES_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Preferences.newInstance(), "preferences")
+                        .commit()
+                }
                 "open_device_info" -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.app_container, DeviceInformation.newInstance(), "device_info")
@@ -127,7 +132,7 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         val expiryDate = Calendar.getInstance()
 
         expiryDate.clear()
-        expiryDate.set(2021, Calendar.DECEMBER, 31)
+        expiryDate.set(2022, Calendar.DECEMBER, 31)
         expiryDate.timeZone = TimeZone.getTimeZone(ZonedDateTime.now().zone.id)
 
         if (CalendarUtils.isToday(expiryDate)) {

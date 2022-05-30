@@ -72,6 +72,7 @@ class XMLViewerTextView : ScopedFragment() {
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
+        name.text = requireArguments().getString("path_to_xml")!!
 
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean(BundleConstants.isManifest),
                                                            requireArguments().getString(BundleConstants.pathToXml)!!,
@@ -96,14 +97,13 @@ class XMLViewerTextView : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        componentsViewModel.getSpanned().observe(viewLifecycleOwner, {
+        componentsViewModel.getSpanned().observe(viewLifecycleOwner) {
             text.setText(it)
-            name.text = requireArguments().getString("path_to_xml")!!
             progress.gone()
             options.visible(true)
-        })
+        }
 
-        componentsViewModel.getError().observe(viewLifecycleOwner, {
+        componentsViewModel.getError().observe(viewLifecycleOwner) {
             progress.gone()
             val e = Error.newInstance(it)
             e.show(childFragmentManager, "error_dialog")
@@ -112,7 +112,7 @@ class XMLViewerTextView : ScopedFragment() {
                     requireActivity().onBackPressed()
                 }
             })
-        })
+        }
 
         options.setOnClickListener {
             PopupXmlViewer(it).setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {

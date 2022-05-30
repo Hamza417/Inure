@@ -45,6 +45,15 @@
             app:textColorStyle="heading" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/preferences_memory_btn"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/popup_padding"
+            android:src="@drawable/ic_memory"
+            app:buttonTintType="accent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/preferences_search_btn"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
