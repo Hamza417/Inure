@@ -12,7 +12,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.FontViewModelFactory
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.visible

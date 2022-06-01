@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.adapters.terminal.AdapterFontSize
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 
 class TerminalFontSize : ScopedFragment() {
 

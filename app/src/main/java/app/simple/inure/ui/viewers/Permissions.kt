@@ -17,8 +17,8 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.PermissionStatus
 import app.simple.inure.dialogs.menus.PermissionsMenu
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.extension.popup.PopupMenuCallback
+import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.popups.viewers.PopupPermissions

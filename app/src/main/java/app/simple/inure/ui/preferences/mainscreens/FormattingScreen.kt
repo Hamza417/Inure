@@ -8,7 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.dialogs.configuration.DateFormat
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.FormattingPreferences
 
 class FormattingScreen : ScopedFragment() {

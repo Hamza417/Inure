@@ -7,7 +7,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import app.simple.inure.R
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.activities.BaseActivity
+import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.ui.viewers.FullScreenAudioPlayer
 import app.simple.inure.util.NullSafety.isNull

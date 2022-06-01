@@ -11,7 +11,7 @@ import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AboutPreferences
 
 class Share : ScopedFragment() {

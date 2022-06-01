@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.views.XmlWebView
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 
 class HtmlViewer : ScopedBottomSheetFragment() {
 

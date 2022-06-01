@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import app.simple.inure.decorations.emulatorview.TermSession;
-import app.simple.inure.extension.activities.BaseActivity;
+import app.simple.inure.extensions.activities.BaseActivity;
 import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;

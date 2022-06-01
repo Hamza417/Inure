@@ -10,7 +10,7 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.dialogs.terminal.DialogCommandLine
 import app.simple.inure.dialogs.terminal.DialogHomePath
 import app.simple.inure.dialogs.terminal.DialogInitialCommand
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ShellPreferences
 import app.simple.inure.ui.preferences.subscreens.ShellTerminalType
 import app.simple.inure.util.FragmentHelper

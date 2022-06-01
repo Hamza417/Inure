@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.documentfile.provider.DocumentFile
-import app.simple.inure.extension.activities.BaseActivity
+import app.simple.inure.extensions.activities.BaseActivity
 import com.anggrayudi.storage.file.getAbsolutePath
 import java.io.File
 

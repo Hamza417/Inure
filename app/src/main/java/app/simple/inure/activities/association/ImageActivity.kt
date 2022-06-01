@@ -8,7 +8,7 @@ import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
-import app.simple.inure.extension.activities.BaseActivity
+import app.simple.inure.extensions.activities.BaseActivity
 import com.bumptech.glide.Glide
 
 class ImageActivity : BaseActivity() {

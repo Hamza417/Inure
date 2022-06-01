@@ -8,7 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.views.CustomWebView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.util.ConditionUtils.isNull
 
 class WebPage : ScopedFragment() {

@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
 import app.simple.inure.util.FragmentHelper

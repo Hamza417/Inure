@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterShortcuts
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.viewmodels.preferences.ShortcutsViewModel
 
 class Shortcuts : ScopedFragment() {

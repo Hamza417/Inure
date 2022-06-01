@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.ui.panels.WebPage
 import app.simple.inure.ui.preferences.subscreens.Share
 import app.simple.inure.util.FragmentHelper

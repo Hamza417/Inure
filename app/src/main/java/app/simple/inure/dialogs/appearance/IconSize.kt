@@ -11,7 +11,7 @@ import androidx.core.graphics.drawable.toDrawable
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.theme.ThemeSeekBar
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.glide.transformation.BlurShadow
 import app.simple.inure.glide.transformation.Padding
 import app.simple.inure.preferences.AppearancePreferences

@@ -19,7 +19,7 @@ import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
-import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor

@@ -16,7 +16,7 @@ import androidx.core.view.isVisible
 import app.simple.inure.R
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
-import app.simple.inure.extension.activities.BaseActivity
+import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener
 import app.simple.inure.themes.manager.Theme

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterTheme
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener

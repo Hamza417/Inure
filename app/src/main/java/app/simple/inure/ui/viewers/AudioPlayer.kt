@@ -24,7 +24,7 @@ import app.simple.inure.decorations.theme.ThemeMaterialCardView
 import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.services.AudioService

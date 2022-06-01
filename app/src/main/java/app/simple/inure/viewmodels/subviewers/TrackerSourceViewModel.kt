@@ -7,7 +7,7 @@ import android.text.Spannable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.trackers.dex.DexLoaderBuilder
 import app.simple.inure.trackers.reflector.Reflector
 import app.simple.inure.trackers.utils.UriUtils

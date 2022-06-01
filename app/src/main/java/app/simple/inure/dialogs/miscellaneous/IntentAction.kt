@@ -14,7 +14,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.extension.fragments.ScopedDialogFragment
+import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.factories.actions.ActivityLaunchFactory
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.invisible

@@ -71,7 +71,7 @@ import app.simple.inure.dialogs.terminal.DialogCloseWindow;
 import app.simple.inure.dialogs.terminal.DialogContextMenu;
 import app.simple.inure.dialogs.terminal.DialogSpecialKeys;
 import app.simple.inure.dialogs.terminal.DialogTerminalMainMenu;
-import app.simple.inure.extension.activities.BaseActivity;
+import app.simple.inure.extensions.activities.BaseActivity;
 import app.simple.inure.popups.terminal.PopupTerminalWindows;
 import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.preferences.TerminalPreferences;

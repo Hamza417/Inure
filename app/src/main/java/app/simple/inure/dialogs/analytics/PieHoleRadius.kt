@@ -9,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.SpannableStringBuilder
 

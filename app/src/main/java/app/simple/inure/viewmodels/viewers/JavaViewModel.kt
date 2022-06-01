@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.exceptions.LargeStringException
-import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.JavaSyntaxUtils
 import app.simple.inure.util.JavaSyntaxUtils.highlightJava

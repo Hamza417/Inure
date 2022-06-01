@@ -12,7 +12,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.subpanels.ActivityInfoFactory
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.viewmodels.subviewers.ActivityInfoViewModel

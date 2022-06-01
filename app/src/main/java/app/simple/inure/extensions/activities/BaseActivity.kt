@@ -1,4 +1,4 @@
-package app.simple.inure.extension.activities
+package app.simple.inure.extensions.activities
 
 import android.content.Context
 import android.graphics.Color

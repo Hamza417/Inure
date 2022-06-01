@@ -7,7 +7,7 @@ import android.os.Looper
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import app.simple.inure.R
-import app.simple.inure.extension.activities.BaseActivity
+import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.terminal.Term
 
 @Deprecated("Poor idea!!, launching terminal without a splash screen works best for now")

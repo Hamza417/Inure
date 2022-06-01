@@ -13,7 +13,7 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.appearance.IconSize
 import app.simple.inure.dialogs.appearance.RoundedCorner
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceAppTheme

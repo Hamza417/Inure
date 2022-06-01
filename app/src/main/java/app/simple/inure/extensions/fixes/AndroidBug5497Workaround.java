@@ -1,4 +1,4 @@
-package app.simple.inure.extension.fixes;
+package app.simple.inure.extensions.fixes;
 
 import android.graphics.Rect;
 import android.view.View;

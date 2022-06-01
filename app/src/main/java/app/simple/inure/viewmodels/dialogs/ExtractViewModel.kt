@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted

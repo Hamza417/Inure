@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.views.LoaderImageView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.app.Home

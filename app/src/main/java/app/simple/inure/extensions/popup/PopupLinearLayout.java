@@ -1,4 +1,4 @@
-package app.simple.inure.extension.popup;
+package app.simple.inure.extensions.popup;
 
 import android.content.Context;
 import android.widget.LinearLayout;

@@ -10,7 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.PermissionStatusFactory
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.viewmodels.dialogs.PermissionStatusViewModel

@@ -25,7 +25,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.AccessibilityPreferences
@@ -327,7 +327,7 @@ class AppInfo : ScopedFragment() {
 
         storage.setOnClickListener {
             clearExitTransition()
-            openFragment(requireActivity().supportFragmentManager, Storage.newInstance(packageInfo), "storage")
+            openFragment(requireActivity().supportFragmentManager, UsageStatistics.newInstance(packageInfo), "storage")
         }
 
         directories.setOnClickListener {

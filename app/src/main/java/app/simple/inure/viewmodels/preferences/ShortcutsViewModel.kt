@@ -27,7 +27,7 @@ import app.simple.inure.constants.ShortcutConstants.UNINSTALLED_ACTION
 import app.simple.inure.constants.ShortcutConstants.UNINSTALLED_ID
 import app.simple.inure.constants.ShortcutConstants.USAGE_STATS_ACTION
 import app.simple.inure.constants.ShortcutConstants.USAGE_STATS_ID
-import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ShortcutModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

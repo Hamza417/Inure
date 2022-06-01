@@ -9,14 +9,17 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.dialogs.usagestats.UsageStatsPermission
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
+import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.viewmodels.viewers.AppStatisticsViewModel
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 
-class Storage : ScopedFragment() {
+class UsageStatistics : ScopedFragment() {
 
     private lateinit var back: DynamicRippleImageButton
     private lateinit var totalTimeUsedChart: BarChart
@@ -30,8 +33,7 @@ class Storage : ScopedFragment() {
         totalTimeUsedChart = view.findViewById(R.id.total_time_used_bar_chart)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        appStatisticsViewModel = ViewModelProvider(this, AppStatisticsViewModelFactory(requireApplication(), packageInfo))
-            .get(AppStatisticsViewModel::class.java)
+        appStatisticsViewModel = ViewModelProvider(this, AppStatisticsViewModelFactory(requireApplication(), packageInfo))[AppStatisticsViewModel::class.java]
 
         return view
     }
@@ -40,7 +42,30 @@ class Storage : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         startPostponedEnterTransition()
+        doPermissionChecks()
 
+        back.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+    }
+
+    private fun doPermissionChecks() {
+        if (requireContext().checkForUsageAccessPermission()) {
+            observeData()
+        } else {
+            val dialog = UsageStatsPermission.newInstance()
+
+            dialog.setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
+                override fun onClosedAfterGrant() {
+                    observeData()
+                }
+            })
+
+            dialog.show(childFragmentManager, "usage_stats_permission")
+        }
+    }
+
+    private fun observeData() {
         appStatisticsViewModel.getTotalUsedChartData().observe(viewLifecycleOwner) {
             totalTimeUsedChart.data = BarData(BarDataSet(it, "Total Time Used"))
             totalTimeUsedChart.notifyDataSetChanged()
@@ -51,16 +76,22 @@ class Storage : ScopedFragment() {
 
         }
 
-        back.setOnClickListener {
-            requireActivity().onBackPressed()
+        appStatisticsViewModel.error.observe(viewLifecycleOwner) {
+            val e = Error.newInstance(it)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
+                }
+            })
         }
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo): Storage {
+        fun newInstance(applicationInfo: PackageInfo): UsageStatistics {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, applicationInfo)
-            val fragment = Storage()
+            val fragment = UsageStatistics()
             fragment.arguments = args
             return fragment
         }

@@ -39,29 +39,36 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
         }
     }
 
+    val error = MutableLiveData<String>()
+
     fun getTotalUsedChartData(): LiveData<List<BarEntry>> {
         return totalUsedChartData
     }
 
     private fun loadStatsData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val stats: MutableList<UsageStats> = with(UsageInterval.getTimeInterval()) {
-                usageStatsManager.queryUsageStats(StatisticsPreferences.getInterval(), first, second)
+            kotlin.runCatching {
+                val stats: MutableList<UsageStats> = with(UsageInterval.getTimeInterval()) {
+                    usageStatsManager.queryUsageStats(StatisticsPreferences.getInterval(), first, second)
+                }
+
+                val p0 = stats.stream().filter {
+                    it.packageName == packageInfo.packageName
+                }.collect(Collectors.toList())
+
+                stats[0].totalTimeInForeground
+
+                val list = arrayListOf<BarEntry>()
+
+                for (data in p0.indices) {
+                    list.add(BarEntry(data.toFloat(), p0[data].totalTimeInForeground.toFloat()))
+                }
+
+                totalUsedChartData.postValue(list)
+            }.getOrElse {
+                error.postValue(it.stackTraceToString())
+                it.printStackTrace()
             }
-
-            val p0 = stats.stream().filter {
-                it.packageName == packageInfo.packageName
-            }.collect(Collectors.toList())
-
-            stats[0].totalTimeInForeground
-
-            val list = arrayListOf<BarEntry>()
-
-            for (data in p0.indices) {
-                list.add(BarEntry(data.toFloat(), p0[data].totalTimeInForeground.toFloat()))
-            }
-
-            totalUsedChartData.postValue(list)
         }
     }
 

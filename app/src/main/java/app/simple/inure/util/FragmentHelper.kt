@@ -6,7 +6,7 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import org.jetbrains.annotations.NotNull
 
 object FragmentHelper {

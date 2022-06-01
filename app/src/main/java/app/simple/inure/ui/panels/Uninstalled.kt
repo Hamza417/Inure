@@ -13,7 +13,7 @@ import app.simple.inure.adapters.home.AdapterUninstalled
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.UninstallInfo
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper

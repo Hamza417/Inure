@@ -10,7 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.deviceinfo.AdapterDeviceInfoContent
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.theme.ThemeIcon
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.util.BatteryUtils
 import app.simple.inure.viewmodels.deviceinfo.BatteryViewModel
 

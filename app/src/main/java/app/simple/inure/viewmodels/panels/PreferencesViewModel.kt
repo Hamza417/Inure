@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.constants.PreferencesSearchConstants
-import app.simple.inure.extension.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PreferenceSearchModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

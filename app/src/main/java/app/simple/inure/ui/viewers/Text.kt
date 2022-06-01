@@ -20,7 +20,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.exceptions.LargeStringException
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.preferences.FormattingPreferences

@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel

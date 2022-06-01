@@ -19,7 +19,7 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.menus.TrackersMenu
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.trackers.TrackersMessage
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.ui.subviewers.TrackerSourceViewer

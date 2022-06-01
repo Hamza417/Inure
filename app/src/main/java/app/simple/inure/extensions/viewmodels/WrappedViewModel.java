@@ -1,4 +1,4 @@
-package app.simple.inure.extension.viewmodels;
+package app.simple.inure.extensions.viewmodels;
 
 import android.app.Application;
 import android.content.ContentResolver;

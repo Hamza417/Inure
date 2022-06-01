@@ -17,7 +17,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.batch.DialogBatchSelectedApps
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.menus.BatchMenu
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.batch.PopupBatchAppsCategory

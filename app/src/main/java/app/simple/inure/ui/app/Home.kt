@@ -22,8 +22,8 @@ import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.menus.AppsMenu
-import app.simple.inure.extension.fragments.ScopedFragment
-import app.simple.inure.extension.popup.PopupMenuCallback
+import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.terminal.Term

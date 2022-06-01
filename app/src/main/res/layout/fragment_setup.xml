@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
-                        android:text="@string/grant_usage_access_permission"
+                        android:text="@string/usage_access_permission"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_open_in_new_tiny"

@@ -14,7 +14,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterAppsDetailed
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle

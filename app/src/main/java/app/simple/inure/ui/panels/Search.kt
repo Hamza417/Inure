@@ -16,7 +16,7 @@ import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.menus.SearchMenu
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.app.AppInfo

@@ -1,4 +1,4 @@
-package app.simple.inure.extension.results;
+package app.simple.inure.extensions.results;
 
 import android.content.Intent;
 

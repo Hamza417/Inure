@@ -26,7 +26,7 @@ import app.simple.inure.dialogs.configuration.DateFormat
 import app.simple.inure.dialogs.terminal.DialogCommandLine
 import app.simple.inure.dialogs.terminal.DialogHomePath
 import app.simple.inure.dialogs.terminal.DialogInitialCommand
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.models.PreferenceSearchModel
 import app.simple.inure.ui.preferences.mainscreens.*

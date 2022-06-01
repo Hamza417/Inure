@@ -14,7 +14,7 @@ import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ChartMarkerView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.FragmentHelper

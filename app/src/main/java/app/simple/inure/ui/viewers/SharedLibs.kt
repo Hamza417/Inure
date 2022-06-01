@@ -11,7 +11,7 @@ import app.simple.inure.adapters.details.AdapterSharedLibs
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.SharedLibrariesViewModel
 

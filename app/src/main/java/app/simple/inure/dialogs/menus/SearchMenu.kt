@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.search.PopupSortingStyle
 import app.simple.inure.preferences.SearchPreferences

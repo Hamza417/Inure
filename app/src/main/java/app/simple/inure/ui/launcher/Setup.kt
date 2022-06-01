@@ -1,12 +1,9 @@
 package app.simple.inure.ui.launcher
 
 import android.app.Activity
-import android.app.AppOpsManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Process
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.AppOpsManagerCompat
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
@@ -30,6 +26,7 @@ import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted
+import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
@@ -111,7 +108,7 @@ class Setup : ScopedFragment() {
         }
 
         startApp.setOnClickListener {
-            if (checkForPermission() && !requireActivity().contentResolver.persistedUriPermissions.isNullOrEmpty()) {
+            if (requireContext().checkForUsageAccessPermission() && requireActivity().contentResolver.persistedUriPermissions.isNotEmpty()) {
                 FragmentHelper.openFragment(
                         requireActivity().supportFragmentManager,
                         SplashScreen.newInstance(false), view.findViewById(R.id.imageView3))
@@ -155,7 +152,7 @@ class Setup : ScopedFragment() {
 
     override fun onResume() {
         super.onResume()
-        if (checkForPermission()) {
+        if (requireContext().checkForUsageAccessPermission()) {
             usageStatus.text = getString(R.string.granted)
             usageAccess.isClickable = false
         } else {
@@ -172,23 +169,11 @@ class Setup : ScopedFragment() {
     }
 
     private fun showStartAppButton() {
-        if (checkForPermission() && requireContext().contentResolver.persistedUriPermissions.isNotEmpty()) {
+        if (requireContext().checkForUsageAccessPermission() && requireContext().contentResolver.persistedUriPermissions.isNotEmpty()) {
             startApp.visible(true)
         } else {
             startApp.invisible(true)
         }
-    }
-
-    private fun checkForPermission(): Boolean {
-        val appOps = requireContext().getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        val mode = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            appOps.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), requireContext().packageName)
-        } else {
-            @Suppress("Deprecation")
-            appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), requireContext().packageName)
-        }
-
-        return mode == AppOpsManagerCompat.MODE_ALLOWED
     }
 
     private fun setStorageStatus(uri: Uri?) {

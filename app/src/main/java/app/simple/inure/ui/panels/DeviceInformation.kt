@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDeviceInfo
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.ui.deviceinfo.BatteryInfo
 import app.simple.inure.ui.deviceinfo.DeviceInfo
 import app.simple.inure.ui.deviceinfo.SystemInfo

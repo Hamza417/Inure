@@ -16,7 +16,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.popups.viewers.PopupGraphicsFilter
 import app.simple.inure.popups.viewers.PopupGraphicsMenu

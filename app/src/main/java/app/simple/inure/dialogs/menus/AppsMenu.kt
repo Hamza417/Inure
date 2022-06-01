@@ -20,8 +20,8 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.Preparing
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedDialogFragment
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedDialogFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences

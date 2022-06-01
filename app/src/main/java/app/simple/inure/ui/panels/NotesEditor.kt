@@ -20,7 +20,7 @@ import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.notes.NotesEditorMenu
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.popups.notes.PopupBackgroundSpan

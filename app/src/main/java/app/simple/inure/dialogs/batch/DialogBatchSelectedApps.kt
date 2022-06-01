@@ -9,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatch
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.viewmodels.panels.BatchViewModel

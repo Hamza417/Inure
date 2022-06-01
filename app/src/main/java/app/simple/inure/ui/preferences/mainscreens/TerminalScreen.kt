@@ -15,7 +15,7 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.popups.terminal.PopupInputMethod
 import app.simple.inure.preferences.TerminalPreferences

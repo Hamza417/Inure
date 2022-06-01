@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.constants.Quotes
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.activities.BaseActivity
+import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.TTFHelper

@@ -20,13 +20,11 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.XmlWebView
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel
-import kotlinx.coroutines.*
 import java.io.IOException
-import java.util.*
 
 class HtmlViewer : ScopedFragment() {
 

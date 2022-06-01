@@ -21,7 +21,7 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.MarkedView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel

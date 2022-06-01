@@ -24,7 +24,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptorFullScreen
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptorGreyscale
 import app.simple.inure.services.AudioService

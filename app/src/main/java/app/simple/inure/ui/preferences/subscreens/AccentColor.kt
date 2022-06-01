@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterAccentColor
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
 
 class AccentColor : ScopedFragment() {

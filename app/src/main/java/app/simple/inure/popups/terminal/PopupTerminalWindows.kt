@@ -6,8 +6,8 @@ import android.view.View
 import app.simple.inure.R
 import app.simple.inure.adapters.terminal.AdapterWindows
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extension.popup.BasePopupWindow
-import app.simple.inure.extension.popup.PopupLinearLayout
+import app.simple.inure.extensions.popup.BasePopupWindow
+import app.simple.inure.extensions.popup.PopupLinearLayout
 
 class PopupTerminalWindows(anchor: View, adapterWindows: AdapterWindows) : BasePopupWindow() {
     private var recyclerView: CustomVerticalRecyclerView

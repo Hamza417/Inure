@@ -1,4 +1,4 @@
-package app.simple.inure.extension.fragments
+package app.simple.inure.extensions.fragments
 
 import android.app.Application
 import android.content.SharedPreferences

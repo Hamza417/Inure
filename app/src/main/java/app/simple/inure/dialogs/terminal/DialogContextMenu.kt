@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.extension.fragments.ScopedDialogFragment
+import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 

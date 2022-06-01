@@ -14,13 +14,15 @@ import app.simple.inure.adapters.ui.AdapterUsageStats
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.menus.UsageStatsMenu
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.dialogs.usagestats.UsageStatsPermission
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.usagestats.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
+import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 
 class Statistics : ScopedFragment() {
@@ -41,6 +43,19 @@ class Statistics : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!requireContext().checkForUsageAccessPermission()) {
+            val dialog = UsageStatsPermission.newInstance()
+
+            dialog.setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
+                override fun onClosedAfterGrant() {
+                    adapterUsageStats.enableLoader()
+                    usageStatsViewModel.loadAppStats()
+                }
+            })
+
+            dialog.show(childFragmentManager, "usage_stats_permission")
+        }
 
         usageStatsViewModel.usageData.observe(viewLifecycleOwner) {
             postponeEnterTransition()

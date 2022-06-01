@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.extension.popup.BasePopupWindow
-import app.simple.inure.extension.popup.PopupLinearLayout
+import app.simple.inure.extensions.popup.BasePopupWindow
+import app.simple.inure.extensions.popup.PopupLinearLayout
 import app.simple.inure.preferences.TerminalPreferences
 
 class PopupInputMethod(view: View) : BasePopupWindow() {

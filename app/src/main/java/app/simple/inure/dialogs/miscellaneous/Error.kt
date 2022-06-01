@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extension.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.dialog.ErrorViewModelFactory
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.visible

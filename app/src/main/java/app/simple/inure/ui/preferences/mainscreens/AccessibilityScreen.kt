@@ -9,7 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import app.simple.inure.R
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.TextViewUtils.makeLinks

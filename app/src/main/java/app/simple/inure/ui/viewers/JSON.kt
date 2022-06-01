@@ -21,7 +21,7 @@ import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.CodeViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor

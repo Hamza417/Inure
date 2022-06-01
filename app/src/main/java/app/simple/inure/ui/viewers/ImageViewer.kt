@@ -16,7 +16,7 @@ import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.themes.manager.ThemeManager

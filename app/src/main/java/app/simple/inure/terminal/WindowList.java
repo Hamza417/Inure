@@ -17,7 +17,7 @@ import app.simple.inure.R;
 import app.simple.inure.adapters.terminal.AdapterWindows;
 import app.simple.inure.decorations.emulatorview.TermSession;
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView;
-import app.simple.inure.extension.activities.BaseActivity;
+import app.simple.inure.extensions.activities.BaseActivity;
 import app.simple.inure.terminal.compat.ActionBarCompat;
 import app.simple.inure.terminal.compat.ActivityCompat;
 import app.simple.inure.terminal.compat.AndroidCompat;

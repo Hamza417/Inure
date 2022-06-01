@@ -12,17 +12,24 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.FileSizeHelper.toSize
+import app.simple.inure.util.ViewUtils.visible
 import java.util.concurrent.TimeUnit
 
 class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
     private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
     private var isLimitedToHours = StatisticsPreferences.isLimitToHours()
+    private var isLoader = false
+        set(value) {
+            field = value
+            notifyItemChanged(0)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -112,6 +119,8 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
             }
 
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), list.size)
+
+            if (isLoader) holder.loader.visible(false)
         }
     }
 
@@ -140,6 +149,10 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
         }
     }
 
+    fun enableLoader() {
+        isLoader = true
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_usage_stats_container)
         val icon: ImageView = itemView.findViewById(R.id.icon)
@@ -157,5 +170,6 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
         val filter: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_filter_button)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
+        val loader: CustomProgressBar = itemView.findViewById(R.id.loader)
     }
 }

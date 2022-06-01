@@ -11,7 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extension.fragments.ScopedDialogFragment
+import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.ViewUtils.gone

@@ -8,7 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.terminal.AdapterControlKey
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.miscellaneous.Error
-import app.simple.inure.extension.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 
 class TerminalControlKey : ScopedFragment() {
 
