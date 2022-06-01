@@ -25,7 +25,7 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
 
     private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
     private var isLimitedToHours = StatisticsPreferences.isLimitToHours()
-    private var isLoader = false
+    private var isLoader = false // list.isEmpty()
         set(value) {
             field = value
             notifyItemChanged(0)

@@ -23,11 +23,12 @@ import java.util.zip.ZipFile
 
 object APKParser {
 
-    const val ARMEABI = "“generic” 32-bit ARM"
-    const val ARM64 = "arm64-v8a"
-    const val ARMv7 = "armeabi-v7a"
-    const val x86 = "x86"
-    const val x86_64 = "x86_64"
+    private const val ARMEABI = "armeabi"
+    private const val ARM64 = "arm64-v8a"
+    private const val ARMv7 = "armeabi-v7a"
+    private const val MIPS = "mips"
+    private const val x86 = "x86"
+    private const val x86_64 = "x86_64"
 
     /**
      * Fetch the decompiled manifest from an APK file
@@ -222,6 +223,7 @@ object APKParser {
             while (entries.hasMoreElements()) {
                 val entry: ZipEntry? = entries.nextElement()
                 val name: String = entry!!.name
+
                 if (name.contains("lib")) {
                     if (name.contains(ARMEABI)) {
                         if (!stringBuilder.contains(ARMEABI)) {
@@ -230,6 +232,7 @@ object APKParser {
                             }
 
                             stringBuilder.append(ARMEABI)
+                            stringBuilder.append(" “generic” 32-bit ARM")
                         }
                     }
 
@@ -250,6 +253,16 @@ object APKParser {
                             }
 
                             stringBuilder.append(ARMv7)
+                        }
+                    }
+
+                    if (name.contains(MIPS)) {
+                        if (!stringBuilder.contains(MIPS)) {
+                            if (stringBuilder.isNotBlank()) {
+                                stringBuilder.append(" | ")
+                            }
+
+                            stringBuilder.append(MIPS)
                         }
                     }
 
@@ -452,6 +465,7 @@ object APKParser {
                     }
                 }
             }
+
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
