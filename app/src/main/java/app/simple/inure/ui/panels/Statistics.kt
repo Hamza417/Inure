@@ -11,6 +11,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterUsageStats
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.menus.UsageStatsMenu
@@ -44,6 +45,8 @@ class Statistics : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showLoader()
+
         if (!requireContext().checkForUsageAccessPermission()) {
             val dialog = UsageStatsPermission.newInstance()
 
@@ -59,6 +62,7 @@ class Statistics : ScopedFragment() {
 
         usageStatsViewModel.usageData.observe(viewLifecycleOwner) {
             postponeEnterTransition()
+            hideLoader()
 
             adapterUsageStats = AdapterUsageStats(it)
 
@@ -131,9 +135,10 @@ class Statistics : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): Statistics {
+        fun newInstance(loading: Boolean = false): Statistics {
             val args = Bundle()
             val fragment = Statistics()
+            args.putBoolean(BundleConstants.loading, loading)
             fragment.arguments = args
             return fragment
         }

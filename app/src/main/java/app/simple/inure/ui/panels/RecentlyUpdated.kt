@@ -10,6 +10,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterRecentlyUpdated
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -37,8 +38,11 @@ class RecentlyUpdated : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showLoader()
+
         homeViewModel.getUpdatedApps().observe(viewLifecycleOwner) {
             postponeEnterTransition()
+            hideLoader()
 
             adapterRecentlyUpdated.apps = it
             recyclerView.adapter = adapterRecentlyUpdated
@@ -79,9 +83,10 @@ class RecentlyUpdated : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): RecentlyUpdated {
+        fun newInstance(loading: Boolean = false): RecentlyUpdated {
             val args = Bundle()
             val fragment = RecentlyUpdated()
+            args.putBoolean(BundleConstants.loading, loading)
             fragment.arguments = args
             return fragment
         }

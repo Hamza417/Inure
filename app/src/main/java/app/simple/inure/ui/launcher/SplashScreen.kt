@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 class SplashScreen : ScopedFragment() {
 
     private lateinit var icon: ImageView
-    private lateinit var loader: LoaderImageView
+    private lateinit var loaderImageView: LoaderImageView
 
     private var isAppDataLoaded = false
     private var isUsageDataLoaded = false
@@ -51,12 +51,12 @@ class SplashScreen : ScopedFragment() {
         startPostponedEnterTransition()
 
         icon = view.findViewById(R.id.imageView)
-        loader = view.findViewById(R.id.loader)
+        loaderImageView = view.findViewById(R.id.loader)
 
         icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))
 
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
-            loader.alpha = 0F
+            loaderImageView.alpha = 0F
         }
 
         // (icon.drawable as AnimatedVectorDrawable).start()

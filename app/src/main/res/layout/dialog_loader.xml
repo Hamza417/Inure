@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="horizontal"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.views.LoaderImageView
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:padding="5dp"
+            app:loaderStyle="rotary"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dialog_padding"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="medium"
+            app:textColorStyle="secondary" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

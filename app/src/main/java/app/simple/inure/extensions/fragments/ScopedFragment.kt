@@ -10,8 +10,10 @@ import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.Fragment
 import androidx.transition.Fade
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransition
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
+import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +41,11 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * @throws UninitializedPropertyAccessException
      */
     lateinit var packageInfo: PackageInfo
+
+    /**
+     * Fragments own loader instance
+     */
+    protected var loader: Loader? = null
 
     /**
      * [postponeEnterTransition] here and initialize all the
@@ -155,6 +162,19 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             sharedElementEnterTransition = DetailsTransition(duration)
             sharedElementReturnTransition = DetailsTransition(duration)
         }
+    }
+
+    open fun showLoader() {
+        if (requireArguments().getBoolean(BundleConstants.loading)) {
+            loader = Loader.newInstance()
+            loader?.show(childFragmentManager, "loader")
+        }
+    }
+
+    @Throws(IllegalStateException::class)
+    open fun hideLoader() {
+        loader = Loader.newInstance()
+        loader?.dismiss()
     }
 
     /**

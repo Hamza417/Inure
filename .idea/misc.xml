@@ -70,6 +70,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_play.xml" value="0.1375" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_radio_thumb.xml" value="0.2523076923076923" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_sd.xml" value="0.25625" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_search.xml" value="0.1385" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_sensors.xml" value="0.1395" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_settings.xml" value="0.1385" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/ic_shell.xml" value="0.1395" />
@@ -97,6 +98,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/sc_preferences.xml" value="0.1385" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/sc_recently_installed.xml" value="0.1395" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/sc_recently_updated.xml" value="0.1395" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/sc_search.xml" value="0.1385" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/sc_stats.xml" value="0.1395" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/sc_terminal.xml" value="0.1395" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/sc_uninstalled.xml" value="0.1395" />
@@ -208,6 +210,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_info_uninstalled.xml" value="0.25" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_initial_command.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_intent_action.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_loader.xml" value="0.21388888888888888" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_main_settings.xml" value="0.2" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_notes_editor_settings.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_notes_menu.xml" value="0.21574074074074073" />

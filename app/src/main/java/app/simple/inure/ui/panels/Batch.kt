@@ -11,6 +11,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatch
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -59,9 +60,12 @@ class Batch : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showLoader()
+
         batchViewModel.getAppData().observe(viewLifecycleOwner) {
             adapterBatch = AdapterBatch(it)
             batchMenuState(it)
+            hideLoader()
 
             adapterBatch?.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
@@ -161,9 +165,10 @@ class Batch : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): Batch {
+        fun newInstance(loading: Boolean = false): Batch {
             val args = Bundle()
             val fragment = Batch()
+            args.putBoolean(BundleConstants.loading, loading)
             fragment.arguments = args
             return fragment
         }

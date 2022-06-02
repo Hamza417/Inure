@@ -67,17 +67,17 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
                 }
                 ShortcutConstants.APPS_ACTION -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, Apps.newInstance(), "apps")
+                        .replace(R.id.app_container, Apps.newInstance(loading = true), "apps")
                         .commit()
                 }
                 ShortcutConstants.BATCH_ACTION -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, Batch.newInstance(), "batch")
+                        .replace(R.id.app_container, Batch.newInstance(loading = true), "batch")
                         .commit()
                 }
                 ShortcutConstants.MOST_USED_ACTION -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, MostUsed.newInstance(), "most_used")
+                        .replace(R.id.app_container, MostUsed.newInstance(loader = true), "most_used")
                         .commit()
                 }
                 ShortcutConstants.NOTES_ACTION -> {
@@ -87,12 +87,12 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
                 }
                 ShortcutConstants.RECENTLY_INSTALLED_ACTION -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, RecentlyInstalled.newInstance(), "recently_installed")
+                        .replace(R.id.app_container, RecentlyInstalled.newInstance(loading = true), "recently_installed")
                         .commit()
                 }
                 ShortcutConstants.RECENTLY_UPDATED_ACTION -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, RecentlyUpdated.newInstance(), "recently_updated")
+                        .replace(R.id.app_container, RecentlyUpdated.newInstance(loading = true), "recently_updated")
                         .commit()
                 }
                 ShortcutConstants.TERMINAL_ACTION -> {
@@ -106,12 +106,17 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
                 }
                 ShortcutConstants.USAGE_STATS_ACTION -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, Statistics.newInstance(), "stats")
+                        .replace(R.id.app_container, Statistics.newInstance(loading = true), "stats")
                         .commit()
                 }
                 ShortcutConstants.PREFERENCES_ACTION -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.app_container, Preferences.newInstance(), "preferences")
+                        .commit()
+                }
+                ShortcutConstants.SEARCH_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Search.newInstance(true), "search")
                         .commit()
                 }
                 "open_device_info" -> {

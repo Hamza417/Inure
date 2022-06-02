@@ -12,6 +12,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterAppsDetailed
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -43,8 +44,11 @@ class Apps : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showLoader()
+
         model.getAppData().observe(viewLifecycleOwner) {
             postponeEnterTransition()
+            hideLoader()
 
             adapter = AdapterAppsDetailed()
             adapter.apps = it
@@ -107,9 +111,10 @@ class Apps : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): Apps {
+        fun newInstance(loading: Boolean = false): Apps {
             val args = Bundle()
             val fragment = Apps()
+            args.putBoolean(BundleConstants.loading, loading)
             fragment.arguments = args
             return fragment
         }

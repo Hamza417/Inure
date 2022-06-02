@@ -10,6 +10,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterFrequentlyUsed
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -37,8 +38,11 @@ class MostUsed : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showLoader()
+
         homeViewModel.frequentlyUsed.observe(viewLifecycleOwner) {
             postponeEnterTransition()
+            hideLoader()
 
             adapterFrequentlyUsed.apps = it
             recyclerView.adapter = adapterFrequentlyUsed
@@ -79,9 +83,10 @@ class MostUsed : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): MostUsed {
+        fun newInstance(loader: Boolean = false): MostUsed {
             val args = Bundle()
             val fragment = MostUsed()
+            args.putBoolean(BundleConstants.loading, loader)
             fragment.arguments = args
             return fragment
         }

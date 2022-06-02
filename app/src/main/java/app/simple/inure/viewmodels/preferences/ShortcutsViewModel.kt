@@ -21,6 +21,8 @@ import app.simple.inure.constants.ShortcutConstants.RECENTLY_INSTALLED_ACTION
 import app.simple.inure.constants.ShortcutConstants.RECENTLY_INSTALLED_ID
 import app.simple.inure.constants.ShortcutConstants.RECENTLY_UPDATED_ACTION
 import app.simple.inure.constants.ShortcutConstants.RECENTLY_UPDATED_ID
+import app.simple.inure.constants.ShortcutConstants.SEARCH_ACTION
+import app.simple.inure.constants.ShortcutConstants.SEARCH_ID
 import app.simple.inure.constants.ShortcutConstants.TERMINAL_ACTION
 import app.simple.inure.constants.ShortcutConstants.TERMINAL_ID
 import app.simple.inure.constants.ShortcutConstants.UNINSTALLED_ACTION
@@ -59,7 +61,8 @@ class ShortcutsViewModel(application: Application) : WrappedViewModel(applicatio
                     ShortcutModel(R.drawable.sc_recently_updated, RECENTLY_UPDATED_ID, RECENTLY_UPDATED_ACTION, context.getString(R.string.recently_updated)),
                     ShortcutModel(R.drawable.sc_most_used, MOST_USED_ID, MOST_USED_ACTION, context.getString(R.string.most_used)),
                     ShortcutModel(R.drawable.sc_uninstalled, UNINSTALLED_ID, UNINSTALLED_ACTION, context.getString(R.string.uninstalled)),
-                    ShortcutModel(R.drawable.sc_preferences, PREFERENCES_ID, PREFERENCES_ACTION, context.getString(R.string.preferences))
+                    ShortcutModel(R.drawable.sc_preferences, PREFERENCES_ID, PREFERENCES_ACTION, context.getString(R.string.preferences)),
+                    ShortcutModel(R.drawable.sc_search, SEARCH_ID, SEARCH_ACTION, context.getString(R.string.search))
             )
 
             list.sortBy {
