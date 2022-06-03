@@ -18,12 +18,29 @@
         android:padding="@dimen/dialog_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/heap_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:drawablePadding="@dimen/dialog_padding"
+            android:drawableTint="?attr/colorAppAccent"
+            android:gravity="center_vertical"
+            android:text="@string/memory"
             android:textSize="@dimen/info_text_large"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_memory"
+            app:textColorStyle="accent" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/memory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:text="@string/executing_command"
+            android:textSize="@dimen/error_text_size"
             app:appFontStyle="regular"
-            app:textColorStyle="secondary" />
+            app:textColorStyle="tertiary" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

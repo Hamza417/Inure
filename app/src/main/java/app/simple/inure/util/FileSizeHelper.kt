@@ -48,6 +48,24 @@ object FileSizeHelper {
         return File(this).list()!!.size
     }
 
+    fun Int.toBytes(): Int {
+        return when {
+            FormattingPreferences.getSizeType() == "si" -> {
+                this * 1000
+            }
+            FormattingPreferences.getSizeType() == "binary" -> {
+                this * 1024
+            }
+            else -> {
+                this * 1000
+            }
+        }
+    }
+
+    fun Int.toSize(): String {
+        return toLong().toSize()
+    }
+
     fun Long.toSize(): String {
         return when {
             FormattingPreferences.getSizeType() == "si" -> {
