@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_unpack_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/header_padding"
+    android:layout_marginVertical="5dp"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/adapter_unpack_icon"
+        android:layout_width="@dimen/preference_icon_size"
+        android:layout_height="@dimen/preference_icon_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_unpack_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="@dimen/preferences_title_text_size"
+        app:appFontStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/adapter_unpack_path"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_unpack_icon"
+        app:layout_constraintTop_toTopOf="@+id/adapter_unpack_icon"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_unpack_path"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:textSize="@dimen/preferences_description_text_size"
+        app:appFontStyle="regular"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="@+id/adapter_unpack_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_unpack_icon"
+        app:layout_constraintTop_toBottomOf="@id/adapter_unpack_name"
+        app:textColorStyle="tertiary" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

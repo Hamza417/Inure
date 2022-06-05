@@ -8,8 +8,10 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.transition.Fade
+import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransition
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
@@ -189,5 +191,22 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     protected fun getInteger(resId: Int): Int {
         return resources.getInteger(resId)
+    }
+
+    /**
+     * Open fragment using slide animation
+     *
+     * @param fragment [Fragment]
+     * @param tag back stack tag for fragment
+     */
+    protected fun openFragment(fragment: ScopedFragment, @Nullable tag: String?) {
+        clearExitTransition()
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+            .replace(R.id.app_container, fragment, tag)
+            .addToBackStack(tag)
+            .commit()
     }
 }

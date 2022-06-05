@@ -12,12 +12,12 @@ class CodeViewModelFactory(private val application: Application, private val pac
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        when {
+        return when {
             modelClass.isAssignableFrom(JSONViewerViewModel::class.java) -> {
-                return JSONViewerViewModel(application, accentColor, packageInfo, path) as T
+                JSONViewerViewModel(application, accentColor, packageInfo, path) as T
             }
             modelClass.isAssignableFrom(JavaViewModel::class.java) -> {
-                return JavaViewModel(application, accentColor, packageInfo, path) as T
+                JavaViewModel(application, accentColor, packageInfo, path) as T
             }
             else -> {
                 throw IllegalArgumentException("Wrong Viewmodel!!")
