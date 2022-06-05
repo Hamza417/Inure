@@ -48,7 +48,7 @@ class Unpack : ScopedFragment() {
 
         unpackViewModel.getFileData().observe(viewLifecycleOwner) {
             progress.gone(animate = true)
-            val adapterUnpack = AdapterUnpack(it)
+            val adapterUnpack = AdapterUnpack(it, packageInfo)
             recyclerView.adapter = adapterUnpack
         }
     }

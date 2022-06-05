@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.ui
 
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,10 @@ import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.models.UnpackModel
 
-class AdapterUnpack(val arrayList: ArrayList<UnpackModel>) : RecyclerView.Adapter<AdapterUnpack.Holder>() {
+class AdapterUnpack(val arrayList: ArrayList<UnpackModel>, val packageInfo: PackageInfo) : RecyclerView.Adapter<AdapterUnpack.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_unpack, parent, false))
@@ -21,6 +23,17 @@ class AdapterUnpack(val arrayList: ArrayList<UnpackModel>) : RecyclerView.Adapte
         holder.name.text = arrayList[position].name
         holder.path.text = arrayList[position].path
 
+        if (arrayList[position].name.endsWith(".xml")) {
+            holder.icon.setImageResource(R.drawable.ic_file_xml)
+        } else if (arrayList[position].name.endsWith("png") ||
+            arrayList[position].name.endsWith("jpg") ||
+            arrayList[position].name.endsWith("svg") ||
+            arrayList[position].name.endsWith("jpeg") ||
+            arrayList[position].name.endsWith("webp")) {
+            holder.icon.loadGraphics(packageInfo.applicationInfo.sourceDir, arrayList[position].path)
+        } else {
+            holder.icon.setImageResource(R.drawable.ic_error)
+        }
     }
 
     override fun getItemCount(): Int {
