@@ -141,8 +141,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                         art.loadFromFileDescriptor(uri!!)
                     }
                     ServiceConstants.actionQuitService -> {
-                        requireContext().unbindService(serviceConnection!!)
-                        requireActivity().finishAfterTransition()
+                        requireActivity().finish()
                     }
                     ServiceConstants.actionPlay -> {
                         buttonStatus(true)

@@ -148,8 +148,7 @@ class FullScreenAudioPlayer : ScopedFragment() {
                         artGs.loadFromFileDescriptorGreyscale(uri!!)
                     }
                     ServiceConstants.actionQuitService -> {
-                        requireContext().unbindService(serviceConnection!!)
-                        requireActivity().finishAfterTransition()
+                        requireActivity().finish()
                     }
                     ServiceConstants.actionPlay -> {
                         art.animate()
