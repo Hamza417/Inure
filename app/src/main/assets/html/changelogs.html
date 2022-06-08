@@ -13,25 +13,30 @@
 <h2>Build30</h2>
 
 <h4>Bug Fixes</h4>
-
 <ul>
     <li>Fixed preference background appearing white in dark themes.</li>
 </ul>
 
-<br>
-<br>
+<h4>Improvements</h4>
 
+<ul>
+    <li>Improved theme engine in some parts where background is having issues setting proper theme
+        based colors.
+    </li>
+
+</ul>
+
+<br>
+<br>
 <div class="wrap-collapsible">
     <input id="build_29" class="toggle" type="checkbox">
     <label for="build_29" class="lbl-toggle">Build29</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Changed text hyphenation frequency to none to prevent breaking of words in some
-                    cases when
-                    complete text is larger than the layout specified.
+                    cases when complete text is larger than the layout specified.
                 </li>
                 <li>Added <i>Preferences</i> shortcut in <b>Shortcuts</b> panel.</li>
                 <li>Added <b>App Memory</b> option in <b>Preferences</b> panel to check app heap
@@ -42,9 +47,7 @@
                 <li>Added popup to redirect to grant page for usage stats permission.</li>
                 <li>Added <b>Unpack</b> in <b>App Info</b> panel (partially implemented).</li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed <b>Preferences</b> panel icon animation duration issue.</li>
                 <li>Fixed flickering of <b>Preferences</b> header.</li>
@@ -62,7 +65,6 @@
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added <b>Shortcuts</b> editor panel in <b>Configuration</b> panel.</li>
                 <li>Added <i>Native Libraries</i> in <b>App Information</b> panel.</li>
@@ -78,9 +80,7 @@
                     viewing.
                 </li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed list state loss in viewer panels when search box is visible/focused.</li>
                 <li>Addressed missing Android 12L tag issue in sdk metadata.</li>
@@ -95,17 +95,13 @@
                     collapsed.
                 </li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Fixed leading and trailing whitespace issue for various text fields of the
                     app.
                 </li>
             </ul>
-
             <h4>Trackers</h4>
-
             <ul>
                 <li>Added <b>Trackers</b> in <b>Application Information</b> panel.</li>
                 <li>Added tracker source parser and viewer.</li>
@@ -119,9 +115,7 @@
                     loaded.
                 </li>
             </ul>
-
             <h4>Batch</h4>
-
             <ul>
                 <li>Written complete backend for <b>Batch</b> function.
                     <br>
@@ -130,7 +124,6 @@
                         <b>Batch</b> and hopefully they will be available by the next update.</sub>
                 </li>
             </ul>
-
             <hr>
             <p>
                 <b>Device Info</b> removed from the home and its development won't be carried out as
@@ -144,7 +137,6 @@
                 command in the
                 terminal emulator or ADB Shell.
             </p>
-
             <pre>
                 <code>am start -n app.simple.inure/app.simple.inure.activities.app.MainActivity -a "open_device_info"</code>
             </pre>
@@ -158,7 +150,6 @@
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li><b>Quick Apps</b> list will be hidden from <b>Home</b> panel if there are no
                     apps added in
@@ -172,9 +163,7 @@
                 </li>
                 <li>Added theme state icon.</li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed <i>Remove from Quick Apps</i> option not working in <b>Apps Menu</b> if
                     there are no
@@ -185,16 +174,12 @@
                 <li>Fixed few UI issues in <b>Terminal Preferences</b> panel.</li>
                 <li>Added quick shortcuts for post nougat android versions.</li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Improved theme change animation in theme selection panel.</li>
                 <li>Improved <b>Share</b> panel interface.</li>
             </ul>
-
             <h4>Notes</h4>
-
             <ul>
                 <li>Implemented <b>Bold</b> function.</li>
                 <li>Implemented <b>Italic</b> function.</li>
@@ -216,7 +201,8 @@
                 <li>Added option to toggle <i>Auto Save</i> mechanism.</li>
                 <li>Added note updated date in <b>Notes</b> panel.</li>
                 <li>Added dedicated note viewer.<br></li>
-                <li><b>Known Issues:</b>
+                <li>
+                    <b>Known Issues:</b>
                     <ul>
                         <li>Sometimes auto saving notes gives error <i>Cannot serialize
                             SpellCheckSpan...</i>
@@ -241,15 +227,12 @@
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
                 <li>Added three new fonts, <i>Fredoka, Heebo,</i> and <i>Mali</i>.</li>
                 <li>Implemented <b>Batch</b> panel.</li>
                 <li>Added notes panel.</li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed a few minor issues with <b>Audio Player</b>.</li>
                 <li>Fixed search highlight issue when <i>Ignore Case</i> is on.</li>
@@ -257,9 +240,7 @@
                     panel.
                 </li>
             </ul>
-
             <h4>Improvements</h4>
-
             <ul>
                 <li>Preloading uninstalled apps to remove slight lag when clicking
                     <b>Uninstalled</b>.
@@ -268,9 +249,7 @@
                     values.
                 </li>
             </ul>
-
             <h4>Batch</h4>
-
             <ul>
                 <li>Added application list in batch.</li>
                 <li>Made batch selected items' state persistent meaning any state of the selection
@@ -281,18 +260,14 @@
                 <li>Added a separate model window for selected batch items.</li>
                 <li>The batch functions are yet to be implemented.</li>
             </ul>
-
             <h4>Notes</h4>
-
             <ul>
                 <li>Added notes list.</li>
                 <li>Added dedicated <b>Notes Editor</b> panel.</li>
                 <li>Added <i>Undo</i> and <i>Redo</i> options.</li>
                 <li>Added <i>Save on Type</i> mechanism for notes editor.</li>
             </ul>
-
             <h4>Note:</h4>
-
             <ul>
                 <li>This build wasn't supposed to be released yet, but college exams are starting
                     next week and
@@ -333,9 +308,7 @@
                 <li>Added info dialog for <b>Uninstalled</b> apps.</li>
                 <li>Added marker view for charts in <b>Analytics</b> panel.</li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
                 <li>Fixed legend layout not padded properly in <b>Analytics</b> panel.</li>
                 <li>Fixed solid center color for Pie charts.</li>
@@ -343,9 +316,9 @@
                 <li>Fixed icon not animating back from <b>Terminal</b> panel.
                     <br>
                     <small>Also replaced linear animation with native app's arc animation for icon
-                        transition.</small></li>
+                        transition.</small>
+                </li>
             </ul>
-
             <h4>Improvements</h4>
             <ul>
                 <li>Pie charts' legends type face now follows app's typeface.</li>
@@ -366,7 +339,6 @@
                         files during runtime will overload the system.</sub>
                 </li>
             </ul>
-
             <h4>Adjustments</h4>
             <ul>
                 <li>Dot size adjustments to make it's margin aligned with other preferences ui
@@ -374,7 +346,6 @@
                     indicators.
                 </li>
             </ul>
-
             <h4>Deprecated</h4>
             <ul>
                 <li>WebView XML file viewer is deprecated and it's support won't be carried out. It

@@ -37,9 +37,9 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:text="@string/resources"
-            app:textColorStyle="accent"
             android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/resources_option_btn"
