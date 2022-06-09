@@ -127,6 +127,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_all_apps_header.xml" value="0.2364102564102564" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_all_apps_small_details.xml" value="0.2364102564102564" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_app_info_menu.xml" value="0.22407407407407406" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_app_info_menu_grid.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_batch.xml" value="0.2" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_heading.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_items.xml" value="0.2101851851851852" />
@@ -190,6 +191,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/device_info_system.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_analytics_menu.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_app_corner.xml" value="0.21666666666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_app_info_menu.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_app_memory.xml" value="0.2390625" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_app_share.xml" value="0.21203703703703702" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/dialog_apps_menu.xml" value="0.21203703703703702" />
@@ -344,6 +346,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_input_method.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_label_type.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_main_list_menu.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_menu_layout.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_permission_menu.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_providers_menu.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/popup_receivers_menu.xml" value="0.24010416666666667" />
@@ -369,7 +372,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/preferences_terminal.xml" value="0.21574074074074073" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/radio_button_view.xml" value="0.22" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/search_view.xml" value="0.225" />
-        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/sub_app_header.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/sub_app_header.xml" value="0.21203703703703702" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/sub_app_options.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/sub_graph_view.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/sub_preferences_shortcuts.xml" value="0.24010416666666667" />

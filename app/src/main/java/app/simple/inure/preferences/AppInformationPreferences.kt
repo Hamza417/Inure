@@ -1,10 +1,11 @@
 package app.simple.inure.preferences
 
-object AppInfoPanelPreferences {
+object AppInformationPreferences {
 
     const val metaMenuState = "is_meta_menu_folded"
     const val actionMenuState = "is_action_menu_folder"
     const val miscMenuState = "is_misc_menu_folded"
+    const val menuLayout = "app_info_menu_layout"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -34,5 +35,15 @@ object AppInfoPanelPreferences {
 
     fun isMiscMenuFolded(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(miscMenuState, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setMenuLayout(value: Int) {
+        SharedPreferences.getSharedPreferences().edit().putInt(menuLayout, value).apply()
+    }
+
+    fun getMenuLayout(): Int {
+        return SharedPreferences.getSharedPreferences().getInt(menuLayout, 1)
     }
 }

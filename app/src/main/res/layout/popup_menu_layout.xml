@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/popup_padding"
+    tools:parentTag="app.simple.inure.decorations.corners.DynamicCornerLinearLayout">
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/horizontal"
+        app:textColorStyle="primary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:text="@string/grid"
+        app:textColorStyle="primary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+</merge>

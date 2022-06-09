@@ -49,6 +49,7 @@
             android:layout_gravity="center_horizontal"
             android:layoutAnimation="@anim/grid_list_animation_controller"
             android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"
             android:scrollbars="none" />
 
         <LinearLayout
@@ -78,6 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:nestedScrollingEnabled="false"
             android:layoutAnimation="@anim/grid_list_animation_controller"
             android:overScrollMode="never"
             android:scrollbars="none" />
@@ -109,6 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:nestedScrollingEnabled="false"
             android:layoutAnimation="@anim/grid_list_animation_controller"
             android:overScrollMode="never"
             android:scrollbars="none" />

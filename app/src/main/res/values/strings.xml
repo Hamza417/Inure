@@ -520,4 +520,7 @@
     <string name="show_all_classes_desc">Keep classes in the list that may or may not be related to tracking.</string>
     <string name="show_trackers_analytics_automatically">Show Tracker Analytics Automatically</string>
     <string name="unpack">Unpack</string>
+    <string name="menu_layout">Menu Layout</string>
+    <string name="horizontal">Horizontal</string>
+    <string name="grid">Grid</string>
 </resources>

@@ -13,6 +13,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.menus.AdapterMenu
@@ -24,12 +25,14 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.appinfo.AppInfoMenu
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.popups.appinfo.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
-import app.simple.inure.preferences.AppInfoPanelPreferences
+import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.panels.NotesEditor
@@ -47,6 +50,7 @@ class AppInfo : ScopedFragment() {
 
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
+    private lateinit var settings: DynamicRippleImageButton
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var storage: DynamicRippleTextView
     private lateinit var directories: DynamicRippleTextView
@@ -69,6 +73,7 @@ class AppInfo : ScopedFragment() {
         icon = view.findViewById(R.id.fragment_app_info_icon)
         name = view.findViewById(R.id.fragment_app_name)
         packageId = view.findViewById(R.id.fragment_app_package_id)
+        settings = view.findViewById(R.id.settings_button)
         appInformation = view.findViewById(R.id.app_info_information_tv)
         storage = view.findViewById(R.id.app_info_storage_tv)
         directories = view.findViewById(R.id.app_info_directories_tv)
@@ -106,7 +111,7 @@ class AppInfo : ScopedFragment() {
         componentsViewModel.getMenuItems().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
-            if (AppInfoPanelPreferences.isMetaMenuFolded()) {
+            if (AppInformationPreferences.isMetaMenuFolded()) {
                 (view.parent as? ViewGroup)?.doOnPreDraw {
                     startPostponedEnterTransition()
                 }
@@ -115,7 +120,16 @@ class AppInfo : ScopedFragment() {
 
             val adapterMenu = AdapterMenu(it)
             adapterMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-            meta.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+
+            when (AppInformationPreferences.getMenuLayout()) {
+                PopupMenuLayout.HORIZONTAL -> {
+                    meta.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+                }
+                PopupMenuLayout.GRID -> {
+                    meta.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+                }
+            }
+
             meta.adapter = adapterMenu
             meta.scheduleLayoutAnimation()
 
@@ -179,10 +193,19 @@ class AppInfo : ScopedFragment() {
 
         componentsViewModel.getMenuOptions().observe(viewLifecycleOwner) {
 
-            if (AppInfoPanelPreferences.isActionMenuFolded()) return@observe
+            if (AppInformationPreferences.isActionMenuFolded()) return@observe
 
             val adapterAppInfoMenu = AdapterMenu(it)
-            actions.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
+
+            when (AppInformationPreferences.getMenuLayout()) {
+                PopupMenuLayout.HORIZONTAL -> {
+                    actions.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+                }
+                PopupMenuLayout.GRID -> {
+                    actions.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+                }
+            }
+
             actions.adapter = adapterAppInfoMenu
             actions.scheduleLayoutAnimation()
 
@@ -279,10 +302,19 @@ class AppInfo : ScopedFragment() {
 
         componentsViewModel.getMiscellaneousItems().observe(viewLifecycleOwner) {
 
-            if (AppInfoPanelPreferences.isMiscMenuFolded()) return@observe
+            if (AppInformationPreferences.isMiscMenuFolded()) return@observe
 
             val adapterAppInfoMenu = AdapterMenu(it)
-            miscellaneous.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count), GridLayoutManager.VERTICAL, false)
+
+            when (AppInformationPreferences.getMenuLayout()) {
+                PopupMenuLayout.HORIZONTAL -> {
+                    miscellaneous.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+                }
+                PopupMenuLayout.GRID -> {
+                    miscellaneous.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+                }
+            }
+
             miscellaneous.adapter = adapterAppInfoMenu
             miscellaneous.scheduleLayoutAnimation()
 
@@ -323,6 +355,11 @@ class AppInfo : ScopedFragment() {
         name.text = packageInfo.applicationInfo.name
         packageId.text = PackageUtils.getApplicationVersion(requireContext(), packageInfo)
 
+        settings.setOnClickListener {
+            AppInfoMenu.newInstance()
+                .show(childFragmentManager, "app_info_menu")
+        }
+
         appInformation.setOnClickListener {
             openFragment(Information.newInstance(packageInfo), "information")
         }
@@ -344,20 +381,20 @@ class AppInfo : ScopedFragment() {
         }
 
         foldMetaDataMenu.setOnClickListener {
-            AppInfoPanelPreferences.setMetaMenuFold(!AppInfoPanelPreferences.isMetaMenuFolded())
+            AppInformationPreferences.setMetaMenuFold(!AppInformationPreferences.isMetaMenuFolded())
         }
 
         foldActionsMenu.setOnClickListener {
-            AppInfoPanelPreferences.setActionMenuFold(!AppInfoPanelPreferences.isActionMenuFolded())
+            AppInformationPreferences.setActionMenuFold(!AppInformationPreferences.isActionMenuFolded())
         }
 
         foldMiscMenu.setOnClickListener {
-            AppInfoPanelPreferences.setMiscMenuFold(!AppInfoPanelPreferences.isMiscMenuFolded())
+            AppInformationPreferences.setMiscMenuFold(!AppInformationPreferences.isMiscMenuFolded())
         }
     }
 
     private fun metaMenuState() {
-        if (AppInfoPanelPreferences.isMetaMenuFolded()) {
+        if (AppInformationPreferences.isMetaMenuFolded()) {
             meta.gone()
             meta.adapter = null
             foldMetaDataMenu.animate().rotation(-90F).start()
@@ -369,7 +406,7 @@ class AppInfo : ScopedFragment() {
     }
 
     private fun actionMenuState() {
-        if (AppInfoPanelPreferences.isActionMenuFolded()) {
+        if (AppInformationPreferences.isActionMenuFolded()) {
             actions.gone()
             actions.adapter = null
             foldActionsMenu.animate().rotation(-90F).start()
@@ -381,7 +418,7 @@ class AppInfo : ScopedFragment() {
     }
 
     private fun miscMenuState() {
-        if (AppInfoPanelPreferences.isMiscMenuFolded()) {
+        if (AppInformationPreferences.isMiscMenuFolded()) {
             miscellaneous.gone()
             miscellaneous.adapter = null
             foldMiscMenu.animate().rotation(-90F).start()
@@ -394,14 +431,22 @@ class AppInfo : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            AppInfoPanelPreferences.metaMenuState -> {
+            AppInformationPreferences.metaMenuState -> {
                 metaMenuState()
             }
-            AppInfoPanelPreferences.actionMenuState -> {
+            AppInformationPreferences.actionMenuState -> {
                 actionMenuState()
             }
-            AppInfoPanelPreferences.miscMenuState -> {
+            AppInformationPreferences.miscMenuState -> {
                 miscMenuState()
+            }
+            AppInformationPreferences.menuLayout -> {
+                /**
+                 * Load all the menus back again
+                 */
+                componentsViewModel.loadMiscellaneousItems()
+                componentsViewModel.loadMetaOptions()
+                componentsViewModel.loadActionOptions()
             }
         }
     }

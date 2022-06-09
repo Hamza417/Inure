@@ -21,7 +21,7 @@
         android:textSize="@dimen/app_name_text_size"
         app:appFontStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/fragment_app_package_id"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/settings_button"
         app:layout_constraintStart_toEndOf="@+id/fragment_app_info_icon"
         app:layout_constraintTop_toTopOf="@+id/fragment_app_info_icon"
         app:textColorStyle="primary" />
@@ -39,9 +39,21 @@
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_app_info_icon"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/settings_button"
         app:layout_constraintStart_toEndOf="@+id/fragment_app_info_icon"
         app:layout_constraintTop_toBottomOf="@+id/fragment_app_name"
         app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/settings_button"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/configuration_button"
+        android:src="@drawable/ic_settings"
+        app:buttonTintType="regular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
