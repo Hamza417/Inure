@@ -67,6 +67,10 @@ class AppInfo : ScopedFragment() {
     private lateinit var componentsViewModel: AppInfoMenuViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
+    private var metaAdapter: AdapterMenu? = null
+    private var actionsAdapter: AdapterMenu? = null
+    private var miscellaneousAdapter: AdapterMenu? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_app_info, container, false)
 
@@ -102,6 +106,8 @@ class AppInfo : ScopedFragment() {
         actionMenuState()
         miscMenuState()
 
+        postponeEnterTransition()
+
         return view
     }
 
@@ -109,17 +115,10 @@ class AppInfo : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         componentsViewModel.getMenuItems().observe(viewLifecycleOwner) {
-            postponeEnterTransition()
+            if (AppInformationPreferences.isMetaMenuFolded()) return@observe
 
-            if (AppInformationPreferences.isMetaMenuFolded()) {
-                (view.parent as? ViewGroup)?.doOnPreDraw {
-                    startPostponedEnterTransition()
-                }
-                return@observe
-            }
-
-            val adapterMenu = AdapterMenu(it)
-            adapterMenu.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+            metaAdapter = AdapterMenu(it)
+            metaAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
 
             when (AppInformationPreferences.getMenuLayout()) {
                 PopupMenuLayout.HORIZONTAL -> {
@@ -130,14 +129,14 @@ class AppInfo : ScopedFragment() {
                 }
             }
 
-            meta.adapter = adapterMenu
+            meta.adapter = metaAdapter
             meta.scheduleLayoutAnimation()
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
-            adapterMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
+            metaAdapter?.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.manifest -> {
@@ -192,10 +191,9 @@ class AppInfo : ScopedFragment() {
         }
 
         componentsViewModel.getMenuOptions().observe(viewLifecycleOwner) {
-
             if (AppInformationPreferences.isActionMenuFolded()) return@observe
 
-            val adapterAppInfoMenu = AdapterMenu(it)
+            actionsAdapter = AdapterMenu(it)
 
             when (AppInformationPreferences.getMenuLayout()) {
                 PopupMenuLayout.HORIZONTAL -> {
@@ -206,10 +204,10 @@ class AppInfo : ScopedFragment() {
                 }
             }
 
-            actions.adapter = adapterAppInfoMenu
+            actions.adapter = actionsAdapter
             actions.scheduleLayoutAnimation()
 
-            adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
+            actionsAdapter?.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.launch -> {
@@ -304,7 +302,7 @@ class AppInfo : ScopedFragment() {
 
             if (AppInformationPreferences.isMiscMenuFolded()) return@observe
 
-            val adapterAppInfoMenu = AdapterMenu(it)
+            miscellaneousAdapter = AdapterMenu(it)
 
             when (AppInformationPreferences.getMenuLayout()) {
                 PopupMenuLayout.HORIZONTAL -> {
@@ -315,10 +313,10 @@ class AppInfo : ScopedFragment() {
                 }
             }
 
-            miscellaneous.adapter = adapterAppInfoMenu
+            miscellaneous.adapter = miscellaneousAdapter
             miscellaneous.scheduleLayoutAnimation()
 
-            adapterAppInfoMenu.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
+            miscellaneousAdapter?.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.extract -> {
@@ -399,7 +397,6 @@ class AppInfo : ScopedFragment() {
             meta.adapter = null
             foldMetaDataMenu.animate().rotation(-90F).start()
         } else {
-            componentsViewModel.loadMetaOptions()
             meta.visible(false)
             foldMetaDataMenu.animate().rotation(0F).start()
         }
@@ -411,7 +408,6 @@ class AppInfo : ScopedFragment() {
             actions.adapter = null
             foldActionsMenu.animate().rotation(-90F).start()
         } else {
-            componentsViewModel.loadActionOptions()
             actions.visible(false)
             foldActionsMenu.animate().rotation(0F).start()
         }
@@ -423,7 +419,6 @@ class AppInfo : ScopedFragment() {
             miscellaneous.adapter = null
             foldMiscMenu.animate().rotation(-90F).start()
         } else {
-            componentsViewModel.loadMiscellaneousItems()
             miscellaneous.visible(false)
             foldMiscMenu.animate().rotation(0F).start()
         }
@@ -433,12 +428,15 @@ class AppInfo : ScopedFragment() {
         when (key) {
             AppInformationPreferences.metaMenuState -> {
                 metaMenuState()
+                componentsViewModel.loadMetaOptions()
             }
             AppInformationPreferences.actionMenuState -> {
                 actionMenuState()
+                componentsViewModel.loadActionOptions()
             }
             AppInformationPreferences.miscMenuState -> {
                 miscMenuState()
+                componentsViewModel.loadMiscellaneousItems()
             }
             AppInformationPreferences.menuLayout -> {
                 /**
