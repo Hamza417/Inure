@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
@@ -17,9 +17,9 @@
         android:background="@android:color/white"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:translationZ="1dp"
         android:orientation="horizontal"
-        android:padding="@dimen/header_padding">
+        android:padding="@dimen/header_padding"
+        android:translationZ="1dp">
 
         <ImageView
             android:id="@+id/preferences_header_icon"
@@ -38,7 +38,10 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/popup_padding"
             android:layout_weight="1"
+            android:ellipsize="marquee"
             android:gravity="center_vertical"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
             android:text="@string/preferences"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold"

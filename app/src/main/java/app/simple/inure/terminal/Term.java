@@ -88,7 +88,6 @@ import app.simple.inure.util.ThemeUtils;
 /**
  * A terminal emulator activity.
  */
-
 public class Term extends BaseActivity implements UpdateCallback,
                                                   SharedPreferences.OnSharedPreferenceChangeListener,
                                                   ThemeChangedListener {

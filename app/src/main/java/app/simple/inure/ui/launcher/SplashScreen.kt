@@ -16,9 +16,11 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.app.Home
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted
 import app.simple.inure.viewmodels.panels.AppsViewModel
@@ -53,7 +55,9 @@ class SplashScreen : ScopedFragment() {
         icon = view.findViewById(R.id.imageView)
         loaderImageView = view.findViewById(R.id.loader)
 
-        icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))
+        if (AccessibilityPreferences.isAnimationReduced().invert()) {
+            icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))
+        }
 
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
             loaderImageView.alpha = 0F

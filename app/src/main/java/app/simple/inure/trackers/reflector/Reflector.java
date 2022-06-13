@@ -147,11 +147,11 @@ public class Reflector {
                     x = ClassTypeAlgorithm.TypeName(cx[j].getName(), classRef);
                 }
             }
-            
+    
             Class <?>[] xType = methods[i].getExceptionTypes();
-            
-            for (int j = 0; j < xType.length; j++) {
-                x = ClassTypeAlgorithm.TypeName(xType[j].getName(), classRef);
+    
+            for (Class <?> aClass : xType) {
+                x = ClassTypeAlgorithm.TypeName(aClass.getName(), classRef);
             }
         }
         return classRef;
