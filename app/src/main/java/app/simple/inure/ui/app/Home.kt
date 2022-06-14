@@ -126,6 +126,10 @@ class Home : ScopedFragment() {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Notes.newInstance(), icon, "notes")
                         }
+                        getString(R.string.music) -> {
+                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                                        Music.newInstance(), icon, "music")
+                        }
                     }
                 }
             })

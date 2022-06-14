@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_music_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/adapter_music_art"
+        android:layout_width="@dimen/app_icon_dimension"
+        android:layout_height="@dimen/app_icon_dimension"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="5dp"
+        tools:ignore="ContentDescription" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_music_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:textColorStyle="primary"
+        android:textSize="@dimen/app_name_text_size"
+        app:appFontStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_music_artists"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/adapter_music_art"
+        app:layout_constraintTop_toTopOf="@+id/adapter_music_art"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_music_artists"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/lato_regular"
+        android:maxLines="1"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_music_album"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_music_art"
+        app:layout_constraintTop_toBottomOf="@id/adapter_music_name"
+        app:textColorStyle="accent" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_music_album"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/lato_regular"
+        android:maxLines="1"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_music_art"
+        app:layout_constraintTop_toBottomOf="@+id/adapter_music_name"
+        app:textColorStyle="secondary" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

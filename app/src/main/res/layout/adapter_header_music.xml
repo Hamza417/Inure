@@ -23,8 +23,8 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_stats"
-            android:transitionName="@string/usage_statistics" />
+            android:src="@drawable/ic_music_note"
+            android:transitionName="@string/music" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"
@@ -36,7 +36,7 @@
             android:singleLine="true"
             android:layout_marginHorizontal="@dimen/header_padding"
             android:layout_weight="1"
-            android:text="@string/usage_statistics"
+            android:text="@string/music"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="light"
             app:textColorStyle="heading" />
@@ -66,7 +66,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="@string/apps"
+            android:text="@string/music"
             android:textSize="16sp"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />

@@ -523,4 +523,5 @@
     <string name="menu_layout">Menu Layout</string>
     <string name="horizontal">Horizontal</string>
     <string name="grid">Grid</string>
+    <string name="music">Music</string>
 </resources>
