@@ -1,14 +1,16 @@
 package app.simple.inure.factories.actions
 
-import android.app.Application
 import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
 import app.simple.inure.viewmodels.dialogs.UninstallerViewModel
 
-class UninstallerViewModelFactory(private val application: Application, private val packageInfo: PackageInfo) : ViewModelProvider.AndroidViewModelFactory(application) {
+class UninstallerViewModelFactory(private val packageInfo: PackageInfo) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+        val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
+
         when {
             modelClass.isAssignableFrom(UninstallerViewModel::class.java) -> {
                 return UninstallerViewModel(application, packageInfo) as T

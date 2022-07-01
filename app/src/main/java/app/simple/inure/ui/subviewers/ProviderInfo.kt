@@ -35,7 +35,7 @@ class ProviderInfo : ScopedFragment() {
         with(requireArguments().getParcelable<ProviderInfoModel>(BundleConstants.providerInfo)!!) {
             packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
             this@ProviderInfo.name.text = name
-            providerInfoFactory = ProviderInfoFactory(requireActivity().application, this, packageInfo)
+            providerInfoFactory = ProviderInfoFactory(this, packageInfo)
         }
 
         providerInfoViewModel = ViewModelProvider(this, providerInfoFactory).get(ProviderInfoViewModel::class.java)

@@ -49,7 +49,7 @@ class Services : ScopedFragment() {
         title = view.findViewById(R.id.services_title)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         servicesViewModel = ViewModelProvider(this, packageInfoFactory)[ServicesViewModel::class.java]
 
         searchBoxState()

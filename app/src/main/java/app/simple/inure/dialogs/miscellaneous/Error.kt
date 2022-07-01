@@ -35,8 +35,7 @@ class Error : ScopedBottomSheetFragment() {
         error = view.findViewById(R.id.print_error)
         copy = view.findViewById(R.id.copy_button)
 
-        val errorViewModelFactory = ErrorViewModelFactory(requireApplication(),
-                                                          requireArguments().getString("error")!!,
+        val errorViewModelFactory = ErrorViewModelFactory(requireArguments().getString("error")!!,
                                                           requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
         errorViewModel = ViewModelProvider(this, errorViewModelFactory)[ErrorViewModel::class.java]

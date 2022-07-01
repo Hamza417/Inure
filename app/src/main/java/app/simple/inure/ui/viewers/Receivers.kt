@@ -49,7 +49,7 @@ class Receivers : ScopedFragment() {
         title = view.findViewById(R.id.receivers_title)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         receiversViewModel = ViewModelProvider(this, packageInfoFactory).get(ReceiversViewModel::class.java)
 
         searchBoxState()

@@ -59,8 +59,7 @@ class TrackerSourceViewer() : ScopedFragment() {
         text = view.findViewById(R.id.tracker_viewer)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        trackerSourceViewModelFactory = TrackerSourceViewModelFactory(requireApplication(),
-                                                                      requireArguments().getString(BundleConstants.className)!!,
+        trackerSourceViewModelFactory = TrackerSourceViewModelFactory(requireArguments().getString(BundleConstants.className)!!,
                                                                       packageInfo,
                                                                       requireContext().resolveAttrColor(R.attr.colorAppAccent))
         trackerSourceViewModel = ViewModelProvider(this, trackerSourceViewModelFactory)[TrackerSourceViewModel::class.java]

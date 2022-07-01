@@ -33,7 +33,7 @@ class UsageStatistics : ScopedFragment() {
         totalTimeUsedChart = view.findViewById(R.id.total_time_used_bar_chart)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        appStatisticsViewModel = ViewModelProvider(this, AppStatisticsViewModelFactory(requireApplication(), packageInfo))[AppStatisticsViewModel::class.java]
+        appStatisticsViewModel = ViewModelProvider(this, AppStatisticsViewModelFactory(packageInfo))[AppStatisticsViewModel::class.java]
 
         return view
     }

@@ -71,7 +71,6 @@ class XMLViewerWebView : ScopedFragment() {
 
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean("is_manifest"),
                                                            requireArguments().getString("path_to_xml")!!,
-                                                           requireActivity().application,
                                                            requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)

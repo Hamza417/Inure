@@ -33,7 +33,7 @@ class ClearData : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(ViewModelProvider(this, ClearDataViewModelFactory(requireApplication(), packageInfo))[ClearDataViewModel::class.java]) {
+        with(ViewModelProvider(this, ClearDataViewModelFactory(packageInfo))[ClearDataViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner, {
 
             })

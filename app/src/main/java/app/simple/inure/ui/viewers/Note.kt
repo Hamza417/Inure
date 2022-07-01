@@ -31,7 +31,7 @@ class Note : ScopedFragment() {
         note = view.findViewById(R.id.text_viewer)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        val factory = NotesViewModelFactory(requireApplication(), packageInfo)
+        val factory = NotesViewModelFactory(packageInfo)
         notesViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
 
         return view

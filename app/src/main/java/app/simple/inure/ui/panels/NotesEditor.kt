@@ -99,7 +99,7 @@ class NotesEditor : ScopedFragment() {
         formattingStrip = view.findViewById(R.id.formatting_strip_rv)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        val factory = NotesViewModelFactory(requireApplication(), packageInfo)
+        val factory = NotesViewModelFactory(packageInfo)
         notesViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
 
         startPostponedEnterTransition()

@@ -49,7 +49,7 @@ class Providers : ScopedFragment() {
         title = view.findViewById(R.id.providers_title)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         providersViewModel = ViewModelProvider(this, packageInfoFactory).get(ProvidersViewModel::class.java)
 
         startPostponedEnterTransition()

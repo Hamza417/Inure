@@ -37,8 +37,7 @@ class PermissionStatus : ScopedBottomSheetFragment() {
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         mode = requireArguments().getString(BundleConstants.permissionMode)
 
-        permissionStatusFactory = PermissionStatusFactory(requireActivity().application,
-                                                          packageInfo,
+        permissionStatusFactory = PermissionStatusFactory(packageInfo,
                                                           permissionInfo,
                                                           mode)
 

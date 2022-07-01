@@ -50,7 +50,7 @@ class Graphics : ScopedFragment() {
         title = view.findViewById(R.id.graphics_title)
         filter = view.findViewById(R.id.graphics_filter)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         graphicsViewModel = ViewModelProvider(this, packageInfoFactory).get(GraphicsViewModel::class.java)
 
         searchBoxState()

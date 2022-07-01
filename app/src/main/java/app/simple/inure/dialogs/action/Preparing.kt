@@ -34,7 +34,7 @@ class Preparing : ScopedBottomSheetFragment() {
         progress = view.findViewById(R.id.preparing_progress)
         packageInfo = requireArguments().getParcelable("application_info")!!
 
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         filePreparingViewModel = ViewModelProvider(this, packageInfoFactory).get(FilePreparingViewModel::class.java)
 
         return view

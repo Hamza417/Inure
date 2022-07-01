@@ -35,8 +35,7 @@ class Font : ScopedFragment() {
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        fontViewModelFactory = FontViewModelFactory(requireActivity().application,
-                                                    requireArguments().getString("path")!!,
+        fontViewModelFactory = FontViewModelFactory(requireArguments().getString("path")!!,
                                                     packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent))
 

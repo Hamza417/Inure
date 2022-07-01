@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdkVersion 32
 
-    def appVersionCode = 29
+    def appVersionCode = 30
     def appVersionName = "build_${appVersionCode} (alpha)"
 
     buildFeatures {
@@ -76,7 +76,7 @@ android {
 dependencies {
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Test
@@ -85,18 +85,18 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 
     // AndroidX
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.core:core-google-shortcuts:1.0.1'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.fragment:fragment-ktx:1.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.fragment:fragment-ktx:1.5.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.webkit:webkit:1.4.0'
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
@@ -104,7 +104,7 @@ dependencies {
     implementation 'androidx.media:media:1.6.0'
 
     // Google
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'com.google.code.gson:gson:2.9.0'
 
     // Glide

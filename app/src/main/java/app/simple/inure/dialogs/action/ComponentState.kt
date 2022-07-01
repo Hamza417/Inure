@@ -36,7 +36,7 @@ class ComponentState : ScopedBottomSheetFragment() {
         packageId = requireArguments().getString(BundleConstants.packageId)!!
         mode = requireArguments().getBoolean(BundleConstants.componentMode)
 
-        componentStateFactory = ComponentStateFactory(requireActivity().application, packageInfo, packageId!!, mode!!)
+        componentStateFactory = ComponentStateFactory(packageInfo, packageId!!, mode!!)
         componentStateViewModel = ViewModelProvider(this, componentStateFactory).get(ComponentStateViewModel::class.java)
 
         return view

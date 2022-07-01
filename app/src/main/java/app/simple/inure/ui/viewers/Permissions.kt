@@ -47,7 +47,7 @@ class Permissions : ScopedFragment() {
         searchBox = view.findViewById(R.id.permissions_search)
         title = view.findViewById(R.id.permission_title)
         packageInfo = requireArguments().getParcelable("application_info")!!
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         permissionsViewModel = ViewModelProvider(this, packageInfoFactory).get(PermissionsViewModel::class.java)
 
         searchBoxState()

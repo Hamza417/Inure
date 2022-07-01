@@ -36,7 +36,7 @@ class State : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(ViewModelProvider(this, StateViewModelFactory(requireApplication(), packageInfo))[StateViewModel::class.java]) {
+        with(ViewModelProvider(this, StateViewModelFactory(packageInfo))[StateViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner, {
 
             })

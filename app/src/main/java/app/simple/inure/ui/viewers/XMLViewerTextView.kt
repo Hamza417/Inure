@@ -76,7 +76,6 @@ class XMLViewerTextView : ScopedFragment() {
 
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean(BundleConstants.isManifest),
                                                            requireArguments().getString(BundleConstants.pathToXml)!!,
-                                                           requireActivity().application,
                                                            requireContext().resolveAttrColor(R.attr.colorAppAccent))
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)

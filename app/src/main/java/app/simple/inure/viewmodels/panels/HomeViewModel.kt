@@ -227,7 +227,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     Pair(R.drawable.ic_layers, getString(R.string.batch)),
                     Pair(R.drawable.ic_analytics, getString(R.string.analytics)),
                     Pair(R.drawable.ic_notes, getString(R.string.notes)),
-                    Pair(R.drawable.ic_music_note, getString(R.string.music))
+                    // Pair(R.drawable.ic_music_note, getString(R.string.music))
             )
 
 

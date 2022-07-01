@@ -33,7 +33,7 @@ class ClearCache : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(ViewModelProvider(this, ClearCacheViewModelFactory(requireApplication(), packageInfo))[ClearCacheViewModel::class.java]) {
+        with(ViewModelProvider(this, ClearCacheViewModelFactory(packageInfo))[ClearCacheViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner, {
 
             })

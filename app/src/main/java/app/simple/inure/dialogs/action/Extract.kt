@@ -33,7 +33,7 @@ class Extract : ScopedBottomSheetFragment() {
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        val extractViewModelFactory = ExtractViewModelFactory(requireApplication(), packageInfo)
+        val extractViewModelFactory = ExtractViewModelFactory(packageInfo)
         extractViewModel = ViewModelProvider(this, extractViewModelFactory)[ExtractViewModel::class.java]
 
         return view

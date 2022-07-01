@@ -36,7 +36,7 @@ class Unpack : ScopedFragment() {
         recyclerView = view.findViewById(R.id.unpack_recycler_view)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        val unpackViewModelFactory = UnpackViewModelFactory(requireApplication(), packageInfo)
+        val unpackViewModelFactory = UnpackViewModelFactory(packageInfo)
         unpackViewModel = ViewModelProvider(this, unpackViewModelFactory)[UnpackViewModel::class.java]
 
         return view

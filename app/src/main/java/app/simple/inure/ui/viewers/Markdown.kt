@@ -69,7 +69,6 @@ class Markdown : ScopedFragment() {
         textViewViewModelFactory = TextViewViewModelFactory(
                 packageInfo,
                 requireArguments().getString("path")!!,
-                requireActivity().application,
         )
 
         backPress = requireActivity().onBackPressedDispatcher

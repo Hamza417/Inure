@@ -33,7 +33,7 @@ class ForceStop : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(ViewModelProvider(this, ForceCloseViewModelFactory(requireApplication(), packageInfo))[ForceCloseViewModel::class.java]) {
+        with(ViewModelProvider(this, ForceCloseViewModelFactory(packageInfo))[ForceCloseViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner, {
 
             })

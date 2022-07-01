@@ -50,7 +50,7 @@ class Extras : ScopedFragment() {
         title = view.findViewById(R.id.extras_title)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         extrasViewModel = ViewModelProvider(this, packageInfoFactory).get(ExtrasViewModel::class.java)
 
         searchBoxState()

@@ -56,7 +56,7 @@ class Trackers : ScopedFragment() {
         recyclerView = view.findViewById(R.id.trackers_recycler_view)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         trackersViewModel = ViewModelProvider(this, packageInfoFactory)[TrackersViewModel::class.java]
 
         return view

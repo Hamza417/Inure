@@ -28,7 +28,7 @@ class Certificate : ScopedFragment() {
 
         packageInfo = requireArguments().getParcelable("application_info")!!
 
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         viewModel = ViewModelProvider(this, packageInfoFactory).get(CertificatesViewModel::class.java)
 
         return view

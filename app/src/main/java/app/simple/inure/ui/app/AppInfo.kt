@@ -99,7 +99,7 @@ class AppInfo : ScopedFragment() {
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory)[AppInfoMenuViewModel::class.java]
 
         metaMenuState()

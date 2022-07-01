@@ -33,7 +33,7 @@ class ActivityLauncher : ScopedBottomSheetFragment() {
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageId = requireArguments().getString(BundleConstants.packageId)!!
 
-        activityLaunchFactory = ActivityLaunchFactory(requireActivity().application, packageInfo, packageId!!)
+        activityLaunchFactory = ActivityLaunchFactory(packageInfo, packageId!!)
         activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory)[ActivityLauncherViewModel::class.java]
 
         return view

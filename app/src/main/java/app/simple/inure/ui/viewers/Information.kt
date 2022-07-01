@@ -36,7 +36,7 @@ class Information : ScopedFragment() {
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         viewModel = ViewModelProvider(this, packageInfoFactory).get(AppInformationViewModel::class.java)
 
         return view

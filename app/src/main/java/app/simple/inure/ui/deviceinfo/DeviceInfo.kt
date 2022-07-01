@@ -26,7 +26,7 @@ class DeviceInfo : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.device_info_rv)
 
-        val deviceInfoFactory = DeviceInfoFactory(requireApplication(), requireActivity().window)
+        val deviceInfoFactory = DeviceInfoFactory()
         data = ViewModelProvider(this, deviceInfoFactory)[DeviceInfoViewModel::class.java]
 
         return view

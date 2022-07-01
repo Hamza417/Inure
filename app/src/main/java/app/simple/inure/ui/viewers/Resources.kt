@@ -44,7 +44,7 @@ class Resources : ScopedFragment() {
         title = view.findViewById(R.id.resources_title)
         recyclerView = view.findViewById(R.id.resources_recycler_view)
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory)[ApkDataViewModel::class.java]
 
         searchBoxState()

@@ -26,7 +26,7 @@ class Dexs : ScopedFragment() {
         recyclerView = view.findViewById(R.id.dexs_recycler_view)
 
         packageInfo = requireArguments().getParcelable("application_info")!!
-        packageInfoFactory = PackageInfoFactory(requireActivity().application, packageInfo)
+        packageInfoFactory = PackageInfoFactory(packageInfo)
         dexDataViewModel = ViewModelProvider(this, packageInfoFactory).get(DexDataViewModel::class.java)
 
         startPostponedEnterTransition()
