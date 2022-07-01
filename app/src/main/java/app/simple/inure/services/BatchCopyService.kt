@@ -147,8 +147,8 @@ class BatchCopyService : Service() {
                     }
                 } catch (e: SecurityException) {
                     /**
-                     *  Terminate the process since the permission is
-                     *  not granted, file cannot be copied
+                     * Terminate the process since the permission is
+                     * not granted, file cannot be copied
                      */
                     e.printStackTrace()
                     break

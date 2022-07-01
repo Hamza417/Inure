@@ -1,5 +1,6 @@
 package app.simple.inure.preferences
 
+import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
 import androidx.annotation.NonNull
 import app.simple.inure.constants.ThemeConstants
@@ -15,6 +16,7 @@ object AppearancePreferences {
 
     const val theme = "current_app_theme"
     const val accentColor = "app_accent_color"
+    const val accentColorLight = "app_accent_color_light"
     const val appFont = "type_face"
     const val accentOnNav = "accent_color_on_nav_bar"
     const val transparentStatus = "is_transparent_status_disabled"
@@ -22,12 +24,24 @@ object AppearancePreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAccentColor(int: Int) {
+    fun setAccentColor(@ColorInt int: Int) {
         getSharedPreferences().edit().putInt(accentColor, int).apply()
     }
 
+    @ColorInt
     fun getAccentColor(): Int {
         return getSharedPreferences().getInt(accentColor, 0)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setAccentColorLight(@ColorInt int: Int) {
+        getSharedPreferences().edit().putInt(accentColorLight, int).apply()
+    }
+
+    @ColorInt
+    fun getAccentColorLight(): Int {
+        return getSharedPreferences().getInt(accentColorLight, 0)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
