@@ -56,8 +56,6 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         MutableLiveData<Pair<String, String>>()
     }
 
-    val error = MutableLiveData<String>()
-
     fun getClassesList(): LiveData<ArrayList<String>> {
         return classesListData
     }
@@ -84,8 +82,12 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
                 filterClasses()
             }
         } else {
-            loadClasses()
-            subStats()
+            kotlin.runCatching {
+                loadClasses()
+                subStats()
+            }.getOrElse {
+                error.postValue(it.stackTraceToString())
+            }
         }
     }
 

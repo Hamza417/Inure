@@ -19,7 +19,6 @@ import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.XmlWebView
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
@@ -84,20 +83,14 @@ class HtmlViewer : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        textViewerViewModel.getText().observe(viewLifecycleOwner, {
+        textViewerViewModel.getText().observe(viewLifecycleOwner) {
             runCatching {
                 htmlTxt = it
                 html.loadData(it, "text/html", "UTF-8")
             }.getOrElse {
-                val e = Error.newInstance(it.message!!)
-                e.show(childFragmentManager, "error_dialog")
-                e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                    override fun onDismiss() {
-                        requireActivity().onBackPressed()
-                    }
-                })
+                showError(it.stackTraceToString())
             }
-        })
+        }
 
         options.setOnClickListener {
             val p = PopupXmlViewer(it)

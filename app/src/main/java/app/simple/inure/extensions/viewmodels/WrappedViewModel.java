@@ -7,9 +7,13 @@ import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 import app.simple.inure.util.ContextUtils;
 
 public class WrappedViewModel extends AndroidViewModel {
+    
+    public final MutableLiveData <String> error = new MutableLiveData <>();
+    public final MutableLiveData <Integer> notFound = new MutableLiveData <>();
     
     public WrappedViewModel(@NonNull Application application) {
         super(application);

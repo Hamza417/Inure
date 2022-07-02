@@ -46,11 +46,11 @@ class Error : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        errorViewModel.getSpanned().observe(viewLifecycleOwner, {
+        errorViewModel.getSpanned().observe(viewLifecycleOwner) {
             error.text = it
             spanned = it
             copy.visible(true)
-        })
+        }
 
         copy.setOnClickListener {
             val clipBoard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

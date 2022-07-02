@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.annotation.IntegerRes
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.transition.Fade
@@ -15,7 +16,9 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransition
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.Loader
+import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.CoroutineScope
@@ -176,6 +179,36 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     @Throws(IllegalStateException::class)
     open fun hideLoader() {
         loader?.dismiss()
+    }
+
+    open fun showWarning(warning: String) {
+        val p0 = Warning.newInstance(warning)
+        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
+            override fun onDismiss() {
+                requireActivity().onBackPressed()
+            }
+        })
+        p0.show(childFragmentManager, "warning")
+    }
+
+    open fun showWarning(@IntegerRes warning: Int) {
+        val p0 = Warning.newInstance(warning)
+        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
+            override fun onDismiss() {
+                requireActivity().onBackPressed()
+            }
+        })
+        p0.show(childFragmentManager, "warning")
+    }
+
+    open fun showError(error: String) {
+        val e = Error.newInstance(error)
+        e.show(childFragmentManager, "error_dialog")
+        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+            override fun onDismiss() {
+                requireActivity().onBackPressed()
+            }
+        })
     }
 
     /**

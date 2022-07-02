@@ -31,7 +31,6 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private val progress: MutableLiveData<Long> = MutableLiveData<Long>()
     private val status: MutableLiveData<String> = MutableLiveData<String>()
-    private val error: MutableLiveData<String> = MutableLiveData<String>()
     private val success: MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {

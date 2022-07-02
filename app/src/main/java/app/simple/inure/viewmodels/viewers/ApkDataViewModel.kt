@@ -5,21 +5,15 @@ import android.content.pm.FeatureInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.constants.Misc.delay
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
-
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
+class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val features: MutableLiveData<MutableList<FeatureInfo>> by lazy {
         MutableLiveData<MutableList<FeatureInfo>>().also {
@@ -31,10 +25,6 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         MutableLiveData<MutableList<String>>().also {
             getResourceData("")
         }
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     fun getFeatures(): LiveData<MutableList<FeatureInfo>> {
@@ -61,22 +51,32 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                     list.add(featureInfo)
                 }
 
+                if (list.isEmpty()) throw NullPointerException()
+
                 features.postValue(list)
             }.getOrElse {
-                delay(delay)
-                error.postValue(it.stackTraceToString())
+                if (it is NullPointerException) {
+                    notFound.postValue(55)
+                } else {
+                    error.postValue(it.stackTraceToString())
+                }
             }
         }
     }
 
-    fun getResourceData(keyWords: String) {
+    fun getResourceData(keyword: String) {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                with(APKParser.getXmlFiles(packageInfo.applicationInfo.sourceDir, keyWords)) {
+                with(APKParser.getXmlFiles(packageInfo.applicationInfo.sourceDir, keyword)) {
+                    if (this.isEmpty() && keyword.isEmpty()) throw NullPointerException()
                     resources.postValue(this)
                 }
             }.getOrElse {
-                error.postValue(it.stackTraceToString())
+                if (it is NullPointerException) {
+                    notFound.postValue(3)
+                } else {
+                    error.postValue(it.stackTraceToString())
+                }
             }
         }
     }

@@ -3,20 +3,18 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.constants.Misc
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
+class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
     init {
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
@@ -34,22 +32,16 @@ class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
-    fun getError(): LiveData<String> {
-        return error
-    }
-
     fun getGraphics(): LiveData<MutableList<String>> {
         return graphics
     }
 
-    fun getGraphicsData() {
+    private fun getGraphicsData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 with(APKParser.getGraphicsFiles(packageInfo.applicationInfo.sourceDir, keyword)) {
+                    if (this.isEmpty() && keyword.isEmpty()) throw NullPointerException()
+
                     graphics.postValue(apply {
                         sortBy {
                             it.lowercase(Locale.getDefault())
@@ -57,8 +49,11 @@ class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) 
                     })
                 }
             }.getOrElse {
-                delay(Misc.delay)
-                error.postValue(it.stackTraceToString())
+                if (it is NullPointerException) {
+                    notFound.postValue(666)
+                } else {
+                    error.postValue(it.stackTraceToString())
+                }
             }
         }
     }

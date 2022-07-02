@@ -4,19 +4,17 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
-import app.simple.inure.constants.Misc
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ServiceInfoModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ServicesViewModel(application: Application, private val packageInfo: PackageInfo) : AndroidViewModel(application) {
+class ServicesViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val services: MutableLiveData<MutableList<ServiceInfoModel>> by lazy {
         MutableLiveData<MutableList<ServiceInfoModel>>().also {
@@ -24,16 +22,8 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
         }
     }
 
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
     fun getServices(): LiveData<MutableList<ServiceInfoModel>> {
         return services
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     fun getServicesData(keyword: String) {
@@ -78,8 +68,11 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
 
                 services.postValue(list)
             }.getOrElse {
-                delay(Misc.delay)
-                error.postValue(it.stackTraceToString())
+                if (it is NullPointerException) {
+                    notFound.postValue(4)
+                } else {
+                    error.postValue(it.stackTraceToString())
+                }
             }
         }
     }

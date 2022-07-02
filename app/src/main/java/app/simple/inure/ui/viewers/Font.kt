@@ -53,19 +53,19 @@ class Font : ScopedFragment() {
 
         fontName.text = requireArguments().getString("path")
 
-        fontViewModel.getQuote().observe(viewLifecycleOwner, {
+        fontViewModel.getQuote().observe(viewLifecycleOwner) {
             fontEditText.setText(it)
             fontEditText.visible(true)
-        })
+        }
 
-        fontViewModel.getTypeFace().observe(viewLifecycleOwner, {
+        fontViewModel.getTypeFace().observe(viewLifecycleOwner) {
             /**
              * The header font style is set to app's default to
              * balance the design consistency
              */
             // fontName.typeface = it
             fontEditText.typeface = it
-        })
+        }
     }
 
     companion object {

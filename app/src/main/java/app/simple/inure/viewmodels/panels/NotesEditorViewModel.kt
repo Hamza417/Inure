@@ -43,10 +43,6 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
         }
     }
 
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
     private val saved = MutableLiveData<Int>()
 
     fun getNoteData(): LiveData<NotesPackageInfo> {
@@ -59,10 +55,6 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
 
     fun getSavedState(): LiveData<Int> {
         return saved
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     private fun loadNoteData() {

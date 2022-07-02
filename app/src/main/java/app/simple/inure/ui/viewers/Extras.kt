@@ -15,7 +15,6 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.popups.viewers.PopupExtrasFilter
@@ -150,14 +149,12 @@ class Extras : ScopedFragment() {
             }
         }
 
-        extrasViewModel.getError().observe(viewLifecycleOwner) {
-            val e = Error.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
+        extrasViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
+        }
+
+        extrasViewModel.notFound.observe(viewLifecycleOwner) {
+            showWarning(R.string.no_extras_found)
         }
 
         options.setOnClickListener {

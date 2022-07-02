@@ -10,7 +10,6 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterFeatures
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
@@ -41,14 +40,12 @@ class Features : ScopedFragment() {
             recyclerView.adapter = AdapterFeatures(it)
         }
 
-        componentsViewModel.getError().observe(viewLifecycleOwner) {
-            val e = Error.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
+        componentsViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
+        }
+
+        componentsViewModel.notFound.observe(viewLifecycleOwner) {
+            showWarning(R.string.no_features_found)
         }
     }
 

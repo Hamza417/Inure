@@ -22,9 +22,6 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
 class JavaViewModel(application: Application, val accentColor: Int, val packageInfo: PackageInfo, val path: String) : WrappedViewModel(application) {
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
 
     private val spanned: MutableLiveData<Spanned> by lazy {
         MutableLiveData<Spanned>().also {
@@ -34,10 +31,6 @@ class JavaViewModel(application: Application, val accentColor: Int, val packageI
 
     fun getSpanned(): LiveData<Spanned> {
         return spanned
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     private fun getSpannedXml() {

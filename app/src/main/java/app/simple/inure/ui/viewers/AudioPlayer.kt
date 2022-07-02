@@ -108,13 +108,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                     kotlin.runCatching {
                         throw IllegalArgumentException("File is not media type or incompatible")
                     }.getOrElse {
-                        val e = Error.newInstance(it.stackTraceToString())
-                        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                            override fun onDismiss() {
-                                dismiss()
-                            }
-                        })
-                        e.show(childFragmentManager, "error")
+                        showError(it.stackTraceToString())
                     }
                 }
             }

@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.usagestats.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
@@ -77,13 +76,7 @@ class UsageStatistics : ScopedFragment() {
         }
 
         appStatisticsViewModel.error.observe(viewLifecycleOwner) {
-            val e = Error.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
+            showError(it)
         }
     }
 

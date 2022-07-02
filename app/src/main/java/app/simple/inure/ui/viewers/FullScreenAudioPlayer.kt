@@ -167,13 +167,7 @@ class FullScreenAudioPlayer : ScopedFragment() {
                         buttonStatus(false)
                     }
                     ServiceConstants.actionMediaError -> {
-                        val e = Error.newInstance(intent.extras?.getString("stringExtra", "unknown_media_playback_error")!!)
-                        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                            override fun onDismiss() {
-                                stopService()
-                            }
-                        })
-                        e.show(childFragmentManager, "error")
+                        showError(intent.extras?.getString("stringExtra", "unknown_media_playback_error")!!)
                     }
                 }
             }

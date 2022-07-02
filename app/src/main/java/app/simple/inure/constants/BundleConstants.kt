@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val warning: String = "warning"
     const val loading: String = "loading"
     const val trackersMessage: String = "trackers_message"
     const val className = "class_name"

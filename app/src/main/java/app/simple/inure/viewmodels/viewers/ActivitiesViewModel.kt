@@ -12,16 +12,11 @@ import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val delay = 500L
-
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
 
     private val activities: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
         MutableLiveData<MutableList<ActivityInfoModel>>().also {
@@ -31,10 +26,6 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
 
     fun getActivities(): LiveData<MutableList<ActivityInfoModel>> {
         return activities
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     fun getActivitiesData(keyword: String) {
@@ -78,8 +69,11 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
 
                 activities.postValue(list)
             }.getOrElse {
-                delay(delay)
-                error.postValue(it.stackTraceToString())
+                if (it is NullPointerException) {
+                    notFound.postValue(5)
+                } else {
+                    error.postValue(it.stackTraceToString())
+                }
             }
         }
     }

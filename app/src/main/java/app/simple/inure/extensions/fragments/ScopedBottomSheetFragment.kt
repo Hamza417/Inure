@@ -9,6 +9,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.FrameLayout
 import app.simple.inure.R
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.ViewUtils
@@ -76,6 +77,16 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
      * the fragment
      */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {}
+
+    open fun showError(error: String) {
+        val e = Error.newInstance(error)
+        e.show(childFragmentManager, "error_dialog")
+        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+            override fun onDismiss() {
+                requireActivity().onBackPressed()
+            }
+        })
+    }
 
     /**
      * Return the {@link Application} this fragment is currently associated with.

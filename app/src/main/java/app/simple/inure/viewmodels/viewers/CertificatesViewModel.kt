@@ -3,13 +3,13 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.text.Spannable
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.SignatureUtils.convertToHex
 import app.simple.inure.apk.utils.SignatureUtils.getApplicationSignature
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import kotlinx.coroutines.Dispatchers
@@ -17,11 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 
-class CertificatesViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
-
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
+class CertificatesViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val certificate: MutableLiveData<ArrayList<Pair<String, Spannable>>> by lazy {
         MutableLiveData<ArrayList<Pair<String, Spannable>>>().also {

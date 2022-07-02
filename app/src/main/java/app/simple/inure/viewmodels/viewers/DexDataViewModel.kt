@@ -2,16 +2,16 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.dex.Dex
 import app.simple.inure.apk.dex.DexClass
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DexDataViewModel(application: Application, private val packageInfo: PackageInfo) : AndroidViewModel(application) {
+class DexDataViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val dexData: MutableLiveData<MutableList<DexClass>> by lazy {
         MutableLiveData<MutableList<DexClass>>().also {
@@ -19,16 +19,8 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
         }
     }
 
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
     fun getDexClasses(): LiveData<MutableList<DexClass>> {
         return dexData
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     private fun loadDexData() {

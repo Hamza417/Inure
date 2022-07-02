@@ -7,10 +7,10 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.UsageInterval
@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class AppStatisticsViewModel(application: Application, private val packageInfo: PackageInfo) : AndroidViewModel(application) {
+class AppStatisticsViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private var usageStatsManager: UsageStatsManager = getApplication<Application>()
         .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
@@ -38,8 +38,6 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
             loadTotalAppSize()
         }
     }
-
-    val error = MutableLiveData<String>()
 
     fun getTotalUsedChartData(): LiveData<List<BarEntry>> {
         return totalUsedChartData

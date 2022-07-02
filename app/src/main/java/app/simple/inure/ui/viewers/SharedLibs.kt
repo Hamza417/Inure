@@ -10,7 +10,6 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterSharedLibs
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.SharedLibrariesViewModel
@@ -36,19 +35,17 @@ class SharedLibs : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        sharedLibrariesViewModel.sharedLibraries.observe(viewLifecycleOwner, {
+        sharedLibrariesViewModel.sharedLibraries.observe(viewLifecycleOwner) {
             recyclerView.adapter = AdapterSharedLibs(it)
-        })
+        }
 
-        sharedLibrariesViewModel.error.observe(viewLifecycleOwner, {
-            val e = Error.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
-        })
+        sharedLibrariesViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
+        }
+
+        sharedLibrariesViewModel.notFound.observe(viewLifecycleOwner) {
+            showWarning(R.string.no_libraries_found)
+        }
     }
 
     companion object {

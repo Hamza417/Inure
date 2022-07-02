@@ -7,11 +7,11 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.exceptions.LargeStringException
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -26,17 +26,13 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
 class JSONViewerViewModel(application: Application, private val accentColor: Int, private val packageInfo: PackageInfo, private val path: String)
-    : AndroidViewModel(application) {
+    : WrappedViewModel(application) {
 
     private val quotations: Pattern = Pattern.compile(":\\s\"[\\S\\w^]*\"",
                                                       Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
 
     private val tags = Pattern.compile("\"[a-zA-Z_0-9]+\"+:",  // "a-z0-9":
                                        Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
-
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
 
     private val spanned: MutableLiveData<Spanned> by lazy {
         MutableLiveData<Spanned>().also {
@@ -46,10 +42,6 @@ class JSONViewerViewModel(application: Application, private val accentColor: Int
 
     fun getSpanned(): LiveData<Spanned> {
         return spanned
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     private fun getSpannedXml() {

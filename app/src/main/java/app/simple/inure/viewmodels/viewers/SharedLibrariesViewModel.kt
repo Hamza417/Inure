@@ -17,8 +17,6 @@ class SharedLibrariesViewModel(application: Application, val packageInfo: Packag
         }
     }
 
-    val error: MutableLiveData<String> = MutableLiveData<String>()
-
     private fun loadSharedLibs() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -30,8 +28,12 @@ class SharedLibrariesViewModel(application: Application, val packageInfo: Packag
 
                 this@SharedLibrariesViewModel.sharedLibraries.postValue(list)
             }.getOrElse {
-                it.printStackTrace()
-                error.postValue(it.stackTraceToString())
+                if (it is NullPointerException) {
+                    notFound.postValue((0..100).random())
+                } else {
+                    it.printStackTrace()
+                    error.postValue(it.stackTraceToString())
+                }
             }
         }
     }

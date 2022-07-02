@@ -119,14 +119,12 @@ class Activities : ScopedFragment() {
             }
         }
 
-        activitiesViewModel.getError().observe(viewLifecycleOwner) {
-            val e = Error.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
+        activitiesViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
+        }
+
+        activitiesViewModel.notFound.observe(viewLifecycleOwner) {
+            showWarning(R.string.no_activities_found)
         }
 
         search.setOnClickListener {

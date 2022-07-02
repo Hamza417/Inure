@@ -24,16 +24,8 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
     fun getPermissions(): LiveData<MutableList<PermissionInfo>> {
         return permissions
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     fun loadPermissionData(keyword: String) {

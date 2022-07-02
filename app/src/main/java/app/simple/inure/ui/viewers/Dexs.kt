@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterDexData
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.DexDataViewModel
@@ -37,20 +36,14 @@ class Dexs : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dexDataViewModel.getDexClasses().observe(viewLifecycleOwner, {
+        dexDataViewModel.getDexClasses().observe(viewLifecycleOwner) {
             val adapter = AdapterDexData(it)
             recyclerView.adapter = adapter
-        })
+        }
 
-        dexDataViewModel.getError().observe(viewLifecycleOwner, {
-            val e = Error.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
-        })
+        dexDataViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
+        }
     }
 
     companion object {

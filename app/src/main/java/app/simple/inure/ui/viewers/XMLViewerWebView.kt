@@ -83,7 +83,7 @@ class XMLViewerWebView : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        componentsViewModel.getString().observe(viewLifecycleOwner, {
+        componentsViewModel.getString().observe(viewLifecycleOwner) {
             if (savedInstanceState.isNull()) {
                 manifest.loadDataWithBaseURL("file:///android_asset/", it, "text/html", "UTF-8", null)
             } else {
@@ -92,7 +92,7 @@ class XMLViewerWebView : ScopedFragment() {
             this@XMLViewerWebView.name.text = requireArguments().getString("path_to_xml")!!
             progress.gone()
             code = it
-        })
+        }
 
         options.setOnClickListener {
             val p = PopupXmlViewer(it)

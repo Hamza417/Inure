@@ -227,7 +227,7 @@ class NotesEditor : ScopedFragment() {
                 .show(childFragmentManager, "notes_editor_menu")
         }
 
-        notesViewModel.getError().observe(viewLifecycleOwner) {
+        notesViewModel.error.observe(viewLifecycleOwner) {
             printError(it)
         }
 

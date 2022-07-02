@@ -16,7 +16,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.ComponentState
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
@@ -101,14 +100,12 @@ class Services : ScopedFragment() {
             }
         }
 
-        servicesViewModel.getError().observe(viewLifecycleOwner) {
-            val e = Error.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
+        servicesViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
+        }
+
+        servicesViewModel.notFound.observe(viewLifecycleOwner) {
+            showWarning(R.string.no_services_found)
         }
 
         search.setOnClickListener {

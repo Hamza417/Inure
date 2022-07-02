@@ -16,7 +16,6 @@ import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.PermissionStatus
 import app.simple.inure.dialogs.menus.PermissionsMenu
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
@@ -102,14 +101,8 @@ class Permissions : ScopedFragment() {
             }
         }
 
-        permissionsViewModel.getError().observe(viewLifecycleOwner) {
-            val e = Error.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
+        permissionsViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
         }
 
         options.setOnClickListener {

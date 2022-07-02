@@ -3,20 +3,18 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.constants.Misc.delay
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
+class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
     init {
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
@@ -34,22 +32,16 @@ class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : 
         }
     }
 
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
     fun getExtras(): LiveData<MutableList<String>> {
         return extras
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     private fun getExtrasData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 with(APKParser.getExtraFiles(packageInfo.applicationInfo.sourceDir, keyword)) {
+                    if (this.isEmpty() && keyword.isEmpty()) throw NullPointerException()
+
                     extras.postValue(apply {
                         sortBy {
                             it.lowercase(Locale.getDefault())
@@ -57,8 +49,11 @@ class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : 
                     })
                 }
             }.getOrElse {
-                delay(delay)
-                error.postValue(it.stackTraceToString())
+                if (it is NullPointerException) {
+                    notFound.postValue(88)
+                } else {
+                    error.postValue(it.stackTraceToString())
+                }
             }
         }
     }

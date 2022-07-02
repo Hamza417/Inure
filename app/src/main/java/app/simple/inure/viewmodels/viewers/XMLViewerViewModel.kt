@@ -8,7 +8,6 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,6 +15,7 @@ import app.simple.inure.apk.parsers.APKParser.extractManifest
 import app.simple.inure.apk.parsers.ApkManifestFetcher
 import app.simple.inure.apk.xml.XML
 import app.simple.inure.exceptions.LargeStringException
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.XMLUtils
 import com.jaredrummler.apkparser.ApkParser
@@ -26,11 +26,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: Boolean, private val pathToXml: String, application: Application, private val accentColor: Int)
-    : AndroidViewModel(application) {
-
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
+    : WrappedViewModel(application) {
 
     private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
 
@@ -69,10 +65,6 @@ class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: B
 
     fun getString(): LiveData<String> {
         return string
-    }
-
-    fun getError(): LiveData<String> {
-        return error
     }
 
     private fun getSpannedXml() {
