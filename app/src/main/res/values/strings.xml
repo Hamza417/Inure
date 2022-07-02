@@ -102,7 +102,7 @@
     <string name="error">Error</string>
     <string name="required">Required</string>
     <string name="not_required">Not Required</string>
-    <string name="bounce_scrolling">Bounce Scrolling</string>
+    <string name="scrolling">Scrolling</string>
     <string name="high">High</string>
     <string name="medium">Medium</string>
     <string name="low">Low</string>
@@ -533,4 +533,9 @@
     <string name="no_features_found">No Features Found</string>
     <string name="no_graphics_found">No Graphics Found</string>
     <string name="no_extras_found">No Extras Found</string>
+    <string name="damping_ratio">Damping Ratio</string>
+    <string name="stiffness">Stiffness</string>
+    <string name="damping_ratio_desc">Bouciness of the scrolling view.</string>
+    <string name="stiffness_desc">Stiffness of the scrolling views.</string>
+    <string name="very_low">Very Low</string>
 </resources>

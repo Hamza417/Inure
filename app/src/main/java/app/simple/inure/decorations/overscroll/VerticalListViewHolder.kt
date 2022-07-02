@@ -5,8 +5,7 @@ import android.view.View
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.RecyclerView
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.bouncyValue
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.stiffnessValue
+import app.simple.inure.preferences.BehaviourPreferences
 
 open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val context: Context = itemView.context
@@ -26,9 +25,9 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
     val rotation: SpringAnimation = SpringAnimation(itemView, SpringAnimation.ROTATION)
         .setSpring(
                 SpringForce()
-                        .setFinalPosition(0f)
-                        .setDampingRatio(bouncyValue)
-                        .setStiffness(stiffnessValue))
+                    .setFinalPosition(0f)
+                    .setDampingRatio(BehaviourPreferences.getDampingRatio())
+                    .setStiffness(BehaviourPreferences.getStiffness()))
             .addUpdateListener { _, _, velocity ->
                 currentVelocity = velocity
             }
@@ -39,9 +38,9 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
      */
     val translationY: SpringAnimation = SpringAnimation(itemView, SpringAnimation.TRANSLATION_Y)
             .setSpring(
-                SpringForce()
+                    SpringForce()
                         .setFinalPosition(0f)
-                        .setDampingRatio(bouncyValue)
-                        .setStiffness(stiffnessValue))
+                        .setDampingRatio(BehaviourPreferences.getDampingRatio())
+                        .setStiffness(BehaviourPreferences.getStiffness()))
 
 }

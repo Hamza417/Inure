@@ -8,6 +8,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
+import app.simple.inure.preferences.BehaviourPreferences
 
 class OverScrollBehavior(context: Context, attributeSet: AttributeSet) : CoordinatorLayout.Behavior<View>(context, attributeSet) {
 
@@ -141,8 +142,8 @@ class OverScrollBehavior(context: Context, attributeSet: AttributeSet) : Coordin
             val springAnimation = SpringAnimation(view, DynamicAnimation.TRANSLATION_Y)
             springAnimation.spring = SpringForce()
                 .setFinalPosition(0f)
-                .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY)
-                .setStiffness(SpringForce.STIFFNESS_LOW)
+                .setDampingRatio(BehaviourPreferences.getDampingRatio())
+                .setStiffness(BehaviourPreferences.getStiffness())
 
             springAnimation.start()
 

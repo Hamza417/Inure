@@ -1,5 +1,7 @@
 package app.simple.inure.preferences
 
+import androidx.dynamicanimation.animation.SpringForce
+
 object BehaviourPreferences {
 
     private const val dimWindows = "is_dimming_windows_on"
@@ -8,6 +10,9 @@ object BehaviourPreferences {
     private const val arcAnimation = "is_animation_on"
     private const val marquee = "is_marquee_on"
     private const val skipLoading = "skip_main_loading_screen"
+
+    const val stiffness = "scrolling_stiffness"
+    const val dampingRatio = "scrolling_damping_ratio"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -67,5 +72,25 @@ object BehaviourPreferences {
 
     fun isSkipLoadingMainScreenState(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(skipLoading, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setDampingRatio(value: Float) {
+        SharedPreferences.getSharedPreferences().edit().putFloat(dampingRatio, value).apply()
+    }
+
+    fun getDampingRatio(): Float {
+        return SharedPreferences.getSharedPreferences().getFloat(dampingRatio, SpringForce.DAMPING_RATIO_NO_BOUNCY)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setStiffness(value: Float) {
+        SharedPreferences.getSharedPreferences().edit().putFloat(stiffness, value).apply()
+    }
+
+    fun getStiffness(): Float {
+        return SharedPreferences.getSharedPreferences().getFloat(stiffness, SpringForce.STIFFNESS_LOW)
     }
 }

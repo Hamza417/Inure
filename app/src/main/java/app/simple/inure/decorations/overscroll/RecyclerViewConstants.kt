@@ -1,10 +1,11 @@
 package app.simple.inure.decorations.overscroll
 
-import androidx.dynamicanimation.animation.SpringForce
+import app.simple.inure.preferences.BehaviourPreferences
 
 object RecyclerViewConstants {
-    const val bouncyValue = SpringForce.DAMPING_RATIO_NO_BOUNCY
-    const val stiffnessValue = SpringForce.STIFFNESS_LOW
+    var bouncyValue = BehaviourPreferences.getDampingRatio()
+    var stiffnessValue = BehaviourPreferences.getStiffness()
+
     const val TYPE_HEADER = 0
     const val TYPE_ITEM = 1
     const val TYPE_DIVIDER = 2

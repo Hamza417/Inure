@@ -406,6 +406,152 @@
                     android:layout_marginStart="70dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="15dp"
+                    android:text="@string/scrolling"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingVertical="15dp"
+                    android:paddingStart="15dp"
+                    tools:ignore="RtlSymmetry">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/damping_ratio_icon"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/typeface_icon"
+                        android:src="@drawable/ic_swipe_vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/damping_ratio_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/damping_ratio"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/damping_ration_desc"
+                        app:layout_constraintEnd_toStartOf="@+id/popup_damping_ratio"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/damping_ratio_icon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/damping_ration_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/damping_ratio_desc"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/popup_damping_ratio"
+                        app:layout_constraintStart_toEndOf="@+id/damping_ratio_icon"
+                        app:layout_constraintTop_toBottomOf="@id/damping_ratio_title"
+                        app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                        android:id="@+id/popup_damping_ratio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ani_ic_unfold_popup"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dialog_padding"
+                        android:textSize="5pt"
+                        app:appFontStyle="regular"
+                        app:drawableTintStyle="accent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="tertiary" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingVertical="15dp"
+                    android:paddingStart="15dp"
+                    tools:ignore="RtlSymmetry">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/stiffness_icon"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/typeface_icon"
+                        android:src="@drawable/ic_stiffness"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/stiffness_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/stiffness"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/stiffness_desc"
+                        app:layout_constraintEnd_toStartOf="@+id/popup_stiffness"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/stiffness_icon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/stiffness_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/stiffness_desc"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/popup_stiffness"
+                        app:layout_constraintStart_toEndOf="@+id/stiffness_icon"
+                        app:layout_constraintTop_toBottomOf="@id/stiffness_title"
+                        app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                        android:id="@+id/popup_stiffness"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ani_ic_unfold_popup"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dialog_padding"
+                        android:textSize="5pt"
+                        app:appFontStyle="regular"
+                        app:drawableTintStyle="accent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="tertiary" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
                     android:text="@string/loading"
                     app:appFontStyle="medium"
                     app:textColorStyle="accent" />
