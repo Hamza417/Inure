@@ -16,7 +16,6 @@ import java.util.*
 
 object ThemeUtils {
     fun setAppTheme(resources: Resources) {
-        println("Theme Change")
         when (AppearancePreferences.getTheme()) {
             ThemeConstants.LIGHT_THEME -> {
                 ThemeManager.theme = Theme.LIGHT

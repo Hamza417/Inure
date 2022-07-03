@@ -45,6 +45,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -100,6 +101,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     private DynamicRippleImageButton options;
     private DynamicRippleTextView currentWindow;
     private PopupTerminalWindows popupTerminalWindows;
+    private FrameLayout content;
     
     private SessionList termSessions;
     private AdapterWindows adapterWindows;
@@ -294,6 +296,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+        getWindow().setStatusBarColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
         
         mPrivateAlias = new ComponentName(this, RemoteInterface.PRIVACT_ACTIVITY_ALIAS);
         
@@ -334,19 +337,22 @@ public class Term extends BaseActivity implements UpdateCallback,
         } else {
             mActionBarMode = TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE;
         }
-        
+    
         setContentView(R.layout.activity_terminal);
         viewFlipper = findViewById(R.id.view_flipper);
         add = findViewById(R.id.add);
         close = findViewById(R.id.close);
         options = findViewById(R.id.options);
         currentWindow = findViewById(R.id.current_window);
-        
+        content = findViewById(android.R.id.content);
+    
+        content.setBackgroundColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
+    
         add.setOnClickListener(v -> doCreateNewWindow());
         close.setOnClickListener(v -> confirmCloseWindow());
         options.setOnClickListener(v -> {
             DialogTerminalMainMenu dialogTerminalMainMenu = DialogTerminalMainMenu.Companion.newInstance(mWakeLock.isHeld(), mWifiLock.isHeld());
-    
+        
             dialogTerminalMainMenu.setOnTerminalMenuCallbacksListener(source -> {
                 switch (source) {
                     case 0: {

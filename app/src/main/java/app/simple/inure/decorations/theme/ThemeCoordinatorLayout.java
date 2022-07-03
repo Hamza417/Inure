@@ -32,7 +32,7 @@ public class ThemeCoordinatorLayout extends CoordinatorLayout implements ThemeCh
     }
     
     private void init() {
-        // setBackgroundColor(Color.WHITE);
+        setBackgroundColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
         setBackground(false);
     }
     
