@@ -152,7 +152,7 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         ThemeUtils.setBarColors(resources, window)
     }
 
-    private fun setTheme(theme: Theme, animate: Boolean = true) {
+    private fun setTheme(animate: Boolean = true) {
         if (!animate) {
             // ThemeManager.theme = theme
             return
@@ -173,8 +173,6 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         circularRevealImageView.isVisible = true
 
         val finalRadius = hypot(w.toFloat(), h.toFloat())
-
-        ThemeManager.theme = theme
 
         animator = ViewAnimationUtils
             .createCircularReveal(circularRevealImageView,
@@ -197,7 +195,7 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
     }
 
     override fun onThemeChanged(theme: Theme, animate: Boolean) {
-        setTheme(theme, animate)
+        setTheme(animate)
         ThemeUtils.setBarColors(resources, window)
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
     }

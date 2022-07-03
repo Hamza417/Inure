@@ -3,6 +3,7 @@ package app.simple.inure.decorations.theme;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.HorizontalScrollView;
 
@@ -18,16 +19,21 @@ public class ThemeHorizontalScrollView extends HorizontalScrollView implements T
     
     public ThemeHorizontalScrollView(@NonNull Context context) {
         super(context);
-        setBackground(false);
+        init();
     }
     
     public ThemeHorizontalScrollView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setBackground(false);
+        init();
     }
     
     public ThemeHorizontalScrollView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+    
+    private void init() {
+        setBackgroundColor(Color.WHITE);
         setBackground(false);
     }
     

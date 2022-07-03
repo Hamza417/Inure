@@ -18,16 +18,21 @@ public class ThemeCoordinatorLayout extends CoordinatorLayout implements ThemeCh
     
     public ThemeCoordinatorLayout(@NonNull Context context) {
         super(context);
-        setBackground(false);
+        init();
     }
     
     public ThemeCoordinatorLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setBackground(false);
+        init();
     }
     
     public ThemeCoordinatorLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+    
+    private void init() {
+        // setBackgroundColor(Color.WHITE);
         setBackground(false);
     }
     

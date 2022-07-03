@@ -3,6 +3,7 @@ package app.simple.inure.decorations.theme;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -18,21 +19,26 @@ public class ThemeConstraintLayout extends ConstraintLayout implements ThemeChan
     
     public ThemeConstraintLayout(@NonNull Context context) {
         super(context);
-        setBackground(false);
+        init();
     }
     
     public ThemeConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setBackground(false);
+        init();
     }
     
     public ThemeConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setBackground(false);
+        init();
     }
     
     public ThemeConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init();
+    }
+    
+    private void init() {
+        setBackgroundColor(Color.WHITE);
         setBackground(false);
     }
     

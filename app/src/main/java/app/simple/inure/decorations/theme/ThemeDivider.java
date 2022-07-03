@@ -3,7 +3,6 @@ package app.simple.inure.decorations.theme;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -32,7 +31,7 @@ public class ThemeDivider extends View implements ThemeChangedListener {
     }
     
     private void init() {
-        setBackground(new ColorDrawable(Color.WHITE));
+        setBackgroundColor(Color.WHITE);
         setTint(false);
     }
     

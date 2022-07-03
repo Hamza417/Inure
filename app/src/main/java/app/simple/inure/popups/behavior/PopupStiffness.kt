@@ -30,7 +30,7 @@ class PopupStiffness(view: View) : BasePopupWindow() {
         medium.onClick(SpringForce.STIFFNESS_MEDIUM)
         high.onClick(SpringForce.STIFFNESS_HIGH)
 
-        when (BehaviourPreferences.getDampingRatio()) {
+        when (BehaviourPreferences.getStiffness()) {
             SpringForce.STIFFNESS_VERY_LOW -> veryLow.isSelected = true
             SpringForce.STIFFNESS_LOW -> low.isSelected = true
             SpringForce.STIFFNESS_MEDIUM -> medium.isSelected = true

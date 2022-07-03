@@ -46,7 +46,9 @@ class AppearanceAppTheme : ScopedFragment(), ThemeChangedListener {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             AppearancePreferences.theme -> {
-                handler.postDelayed({ ThemeUtils.setAppTheme(resources) }, 200)
+                handler.postDelayed({
+                                        ThemeUtils.setAppTheme(resources)
+                                    }, 200)
             }
         }
     }
