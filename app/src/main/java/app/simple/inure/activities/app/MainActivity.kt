@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.ViewAnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
@@ -17,8 +18,8 @@ import app.simple.inure.R
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.terminal.Term
-import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.app.Apps
@@ -26,12 +27,13 @@ import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.ui.panels.*
 import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ThemeUtils
 import java.time.ZonedDateTime
 import java.util.*
 import kotlin.math.hypot
 
-class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
+class MainActivity : BaseActivity() {
 
     private lateinit var circularRevealImageView: ImageView
     private lateinit var container: ThemeCoordinatorLayout
@@ -175,11 +177,7 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         val finalRadius = hypot(w.toFloat(), h.toFloat())
 
         animator = ViewAnimationUtils
-            .createCircularReveal(circularRevealImageView,
-                                  xPoint,
-                                  yPoint,
-                                  finalRadius,
-                                  0f)
+            .createCircularReveal(circularRevealImageView, xPoint, yPoint, finalRadius, 0F)
 
         animator!!.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
         animator!!.interpolator = DecelerateInterpolator(1.5F)
@@ -200,9 +198,14 @@ class MainActivity : BaseActivity(), ThemeRevealCoordinatesListener {
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
     }
 
-    override fun onTouchCoordinates(x: Int, y: Int) {
-        xPoint = x
-        yPoint = y
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        xPoint = event.rawX.toInt()
+        yPoint = if (AppearancePreferences.isTransparentStatusDisabled()) {
+            event.rawY.toInt().minus(StatusBarHeight.getStatusBarHeight(resources))
+        } else {
+            event.rawY.toInt()
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     override fun onDestroy() {

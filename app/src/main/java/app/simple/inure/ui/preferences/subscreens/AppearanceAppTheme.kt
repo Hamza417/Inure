@@ -1,5 +1,6 @@
 package app.simple.inure.ui.preferences.subscreens
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +12,6 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
-import app.simple.inure.themes.interfaces.ThemeRevealCoordinatesListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ThemeUtils
@@ -19,28 +19,20 @@ import app.simple.inure.util.ThemeUtils
 class AppearanceAppTheme : ScopedFragment(), ThemeChangedListener {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var adapterTheme: AdapterTheme
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.terminal_font_size, container, false)
+        val view = inflater.inflate(R.layout.fragment_app_theme, container, false)
 
-        recyclerView = view.findViewById(R.id.font_size_recycler_view)
+        recyclerView = view.findViewById(R.id.app_theme_recycler_view)
 
         return view
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
-
-        ThemeManager.addListener(this)
-        adapterTheme = AdapterTheme()
-
-        adapterTheme.onTouch = { x: Int, y: Int ->
-            (requireActivity() as ThemeRevealCoordinatesListener).onTouchCoordinates(x, y)
-        }
-
-        recyclerView.adapter = adapterTheme
+        recyclerView.adapter = AdapterTheme()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -55,6 +47,11 @@ class AppearanceAppTheme : ScopedFragment(), ThemeChangedListener {
 
     override fun onThemeChanged(theme: Theme, animate: Boolean) {
         // adapterTheme.notifyItemChanged(0)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ThemeManager.addListener(this)
     }
 
     override fun onDestroy() {

@@ -16,7 +16,6 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ThemeStateIcon
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ConditionUtils.isZero
-import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 
@@ -31,10 +30,6 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
             ThemeConstants.FOLLOW_SYSTEM,
             ThemeConstants.DAY_NIGHT
     )
-
-    var onTouch: (x: Int, y: Int) -> Unit = { _: Int, _: Int -> }
-    var x = 0
-    var y = 0
 
     private var oldPosition = 0
 
@@ -81,24 +76,12 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                         notifyItemChanged(oldPosition)
                         notifyItemChanged(holder.absoluteAdapterPosition)
-                        onTouch.invoke(x, y)
                     }
                 }
             }
             is Header -> {
                 holder.title.text = holder.itemView.context.getString(R.string.application_theme)
                 holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
-
-                holder.icon.post {
-                    val point = IntArray(2)
-                    holder.icon.getLocationOnScreen(point) // or getLocationInWindow(point)
-                    x = point[0].plus(holder.icon.width / 2)
-                    y = if (AppearancePreferences.isTransparentStatusDisabled()) {
-                        point[1].minus(holder.icon.height / 2)
-                    } else {
-                        point[1].minus(holder.icon.height / 2).plus(StatusBarHeight.getStatusBarHeight(holder.context.resources))
-                    }
-                }
             }
         }
     }

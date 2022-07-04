@@ -1,0 +1,9 @@
+<app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/app_theme_recycler_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/header_padding"
+    app:isFastScrollRequired="false"
+    app:statusBarPaddingRequired="true" />
