@@ -55,6 +55,8 @@ class MainActivity : BaseActivity() {
 
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
 
+        ThemeUtils.setAppTheme(resources)
+
         container.post {
             xPoint = container.measuredWidth / 2
             yPoint = container.measuredHeight / 2

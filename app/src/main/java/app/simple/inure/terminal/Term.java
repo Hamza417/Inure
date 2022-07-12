@@ -16,6 +16,7 @@
 
 package app.simple.inure.terminal;
 
+import android.app.Instrumentation;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -30,6 +31,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -46,6 +48,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -101,6 +104,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     private DynamicRippleImageButton options;
     private DynamicRippleTextView currentWindow;
     private PopupTerminalWindows popupTerminalWindows;
+    private ImageView icon;
     private FrameLayout content;
     
     private SessionList termSessions;
@@ -344,6 +348,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         close = findViewById(R.id.close);
         options = findViewById(R.id.options);
         currentWindow = findViewById(R.id.current_window);
+        icon = findViewById(R.id.terminal_icon);
         content = findViewById(android.R.id.content);
     
         content.setBackgroundColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
@@ -664,12 +669,21 @@ public class Term extends BaseActivity implements UpdateCallback,
     
     @Override
     protected void onStop() {
+        /*
+         * To protect shared transition animation state
+         * TODO - Check this later to see if this method is good enough
+         */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !isFinishing()) {
+            new Instrumentation().callActivityOnSaveInstanceState(this, new Bundle());
+        }
+    
         super.onStop();
+    
         onResumeSelectWindow = viewFlipper.getDisplayedChild();
         viewFlipper.onPause();
         if (termSessions != null) {
             termSessions.removeCallback(this);
-    
+        
             if (adapterWindows != null) {
                 termSessions.removeCallback(adapterWindows);
                 termSessions.removeTitleChangedListener(adapterWindows);

@@ -115,6 +115,9 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             sharedElementEnterTransition = DetailsTransitionArc()
             sharedElementReturnTransition = DetailsTransitionArc()
         }
+
+        allowEnterTransitionOverlap = true
+        allowReturnTransitionOverlap = true
     }
 
     /**

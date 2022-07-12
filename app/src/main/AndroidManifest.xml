@@ -57,7 +57,6 @@
         <activity
             android:name=".activities.app.MainActivity"
             android:configChanges="uiMode"
-            android:documentLaunchMode="intoExisting"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -84,13 +83,12 @@
         <activity
             android:name=".activities.preferences.PreferenceActivity"
             android:configChanges="uiMode"
-            android:documentLaunchMode="intoExisting"
             android:exported="false"
+            android:label="@string/preferences"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".terminal.WindowList"
-            android:documentLaunchMode="intoExisting"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
@@ -157,7 +155,7 @@
             android:name=".activities.association.ImageActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
-            android:documentLaunchMode="intoExisting"
+            android:documentLaunchMode="always"
             android:exported="true"
             android:label="@string/image_viewer">
             <intent-filter>
@@ -215,7 +213,7 @@
             android:name=".activities.association.TextViewerActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
-            android:documentLaunchMode="intoExisting"
+            android:documentLaunchMode="always"
             android:exported="true"
             android:label="@string/text_viewer">
             <intent-filter>
@@ -242,7 +240,7 @@
             android:name=".activities.association.TTFViewerActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
-            android:documentLaunchMode="intoExisting"
+            android:documentLaunchMode="always"
             android:exported="true"
             android:label="@string/ttf_viewer">
             <intent-filter>

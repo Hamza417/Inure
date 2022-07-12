@@ -48,8 +48,8 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
             // fixNavigationBarOverlap()
         }
 
-        setTransparentTheme()
         ThemeUtils.setAppTheme(resources)
+        setTransparentTheme()
         ThemeUtils.setBarColors(resources, window)
         setNavColor()
     }

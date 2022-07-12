@@ -24,7 +24,7 @@ object AccessibilityPreferences {
     }
 
     fun isHighlightStroke(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(isHighlightStroke, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(isHighlightStroke, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

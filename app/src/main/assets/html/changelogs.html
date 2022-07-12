@@ -8,40 +8,64 @@
 <p>
     List of changes of bundled with this version of the app.
 </p>
+
 <br>
+
 <sub>(Current Version)</sub>
-<h2>Build31</h2>
-
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added not found dialog for various viewer panels.</li>
-    <li>Added options to change bounce values for scrolling in <b>Behaviour</b> panel.</li>
-</ul>
+<h2>Build32</h2>
 
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Handled some crashes in trackers</li>
-    <li>Fixed theme change process getting executed two times.</li>
-    <li>Fixed animation getting interrupted when theme is being changed.</li>
-    <li>Fixed white status bar issue in <b>Terminal</b> panel when theme is dark.</li>
-</ul>
-
-<ul>
-    <li>Improved app theme changing framework.</li>
-</ul>
-
-<h4>Development</h4>
-
-<ul>
-    <li>Updated <i>androidx.lifecycle</i> dependencies and updated all lifecycle codebase used
-        inside the app overall improving performance of how viewmodel is being handles inside the
-        app.
-    </li>
+    <li>Fixed panel showing a white flash on darker themes when switching.</li>
+    <li>Fixed terminal shared animation not working in Android 10 and above.</li>
+    <li>Fixed activities creating multiple app instances in recents panel.</li>
+    <li>Fixed transition not overlapping causing a bit delay in switching panels.</li>
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input id="build_31" class="toggle" type="checkbox">
+    <label for="build_31" class="lbl-toggle">Build31</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added not found dialog for various viewer panels.</li>
+                <li>Added options to change bounce values for scrolling in <b>Behaviour</b> panel.
+                </li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Handled some crashes in trackers</li>
+                <li>Fixed theme change process getting executed two times.</li>
+                <li>Fixed animation getting interrupted when theme is being changed.</li>
+                <li>Fixed white status bar issue in <b>Terminal</b> panel when theme is dark.</li>
+            </ul>
+
+            <h4>Improvement</h4>
+
+            <ul>
+                <li>Improved app theme changing framework.</li>
+            </ul>
+
+            <h4>Development</h4>
+
+            <ul>
+                <li>Updated <i>androidx.lifecycle</i> dependencies and updated all lifecycle
+                    codebase used
+                    inside the app overall improving performance of how viewmodel is being handles
+                    inside the
+                    app.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input id="build_30" class="toggle" type="checkbox">

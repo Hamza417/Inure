@@ -12,6 +12,7 @@
         android:padding="@dimen/popup_padding">
 
         <ImageView
+            android:id="@+id/terminal_icon"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
