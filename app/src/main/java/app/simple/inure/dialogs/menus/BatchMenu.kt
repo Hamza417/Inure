@@ -8,10 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
-import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.BatchPreferences
-import app.simple.inure.ui.panels.Preferences
-import app.simple.inure.util.FragmentHelper
 
 class BatchMenu : ScopedBottomSheetFragment() {
 
@@ -44,10 +41,7 @@ class BatchMenu : ScopedBottomSheetFragment() {
         }
 
         openSettings.setOnClickListener {
-            (parentFragment as ScopedFragment).clearExitTransition()
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Preferences.newInstance(),
-                                        "prefs_screen")
+            openSettings()
         }
     }
 

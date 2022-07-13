@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
-import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.viewers.PopupLabelType
 import app.simple.inure.preferences.PermissionPreferences
-import app.simple.inure.ui.panels.Preferences
-import app.simple.inure.util.FragmentHelper
 
 class PermissionsMenu : ScopedBottomSheetFragment() {
 
@@ -38,10 +35,7 @@ class PermissionsMenu : ScopedBottomSheetFragment() {
         }
 
         appSettings.setOnClickListener {
-            (parentFragment as ScopedFragment).clearExitTransition()
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Preferences.newInstance(),
-                                        "prefs")
+            openSettings()
         }
     }
 

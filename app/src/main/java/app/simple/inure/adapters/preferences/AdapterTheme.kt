@@ -31,8 +31,6 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
             ThemeConstants.DAY_NIGHT
     )
 
-    private var oldPosition = 0
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewConstants.TYPE_ITEM -> {
@@ -58,7 +56,6 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
 
                 if (AppearancePreferences.getTheme() == list[position]) {
                     holder.icon.visible(false)
-                    oldPosition = holder.absoluteAdapterPosition
                 } else {
                     holder.icon.invisible(false)
                 }
@@ -74,8 +71,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
                             }
                         }
 
-                        notifyItemChanged(oldPosition)
-                        notifyItemChanged(holder.absoluteAdapterPosition)
+                        notifyDataSetChanged()
                     }
                 }
             }

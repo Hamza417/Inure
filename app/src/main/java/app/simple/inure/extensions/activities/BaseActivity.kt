@@ -2,6 +2,7 @@ package app.simple.inure.extensions.activities
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
@@ -36,6 +37,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ThemeUtils.setAppTheme(resources)
 
         with(window) {
             requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
@@ -43,9 +45,9 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             sharedElementReturnTransition = DetailsTransitionArc()
             enterTransition = Fade()
             exitTransition = Fade()
+            setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
         }
 
-        ThemeUtils.setAppTheme(resources)
         setTheme()
         setContentView(R.layout.activity_main)
 

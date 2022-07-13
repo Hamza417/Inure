@@ -45,6 +45,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/medium"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />

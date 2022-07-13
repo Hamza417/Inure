@@ -137,7 +137,7 @@ object ColorUtils {
     fun ViewGroup.animateColorChange(endColor: Int) {
         val colorAnim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), this.backgroundTintList?.defaultColor, endColor)
         colorAnim.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
-        colorAnim.interpolator = DecelerateInterpolator(1.5F)
+        colorAnim.interpolator = DecelerateInterpolator()
         colorAnim.addUpdateListener { animation -> this.backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int) }
         colorAnim.start()
     }
@@ -145,7 +145,7 @@ object ColorUtils {
     fun View.animateColorChange(endColor: Int) {
         val colorAnim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), this.backgroundTintList?.defaultColor, endColor)
         colorAnim.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
-        colorAnim.interpolator = DecelerateInterpolator(1.5F)
+        colorAnim.interpolator = DecelerateInterpolator()
         colorAnim.addUpdateListener { animation -> this.backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int) }
         colorAnim.start()
     }

@@ -15,6 +15,8 @@ import androidx.fragment.app.DialogFragment
 import app.simple.inure.R
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.ui.panels.Preferences
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 
@@ -87,5 +89,12 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
      */
     protected fun requireApplication(): Application {
         return requireActivity().application
+    }
+
+    open fun openSettings() {
+        (parentFragment as ScopedFragment).clearExitTransition()
+        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                    Preferences.newInstance(),
+                                    "prefs_screen")
     }
 }

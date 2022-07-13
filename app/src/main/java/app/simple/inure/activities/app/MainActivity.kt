@@ -3,17 +3,11 @@ package app.simple.inure.activities.app
 import android.animation.Animator
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MotionEvent
-import android.view.ViewAnimationUtils
-import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.animation.doOnEnd
-import androidx.core.view.isVisible
 import app.simple.inure.R
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
@@ -31,11 +25,9 @@ import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ThemeUtils
 import java.time.ZonedDateTime
 import java.util.*
-import kotlin.math.hypot
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var circularRevealImageView: ImageView
     private lateinit var container: ThemeCoordinatorLayout
     private lateinit var content: FrameLayout
 
@@ -49,7 +41,6 @@ class MainActivity : BaseActivity() {
         // AndroidBug5497Workaround.assistActivity(this)
         ThemeManager.addListener(this)
 
-        circularRevealImageView = findViewById(R.id.theme_reveal)
         container = findViewById(R.id.app_container)
         content = findViewById(android.R.id.content)
 
@@ -156,48 +147,10 @@ class MainActivity : BaseActivity() {
         ThemeUtils.setBarColors(resources, window)
     }
 
-    private fun setTheme(animate: Boolean = true) {
-        if (!animate) {
-            // ThemeManager.theme = theme
-            return
-        }
-
-        if (circularRevealImageView.isVisible) {
-            return
-        }
-
-        val w = container.measuredWidth
-        val h = container.measuredHeight
-
-        val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        container.draw(canvas)
-
-        circularRevealImageView.setImageBitmap(bitmap)
-        circularRevealImageView.isVisible = true
-
-        val finalRadius = hypot(w.toFloat(), h.toFloat())
-
-        animator = ViewAnimationUtils
-            .createCircularReveal(circularRevealImageView, xPoint, yPoint, finalRadius, 0F)
-
-        animator!!.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
-        animator!!.interpolator = DecelerateInterpolator(1.5F)
-
-        animator!!.doOnEnd {
-            circularRevealImageView.setImageDrawable(null)
-            circularRevealImageView.isVisible = false
-            xPoint = w.div(2)
-            yPoint = h.div(2)
-        }
-
-        animator!!.start()
-    }
-
     override fun onThemeChanged(theme: Theme, animate: Boolean) {
-        setTheme(animate)
         ThemeUtils.setBarColors(resources, window)
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
+        window.setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

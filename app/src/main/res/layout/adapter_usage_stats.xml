@@ -5,8 +5,8 @@
     android:id="@+id/adapter_usage_stats_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:padding="@dimen/popup_padding">
+    android:layout_margin="@dimen/popup_padding"
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/icon"

@@ -12,6 +12,8 @@ import app.simple.inure.R
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.ui.panels.Preferences
+import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -86,6 +88,13 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
                 requireActivity().onBackPressed()
             }
         })
+    }
+
+    open fun openSettings() {
+        (parentFragment as ScopedFragment).clearExitTransition()
+        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
+                                    Preferences.newInstance(),
+                                    "prefs_screen")
     }
 
     /**

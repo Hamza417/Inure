@@ -95,7 +95,7 @@ enum class Theme(val textViewTheme: TextViewTheme,
                     background = Color.parseColor("#20272e"),
                     viewerBackground = Color.parseColor("#223343"),
                     highlightBackground = Color.parseColor("#223343"),
-                    selectedBackground = Color.parseColor("#242424"),
+                    selectedBackground = Color.parseColor("#273f58"),
                     dividerBackground = Color.parseColor("#666666")
             ),
             switchViewTheme = SwitchViewTheme(

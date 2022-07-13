@@ -1,6 +1,7 @@
 package app.simple.inure.util
 
 import android.animation.Animator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
@@ -218,5 +219,16 @@ object ViewUtils {
                     it()
                 }
             }
+    }
+
+    fun View.animateElevation(elevation: Float): ValueAnimator? {
+        val valueAnimator = ValueAnimator.ofFloat(0F, elevation)
+        valueAnimator.interpolator = LinearOutSlowInInterpolator()
+        valueAnimator.duration = 5000
+        valueAnimator.addUpdateListener { animation ->
+            this.elevation = animation.animatedValue as Float
+        }
+        valueAnimator.start()
+        return valueAnimator
     }
 }

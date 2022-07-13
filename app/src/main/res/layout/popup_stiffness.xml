@@ -44,6 +44,7 @@
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:text="@string/medium"
         app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
