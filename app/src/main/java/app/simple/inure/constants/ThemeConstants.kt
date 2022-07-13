@@ -8,4 +8,6 @@ object ThemeConstants {
     const val DAY_NIGHT = 4
     const val SLATE = 5
     const val HIGH_CONTRAST = 6
+    const val SOAPSTONE = 7
+    const val OIL = 8
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/header_padding"
@@ -48,14 +47,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adapter_header_title"
         app:textColorStyle="secondary" />
-
-    <app.simple.inure.decorations.theme.ThemeDivider
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/adapter_type_face_total"
-        tools:layout_editor_absoluteX="10dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

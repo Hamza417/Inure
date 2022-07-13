@@ -22,11 +22,16 @@ import app.simple.inure.util.ViewUtils.visible
 class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private val list = arrayListOf(
+            -1,
             ThemeConstants.LIGHT_THEME,
+            ThemeConstants.SOAPSTONE,
+            -1,
             ThemeConstants.DARK_THEME,
             ThemeConstants.AMOLED,
             ThemeConstants.SLATE,
+            ThemeConstants.OIL,
             ThemeConstants.HIGH_CONTRAST,
+            -1,
             ThemeConstants.FOLLOW_SYSTEM,
             ThemeConstants.DAY_NIGHT
     )
@@ -38,6 +43,9 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
             RecyclerViewConstants.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_app_theme, parent, false))
+            }
+            RecyclerViewConstants.TYPE_DIVIDER -> {
+                Divider(LayoutInflater.from(parent.context).inflate(R.layout.adapter_divider_app_theme, parent, false))
             }
             else -> {
                 throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")
@@ -63,10 +71,15 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
                 holder.container.setOnClickListener {
                     if (AppearancePreferences.setTheme(list[position])) {
                         when (list[position]) {
+                            ThemeConstants.LIGHT_THEME,
+                            ThemeConstants.SOAPSTONE -> {
+                                AppearancePreferences.setLastLightTheme(list[position])
+                            }
                             ThemeConstants.HIGH_CONTRAST,
                             ThemeConstants.DARK_THEME,
                             ThemeConstants.SLATE,
-                            ThemeConstants.AMOLED -> {
+                            ThemeConstants.AMOLED,
+                            ThemeConstants.OIL -> {
                                 AppearancePreferences.setLastDarkTheme(list[position])
                             }
                         }
@@ -79,6 +92,14 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
                 holder.title.text = holder.itemView.context.getString(R.string.application_theme)
                 holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
             }
+            is Divider -> {
+                holder.type.text = when (position) {
+                    0 -> holder.getString(R.string.light)
+                    3 -> holder.getString(R.string.dark)
+                    9 -> holder.getString(R.string.auto)
+                    else -> holder.getString(R.string.unknown)
+                }
+            }
         }
     }
 
@@ -89,19 +110,23 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return if (position.isZero()) {
             RecyclerViewConstants.TYPE_HEADER
+        } else if (list[position - 1] == -1) {
+            RecyclerViewConstants.TYPE_DIVIDER
         } else RecyclerViewConstants.TYPE_ITEM
     }
 
     private fun Context.getThemeName(theme: Int): String {
         return when (theme) {
             ThemeConstants.LIGHT_THEME -> getString(R.string.light)
+            ThemeConstants.SOAPSTONE -> getString(R.string.soapstone)
             ThemeConstants.DARK_THEME -> getString(R.string.dark)
             ThemeConstants.AMOLED -> getString(R.string.amoled)
             ThemeConstants.SLATE -> getString(R.string.slate)
+            ThemeConstants.OIL -> getString(R.string.oil)
             ThemeConstants.HIGH_CONTRAST -> getString(R.string.high_contrast)
             ThemeConstants.FOLLOW_SYSTEM -> getString(R.string.follow_system)
             ThemeConstants.DAY_NIGHT -> getString(R.string.day_night)
-            else -> throw IllegalArgumentException("Unknown Action")
+            else -> "throw IllegalArgumentException( Value"
         }
     }
 
@@ -115,5 +140,9 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
         val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_title)
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_type_face_total)
         val icon: ThemeStateIcon = itemView.findViewById(R.id.theme_icon)
+    }
+
+    inner class Divider(itemView: View) : VerticalListViewHolder(itemView) {
+        val type: TypeFaceTextView = itemView.findViewById(R.id.theme_type)
     }
 }

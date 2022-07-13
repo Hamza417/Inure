@@ -20,6 +20,9 @@ object ThemeUtils {
             ThemeConstants.LIGHT_THEME -> {
                 ThemeManager.theme = Theme.LIGHT
             }
+            ThemeConstants.SOAPSTONE -> {
+                ThemeManager.theme = Theme.SOAPSTONE
+            }
             ThemeConstants.DARK_THEME -> {
                 ThemeManager.theme = Theme.DARK
             }
@@ -28,6 +31,9 @@ object ThemeUtils {
             }
             ThemeConstants.SLATE -> {
                 ThemeManager.theme = Theme.SLATE
+            }
+            ThemeConstants.OIL -> {
+                ThemeManager.theme = Theme.OIL
             }
             ThemeConstants.HIGH_CONTRAST -> {
                 ThemeManager.theme = Theme.HIGH_CONTRAST
@@ -48,10 +54,20 @@ object ThemeUtils {
                             ThemeConstants.HIGH_CONTRAST -> {
                                 ThemeManager.theme = Theme.HIGH_CONTRAST
                             }
+                            ThemeConstants.OIL -> {
+                                ThemeManager.theme = Theme.OIL
+                            }
                         }
                     }
                     Configuration.UI_MODE_NIGHT_NO -> {
-                        ThemeManager.theme = Theme.LIGHT
+                        when (AppearancePreferences.getLastLightTheme()) {
+                            ThemeConstants.LIGHT_THEME -> {
+                                ThemeManager.theme = Theme.LIGHT
+                            }
+                            ThemeConstants.SOAPSTONE -> {
+                                ThemeManager.theme = Theme.SOAPSTONE
+                            }
+                        }
                     }
                     Configuration.UI_MODE_NIGHT_UNDEFINED -> {
                         ThemeManager.theme = Theme.LIGHT
@@ -74,9 +90,19 @@ object ThemeUtils {
                         ThemeConstants.HIGH_CONTRAST -> {
                             ThemeManager.theme = Theme.HIGH_CONTRAST
                         }
+                        ThemeConstants.OIL -> {
+                            ThemeManager.theme = Theme.OIL
+                        }
                     }
                 } else if (calendar < 18 || calendar > 6) {
-                    ThemeManager.theme = Theme.LIGHT
+                    when (AppearancePreferences.getLastLightTheme()) {
+                        ThemeConstants.LIGHT_THEME -> {
+                            ThemeManager.theme = Theme.LIGHT
+                        }
+                        ThemeConstants.SOAPSTONE -> {
+                            ThemeManager.theme = Theme.SOAPSTONE
+                        }
+                    }
                 }
             }
         }
@@ -84,13 +110,15 @@ object ThemeUtils {
 
     fun setBarColors(resources: Resources, window: Window) {
         when (AppearancePreferences.getTheme()) {
-            ThemeConstants.LIGHT_THEME -> {
+            ThemeConstants.LIGHT_THEME,
+            ThemeConstants.SOAPSTONE -> {
                 lightBars(window)
             }
             ThemeConstants.DARK_THEME,
             ThemeConstants.AMOLED,
             ThemeConstants.HIGH_CONTRAST,
-            ThemeConstants.SLATE -> {
+            ThemeConstants.SLATE,
+            ThemeConstants.OIL -> {
                 darkBars(window)
             }
             ThemeConstants.FOLLOW_SYSTEM -> {
@@ -143,13 +171,15 @@ object ThemeUtils {
 
     fun isNightMode(resources: Resources): Boolean {
         when (AppearancePreferences.getTheme()) {
-            ThemeConstants.LIGHT_THEME -> {
+            ThemeConstants.LIGHT_THEME,
+            ThemeConstants.SOAPSTONE -> {
                 return false
             }
             ThemeConstants.DARK_THEME,
             ThemeConstants.AMOLED,
             ThemeConstants.HIGH_CONTRAST,
-            ThemeConstants.SLATE -> {
+            ThemeConstants.SLATE,
+            ThemeConstants.OIL -> {
                 return true
             }
             ThemeConstants.FOLLOW_SYSTEM -> {

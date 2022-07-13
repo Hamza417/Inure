@@ -11,6 +11,7 @@ object AppearancePreferences {
 
     private const val appCornerRadius = "view_corner_radius"
     private const val iconShadows = "icon_shadows"
+    private const val lastLightTheme = "last_light_theme"
     private const val lastDarkTheme = "last_dark_theme"
     private const val coloredIconShadows = "icon_shadows_colored"
 
@@ -70,6 +71,16 @@ object AppearancePreferences {
 
     fun getLastDarkTheme(): Int {
         return getSharedPreferences().getInt(lastDarkTheme, ThemeConstants.DARK_THEME)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setLastLightTheme(value: Int) {
+        getSharedPreferences().edit().putInt(lastLightTheme, value).apply()
+    }
+
+    fun getLastLightTheme(): Int {
+        return getSharedPreferences().getInt(lastLightTheme, ThemeConstants.LIGHT_THEME)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

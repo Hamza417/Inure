@@ -35,6 +35,30 @@ enum class Theme(val textViewTheme: TextViewTheme,
             )
     ),
 
+    SOAPSTONE(
+            textViewTheme = TextViewTheme(
+                    headingTextColor = Color.parseColor("#161813"),
+                    primaryTextColor = Color.parseColor("#1e201b"),
+                    secondaryTextColor = Color.parseColor("#5A5A5A"),
+                    tertiaryTextColor = Color.parseColor("#7A7A7A"),
+                    quaternaryTextColor = Color.parseColor("#9A9A9A"),
+            ),
+            viewGroupTheme = ViewGroupTheme(
+                    background = Color.parseColor("#fbfdf8"),
+                    viewerBackground = Color.parseColor("#FAFAFA"),
+                    highlightBackground = Color.parseColor("#F6F6F6"),
+                    selectedBackground = Color.parseColor("#F1F1F1"),
+                    dividerBackground = Color.parseColor("#767873")
+            ),
+            switchViewTheme = SwitchViewTheme(
+                    switchOffColor = Color.parseColor("#F4F4F4")
+            ),
+            iconTheme = IconTheme(
+                    regularIconColor = Color.parseColor("#2E2E2E"),
+                    secondaryIconColor = Color.parseColor("#B1B1B1")
+            )
+    ),
+
     DARK(
             textViewTheme = TextViewTheme(
                     headingTextColor = Color.parseColor("#F1F1F1"),
@@ -100,6 +124,30 @@ enum class Theme(val textViewTheme: TextViewTheme,
             ),
             switchViewTheme = SwitchViewTheme(
                     switchOffColor = Color.parseColor("#314152")
+            ),
+            iconTheme = IconTheme(
+                    regularIconColor = Color.parseColor("#F8F8F8"),
+                    secondaryIconColor = Color.parseColor("#E8E8E8")
+            )
+    ),
+
+    OIL(
+            textViewTheme = TextViewTheme(
+                    headingTextColor = Color.parseColor("#e6e6e6"),
+                    primaryTextColor = Color.parseColor("#f6f8f5"),
+                    secondaryTextColor = Color.parseColor("#C8C8C8"),
+                    tertiaryTextColor = Color.parseColor("#AAAAAA"),
+                    quaternaryTextColor = Color.parseColor("#9A9A9A"),
+            ),
+            viewGroupTheme = ViewGroupTheme(
+                    background = Color.parseColor("#1A1C1B"),
+                    viewerBackground = Color.parseColor("#223343"),
+                    highlightBackground = Color.parseColor("#2a332e"),
+                    selectedBackground = Color.parseColor("#232e28"),
+                    dividerBackground = Color.parseColor("#304539")
+            ),
+            switchViewTheme = SwitchViewTheme(
+                    switchOffColor = Color.parseColor("#1d2621")
             ),
             iconTheme = IconTheme(
                     regularIconColor = Color.parseColor("#F8F8F8"),

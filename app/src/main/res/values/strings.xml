@@ -538,4 +538,6 @@
     <string name="damping_ratio_desc">Bouciness of the scrolling view.</string>
     <string name="stiffness_desc">Stiffness of the scrolling views.</string>
     <string name="very_low">Very Low</string>
+    <string name="soapstone">Soapstone</string>
+    <string name="oil">Oil</string>
 </resources>
