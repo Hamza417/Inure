@@ -3,16 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/header_padding"
-    android:paddingVertical="@dimen/popup_padding"
-    android:paddingHorizontal="@dimen/popup_padding">
+    android:paddingHorizontal="@dimen/popup_padding"
+    android:paddingVertical="@dimen/popup_padding">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/theme_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:drawablePadding="@dimen/popup_padding"
         android:textSize="@dimen/preferences_title_text_size"
         app:appFontStyle="medium"
+        app:drawableEndCompat="@drawable/ic_dot_tiny"
+        app:drawableTintStyle="accent"
         app:textColorStyle="tertiary" />
 
     <app.simple.inure.decorations.theme.ThemeDivider xmlns:tools="http://schemas.android.com/tools"
@@ -23,4 +26,5 @@
         android:layout_marginStart="@dimen/header_padding"
         android:textSize="@dimen/list_text_size"
         tools:ignore="PxUsage" />
+
 </LinearLayout>

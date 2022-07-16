@@ -38,14 +38,12 @@ public class ThemeLinearLayout extends LinearLayout implements ThemeChangedListe
     }
     
     private void init() {
+        if (isInEditMode()) {
+            return;
+        }
         // TODO - try ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground()
         setBackgroundColor(Color.WHITE);
         setBackground(false);
-    }
-    
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
         ThemeManager.INSTANCE.addListener(this);
     }
     

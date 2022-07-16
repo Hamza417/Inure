@@ -7,8 +7,8 @@ plugins {
 android {
     compileSdkVersion 32
 
-    def appVersionCode = 31
-    def appVersionName = "build_${appVersionCode} (alpha)"
+    def appVersionCode = 32
+    def appVersionName = "build_$appVersionCode (alpha)"
 
     buildFeatures {
         viewBinding false
