@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.ui.panels.WebPage
@@ -21,6 +22,7 @@ class AboutScreen : ScopedFragment() {
     private lateinit var credits: DynamicRippleRelativeLayout
     private lateinit var translation: DynamicRippleRelativeLayout
     private lateinit var licenses: DynamicRippleRelativeLayout
+    private lateinit var toc: DynamicRippleLinearLayout
     private lateinit var telegram: DynamicRippleRelativeLayout
     private lateinit var share: DynamicRippleRelativeLayout
 
@@ -33,6 +35,7 @@ class AboutScreen : ScopedFragment() {
         credits = view.findViewById(R.id.credits)
         translation = view.findViewById(R.id.about_translation)
         licenses = view.findViewById(R.id.licenses)
+        toc = view.findViewById(R.id.toc)
         telegram = view.findViewById(R.id.about_telegram)
         share = view.findViewById(R.id.about_share)
 
@@ -78,6 +81,13 @@ class AboutScreen : ScopedFragment() {
             clearTransitions()
             FragmentHelper.openFragment(parentFragmentManager,
                                         WebPage.newInstance(getString(R.string.user_agreements)),
+                                        "web_page")
+        }
+
+        toc.setOnClickListener {
+            clearTransitions()
+            FragmentHelper.openFragment(parentFragmentManager,
+                                        WebPage.newInstance(getString(R.string.privacy_policy)),
                                         "web_page")
         }
 

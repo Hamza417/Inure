@@ -72,6 +72,9 @@ public class ThemeIcon extends AppCompatImageView implements ThemeChangedListene
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (isInEditMode()) {
+            return;
+        }
         ThemeManager.INSTANCE.addListener(this);
     }
     

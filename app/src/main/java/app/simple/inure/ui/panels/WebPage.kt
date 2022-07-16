@@ -46,6 +46,9 @@ class WebPage : ScopedFragment() {
                 getString(R.string.user_agreements) -> {
                     webView.loadUrl("file:///android_asset/html/gpl.html")
                 }
+                getString(R.string.privacy_policy) -> {
+                    webView.loadUrl("file:///android_asset/html/privacy.html")
+                }
             }
         } else {
             webView.restoreState(savedInstanceState!!)

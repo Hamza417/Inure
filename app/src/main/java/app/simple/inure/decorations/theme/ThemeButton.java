@@ -85,6 +85,9 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (isInEditMode()) {
+            return;
+        }
         ThemeManager.INSTANCE.addListener(this);
     }
     
