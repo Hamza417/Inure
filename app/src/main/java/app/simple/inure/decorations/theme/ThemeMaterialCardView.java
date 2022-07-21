@@ -28,7 +28,7 @@ public class ThemeMaterialCardView extends MaterialCardView implements ThemeChan
     }
     
     private void init() {
-        setBackgroundColor(Color.WHITE);
+        setCardBackgroundColor(Color.WHITE);
         setBackground(false);
     }
     

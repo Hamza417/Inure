@@ -218,8 +218,7 @@ class Home : ScopedFragment() {
 
         settings.setOnClickListener {
             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                              Preferences.newInstance(),
-                                              icon,
+                                              Preferences.newInstance(), it,
                                               "preferences_screen")
         }
 

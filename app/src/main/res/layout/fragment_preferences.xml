@@ -26,9 +26,9 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:padding="10dp"
+            android:padding="5dp"
             android:src="@drawable/ic_app_icon_settings"
-            android:transitionName="main_app_icon"
+            android:transitionName="@string/preferences"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
