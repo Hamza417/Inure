@@ -16,7 +16,7 @@ An elegant Android app manager, currently in development
 - [Top 5 Android Apps of the Week - NextPit](https://www.nextpit.com/apps-of-the-week-51-2021)
 
 ## About
-Inure's development was started as an independent learning project which later became one of the most ambitious and intuitive Android apps
+Inure's development was started as an independent learning project which later has become one of the most ambitious and intuitive Android apps
 developed by a single person and is based 100% on custom UI APIs developed to be used only in this app along with a native theme engine, 
 image renderer and a beautiful animation framework.
 
