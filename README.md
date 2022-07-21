@@ -13,8 +13,10 @@ An elegant Android app manager, currently in development
 ![](https://img.shields.io/github/languages/count/Hamza417/Inure?color=white&label=Languages) 
 ![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License) 
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
-<br>
-<br>
+
+## Featured
+[![AndroidWeekly](https://androidweekly.net/issues/issue-465/badge)](https://androidweekly.net/issues/issue-465)</br> 
+<a href="https://twitter.com/androiddevnotes/status/1389111968670179340"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/android_dev.png" width="50%"></a>
 
 ## Development Status
 
