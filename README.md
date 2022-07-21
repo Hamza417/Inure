@@ -23,6 +23,13 @@ An elegant Android app manager, currently in development
 </br>
 </br>
 
+## Support Development
+- [Buy on Google Play](https://play.google.com/store/apps/details?id=app.simple.inure)
+- [Donate on PayPal](https://paypal.me/hamza417)
+
+</br>
+</br>
+
 ## Development Status
 
 High priority features
