@@ -12,9 +12,16 @@ An elegant Android app manager, currently in development
 ![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License) 
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
 
+</br>
+</br>
+
 ## Featured
-[![AndroidWeekly](https://androidweekly.net/issues/issue-465/badge)](https://androidweekly.net/issues/issue-465)</br> 
-<a href="https://twitter.com/androiddevnotes/status/1389111968670179340"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/android_dev.png" width="50%"></a>
+- [Android Weekly Issue #465](https://androidweekly.net/issues/issue-465)
+- ["Inure, a beautifully animated Android App Manager." - Android Dev Notes](https://twitter.com/androiddevnotes/status/1389111968670179340)
+- [Top 5 Android Apps of the Week - NextPit](https://www.nextpit.com/apps-of-the-week-51-2021)
+
+</br>
+</br>
 
 ## Development Status
 
