@@ -5,8 +5,6 @@ An elegant Android app manager, currently in development
 <br>
 
 ## Stats
-
-[![AndroidWeekly](https://androidweekly.net/issues/issue-465/badge)](https://androidweekly.net/issues/issue-465) 
 ![](https://img.shields.io/tokei/lines/github/Hamza417/Inure?color=orange&label=Total%20Lines&logo=kotlin&logoColor=white) 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FHamza417%2FInure&count_bg=%239A3DC8&title_bg=%23555555&icon=tencentweibo.svg&icon_color=%23E7E7E7&title=Total+Visits&edge_flat=false)](https://hits.seeyoufarm.com) 
 ![](https://img.shields.io/github/repo-size/Hamza417/Inure?color=teal&label=Size) 
