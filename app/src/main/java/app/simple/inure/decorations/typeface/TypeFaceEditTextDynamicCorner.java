@@ -1,18 +1,21 @@
 package app.simple.inure.decorations.typeface;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import app.simple.inure.decorations.corners.LayoutBackground;
-import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.util.ViewUtils;
 
 public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
+    
+    private ValueAnimator valueAnimator;
     
     public TypeFaceEditTextDynamicCorner(@Nullable Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -33,8 +36,8 @@ public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
             setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_YES);
         }
     
-        setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground()));
         LayoutBackground.setBackground(getContext(), this, attrs, 2F);
+        setBackground(false);
         ViewUtils.INSTANCE.addShadow(this);
     }
     
@@ -62,6 +65,12 @@ public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
         clearFocus();
         ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
+    
+    @Override
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
+        super.onThemeChanged(theme, animate);
+        setBackground(animate);
     }
     
     @Override

@@ -1,15 +1,19 @@
 package app.simple.inure.decorations.typeface
 
+import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.util.AttributeSet
+import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.AppCompatEditText
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.themes.manager.ThemeManager.theme
 import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.TextViewUtils.setDrawableTint
@@ -21,6 +25,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
 
     private var typedArray: TypedArray
     private var colorMode: Int = 1
+    private var valueAnimator: ValueAnimator? = null
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs) {
         typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TypeFaceTextView, 0, 0)
@@ -79,6 +84,14 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         }
     }
 
+    open fun setBackground(animate: Boolean) {
+        if (animate) {
+            valueAnimator = animateBackgroundColor(theme.viewGroupTheme.background)
+        } else {
+            backgroundTintList = ColorStateList.valueOf(theme.viewGroupTheme.background)
+        }
+    }
+
     private fun setCursorDrawable() {
         textCursorDrawable = DrawableBuilder()
             .rectangle()
@@ -95,5 +108,14 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         } else {
             ColorUtils.lightenColor(Color.GRAY)
         }
+    }
+
+    open fun animateBackgroundColor(endColor: Int): ValueAnimator? {
+        val valueAnimator = ValueAnimator.ofArgb(backgroundTintList!!.defaultColor, endColor)
+        valueAnimator.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
+        valueAnimator.interpolator = DecelerateInterpolator()
+        valueAnimator.addUpdateListener { animation: ValueAnimator -> backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int) }
+        valueAnimator.start()
+        return valueAnimator
     }
 }
