@@ -20,14 +20,14 @@
         android:layout_gravity="center_vertical"
         android:textSize="@dimen/adapter_typeface_normal_text_size" />
 
-    <ImageView
+    <app.simple.inure.decorations.theme.ThemeIcon
         android:id="@+id/adapter_typeface_check_icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_header_icon"
         android:visibility="invisible"
-        app:tint="?attr/colorAppAccent"
+        app:tintType="accent"
         tools:ignore="ContentDescription" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

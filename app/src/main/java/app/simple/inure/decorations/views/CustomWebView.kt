@@ -7,8 +7,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import app.simple.inure.R
-import app.simple.inure.util.ColorUtils.resolveAttrColor
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.ThemeUtils
 
@@ -22,9 +21,11 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
         settings.allowFileAccess = true
         settings.setSupportZoom(true)
         settings.javaScriptEnabled = true
+
+        // TODO - Calling non-final function setBackgroundColor in constructor
         setBackgroundColor(0)
 
-        color = context.resolveAttrColor(R.attr.colorAppAccent).toHexColor()
+        color = AppearancePreferences.getAccentColor().toHexColor()
 
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
             if (ThemeUtils.isNightMode(resources)) {

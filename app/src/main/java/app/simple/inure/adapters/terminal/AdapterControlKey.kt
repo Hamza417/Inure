@@ -5,13 +5,13 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
+import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.util.ConditionUtils.isZero
@@ -103,7 +103,7 @@ class AdapterControlKey : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_typeface_textview)
-        val icon: ImageView = itemView.findViewById(R.id.adapter_typeface_check_icon)
+        val icon: ThemeIcon = itemView.findViewById(R.id.adapter_typeface_check_icon)
         val container: LinearLayout = itemView.findViewById(R.id.adapter_typeface_container)
     }
 
