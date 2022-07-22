@@ -82,4 +82,6 @@
     <dimen name="list_text_size">20sp</dimen>
     <dimen name="fading_edge_length">20dp</dimen>
     <dimen name="adapter_header_font_size">36sp</dimen>
+    <dimen name="seekbar_max_height">10dp</dimen>
+    <dimen name="cursor_width">2dp</dimen>
 </resources>

@@ -14,6 +14,10 @@ object ThemeManager {
         }
 
     var accent = Accent.INURE
+        set(value) {
+            field = value
+            listeners.forEach { it.onAccentChanged(accent) }
+        }
 
     fun addListener(listener: ThemeChangedListener) {
         listeners.add(listener)

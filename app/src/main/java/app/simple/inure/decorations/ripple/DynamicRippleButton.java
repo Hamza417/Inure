@@ -27,7 +27,7 @@ public class DynamicRippleButton extends androidx.appcompat.widget.AppCompatButt
             LayoutBackground.setBackground(getContext(), this, attrs, 2F);
             setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
         } else {
-            setBackground(Utils.getRippleDrawable(getContext(), getBackground(), 2F));
+            setBackground(Utils.getRippleDrawable(getBackground(), 2F));
         }
     }
     

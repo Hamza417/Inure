@@ -1,12 +1,14 @@
 package app.simple.inure.decorations.overscroll
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
 import android.widget.EdgeEffect
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.flingTranslationMagnitude
@@ -30,6 +32,8 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
     private var isEdgeColorRequired = true
     private var isFastScrollerAdded = false
 
+    private var fastScrollerBuilder: FastScrollerBuilder? = null
+
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
             try {
@@ -50,6 +54,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
             }
         }
 
+        (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = !AccessibilityPreferences.isAnimationReduced()
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         setHasFixedSize(true)
 
@@ -179,13 +184,22 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
      * Setup fast scroller if needed
      */
     private fun setupFastScroller() {
-        FastScrollerBuilder(this).build()
+        fastScrollerBuilder = FastScrollerBuilder(this)
+        fastScrollerBuilder?.build()
         isFastScrollerAdded = true
     }
 
     private inline fun <reified T : VerticalListViewHolder> RecyclerView.forEachVisibleHolder(action: (T) -> Unit) {
         for (i in 0 until childCount) {
             action(getChildViewHolder(getChildAt(i)) as T)
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            AppearancePreferences.accentColor -> {
+                fastScrollerBuilder?.updateAesthetics()
+            }
         }
     }
 }

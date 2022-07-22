@@ -16,13 +16,14 @@
         android:clipToPadding="false"
         android:orientation="horizontal">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/imageView4"
             android:layout_width="@dimen/adapter_header_icon_size"
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_sensors"
+            app:tintType="accent"
             android:transitionName="@string/sensors" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

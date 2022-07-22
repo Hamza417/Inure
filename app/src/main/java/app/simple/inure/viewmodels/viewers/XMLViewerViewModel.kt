@@ -16,6 +16,7 @@ import app.simple.inure.apk.parsers.ApkManifestFetcher
 import app.simple.inure.apk.xml.XML
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.XMLUtils
 import com.jaredrummler.apkparser.ApkParser
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: Boolean, private val pathToXml: String, application: Application, private val accentColor: Int)
+class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: Boolean, private val pathToXml: String, application: Application)
     : WrappedViewModel(application) {
 
     private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
@@ -109,7 +110,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: B
 
                 matcher.usePattern(quotations)
                 while (matcher.find()) {
-                    formattedContent.setSpan(ForegroundColorSpan(accentColor),
+                    formattedContent.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()),
                                              matcher.start(), matcher.end(),
                                              Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 }

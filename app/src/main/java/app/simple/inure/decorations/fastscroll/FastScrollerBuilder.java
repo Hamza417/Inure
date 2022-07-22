@@ -17,6 +17,7 @@
 package app.simple.inure.decorations.fastscroll;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import androidx.core.util.Consumer;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 import app.simple.inure.R;
+import app.simple.inure.preferences.AppearancePreferences;
 
 public class FastScrollerBuilder {
     
@@ -116,6 +118,7 @@ public class FastScrollerBuilder {
         Context context = mView.getContext();
         mTrackDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.fast_scroller_track, context.getTheme());
         mThumbDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.fast_scroller_thumb, context.getTheme());
+        mThumbDrawable.setTintList(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
         mPopupStyle = PopupStyles.Inure;
         return this;
     }
@@ -156,16 +159,18 @@ public class FastScrollerBuilder {
             throw new UnsupportedOperationException("Please use "
                     + FastScrollScrollView.class.getSimpleName() + " instead of "
                     + ScrollView.class.getSimpleName() + "for fast scroll");
-        }
-        else if (mView instanceof WebView) {
+        } else if (mView instanceof WebView) {
             throw new UnsupportedOperationException("Please use "
                     + FastScrollWebView.class.getSimpleName() + " instead of "
                     + WebView.class.getSimpleName() + "for fast scroll");
-        }
-        else {
+        } else {
             throw new UnsupportedOperationException(mView.getClass().getSimpleName()
                     + " is not supported for fast scroll");
         }
+    }
+    
+    public void updateAesthetics() {
+        mThumbDrawable.setTintList(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
     }
     
     @NonNull

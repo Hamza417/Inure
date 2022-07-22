@@ -11,11 +11,12 @@
     android:orientation="vertical"
     android:padding="@dimen/header_padding">
 
-    <ImageView
+    <app.simple.inure.decorations.theme.ThemeIcon
         android:id="@+id/adapter_app_info_menu_icon"
         android:layout_width="@dimen/header_icon_size"
         android:layout_height="@dimen/header_icon_size"
         android:layout_gravity="center"
+        app:tintType="accent"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView

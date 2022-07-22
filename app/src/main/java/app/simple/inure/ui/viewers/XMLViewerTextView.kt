@@ -24,7 +24,6 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.XMLViewerViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
@@ -74,8 +73,7 @@ class XMLViewerTextView : ScopedFragment() {
         name.text = requireArguments().getString("path_to_xml")!!
 
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean(BundleConstants.isManifest),
-                                                           requireArguments().getString(BundleConstants.pathToXml)!!,
-                                                           requireContext().resolveAttrColor(R.attr.colorAppAccent))
+                                                           requireArguments().getString(BundleConstants.pathToXml)!!)
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)
 

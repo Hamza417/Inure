@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:padding="@dimen/popup_padding">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/terminal_icon"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
@@ -19,7 +19,7 @@
             android:layout_marginEnd="@dimen/header_padding"
             android:src="@drawable/ic_terminal"
             android:transitionName="@string/terminal"
-            app:tint="?attr/colorAppAccent"
+            app:tintType="accent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView

@@ -1,17 +1,16 @@
 package app.simple.inure.ui.preferences.subscreens
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterAccentColor
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.preferences.AppearancePreferences
 
 class AccentColor : ScopedFragment() {
 
@@ -65,22 +64,8 @@ class AccentColor : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        adapterAccentColor.setOnPaletteChangeListener(object : AdapterAccentColor.Companion.PalettesAdapterCallbacks {
-            override fun onColorPressed(source: Int) {
-                AppearancePreferences.setAccentColor(source)
-            }
-        })
-
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         recyclerView.adapter = adapterAccentColor
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            AppearancePreferences.accentColor -> {
-                requireActivity().recreate()
-            }
-        }
     }
 
     companion object {

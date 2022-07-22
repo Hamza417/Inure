@@ -1,7 +1,6 @@
 package app.simple.inure.decorations.ripple;
 
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
@@ -18,9 +17,7 @@ import com.google.android.material.shape.ShapeAppearanceModel;
 
 import java.util.Arrays;
 
-import app.simple.inure.R;
 import app.simple.inure.preferences.AppearancePreferences;
-import app.simple.inure.util.ColorUtils;
 
 public class Utils {
     
@@ -48,16 +45,16 @@ public class Utils {
         valueAnimator.start();
     }
     
-    static RippleDrawable getRippleDrawable(Context context, Drawable backgroundDrawable) {
+    static RippleDrawable getRippleDrawable(Drawable backgroundDrawable) {
         float[] outerRadii = new float[8];
         float[] innerRadii = new float[8];
         Arrays.fill(outerRadii, AppearancePreferences.INSTANCE.getCornerRadius());
         Arrays.fill(innerRadii, AppearancePreferences.INSTANCE.getCornerRadius());
-        
+    
         RoundRectShape shape = new RoundRectShape(outerRadii, null, innerRadii);
         ShapeDrawable mask = new ShapeDrawable(shape);
-        
-        ColorStateList stateList = ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(context, R.attr.colorAppAccent));
+    
+        ColorStateList stateList = ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor());
         
         RippleDrawable rippleDrawable = new RippleDrawable(stateList, backgroundDrawable, mask);
         rippleDrawable.setAlpha(alpha);
@@ -65,16 +62,16 @@ public class Utils {
         return rippleDrawable;
     }
     
-    static RippleDrawable getRippleDrawable(Context context, Drawable backgroundDrawable, float divisiveFactor) {
+    static RippleDrawable getRippleDrawable(Drawable backgroundDrawable, float divisiveFactor) {
         float[] outerRadii = new float[8];
         float[] innerRadii = new float[8];
         Arrays.fill(outerRadii, AppearancePreferences.INSTANCE.getCornerRadius() / divisiveFactor);
         Arrays.fill(innerRadii, AppearancePreferences.INSTANCE.getCornerRadius() / divisiveFactor);
-    
+        
         RoundRectShape shape = new RoundRectShape(outerRadii, null, innerRadii);
         ShapeDrawable mask = new ShapeDrawable(shape);
-    
-        ColorStateList stateList = ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(context, R.attr.colorAppAccent));
+        
+        ColorStateList stateList = ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor());
     
         RippleDrawable rippleDrawable = new RippleDrawable(stateList, backgroundDrawable, mask);
         rippleDrawable.setAlpha(alpha);

@@ -33,6 +33,7 @@ public class ThemeDivider extends View implements ThemeChangedListener {
     private void init() {
         setBackgroundColor(Color.WHITE);
         setTint(false);
+        setTranslationZ(1F);
     }
     
     @Override

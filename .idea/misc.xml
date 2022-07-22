@@ -108,6 +108,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/seek_bar.xml" value="0.2523076923076923" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/seekbar_thumb.xml" value="0.24074074074074073" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/switch_thumb.xml" value="0.2523076923076923" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/drawable/text_cursor.xml" value="0.1465" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout-land/fragment_app_share.xml" value="0.13" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout-land/fragment_splash_screen.xml" value="0.33" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout-land/popup_sorting_style.xml" value="0.11927083333333334" />
@@ -148,7 +149,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_batch.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_device_info.xml" value="0.22" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_disabled.xml" value="0.24010416666666667" />
-        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_most_used.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_most_used.xml" value="0.22870370370370371" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_music.xml" value="0.22" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_notes.xml" value="0.21574074074074073" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_header_recently_installed.xml" value="0.21203703703703702" />

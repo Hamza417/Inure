@@ -14,11 +14,11 @@ import android.widget.ImageView
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.decorations.switchview.SwitchCallbacks
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.animateColorChange
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils
 
 @SuppressLint("ClickableViewAccessibility")
@@ -126,7 +126,7 @@ class CheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             .setDuration(500L)
             .start()
 
-        animateColorChange(context.resolveAttrColor(R.attr.colorAppAccent))
+        animateColorChange(AppearancePreferences.getAccentColor())
         animateElevation(25F)
     }
 
@@ -140,7 +140,7 @@ class CheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private fun checked() {
         thumb.scaleX = 1F
         thumb.scaleY = 1F
-        this.backgroundTintList = ColorStateList.valueOf(context.resolveAttrColor(R.attr.colorAppAccent))
+        this.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
         elevation = 25F
     }
 

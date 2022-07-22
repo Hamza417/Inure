@@ -3,19 +3,21 @@ package app.simple.inure.decorations.theme;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import app.simple.inure.R;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
@@ -25,7 +27,6 @@ import top.defaults.drawabletoolbox.DrawableBuilder;
 // TODO - make a custom seekbar
 public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListener {
     
-    private Drawable thumb;
     private ObjectAnimator objectAnimator;
     
     public ThemeSeekBar(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -40,7 +41,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     
     private void init() {
         setThumb();
-        setProgress();
+        setDrawables();
     }
     
     @Override
@@ -56,11 +57,12 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     
     @Override
     protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
         ThemeManager.INSTANCE.removeListener(this);
         if (objectAnimator != null) {
             objectAnimator.cancel();
         }
+    
+        super.onDetachedFromWindow();
     }
     
     private void setThumb() {
@@ -69,39 +71,61 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
                 .width(getResources().getDimensionPixelOffset(R.dimen.seekbar_thumb_size))
                 .height(getResources().getDimensionPixelOffset(R.dimen.seekbar_thumb_size))
                 .ripple(false)
-                .strokeColor(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent))
+                .strokeColor(AppearancePreferences.INSTANCE.getAccentColor())
                 .strokeWidth(getResources().getDimensionPixelOffset(R.dimen.seekbar_stroke_size))
                 .solidColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground())
                 .build());
-        
+    
         invalidate();
     }
     
-    private void setProgress() {
-        Drawable[] drawables = {
-                new DrawableBuilder()
-                        .rounded()
-                        .solidColor(Color.YELLOW)
-                        .ripple(false)
-                        .build(),
-                
-                new DrawableBuilder()
-                        .rounded()
-                        .solidColor(Color.GREEN)
-                        .ripple(false)
-                        .build()};
-        
-        LayerDrawable layerDrawable = new LayerDrawable(drawables);
-        layerDrawable.setId(0, android.R.id.background);
-        layerDrawable.setId(1, android.R.id.progress);
-    
-        layerDrawable.getDrawable(1).setTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent)));
+    private void setDrawables() {
+        setThumb();
+        setProgressDrawable(createProgressDrawable());
     }
     
-    private void setProgressDrawable() {
+    private Drawable createProgressDrawable() {
         float r = 20;
-        ShapeDrawable shape = new ShapeDrawable(new RoundRectShape(new float[] {r, r, r, r, r, r, r, r}, null, null));
-        setProgressDrawable(shape);
+        ShapeDrawable shape = new ShapeDrawable();
+        shape.setShape(new RoundRectShape(new float[] {r, r, r, r, r, r, r, r}, null, null));
+        
+        shape.getPaint().setStyle(Paint.Style.FILL);
+        shape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
+        shape.getPaint().setStyle(Paint.Style.STROKE);
+        shape.getPaint().setStrokeWidth(4);
+        shape.getPaint().setStrokeCap(Paint.Cap.ROUND);
+        shape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 216));
+        shape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
+        
+        ShapeDrawable shapeD = new ShapeDrawable();
+        shapeD.getPaint().setStyle(Paint.Style.FILL);
+        shapeD.getPaint().setColor(AppearancePreferences.INSTANCE.getAccentColor());
+        shapeD.setShape(new RoundRectShape(new float[] {r, r, r, r, r, r, r, r}, null, null));
+        ClipDrawable clipDrawable = new ClipDrawable(shapeD, Gravity.START, ClipDrawable.HORIZONTAL);
+        
+        return new LayerDrawable(new Drawable[] {clipDrawable, shape});
+    }
+    
+    private Drawable createThumbDrawable() {
+        float r = 200;
+        ShapeDrawable shape = new ShapeDrawable();
+        shape.setShape(new RoundRectShape(new float[] {r, r, r, r, r, r, r, r}, null, null));
+        
+        shape.getPaint().setStyle(Paint.Style.FILL);
+        shape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
+        shape.getPaint().setStyle(Paint.Style.STROKE);
+        shape.getPaint().setStrokeWidth(4);
+        shape.getPaint().setStrokeCap(Paint.Cap.ROUND);
+        shape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 216));
+        shape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
+        
+        ShapeDrawable shapeD = new ShapeDrawable();
+        shapeD.getPaint().setStyle(Paint.Style.FILL);
+        shapeD.getPaint().setColor(AppearancePreferences.INSTANCE.getAccentColor());
+        shapeD.setShape(new RoundRectShape(new float[] {r, r, r, r, r, r, r, r}, null, null));
+        ClipDrawable clipDrawable = new ClipDrawable(shapeD, Gravity.START, ClipDrawable.HORIZONTAL);
+        
+        return new LayerDrawable(new Drawable[] {clipDrawable, shape});
     }
     
     @Override

@@ -32,6 +32,6 @@ public class DynamicRippleFrameLayout extends FrameLayout {
     private void init() {
         setBackgroundColor(Color.TRANSPARENT);
         setBackground(null);
-        setBackground(Utils.getRippleDrawable(getContext(), getBackground()));
+        setBackground(Utils.getRippleDrawable(getBackground()));
     }
 }

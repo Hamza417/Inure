@@ -13,8 +13,7 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import app.simple.inure.R;
-import app.simple.inure.decorations.fastscroll.Utils;
+import app.simple.inure.preferences.AppearancePreferences;
 
 public class CircularBackground extends Drawable {
     
@@ -25,7 +24,7 @@ public class CircularBackground extends Drawable {
     public CircularBackground(@NonNull Context context) {
         paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(Utils.getColorFromAttrRes(R.attr.colorAppAccent, context));
+        paint.setColor(AppearancePreferences.INSTANCE.getAccentColor());
         paint.setStyle(Paint.Style.FILL);
     }
     

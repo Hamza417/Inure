@@ -8,7 +8,6 @@ import android.graphics.drawable.shapes.RoundRectShape
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -18,16 +17,16 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants.TYPE_HEADER
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.TYPE_ITEM
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.Utils
+import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.AppearancePreferences.getCornerRadius
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.ConditionUtils.isZero
-import org.jetbrains.annotations.NotNull
 import java.util.*
 
 class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    private lateinit var palettesAdapterCallbacks: PalettesAdapterCallbacks
+    private var lastSelectedItem = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -56,7 +55,11 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
             }
 
             holder.container.setOnClickListener {
-                palettesAdapterCallbacks.onColorPressed(list[position].first)
+                if (AppearancePreferences.setAccentColor(list[position].first)) {
+                    notifyItemChanged(lastSelectedItem)
+                    notifyItemChanged(position_)
+                    lastSelectedItem = position_
+                }
             }
 
             holder.name.text = list[position].second
@@ -66,6 +69,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
             holder.container.background = getRippleDrawable(holder.container.background, list[position].first)
 
             holder.tick.visibility = if (list[position].first == AppearancePreferences.getAccentColor()) {
+                lastSelectedItem = position_
                 View.VISIBLE
             } else {
                 View.INVISIBLE
@@ -87,7 +91,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val color: DynamicCornerAccentColor = itemView.findViewById(R.id.adapter_palette_color)
-        val tick: ImageView = itemView.findViewById(R.id.adapter_accent_check_icon)
+        val tick: ThemeIcon = itemView.findViewById(R.id.adapter_accent_check_icon)
         val name: TextView = itemView.findViewById(R.id.color_name)
         val hex: TextView = itemView.findViewById(R.id.color_hex)
         val container: LinearLayout = itemView.findViewById(R.id.color_container)
@@ -97,26 +101,16 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
         val total: TextView = itemView.findViewById(R.id.adapter_accent_total)
     }
 
-    fun setOnPaletteChangeListener(palettesAdapterCallbacks: PalettesAdapterCallbacks) {
-        this.palettesAdapterCallbacks = palettesAdapterCallbacks
-    }
-
     private fun getRippleDrawable(backgroundDrawable: Drawable?, color: Int): RippleDrawable {
         val outerRadii = FloatArray(8)
         val innerRadii = FloatArray(8)
-        Arrays.fill(outerRadii, getCornerRadius().toFloat())
-        Arrays.fill(innerRadii, getCornerRadius().toFloat())
+        Arrays.fill(outerRadii, getCornerRadius())
+        Arrays.fill(innerRadii, getCornerRadius())
         val shape = RoundRectShape(outerRadii, null, innerRadii)
         val mask = ShapeDrawable(shape)
         val stateList = ColorStateList.valueOf(color)
         val rippleDrawable = RippleDrawable(stateList, backgroundDrawable, mask)
         rippleDrawable.alpha = Utils.alpha
         return rippleDrawable
-    }
-
-    companion object {
-        interface PalettesAdapterCallbacks {
-            fun onColorPressed(@NotNull source: Int)
-        }
     }
 }

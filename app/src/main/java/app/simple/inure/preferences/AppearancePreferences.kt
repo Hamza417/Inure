@@ -25,8 +25,8 @@ object AppearancePreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAccentColor(@ColorInt int: Int) {
-        getSharedPreferences().edit().putInt(accentColor, int).apply()
+    fun setAccentColor(@ColorInt int: Int): Boolean {
+        return getSharedPreferences().edit().putInt(accentColor, int).commit()
     }
 
     @ColorInt

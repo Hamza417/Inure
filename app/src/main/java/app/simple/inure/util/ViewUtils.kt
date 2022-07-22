@@ -16,7 +16,6 @@ import app.simple.inure.R
 import app.simple.inure.R.dimen
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 
 object ViewUtils {
     /**
@@ -72,8 +71,8 @@ object ViewUtils {
      */
     fun addShadow(contentView: View) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P && BehaviourPreferences.areShadowsOn()) {
-            contentView.outlineAmbientShadowColor = contentView.context.resolveAttrColor(R.attr.colorAppAccent)
-            contentView.outlineSpotShadowColor = contentView.context.resolveAttrColor(R.attr.colorAppAccent)
+            contentView.outlineAmbientShadowColor = AppearancePreferences.getAccentColor()
+            contentView.outlineSpotShadowColor = AppearancePreferences.getAccentColor()
         }
     }
 

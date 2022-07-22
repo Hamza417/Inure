@@ -1,11 +1,8 @@
 package app.simple.inure.themes.data
 
-import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 
-data class AccentTheme(
-        @ColorInt
-        val accentColor: Int,
-
-        @ColorInt
-        val accentColorLight: Int
-)
+data class AccentTheme(@ColorRes
+                       val accentColor: Int,
+                       @ColorRes
+                       val accentColorLight: Int)

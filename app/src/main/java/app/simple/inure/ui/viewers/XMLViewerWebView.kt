@@ -20,7 +20,6 @@ import app.simple.inure.decorations.views.XmlWebView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.XMLViewerViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
@@ -70,8 +69,7 @@ class XMLViewerWebView : ScopedFragment() {
         packageInfo = requireArguments().getParcelable("application_info")!!
 
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean("is_manifest"),
-                                                           requireArguments().getString("path_to_xml")!!,
-                                                           requireContext().resolveAttrColor(R.attr.colorAppAccent))
+                                                           requireArguments().getString("path_to_xml")!!)
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)
 

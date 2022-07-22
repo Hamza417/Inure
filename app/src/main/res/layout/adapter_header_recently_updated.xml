@@ -16,10 +16,11 @@
         android:clipToPadding="false"
         android:orientation="horizontal">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/imageView4"
             android:layout_width="@dimen/adapter_header_icon_size"
             android:layout_height="@dimen/adapter_header_icon_size"
+            app:tintType="accent"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/recently_updated"
             android:src="@drawable/ic_apps_category_recently_updated"

@@ -185,8 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight=".9"
-                    android:maxHeight="12dp"
-                    android:progressDrawable="@drawable/seek_bar"
+                    android:maxHeight="@dimen/seekbar_max_height"
                     android:splitTrack="false" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView

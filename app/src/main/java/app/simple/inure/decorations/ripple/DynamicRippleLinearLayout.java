@@ -12,6 +12,6 @@ public class DynamicRippleLinearLayout extends LinearLayout {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);
         setBackground(null);
-        setBackground(Utils.getRippleDrawable(getContext(), getBackground()));
+        setBackground(Utils.getRippleDrawable(getBackground()));
     }
 }

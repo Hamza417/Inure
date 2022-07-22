@@ -28,9 +28,11 @@ public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
         setFocusableInTouchMode(true);
         setFocusable(true);
         setSaveEnabled(true);
+    
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_YES);
         }
+    
         setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground()));
         LayoutBackground.setBackground(getContext(), this, attrs, 2F);
         ViewUtils.INSTANCE.addShadow(this);

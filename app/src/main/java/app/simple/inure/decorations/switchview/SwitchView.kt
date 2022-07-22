@@ -13,11 +13,11 @@ import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.animateColorChange
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.LocaleHelper.isRTL
 import app.simple.inure.util.ViewUtils
 
@@ -146,13 +146,13 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             .setDuration(500)
             .start()
 
-        animateColorChange(context.resolveAttrColor(R.attr.colorAppAccent))
+        animateColorChange(AppearancePreferences.getAccentColor())
         animateElevation(25F)
     }
 
     private fun checked() {
         thumb.translationX = if (resources.isRTL()) 0F else (w - p * 2 - thumbWidth).toFloat()
-        this.backgroundTintList = ColorStateList.valueOf(context.resolveAttrColor(R.attr.colorAppAccent))
+        this.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
         this.elevation = 25F
     }
 

@@ -35,8 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
             android:layout_marginVertical="20dp"
-            android:maxHeight="12dp"
-            android:progressDrawable="@drawable/seek_bar"
+            android:maxHeight="@dimen/seekbar_max_height"
             android:splitTrack="false" />
 
         <LinearLayout

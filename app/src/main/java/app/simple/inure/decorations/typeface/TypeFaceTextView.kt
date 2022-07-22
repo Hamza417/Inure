@@ -1,6 +1,7 @@
 package app.simple.inure.decorations.typeface
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
@@ -11,6 +12,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.TextViewCompat
 import app.simple.inure.R
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.AppearancePreferences.getAppFont
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -24,7 +26,7 @@ import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.fadInAnimation
 import app.simple.inure.util.ViewUtils.fadOutAnimation
 
-open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
+open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val typedArray: TypedArray
     private var colorMode: Int = 1
@@ -90,11 +92,13 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        app.simple.inure.preferences.SharedPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
         ThemeManager.addListener(this)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
+        app.simple.inure.preferences.SharedPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
         ThemeManager.removeListener(this)
     }
 
@@ -116,7 +120,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
                 2 -> this.animateColorChange(ThemeManager.theme.textViewTheme.secondaryTextColor)
                 3 -> this.animateColorChange(ThemeManager.theme.textViewTheme.tertiaryTextColor)
                 4 -> this.animateColorChange(ThemeManager.theme.textViewTheme.quaternaryTextColor)
-                5 -> setTextColor(context.resolveAttrColor(R.attr.colorAppAccent)) // Accent Color won't change on theme change
+                5 -> this.animateColorChange(AppearancePreferences.getAccentColor())
                 6 -> setTextColor(ColorStateList.valueOf(Color.WHITE))
             }
         } else {
@@ -126,7 +130,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
                 2 -> setTextColor(ThemeManager.theme.textViewTheme.secondaryTextColor)
                 3 -> setTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
                 4 -> setTextColor(ThemeManager.theme.textViewTheme.quaternaryTextColor)
-                5 -> setTextColor(context.resolveAttrColor(R.attr.colorAppAccent))
+                5 -> setTextColor(AppearancePreferences.getAccentColor())
                 6 -> setTextColor(ColorStateList.valueOf(Color.WHITE))
             }
         }
@@ -135,14 +139,13 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
     private fun setDrawableTint(animate: Boolean) {
         if (animate) {
             when (drawableTintMode) {
-                // Accent Color won't change on theme change
-                0 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(context.resolveAttrColor(R.attr.colorAppAccent)))
+                0 -> animateDrawableColorChange(lastDrawableColor, AppearancePreferences.getAccentColor())
                 1 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.regularIconColor)
                 2 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.secondaryIconColor)
             }
         } else {
             when (drawableTintMode) {
-                0 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(context.resolveAttrColor(R.attr.colorAppAccent)))
+                0 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(AppearancePreferences.getAccentColor()))
                 1 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.regularIconColor))
                 2 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.secondaryIconColor))
             }
@@ -178,6 +181,15 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener {
                 completion?.let {
                     it()
                 }
+            }
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            AppearancePreferences.accentColor -> {
+                setTextColor(animate = true)
+                setDrawableTint(animate = true)
             }
         }
     }

@@ -21,7 +21,7 @@
         android:padding="@dimen/header_padding"
         android:translationZ="1dp">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/preferences_header_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -29,6 +29,7 @@
             android:padding="5dp"
             android:src="@drawable/ic_app_icon_settings"
             android:transitionName="@string/preferences"
+            app:tintType="accent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -76,7 +77,6 @@
             android:maxHeight="50dp"
             android:maxLines="1"
             android:paddingHorizontal="@dimen/header_padding"
-            android:textCursorDrawable="@drawable/text_cursor"
             android:visibility="gone"
             app:appFontStyle="regular"
             app:textColorStyle="secondary" />

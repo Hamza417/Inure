@@ -81,6 +81,7 @@
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
+        android:translationZ="1dp"
         android:layout_height="1px" />
 
     <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView

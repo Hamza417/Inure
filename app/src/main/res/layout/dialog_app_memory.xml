@@ -23,7 +23,7 @@
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:drawablePadding="@dimen/dialog_padding"
-            android:drawableTint="?attr/colorAppAccent"
+            app:drawableTintStyle="accent"
             android:gravity="center_vertical"
             android:text="@string/memory"
             android:textSize="@dimen/info_text_large"

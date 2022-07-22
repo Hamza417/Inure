@@ -12,10 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import app.simple.inure.R;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
-import app.simple.inure.util.ColorUtils;
 
 public class ThemeButton extends AppCompatImageButton implements ThemeChangedListener {
     
@@ -59,7 +59,7 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
                 return ThemeManager.INSTANCE.getTheme().getIconTheme().getSecondaryIconColor();
             }
             case 2: {
-                return ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent);
+                return AppearancePreferences.INSTANCE.getAccentColor();
             }
             case 3: {
                 return Color.WHITE;

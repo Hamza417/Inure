@@ -25,7 +25,6 @@ import app.simple.inure.preferences.ShellPreferences.setHomePath
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ThemeUtils
-import app.simple.inure.util.ThemeUtils.setTheme
 
 open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.content.SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -48,7 +47,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
         }
 
-        setTheme()
+        // setTheme()
         setContentView(R.layout.activity_main)
 
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()

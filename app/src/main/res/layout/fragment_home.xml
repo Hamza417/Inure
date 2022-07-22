@@ -18,14 +18,15 @@
         android:padding="@dimen/popup_padding"
         android:translationZ="1dp">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/header_icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:contentDescription="@string/app_name"
             android:padding="10dp"
             android:src="@drawable/ic_app_icon"
-            android:transitionName="main_app_icon" />
+            android:transitionName="main_app_icon"
+            app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"

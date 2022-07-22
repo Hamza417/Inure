@@ -84,8 +84,7 @@ public class FastScroller {
         mThumbView = new View(context);
         mThumbView.setBackground(thumbDrawable);
         mPopupView = new AppCompatTextView(context);
-        mPopupView.setLayoutParams(new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        mPopupView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         popupStyle.accept(mPopupView);
         
         ViewGroupOverlay overlay = mView.getOverlay();

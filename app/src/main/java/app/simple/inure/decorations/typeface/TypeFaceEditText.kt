@@ -12,10 +12,10 @@ import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ColorUtils.animateColorChange
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.TextViewUtils.setDrawableTint
 import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.TypeFace
+import top.defaults.drawabletoolbox.DrawableBuilder
 
 open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
 
@@ -37,6 +37,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
         setHighlightColor()
         setTextColor(colorMode, false)
+        setCursorDrawable()
         setHintTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
         setDrawableTint(ThemeManager.theme.iconTheme.secondaryIconColor)
     }
@@ -64,7 +65,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
                 2 -> this.animateColorChange(ThemeManager.theme.textViewTheme.secondaryTextColor)
                 3 -> this.animateColorChange(ThemeManager.theme.textViewTheme.tertiaryTextColor)
                 4 -> this.animateColorChange(ThemeManager.theme.textViewTheme.quaternaryTextColor)
-                5 -> this.animateColorChange(context.resolveAttrColor(R.attr.colorAppAccent))
+                5 -> this.animateColorChange(AppearancePreferences.getAccentColor())
             }
         } else {
             when (mode) {
@@ -73,9 +74,19 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
                 2 -> setTextColor(ThemeManager.theme.textViewTheme.secondaryTextColor)
                 3 -> setTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
                 4 -> setTextColor(ThemeManager.theme.textViewTheme.quaternaryTextColor)
-                5 -> setTextColor(context.resolveAttrColor(R.attr.colorAppAccent))
+                5 -> setTextColor(AppearancePreferences.getAccentColor())
             }
         }
+    }
+
+    private fun setCursorDrawable() {
+        textCursorDrawable = DrawableBuilder()
+            .rectangle()
+            .width(resources.getDimensionPixelOffset(R.dimen.cursor_width))
+            .ripple(false)
+            .strokeWidth(0)
+            .solidColor(AppearancePreferences.getAccentColor())
+            .build()
     }
 
     private fun setHighlightColor() {
