@@ -2,11 +2,14 @@ package app.simple.inure.decorations.ripple;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
+
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +18,12 @@ import app.simple.inure.R;
 import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.preferences.AccessibilityPreferences;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 
-public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements ThemeChangedListener {
+public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     
     public DynamicRippleLinearLayoutWithFactor(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -68,18 +72,6 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
     }
     
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        ThemeManager.INSTANCE.addListener(this);
-    }
-    
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        ThemeManager.INSTANCE.removeListener(this);
-    }
-    
-    @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         if (isClickable()) {
             setHighlightBackgroundColor();
@@ -93,6 +85,27 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
         } else {
             setBackground(null);
             setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
+        }
+    }
+    
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        ThemeManager.INSTANCE.addListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+    
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        ThemeManager.INSTANCE.removeListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+    
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Objects.equals(key, AppearancePreferences.accentColor)) {
+            setHighlightBackgroundColor();
         }
     }
 }

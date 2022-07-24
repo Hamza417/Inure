@@ -2,6 +2,7 @@ package app.simple.inure.decorations.theme;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -17,7 +18,7 @@ import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 
-public class ThemeButton extends AppCompatImageButton implements ThemeChangedListener {
+public class ThemeButton extends AppCompatImageButton implements ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     
     private ValueAnimator valueAnimator;
     protected int tintMode;
@@ -88,6 +89,7 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
         if (isInEditMode()) {
             return;
         }
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         ThemeManager.INSTANCE.addListener(this);
     }
     
@@ -100,8 +102,14 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         ThemeManager.INSTANCE.removeListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
+    }
+    
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    
     }
 }

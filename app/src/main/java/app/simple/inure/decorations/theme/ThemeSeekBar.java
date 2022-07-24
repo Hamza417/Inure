@@ -3,15 +3,19 @@ package app.simple.inure.decorations.theme;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.animation.DecelerateInterpolator;
+
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +29,7 @@ import app.simple.inure.util.ColorUtils;
 import top.defaults.drawabletoolbox.DrawableBuilder;
 
 // TODO - make a custom seekbar
-public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListener {
+public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     
     private ObjectAnimator objectAnimator;
     
@@ -47,6 +51,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         ThemeManager.INSTANCE.addListener(this);
     }
     
@@ -58,6 +63,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     @Override
     protected void onDetachedFromWindow() {
         ThemeManager.INSTANCE.removeListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         if (objectAnimator != null) {
             objectAnimator.cancel();
         }
@@ -75,13 +81,15 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
                 .strokeWidth(getResources().getDimensionPixelOffset(R.dimen.seekbar_stroke_size))
                 .solidColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground())
                 .build());
-    
-        invalidate();
     }
     
     private void setDrawables() {
         setThumb();
         setProgressDrawable(createProgressDrawable());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            setMaxHeight(getResources().getDimensionPixelOffset(R.dimen.seekbar_max_height));
+        }
+        requestLayout();
     }
     
     private Drawable createProgressDrawable() {
@@ -154,14 +162,21 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
             
             @Override
             public void onAnimationCancel(Animator animation) {
-            
+    
             }
-            
+    
             @Override
             public void onAnimationRepeat(Animator animation) {
-            
+        
             }
         });
         objectAnimator.start();
+    }
+    
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Objects.equals(key, AppearancePreferences.accentColor)) {
+            setDrawables();
+        }
     }
 }

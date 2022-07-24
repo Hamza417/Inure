@@ -2,10 +2,13 @@ package app.simple.inure.decorations.ripple;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +18,7 @@ import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.preferences.AccessibilityPreferences;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 
@@ -107,6 +111,13 @@ public class DynamicRippleTextView extends TypeFaceTextView {
         } else {
             setBackground(null);
             setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
+        }
+    }
+    
+    @Override
+    public void onSharedPreferenceChanged(@Nullable SharedPreferences sharedPreferences, @Nullable String key) {
+        if (Objects.equals(key, AppearancePreferences.accentColor)) {
+            setHighlightBackgroundColor();
         }
     }
 }
