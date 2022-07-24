@@ -111,7 +111,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             clearEnterTransition()
         }
 
-        if (BehaviourPreferences.isAnimationOn()) {
+        if (BehaviourPreferences.isArcAnimationOn()) {
             sharedElementEnterTransition = DetailsTransitionArc()
             sharedElementReturnTransition = DetailsTransitionArc()
         }
@@ -140,7 +140,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             clearEnterTransition()
         }
 
-        if (BehaviourPreferences.isAnimationOn()) {
+        if (BehaviourPreferences.isArcAnimationOn()) {
             sharedElementEnterTransition = DetailsTransitionArc(duration)
             sharedElementReturnTransition = DetailsTransitionArc(duration)
         }
@@ -166,7 +166,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             clearEnterTransition()
         }
 
-        if (BehaviourPreferences.isAnimationOn()) {
+        if (BehaviourPreferences.isArcAnimationOn()) {
             sharedElementEnterTransition = DetailsTransition(duration)
             sharedElementReturnTransition = DetailsTransition(duration)
         }

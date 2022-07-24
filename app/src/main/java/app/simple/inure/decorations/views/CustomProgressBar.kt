@@ -7,12 +7,17 @@ import android.util.AttributeSet
 import android.widget.ProgressBar
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
+import app.simple.inure.preferences.AppearancePreferences
 
 class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : ProgressBar(context, attrs, defStyleAttr) {
 
     private var valueAnimator: ValueAnimator? = null
-    private val duration = 500L
+
+    init {
+        progressTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+        indeterminateTintList = progressTintList
+    }
 
     /**
      * Set progress but with animation for all API levels
@@ -48,9 +53,8 @@ class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
         clearAnimation()
-        valueAnimator?.cancel()
+        super.onDetachedFromWindow()
     }
 
     override fun clearAnimation() {

@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import com.google.android.material.card.MaterialCardView;
 
 import androidx.annotation.NonNull;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
@@ -30,6 +31,9 @@ public class ThemeMaterialCardView extends MaterialCardView implements ThemeChan
     private void init() {
         setCardBackgroundColor(Color.WHITE);
         setBackground(false);
+        if (isClickable()) {
+            setRippleColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
+        }
     }
     
     @Override

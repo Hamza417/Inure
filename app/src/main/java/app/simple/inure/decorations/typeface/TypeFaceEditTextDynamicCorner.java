@@ -1,6 +1,5 @@
 package app.simple.inure.decorations.typeface;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -14,8 +13,6 @@ import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.util.ViewUtils;
 
 public class TypeFaceEditTextDynamicCorner extends TypeFaceEditText {
-    
-    private ValueAnimator valueAnimator;
     
     public TypeFaceEditTextDynamicCorner(@Nullable Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);

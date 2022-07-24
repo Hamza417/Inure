@@ -49,7 +49,6 @@
             android:layout_width="@dimen/panel_icon_size"
             android:layout_height="@dimen/panel_icon_size"
             android:layout_gravity="center_vertical"
-            android:indeterminateTint="?attr/colorAppAccent"
             android:padding="10dp" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton

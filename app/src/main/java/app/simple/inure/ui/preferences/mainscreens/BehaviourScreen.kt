@@ -50,7 +50,7 @@ class BehaviourScreen : ScopedFragment() {
         dimWindows.setChecked(BehaviourPreferences.isDimmingOn())
         shadows.setChecked(BehaviourPreferences.areShadowsOn())
         transition.setChecked(BehaviourPreferences.isTransitionOn())
-        animations.setChecked(BehaviourPreferences.isAnimationOn())
+        animations.setChecked(BehaviourPreferences.isArcAnimationOn())
         marquee.setChecked(BehaviourPreferences.isMarqueeOn())
         skipLoading.setChecked(BehaviourPreferences.isSkipLoadingMainScreenState())
 
@@ -70,7 +70,7 @@ class BehaviourScreen : ScopedFragment() {
         }
 
         animations.setOnSwitchCheckedChangeListener {
-            BehaviourPreferences.setAnimations(it)
+            BehaviourPreferences.setArcAnimations(it)
         }
 
         marquee.setOnSwitchCheckedChangeListener {

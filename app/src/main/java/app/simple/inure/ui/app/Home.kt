@@ -25,6 +25,7 @@ import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
+import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.panels.*
@@ -102,8 +103,12 @@ class Home : ScopedFragment() {
                                 PackageUtils.launchThisPackage(requireContext(), "com.termux")
                             } else {
                                 val intent = Intent(requireActivity(), Term::class.java)
-                                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
-                                startActivity(intent, options.toBundle())
+                                if (BehaviourPreferences.isArcAnimationOn()) {
+                                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
+                                    startActivity(intent, options.toBundle())
+                                } else {
+                                    startActivity(intent)
+                                }
                             }
                         }
                         getString(R.string.usage_statistics) -> {

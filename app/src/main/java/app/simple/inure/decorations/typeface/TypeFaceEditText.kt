@@ -53,6 +53,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     }
 
     override fun onDetachedFromWindow() {
+        valueAnimator?.cancel()
         super.onDetachedFromWindow()
         ThemeManager.removeListener(this)
     }

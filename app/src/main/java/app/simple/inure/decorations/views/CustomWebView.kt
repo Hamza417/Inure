@@ -35,9 +35,7 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
 
         webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
-                view.loadUrl(
-                        "javascript:document.body.style.setProperty(\"color\", \"$color\");"
-                )
+                view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
             }
         }
     }

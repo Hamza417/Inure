@@ -15,14 +15,14 @@
         android:orientation="horizontal"
         android:padding="@dimen/header_padding">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/imageView8"
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_code"
             android:transitionName="@string/dex_classes"
-            app:tint="?attr/colorAppAccent"
+            app:tintType="accent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

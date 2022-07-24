@@ -12,11 +12,11 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.PermissionInfo
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.PermissionPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.AdapterUtils
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.gone
@@ -41,7 +41,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
             /* ----------------------------------------------------------------- */
 
-            holder.status.setTextColor(holder.itemView.context.resolveAttrColor(R.attr.colorAppAccent))
+            holder.status.setTextColor(AppearancePreferences.getAccentColor())
             holder.desc.visible(false)
         } else {
             holder.name.text = permissions[position].name.optimizeToColoredString(".")

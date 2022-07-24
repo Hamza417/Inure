@@ -46,11 +46,11 @@ object BehaviourPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAnimations(boolean: Boolean) {
+    fun setArcAnimations(boolean: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(arcAnimation, boolean).apply()
     }
 
-    fun isAnimationOn(): Boolean {
+    fun isArcAnimationOn(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(arcAnimation, true)
     }
 

@@ -35,14 +35,15 @@
                     android:clipToPadding="false"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView4"
                         android:layout_width="@dimen/adapter_header_icon_size"
                         android:layout_height="@dimen/adapter_header_icon_size"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/analytics"
                         android:src="@drawable/ic_analytics"
-                        android:transitionName="@string/analytics" />
+                        android:transitionName="@string/analytics"
+                        app:tintType="accent" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
                         android:layout_width="0dp"

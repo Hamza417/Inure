@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:padding="@dimen/header_padding">
 
-    <ImageView
+    <app.simple.inure.decorations.theme.ThemeIcon
         android:id="@+id/xml_viewer_header_icon"
         android:layout_width="@dimen/small_button_size"
         android:layout_height="@dimen/small_button_size"
@@ -15,7 +15,7 @@
         android:layout_marginEnd="@dimen/header_padding"
         android:src="@drawable/ic_file_xml"
         android:transitionName="@string/manifest"
-        app:tint="?attr/colorAppAccent"
+        app:tintType="accent"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -44,7 +44,6 @@
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="@dimen/panel_icon_size"
         android:layout_height="@dimen/panel_icon_size"
-        android:indeterminateTint="?attr/colorAppAccent"
         android:padding="10dp" />
 
 </LinearLayout>

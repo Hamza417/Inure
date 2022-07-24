@@ -5,8 +5,7 @@
     android:id="@+id/adapter_graphics_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/header_padding"
-    android:layout_marginVertical="5dp"
+    android:layout_margin="@dimen/popup_padding"
     android:padding="5dp">
 
     <ImageView

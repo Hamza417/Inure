@@ -40,7 +40,7 @@
                     android:text="Inure Mini Player"
                     app:appFontStyle="regular"
                     app:drawableLeftCompat="@drawable/ic_audio_placeholder"
-                    app:drawableTint="?attr/colorAppAccent"
+                    app:drawableTintStyle="accent"
                     app:textColorStyle="tertiary"
                     tools:ignore="HardcodedText" />
 
@@ -206,5 +206,4 @@
             </LinearLayout>
         </LinearLayout>
     </app.simple.inure.decorations.theme.ThemeMaterialCardView>
-
 </FrameLayout>
