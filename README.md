@@ -25,6 +25,8 @@ image renderer and a beautiful animation framework.
 - [Buy on Google Play](https://play.google.com/store/apps/details?id=app.simple.inure)
 - [Donate on PayPal](https://paypal.me/hamza417)
 
+Or you can use the **Sponsor** button
+
 ## Development Status
 
 High priority features
