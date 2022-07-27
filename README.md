@@ -21,12 +21,6 @@ Inure's development was started as an independent learning project which later h
 developed by a single person and is based 100% on custom UI APIs developed to be used only in this app along with a native theme engine, 
 image renderer and a beautiful animation framework.
 
-## Support Development
-- [Buy on Google Play](https://play.google.com/store/apps/details?id=app.simple.inure)
-- [Donate on PayPal](https://paypal.me/hamza417)
-
-Or you can use the **Sponsor** button
-
 ## Development Status
 
 High priority features
@@ -54,3 +48,11 @@ Low priority features
 <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/08.jpg" width="30%"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/02.jpg" width="30%"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/09.jpg" width="30%">
 <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/10.jpg" width="30%"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/11.jpg" width="30%"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/12.jpg" width="30%">
 <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/13.jpg" width="30%"><img src="https://github.com/Hamza417/Inure/blob/master/screenshots/00.jpg" width="30%">
+
+## Support Development
+If you liked the project then do consider development it only helps further the development
+
+- [Buy on Google Play](https://play.google.com/store/apps/details?id=app.simple.inure)
+- [Donate on PayPal](https://paypal.me/hamza417)
+
+You can use the **Sponsor** button or just hit the Star.
