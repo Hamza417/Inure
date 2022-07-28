@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.util.ConditionUtils.isZero
@@ -56,7 +56,7 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : Recycler
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val text: TypeFaceTextView = itemView.findViewById(R.id.preferences_text)
         val icon: ImageView = itemView.findViewById(R.id.preferences_icon)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.pref_container)
+        val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.pref_container)
     }
 
     inner class Divider(itemView: View) : VerticalListViewHolder(itemView)

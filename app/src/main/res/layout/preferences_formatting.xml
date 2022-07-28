@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -254,7 +254,7 @@
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </app.simple.inure.decorations.theme.ThemeLinearLayout>

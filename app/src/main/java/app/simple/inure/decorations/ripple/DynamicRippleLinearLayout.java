@@ -12,8 +12,10 @@ import androidx.annotation.Nullable;
 import app.simple.inure.preferences.AppearancePreferences;
 
 public class DynamicRippleLinearLayout extends LinearLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
+    
     public DynamicRippleLinearLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
     
     private void init() {

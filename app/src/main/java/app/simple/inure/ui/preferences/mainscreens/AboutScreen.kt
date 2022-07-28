@@ -27,7 +27,7 @@ class AboutScreen : ScopedFragment() {
     private lateinit var share: DynamicRippleRelativeLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_about, container, false)
+        val view = inflater.inflate(R.layout.preferences_about, container, false)
 
         changelogs = view.findViewById(R.id.changelogs)
         github = view.findViewById(R.id.about_github)

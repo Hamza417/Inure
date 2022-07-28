@@ -2,13 +2,18 @@ package app.simple.inure.decorations.ripple;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import java.util.Objects;
 
+import app.simple.inure.constants.Misc;
+import app.simple.inure.decorations.corners.LayoutBackground;
+import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.themes.manager.ThemeManager;
 
 public class DynamicRippleRelativeLayout extends RelativeLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
     
@@ -24,6 +29,16 @@ public class DynamicRippleRelativeLayout extends RelativeLayout implements Share
         setBackgroundColor(Color.TRANSPARENT);
         setBackground(null);
         setBackground(Utils.getRippleDrawable(getBackground()));
+    }
+    
+    private void setHighlightBackgroundColor() {
+        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
+            LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
+            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+        } else {
+            setBackground(null);
+            setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
+        }
     }
     
     @Override

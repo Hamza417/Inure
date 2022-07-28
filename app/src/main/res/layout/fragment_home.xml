@@ -81,7 +81,7 @@
         android:clipChildren="false"
         android:clipToPadding="false">
 
-        <androidx.core.widget.NestedScrollView
+        <app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
             android:id="@+id/home_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,6 +145,6 @@
                     app:statusBarPaddingRequired="false" />
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+        </app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </app.simple.inure.decorations.theme.ThemeLinearLayout>

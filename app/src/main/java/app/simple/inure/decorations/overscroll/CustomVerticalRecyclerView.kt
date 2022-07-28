@@ -34,6 +34,8 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
 
     private var fastScrollerBuilder: FastScrollerBuilder? = null
 
+    private var edgeColor = AppearancePreferences.getAccentColor()
+
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
             try {
@@ -144,8 +146,11 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                      * on non-required places. This is how it is but works.
                      */
                     private fun setEdgeColor() {
+                        @Suppress("LiftReturnOrAssignment")
                         if (!isEdgeColorRequired) {
                             color = ThemeManager.theme.viewGroupTheme.background
+                        } else {
+                            color = edgeColor
                         }
                     }
                 }
@@ -198,6 +203,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             AppearancePreferences.accentColor -> {
+                edgeColor = AppearancePreferences.getAccentColor()
                 fastScrollerBuilder?.updateAesthetics()
             }
         }

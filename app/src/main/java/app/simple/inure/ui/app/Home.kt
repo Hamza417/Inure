@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.doOnPreDraw
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +16,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
 import app.simple.inure.adapters.menus.AdapterHomeMenu
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -38,7 +38,7 @@ import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 
 class Home : ScopedFragment() {
 
-    private lateinit var scrollView: NestedScrollView
+    private lateinit var scrollView: EdgeEffectNestedScrollView
     private lateinit var header: PaddingAwareLinearLayout
     private lateinit var navigationRecyclerView: RecyclerView
     private lateinit var appsCategoryRecyclerView: RecyclerView

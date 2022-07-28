@@ -1,4 +1,4 @@
-<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/pref_container"
@@ -28,4 +28,4 @@
         app:appFontStyle="bold"
         app:textColorStyle="secondary" />
 
-</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor>
