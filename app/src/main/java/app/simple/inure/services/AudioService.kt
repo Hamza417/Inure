@@ -20,11 +20,11 @@ import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.activities.association.FullScreenAudioPlayerActivity
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.exceptions.InureMediaEngineException
+import app.simple.inure.loaders.MetadataHelper
 import app.simple.inure.models.AudioMetaData
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.receivers.MediaButtonIntentReceiver
 import app.simple.inure.util.IntentHelper
-import app.simple.inure.util.MetadataHelper
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.NullSafety.isNull
 import kotlinx.coroutines.CoroutineScope

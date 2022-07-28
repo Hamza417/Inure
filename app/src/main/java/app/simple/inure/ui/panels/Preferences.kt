@@ -344,12 +344,12 @@ class Preferences : ScopedFragment() {
 
     private fun searchBoxState(animate: Boolean) {
         if (PreferencesSearchConstants.isSearchVisible()) {
-            search.setImageResource(R.drawable.ic_close)
+            search.setIcon(R.drawable.ic_close, animate)
             title.gone()
             searchBox.visible(animate)
             searchBox.showInput()
         } else {
-            search.setImageResource(R.drawable.ic_search)
+            search.setIcon(R.drawable.ic_search, animate)
             title.visible(animate)
             searchBox.gone()
             searchBox.hideInput()

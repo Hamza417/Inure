@@ -64,10 +64,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     protected void onDetachedFromWindow() {
         ThemeManager.INSTANCE.removeListener(this);
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-        if (objectAnimator != null) {
-            objectAnimator.cancel();
-        }
-    
+        clearAnimation();
         super.onDetachedFromWindow();
     }
     
@@ -144,6 +141,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     }
     
     public void updateSeekbar(int value) {
+        clearAnimation();
         objectAnimator = ObjectAnimator.ofInt(this, "progress", getProgress(), value);
         objectAnimator.setDuration(1000L);
         objectAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
@@ -177,6 +175,15 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Objects.equals(key, AppearancePreferences.accentColor)) {
             setDrawables();
+        }
+    }
+    
+    @Override
+    public void clearAnimation() {
+        super.clearAnimation();
+        if (objectAnimator != null) {
+            objectAnimator.removeAllListeners();
+            objectAnimator.cancel();
         }
     }
 }

@@ -17,6 +17,7 @@ import app.simple.inure.R;
 import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.theme.ThemeButton;
+import app.simple.inure.loaders.ImageLoader;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.manager.Theme;
@@ -77,6 +78,12 @@ public class DynamicRippleImageButton extends ThemeButton {
         }
     }
     
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        clearAnimation();
+    }
+    
     private void setHighlightBackgroundColor() {
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
             LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
@@ -84,6 +91,14 @@ public class DynamicRippleImageButton extends ThemeButton {
         } else {
             setBackground(null);
             setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
+        }
+    }
+    
+    public void setIcon(int resId, boolean animate) {
+        if (animate && !AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
+            ImageLoader.INSTANCE.loadImage(resId, this, 0);
+        } else {
+            setImageResource(resId);
         }
     }
     

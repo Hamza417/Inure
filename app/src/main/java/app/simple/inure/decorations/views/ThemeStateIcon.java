@@ -12,50 +12,53 @@ import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.manager.Theme;
 
 public class ThemeStateIcon extends ThemeIcon {
+    
     public ThemeStateIcon(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        updateIcon();
+        updateIcon(false);
     }
     
     public ThemeStateIcon(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        updateIcon();
+        updateIcon(false);
     }
     
     @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         super.onThemeChanged(theme, animate);
-        updateIcon();
+        updateIcon(animate);
     }
     
-    private void updateIcon() {
+    private void updateIcon(boolean animate) {
         switch (AppearancePreferences.INSTANCE.getTheme()) {
+            case ThemeConstants.SOAPSTONE:
             case ThemeConstants.LIGHT_THEME: {
-                setImageResource(R.drawable.ic_light_mode);
+                setIcon(R.drawable.ic_light_mode, animate);
                 break;
             }
+            case ThemeConstants.OIL:
             case ThemeConstants.DARK_THEME: {
-                setImageResource(R.drawable.ic_dark_mode);
+                setIcon(R.drawable.ic_dark_mode, animate);
                 break;
             }
             case ThemeConstants.AMOLED: {
-                setImageResource(R.drawable.ic_dark_mode_amoled);
+                setIcon(R.drawable.ic_dark_mode_amoled, animate);
                 break;
             }
             case ThemeConstants.SLATE: {
-                setImageResource(R.drawable.ic_dark_mode_slate);
+                setIcon(R.drawable.ic_dark_mode_slate, animate);
                 break;
             }
             case ThemeConstants.HIGH_CONTRAST: {
-                setImageResource(R.drawable.ic_dark_mode_high_contrast);
+                setIcon(R.drawable.ic_dark_mode_high_contrast, animate);
                 break;
             }
             case ThemeConstants.FOLLOW_SYSTEM: {
-                setImageResource(R.drawable.ic_android);
+                setIcon(R.drawable.ic_android, animate);
                 break;
             }
             case ThemeConstants.DAY_NIGHT: {
-                setImageResource(R.drawable.ic_hourglass_top);
+                setIcon(R.drawable.ic_hourglass_top, animate);
                 break;
             }
         }

@@ -51,7 +51,7 @@ class Services : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         servicesViewModel = ViewModelProvider(this, packageInfoFactory)[ServicesViewModel::class.java]
 
-        searchBoxState()
+        searchBoxState(false)
         startPostponedEnterTransition()
 
         return view
@@ -117,15 +117,15 @@ class Services : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState() {
+    private fun searchBoxState(animate: Boolean) {
         if (ServicesPreferences.isSearchVisible()) {
-            search.setImageResource(R.drawable.ic_close)
+            search.setIcon(R.drawable.ic_close, animate)
             title.gone()
-            searchBox.visible(true)
+            searchBox.visible(animate)
             searchBox.showInput()
         } else {
-            search.setImageResource(R.drawable.ic_search)
-            title.visible(true)
+            search.setIcon(R.drawable.ic_search, animate)
+            title.visible(animate)
             searchBox.gone()
             searchBox.hideInput()
         }
@@ -134,7 +134,7 @@ class Services : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ServicesPreferences.servicesSearch -> {
-                searchBoxState()
+                searchBoxState(true)
             }
         }
     }

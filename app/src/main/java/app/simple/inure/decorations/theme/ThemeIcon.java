@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
+import app.simple.inure.loaders.ImageLoader;
+import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
@@ -69,6 +71,14 @@ public class ThemeIcon extends AppCompatImageView implements ThemeChangedListene
             case 3: {
                 // custom tint
             }
+        }
+    }
+    
+    public void setIcon(int resId, boolean animate) {
+        if (animate && !AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
+            ImageLoader.INSTANCE.loadImage(resId, this, 0);
+        } else {
+            setImageResource(resId);
         }
     }
     

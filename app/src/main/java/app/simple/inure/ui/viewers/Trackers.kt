@@ -64,7 +64,7 @@ class Trackers : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchBoxState()
+        searchBoxState(animate = false)
         startPostponedEnterTransition()
 
         trackersViewModel.getClassesList().observe(viewLifecycleOwner) {
@@ -127,15 +127,15 @@ class Trackers : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState() {
+    private fun searchBoxState(animate: Boolean) {
         if (TrackersPreferences.isSearchVisible()) {
-            search.setImageResource(R.drawable.ic_close)
+            search.setIcon(R.drawable.ic_close, animate)
             title.gone()
-            searchBox.visible(true)
+            searchBox.visible(animate)
             searchBox.showInput()
         } else {
-            search.setImageResource(R.drawable.ic_search)
-            title.visible(true)
+            search.setIcon(R.drawable.ic_search, animate)
+            title.visible(animate)
             searchBox.gone()
             searchBox.hideInput()
         }
@@ -144,7 +144,7 @@ class Trackers : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             TrackersPreferences.trackersSearch -> {
-                searchBoxState()
+                searchBoxState(animate = true)
             }
             TrackersPreferences.isTrackersFullList -> {
                 trackersViewModel.organizeData()

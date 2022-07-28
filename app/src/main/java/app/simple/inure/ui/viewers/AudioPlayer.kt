@@ -1,6 +1,5 @@
 package app.simple.inure.ui.viewers
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.*
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -14,8 +13,6 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
-import androidx.core.content.res.ResourcesCompat
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.ServiceConstants
@@ -46,7 +43,6 @@ class AudioPlayer : ScopedBottomSheetFragment() {
     private lateinit var playerContainer: ThemeMaterialCardView
     private lateinit var seekBar: ThemeSeekBar
 
-    private var animation: ObjectAnimator? = null
     private var uri: Uri? = null
     private var audioService: AudioService? = null
     private var serviceConnection: ServiceConnection? = null
@@ -191,8 +187,8 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                 }
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                animation?.cancel()
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                this@AudioPlayer.seekBar.clearAnimation()
                 handler.removeCallbacks(progressRunnable)
             }
 
@@ -217,18 +213,11 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         }
     }
 
-    private fun setSeekbarProgress(seekbarProgress: Int) {
-        animation = ObjectAnimator.ofInt(seekBar, "progress", seekbarProgress)
-        animation!!.duration = 500L
-        animation!!.interpolator = LinearOutSlowInInterpolator()
-        animation!!.start()
-    }
-
     private fun buttonStatus(isPlaying: Boolean) {
         if (isPlaying) {
-            playPause.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_pause, requireContext().theme))
+            playPause.setIcon(R.drawable.ic_pause, true)
         } else {
-            playPause.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_play, requireContext().theme))
+            playPause.setIcon(R.drawable.ic_play, true)
         }
     }
 
@@ -241,7 +230,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
     private val progressRunnable: Runnable = object : Runnable {
         override fun run() {
             currentPosition = audioService?.getProgress()!!
-            setSeekbarProgress(currentPosition)
+            seekBar.updateSeekbar(currentPosition)
             progress.text = NumberUtils.getFormattedTime(currentPosition.toLong())
             handler.postDelayed(this, 1000L)
         }

@@ -52,7 +52,7 @@ class Graphics : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         graphicsViewModel = ViewModelProvider(this, packageInfoFactory).get(GraphicsViewModel::class.java)
 
-        searchBoxState()
+        searchBoxState(animate = false)
         startPostponedEnterTransition()
 
         return view
@@ -121,15 +121,15 @@ class Graphics : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState() {
+    private fun searchBoxState(animate: Boolean) {
         if (GraphicsPreferences.isSearchVisible()) {
-            search.setImageResource(R.drawable.ic_close)
+            search.setIcon(R.drawable.ic_close, animate)
             title.gone()
-            searchBox.visible(true)
+            searchBox.visible(animate)
             searchBox.showInput()
         } else {
-            search.setImageResource(R.drawable.ic_search)
-            title.visible(true)
+            search.setIcon(R.drawable.ic_search, animate)
+            title.visible(animate)
             searchBox.gone()
             searchBox.hideInput()
         }
@@ -138,7 +138,7 @@ class Graphics : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             GraphicsPreferences.graphicsSearch -> {
-                searchBoxState()
+                searchBoxState(animate = true)
             }
         }
     }

@@ -51,7 +51,7 @@ class Receivers : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         receiversViewModel = ViewModelProvider(this, packageInfoFactory).get(ReceiversViewModel::class.java)
 
-        searchBoxState()
+        searchBoxState(false)
         startPostponedEnterTransition()
 
         return view
@@ -117,15 +117,15 @@ class Receivers : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState() {
+    private fun searchBoxState(animate: Boolean) {
         if (ReceiversPreferences.isSearchVisible()) {
-            search.setImageResource(R.drawable.ic_close)
+            search.setIcon(R.drawable.ic_close, animate)
             title.gone()
-            searchBox.visible(true)
+            searchBox.visible(animate)
             searchBox.showInput()
         } else {
-            search.setImageResource(R.drawable.ic_search)
-            title.visible(true)
+            search.setIcon(R.drawable.ic_search, animate)
+            title.visible(animate)
             searchBox.gone()
             searchBox.hideInput()
         }
@@ -134,7 +134,7 @@ class Receivers : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ReceiversPreferences.receiversSearch -> {
-                searchBoxState()
+                searchBoxState(animate = true)
             }
         }
     }

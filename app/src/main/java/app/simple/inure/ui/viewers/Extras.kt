@@ -52,7 +52,7 @@ class Extras : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         extrasViewModel = ViewModelProvider(this, packageInfoFactory).get(ExtrasViewModel::class.java)
 
-        searchBoxState()
+        searchBoxState(false)
         startPostponedEnterTransition()
 
         return view
@@ -174,15 +174,15 @@ class Extras : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState() {
+    private fun searchBoxState(animate: Boolean) {
         if (ExtrasPreferences.isSearchVisible()) {
-            search.setImageResource(R.drawable.ic_close)
+            search.setIcon(R.drawable.ic_close, animate)
             title.gone()
-            searchBox.visible(true)
+            searchBox.visible(animate)
             searchBox.showInput()
         } else {
-            search.setImageResource(R.drawable.ic_search)
-            title.visible(true)
+            search.setIcon(R.drawable.ic_search, animate)
+            title.visible(animate)
             searchBox.gone()
             searchBox.hideInput()
         }
@@ -191,7 +191,7 @@ class Extras : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ExtrasPreferences.extrasSearch -> {
-                searchBoxState()
+                searchBoxState(true)
             }
         }
     }

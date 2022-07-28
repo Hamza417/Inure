@@ -1,4 +1,4 @@
-package app.simple.inure.util
+package app.simple.inure.loaders
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -9,6 +9,7 @@ import android.webkit.MimeTypeMap
 import androidx.documentfile.provider.DocumentFile
 import app.simple.inure.R
 import app.simple.inure.models.AudioMetaData
+import app.simple.inure.util.AudioUtils
 import app.simple.inure.util.AudioUtils.toBitrate
 import java.io.ByteArrayInputStream
 import java.io.IOException

@@ -55,7 +55,7 @@ class Activities : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         activitiesViewModel = ViewModelProvider(this, packageInfoFactory).get(ActivitiesViewModel::class.java)
 
-        searchBoxState()
+        searchBoxState(false)
         startPostponedEnterTransition()
 
         return view
@@ -136,15 +136,15 @@ class Activities : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState() {
+    private fun searchBoxState(animate: Boolean) {
         if (ActivitiesPreferences.isSearchVisible()) {
-            search.setImageResource(R.drawable.ic_close)
+            search.setIcon(R.drawable.ic_close, animate)
             title.gone()
-            searchBox.visible(true)
+            searchBox.visible(animate)
             searchBox.showInput()
         } else {
-            search.setImageResource(R.drawable.ic_search)
-            title.visible(true)
+            search.setIcon(R.drawable.ic_search, animate)
+            title.visible(animate)
             searchBox.gone()
             searchBox.hideInput()
         }
@@ -153,7 +153,7 @@ class Activities : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ActivitiesPreferences.activitySearch -> {
-                searchBoxState()
+                searchBoxState(true)
             }
         }
     }

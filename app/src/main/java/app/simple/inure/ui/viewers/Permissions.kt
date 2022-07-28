@@ -49,7 +49,7 @@ class Permissions : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         permissionsViewModel = ViewModelProvider(this, packageInfoFactory).get(PermissionsViewModel::class.java)
 
-        searchBoxState()
+        searchBoxState(false)
         startPostponedEnterTransition()
 
         return view
@@ -119,15 +119,15 @@ class Permissions : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState() {
+    private fun searchBoxState(animate: Boolean) {
         if (PermissionPreferences.isSearchVisible()) {
-            search.setImageResource(R.drawable.ic_close)
+            search.setIcon(R.drawable.ic_close, animate)
             title.gone()
-            searchBox.visible(true)
+            searchBox.visible(animate)
             searchBox.showInput()
         } else {
-            search.setImageResource(R.drawable.ic_search)
-            title.visible(true)
+            search.setIcon(R.drawable.ic_search, animate)
+            title.visible(animate)
             searchBox.gone()
             searchBox.hideInput()
         }
@@ -136,7 +136,7 @@ class Permissions : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             PermissionPreferences.permissionSearch -> {
-                searchBoxState()
+                searchBoxState(true)
             }
             PermissionPreferences.labelType -> {
                 adapterPermissions.update()
