@@ -46,6 +46,9 @@ public class ThemeMaterialCardView extends MaterialCardView implements ThemeChan
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (isInEditMode()) {
+            return;
+        }
         ThemeManager.INSTANCE.addListener(this);
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }

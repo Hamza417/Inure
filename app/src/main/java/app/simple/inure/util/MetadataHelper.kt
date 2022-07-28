@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.webkit.MimeTypeMap
+import androidx.documentfile.provider.DocumentFile
 import app.simple.inure.R
 import app.simple.inure.models.AudioMetaData
 import app.simple.inure.util.AudioUtils.toBitrate
@@ -20,7 +21,7 @@ object MetadataHelper {
         val mediaMetadataRetriever = MediaMetadataRetriever()
 
         mediaMetadataRetriever.setDataSource(context, songUri)
-        audioMetadata.title = getSongTitleMeta(context, mediaMetadataRetriever)
+        audioMetadata.title = getSongTitleMeta(context, songUri, mediaMetadataRetriever)
         audioMetadata.artists = getSongArtistMeta(context, mediaMetadataRetriever)
         audioMetadata.album = getSongAlbumMeta(context, mediaMetadataRetriever)
         audioMetadata.format = getFileExtension(context, songUri)
@@ -41,11 +42,11 @@ object MetadataHelper {
      * @param mediaMetadataRetriever
      * @return [String]
      */
-    private fun getSongTitleMeta(context: Context, mediaMetadataRetriever: MediaMetadataRetriever): String {
+    private fun getSongTitleMeta(context: Context, songUri: Uri, mediaMetadataRetriever: MediaMetadataRetriever): String {
         return try {
             mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)!!
         } catch (e: NullPointerException) {
-            context.getString(R.string.unknown)
+            DocumentFile.fromSingleUri(context, songUri)?.name ?: context.getString(R.string.unknown)
         }
     }
 

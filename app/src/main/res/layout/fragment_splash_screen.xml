@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <app.simple.inure.decorations.theme.ThemeIcon
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -14,7 +14,6 @@
         android:padding="@dimen/header_padding"
         android:src="@drawable/ani_ic_app_icon"
         android:transitionName="main_app_icon"
-        app:tintType="accent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
