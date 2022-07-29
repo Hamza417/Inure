@@ -4,14 +4,11 @@ import android.animation.LayoutTransition;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -21,13 +18,14 @@ import androidx.annotation.Nullable;
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import app.simple.inure.R;
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout;
+import app.simple.inure.decorations.typeface.TypeFaceEditText;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.preferences.SearchPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
 
 public class SearchView extends PaddingAwareLinearLayout {
     
-    private EditText editText;
+    private TypeFaceEditText editText;
     private TypeFaceTextView number;
     private ImageButton imageButton;
     private SearchViewEventListener searchViewEventListener;
@@ -93,11 +91,6 @@ public class SearchView extends PaddingAwareLinearLayout {
         }
     }
     
-    @Override
-    public void saveHierarchyState(SparseArray <Parcelable> container) {
-        super.saveHierarchyState(container);
-    }
-    
     public void setNewNumber(int number) {
         String pattern;
         if (number < 1000) {
@@ -117,7 +110,7 @@ public class SearchView extends PaddingAwareLinearLayout {
         if (numberAnimator != null) {
             numberAnimator.cancel();
         }
-        
+    
         numberAnimator = ValueAnimator.ofInt(oldNumber, newNumber);
         numberAnimator.setInterpolator(new FastOutLinearInInterpolator());
         numberAnimator.setDuration(getResources().getInteger(R.integer.animation_duration));
@@ -126,6 +119,10 @@ public class SearchView extends PaddingAwareLinearLayout {
             oldNumber = (int) animation.getAnimatedValue();
         });
         numberAnimator.start();
+    }
+    
+    public void showInput() {
+        editText.showInput();
     }
     
     public void setSearchViewEventListener(SearchViewEventListener searchViewEventListener) {

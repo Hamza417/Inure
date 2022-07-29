@@ -12,27 +12,20 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
-import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.PermissionStatus
 import app.simple.inure.dialogs.menus.PermissionsMenu
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.popups.viewers.PopupPermissions
 import app.simple.inure.preferences.PermissionPreferences
-import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.PermissionsViewModel
 
-class Permissions : ScopedFragment() {
+class Permissions : SearchBarScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var search: DynamicRippleImageButton
-    private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
     private lateinit var permissionsViewModel: PermissionsViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var adapterPermissions: AdapterPermissions
@@ -49,7 +42,7 @@ class Permissions : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         permissionsViewModel = ViewModelProvider(this, packageInfoFactory).get(PermissionsViewModel::class.java)
 
-        searchBoxState(false)
+        searchBoxState(false, PermissionPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
         return view
@@ -119,24 +112,10 @@ class Permissions : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState(animate: Boolean) {
-        if (PermissionPreferences.isSearchVisible()) {
-            search.setIcon(R.drawable.ic_close, animate)
-            title.gone()
-            searchBox.visible(animate)
-            searchBox.showInput()
-        } else {
-            search.setIcon(R.drawable.ic_search, animate)
-            title.visible(animate)
-            searchBox.gone()
-            searchBox.hideInput()
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             PermissionPreferences.permissionSearch -> {
-                searchBoxState(true)
+                searchBoxState(true, PermissionPreferences.isSearchVisible())
             }
             PermissionPreferences.labelType -> {
                 adapterPermissions.update()

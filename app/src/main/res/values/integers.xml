@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="animation_duration">500</integer>
-    <integer name="icon_animation_duration">500</integer>
+    <integer name="icon_animation_duration">350</integer>
     <integer name="theme_change_duration">500</integer>
     <integer name="span_count">3</integer>
 </resources>

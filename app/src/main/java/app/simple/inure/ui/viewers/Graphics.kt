@@ -13,9 +13,7 @@ import app.simple.inure.adapters.details.AdapterGraphics
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
-import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.popups.viewers.PopupGraphicsFilter
 import app.simple.inure.popups.viewers.PopupGraphicsMenu
@@ -23,18 +21,13 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNull
-import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.GraphicsViewModel
 
-class Graphics : ScopedFragment() {
+class Graphics : SearchBarScopedFragment() {
 
     private lateinit var options: DynamicRippleImageButton
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var search: DynamicRippleImageButton
-    private lateinit var title: TypeFaceTextView
     private lateinit var filter: DynamicRippleImageButton
-    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
     private var adapterGraphics: AdapterGraphics? = null
     private lateinit var graphicsViewModel: GraphicsViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -52,7 +45,7 @@ class Graphics : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         graphicsViewModel = ViewModelProvider(this, packageInfoFactory).get(GraphicsViewModel::class.java)
 
-        searchBoxState(animate = false)
+        searchBoxState(animate = false, GraphicsPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
         return view
@@ -121,24 +114,10 @@ class Graphics : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState(animate: Boolean) {
-        if (GraphicsPreferences.isSearchVisible()) {
-            search.setIcon(R.drawable.ic_close, animate)
-            title.gone()
-            searchBox.visible(animate)
-            searchBox.showInput()
-        } else {
-            search.setIcon(R.drawable.ic_search, animate)
-            title.visible(animate)
-            searchBox.gone()
-            searchBox.hideInput()
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             GraphicsPreferences.graphicsSearch -> {
-                searchBoxState(animate = true)
+                searchBoxState(animate = true, GraphicsPreferences.isSearchVisible())
             }
         }
     }

@@ -12,11 +12,8 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterServices
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
-import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.ComponentState
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.ServiceInfoModel
@@ -24,16 +21,11 @@ import app.simple.inure.popups.viewers.PopupServicesMenu
 import app.simple.inure.preferences.ServicesPreferences
 import app.simple.inure.ui.subviewers.ServiceInfo
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.ServicesViewModel
 
-class Services : ScopedFragment() {
+class Services : SearchBarScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var search: DynamicRippleImageButton
-    private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
 
     private var adapterServices: AdapterServices? = null
     private lateinit var servicesViewModel: ServicesViewModel
@@ -51,7 +43,7 @@ class Services : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         servicesViewModel = ViewModelProvider(this, packageInfoFactory)[ServicesViewModel::class.java]
 
-        searchBoxState(false)
+        searchBoxState(false, ServicesPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
         return view
@@ -117,24 +109,10 @@ class Services : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState(animate: Boolean) {
-        if (ServicesPreferences.isSearchVisible()) {
-            search.setIcon(R.drawable.ic_close, animate)
-            title.gone()
-            searchBox.visible(animate)
-            searchBox.showInput()
-        } else {
-            search.setIcon(R.drawable.ic_search, animate)
-            title.visible(animate)
-            searchBox.gone()
-            searchBox.hideInput()
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ServicesPreferences.servicesSearch -> {
-                searchBoxState(true)
+                searchBoxState(animate = true, ServicesPreferences.isSearchVisible())
             }
         }
     }

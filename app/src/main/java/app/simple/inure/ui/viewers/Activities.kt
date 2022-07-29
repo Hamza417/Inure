@@ -12,14 +12,11 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterActivities
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
-import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.ActivityLauncher
 import app.simple.inure.dialogs.action.ComponentState
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.IntentAction
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.ActivityInfoModel
@@ -28,16 +25,11 @@ import app.simple.inure.preferences.ActivitiesPreferences
 import app.simple.inure.ui.subviewers.ActivityInfo
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.ActivitiesViewModel
 
-class Activities : ScopedFragment() {
+class Activities : SearchBarScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var search: DynamicRippleImageButton
-    private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
 
     private lateinit var activitiesViewModel: ActivitiesViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -55,7 +47,7 @@ class Activities : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         activitiesViewModel = ViewModelProvider(this, packageInfoFactory).get(ActivitiesViewModel::class.java)
 
-        searchBoxState(false)
+        searchBoxState(false, ActivitiesPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
         return view
@@ -136,24 +128,10 @@ class Activities : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState(animate: Boolean) {
-        if (ActivitiesPreferences.isSearchVisible()) {
-            search.setIcon(R.drawable.ic_close, animate)
-            title.gone()
-            searchBox.visible(animate)
-            searchBox.showInput()
-        } else {
-            search.setIcon(R.drawable.ic_search, animate)
-            title.visible(animate)
-            searchBox.gone()
-            searchBox.hideInput()
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ActivitiesPreferences.activitySearch -> {
-                searchBoxState(true)
+                searchBoxState(true, ActivitiesPreferences.isSearchVisible())
             }
         }
     }

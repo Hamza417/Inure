@@ -66,7 +66,7 @@
             android:src="@drawable/ic_search"
             app:buttonTintType="accent" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
+        <app.simple.inure.decorations.corners.DynamicCornerEditText
             android:id="@+id/preferences_search"
             android:layout_width="0dp"
             android:layout_height="match_parent"

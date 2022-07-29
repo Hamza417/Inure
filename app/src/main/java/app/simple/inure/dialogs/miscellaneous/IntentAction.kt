@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
+import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
@@ -24,7 +24,7 @@ import app.simple.inure.viewmodels.dialogs.ActivityLauncherViewModel
 class IntentAction : ScopedDialogFragment() {
 
     private lateinit var command: TypeFaceTextView
-    private lateinit var action: TypeFaceEditTextDynamicCorner
+    private lateinit var action: DynamicCornerEditText
     private lateinit var launch: TypeFaceTextView
     private lateinit var loader: CustomProgressBar
 

@@ -17,8 +17,6 @@ import app.simple.inure.adapters.preferences.AdapterPreferences
 import app.simple.inure.constants.PreferencesSearchConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
-import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.app.AppMemory
 import app.simple.inure.dialogs.appearance.IconSize
 import app.simple.inure.dialogs.appearance.RoundedCorner
@@ -26,24 +24,19 @@ import app.simple.inure.dialogs.configuration.DateFormat
 import app.simple.inure.dialogs.terminal.DialogCommandLine
 import app.simple.inure.dialogs.terminal.DialogHomePath
 import app.simple.inure.dialogs.terminal.DialogInitialCommand
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.models.PreferenceSearchModel
 import app.simple.inure.ui.preferences.mainscreens.*
 import app.simple.inure.ui.preferences.subscreens.*
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.PreferencesViewModel
 
-class Preferences : ScopedFragment() {
+class Preferences : SearchBarScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterPreferences: AdapterPreferences
-    private lateinit var search: DynamicRippleImageButton
     private lateinit var memory: DynamicRippleImageButton
-    private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
 
     private val adapterPreferenceSearch = AdapterPreferenceSearch()
     private val preferencesViewModel: PreferencesViewModel by viewModels()
@@ -57,7 +50,7 @@ class Preferences : ScopedFragment() {
         searchBox = view.findViewById(R.id.preferences_search)
         title = view.findViewById(R.id.preferences_title)
 
-        searchBoxState(false)
+        searchBoxState(false, PreferencesSearchConstants.isSearchVisible())
 
         return view
     }
@@ -342,24 +335,10 @@ class Preferences : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState(animate: Boolean) {
-        if (PreferencesSearchConstants.isSearchVisible()) {
-            search.setIcon(R.drawable.ic_close, animate)
-            title.gone()
-            searchBox.visible(animate)
-            searchBox.showInput()
-        } else {
-            search.setIcon(R.drawable.ic_search, animate)
-            title.visible(animate)
-            searchBox.gone()
-            searchBox.hideInput()
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             PreferencesSearchConstants.preferencesSearch -> {
-                searchBoxState(true)
+                searchBoxState(animate = true, PreferencesSearchConstants.isSearchVisible())
             }
         }
     }

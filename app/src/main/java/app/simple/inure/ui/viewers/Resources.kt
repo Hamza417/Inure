@@ -13,23 +13,16 @@ import app.simple.inure.adapters.details.AdapterResources
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
-import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.ResourcesPreferences
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
-class Resources : ScopedFragment() {
+class Resources : SearchBarScopedFragment() {
 
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var search: DynamicRippleImageButton
-    private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var componentsViewModel: ApkDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -46,7 +39,7 @@ class Resources : ScopedFragment() {
         packageInfoFactory = PackageInfoFactory(packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory)[ApkDataViewModel::class.java]
 
-        searchBoxState(false)
+        searchBoxState(animate = false, ResourcesPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
         return view
@@ -112,24 +105,10 @@ class Resources : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState(animate: Boolean) {
-        if (ResourcesPreferences.isSearchVisible()) {
-            search.setIcon(R.drawable.ic_close, animate)
-            title.gone()
-            searchBox.visible(animate)
-            searchBox.showInput()
-        } else {
-            search.setIcon(R.drawable.ic_search, animate)
-            title.visible(animate)
-            searchBox.gone()
-            searchBox.hideInput()
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ResourcesPreferences.resourcesSearch -> {
-                searchBoxState(true)
+                searchBoxState(animate = true, ResourcesPreferences.isSearchVisible())
             }
         }
     }

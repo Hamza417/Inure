@@ -13,29 +13,23 @@ import app.simple.inure.adapters.details.AdapterTrackers
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
-import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.menus.TrackersMenu
 import app.simple.inure.dialogs.trackers.TrackersMessage
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.ui.subviewers.TrackerSourceViewer
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.TrackersViewModel
 
-class Trackers : ScopedFragment() {
+class Trackers : SearchBarScopedFragment() {
 
     private lateinit var options: DynamicRippleImageButton
     private lateinit var progress: CustomProgressBar
     private lateinit var analytics: DynamicRippleImageButton
-    private lateinit var search: DynamicRippleImageButton
-    private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
     private lateinit var trackersViewModel: TrackersViewModel
@@ -64,7 +58,7 @@ class Trackers : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchBoxState(animate = false)
+        searchBoxState(animate = false, TrackersPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
         trackersViewModel.getClassesList().observe(viewLifecycleOwner) {
@@ -127,24 +121,10 @@ class Trackers : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState(animate: Boolean) {
-        if (TrackersPreferences.isSearchVisible()) {
-            search.setIcon(R.drawable.ic_close, animate)
-            title.gone()
-            searchBox.visible(animate)
-            searchBox.showInput()
-        } else {
-            search.setIcon(R.drawable.ic_search, animate)
-            title.visible(animate)
-            searchBox.gone()
-            searchBox.hideInput()
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             TrackersPreferences.trackersSearch -> {
-                searchBoxState(animate = true)
+                searchBoxState(animate = true, TrackersPreferences.isSearchVisible())
             }
             TrackersPreferences.isTrackersFullList -> {
                 trackersViewModel.organizeData()

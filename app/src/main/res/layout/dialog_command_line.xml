@@ -17,7 +17,7 @@
         app:appFontStyle="bold"
         app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
+    <app.simple.inure.decorations.corners.DynamicCornerEditText
         android:id="@+id/command_edit_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"

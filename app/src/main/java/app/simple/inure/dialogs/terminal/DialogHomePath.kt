@@ -7,14 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.preferences.ShellPreferences
 
 class DialogHomePath : ScopedDialogFragment() {
 
-    private lateinit var command: TypeFaceEditTextDynamicCorner
+    private lateinit var command: DynamicCornerEditText
     private lateinit var save: DynamicRippleTextView
     private lateinit var reset: DynamicRippleTextView
 

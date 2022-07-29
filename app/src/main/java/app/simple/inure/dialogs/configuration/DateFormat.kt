@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import app.simple.inure.R
+import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.preferences.FormattingPreferences
@@ -19,7 +19,7 @@ import app.simple.inure.util.ViewUtils.visible
 
 class DateFormat : ScopedDialogFragment() {
 
-    private lateinit var format: TypeFaceEditTextDynamicCorner
+    private lateinit var format: DynamicCornerEditText
     private lateinit var update: TypeFaceTextView
     private lateinit var save: DynamicRippleTextView
     private lateinit var reset: DynamicRippleTextView

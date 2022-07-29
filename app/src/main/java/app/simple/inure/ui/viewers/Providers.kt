@@ -12,11 +12,8 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterProviders
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
-import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.ComponentState
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.ProviderInfoModel
@@ -24,16 +21,11 @@ import app.simple.inure.popups.viewers.PopupProvidersMenu
 import app.simple.inure.preferences.ProvidersPreferences
 import app.simple.inure.ui.subviewers.ProviderInfo
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.ProvidersViewModel
 
-class Providers : ScopedFragment() {
+class Providers : SearchBarScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var search: DynamicRippleImageButton
-    private lateinit var title: TypeFaceTextView
-    private lateinit var searchBox: TypeFaceEditTextDynamicCorner
 
     private var adapterProviders: AdapterProviders? = null
     private lateinit var providersViewModel: ProvidersViewModel
@@ -52,7 +44,7 @@ class Providers : ScopedFragment() {
         providersViewModel = ViewModelProvider(this, packageInfoFactory).get(ProvidersViewModel::class.java)
 
         startPostponedEnterTransition()
-        searchBoxState(animate = false)
+        searchBoxState(animate = false, ProvidersPreferences.isSearchVisible())
 
         return view
     }
@@ -117,24 +109,10 @@ class Providers : ScopedFragment() {
         }
     }
 
-    private fun searchBoxState(animate: Boolean) {
-        if (ProvidersPreferences.isSearchVisible()) {
-            search.setIcon(R.drawable.ic_close, animate)
-            title.gone()
-            searchBox.visible(animate)
-            searchBox.showInput()
-        } else {
-            search.setIcon(R.drawable.ic_search, animate)
-            title.visible(animate)
-            searchBox.gone()
-            searchBox.hideInput()
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ProvidersPreferences.providersSearch -> {
-                searchBoxState(animate = true)
+                searchBoxState(animate = true, ProvidersPreferences.isSearchVisible())
             }
         }
     }

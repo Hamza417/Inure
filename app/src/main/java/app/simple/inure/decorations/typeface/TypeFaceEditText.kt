@@ -7,6 +7,7 @@ import android.content.res.TypedArray
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.AppCompatEditText
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
@@ -55,6 +56,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     override fun onDetachedFromWindow() {
         valueAnimator?.cancel()
         super.onDetachedFromWindow()
+        hideInput()
         ThemeManager.removeListener(this)
     }
 
@@ -118,5 +120,28 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         valueAnimator.addUpdateListener { animation: ValueAnimator -> backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int) }
         valueAnimator.start()
         return valueAnimator
+    }
+
+    open fun showInput() {
+        requestFocus()
+        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    open fun hideInput() {
+        clearFocus()
+        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(windowToken, InputMethodManager.RESULT_UNCHANGED_SHOWN)
+    }
+
+    open fun toggleInput() {
+        when (visibility) {
+            VISIBLE -> {
+                showInput()
+            }
+            INVISIBLE, GONE -> {
+                hideInput()
+            }
+        }
     }
 }

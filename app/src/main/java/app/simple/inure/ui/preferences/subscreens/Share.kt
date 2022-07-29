@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
+import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.typeface.TypeFaceEditTextDynamicCorner
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AboutPreferences
 
@@ -18,7 +18,7 @@ class Share : ScopedFragment() {
 
     private lateinit var share: DynamicRippleTextView
     private lateinit var reset: DynamicRippleTextView
-    private lateinit var message: TypeFaceEditTextDynamicCorner
+    private lateinit var message: DynamicCornerEditText
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_app_share, container, false)
