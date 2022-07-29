@@ -219,7 +219,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         viewModelScope.launch(Dispatchers.Default) {
 
             val list = listOf(
-                    Pair(R.drawable.ic_apps, getString(R.string.apps)),
+                    Pair(R.drawable.ic_app_icon, getString(R.string.apps)),
                     Pair(R.drawable.ic_terminal, getString(R.string.terminal)),
                     Pair(R.drawable.ic_stats, getString(R.string.usage_statistics)),
                     // Pair(R.drawable.ic_memory, getString(R.string.device_info)),

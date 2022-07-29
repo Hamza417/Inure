@@ -36,6 +36,9 @@ public class EdgeEffectNestedScrollView extends NestedScrollView implements Shar
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (isInEditMode()) {
+            return;
+        }
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
     

@@ -41,7 +41,7 @@
                     android:gravity="center_vertical"
                     android:text="Inure Mini Player"
                     app:appFontStyle="regular"
-                    app:drawableLeftCompat="@drawable/ic_audio_placeholder"
+                    app:drawableLeftCompat="@drawable/ic_main_app_icon_regular"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="tertiary"
                     tools:ignore="HardcodedText" />
