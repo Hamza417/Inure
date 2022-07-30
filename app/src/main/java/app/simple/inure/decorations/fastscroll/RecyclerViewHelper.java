@@ -68,14 +68,12 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
     public void addOnTouchEventListener(@NonNull Predicate <MotionEvent> onTouchEvent) {
         mView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
             @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView,
-                    @NonNull MotionEvent event) {
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent event) {
                 return onTouchEvent.test(event);
             }
-            
+    
             @Override
-            public void onTouchEvent(@NonNull RecyclerView recyclerView,
-                    @NonNull MotionEvent event) {
+            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent event) {
                 onTouchEvent.test(event);
             }
         });

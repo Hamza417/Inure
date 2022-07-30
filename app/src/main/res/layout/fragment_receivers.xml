@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,65 +8,80 @@
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:padding="@dimen/header_padding"
-        android:translationZ="1dp">
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/receivers_recycler_view">
 
-        <app.simple.inure.decorations.theme.ThemeIcon
-            android:id="@+id/imageView8"
-            android:layout_width="@dimen/header_icon_size"
-            android:layout_height="@dimen/header_icon_size"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_receivers"
-            android:transitionName="@string/receivers"
-            app:tintType="accent"
-            tools:ignore="ContentDescription" />
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/receivers_title"
-            android:layout_width="0dp"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:text="@string/receivers"
-            android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold"
-            app:textColorStyle="accent" />
+            app:layout_scrollFlags="enterAlways|scroll">
 
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/receivers_search_btn"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_search"
-            app:buttonTintType="accent" />
+            <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:padding="@dimen/header_padding"
+                android:translationZ="1dp">
 
-        <app.simple.inure.decorations.corners.DynamicCornerEditText
-            android:id="@+id/receivers_search"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_weight="1"
-            android:elevation="@dimen/dialog_elevation"
-            android:maxLines="1"
-            android:paddingHorizontal="@dimen/header_padding"
-            android:textCursorDrawable="@drawable/text_cursor"
-            android:visibility="gone"
-            app:appFontStyle="regular"
-            app:textColorStyle="secondary" />
+                <app.simple.inure.decorations.theme.ThemeIcon
+                    android:id="@+id/imageView8"
+                    android:layout_width="@dimen/header_icon_size"
+                    android:layout_height="@dimen/header_icon_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_receivers"
+                    android:transitionName="@string/receivers"
+                    app:tintType="accent"
+                    tools:ignore="ContentDescription" />
 
-    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/receivers_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="@string/receivers"
+                    android:textSize="@dimen/header_font_size"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
 
-    <app.simple.inure.decorations.theme.ThemeDivider
-        android:layout_width="match_parent"
-        android:layout_height="1px" />
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/receivers_search_btn"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_search"
+                    app:buttonTintType="accent" />
+
+                <app.simple.inure.decorations.corners.DynamicCornerEditText
+                    android:id="@+id/receivers_search"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:elevation="@dimen/dialog_elevation"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/header_padding"
+                    android:textCursorDrawable="@drawable/text_cursor"
+                    android:visibility="gone"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="secondary" />
+
+            </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
         android:id="@+id/receivers_recycler_view"
@@ -75,6 +90,7 @@
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
         app:isFastScrollRequired="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:statusBarPaddingRequired="false" />
 
-</LinearLayout>
+</app.simple.inure.decorations.theme.ThemeCoordinatorLayout>
