@@ -1,23 +1,82 @@
-<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/xml_nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/xml_nested_scroll_view">
 
-        <include layout="@layout/header_xml_viewer" />
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal"
+                android:padding="@dimen/header_padding">
+
+                <app.simple.inure.decorations.theme.ThemeIcon
+                    android:id="@+id/xml_viewer_header_icon"
+                    android:layout_width="@dimen/small_button_size"
+                    android:layout_height="@dimen/small_button_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/header_padding"
+                    android:src="@drawable/ic_file_xml"
+                    android:transitionName="@string/manifest"
+                    app:tintType="accent"
+                    tools:ignore="ContentDescription" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/xml_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/xml_viewer_options"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:clickable="false"
+                    android:src="@drawable/ic_more_vert"
+                    android:visibility="gone"
+                    app:buttonTintType="accent" />
+
+                <app.simple.inure.decorations.views.CustomProgressBar
+                    android:id="@+id/xml_loader"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="@dimen/panel_icon_size"
+                    android:layout_height="@dimen/panel_icon_size"
+                    android:padding="10dp" />
+
+            </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
             android:layout_height="1px" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView
+        android:id="@+id/xml_nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/over_scroll_behavior">
 
         <app.simple.inure.decorations.typeface.TypeFaceEditText
             android:id="@+id/text_viewer"
@@ -32,5 +91,5 @@
             app:appFontStyle="regular"
             app:textColorStyle="secondary" />
 
-    </LinearLayout>
-</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+    </app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView>
+</app.simple.inure.decorations.theme.ThemeCoordinatorLayout>
