@@ -45,7 +45,7 @@ class ComponentState : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        componentStateViewModel.getSuccessStatus().observe(viewLifecycleOwner, {
+        componentStateViewModel.getSuccessStatus().observe(viewLifecycleOwner) {
             when (it) {
                 "Done" -> {
                     loader.loaded()
@@ -63,7 +63,7 @@ class ComponentState : ScopedBottomSheetFragment() {
                     status.setText(R.string.failed)
                 }
             }
-        })
+        }
     }
 
     fun setOnComponentStateChangeListener(componentStatusCallbacks: ComponentStatusCallbacks) {

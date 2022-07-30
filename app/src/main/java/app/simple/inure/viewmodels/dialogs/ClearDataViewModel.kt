@@ -2,19 +2,19 @@ package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.constants.Misc
 import app.simple.inure.exceptions.InureShellException
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ClearDataViewModel(application: Application, val packageInfo: PackageInfo) : AndroidViewModel(application) {
+class ClearDataViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -69,9 +69,11 @@ class ClearDataViewModel(application: Application, val packageInfo: PackageInfo)
             }.onFailure {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
+                error.postValue(it.stackTraceToString())
             }.getOrElse {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
+                error.postValue(it.stackTraceToString())
             }
         }
     }

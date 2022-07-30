@@ -44,7 +44,7 @@ class Home : ScopedFragment() {
     private lateinit var appsCategoryRecyclerView: RecyclerView
     private lateinit var quickAppsHeader: TypeFaceTextView
     private lateinit var quickAppsRecyclerView: CustomHorizontalRecyclerView
-    private lateinit var icon: ImageView
+    private lateinit var icon: DynamicRippleImageButton
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
@@ -212,6 +212,13 @@ class Home : ScopedFragment() {
             })
 
             quickAppsRecyclerView.adapter = adapterQuickApps
+        }
+
+        icon.setOnClickListener {
+            clearExitTransition()
+            FragmentHelper.openFragment(parentFragmentManager,
+                                        WebPage.newInstance(getString(R.string.credits)),
+                                        "web_page")
         }
 
         search.setOnClickListener {

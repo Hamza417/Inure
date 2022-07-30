@@ -18,7 +18,7 @@
         android:padding="@dimen/popup_padding"
         android:translationZ="1dp">
 
-        <app.simple.inure.decorations.theme.ThemeIcon
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/header_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -26,7 +26,7 @@
             android:padding="10dp"
             android:src="@drawable/ic_main_app_icon_big"
             android:transitionName="main_app_icon"
-            app:tintType="accent" />
+            app:buttonTintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"

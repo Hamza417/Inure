@@ -51,7 +51,7 @@ class PermissionStatus : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        permissionStatusViewModel.getSuccessStatus().observe(viewLifecycleOwner, {
+        permissionStatusViewModel.getSuccessStatus().observe(viewLifecycleOwner) {
             when (it) {
                 "Done" -> {
                     loader.loaded()
@@ -70,7 +70,7 @@ class PermissionStatus : ScopedBottomSheetFragment() {
                     status.setText(R.string.failed)
                 }
             }
-        })
+        }
     }
 
     fun setOnPermissionStatusCallbackListener(permissionStatusCallbacks: PermissionStatusCallbacks) {

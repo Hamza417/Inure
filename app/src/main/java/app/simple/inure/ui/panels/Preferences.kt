@@ -12,6 +12,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
+import app.simple.inure.activities.app.ManageSpace
 import app.simple.inure.adapters.preferences.AdapterPreferenceSearch
 import app.simple.inure.adapters.preferences.AdapterPreferences
 import app.simple.inure.constants.PreferencesSearchConstants
@@ -322,8 +323,13 @@ class Preferences : SearchBarScopedFragment() {
         }
 
         memory.setOnClickListener {
+            startActivity(Intent(requireActivity(), ManageSpace::class.java))
+        }
+
+        memory.setOnLongClickListener {
             AppMemory.newInstance()
                 .show(childFragmentManager, "app_memory")
+            return@setOnLongClickListener true
         }
 
         search.setOnClickListener {

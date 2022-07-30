@@ -80,7 +80,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
      */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {}
 
-    open fun showError(error: String) {
+    protected fun showError(error: String) {
         val e = Error.newInstance(error)
         e.show(childFragmentManager, "error_dialog")
         e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
@@ -90,7 +90,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
         })
     }
 
-    open fun openSettings() {
+    protected fun openSettings() {
         (parentFragment as ScopedFragment).clearExitTransition()
         FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                     Preferences.newInstance(),

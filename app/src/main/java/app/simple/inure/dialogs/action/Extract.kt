@@ -10,7 +10,6 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ExtractViewModelFactory
 import app.simple.inure.util.ViewUtils.invisible
@@ -42,26 +41,26 @@ class Extract : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        extractViewModel.getProgress().observe(viewLifecycleOwner, {
+        extractViewModel.getProgress().observe(viewLifecycleOwner) {
             progress.text = getString(R.string.progress, it)
-        })
+        }
 
-        extractViewModel.getStatus().observe(viewLifecycleOwner, {
+        extractViewModel.getStatus().observe(viewLifecycleOwner) {
             status.text = it
-        })
+        }
 
-        extractViewModel.getError().observe(viewLifecycleOwner, {
-            Error.newInstance(it).show(parentFragmentManager, "error")
+        extractViewModel.getError().observe(viewLifecycleOwner) {
+            showError(it)
             dismiss()
-        })
+        }
 
-        extractViewModel.getSuccess().observe(viewLifecycleOwner, {
+        extractViewModel.getSuccess().observe(viewLifecycleOwner) {
             if (it) {
                 status.text = getString(R.string.done)
                 progress.invisible(true)
                 loader.loaded()
             }
-        })
+        }
     }
 
     companion object {

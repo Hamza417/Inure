@@ -41,7 +41,7 @@ class State : ScopedBottomSheetFragment() {
 
             })
 
-            getSuccessStatus().observe(viewLifecycleOwner, {
+            getSuccessStatus().observe(viewLifecycleOwner) {
                 when (it) {
                     "Done" -> {
                         loader.loaded()
@@ -57,7 +57,7 @@ class State : ScopedBottomSheetFragment() {
                         status.setText(R.string.failed)
                     }
                 }
-            })
+            }
         }
     }
 

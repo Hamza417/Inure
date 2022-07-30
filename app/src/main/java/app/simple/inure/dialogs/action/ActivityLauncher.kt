@@ -42,7 +42,7 @@ class ActivityLauncher : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activityLauncherViewModel.getSuccessStatus().observe(viewLifecycleOwner, {
+        activityLauncherViewModel.getSuccessStatus().observe(viewLifecycleOwner) {
             when (it) {
                 "Done" -> {
                     loader.loaded()
@@ -53,7 +53,7 @@ class ActivityLauncher : ScopedBottomSheetFragment() {
                     status.setText(R.string.failed)
                 }
             }
-        })
+        }
     }
 
     companion object {

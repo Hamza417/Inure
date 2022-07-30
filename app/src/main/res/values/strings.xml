@@ -541,4 +541,7 @@
     <string name="soapstone">Soapstone</string>
     <string name="oil">Oil</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="manage_space">Manage Space</string>
+    <string name="clear_app_data_desc">Clear all app\'s data and reset to factory state of the app.</string>
+    <string name="clear_app_data">Clear App Data</string>
 </resources>

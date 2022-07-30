@@ -34,11 +34,11 @@ class ClearData : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(ViewModelProvider(this, ClearDataViewModelFactory(packageInfo))[ClearDataViewModel::class.java]) {
-            getResults().observe(viewLifecycleOwner, {
+            getResults().observe(viewLifecycleOwner) {
 
-            })
+            }
 
-            getSuccessStatus().observe(viewLifecycleOwner, {
+            getSuccessStatus().observe(viewLifecycleOwner) {
                 when (it) {
                     "Done" -> {
                         loader.loaded()
@@ -49,7 +49,12 @@ class ClearData : ScopedBottomSheetFragment() {
                         status.setText(R.string.failed)
                     }
                 }
-            })
+            }
+
+            error.observe(viewLifecycleOwner) {
+                showError(it)
+                dismiss()
+            }
         }
     }
 

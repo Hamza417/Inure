@@ -46,14 +46,14 @@ class Uninstaller : ScopedBottomSheetFragment() {
 
         if (ConfigurationPreferences.isUsingRoot()) {
             with(ViewModelProvider(this, UninstallerViewModelFactory(packageInfo))[UninstallerViewModel::class.java]) {
-                error.observe(viewLifecycleOwner, {
+                error.observe(viewLifecycleOwner) {
                     println(it)
                     dismiss()
                     Error.newInstance(it)
                         .show(parentFragmentManager, "error")
-                })
+                }
 
-                getSuccessStatus().observe(viewLifecycleOwner, {
+                getSuccessStatus().observe(viewLifecycleOwner) {
                     when (it) {
                         "Done" -> {
                             loader.loaded()
@@ -65,7 +65,7 @@ class Uninstaller : ScopedBottomSheetFragment() {
                             status.setText(R.string.failed)
                         }
                     }
-                })
+                }
             }
         } else {
             status.setText(R.string.waiting)
