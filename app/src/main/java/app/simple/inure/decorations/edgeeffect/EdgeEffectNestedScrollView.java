@@ -49,7 +49,7 @@ public class EdgeEffectNestedScrollView extends NestedScrollView implements Shar
     }
     
     protected void setEdgeEffectColor() {
-        final String[] edgeGlows = {"mEdgeGlowTop", "mEdgeGlowBottom"};
+        final String[] edgeGlows = {"mEdgeGlowTop", "mEdgeGlowBottom", "mEdgeGlowLeft", "mEdgeGlowRight"};
         for (String edgeGlow : edgeGlows) {
             Class <?> clazz = this.getClass();
             while (clazz != null) {

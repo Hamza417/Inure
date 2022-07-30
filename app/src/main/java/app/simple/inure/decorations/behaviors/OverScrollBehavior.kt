@@ -9,9 +9,8 @@ import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import app.simple.inure.preferences.BehaviourPreferences
-import com.google.android.material.appbar.AppBarLayout
 
-class OverScrollBehavior(context: Context, attributeSet: AttributeSet) : AppBarLayout.ScrollingViewBehavior(context, attributeSet) {
+class OverScrollBehavior(context: Context, attributeSet: AttributeSet) : CoordinatorLayout.Behavior<View>(context, attributeSet) {
 
     /**
      * Used to store all [SpringAnimation] objects used to animate

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.theme.ThemeCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,58 +8,43 @@
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:liftOnScroll="true"
-        app:liftOnScrollTargetViewId="@id/features_recycler_view">
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/header_padding">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
+        <app.simple.inure.decorations.theme.ThemeIcon
+            android:id="@+id/imageView8"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_anchor"
+            android:transitionName="@string/uses_feature"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tintType="accent"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways">
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="@string/uses_feature"
+            android:textSize="@dimen/header_font_size"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
-            <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:padding="@dimen/header_padding">
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
-                <app.simple.inure.decorations.theme.ThemeIcon
-                    android:id="@+id/imageView8"
-                    android:layout_width="@dimen/header_icon_size"
-                    android:layout_height="@dimen/header_icon_size"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_anchor"
-                    android:transitionName="@string/uses_feature"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tintType="accent"
-                    tools:ignore="ContentDescription" />
-
-                <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:id="@+id/typeFaceTextView2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:text="@string/uses_feature"
-                    android:textSize="@dimen/header_font_size"
-                    app:appFontStyle="bold"
-                    app:textColorStyle="accent" />
-
-            </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        <app.simple.inure.decorations.theme.ThemeDivider
-            android:layout_width="match_parent"
-            android:layout_height="1px" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
 
     <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
         android:id="@+id/features_recycler_view"
@@ -69,7 +54,6 @@
         android:layoutAnimation="@anim/list_animation_controller"
         android:paddingVertical="10dp"
         app:isFastScrollRequired="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:statusBarPaddingRequired="false" />
 
-</app.simple.inure.decorations.theme.ThemeCoordinatorLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

@@ -12,11 +12,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
+import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -36,7 +36,7 @@ class XMLViewerTextView : ScopedFragment() {
     private lateinit var name: TypeFaceTextView
     private lateinit var progress: CustomProgressBar
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var scrollView: NestedScrollView
+    private lateinit var scrollView: PaddingAwareNestedScrollView
 
     private lateinit var componentsViewModel: XMLViewerViewModel
     private lateinit var applicationInfoFactory: XMLViewerViewModelFactory
