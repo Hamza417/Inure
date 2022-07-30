@@ -13,6 +13,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.models.PackageStats
@@ -132,6 +133,13 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
         return if (position == 0) {
             RecyclerViewConstants.TYPE_HEADER
         } else RecyclerViewConstants.TYPE_ITEM
+    }
+
+    override fun onViewRecycled(holder: VerticalListViewHolder) {
+        super.onViewRecycled(holder)
+        if (holder is Holder) {
+            GlideApp.with(holder.icon).clear(holder.icon)
+        }
     }
 
     override fun getPopupText(position: Int): String {

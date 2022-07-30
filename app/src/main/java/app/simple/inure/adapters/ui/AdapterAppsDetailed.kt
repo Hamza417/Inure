@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.graphics.Paint
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -107,9 +105,6 @@ class AdapterAppsDetailed : RecyclerView.Adapter<VerticalListViewHolder>(), Popu
         super.onViewRecycled(holder)
         if (holder is Holder) {
             GlideApp.with(holder.icon).clear(holder.icon)
-        }
-        if (holder is Header) {
-            Handler(Looper.getMainLooper()).removeCallbacksAndMessages(null)
         }
     }
 

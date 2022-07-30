@@ -26,7 +26,7 @@ public class ThemeStateIcon extends ThemeIcon {
     @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         super.onThemeChanged(theme, animate);
-        updateIcon(animate);
+        updateIcon(true);
     }
     
     private void updateIcon(boolean animate) {

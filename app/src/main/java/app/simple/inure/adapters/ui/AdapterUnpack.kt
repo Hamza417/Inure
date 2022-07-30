@@ -10,6 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.models.UnpackModel
 
@@ -38,6 +39,11 @@ class AdapterUnpack(val arrayList: ArrayList<UnpackModel>, val packageInfo: Pack
 
     override fun getItemCount(): Int {
         return arrayList.size
+    }
+
+    override fun onViewRecycled(holder: Holder) {
+        super.onViewRecycled(holder)
+        GlideApp.with(holder.icon).clear(holder.icon)
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

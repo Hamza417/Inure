@@ -19,10 +19,12 @@ public class DynamicRippleRelativeLayout extends RelativeLayout implements Share
     
     public DynamicRippleRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
     
     public DynamicRippleRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
     
     private void init() {
