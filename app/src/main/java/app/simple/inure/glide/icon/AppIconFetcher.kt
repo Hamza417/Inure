@@ -27,9 +27,9 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                                          .toBitmap())
             }
         } catch (e: PackageManager.NameNotFoundException) {
-            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(appIcon.context, AppearancePreferences.getIconSize()))
+            callback.onDataReady(R.drawable.ic_main_app_icon_big.toBitmap(appIcon.context, AppearancePreferences.getIconSize()))
         } catch (e: NullPointerException) {
-            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(appIcon.context, AppearancePreferences.getIconSize()))
+            callback.onDataReady(R.drawable.ic_main_app_icon_big.toBitmap(appIcon.context, AppearancePreferences.getIconSize()))
         } catch (e: Exception) {
             callback.onLoadFailed(e)
         }

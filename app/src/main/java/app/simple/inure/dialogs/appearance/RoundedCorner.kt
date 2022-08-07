@@ -48,7 +48,7 @@ class RoundedCorner : ScopedBottomSheetFragment() {
         lastCornerValue = AppearancePreferences.getCornerRadius() * 5
         radiusValue.text = buildSpannableString("${AppearancePreferences.getCornerRadius()} px", 2)
         radiusSeekBar.max = 990
-        radiusSeekBar.updateSeekbar((AppearancePreferences.getCornerRadius() * factor).toInt())
+        radiusSeekBar.updateProgress((AppearancePreferences.getCornerRadius() * factor).toInt())
 
         radiusSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

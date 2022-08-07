@@ -6,7 +6,6 @@ object DevelopmentPreferences {
 
     private const val isWebViewXmlViewer = "is_xml_viewer_web_view"
     private const val preferencesIndicator = "is_preferences_indicator_hidden"
-    const val isAudioPlayerFullScreen = "is_audio_player_full_screen"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -16,16 +15,6 @@ object DevelopmentPreferences {
 
     fun isWebViewXmlViewer(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(isWebViewXmlViewer, false)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setFullScreenAudioPlayer(@NotNull value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(isAudioPlayerFullScreen, value).apply()
-    }
-
-    fun isAudioPlayerFullScreen(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(isAudioPlayerFullScreen, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

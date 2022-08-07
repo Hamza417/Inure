@@ -186,13 +186,17 @@
         </activity>
 
         <activity
-            android:name=".activities.launcher.AudioLauncherActivity"
+            android:name=".activities.association.AudioPlayerActivity"
             android:autoRemoveFromRecents="true"
-            android:configChanges="uiMode|orientation|screenSize"
+            android:configChanges="uiMode"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
-            android:label="@string/audio_player"
-            android:theme="@style/Inure.Transparent">
+            android:icon="@mipmap/ic_audio_player"
+            android:label="Inure Mini Player"
+            android:roundIcon="@mipmap/ic_audio_player_round"
+            android:theme="@style/Inure.Transparent"
+            android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -204,24 +208,35 @@
                 <data android:host="*" />
                 <data android:mimeType="audio/*" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="audio/*" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="audio/*" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:scheme="ftp" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/itunes" />
+            </intent-filter>
+
         </activity>
-
-        <activity
-            android:name=".activities.association.AudioPlayerActivity"
-            android:autoRemoveFromRecents="true"
-            android:configChanges="uiMode"
-            android:documentLaunchMode="intoExisting"
-            android:exported="false"
-            android:theme="@style/Inure.Transparent"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".activities.association.FullScreenAudioPlayerActivity"
-            android:autoRemoveFromRecents="true"
-            android:configChanges="uiMode"
-            android:documentLaunchMode="intoExisting"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.association.TextViewerActivity"

@@ -2,6 +2,7 @@ package app.simple.inure.glide.filedescriptorcover
 
 import android.content.res.AssetFileDescriptor
 import android.media.MediaMetadataRetriever
+import android.webkit.URLUtil
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
@@ -16,10 +17,16 @@ class DescriptorCoverFetcher(private val descriptorCoverModel: DescriptorCoverMo
         var file: AssetFileDescriptor? = null
 
         try {
-            file = descriptorCoverModel.context.contentResolver
-                    .openAssetFileDescriptor(descriptorCoverModel.fileUri, "r")
+            if (URLUtil.isValidUrl(descriptorCoverModel.fileUri.toString()) &&
+                (descriptorCoverModel.fileUri.toString().startsWith("http")
+                        || descriptorCoverModel.fileUri.toString().startsWith("https")
+                        || descriptorCoverModel.fileUri.toString().startsWith("ftp"))) {
+                mediaMetadataRetriever.setDataSource(descriptorCoverModel.fileUri.toString(), hashMapOf())
+            } else {
+                file = descriptorCoverModel.context.contentResolver.openAssetFileDescriptor(descriptorCoverModel.fileUri, "r")
+                mediaMetadataRetriever.setDataSource(file?.fileDescriptor)
+            }
 
-            mediaMetadataRetriever.setDataSource(file?.fileDescriptor)
             callback.onDataReady(ByteArrayInputStream(mediaMetadataRetriever.embeddedPicture))
         } catch (e: IOException) {
             callback.onLoadFailed(e)

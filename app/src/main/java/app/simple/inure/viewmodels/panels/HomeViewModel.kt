@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -218,7 +219,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
     private fun loadItems() {
         viewModelScope.launch(Dispatchers.Default) {
 
-            val list = listOf(
+            val list = arrayListOf(
                     Pair(R.drawable.ic_app_icon, getString(R.string.apps)),
                     Pair(R.drawable.ic_terminal, getString(R.string.terminal)),
                     Pair(R.drawable.ic_stats, getString(R.string.usage_statistics)),
@@ -229,6 +230,10 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     Pair(R.drawable.ic_notes, getString(R.string.notes)),
                     // Pair(R.drawable.ic_music_note, getString(R.string.music))
             )
+
+            if (BuildConfig.DEBUG) {
+                list.add(Pair(R.drawable.ic_music_note, getString(R.string.music)))
+            }
 
 
             menuItems.postValue(list)

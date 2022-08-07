@@ -16,7 +16,6 @@ class DevelopmentScreen : ScopedFragment() {
 
     private lateinit var setup: DynamicRippleRelativeLayout
     private lateinit var textViewXmlViewerSwitchView: SwitchView
-    private lateinit var fullScreenAudio: SwitchView
     private lateinit var hidePreferenceIndicator: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -24,7 +23,6 @@ class DevelopmentScreen : ScopedFragment() {
 
         setup = view.findViewById(R.id.development_setup)
         textViewXmlViewerSwitchView = view.findViewById(R.id.configuration_use_text_view)
-        fullScreenAudio = view.findViewById(R.id.full_screen_player)
         hidePreferenceIndicator = view.findViewById(R.id.prefs_drawable_switch)
 
         startPostponedEnterTransition()
@@ -36,7 +34,6 @@ class DevelopmentScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         textViewXmlViewerSwitchView.setChecked(DevelopmentPreferences.isWebViewXmlViewer())
-        fullScreenAudio.setChecked(DevelopmentPreferences.isAudioPlayerFullScreen())
         hidePreferenceIndicator.setChecked(DevelopmentPreferences.isPreferencesIndicatorHidden())
 
         setup.setOnClickListener {
@@ -46,10 +43,6 @@ class DevelopmentScreen : ScopedFragment() {
 
         textViewXmlViewerSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             DevelopmentPreferences.setWebViewXmlViewer(isChecked)
-        }
-
-        fullScreenAudio.setOnSwitchCheckedChangeListener {
-            DevelopmentPreferences.setFullScreenAudioPlayer(it)
         }
 
         hidePreferenceIndicator.setOnSwitchCheckedChangeListener {

@@ -14,10 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dialog_padding"
         android:checkable="true"
-        android:clipToPadding="false"
         android:clipChildren="false"
-        app:contentPadding="@dimen/dialog_padding"
+        android:clipToPadding="false"
         app:cardElevation="@dimen/dialog_elevation"
+        app:contentPadding="@dimen/dialog_padding"
         app:rippleColor="?attr/colorAppAccent">
 
         <LinearLayout
@@ -45,6 +45,15 @@
                     app:drawableTintStyle="accent"
                     app:textColorStyle="tertiary"
                     tools:ignore="HardcodedText" />
+
+                <app.simple.inure.decorations.views.CustomProgressBar
+                    android:id="@+id/loader"
+                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_gravity="center_vertical"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="@dimen/loader_size"
+                    android:layout_height="@dimen/loader_size" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                     android:id="@+id/mime_play_button"

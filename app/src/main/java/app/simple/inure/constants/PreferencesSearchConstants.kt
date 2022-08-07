@@ -120,7 +120,6 @@ object PreferencesSearchConstants {
 
     private val developmentData = arrayListOf(
             PreferenceSearchModel(R.drawable.ic_code, R.string.use_webview_xml_viewer, R.string.use_webview_xml_viewer_desc, toggleable, viewers, development),
-            PreferenceSearchModel(R.drawable.ic_music_note, R.string.full_screen_audio_player, R.string.desc_full_screen_audio_player, toggleable, viewers, development),
             PreferenceSearchModel(R.drawable.ic_preference_indicators, R.string.hide_preferences_indicators, R.string.desc_hide_preferences_indicators, toggleable, preferences, development),
     )
 

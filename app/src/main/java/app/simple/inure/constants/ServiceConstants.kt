@@ -20,6 +20,7 @@ object ServiceConstants {
     const val actionPrevious = "$appPackageName.action_previous"
     const val actionOpen = "$appPackageName.action_open"
     const val actionMetaData = "$appPackageName.metadata"
+    const val actionBuffering = "$appPackageName.media.buffering"
     const val actionMediaError = "$appPackageName.media.error"
 
     const val actionApkType = "$appPackageName.apk.type"

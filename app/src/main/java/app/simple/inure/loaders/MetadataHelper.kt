@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.webkit.MimeTypeMap
+import android.webkit.URLUtil
 import androidx.documentfile.provider.DocumentFile
 import app.simple.inure.R
 import app.simple.inure.models.AudioMetaData
@@ -21,7 +22,15 @@ object MetadataHelper {
         val audioMetadata = AudioMetaData()
         val mediaMetadataRetriever = MediaMetadataRetriever()
 
-        mediaMetadataRetriever.setDataSource(context, songUri)
+        if (URLUtil.isValidUrl(songUri.toString()) &&
+            (songUri.toString().startsWith("http")
+                    || songUri.toString().startsWith("https")
+                    || songUri.toString().startsWith("ftp"))) {
+            mediaMetadataRetriever.setDataSource(songUri.toString(), hashMapOf())
+        } else {
+            mediaMetadataRetriever.setDataSource(context, songUri)
+        }
+
         audioMetadata.title = getSongTitleMeta(context, songUri, mediaMetadataRetriever)
         audioMetadata.artists = getSongArtistMeta(context, mediaMetadataRetriever)
         audioMetadata.album = getSongAlbumMeta(context, mediaMetadataRetriever)
@@ -100,7 +109,12 @@ object MetadataHelper {
      * Get extension of any Mime Type based content URI
      */
     private fun getFileExtension(context: Context, uri: Uri?): String {
-        return "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(uri!!))
+        val e = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(uri!!))
+        return if (e.contains("null")) {
+            context.getString(R.string.not_available)
+        } else {
+            e
+        }
     }
 
     private fun getOriginalAlbumArt(mediaMetadataRetriever: MediaMetadataRetriever): Bitmap? {
