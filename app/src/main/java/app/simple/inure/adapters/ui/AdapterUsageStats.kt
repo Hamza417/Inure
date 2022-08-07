@@ -61,6 +61,8 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
             holder.wifiUp.text = list[position].dataSentWifi.toSize()
             holder.wifiDown.text = list[position].dataReceivedWifi.toSize()
 
+            holder.name.setStrikeThru(list[position].packageInfo?.applicationInfo?.enabled ?: false)
+
             with(list[position].totalTimeUsed) {
                 holder.time.apply {
                     this.text = when {

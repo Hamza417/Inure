@@ -44,52 +44,26 @@
         android:maxLines="1"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
-        app:layout_constraintBottom_toTopOf="@+id/adapter_all_app_package_size"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_all_app_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
         app:layout_constraintTop_toBottomOf="@id/adapter_all_app_name"
         app:textColorStyle="secondary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_all_app_package_size"
+        android:id="@+id/adapter_all_app_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="8dp"
-        android:drawableStart="@drawable/ic_sd"
-        android:drawablePadding="10dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
         android:maxLines="1"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
-        app:drawableTintStyle="secondary"
-        app:isDrawableHidden="false"
-        app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon"
-        app:layout_constraintEnd_toStartOf="@id/adapter_all_app_type"
-        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_recently_app_package_id"
-        app:textColorStyle="secondary" />
-
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_all_app_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="8dp"
-        android:drawableStart="@drawable/ic_person"
-        android:drawablePadding="10dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:textSize="@dimen/app_package_text_size"
-        app:appFontStyle="regular"
-        app:drawableTintStyle="secondary"
-        app:isDrawableHidden="false"
+        app:isDrawableHidden="true"
         app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_package_size"
+        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
         app:layout_constraintTop_toBottomOf="@id/adapter_recently_app_package_id"
-        app:textColorStyle="secondary" />
+        app:textColorStyle="accent" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

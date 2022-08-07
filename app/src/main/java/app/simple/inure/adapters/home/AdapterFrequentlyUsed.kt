@@ -1,12 +1,10 @@
 package app.simple.inure.adapters.home
 
 import android.annotation.SuppressLint
-import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
@@ -51,11 +49,7 @@ class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.name.text = apps[position].packageInfo?.applicationInfo!!.name
             holder.packageId.text = apps[position].packageInfo?.packageName
 
-            if (apps[position].packageInfo?.applicationInfo!!.enabled) {
-                holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            } else {
-                holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            }
+            holder.name.setStrikeThru(apps[position].packageInfo?.applicationInfo?.enabled ?: false)
 
             with(apps[position].totalTimeUsed) {
                 holder.date.apply {
@@ -125,9 +119,9 @@ class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_recently_app_icon)
-        val name: TextView = itemView.findViewById(R.id.adapter_recently_app_name)
-        val packageId: TextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
-        val date: TextView = itemView.findViewById(R.id.adapter_recently_date)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_recently_app_name)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
+        val date: TypeFaceTextView = itemView.findViewById(R.id.adapter_recently_date)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_recently_container)
     }
 

@@ -2,6 +2,7 @@ package app.simple.inure.apk.utils
 
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.pm.ApplicationInfo
 import android.view.WindowManager
 import app.simple.inure.R
 import app.simple.inure.util.StringUtils.createString
@@ -168,6 +169,22 @@ object MetaUtils {
         }
 
         return builder.toString()
+    }
+
+    fun getCategory(flag: Int, context: Context): String {
+        return when (flag) {
+            ApplicationInfo.CATEGORY_UNDEFINED -> context.getString(R.string.unspecified)
+            ApplicationInfo.CATEGORY_GAME -> context.getString(R.string.game)
+            ApplicationInfo.CATEGORY_AUDIO -> context.getString(R.string.audio)
+            ApplicationInfo.CATEGORY_VIDEO -> context.getString(R.string.video)
+            ApplicationInfo.CATEGORY_IMAGE -> context.getString(R.string.image)
+            ApplicationInfo.CATEGORY_SOCIAL -> context.getString(R.string.social)
+            ApplicationInfo.CATEGORY_NEWS -> context.getString(R.string.news)
+            ApplicationInfo.CATEGORY_MAPS -> context.getString(R.string.maps)
+            ApplicationInfo.CATEGORY_PRODUCTIVITY -> context.getString(R.string.productivity)
+            ApplicationInfo.CATEGORY_ACCESSIBILITY -> context.getString(R.string.accessibility)
+            else -> context.getString(R.string.unspecified)
+        }
     }
 
     fun getConfigurationsChanges(config: Int, context: Context): String {

@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.text.LineBreaker
 import android.os.Build
 import android.text.Layout
@@ -160,6 +161,14 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
             1 -> ThemeManager.theme.iconTheme.regularIconColor
             2 -> ThemeManager.theme.iconTheme.secondaryIconColor
             else -> ThemeManager.theme.iconTheme.secondaryIconColor
+        }
+    }
+
+    fun setStrikeThru(boolean: Boolean) {
+        if (boolean) {
+            paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        } else {
+            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
     }
 

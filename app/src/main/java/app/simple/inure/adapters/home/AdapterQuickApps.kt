@@ -25,6 +25,8 @@ class AdapterQuickApps(private val list: ArrayList<PackageInfo>) : RecyclerView.
         holder.icon.loadAppIcon(list[position].packageName)
         holder.name.text = list[position].applicationInfo.name
 
+        holder.name.setStrikeThru(list[position].applicationInfo.enabled)
+
         holder.container.setOnClickListener {
             quickAppsAdapterCallbacks?.onQuickAppClicked(list[position], holder.icon)
         }

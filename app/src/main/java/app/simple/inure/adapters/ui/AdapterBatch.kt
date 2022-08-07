@@ -1,7 +1,6 @@
 package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
-import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,12 +55,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             holder.name.text = apps[position].packageInfo.applicationInfo.name
             holder.packageId.text = apps[position].packageInfo.packageName
 
-            if (apps[position].packageInfo.applicationInfo.enabled) {
-                holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            } else {
-                holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            }
-
+            holder.name.setStrikeThru(apps[position].packageInfo.applicationInfo.enabled)
             holder.checkBox.setCheckedWithoutAnimations(apps[position].isSelected)
 
             if (highlight) {
