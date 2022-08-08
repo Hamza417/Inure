@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.core.net.toUri
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.activities.TransparentBaseActivity
 import app.simple.inure.themes.manager.Theme
@@ -23,9 +24,13 @@ class AudioPlayerActivity : TransparentBaseActivity() {
             kotlin.runCatching {
                 uri = if (intent?.action == Intent.ACTION_SEND && intent?.type?.startsWith("audio/") == true) {
                     intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri
+                } else if (intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain") {
+                    intent.getStringExtra(Intent.EXTRA_TEXT)?.toUri()
                 } else {
                     intent!!.data
                 }
+
+                println(uri.toString())
 
                 AudioPlayer.newInstance(uri!!)
                     .show(supportFragmentManager, "audio_player")

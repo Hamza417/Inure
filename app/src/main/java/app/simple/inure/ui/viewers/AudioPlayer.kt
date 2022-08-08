@@ -105,17 +105,20 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                if (uri?.getMimeType(requireContext())?.contains("audio")!! || uri?.getMimeType(requireContext())?.contains("video")!!) {
-                    serviceBound = true
-                    audioService = (service as AudioService.AudioBinder).getService()
-                    audioService?.audioUri = uri
-                } else {
-                    kotlin.runCatching {
+                kotlin.runCatching {
+                    if ((uri?.getMimeType(requireContext())?.startsWith("audio") == true
+                                || uri?.getMimeType(requireContext())?.startsWith("video") == true)
+                        || uri?.toString()?.startsWith("http") == true
+                        || uri?.toString()?.startsWith("ftp") == true) {
+                        serviceBound = true
+                        audioService = (service as AudioService.AudioBinder).getService()
+                        audioService?.audioUri = uri
+                    } else {
                         throw IllegalArgumentException("File is not media type or incompatible")
-                    }.getOrElse {
-                        it.printStackTrace()
-                        showError(it.stackTraceToString())
                     }
+                }.getOrElse {
+                    it.printStackTrace()
+                    showError(it.stackTraceToString())
                 }
             }
 
@@ -185,7 +188,9 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                         .start()
 
                     kotlin.runCatching {
-                        (art.drawable as AnimatedVectorDrawable).start()
+                        if (art.drawable is AnimatedVectorDrawable) {
+                            (art.drawable as AnimatedVectorDrawable).start()
+                        }
                     }.getOrElse {
                         it.printStackTrace()
                     }
