@@ -5,7 +5,7 @@ import androidx.dynamicanimation.animation.SpringForce
 object BehaviourPreferences {
 
     private const val dimWindows = "is_dimming_windows_on"
-    private const val shadows = "are_shadows_on"
+    private const val coloredShadows = "are_colored_shadows_on"
     private const val transition = "is_transition_on"
     private const val arcAnimation = "is_animation_on"
     private const val marquee = "is_marquee_on"
@@ -26,12 +26,12 @@ object BehaviourPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setShadows(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(shadows, boolean).apply()
+    fun setColoredShadows(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(coloredShadows, boolean).apply()
     }
 
-    fun areShadowsOn(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(shadows, true)
+    fun areColoredShadowsOn(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(coloredShadows, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

@@ -48,7 +48,7 @@ class BehaviourScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dimWindows.setChecked(BehaviourPreferences.isDimmingOn())
-        shadows.setChecked(BehaviourPreferences.areShadowsOn())
+        shadows.setChecked(BehaviourPreferences.areColoredShadowsOn())
         transition.setChecked(BehaviourPreferences.isTransitionOn())
         animations.setChecked(BehaviourPreferences.isArcAnimationOn())
         marquee.setChecked(BehaviourPreferences.isMarqueeOn())
@@ -62,7 +62,7 @@ class BehaviourScreen : ScopedFragment() {
         }
 
         shadows.setOnSwitchCheckedChangeListener {
-            BehaviourPreferences.setShadows(it)
+            BehaviourPreferences.setColoredShadows(it)
         }
 
         transition.setOnSwitchCheckedChangeListener {

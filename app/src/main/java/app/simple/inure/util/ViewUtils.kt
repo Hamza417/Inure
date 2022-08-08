@@ -70,7 +70,7 @@ object ViewUtils {
      *                    shadow
      */
     fun addShadow(contentView: View) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P && BehaviourPreferences.areShadowsOn()) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P && BehaviourPreferences.areColoredShadowsOn()) {
             contentView.outlineAmbientShadowColor = AppearancePreferences.getAccentColor()
             contentView.outlineSpotShadowColor = AppearancePreferences.getAccentColor()
         }

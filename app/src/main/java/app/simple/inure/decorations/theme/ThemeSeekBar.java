@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.ClipDrawable;
@@ -24,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.BehaviourPreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
@@ -87,6 +89,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
                 .build());
     }
     
+    @SuppressWarnings ("unused")
     @Deprecated
     private Drawable createProgressDrawable() {
         float r = 20;
@@ -126,18 +129,37 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         return layerDrawable;
     }
     
+    /**
+     * We'll create our progress drawable here
+     */
     public void setColors() {
-        //If solid colours are required for an element, then set
-        //that elements Col1 param s the same as its Col2 param
-        //(eg fg1Col1 == fg1Col2).
-        
-        //fgGradDirection and/or bgGradDirection could be parameters
-        //if you require other gradient directions eg LEFT_RIGHT.
-        
+        /*
+         * fgGradDirection and/or bgGradDirection could be parameters
+         * if you require other gradient directions eg LEFT_RIGHT.
+         */
         GradientDrawable.Orientation fgGradDirection = GradientDrawable.Orientation.TOP_BOTTOM;
         GradientDrawable.Orientation bgGradDirection = GradientDrawable.Orientation.TOP_BOTTOM;
         
         //Background
+        float r = 20;
+        ShapeDrawable backgroundShape = new ShapeDrawable();
+        backgroundShape.setShape(new RoundRectShape(new float[] {r, r, r, r, r, r, r, r}, null, null));
+        backgroundShape.getPaint().setStyle(Paint.Style.STROKE);
+        backgroundShape.getPaint().setStrokeWidth(4);
+        backgroundShape.getPaint().setStrokeCap(Paint.Cap.ROUND);
+        backgroundShape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
+        
+        if (BehaviourPreferences.INSTANCE.areColoredShadowsOn()) {
+            backgroundShape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 232));
+        } else {
+            backgroundShape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(Color.GRAY, 216));
+        }
+        
+        /*
+         * This code block isn't being due to its limited customization
+         * abilities, however it's left here for revision and reference
+         * purposes here.
+         */
         GradientDrawable bgGradDrawable = new GradientDrawable(bgGradDirection, new int[] {
                 ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground(),
                 ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()});
@@ -163,7 +185,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         ClipDrawable fg1clip = new ClipDrawable(fg1GradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
         
         //Setup LayerDrawable and assign to progressBar
-        Drawable[] progressDrawables = {backgroundClip, fg2clip, fg1clip};
+        Drawable[] progressDrawables = {backgroundShape, fg2clip, fg1clip};
         LayerDrawable progressLayerDrawable = new LayerDrawable(progressDrawables);
         progressLayerDrawable.setId(0, android.R.id.background);
         progressLayerDrawable.setId(1, android.R.id.secondaryProgress);
@@ -251,6 +273,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Objects.equals(key, AppearancePreferences.accentColor)) {
             setColors();
+            setThumb();
         }
     }
     
