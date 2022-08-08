@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File
+import java.io.IOException
 import java.security.MessageDigest
 
 class TrackersViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
@@ -104,10 +105,10 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
             val uriStream = UriUtils.getStreamFromUri(context, Uri.fromFile(File(packageInfo.applicationInfo.publicSourceDir)))
 
             try {
-                val incomeFile = File.createTempFile("classes" + Thread.currentThread().id, ".dex", context.cacheDir)
+                val incomeFile = File.createTempFile("classes" + Thread.currentThread().id, ".dex", createTrackersCacheDirectory())
                 val bytes = IOUtils.toByteArray(uriStream)
                 IOUtils.bytesToFile(bytes, incomeFile)
-                val optimizedFile = File.createTempFile("opt" + Thread.currentThread().id, ".dex", context.cacheDir)
+                val optimizedFile = File.createTempFile("opt" + Thread.currentThread().id, ".dex", createTrackersCacheDirectory())
 
                 val dexFile = DexFile.loadDex(incomeFile.path, optimizedFile.path, 0)
 
@@ -227,5 +228,21 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         title = Totalz.toString() + " Trackers = " + classesList.size + " Classes"
 
         this.message.postValue(Pair(title, message.toString()))
+    }
+
+    private fun createTrackersCacheDirectory(): File {
+        val file = File("${context.dataDir}/trackers_cache/")
+        if (!file.exists()) {
+            file.mkdir()
+            if (file.isDirectory) {
+                return file
+            } else {
+                // Technically we should be able to create a dir in app directory
+                // so it will never reach this block
+                throw IOException("Cannot create directory")
+            }
+        }
+
+        return file
     }
 }

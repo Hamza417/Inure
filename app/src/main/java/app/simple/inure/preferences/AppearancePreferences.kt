@@ -139,6 +139,7 @@ object AppearancePreferences {
         getSharedPreferences().edit().putInt(iconSize, size).apply()
     }
 
+    @Synchronized
     fun getIconSize(): Int {
         return getSharedPreferences().getInt(iconSize, 400)
     }

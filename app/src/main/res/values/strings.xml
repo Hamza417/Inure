@@ -550,4 +550,6 @@
     <string name="news">News</string>
     <string name="maps">Maps</string>
     <string name="productivity">Productivity</string>
+    <string name="clear_trackers_data_desc">Clear all app trackers cache data.</string>
+    <string name="clear_trackers_cache">Clear Trackers Cache</string>
 </resources>

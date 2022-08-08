@@ -500,14 +500,14 @@ class AudioService : Service(),
 
         val buttonClick = PendingIntent.getActivity(this, 111, intentAction, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        builder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_audio_placeholder)
+        builder = NotificationCompat.Builder(applicationContext, channelId)
+            .setSmallIcon(R.drawable.ic_main_app_icon_regular)
             .setLargeIcon(metaData?.art)
             .addAction(action) /* Play Pause Action */
             .addAction(generateAction(R.drawable.ic_close, "Close", ServiceConstants.actionQuitService))
             .setContentTitle(metaData?.title)
             .setContentText(metaData?.artists)
-            .setSubText(metaData?.artists)
+            .setSubText(metaData?.album)
             .setContentIntent(buttonClick)
             .setShowWhen(false)
             .setColorized(true)
@@ -530,7 +530,7 @@ class AudioService : Service(),
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-
+        /* no-op */
     }
 
     override fun onDestroy() {

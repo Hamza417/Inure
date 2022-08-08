@@ -8,6 +8,7 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:clipChildren="false"
         android:clipToPadding="false"
         app:layout_behavior="@string/over_scroll_behavior">
@@ -15,6 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:orientation="vertical"
             android:padding="@dimen/panel_item_padding">
 
@@ -65,6 +67,53 @@
                 android:text="@string/clear_app_data"
                 app:appFontStyle="bold"
                 app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="100dp"
+                android:text="@string/clear_trackers_data_desc"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="primary" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/panel_item_padding"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.views.CustomProgressBar
+                    android:id="@+id/trackers_cache_loader"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="@dimen/loader_size"
+                    android:layout_height="@dimen/loader_size"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/trackers_cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/button_padding"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="tertiary" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/clear_tracker_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:padding="@dimen/button_padding"
+                    android:text="@string/clear_trackers_cache"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
