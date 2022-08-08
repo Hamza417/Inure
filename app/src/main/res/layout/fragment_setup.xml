@@ -6,63 +6,55 @@
     android:clipToPadding="true"
     android:orientation="vertical">
 
-    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:elevation="1dp"
-        android:orientation="vertical"
-        android:padding="@dimen/header_padding">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal">
-
-            <app.simple.inure.decorations.theme.ThemeIcon
-                android:id="@+id/imageView3"
-                android:layout_width="@dimen/adapter_header_icon_size"
-                android:layout_height="@dimen/adapter_header_icon_size"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_app_icon"
-                android:transitionName="main_app_icon"
-                app:tintType="secondary" />
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/typeFaceTextView02"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="16dp"
-                android:layout_weight="1"
-                android:text="@string/setup"
-                android:textSize="@dimen/header_font_size"
-                android:transitionName="@string/setup"
-                app:appFontStyle="light"
-                app:textColorStyle="heading" />
-
-        </LinearLayout>
-
-    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <androidx.core.widget.NestedScrollView
+        <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             app:layout_behavior="@string/over_scroll_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dialog_padding">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/imageView3"
+                        android:layout_width="@dimen/adapter_header_icon_size"
+                        android:layout_height="@dimen/adapter_header_icon_size"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/app_name"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_main_app_icon_big"
+                        android:transitionName="main_app_icon"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/typeFaceTextView02"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/setup"
+                        android:textSize="@dimen/header_font_size"
+                        android:transitionName="@string/setup"
+                        app:appFontStyle="light"
+                        app:textColorStyle="heading" />
+
+                </LinearLayout>
 
                 <app.simple.inure.decorations.theme.ThemeDivider
                     android:layout_width="match_parent"
@@ -73,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/header_padding"
-                    android:padding="@dimen/dialog_padding"
+                    android:padding="@dimen/panel_item_padding"
                     android:text="@string/desc_setup"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular"
@@ -208,7 +200,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -239,7 +231,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                        app:drawableTint="?attr/colorAppAccent"
+                        app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -311,9 +303,13 @@
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
 
     <app.simple.inure.decorations.theme.ThemeLinearLayout
         android:layout_width="match_parent"

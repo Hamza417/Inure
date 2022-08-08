@@ -1,7 +1,6 @@
 package app.simple.inure.util
 
 import android.os.Build
-import androidx.annotation.RequiresApi
 import app.simple.inure.preferences.FormattingPreferences
 import java.io.File
 import java.io.IOException
@@ -9,6 +8,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
+import java.util.*
 import kotlin.math.abs
 
 object FileSizeHelper {
@@ -31,13 +31,41 @@ object FileSizeHelper {
         return total.toSize()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun String.getDirectorySize(): String {
         return try {
-            Files.walk(Paths.get(this))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Files.walk(Paths.get(this))
                     .filter { p -> p.toFile().isFile }
                     .mapToLong { p -> p.toFile().length() }
                     .sum().toSize()
+            } else {
+                val file = File(this)
+                var result: Long = 0
+                val dirs: MutableList<File> = LinkedList()
+
+                if (!file.exists()) {
+                    return 0L.toSize()
+                }
+
+                if (!file.isDirectory) {
+                    return file.length().toSize()
+                }
+
+                dirs.add(file)
+
+                while (dirs.isNotEmpty()) {
+                    val dir = dirs.removeAt(0)
+                    if (!dir.exists()) continue
+                    val listFiles = dir.listFiles()
+                    if (listFiles == null || listFiles.isEmpty()) continue
+                    for (child in listFiles) {
+                        result += child.length()
+                        if (child.isDirectory) dirs.add(child)
+                    }
+                }
+
+                result.toSize()
+            }
         } catch (e: IOException) {
             e.printStackTrace()
             0L.toSize()

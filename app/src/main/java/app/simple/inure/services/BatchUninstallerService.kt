@@ -11,9 +11,6 @@ class BatchUninstallerService : Service() {
     private val binder = BatchUninstallerBinder()
 
     var list = arrayListOf<PackageInfo>()
-        set(value) {
-            field = value
-        }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null

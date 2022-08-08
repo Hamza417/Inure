@@ -231,13 +231,14 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
     }
 
     private fun createTrackersCacheDirectory(): File {
-        val file = File("${context.dataDir}/trackers_cache/")
+        val file = File("${context.cacheDir}/trackers_cache/")
         if (!file.exists()) {
             file.mkdir()
             if (file.isDirectory) {
                 return file
             } else {
-                // Technically we should be able to create a dir in app directory
+                // Technically we should be able to create a dir in
+                // app directory without raising any flags
                 // so it will never reach this block
                 throw IOException("Cannot create directory")
             }

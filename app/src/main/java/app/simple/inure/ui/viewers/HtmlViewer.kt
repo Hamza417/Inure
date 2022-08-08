@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
@@ -37,7 +37,7 @@ class HtmlViewer : ScopedFragment() {
 
     private var htmlTxt: String = ""
 
-    private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
+    private val exportText = registerForActivityResult(CreateDocument("todo/todo")) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult

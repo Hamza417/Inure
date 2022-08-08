@@ -22,7 +22,6 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.PermissionUtils.arePermissionsGranted
@@ -181,7 +180,6 @@ class Setup : ScopedFragment() {
             storageStatus.text = getString(R.string.granted)
             storageUri.text = uri.toString()
             storageUri.visible(false)
-            storageStatus.setTextColor(requireContext().resolveAttrColor(R.attr.colorAppAccent))
             storageAccess.isClickable = false
         } else {
             storageStatus.text = getString(R.string.not_granted)

@@ -1,6 +1,7 @@
 package app.simple.inure.viewmodels.activity
 
 import android.app.Application
+import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -12,7 +13,7 @@ import java.io.File
 
 class ManageSpaceViewModel(application: Application) : WrappedViewModel(application) {
 
-    private val trackersCachePath = "${applicationContext().dataDir}/trackers_cache/"
+    private val trackersCachePath = "${applicationContext().cacheDir}/trackers_cache/"
     private val imagesCachePath = "${applicationContext().cacheDir}/image_manager_disk_cache/"
 
     val trackersCacheSize: MutableLiveData<String> by lazy {
@@ -59,13 +60,17 @@ class ManageSpaceViewModel(application: Application) : WrappedViewModel(applicat
 
     private fun loadTrackersCacheSize() {
         viewModelScope.launch(Dispatchers.IO) {
-            trackersCacheSize.postValue(trackersCachePath.getDirectorySize())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                trackersCacheSize.postValue(trackersCachePath.getDirectorySize())
+            }
         }
     }
 
     private fun loadImagesCacheSize() {
         viewModelScope.launch(Dispatchers.IO) {
-            imagesCacheSize.postValue(imagesCachePath.getDirectorySize())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                imagesCacheSize.postValue(imagesCachePath.getDirectorySize())
+            }
         }
     }
 }

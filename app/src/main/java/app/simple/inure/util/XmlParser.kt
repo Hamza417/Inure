@@ -60,7 +60,7 @@ object XmlParser {
         //   4th word is: Number of strings in string table
         // WARNING: Sometime I indiscriminently display or refer to word in
         //   little endian storage format, or in integer format (ie MSB first).
-        val numbStrings = LEW(xml, 4 * 4)
+        val numbStrings = lew(xml, 4 * 4)
 
         // StringIndexTable starts at offset 24x, an array of 32 bit LE offsets
         // of the length/string data in the StringTable.
@@ -73,12 +73,12 @@ object XmlParser {
         // XMLTags, The XML tag tree starts after some unknown content after the
         // StringTable.  There is some unknown data after the StringTable, scan
         // forward from this point to the flag for the start of an XML start tag.
-        var xmlTagOff = LEW(xml, 3 * 4)  // Start from the offset in the 3rd word.
+        var xmlTagOff = lew(xml, 3 * 4)  // Start from the offset in the 3rd word.
         // Scan forward until we find the bytes: 0x02011000(x00100102 in normal int)
         run {
             var ii = xmlTagOff
             while (ii < xml.size - 4) {
-                if (LEW(xml, ii) == startTag) {
+                if (lew(xml, ii) == startTag) {
                     xmlTagOff = ii
                     break
                 }
@@ -122,16 +122,16 @@ object XmlParser {
         var indent = 0
         var startTagLineNo = -2
         while (off < xml.size) {
-            val tag0 = LEW(xml, off)
+            val tag0 = lew(xml, off)
             //int tag1 = LEW(xml, off+1*4);
-            val lineNo = LEW(xml, off + 2 * 4)
+            val lineNo = lew(xml, off + 2 * 4)
             //int tag3 = LEW(xml, off+3*4);
-            val nameNsSi = LEW(xml, off + 4 * 4)
-            val nameSi = LEW(xml, off + 5 * 4)
+            val nameNsSi = lew(xml, off + 4 * 4)
+            val nameSi = lew(xml, off + 5 * 4)
 
             if (tag0 == startTag) { // XML START TAG
-                val tag6 = LEW(xml, off + 6 * 4)  // Expected to be 14001400
-                val numbAttrs = LEW(xml, off + 7 * 4)  // Number of Attributes to follow
+                val tag6 = lew(xml, off + 6 * 4)  // Expected to be 14001400
+                val numbAttrs = lew(xml, off + 7 * 4)  // Number of Attributes to follow
                 //int tag8 = LEW(xml, off+8*4);  // Expected to be 00000000
                 off += 9 * 4  // Skip over 6+3 words of startTag data
                 val name = compXmlString(xml, sitOff, stOff, nameSi)
@@ -141,11 +141,11 @@ object XmlParser {
                 // Look for the Attributes
                 val sb = StringBuffer()
                 for (ii in 0 until numbAttrs) {
-                    val attrNameNsSi = LEW(xml, off)  // AttrName Namespace Str Ind, or FFFFFFFF
-                    val attrNameSi = LEW(xml, off + 1 * 4)  // AttrName String Index
-                    val attrValueSi = LEW(xml, off + 2 * 4) // AttrValue Str Ind, or FFFFFFFF
-                    val attrFlags = LEW(xml, off + 3 * 4)
-                    val attrResId = LEW(xml, off + 4 * 4)  // AttrValue ResourceId or dup AttrValue StrInd
+                    val attrNameNsSi = lew(xml, off)  // AttrName Namespace Str Ind, or FFFFFFFF
+                    val attrNameSi = lew(xml, off + 1 * 4)  // AttrName String Index
+                    val attrValueSi = lew(xml, off + 2 * 4) // AttrValue Str Ind, or FFFFFFFF
+                    val attrFlags = lew(xml, off + 3 * 4)
+                    val attrResId = lew(xml, off + 4 * 4)  // AttrValue ResourceId or dup AttrValue StrInd
                     off += 5 * 4  // Skip over the 5 words of an attribute
 
                     val attrName = compXmlString(xml, sitOff, stOff, attrNameSi)
@@ -195,7 +195,7 @@ object XmlParser {
      */
     fun compXmlString(xml: ByteArray, sitOff: Int, stOff: Int, strInd: Int): String? {
         if (strInd < 0) return null
-        val strOff = stOff + LEW(xml, sitOff + strInd * 4)
+        val strOff = stOff + lew(xml, sitOff + strInd * 4)
         return compXmlStringAt(xml, strOff)
     }
 
@@ -233,7 +233,6 @@ object XmlParser {
         return String(chars)  // Hack, just use 8 byte chars
     } // end of compXmlStringAt
 
-
     /**
      * Return value of a Little Endian 32 bit word from the byte array
      * at offset off.
@@ -242,7 +241,7 @@ object XmlParser {
      * @param off Offset to get word from
      * @return Value of Little Endian 32 bit word specified
      */
-    fun LEW(arr: ByteArray, off: Int): Int {
+    fun lew(arr: ByteArray, off: Int): Int {
         return (arr[off + 3] shl 24 and -0x1000000 or ((arr[off + 2] shl 16) and 0xff0000)
                 or (arr[off + 1] shl 8 and 0xff00) or (arr[off].toInt() and 0xFF))
     } // end of LEW

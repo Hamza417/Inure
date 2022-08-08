@@ -1,26 +1,29 @@
 package app.simple.inure.decorations.typeface
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
+import android.os.Build
 import android.util.AttributeSet
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
-import app.simple.inure.themes.manager.ThemeManager.theme
 import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.TextViewUtils.setDrawableTint
 import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.TypeFace
 import top.defaults.drawabletoolbox.DrawableBuilder
+import java.lang.reflect.Field
 
 open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
 
@@ -43,9 +46,9 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
         setHighlightColor()
         setTextColor(colorMode, false)
-        setCursorDrawable()
         setHintTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
         setDrawableTint(ThemeManager.theme.iconTheme.secondaryIconColor)
+        setCursorDrawable()
     }
 
     override fun onAttachedToWindow() {
@@ -89,20 +92,33 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
 
     open fun setBackground(animate: Boolean) {
         if (animate) {
-            valueAnimator = animateBackgroundColor(theme.viewGroupTheme.background)
+            valueAnimator = animateBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
         } else {
-            backgroundTintList = ColorStateList.valueOf(theme.viewGroupTheme.background)
+            backgroundTintList = ColorStateList.valueOf(ThemeManager.theme.viewGroupTheme.background)
         }
     }
 
+    @SuppressLint("DiscouragedPrivateApi")
     private fun setCursorDrawable() {
-        textCursorDrawable = DrawableBuilder()
+        val drawable = DrawableBuilder()
             .rectangle()
             .width(resources.getDimensionPixelOffset(R.dimen.cursor_width))
             .ripple(false)
             .strokeWidth(0)
             .solidColor(AppearancePreferences.getAccentColor())
             .build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            textCursorDrawable = drawable
+        } else {
+            try {
+                // https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/widget/TextView.java#L562-564
+                val f: Field = TextView::class.java.getDeclaredField("mCursorDrawableRes")
+                f.isAccessible = true
+                f.set(this, drawable)
+            } catch (ignored: Exception) {
+            }
+        }
     }
 
     private fun setHighlightColor() {
@@ -134,6 +150,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
             .hideSoftInputFromWindow(windowToken, InputMethodManager.RESULT_UNCHANGED_SHOWN)
     }
 
+    @Suppress("unused")
     open fun toggleInput() {
         when (visibility) {
             VISIBLE -> {

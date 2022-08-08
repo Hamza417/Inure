@@ -25,6 +25,8 @@ package app.simple.inure.terminal.compat;
  * a part of the public API).
  */
 
+import android.util.Base64OutputStream;
+
 import java.nio.charset.StandardCharsets;
 
 /**

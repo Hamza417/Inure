@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdkVersion 32
 
-    def appVersionCode = 35
+    def appVersionCode = 36
     def appVersionName = "build_$appVersionCode (alpha)"
 
     buildFeatures {
@@ -92,11 +92,11 @@ dependencies {
     implementation 'androidx.core:core-google-shortcuts:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.fragment:fragment-ktx:1.5.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.webkit:webkit:1.4.0'
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
@@ -125,14 +125,13 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // root
-    def libsuVersion = '3.1.2'
-    implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
-    implementation "com.github.topjohnwu.libsu:io:${libsuVersion}"
+    implementation "com.github.topjohnwu.libsu:core:3.1.2"
+    implementation "com.github.topjohnwu.libsu:io:3.1.2"
 
     // Room
-    implementation "androidx.room:room-ktx:2.4.2"
-    kapt "androidx.room:room-compiler:2.4.2"
-    androidTestImplementation "androidx.room:room-testing:2.4.2"
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
+    androidTestImplementation "androidx.room:room-testing:2.4.3"
 
     // debugImplementation because LeakCanary should only run in debug builds.
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'

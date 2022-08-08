@@ -24,7 +24,7 @@ import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.viewmodels.subviewers.TrackerSourceViewModel
 import java.io.IOException
 
-class TrackerSourceViewer() : ScopedFragment() {
+class TrackerSourceViewer : ScopedFragment() {
 
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
