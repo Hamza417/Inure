@@ -550,6 +550,10 @@
     <string name="news">News</string>
     <string name="maps">Maps</string>
     <string name="productivity">Productivity</string>
-    <string name="clear_trackers_data_desc">Clear all app trackers cache data.</string>
+    <string name="clear_trackers_data_title">Clear all app trackers cache data.</string>
     <string name="clear_trackers_cache">Clear Trackers Cache</string>
+    <string name="clear_images_data_title">Clear all image cache data.</string>
+    <string name="clear_images_cache">Clear Images Cache</string>
+    <string name="clear_trackers_data_desc">The app extracts dex classes from the application to scan the tracker in them. This option will clear all the leftovers stored by Trackers.</string>
+    <string name="clear_images_data_desc">Clear all cache data of app icons and other graphics created by the image loader of the app.</string>
 </resources>

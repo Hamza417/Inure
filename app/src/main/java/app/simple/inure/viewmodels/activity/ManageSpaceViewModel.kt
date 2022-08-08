@@ -13,10 +13,17 @@ import java.io.File
 class ManageSpaceViewModel(application: Application) : WrappedViewModel(application) {
 
     private val trackersCachePath = "${applicationContext().dataDir}/trackers_cache/"
+    private val imagesCachePath = "${applicationContext().cacheDir}/image_manager_disk_cache/"
 
     val trackersCacheSize: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
             loadTrackersCacheSize()
+        }
+    }
+
+    val imagesCacheSize: MutableLiveData<String> by lazy {
+        MutableLiveData<String>().also {
+            loadImagesCacheSize()
         }
     }
 
@@ -35,9 +42,30 @@ class ManageSpaceViewModel(application: Application) : WrappedViewModel(applicat
         }
     }
 
+    fun clearImagesData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                delay(1000L)
+                val file = File(imagesCachePath)
+                if (file.deleteRecursively()) {
+                    loadImagesCacheSize()
+                }
+            }.onFailure {
+                it.printStackTrace()
+                error.postValue(it.stackTraceToString())
+            }
+        }
+    }
+
     private fun loadTrackersCacheSize() {
         viewModelScope.launch(Dispatchers.IO) {
             trackersCacheSize.postValue(trackersCachePath.getDirectorySize())
+        }
+    }
+
+    private fun loadImagesCacheSize() {
+        viewModelScope.launch(Dispatchers.IO) {
+            imagesCacheSize.postValue(imagesCachePath.getDirectorySize())
         }
     }
 }

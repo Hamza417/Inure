@@ -17,9 +17,13 @@ class ManageSpace : BaseActivity() {
 
     private lateinit var clearData: DynamicRippleTextView
     private lateinit var clearTrackersData: DynamicRippleTextView
+    private lateinit var clearImagesData: DynamicRippleTextView
 
     private lateinit var trackersSize: TypeFaceTextView
+    private lateinit var imagesSize: TypeFaceTextView
+
     private lateinit var trackersLoader: CustomProgressBar
+    private lateinit var imagesLoader: CustomProgressBar
 
     private lateinit var manageSpaceViewModel: ManageSpaceViewModel
 
@@ -32,9 +36,14 @@ class ManageSpace : BaseActivity() {
         clearTrackersData = findViewById(R.id.clear_tracker_data)
         trackersSize = findViewById(R.id.trackers_cache_size)
         trackersLoader = findViewById(R.id.trackers_cache_loader)
+        clearImagesData = findViewById(R.id.clear_image_data)
+        imagesSize = findViewById(R.id.image_cache_size)
+        imagesLoader = findViewById(R.id.image_cache_loader)
 
         clearTrackersData.gone(animate = false)
         trackersSize.gone(animate = false)
+        clearImagesData.gone(animate = false)
+        imagesSize.gone(animate = false)
 
         clearData.setOnClickListener {
             clearAppData()
@@ -52,6 +61,25 @@ class ManageSpace : BaseActivity() {
                     override fun onSure() {
                         trackersLoader.visible(animate = true)
                         manageSpaceViewModel.clearTrackersData()
+                    }
+                })
+
+                p.show(supportFragmentManager, "sure")
+            }
+        }
+
+        manageSpaceViewModel.imagesCacheSize.observe(this) {
+            imagesSize.visible(animate = true)
+            imagesSize.text = it
+            imagesLoader.gone(animate = true)
+            clearImagesData.visible(animate = true)
+
+            clearImagesData.setOnClickListener {
+                val p = Sure.newInstance()
+                p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                    override fun onSure() {
+                        imagesLoader.visible(animate = true)
+                        manageSpaceViewModel.clearImagesData()
                     }
                 })
 

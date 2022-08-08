@@ -73,10 +73,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="100dp"
-                android:text="@string/clear_trackers_data_desc"
+                android:text="@string/clear_trackers_data_title"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="regular"
                 app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="80dp"
+                android:text="@string/clear_trackers_data_desc"
+                android:textSize="@dimen/desc_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="tertiary" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -110,6 +119,62 @@
                     android:layout_gravity="end"
                     android:padding="@dimen/button_padding"
                     android:text="@string/clear_trackers_cache"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
+
+            </LinearLayout>
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="100dp"
+                android:text="@string/clear_images_data_title"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="80dp"
+                android:text="@string/clear_images_data_desc"
+                android:textSize="@dimen/desc_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="tertiary" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/panel_item_padding"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.views.CustomProgressBar
+                    android:id="@+id/image_cache_loader"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="@dimen/loader_size"
+                    android:layout_height="@dimen/loader_size"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/image_cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/button_padding"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="tertiary" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/clear_image_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:padding="@dimen/button_padding"
+                    android:text="@string/clear_images_cache"
                     app:appFontStyle="bold"
                     app:textColorStyle="accent" />
 
