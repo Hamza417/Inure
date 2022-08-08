@@ -54,6 +54,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
     private val audioIntentFilter = IntentFilter()
     private var serviceBound = false
+    private var wasSongPlaying = false
 
     /**
      * [currentPosition] will keep the current position of the playback
@@ -145,9 +146,19 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                         loader.gone(animate = true)
                         playerContainer.isEnabled = true
                         playPause.isEnabled = true
+                        wasSongPlaying = true
                     }
                     ServiceConstants.actionQuitService -> {
-                        requireActivity().finish()
+                        if (wasSongPlaying) {
+                            requireActivity().finish()
+                        } else {
+                            kotlin.runCatching {
+                                throw IllegalStateException("Service closed unexpectedly on uri: ${uri.toString()}")
+                            }.getOrElse {
+                                it.printStackTrace()
+                                showError(it.stackTraceToString())
+                            }
+                        }
                     }
                     ServiceConstants.actionPlay -> {
                         buttonStatus(true)
