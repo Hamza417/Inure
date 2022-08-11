@@ -404,7 +404,7 @@
     <string name="shared_libs">已分享的程式庫</string>
     <string name="copy_package_name">複製套件名稱</string>
     <string name="join_telegram">加入 Telegram</string>
-    <string name="desc_telegram">加入 Telegram 群組與其他使用者和開發人員討論</string>
+    <string name="desc_telegram">加入 Telegram 群組與開發人員和其他使用者討論</string>
     <string name="batch">批次</string>
     <string name="verifying_license">正在驗證授權</string>
     <string name="disable_transparent_status_bar">停用透明狀態列</string>
@@ -473,7 +473,7 @@
     <string name="sure">沒問題</string>
     <string name="editor">編輯器</string>
     <string name="ignore_case">忽略大小寫</string>
-    <string name="formatting">正在格式化</string>
+    <string name="formatting">格式</string>
     <string name="sdk_value">SDK 值</string>
     <string name="pie_hole_radius">餅孔半徑</string>
     <string name="termux_title">使用 Termux</string>
@@ -490,9 +490,9 @@
     <string name="not_selected">未選取</string>
     <string name="selected_on">已在 %1$s 上選取</string>
     <string name="move_selection_on_top">將選取項目移至頂部</string>
-    <string name="notes">說明</string>
+    <string name="notes">附註</string>
     <string name="highlight_selected">醒目提示已選取項目</string>
-    <string name="expanded_notes">展開說明</string>
+    <string name="expanded_notes">展開附註</string>
     <string name="viewers">檢視器</string>
     <string name="start_app_now">立即啟動應用程式</string>
     <string name="auto_save">自動儲存</string>
