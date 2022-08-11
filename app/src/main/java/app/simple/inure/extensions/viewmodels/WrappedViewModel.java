@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+import app.simple.inure.preferences.ConfigurationPreferences;
 import app.simple.inure.util.ContextUtils;
 
 public class WrappedViewModel extends AndroidViewModel {
@@ -20,7 +21,7 @@ public class WrappedViewModel extends AndroidViewModel {
     }
     
     public final Context getContext() {
-        return ContextUtils.INSTANCE.updateLocale(getApplication().getApplicationContext(), "en");
+        return ContextUtils.Companion.updateLocale(applicationContext(), ConfigurationPreferences.INSTANCE.getAppLanguage());
     }
     
     public final Context applicationContext() {

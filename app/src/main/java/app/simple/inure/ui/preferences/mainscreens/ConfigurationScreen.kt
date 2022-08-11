@@ -12,6 +12,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.ui.preferences.subscreens.Language
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
 import app.simple.inure.util.FragmentHelper
 import com.topjohnwu.superuser.Shell
@@ -23,6 +24,7 @@ class ConfigurationScreen : ScopedFragment() {
 
     private lateinit var keepScreenOnSwitchView: SwitchView
     private lateinit var shortcuts: DynamicRippleRelativeLayout
+    private lateinit var language: DynamicRippleRelativeLayout
     private lateinit var rootSwitchView: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,6 +32,7 @@ class ConfigurationScreen : ScopedFragment() {
 
         keepScreenOnSwitchView = view.findViewById(R.id.configuration_switch_keep_screen_on)
         shortcuts = view.findViewById(R.id.configuration_shortcuts)
+        language = view.findViewById(R.id.configuration_language)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
 
         return view
@@ -55,6 +58,11 @@ class ConfigurationScreen : ScopedFragment() {
         shortcuts.setOnClickListener {
             clearExitTransition()
             FragmentHelper.openFragment(parentFragmentManager, Shortcuts.newInstance(), "shortcuts")
+        }
+
+        language.setOnClickListener {
+            clearExitTransition()
+            FragmentHelper.openFragment(parentFragmentManager, Language.newInstance(), "language")
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener {

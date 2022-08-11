@@ -513,7 +513,6 @@
     <string name="desc_hide_preferences_indicators">Hide the preference type indicator from all preference titles.</string>
     <string name="trackers">Trackers</string>
     <string name="scan">Scan</string>
-    <string name="exodus">εxodus</string>
     <string name="show_all_classes">Show All Classes</string>
     <string name="show_all_classes_desc">Keep classes in the list that may or may not be related to tracking.</string>
     <string name="show_trackers_analytics_automatically">Show Tracker Analytics Automatically</string>
@@ -533,7 +532,7 @@
     <string name="no_extras_found">No Extras Found</string>
     <string name="damping_ratio">Damping Ratio</string>
     <string name="stiffness">Stiffness</string>
-    <string name="damping_ratio_desc">Bouciness of the scrolling view.</string>
+    <string name="damping_ratio_desc">Bounciness of the scrolling view.</string>
     <string name="stiffness_desc">Stiffness of the scrolling views.</string>
     <string name="very_low">Very Low</string>
     <string name="soapstone">Soapstone</string>
@@ -556,4 +555,6 @@
     <string name="clear_images_cache">Clear Images Cache</string>
     <string name="clear_trackers_data_desc">The app extracts dex classes from the application to scan the tracker in them. This option will clear all the leftovers stored by Trackers.</string>
     <string name="clear_images_data_desc">Clear all cache data of app icons and other graphics created by the image loader of the app.</string>
+    <string name="language">Language</string>
+    <string name="language_desc">Change app\'s language.</string>
 </resources>

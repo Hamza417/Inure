@@ -1,5 +1,6 @@
 package app.simple.inure.extensions.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -12,6 +13,7 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -24,15 +26,18 @@ import app.simple.inure.preferences.ShellPreferences.getHomePath
 import app.simple.inure.preferences.ShellPreferences.setHomePath
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.ContextUtils
+import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.ThemeUtils.setTheme
 
+@SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.content.SharedPreferences.OnSharedPreferenceChangeListener {
 
-    override fun attachBaseContext(newBase: Context) {
-        SharedPreferences.init(newBase)
+    override fun attachBaseContext(newBaseContext: Context) {
+        SharedPreferences.init(newBaseContext)
         SharedPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
-        super.attachBaseContext(newBase)
+        super.attachBaseContext(ContextUtils.updateLocale(newBaseContext, ConfigurationPreferences.getAppLanguage()!!))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +72,11 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             makeAppFullScreen()
             fixNavigationBarOverlap()
         }
+
+        /**
+         * Keeps the instance of current locale of the app
+         */
+        LocaleHelper.setAppLocale(ConfigurationCompat.getLocales(resources.configuration)[0]!!)
 
         ThemeUtils.setBarColors(resources, window)
         setNavColor()
@@ -137,7 +147,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
     private fun setNavColor() {
         if (AppearancePreferences.isAccentOnNavigationBar()) {
-            window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent)).getColor(0, 0)
+            window.navigationBarColor = AppearancePreferences.getAccentColor()
         } else {
             window.navigationBarColor = Color.TRANSPARENT
         }
@@ -151,6 +161,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                 makeAppFullScreen()
                 fixNavigationBarOverlap()
             }
+            AppearancePreferences.accentColor,
             AppearancePreferences.accentOnNav -> {
                 setNavColor()
             }

@@ -18,6 +18,7 @@
       <w>ffffffff</w>
       <w>fnkey</w>
       <w>fontsize</w>
+      <w>français</w>
       <w>fredoka</w>
       <w>furiya</w>
       <w>heebo</w>
@@ -36,6 +37,7 @@
       <w>privact</w>
       <w>privextra</w>
       <w>quickapps</w>
+      <w>română</w>
       <w>rummler</w>
       <w>solarized</w>
       <w>statusbar</w>
@@ -44,6 +46,8 @@
       <w>transitionseverywhere</w>
       <w>varints</w>
       <w>withaar</w>
+      <w>čeština</w>
+      <w>εxodus</w>
     </words>
   </dictionary>
 </component>

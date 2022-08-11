@@ -81,13 +81,17 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {}
 
     protected fun showError(error: String) {
-        val e = Error.newInstance(error)
-        e.show(childFragmentManager, "error_dialog")
-        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-            override fun onDismiss() {
-                requireActivity().onBackPressed()
-            }
-        })
+        try {
+            val e = Error.newInstance(error)
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressed()
+                }
+            })
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        }
     }
 
     protected fun openSettings() {
