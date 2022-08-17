@@ -25,6 +25,8 @@ Inure's development was started as an independent learning project which later h
 developed by a single person and is based 100% on custom UI APIs developed to be used only in this app along with a native theme engine, 
 image renderer and a beautiful animation framework.
 
+Currently, the app is in beta testing stage. You can join the app's early beta testing from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure) and join the app's [Telegram Group](https://t.me/inure_app_manager) for development related discussions.
+
 ## Development Status
 
 High priority features
