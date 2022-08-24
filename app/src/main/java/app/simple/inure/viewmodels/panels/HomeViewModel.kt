@@ -59,14 +59,14 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
-    private val menuItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
-        MutableLiveData<List<Pair<Int, String>>>().also {
+    private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
+        MutableLiveData<List<Pair<Int, Int>>>().also {
             loadItems()
         }
     }
 
-    private val appsCategoryItems: MutableLiveData<List<Pair<Int, String>>> by lazy {
-        MutableLiveData<List<Pair<Int, String>>>().also {
+    private val appsCategoryItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
+        MutableLiveData<List<Pair<Int, Int>>>().also {
             loadAppsCategoryItems()
         }
     }
@@ -87,11 +87,11 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         return disabled
     }
 
-    fun getMenuItems(): LiveData<List<Pair<Int, String>>> {
+    fun getMenuItems(): LiveData<List<Pair<Int, Int>>> {
         return menuItems
     }
 
-    fun getAppsCategory(): LiveData<List<Pair<Int, String>>> {
+    fun getAppsCategory(): LiveData<List<Pair<Int, Int>>> {
         return appsCategoryItems
     }
 
@@ -220,19 +220,19 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         viewModelScope.launch(Dispatchers.Default) {
 
             val list = arrayListOf(
-                    Pair(R.drawable.ic_app_icon, getString(R.string.apps)),
-                    Pair(R.drawable.ic_terminal, getString(R.string.terminal)),
-                    Pair(R.drawable.ic_stats, getString(R.string.usage_statistics)),
-                    // Pair(R.drawable.ic_memory, getString(R.string.device_info)),
-                    Pair(R.drawable.ic_sensors, getString(R.string.sensors)),
-                    Pair(R.drawable.ic_layers, getString(R.string.batch)),
-                    Pair(R.drawable.ic_analytics, getString(R.string.analytics)),
-                    Pair(R.drawable.ic_notes, getString(R.string.notes)),
-                    // Pair(R.drawable.ic_music_note, getString(R.string.music))
+                    Pair(R.drawable.ic_app_icon, R.string.apps),
+                    Pair(R.drawable.ic_terminal, R.string.terminal),
+                    Pair(R.drawable.ic_stats, R.string.usage_statistics),
+                    // Pair(R.drawable.ic_memory, R.string.device_info),
+                    Pair(R.drawable.ic_sensors, R.string.sensors),
+                    Pair(R.drawable.ic_layers, R.string.batch),
+                    Pair(R.drawable.ic_analytics, R.string.analytics),
+                    Pair(R.drawable.ic_notes, R.string.notes),
+                    // Pair(R.drawable.ic_music_note, R.string.music))
             )
 
             if (BuildConfig.DEBUG) {
-                list.add(Pair(R.drawable.ic_music_note, getString(R.string.music)))
+                list.add(Pair(R.drawable.ic_music_note, R.string.music))
             }
 
 
@@ -243,11 +243,11 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
     private fun loadAppsCategoryItems() {
         viewModelScope.launch(Dispatchers.Default) {
             val list = mutableListOf(
-                    Pair(R.drawable.ic_apps_category_recently_installed, getString(R.string.recently_installed)),
-                    Pair(R.drawable.ic_apps_category_recently_updated, getString(R.string.recently_updated)),
-                    Pair(R.drawable.ic_apps_category_most_used, getString(R.string.most_used)),
-                    Pair(R.drawable.ic_apps_category_deleted_apps, getString(R.string.uninstalled)),
-                    Pair(R.drawable.ic_apps_category_disabled, getString(R.string.disabled))
+                    Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed),
+                    Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated),
+                    Pair(R.drawable.ic_apps_category_most_used, R.string.most_used),
+                    Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled),
+                    Pair(R.drawable.ic_apps_category_disabled, R.string.disabled)
             )
 
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {

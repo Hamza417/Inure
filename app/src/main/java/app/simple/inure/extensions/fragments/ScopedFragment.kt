@@ -21,6 +21,8 @@ import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.ui.panels.WebPage
+import app.simple.inure.util.FragmentHelper
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -212,6 +214,11 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                 requireActivity().onBackPressed()
             }
         })
+    }
+
+    open fun openWebPage(source: String) {
+        clearExitTransition()
+        FragmentHelper.openFragment(parentFragmentManager, WebPage.newInstance(string = source), "web_page")
     }
 
     /**

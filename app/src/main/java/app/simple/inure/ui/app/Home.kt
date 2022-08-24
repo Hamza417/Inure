@@ -84,21 +84,21 @@ class Home : ScopedFragment() {
             val adapter = AdapterHomeMenu(it)
 
             adapter.setOnAppInfoMenuCallback(object : AdapterHomeMenu.AdapterHomeMenuCallbacks {
-                override fun onMenuItemClicked(source: String, icon: ImageView) {
+                override fun onMenuItemClicked(source: Int, icon: ImageView) {
                     when (source) {
-                        getString(R.string.apps) -> {
+                        R.string.apps -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Apps.newInstance(),
                                                         icon,
                                                         "apps")
                         }
-                        getString(R.string.analytics) -> {
+                        R.string.analytics -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Analytics.newInstance(),
                                                         icon,
                                                         "analytics")
                         }
-                        getString(R.string.terminal) -> {
+                        R.string.terminal -> {
                             if (TerminalPreferences.isUsingTermux() && PackageUtils.isPackageInstalledAndEnabled("com.termux", requirePackageManager())) {
                                 PackageUtils.launchThisPackage(requireContext(), "com.termux")
                             } else {
@@ -111,27 +111,27 @@ class Home : ScopedFragment() {
                                 }
                             }
                         }
-                        getString(R.string.usage_statistics) -> {
+                        R.string.usage_statistics -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Statistics.newInstance(), icon, "stats")
                         }
-                        getString(R.string.device_info) -> {
+                        R.string.device_info -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         DeviceInformation.newInstance(), icon, "info")
                         }
-                        getString(R.string.sensors) -> {
+                        R.string.sensors -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Sensors.newInstance(), icon, "sensors")
                         }
-                        getString(R.string.batch) -> {
+                        R.string.batch -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Batch.newInstance(), icon, "batch")
                         }
-                        getString(R.string.notes) -> {
+                        R.string.notes -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Notes.newInstance(), icon, "notes")
                         }
-                        getString(R.string.music) -> {
+                        R.string.music -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Music.newInstance(), icon, "music")
                         }
@@ -155,27 +155,27 @@ class Home : ScopedFragment() {
             val adapterHomeMenu = AdapterHomeMenu(it)
 
             adapterHomeMenu.setOnAppInfoMenuCallback(object : AdapterHomeMenu.AdapterHomeMenuCallbacks {
-                override fun onMenuItemClicked(source: String, icon: ImageView) {
+                override fun onMenuItemClicked(source: Int, icon: ImageView) {
                     when (source) {
-                        getString(R.string.recently_installed) -> {
+                        R.string.recently_installed -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         RecentlyInstalled.newInstance(), icon, "recently_installed")
                         }
 
-                        getString(R.string.recently_updated) -> {
+                        R.string.recently_updated -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         RecentlyUpdated.newInstance(), icon, "recently_updated")
                         }
 
-                        getString(R.string.most_used) -> {
+                        R.string.most_used -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         MostUsed.newInstance(), icon, "most_used")
                         }
-                        getString(R.string.uninstalled) -> {
+                        R.string.uninstalled -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Uninstalled.newInstance(), icon, "uninstalled")
                         }
-                        getString(R.string.disabled) -> {
+                        R.string.disabled -> {
                             FragmentHelper.openFragment(requireActivity().supportFragmentManager,
                                                         Disabled.newInstance(), icon, "disabled")
                         }
@@ -215,10 +215,12 @@ class Home : ScopedFragment() {
         }
 
         icon.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager,
-                                        WebPage.newInstance(getString(R.string.credits)),
-                                        "web_page")
+            openWebPage(getString(R.string.credits))
+        }
+
+        icon.setOnLongClickListener {
+            openWebPage(getString(R.string.change_logs))
+            true
         }
 
         search.setOnClickListener {
@@ -236,12 +238,12 @@ class Home : ScopedFragment() {
 
         options.setOnClickListener {
             PopupHome(it).setOnPopupMenuCallback(object : PopupMenuCallback {
-                override fun onMenuItemClicked(source: String) {
+                override fun onMenuItemClicked(source: Int) {
                     when (source) {
-                        getString(R.string.refresh) -> {
+                        R.string.refresh -> {
                             homeViewModel.refresh()
                         }
-                        getString(R.string.preferences) -> {
+                        R.string.preferences -> {
                             FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
                                                               Preferences.newInstance(),
                                                               icon,

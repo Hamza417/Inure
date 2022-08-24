@@ -18,17 +18,17 @@ class PopupHome(anchor: View) : BasePopupWindow() {
         val contentView = LayoutInflater.from(anchor.context).inflate(R.layout.popup_home_menu, PopupLinearLayout(anchor.context))
 
         contentView.findViewById<TypeFaceTextView>(R.id.popup_home_refresh)
-            .onClick(contentView.context.getString(R.string.refresh))
+            .onClick(R.string.refresh)
 
         contentView.findViewById<TypeFaceTextView>(R.id.popup_home_prefs)
-            .onClick(contentView.context.getString(R.string.preferences))
+            .onClick(R.string.preferences)
 
         setContentView(contentView)
         init()
         showAsDropDown(anchor, (-width / 1.4).roundToInt(), height / 16, Gravity.NO_GRAVITY)
     }
 
-    fun TypeFaceTextView.onClick(string: String) {
+    fun TypeFaceTextView.onClick(string: Int) {
         setOnClickListener {
             dismiss()
             popupMenuCallback.onMenuItemClicked(string)

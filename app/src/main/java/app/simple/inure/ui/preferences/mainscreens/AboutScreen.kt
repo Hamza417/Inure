@@ -10,7 +10,6 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.ui.panels.WebPage
 import app.simple.inure.ui.preferences.subscreens.Share
 import app.simple.inure.util.FragmentHelper
 
@@ -22,7 +21,7 @@ class AboutScreen : ScopedFragment() {
     private lateinit var credits: DynamicRippleRelativeLayout
     private lateinit var translation: DynamicRippleRelativeLayout
     private lateinit var licenses: DynamicRippleRelativeLayout
-    private lateinit var toc: DynamicRippleLinearLayout
+    private lateinit var privacyPolicy: DynamicRippleLinearLayout
     private lateinit var telegram: DynamicRippleRelativeLayout
     private lateinit var share: DynamicRippleRelativeLayout
 
@@ -35,7 +34,7 @@ class AboutScreen : ScopedFragment() {
         credits = view.findViewById(R.id.credits)
         translation = view.findViewById(R.id.about_translation)
         licenses = view.findViewById(R.id.licenses)
-        toc = view.findViewById(R.id.toc)
+        privacyPolicy = view.findViewById(R.id.toc)
         telegram = view.findViewById(R.id.about_telegram)
         share = view.findViewById(R.id.about_share)
 
@@ -47,10 +46,7 @@ class AboutScreen : ScopedFragment() {
         startPostponedEnterTransition()
 
         credits.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager,
-                                        WebPage.newInstance(getString(R.string.credits)),
-                                        "web_page")
+            openWebPage(getString(R.string.credits))
         }
 
         github.setOnClickListener {
@@ -59,36 +55,23 @@ class AboutScreen : ScopedFragment() {
         }
 
         translation.setOnClickListener {
-            val uri: Uri = Uri.parse("https://crowdin.com/project/inure")
-            startActivity(Intent(Intent.ACTION_VIEW, uri))
+            openWebPage(getString(R.string.translate))
         }
 
         changelogs.setOnClickListener {
-            clearTransitions()
-            FragmentHelper.openFragment(parentFragmentManager,
-                                        WebPage.newInstance(getString(R.string.change_logs)),
-                                        "web_page")
+            openWebPage(getString(R.string.change_logs))
         }
 
         licenses.setOnClickListener {
-            clearTransitions()
-            FragmentHelper.openFragment(parentFragmentManager,
-                                        WebPage.newInstance(getString(R.string.open_source_licenses)),
-                                        "web_page")
+            openWebPage(getString(R.string.open_source_licenses))
         }
 
         userAgreement.setOnClickListener {
-            clearTransitions()
-            FragmentHelper.openFragment(parentFragmentManager,
-                                        WebPage.newInstance(getString(R.string.user_agreements)),
-                                        "web_page")
+            openWebPage(getString(R.string.user_agreements))
         }
 
-        toc.setOnClickListener {
-            clearTransitions()
-            FragmentHelper.openFragment(parentFragmentManager,
-                                        WebPage.newInstance(getString(R.string.privacy_policy)),
-                                        "web_page")
+        privacyPolicy.setOnClickListener {
+            openWebPage(getString(R.string.privacy_policy))
         }
 
         telegram.setOnClickListener {
