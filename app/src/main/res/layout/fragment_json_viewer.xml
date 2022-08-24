@@ -67,13 +67,14 @@
             android:layout_width="match_parent"
             android:layout_height="1px" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceEditText
+        <app.simple.inure.decorations.views.LineNumberEditText
             android:id="@+id/json_viewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:inputType="textMultiLine|textNoSuggestions"
-            android:padding="10dp"
+            android:paddingStart="10dp"
+            android:paddingVertical="10dp"
             app:textColorStyle="secondary"
             android:textCursorDrawable="@drawable/text_cursor"
             android:textIsSelectable="true"

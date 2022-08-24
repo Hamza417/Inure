@@ -1,5 +1,6 @@
 <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/text_viewer_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -55,18 +56,20 @@
             android:layout_width="match_parent"
             android:layout_height="1px" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceEditText
+        <app.simple.inure.decorations.views.LineNumberEditText
             android:id="@+id/tracker_viewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:inputType="textMultiLine|textNoSuggestions"
-            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:paddingStart="10dp"
             android:textCursorDrawable="@drawable/text_cursor"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"
-            app:textColorStyle="primary" />
+            app:textColorStyle="primary"
+            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 

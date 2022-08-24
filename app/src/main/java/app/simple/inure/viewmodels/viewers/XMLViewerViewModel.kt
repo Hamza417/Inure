@@ -87,11 +87,11 @@ class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: B
                     }
                 } else {
                     kotlin.runCatching {
-                        XML(packageInfo.applicationInfo.sourceDir).use {
+                        ApkParser.create(packageInfo.applicationInfo.sourceDir).use {
                             it.transBinaryXml(pathToXml)
                         }
                     }.getOrElse {
-                        ApkParser.create(packageInfo.applicationInfo.sourceDir).use {
+                        XML(packageInfo.applicationInfo.sourceDir).use {
                             it.transBinaryXml(pathToXml)
                         }
                     }
@@ -140,8 +140,8 @@ class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: B
                         "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3" +
                                 ".org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3" +
                                 ".org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; " +
-                                "charset=utf-8\" /><p style=\"word-wrap: break-word;\"><script src=\"run_prettify.js" +
-                                "?skin=github\"></script></head><body bgcolor=\"transparent\"><pre class=\"prettyprint " +
+                                "charset=utf-8\" /><p style=\"word-wrap: break-word;\"><script src=\"prettyprint/run_prettify.js" +
+                                "?skin=prettyprint/github\"></script></head><body bgcolor=\"transparent\"><pre class=\"prettyprint " +
                                 "linenums\">%s</pre></body></html>", Html.escapeHtml(code))
 
                 string.postValue(data)
