@@ -514,7 +514,6 @@
     <string name="desc_hide_preferences_indicators">從所有偏好標題中隱藏偏好類型指示器。</string>
     <string name="trackers">追蹤器</string>
     <string name="scan">掃描</string>
-    <string name="exodus">εxodus</string>
     <string name="show_all_classes">顯示所有類別</string>
     <string name="show_all_classes_desc">在清單中保留可能與追蹤有關或無關的類別。</string>
     <string name="show_trackers_analytics_automatically">自動顯示追蹤器分析</string>
@@ -534,7 +533,7 @@
     <string name="no_extras_found">找不到額外項目</string>
     <string name="damping_ratio">阻尼比</string>
     <string name="stiffness">硬度</string>
-    <string name="damping_ratio_desc">捲動檢視跳動性。</string>
+    <string name="damping_ratio_desc">捲動檢視跳動。</string>
     <string name="stiffness_desc">捲動檢視硬度。</string>
     <string name="very_low">非常低</string>
     <string name="soapstone">皂石</string>
@@ -557,4 +556,6 @@
     <string name="clear_images_cache">清除圖片快取</string>
     <string name="clear_trackers_data_desc">這個應用程式從應用程式中擷取 Dex 類別以掃描其中的追蹤器。此選項將清除追蹤器儲存的所有遺留項目。</string>
     <string name="clear_images_data_desc">清除應用程式圖示的所有快取資料和由應用程式的圖像載入程式建立的其他圖形。</string>
+    <string name="language">語言</string>
+    <string name="language_desc">變更應用程式語言</string>
 </resources>
