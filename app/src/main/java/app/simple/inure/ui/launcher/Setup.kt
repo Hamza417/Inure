@@ -1,9 +1,13 @@
 package app.simple.inure.ui.launcher
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +15,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -23,8 +29,6 @@ import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.FragmentHelper
-import app.simple.inure.util.NullSafety.isNull
-import app.simple.inure.util.PermissionUtils.arePermissionsGranted
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.invisible
@@ -34,7 +38,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Setup : ScopedFragment() {
+class
+Setup : ScopedFragment() {
 
     private lateinit var usageAccess: DynamicRippleLinearLayout
     private lateinit var storageAccess: DynamicRippleLinearLayout
@@ -77,14 +82,14 @@ class Setup : ScopedFragment() {
                     result.data?.data?.normalizeScheme().also {
                         requireActivity().contentResolver.takePersistableUriPermission(it!!, takeFlags)
                         MainPreferences.setStoragePermissionUri(it)
-                        setStorageStatus(it)
+                        setStorageStatus()
                     }
 
                     showStartAppButton()
                 }
                 Activity.RESULT_CANCELED -> {
                     showStartAppButton()
-                    setStorageStatus(null)
+                    setStorageStatus()
                 }
             }
         }
@@ -159,9 +164,9 @@ class Setup : ScopedFragment() {
         }
 
         kotlin.runCatching {
-            setStorageStatus(Uri.parse(MainPreferences.getStoragePermissionUri()!!))
+            setStorageStatus()
         }.onFailure {
-            setStorageStatus(null)
+            setStorageStatus()
         }
 
         showStartAppButton()
@@ -175,10 +180,10 @@ class Setup : ScopedFragment() {
         }
     }
 
-    private fun setStorageStatus(uri: Uri?) {
-        if (requireContext().arePermissionsGranted(uri.toString())) {
+    private fun setStorageStatus() {
+        if (checkStoragePermission()) {
             storageStatus.text = getString(R.string.granted)
-            storageUri.text = uri.toString()
+            storageUri.text = Environment.getExternalStorageDirectory().toString()
             storageUri.visible(false)
             storageAccess.isClickable = false
         } else {
@@ -189,28 +194,33 @@ class Setup : ScopedFragment() {
     }
 
     private fun openDirectory() {
-        // read uriString from shared preferences
-        val uriString = MainPreferences.getStoragePermissionUri()
-        when {
-            uriString.isNull() -> {
-                askPermission()
-            }
-            requireContext().arePermissionsGranted(uriString!!) -> {
-                setStorageStatus(Uri.parse(uriString))
-            }
-            else -> {
-                askPermission()
-            }
+        if (checkStoragePermission()) {
+            setStorageStatus()
+        } else {
+            askPermission()
         }
     }
 
     /**
-     * Choose a directory using the system's file picker.
+     * Grant storage permission
      */
     private fun askPermission() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-        intent.addFlags(flags)
-        appStorageAccessResult.launch(intent)
+        val uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            startActivity(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri))
+        } else {
+
+        }
+    }
+
+    private fun checkStoragePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        }
     }
 
     companion object {

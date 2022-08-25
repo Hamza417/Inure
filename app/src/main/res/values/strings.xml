@@ -167,7 +167,7 @@
     <string name="usage_access_permission">Usage Access Permission</string>
     <string name="grant_storage_access_permission">Grant Storage Access Permission</string>
     <string name="desc_usage_access">This app uses PACKAGE_USAGE_STATS permission to fetch and calculate the various app usage data available in the device.</string>
-    <string name="desc_storage_permission">Storage permission is required and used to perform various app actions such as sharing app, making backup files or associate with file available in external storage.</string>
+    <string name="desc_storage_permission">Storage permission is required and used to perform various app actions such as sharing app, making backup files or associate with files available in external storage.</string>
     <string name="granted">Granted</string>
     <string name="rejected">Rejected</string>
     <string name="desc_setup">Before moving ahead it is recommended to perform the necessary actions to make sure all the features of the app work.</string>
@@ -557,4 +557,5 @@
     <string name="language_desc">Change app\'s language.</string>
     <string name="deep_search">Deep Search</string>
     <string name="deep_search_desc">Search over app\'s internal components as well.</string>
+    <string name="desc_data_collect">This app does not collect any user data.</string>
 </resources>

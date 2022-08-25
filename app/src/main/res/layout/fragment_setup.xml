@@ -28,12 +28,12 @@
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
-                    android:padding="@dimen/dialog_padding">
+                    android:padding="@dimen/header_padding">
 
                     <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/imageView3"
-                        android:layout_width="@dimen/adapter_header_icon_size"
-                        android:layout_height="@dimen/adapter_header_icon_size"
+                        android:layout_width="@dimen/header_icon_size"
+                        android:layout_height="@dimen/header_icon_size"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/app_name"
                         android:padding="8dp"
@@ -51,7 +51,7 @@
                         android:text="@string/setup"
                         android:textSize="@dimen/header_font_size"
                         android:transitionName="@string/setup"
-                        app:appFontStyle="light"
+                        app:appFontStyle="bold"
                         app:textColorStyle="heading" />
 
                 </LinearLayout>
@@ -61,7 +61,6 @@
                     android:layout_height="1px" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:id="@+id/adapter_total_apps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/header_padding"
@@ -172,6 +171,19 @@
                         app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/header_padding"
+                    android:drawablePadding="5dp"
+                    android:paddingHorizontal="@dimen/panel_item_padding"
+                    android:text="@string/desc_data_collect"
+                    android:textSize="@dimen/preferences_description_text_size"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_warning_tiny"
+                    app:drawableTint="@android:color/holo_red_dark"
+                    app:textColorStyle="tertiary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="wrap_content"
