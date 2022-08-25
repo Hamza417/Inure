@@ -126,7 +126,6 @@
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/typeface_icon"
                         android:src="@drawable/ic_colors"
                         app:tintType="secondary" />
 
@@ -249,7 +248,6 @@
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/typeface_icon"
                         android:src="@drawable/ic_text_fields"
                         app:tintType="secondary" />
 
@@ -296,7 +294,6 @@
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/typeface_icon"
                         android:src="@drawable/ic_rounded_corner"
                         app:tintType="secondary" />
 
@@ -487,7 +484,6 @@
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/typeface_icon"
                         android:src="@drawable/ic_ruler"
                         app:tintType="secondary" />
 

@@ -110,6 +110,12 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
+        searchViewModel.getDeepSearchData().observe(viewLifecycleOwner) {
+            println("Search")
+            isSearchLoaded = true
+            openApp()
+        }
+
         homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
             isUninstalledPackagesLoaded = true
             openApp()

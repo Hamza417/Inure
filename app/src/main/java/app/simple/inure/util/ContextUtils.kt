@@ -27,8 +27,6 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
                 Locale.forLanguageTag(languageCode)
             }
 
-            println(localeToSwitchTo)
-
             var context = baseContext
             val resources: Resources = context.resources
             val configuration: Configuration = resources.configuration

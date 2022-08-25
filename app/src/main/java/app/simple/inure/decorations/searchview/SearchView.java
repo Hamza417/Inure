@@ -4,6 +4,8 @@ import android.animation.LayoutTransition;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -22,8 +24,9 @@ import app.simple.inure.decorations.typeface.TypeFaceEditText;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.preferences.SearchPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.util.TextViewUtils;
 
-public class SearchView extends PaddingAwareLinearLayout {
+public class SearchView extends PaddingAwareLinearLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
     
     private TypeFaceEditText editText;
     private TypeFaceTextView number;
@@ -50,14 +53,14 @@ public class SearchView extends PaddingAwareLinearLayout {
     
     @SuppressLint ("ClickableViewAccessibility")
     private void initViews() {
-        
         View view = LayoutInflater.from(getContext()).inflate(R.layout.search_view, this, true);
     
         editText = view.findViewById(R.id.search_view_text_input_layout);
         number = view.findViewById(R.id.search_number);
         imageButton = view.findViewById(R.id.search_view_menu_button);
-        
+    
         editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
+        updateSearchIcon();
         
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -71,14 +74,20 @@ public class SearchView extends PaddingAwareLinearLayout {
                     searchViewEventListener.onSearchTextChanged(s.toString().trim(), count);
                 }
             }
-            
+    
             @Override
             public void afterTextChanged(Editable s) {
                 /* no-op */
             }
         });
-        
+    
         imageButton.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
+    }
+    
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
     
     @Override
@@ -89,6 +98,7 @@ public class SearchView extends PaddingAwareLinearLayout {
         if (numberAnimator != null) {
             numberAnimator.cancel();
         }
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
     
     public void setNewNumber(int number) {
@@ -125,7 +135,24 @@ public class SearchView extends PaddingAwareLinearLayout {
         editText.showInput();
     }
     
+    private void updateSearchIcon() {
+        if (SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
+            editText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_deep_search, 0, 0, 0);
+            TextViewUtils.INSTANCE.setDrawableTint(editText, Color.parseColor("#d35400"));
+        } else {
+            editText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0);
+            TextViewUtils.INSTANCE.setDrawableTint(editText, ThemeManager.INSTANCE.getTheme().getIconTheme().getSecondaryIconColor());
+        }
+    }
+    
     public void setSearchViewEventListener(SearchViewEventListener searchViewEventListener) {
         this.searchViewEventListener = searchViewEventListener;
+    }
+    
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(SearchPreferences.deepSearch)) {
+            updateSearchIcon();
+        }
     }
 }

@@ -20,6 +20,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
     private lateinit var sortingStyle: DynamicRippleTextView
     private lateinit var openAppsSettings: DynamicRippleTextView
     private lateinit var ignoreCase: SwitchView
+    private lateinit var deepSearch: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_search_menu, container, false)
@@ -28,6 +29,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
         sortingStyle = view.findViewById(R.id.dialog_search_apps_sorting)
         openAppsSettings = view.findViewById(R.id.dialog_open_apps_settings)
         ignoreCase = view.findViewById(R.id.ignore_case)
+        deepSearch = view.findViewById(R.id.deep_search)
 
         return view
     }
@@ -38,6 +40,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
         setSortingStyle()
         setListCategory()
         ignoreCase.setChecked(SearchPreferences.isCasingIgnored())
+        deepSearch.setChecked(SearchPreferences.isDeepSearchEnabled())
 
         sortingStyle.setOnClickListener {
             PopupSortingStyle(it)
@@ -53,6 +56,10 @@ class SearchMenu : ScopedBottomSheetFragment() {
 
         ignoreCase.setOnSwitchCheckedChangeListener {
             SearchPreferences.setIgnoreCasing(it)
+        }
+
+        deepSearch.setOnSwitchCheckedChangeListener {
+            SearchPreferences.setDeepSearch(it)
         }
     }
 

@@ -54,7 +54,8 @@
                 android:id="@+id/all_classes_switch"
                 android:layout_width="@dimen/switch_width"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/dialog_padding" />
 
         </LinearLayout>
 
@@ -78,7 +79,8 @@
                 android:id="@+id/trackers_analytics_auto_switch"
                 android:layout_width="@dimen/switch_width"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/dialog_padding" />
 
         </LinearLayout>
 

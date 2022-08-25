@@ -362,7 +362,6 @@
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/typeface_icon"
                         android:src="@drawable/ic_github"
                         app:tintType="secondary" />
 

@@ -18,9 +18,7 @@ import android.widget.TextView;
 import app.simple.inure.R;
 import app.simple.inure.terminal.compat.AlertDialogCompat;
 
-//////////////////////////////////////////////////////////////////////
-public class ColorValue
-        implements CompoundButton.OnCheckedChangeListener {
+public class ColorValue implements CompoundButton.OnCheckedChangeListener {
     private final Context context;
     private EditText value;
     private final int[] color = {0xFF, 0, 0, 0};
@@ -32,12 +30,12 @@ public class ColorValue
     private final int WC = LinearLayout.LayoutParams.WRAP_CONTENT;
     private final ImageView imgview;
     private final String[] result;
-    private String imgtext = "";
+    private String imgText = "";
     
     ////////////////////////////////////////////////////////////
     public ColorValue(Context context, final ImageView imgview, final String[] result) {
         this.context = context;
-        this.imgtext = result[0];
+        this.imgText = result[0];
         this.imgview = imgview;
         this.result = result;
         colorValue();
@@ -62,7 +60,7 @@ public class ColorValue
         lt.setPadding(lt.getPaddingLeft(), lt.getPaddingTop(), 5, lt.getPaddingBottom());
         lt.setGravity(Gravity.RIGHT);
         value = new EditText(context);
-        value.setText(imgtext);
+        value.setText(imgText);
         value.setSingleLine(false);
         value.setGravity(Gravity.CENTER);
         value.setTextColor((Integer) imgview.getTag());
@@ -167,12 +165,12 @@ public class ColorValue
     //////////////////////////////////////////////////////////////////////
     public void toHexWindow(TextView tv, int k) {
         String HEX = "0123456789ABCDEF";
-        String s = "";
+        StringBuilder s = new StringBuilder();
         int n = 8;
         k &= (1L << 8) - 1L;
         for (n -= 4; n >= 0; n -= 4)
-            s += HEX.charAt((k >> n) & 0xF);
-        tv.setText(s);
+            s.append(HEX.charAt((k >> n) & 0xF));
+        tv.setText(s.toString());
     }
     
     ////////////////////////////////////////////////////////////
@@ -180,9 +178,10 @@ public class ColorValue
         int view = (Integer) buttonView.getTag();
         locks[view] = isChecked;
         barLock = false;
-        for (int i = 0; i < locks.length; i++)
-            if (locks[i]) {
+        for (boolean lock : locks)
+            if (lock) {
                 barLock = true;
+                break;
             }
     }
     
@@ -192,13 +191,13 @@ public class ColorValue
             case AlertDialog.BUTTON_NEGATIVE:  //  CANCEL
                 return;
             case AlertDialog.BUTTON_POSITIVE:  //  OK == set
-                imgtext = value.getText().toString();
-                result[1] = imgtext;
+                imgText = value.getText().toString();
+                result[1] = imgText;
                 imgview.setTag(color);
-                if (!imgtext.equals("")) {
+                if (!imgText.equals("")) {
                     imgview.setImageBitmap(
                             TextIcon.getTextIcon(
-                                    imgtext
+                                    imgText
                                     , color
                                     , 96
                                     , 96

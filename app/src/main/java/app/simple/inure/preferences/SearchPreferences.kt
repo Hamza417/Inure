@@ -13,6 +13,7 @@ object SearchPreferences {
     const val isSortingReversed = "is_search_sorting_reversed"
     const val listAppsCategory = "search_list_apps_category"
     const val ignoreCasing = "search_ignore_case"
+    const val deepSearch = "deep_search"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -62,5 +63,15 @@ object SearchPreferences {
 
     fun isCasingIgnored(): Boolean {
         return getSharedPreferences().getBoolean(ignoreCasing, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setDeepSearch(@NotNull value: Boolean) {
+        getSharedPreferences().edit().putBoolean(deepSearch, value).apply()
+    }
+
+    fun isDeepSearchEnabled(): Boolean {
+        return getSharedPreferences().getBoolean(deepSearch, false)
     }
 }

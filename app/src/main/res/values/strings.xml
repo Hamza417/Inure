@@ -16,7 +16,6 @@
     <string name="system">System</string>
     <string name="user">User</string>
     <string name="both">Both</string>
-    <string name="typeface_icon">Typeface Icon</string>
     <string name="app_typeface">App Typeface</string>
     <string name="desc_app_typeface">Change application\'s font style (English glyphs only).</string>
     <string name="appearance">Appearance</string>
@@ -162,7 +161,6 @@
     <string name="clear_cache">Clear Cache</string>
     <string name="use_binary_format">Use Binary Format</string>
     <string name="desc_binary_format">Use binary format for showing file sizes instead of using the conventional SI format.\n\ni.e. 1024 kB = 1 mB</string>
-    <string name="progress">%d%%</string>
     <string name="load_large_strings">Load Large Strings</string>
     <string name="desc_large_strings">Suppress error while loading strings that are unusually large to be rendered smoothly on the screen.\n\nThis option is not recommended as this can lead to UI freezing issues in the app and loading large string can take longer time to appear on the screen.</string>
     <string name="not_granted">Not Granted, Click to Allow</string>
@@ -356,7 +354,7 @@
     <string name="launched">Launched</string>
     <string name="launching">Launching</string>
     <string name="date_format">Date Format</string>
-    <string name="desc_date_format">Edit/Change format of the dates show throughout the app.</string>
+    <string name="desc_date_format">Format of the dates shown throughout the app.</string>
     <string name="cheatsheet">Cheatsheet</string>
     <string name="format">Format</string>
     <string name="reset">Reset</string>
@@ -402,7 +400,7 @@
     <string name="faq">FAQ</string>
     <string name="shared_libs">Shared Libs</string>
     <string name="copy_package_name">Copy Package Name</string>
-    <string name="join_telegram">Join Telegram</string>
+    <string name="join_telegram">Telegram Group</string>
     <string name="desc_telegram">Join app\'s group on Telegram for discussions with other users and developer.</string>
     <string name="batch">Batch</string>
     <string name="verifying_license">Verifying License</string>
@@ -557,4 +555,6 @@
     <string name="clear_images_data_desc">Clear all cache data of app icons and other graphics created by the image loader of the app.</string>
     <string name="language">Language</string>
     <string name="language_desc">Change app\'s language.</string>
+    <string name="deep_search">Deep Search</string>
+    <string name="deep_search_desc">Search over app\'s internal components as well.</string>
 </resources>

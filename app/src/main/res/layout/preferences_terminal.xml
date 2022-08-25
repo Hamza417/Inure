@@ -577,7 +577,6 @@
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/typeface_icon"
                         android:src="@drawable/ic_input"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

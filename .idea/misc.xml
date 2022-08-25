@@ -136,6 +136,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_app_info_menu.xml" value="0.22407407407407406" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_app_info_menu_grid.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_batch.xml" value="0.2" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_deep_search.xml" value="0.5104602510460251" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_heading.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_items.xml" value="0.2101851851851852" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_panels.xml" value="0.24010416666666667" />
@@ -270,6 +271,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_code_viewer.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_color_accent.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_configuration.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_deep_search.xml" value="0.180078125" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_device_info.xml" value="0.20462962962962963" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_device_information.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_dex_data.xml" value="0.24010416666666667" />

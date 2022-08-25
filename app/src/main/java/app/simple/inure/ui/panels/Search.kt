@@ -10,6 +10,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.adapters.ui.AdapterDeepSearch
 import app.simple.inure.adapters.ui.AdapterSearch
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
@@ -28,6 +29,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var appsAdapterSearchSmall: AdapterSearch
+    private lateinit var adapterDeepSearch: AdapterDeepSearch
 
     private lateinit var searchViewModel: SearchViewModel
 
@@ -53,26 +55,54 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
         searchView.showInput()
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
-            postponeEnterTransition()
+            if (!SearchPreferences.isDeepSearchEnabled()) {
+                postponeEnterTransition()
 
-            searchView.setNewNumber(it.size)
+                searchView.setNewNumber(it.size)
 
-            appsAdapterSearchSmall = AdapterSearch(it, searchViewModel.getSearchKeywords().value ?: "")
-            recyclerView.adapter = appsAdapterSearchSmall
+                appsAdapterSearchSmall = AdapterSearch(it, searchViewModel.getSearchKeywords().value ?: "")
+                recyclerView.adapter = appsAdapterSearchSmall
 
-            appsAdapterSearchSmall.setOnItemClickListener(object : AppsAdapterCallbacks {
-                override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    openAppInfo(packageInfo, icon)
+                appsAdapterSearchSmall.setOnItemClickListener(object : AppsAdapterCallbacks {
+                    override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                        openAppInfo(packageInfo, icon)
+                    }
+
+                    override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
+                        AppsMenu.newInstance(packageInfo)
+                            .show(childFragmentManager, "apps_menu")
+                    }
+                })
+
+                (view.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
                 }
+            }
+        }
 
-                override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                    AppsMenu.newInstance(packageInfo)
-                        .show(childFragmentManager, "apps_menu")
+        searchViewModel.getDeepSearchData().observe(viewLifecycleOwner) {
+            if (SearchPreferences.isDeepSearchEnabled()) {
+                postponeEnterTransition()
+
+                searchView.setNewNumber(it.size)
+
+                adapterDeepSearch = AdapterDeepSearch(it, searchViewModel.getSearchKeywords().value ?: "")
+                recyclerView.adapter = adapterDeepSearch
+
+                adapterDeepSearch.setOnItemClickListener(object : AppsAdapterCallbacks {
+                    override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                        openAppInfo(packageInfo, icon)
+                    }
+
+                    override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
+                        AppsMenu.newInstance(packageInfo)
+                            .show(childFragmentManager, "apps_menu")
+                    }
+                })
+
+                (view.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
                 }
-            })
-
-            (view.parent as? ViewGroup)?.doOnPreDraw {
-                startPostponedEnterTransition()
             }
         }
 
@@ -98,11 +128,16 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
         when (key) {
             SearchPreferences.sortStyle,
             SearchPreferences.isSortingReversed,
-            SearchPreferences.listAppsCategory -> {
+            SearchPreferences.listAppsCategory,
+            SearchPreferences.deepSearch -> {
                 searchViewModel.loadSearchData(SearchPreferences.getLastSearchKeyword())
             }
             SearchPreferences.ignoreCasing -> {
-                appsAdapterSearchSmall.ignoreCasing = SearchPreferences.isCasingIgnored()
+                if (SearchPreferences.isDeepSearchEnabled()) {
+                    adapterDeepSearch.ignoreCasing = SearchPreferences.isCasingIgnored()
+                } else {
+                    appsAdapterSearchSmall.ignoreCasing = SearchPreferences.isCasingIgnored()
+                }
                 searchViewModel.loadSearchData(SearchPreferences.getLastSearchKeyword())
             }
         }
