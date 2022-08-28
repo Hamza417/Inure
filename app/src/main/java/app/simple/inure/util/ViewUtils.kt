@@ -43,13 +43,9 @@ object ViewUtils {
     }
 
     private fun createGradientBackground(@ColorInt startColor: Int, @ColorInt endColor: Int, YOUR_COLOR: Int) =
-        GradientDrawable(
-                GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(
-                startColor,
-                endColor
-        )).also {
+        GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(startColor, endColor)).also {
             it.shape = GradientDrawable.RECTANGLE
-            it.cornerRadius = AppearancePreferences.getCornerRadius().toFloat()
+            it.cornerRadius = AppearancePreferences.getCornerRadius()
             it.setStroke(1, YOUR_COLOR)
         }
 
@@ -94,19 +90,19 @@ object ViewUtils {
                 .setInterpolator(AccelerateInterpolator())
                 .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
                 .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator?) {
+                    override fun onAnimationStart(animation: Animator) {
                         /* no-op */
                     }
 
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         this@gone.visibility = View.GONE
                     }
 
-                    override fun onAnimationCancel(animation: Animator?) {
+                    override fun onAnimationCancel(animation: Animator) {
                         /* no-op */
                     }
 
-                    override fun onAnimationRepeat(animation: Animator?) {
+                    override fun onAnimationRepeat(animation: Animator) {
                         /* no-op */
                     }
                 })
@@ -131,19 +127,19 @@ object ViewUtils {
                 .setInterpolator(AccelerateInterpolator())
                 .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
                 .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator?) {
+                    override fun onAnimationStart(animation: Animator) {
                         /* no-op */
                     }
 
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         this@invisible.visibility = View.INVISIBLE
                     }
 
-                    override fun onAnimationCancel(animation: Animator?) {
+                    override fun onAnimationCancel(animation: Animator) {
                         /* no-op */
                     }
 
-                    override fun onAnimationRepeat(animation: Animator?) {
+                    override fun onAnimationRepeat(animation: Animator) {
                         /* no-op */
                     }
                 })
@@ -171,19 +167,19 @@ object ViewUtils {
                 .setInterpolator(LinearOutSlowInInterpolator())
                 .setDuration(this.resources.getInteger(R.integer.animation_duration).toLong())
                 .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator?) {
+                    override fun onAnimationStart(animation: Animator) {
                         this@visible.visibility = View.VISIBLE
                     }
 
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         /* no-op */
                     }
 
-                    override fun onAnimationCancel(animation: Animator?) {
+                    override fun onAnimationCancel(animation: Animator) {
                         /* no-op */
                     }
 
-                    override fun onAnimationRepeat(animation: Animator?) {
+                    override fun onAnimationRepeat(animation: Animator) {
                         /* no-op */
                     }
                 })

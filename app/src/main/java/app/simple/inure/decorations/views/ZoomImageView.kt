@@ -77,12 +77,12 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
                 return true
             }
 
-            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 onClickListener?.onClick(this@ZoomImageView)
                 return true
             }
 
-            override fun onLongPress(e: MotionEvent?) {
+            override fun onLongPress(e: MotionEvent) {
                 onLongClickListener?.onLongClick(this@ZoomImageView)
             }
 
@@ -139,7 +139,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
                 return true
             }
 
-            override fun onDown(e: MotionEvent?): Boolean {
+            override fun onDown(e: MotionEvent): Boolean {
                 removeCallbacks(flingRunnable)
                 scroller.forceFinished(true)
                 displayRect?.let {
@@ -168,7 +168,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         val disallowIntercept =
             currentScale > MIN_SCALE || scaleDetector.isInProgress || handlingDismiss
         if (event?.action == MotionEvent.ACTION_UP) {

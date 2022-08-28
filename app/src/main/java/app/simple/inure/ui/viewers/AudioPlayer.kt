@@ -2,6 +2,7 @@ package app.simple.inure.ui.viewers
 
 import android.annotation.SuppressLint
 import android.content.*
+import android.content.res.Configuration
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -55,6 +56,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
     private val audioIntentFilter = IntentFilter()
     private var serviceBound = false
     private var wasSongPlaying = false
+    private var isConfigChanged = false
 
     /**
      * [currentPosition] will keep the current position of the playback
@@ -98,6 +100,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        retainInstance = true
         playerContainer.radius = AppearancePreferences.getCornerRadius()
         ViewUtils.addShadow(playerContainer)
 
@@ -288,10 +291,19 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         }
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        isConfigChanged = true
+    }
+
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        requireActivity().finish()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!)
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        requireActivity().finish()
     }
 
     companion object {

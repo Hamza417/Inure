@@ -1,7 +1,6 @@
 package app.simple.inure.ui.launcher
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -25,7 +24,6 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.FragmentHelper
@@ -52,12 +50,7 @@ Setup : ScopedFragment() {
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
 
-    private lateinit var appStorageAccessResult: ActivityResultLauncher<Intent>
-
-    private val flags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
-            Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
-            Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_setup, container, false)
@@ -73,23 +66,15 @@ Setup : ScopedFragment() {
         startApp = view.findViewById(R.id.start_app_now)
         skip = view.findViewById(R.id.skip_setup)
 
-        appStorageAccessResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-
-                    result.data?.data?.normalizeScheme().also {
-                        requireActivity().contentResolver.takePersistableUriPermission(it!!, takeFlags)
-                        MainPreferences.setStoragePermissionUri(it)
-                        setStorageStatus()
+        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.forEach {
+                when (it.key) {
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE -> {
+                        if (it.value) {
+                            setStorageStatus()
+                            showStartAppButton()
+                        }
                     }
-
-                    showStartAppButton()
-                }
-                Activity.RESULT_CANCELED -> {
-                    showStartAppButton()
-                    setStorageStatus()
                 }
             }
         }
@@ -173,7 +158,7 @@ Setup : ScopedFragment() {
     }
 
     private fun showStartAppButton() {
-        if (requireContext().checkForUsageAccessPermission() && requireContext().contentResolver.persistedUriPermissions.isNotEmpty()) {
+        if (requireContext().checkForUsageAccessPermission() && checkStoragePermission()) {
             startApp.visible(true)
         } else {
             startApp.invisible(true)
@@ -210,7 +195,7 @@ Setup : ScopedFragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             startActivity(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri))
         } else {
-            
+            requestPermissionLauncher.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
         }
     }
 

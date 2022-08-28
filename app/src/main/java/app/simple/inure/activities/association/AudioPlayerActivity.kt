@@ -30,10 +30,8 @@ class AudioPlayerActivity : TransparentBaseActivity() {
                     intent!!.data
                 }
 
-                println(uri.toString())
-
-                AudioPlayer.newInstance(uri!!)
-                    .show(supportFragmentManager, "audio_player")
+                val dialog = AudioPlayer.newInstance(uri!!)
+                dialog.show(supportFragmentManager, "audio_player")
             }.getOrElse {
                 it.printStackTrace()
                 val e = Error.newInstance(it.stackTraceToString())
