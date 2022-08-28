@@ -210,7 +210,7 @@ Setup : ScopedFragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             startActivity(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri))
         } else {
-
+            
         }
     }
 

@@ -1,20 +1,23 @@
 package app.simple.inure.decorations.views;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 
 import app.simple.inure.decorations.typeface.TypeFaceEditText;
+import app.simple.inure.preferences.FormattingPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
 
-public class LineNumberEditText extends TypeFaceEditText {
+public class LineNumberEditText extends TypeFaceEditText implements SharedPreferences.OnSharedPreferenceChangeListener {
     
     private final String newline = System.getProperty("line.separator");
     private Rect rect;
     private Paint paint;
     
+    private boolean showAllNumbers = false;
     private final int linePadding = 5;
     
     LineNumberEditText me;
@@ -37,8 +40,9 @@ public class LineNumberEditText extends TypeFaceEditText {
         paint.setColor(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getQuaternaryTextColor());
         paint.setTextSize(getTextSize());
         paint.setTypeface(getTypeface());
-        setPadding(getLineNumberPadding() + getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
-        
+        setPadding(getLineNumberPadding() + getPaddingLeft(), getPaddingTop(), getPaddingRight() + 20, getPaddingBottom());
+        showAllNumbers = FormattingPreferences.INSTANCE.isCountingAllLines();
+    
         // setHorizontallyScrolling(true);
         // setMovementMethod(new ScrollingMovementMethod());
     }
@@ -48,15 +52,27 @@ public class LineNumberEditText extends TypeFaceEditText {
         super.onDraw(canvas);
         int baseline = getBaseline();
         int lineNumber = 0;
+    
         for (int i = 0; i < getLineCount(); i++) {
-            int start = getLayout().getLineStart(i);
-            int end = getLayout().getLineEnd(i);
-            
-            if (getText().subSequence(start, end).toString().contains(newline)) {
+            if (showAllNumbers) {
                 lineNumber++;
-                canvas.drawText(String.format(getFormat() + ":", (lineNumber)).replaceAll("\\G0", " "), linePadding, baseline, paint);
+                canvas.drawText(String.format(getFormat() + ":", lineNumber).replaceAll("\\G0", " "), linePadding, baseline, paint);
             } else {
-                canvas.drawText(" ", rect.left, baseline, paint);
+                try {
+                    int start = getLayout().getLineStart(i - 1);
+                    int end = getLayout().getLineEnd(i - 1);
+                
+                    if (getText().subSequence(start, end).toString().endsWith(newline)) {
+                        lineNumber++;
+                        canvas.drawText(String.format(getFormat() + ":", lineNumber).replaceAll("\\G0", " "), linePadding, baseline, paint);
+                    } else {
+                        canvas.drawText(" ", rect.left, baseline, paint);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                    lineNumber++;
+                    canvas.drawText(String.format(getFormat() + ":", lineNumber).replaceAll("\\G0", " "), linePadding, baseline, paint);
+                }
             }
             
             baseline += getLineHeight();
@@ -95,7 +111,27 @@ public class LineNumberEditText extends TypeFaceEditText {
         } else if (getLineCount() < 1000000) {
             padding = linePadding + padding * 6;
         }
-        
+    
         return padding;
+    }
+    
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+    
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+    
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(FormattingPreferences.countAllLines)) {
+            showAllNumbers = FormattingPreferences.INSTANCE.isCountingAllLines();
+            invalidate();
+        }
     }
 }

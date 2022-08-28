@@ -9,6 +9,8 @@ object FormattingPreferences {
     private const val largeStrings = "load_large_strings"
     private const val dateFormat = "app_date_format"
 
+    const val countAllLines = "count_all_lines_in_code_viewers"
+
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSizeType(@NonNull font: String) {
@@ -37,5 +39,15 @@ object FormattingPreferences {
 
     fun getDateFormat(): String {
         return SharedPreferences.getSharedPreferences().getString(dateFormat, "EEE, yyyy MMM dd, hh:mm a")!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setCountAllLines(@NotNull value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(countAllLines, value).apply()
+    }
+
+    fun isCountingAllLines(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(countAllLines, false)
     }
 }

@@ -21,6 +21,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.dialogs.menus.CodeViewerMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.XMLViewerViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
@@ -36,6 +37,7 @@ class XMLViewerTextView : ScopedFragment() {
     private lateinit var name: TypeFaceTextView
     private lateinit var progress: CustomProgressBar
     private lateinit var options: DynamicRippleImageButton
+    private lateinit var settings: DynamicRippleImageButton
     private lateinit var scrollView: PaddingAwareNestedScrollView
 
     private lateinit var componentsViewModel: XMLViewerViewModel
@@ -67,6 +69,7 @@ class XMLViewerTextView : ScopedFragment() {
         icon = view.findViewById(R.id.xml_viewer_header_icon)
         progress = view.findViewById(R.id.xml_loader)
         options = view.findViewById(R.id.xml_viewer_options)
+        settings = view.findViewById(R.id.xml_viewer_settings)
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
@@ -97,6 +100,7 @@ class XMLViewerTextView : ScopedFragment() {
             text.setText(it)
             progress.gone()
             options.visible(true)
+            settings.visible(true)
         }
 
         componentsViewModel.error.observe(viewLifecycleOwner) {
@@ -120,6 +124,11 @@ class XMLViewerTextView : ScopedFragment() {
                     }
                 }
             })
+        }
+
+        settings.setOnClickListener {
+            CodeViewerMenu.newInstance()
+                .show(childFragmentManager, "code_viewer_menu")
         }
     }
 
