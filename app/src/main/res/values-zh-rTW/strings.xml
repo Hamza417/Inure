@@ -17,7 +17,6 @@
     <string name="system">系统</string>
     <string name="user">使用者</string>
     <string name="both">全部</string>
-    <string name="typeface_icon">字樣圖示</string>
     <string name="app_typeface">應用程式字樣</string>
     <string name="desc_app_typeface">變更應用程式字型樣式 (僅英文字符)。</string>
     <string name="appearance">外觀</string>
@@ -163,7 +162,6 @@
     <string name="clear_cache">清除快取</string>
     <string name="use_binary_format">使用二進位格式</string>
     <string name="desc_binary_format">使用二進位格式顯示檔案大小，而非使用慣用的 SI 格式。\n\n即：1024 kB = 1 mB</string>
-    <string name="progress">%d%%</string>
     <string name="load_large_strings">載入大量字串</string>
     <string name="desc_large_strings">在載入異常大的字串時隱藏錯誤，以便在螢幕上順暢呈現。\n\n不建議使用此選項，因為這可能會導致應用程式中出現使用者介面凍結問題，並且載入大型字串需要更長的時間才能出現在螢幕上。</string>
     <string name="not_granted">未授予，按一下以允許</string>
@@ -357,7 +355,7 @@
     <string name="launched">已啟動</string>
     <string name="launching">正在啟動</string>
     <string name="date_format">日期格式</string>
-    <string name="desc_date_format">編輯/變更整個應用程式顯示的日期格式。</string>
+    <string name="desc_date_format">整個應用程式顯示的日期格式。</string>
     <string name="cheatsheet">速查表</string>
     <string name="format">格式</string>
     <string name="reset">重設</string>
@@ -403,7 +401,7 @@
     <string name="faq">常見問題</string>
     <string name="shared_libs">已分享的程式庫</string>
     <string name="copy_package_name">複製套件名稱</string>
-    <string name="join_telegram">加入 Telegram</string>
+    <string name="join_telegram">Telegram 群組</string>
     <string name="desc_telegram">加入 Telegram 群組與開發人員和其他使用者討論</string>
     <string name="batch">批次</string>
     <string name="verifying_license">正在驗證授權</string>
@@ -558,4 +556,8 @@
     <string name="clear_images_data_desc">清除應用程式圖示的所有快取資料和由應用程式的圖像載入程式建立的其他圖形。</string>
     <string name="language">語言</string>
     <string name="language_desc">變更應用程式語言</string>
+    <string name="deep_search">深度搜尋</string>
+    <string name="deep_search_desc">一併搜尋應用程式內部元件</string>
+    <string name="desc_data_collect">這個應用程式不蒐集任何使用者資料</string>
+    <string name="line_number_on_every_line">每行行號</string>
 </resources>
