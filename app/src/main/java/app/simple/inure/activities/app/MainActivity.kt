@@ -4,12 +4,14 @@ import android.animation.Animator
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import app.simple.inure.R
 import app.simple.inure.constants.ShortcutConstants
+import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
@@ -143,6 +145,11 @@ class MainActivity : BaseActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU) {
+                recreate()
+            }
+        }
         ThemeUtils.setAppTheme(resources)
         ThemeUtils.setBarColors(resources, window)
     }

@@ -176,7 +176,7 @@ enum class Theme(val textViewTheme: TextViewTheme,
             )
     ),
 
-    MATERIAL_YOU(
+    MATERIAL_YOU_LIGHT(
             textViewTheme = TextViewTheme(
                     headingTextColor = MaterialYou.headingTextColor,
                     primaryTextColor = MaterialYou.primaryTextColor,
@@ -197,6 +197,30 @@ enum class Theme(val textViewTheme: TextViewTheme,
             iconTheme = IconTheme(
                     regularIconColor = MaterialYou.regularIconColor,
                     secondaryIconColor = MaterialYou.secondaryIconColor
+            )
+    ),
+
+    MATERIAL_YOU_DARK(
+            textViewTheme = TextViewTheme(
+                    headingTextColor = MaterialYou.headingTextColorDark,
+                    primaryTextColor = MaterialYou.primaryTextColorDark,
+                    secondaryTextColor = MaterialYou.secondaryTextColorDark,
+                    tertiaryTextColor = MaterialYou.tertiaryTextColorDark,
+                    quaternaryTextColor = MaterialYou.quaternaryTextColorDark,
+            ),
+            viewGroupTheme = ViewGroupTheme(
+                    background = MaterialYou.backgroundDark,
+                    viewerBackground = MaterialYou.viewerBackgroundDark,
+                    highlightBackground = MaterialYou.highlightBackgroundDark,
+                    selectedBackground = MaterialYou.selectedBackgroundDark,
+                    dividerBackground = MaterialYou.dividerBackgroundDark
+            ),
+            switchViewTheme = SwitchViewTheme(
+                    switchOffColor = MaterialYou.switchOffColorDark
+            ),
+            iconTheme = IconTheme(
+                    regularIconColor = MaterialYou.regularIconColorDark,
+                    secondaryIconColor = MaterialYou.secondaryIconColorDark
             )
     )
 }

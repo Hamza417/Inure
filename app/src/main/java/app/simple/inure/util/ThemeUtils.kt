@@ -107,7 +107,11 @@ object ThemeUtils {
                 }
             }
             ThemeConstants.MATERIAL_YOU -> {
-                ThemeManager.theme = Theme.MATERIAL_YOU
+                if (isNightMode(resources)) {
+                    ThemeManager.theme = Theme.MATERIAL_YOU_DARK
+                } else {
+                    ThemeManager.theme = Theme.MATERIAL_YOU_LIGHT
+                }
             }
         }
     }
