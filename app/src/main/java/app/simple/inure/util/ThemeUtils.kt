@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import app.simple.inure.R
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import java.util.*
@@ -105,6 +106,9 @@ object ThemeUtils {
                     }
                 }
             }
+            ThemeConstants.MATERIAL_YOU -> {
+                ThemeManager.theme = Theme.MATERIAL_YOU
+            }
         }
     }
 
@@ -121,6 +125,7 @@ object ThemeUtils {
             ThemeConstants.OIL -> {
                 darkBars(window)
             }
+            ThemeConstants.MATERIAL_YOU,
             ThemeConstants.FOLLOW_SYSTEM -> {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
@@ -182,6 +187,7 @@ object ThemeUtils {
             ThemeConstants.OIL -> {
                 return true
             }
+            ThemeConstants.MATERIAL_YOU,
             ThemeConstants.FOLLOW_SYSTEM -> {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
@@ -301,6 +307,9 @@ object ThemeUtils {
             }
             ContextCompat.getColor(baseContext, R.color.limed_spruce) -> {
                 setTheme(R.style.LimedSpruce)
+            }
+            ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID) -> {
+                setTheme(R.style.MaterialYou)
             }
             else -> {
                 setTheme(R.style.Inure)

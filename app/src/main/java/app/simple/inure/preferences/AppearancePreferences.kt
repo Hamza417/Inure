@@ -1,8 +1,10 @@
 package app.simple.inure.preferences
 
+import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
 import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.TypeFace
@@ -14,6 +16,7 @@ object AppearancePreferences {
     private const val lastLightTheme = "last_light_theme"
     private const val lastDarkTheme = "last_dark_theme"
     private const val coloredIconShadows = "icon_shadows_colored"
+    private const val isMaterialYouAccent = "is_material_you_accent"
 
     const val theme = "current_app_theme"
     const val accentColor = "app_accent_color"
@@ -152,5 +155,17 @@ object AppearancePreferences {
 
     fun getColoredIconShadows(): Boolean {
         return getSharedPreferences().getBoolean(coloredIconShadows, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun setMaterialYouAccent(boolean: Boolean) {
+        getSharedPreferences().edit().putBoolean(isMaterialYouAccent, boolean).apply()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun isMaterialYourAccent(): Boolean {
+        return getSharedPreferences().getBoolean(isMaterialYouAccent, false)
     }
 }

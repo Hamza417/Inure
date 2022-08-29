@@ -1,10 +1,7 @@
 package app.simple.inure.themes.manager
 
 import android.graphics.Color
-import app.simple.inure.themes.data.IconTheme
-import app.simple.inure.themes.data.SwitchViewTheme
-import app.simple.inure.themes.data.TextViewTheme
-import app.simple.inure.themes.data.ViewGroupTheme
+import app.simple.inure.themes.data.*
 
 enum class Theme(val textViewTheme: TextViewTheme,
                  val viewGroupTheme: ViewGroupTheme,
@@ -176,6 +173,30 @@ enum class Theme(val textViewTheme: TextViewTheme,
             iconTheme = IconTheme(
                     regularIconColor = Color.parseColor("#ffffff"),
                     secondaryIconColor = Color.parseColor("#E8E8E8")
+            )
+    ),
+
+    MATERIAL_YOU(
+            textViewTheme = TextViewTheme(
+                    headingTextColor = MaterialYou.headingTextColor,
+                    primaryTextColor = MaterialYou.primaryTextColor,
+                    secondaryTextColor = MaterialYou.secondaryTextColor,
+                    tertiaryTextColor = MaterialYou.tertiaryTextColor,
+                    quaternaryTextColor = MaterialYou.quaternaryTextColor,
+            ),
+            viewGroupTheme = ViewGroupTheme(
+                    background = MaterialYou.background,
+                    viewerBackground = MaterialYou.viewerBackground,
+                    highlightBackground = MaterialYou.highlightBackground,
+                    selectedBackground = MaterialYou.selectedBackground,
+                    dividerBackground = MaterialYou.dividerBackground
+            ),
+            switchViewTheme = SwitchViewTheme(
+                    switchOffColor = MaterialYou.switchOffColor
+            ),
+            iconTheme = IconTheme(
+                    regularIconColor = MaterialYou.regularIconColor,
+                    secondaryIconColor = MaterialYou.secondaryIconColor
             )
     )
 }

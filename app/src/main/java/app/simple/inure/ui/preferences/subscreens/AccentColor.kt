@@ -1,5 +1,6 @@
 package app.simple.inure.ui.preferences.subscreens
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterAccentColor
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.themes.data.MaterialYou
 
 class AccentColor : ScopedFragment() {
 
@@ -54,6 +56,10 @@ class AccentColor : ScopedFragment() {
                 Pair(ContextCompat.getColor(requireContext(), R.color.horizon), "Horizon"),
                 Pair(ContextCompat.getColor(requireContext(), R.color.limed_spruce), "Limed Spruce"),
         )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            list.add(1, Pair(ContextCompat.getColor(requireContext(), MaterialYou.materialYouAccentResID), "Material You (Dynamic)"))
+        }
 
         adapterAccentColor = AdapterAccentColor(list)
 

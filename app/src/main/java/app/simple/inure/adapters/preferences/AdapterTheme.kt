@@ -33,7 +33,10 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
             ThemeConstants.HIGH_CONTRAST,
             -1,
             ThemeConstants.FOLLOW_SYSTEM,
-            ThemeConstants.DAY_NIGHT
+            ThemeConstants.DAY_NIGHT,
+            -1,
+            ThemeConstants.MATERIAL_YOU
+
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -53,7 +56,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "NotifyDataSetChanged")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
 
         val position = position_ - 1
@@ -82,6 +85,10 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
                             ThemeConstants.OIL -> {
                                 AppearancePreferences.setLastDarkTheme(list[position])
                             }
+                            ThemeConstants.MATERIAL_YOU -> {
+                                AppearancePreferences.setLastLightTheme(list[position])
+                                AppearancePreferences.setLastDarkTheme(list[position])
+                            }
                         }
 
                         notifyDataSetChanged()
@@ -97,6 +104,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
                     0 -> holder.getString(R.string.light)
                     3 -> holder.getString(R.string.dark)
                     9 -> holder.getString(R.string.auto)
+                    12 -> "Material"
                     else -> holder.getString(R.string.unknown)
                 }
             }
@@ -126,6 +134,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
             ThemeConstants.HIGH_CONTRAST -> getString(R.string.high_contrast)
             ThemeConstants.FOLLOW_SYSTEM -> getString(R.string.follow_system)
             ThemeConstants.DAY_NIGHT -> getString(R.string.day_night)
+            ThemeConstants.MATERIAL_YOU -> "Material You"
             else -> "throw IllegalArgumentException( Value"
         }
     }

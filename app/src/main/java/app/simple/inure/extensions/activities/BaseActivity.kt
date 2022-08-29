@@ -13,17 +13,21 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.R
+import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.preferences.ShellPreferences.getHomePath
 import app.simple.inure.preferences.ShellPreferences.setHomePath
+import app.simple.inure.themes.data.MaterialYou
+import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ContextUtils
@@ -42,6 +46,16 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU) {
+                presetMaterialYouDynamicColors()
+                if (AppearancePreferences.isMaterialYourAccent()) {
+                    AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID))
+                }
+            }
+        }
+
         ThemeUtils.setAppTheme(resources)
 
         with(window) {
@@ -101,46 +115,44 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         }
     }
 
+    /**
+     * Making the Navigation system bar not overlapping with the activity
+     */
     private fun fixNavigationBarOverlap() {
         /**
-         * Making the Navigation system bar not overlapping with the activity
+         * Root ViewGroup of this activity
          */
-        if (Build.VERSION.SDK_INT >= 30) {
-            /**
-             * Root ViewGroup of this activity
-             */
-            val root = findViewById<CoordinatorLayout>(R.id.app_container)
+        val root = findViewById<CoordinatorLayout>(R.id.app_container)
 
-            if (AppearancePreferences.isTransparentStatusDisabled()) {
-                root.layoutParams = (root.layoutParams as FrameLayout.LayoutParams).apply {
-                    leftMargin = 0
-                    bottomMargin = 0
-                    rightMargin = 0
+        if (AppearancePreferences.isTransparentStatusDisabled()) {
+            root.layoutParams = (root.layoutParams as FrameLayout.LayoutParams).apply {
+                leftMargin = 0
+                bottomMargin = 0
+                rightMargin = 0
+            }
+
+            root.requestLayout()
+        } else {
+            ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+                /**
+                 * Apply the insets as a margin to the view. Here the system is setting
+                 * only the bottom, left, and right dimensions, but apply whichever insets are
+                 * appropriate to your layout. You can also update the view padding
+                 * if that's more appropriate.
+                 */
+                view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                    leftMargin = insets.left
+                    bottomMargin = insets.bottom
+                    rightMargin = insets.right
                 }
 
-                root.requestLayout()
-            } else {
-                ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
-                    val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-                    /**
-                     * Apply the insets as a margin to the view. Here the system is setting
-                     * only the bottom, left, and right dimensions, but apply whichever insets are
-                     * appropriate to your layout. You can also update the view padding
-                     * if that's more appropriate.
-                     */
-                    view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                        leftMargin = insets.left
-                        bottomMargin = insets.bottom
-                        rightMargin = insets.right
-                    }
-
-                    /**
-                     * Return CONSUMED if you don't want want the window insets to keep being
-                     * passed down to descendant views.
-                     */
-                    WindowInsetsCompat.CONSUMED
-                }
+                /**
+                 * Return CONSUMED if you don't want want the window insets to keep being
+                 * passed down to descendant views.
+                 */
+                WindowInsetsCompat.CONSUMED
             }
         }
     }

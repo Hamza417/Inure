@@ -10,4 +10,5 @@ object ThemeConstants {
     const val HIGH_CONTRAST = 6
     const val SOAPSTONE = 7
     const val OIL = 8
+    const val MATERIAL_YOU = 9
 }

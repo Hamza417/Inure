@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.util.ColorUtils;
 
 public class ThemeLinearLayout extends LinearLayout implements ThemeChangedListener {
     
@@ -53,6 +54,7 @@ public class ThemeLinearLayout extends LinearLayout implements ThemeChangedListe
     }
     
     private void setBackground(boolean animate) {
+        System.out.println(ColorUtils.INSTANCE.toHexColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground()));
         if (animate) {
             valueAnimator = Utils.animateBackgroundColor(this,
                     ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());

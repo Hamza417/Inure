@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,9 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
             holder.container.setOnClickListener {
                 if (AppearancePreferences.setAccentColor(list[position].first)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        AppearancePreferences.setMaterialYouAccent(position == 0)
+                    }
                     notifyItemChanged(lastSelectedItem)
                     notifyItemChanged(position_)
                     lastSelectedItem = position_

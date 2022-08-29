@@ -60,7 +60,7 @@ public class EdgeEffectNestedScrollView extends NestedScrollView implements Shar
                     edgeEffect.setColor(AppearancePreferences.INSTANCE.getAccentColor());
                     break;
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    // e.printStackTrace();
                     clazz = clazz.getSuperclass();
                 }
             }

@@ -68,6 +68,7 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         if (isEnabled) {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    requestDisallowInterceptTouchEvent(true)
                     thumb.animate()
                         .scaleY(1.5F)
                         .scaleX(1.5F)
@@ -76,8 +77,8 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                         .start()
                 }
                 MotionEvent.ACTION_MOVE,
-                MotionEvent.ACTION_UP,
-                -> {
+                MotionEvent.ACTION_UP -> {
+                    requestDisallowInterceptTouchEvent(false)
                     thumb.animate()
                         .scaleY(1.0F)
                         .scaleX(1.0F)
@@ -87,6 +88,7 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                 }
             }
         }
+
         return super.onTouchEvent(event)
     }
 

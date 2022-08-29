@@ -4,13 +4,13 @@ import androidx.annotation.ColorInt
 
 data class TextViewTheme(
         @ColorInt
-        val headingTextColor: Int,
+        var headingTextColor: Int,
 
         @ColorInt
-        val primaryTextColor: Int,
+        var primaryTextColor: Int,
 
         @ColorInt
-        val secondaryTextColor: Int,
+        var secondaryTextColor: Int,
 
         @ColorInt
         val tertiaryTextColor: Int,
