@@ -1,25 +1,28 @@
 package app.simple.inure.util
 
+import android.Manifest
 import android.app.AppOpsManager
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Environment
 import android.os.Process
 import androidx.core.app.AppOpsManagerCompat
+import androidx.core.content.ContextCompat
 
 object PermissionUtils {
-    fun Context.arePermissionsGranted(uriString: String?): Boolean {
-        if (uriString.isNullOrEmpty()) return false
-        // list of all persisted permissions for the app
-        for (i in contentResolver.persistedUriPermissions) {
-            if (i.uri.toString() == uriString && i.isWritePermission && i.isReadPermission) {
-                return true
-            }
+    fun Context.areStoragePermissionsGranted(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         }
-        return false
     }
 
     fun Context.checkForUsageAccessPermission(): Boolean {
         val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        val mode = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             appOps.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), packageName)
         } else {
             @Suppress("Deprecation")

@@ -124,9 +124,10 @@ dependencies {
     implementation "com.anggrayudi:storage:0.13.0"
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'net.lingala.zip4j:zip4j:2.9.0'
 
     // root
-    implementation "com.github.topjohnwu.libsu:core:3.1.2"
+    implementation "com.github.topjohnwu.libsu:core:4.0.3"
     implementation "com.github.topjohnwu.libsu:io:3.1.2"
 
     // Room

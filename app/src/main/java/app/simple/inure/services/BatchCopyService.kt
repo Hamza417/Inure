@@ -13,7 +13,7 @@ import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.util.PermissionUtils.arePermissionsGranted
+import app.simple.inure.util.PermissionUtils.areStoragePermissionsGranted
 import java.io.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
@@ -74,7 +74,7 @@ class BatchCopyService : Service() {
         override fun run() {
             for (app in appsList) {
                 try {
-                    if (!applicationContext.arePermissionsGranted(MainPreferences.getStoragePermissionUri())) {
+                    if (!applicationContext.areStoragePermissionsGranted()) {
                         throw SecurityException("Storage Permission not granted")
                     }
 

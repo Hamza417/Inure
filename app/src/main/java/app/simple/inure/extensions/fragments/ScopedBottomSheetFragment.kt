@@ -86,7 +86,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
-                    requireActivity().onBackPressed()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
             })
         } catch (e: IllegalStateException) {
