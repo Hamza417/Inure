@@ -115,16 +115,6 @@
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
-                <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="70dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/viewers"
-                    app:appFontStyle="medium"
-                    app:textColorStyle="accent" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -190,16 +180,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="70dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/preferences"
-                    app:appFontStyle="medium"
-                    app:textColorStyle="accent" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -253,6 +233,72 @@
 
                     <app.simple.inure.decorations.switchview.SwitchView
                         android:id="@+id/prefs_drawable_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/debug_icon"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_code"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary"
+                        tools:ignore="ContentDescription" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/debug_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="Debug Features"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/debug_desc"
+                        app:layout_constraintEnd_toStartOf="@+id/debug_switch"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/debug_icon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary"
+                        tools:ignore="HardcodedText" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/debug_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:text="Enable debug and developer only features of the app."
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/debug_switch"
+                        app:layout_constraintStart_toEndOf="@+id/debug_icon"
+                        app:layout_constraintTop_toBottomOf="@id/debug_tag"
+                        app:textColorStyle="tertiary"
+                        tools:ignore="HardcodedText" />
+
+                    <app.simple.inure.decorations.switchview.SwitchView
+                        android:id="@+id/debug_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

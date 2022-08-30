@@ -5,14 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ShareCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ExtractViewModelFactory
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.invisible
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.dialogs.ExtractViewModel
 
 class Extract : ScopedBottomSheetFragment() {
@@ -20,6 +25,7 @@ class Extract : ScopedBottomSheetFragment() {
     private lateinit var loader: LoaderImageView
     private lateinit var progress: TypeFaceTextView
     private lateinit var status: TypeFaceTextView
+    private lateinit var share: DynamicRippleTextView
 
     private lateinit var extractViewModel: ExtractViewModel
 
@@ -29,6 +35,7 @@ class Extract : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.extract_loader_indicator)
         progress = view.findViewById(R.id.extracting_progress)
         status = view.findViewById(R.id.extracting_updates)
+        share = view.findViewById(R.id.share)
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
@@ -51,7 +58,6 @@ class Extract : ScopedBottomSheetFragment() {
 
         extractViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
-            dismiss()
         }
 
         extractViewModel.getSuccess().observe(viewLifecycleOwner) {
@@ -59,6 +65,25 @@ class Extract : ScopedBottomSheetFragment() {
                 status.text = getString(R.string.done)
                 progress.invisible(true)
                 loader.loaded()
+                share.visible(true)
+            }
+        }
+
+        extractViewModel.getFile().observe(viewLifecycleOwner) { file ->
+            share.setOnClickListener {
+                kotlin.runCatching {
+                    if (it.isNotNull()) {
+                        ShareCompat.IntentBuilder(requireActivity())
+                            .setStream(FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", file!!))
+                            .setType("*/*")
+                            .startChooser()
+
+                        dismiss()
+                    }
+                }.getOrElse {
+                    it.printStackTrace()
+                    showError(it.stackTraceToString())
+                }
             }
         }
     }

@@ -17,6 +17,7 @@
 
         <app.simple.inure.decorations.views.LoaderImageView
             android:id="@+id/extract_loader_indicator"
+            android:layout_gravity="center_vertical"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:padding="5dp"
@@ -26,13 +27,13 @@
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/extracting_updates"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dialog_padding"
-            app:textColorStyle="secondary"
+            android:layout_weight="1"
             android:textSize="@dimen/info_text_small"
-            app:appFontStyle="medium" />
+            app:appFontStyle="medium"
+            app:textColorStyle="secondary" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/extracting_progress"
@@ -40,9 +41,23 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="@dimen/dialog_padding"
-            app:textColorStyle="secondary"
             android:textSize="@dimen/info_text_small"
-            app:appFontStyle="medium" />
+            app:appFontStyle="medium"
+            app:textColorStyle="secondary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/share"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            android:visibility="gone"
+            app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

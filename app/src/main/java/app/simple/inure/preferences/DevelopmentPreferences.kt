@@ -6,6 +6,7 @@ object DevelopmentPreferences {
 
     private const val isWebViewXmlViewer = "is_xml_viewer_web_view"
     private const val preferencesIndicator = "is_preferences_indicator_hidden"
+    private const val debugFeatures = "is_debug_features_enabled"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -25,5 +26,15 @@ object DevelopmentPreferences {
 
     fun isPreferencesIndicatorHidden(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(preferencesIndicator, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setDebugFeaturesState(@NotNull value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(debugFeatures, value).apply()
+    }
+
+    fun isDebugStateEnabled(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(debugFeatures, false)
     }
 }

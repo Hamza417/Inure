@@ -11,7 +11,6 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.areStoragePermissionsGranted
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.progress.ProgressMonitor
@@ -19,11 +18,10 @@ import java.io.*
 
 class ExtractViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
-    private val apk = File(packageInfo.applicationInfo.sourceDir).parentFile
-
     private val progress: MutableLiveData<Long> = MutableLiveData<Long>()
     private val status: MutableLiveData<String> = MutableLiveData<String>()
     private val success: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val file: MutableLiveData<File?> = MutableLiveData<File?>()
 
     init {
         extractAppFile()
@@ -45,6 +43,10 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
         return success
     }
 
+    fun getFile(): LiveData<File?> {
+        return file
+    }
+
     private fun extractAppFile() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -55,8 +57,10 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
                 }
 
                 if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                    status.postValue(getString(R.string.split_apk_detected))
                     extractBundle()
                 } else { // For APK files
+                    status.postValue(getString(R.string.preparing_apk_file))
                     extractApk()
                 }
             }.onFailure {
@@ -68,58 +72,53 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
         }
     }
 
-    private suspend fun extractBundle() {
-        status.postValue(getString(R.string.split_apk_detected))
-
-        val list = arrayListOf<File>()
-
-        list.add(File(packageInfo.applicationInfo.sourceDir))
-
-        for (i in packageInfo.applicationInfo.splitSourceDirs.indices) {
-            list.add(File(packageInfo.applicationInfo.splitSourceDirs[i]))
-        }
-
-        status.postValue(getString(R.string.creating_split_package))
-
+    private fun extractBundle() {
         kotlin.runCatching {
-            val zipFile = ZipFile(getBundlePathAndFileName())
-            val progressMonitor = zipFile.progressMonitor
+            if (!File(getBundlePathAndFileName()).exists()) {
+                status.postValue(getString(R.string.creating_split_package))
+                val zipFile = ZipFile(getBundlePathAndFileName())
+                val progressMonitor = zipFile.progressMonitor
 
-            zipFile.addFiles(list)
+                zipFile.isRunInThread = true
+                zipFile.addFiles(createSplitApkFiles())
 
-            while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
-                progress.postValue(progressMonitor.percentDone.toLong())
-                delay(10)
-            }
+                while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
+                    progress.postValue(progressMonitor.percentDone.toLong())
+                }
 
-            if (progressMonitor.result.equals(ProgressMonitor.Result.SUCCESS)) {
-                success.postValue(true)
-            } else if (progressMonitor.result.equals(ProgressMonitor.Result.ERROR)) {
-                error.postValue(progressMonitor.exception.stackTraceToString())
-            } else if (progressMonitor.result.equals(ProgressMonitor.Result.CANCELLED)) {
-                status.postValue(getString(R.string.cancelled))
+                if (progressMonitor.result.equals(ProgressMonitor.Result.ERROR)) {
+                    error.postValue(progressMonitor.exception.stackTraceToString())
+                } else if (progressMonitor.result.equals(ProgressMonitor.Result.CANCELLED)) {
+                    status.postValue(getString(R.string.cancelled))
+                }
             }
         }.onFailure {
             it.printStackTrace()
             error.postValue(it.stackTraceToString())
+        }.onSuccess {
+            file.postValue(File(getBundlePathAndFileName()))
         }
     }
 
     @Throws(IOException::class)
     private fun extractApk() {
-        status.postValue(getString(R.string.preparing_apk_file))
+        if (File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName()).exists()) {
+            file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName()))
+        } else {
+            val source = File(packageInfo.applicationInfo.sourceDir)
+            val dest = File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName())
+            val length = source.length()
 
-        val source = File(packageInfo.applicationInfo.sourceDir)
-        val dest = File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName())
-        val length = source.length()
+            val inputStream = FileInputStream(source)
+            val outputStream = FileOutputStream(dest)
 
-        val inputStream = FileInputStream(source)
-        val outputStream = FileOutputStream(dest)
+            copyStream(inputStream, outputStream, length)
 
-        copyStream(inputStream, outputStream, length)
+            inputStream.close()
+            outputStream.close()
 
-        inputStream.close()
-        outputStream.close()
+            file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName()))
+        }
     }
 
     @Throws(IOException::class)
@@ -150,5 +149,17 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
         stringBuilder.append("_(${packageInfo.versionName})")
         stringBuilder.append(".apk")
         return stringBuilder.toString()
+    }
+
+    private fun createSplitApkFiles(): ArrayList<File> {
+        val list = arrayListOf<File>()
+
+        list.add(File(packageInfo.applicationInfo.sourceDir))
+
+        for (i in packageInfo.applicationInfo.splitSourceDirs.indices) {
+            list.add(File(packageInfo.applicationInfo.splitSourceDirs[i]))
+        }
+
+        return list
     }
 }

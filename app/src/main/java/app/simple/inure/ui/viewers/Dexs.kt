@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterDexData
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
@@ -24,7 +25,7 @@ class Dexs : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.dexs_recycler_view)
 
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(packageInfo)
         dexDataViewModel = ViewModelProvider(this, packageInfoFactory).get(DexDataViewModel::class.java)
 
@@ -47,9 +48,9 @@ class Dexs : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo): Dexs {
+        fun newInstance(packageInfo: PackageInfo): Dexs {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = Dexs()
             fragment.arguments = args
             return fragment

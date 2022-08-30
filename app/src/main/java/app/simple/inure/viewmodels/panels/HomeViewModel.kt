@@ -15,6 +15,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PackageStats
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -231,10 +232,9 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     // Pair(R.drawable.ic_music_note, R.string.music))
             )
 
-            if (BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG && DevelopmentPreferences.isDebugStateEnabled()) {
                 list.add(Pair(R.drawable.ic_music_note, R.string.music))
             }
-
 
             menuItems.postValue(list)
         }
