@@ -21,6 +21,7 @@ import app.simple.inure.decorations.ripple.Utils
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.AppearancePreferences.getCornerRadius
+import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.ConditionUtils.isZero
 import java.util.*
@@ -45,12 +46,12 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
 
-        val position = position_ - 1
+        val position = holder.absoluteAdapterPosition - 1
 
         if (holder is Holder) {
             holder.color.backgroundTintList = ColorStateList.valueOf(list[position].first)
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 holder.color.outlineSpotShadowColor = list[position].first
                 holder.color.outlineAmbientShadowColor = list[position].first
             }
@@ -58,11 +59,11 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
             holder.container.setOnClickListener {
                 if (AppearancePreferences.setAccentColor(list[position].first)) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        AppearancePreferences.setMaterialYouAccent(position == 0)
+                        AppearancePreferences.setMaterialYouAccent(position == MaterialYou.materialYouAdapterIndex)
                     }
                     notifyItemChanged(lastSelectedItem)
-                    notifyItemChanged(position_)
-                    lastSelectedItem = position_
+                    notifyItemChanged(holder.absoluteAdapterPosition)
+                    lastSelectedItem = holder.absoluteAdapterPosition
                 }
             }
 
@@ -73,7 +74,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
             holder.container.background = getRippleDrawable(holder.container.background, list[position].first)
 
             holder.tick.visibility = if (list[position].first == AppearancePreferences.getAccentColor()) {
-                lastSelectedItem = position_
+                lastSelectedItem = holder.absoluteAdapterPosition
                 View.VISIBLE
             } else {
                 View.INVISIBLE

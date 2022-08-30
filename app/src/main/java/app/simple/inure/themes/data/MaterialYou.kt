@@ -7,11 +7,9 @@ import androidx.core.content.ContextCompat
 
 object MaterialYou {
 
-    val materialYouAccentResID = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        android.R.color.system_accent1_500
-    } else {
-        -1
-    }
+    @RequiresApi(Build.VERSION_CODES.S)
+    const val materialYouAccentResID = android.R.color.system_accent1_500
+    const val materialYouAdapterIndex = 1
 
     var headingTextColor = 0
     var primaryTextColor = 0
@@ -57,9 +55,9 @@ object MaterialYou {
 
         background = ContextCompat.getColor(this, android.R.color.system_neutral1_50)
         viewerBackground = ContextCompat.getColor(this, android.R.color.system_neutral1_50)
-        highlightBackground = ContextCompat.getColor(this, android.R.color.system_accent1_300)
+        highlightBackground = ContextCompat.getColor(this, android.R.color.system_accent2_100)
         selectedBackground = ContextCompat.getColor(this, android.R.color.system_accent2_100)
-        dividerBackground = ContextCompat.getColor(this, android.R.color.system_accent3_900)
+        dividerBackground = ContextCompat.getColor(this, android.R.color.system_accent3_300)
 
         switchOffColor = ContextCompat.getColor(this, android.R.color.system_neutral1_100)
 

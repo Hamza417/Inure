@@ -58,7 +58,8 @@ class AccentColor : ScopedFragment() {
         )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            list.add(1, Pair(ContextCompat.getColor(requireContext(), MaterialYou.materialYouAccentResID), "Material You (Dynamic)"))
+            list.add(MaterialYou.materialYouAdapterIndex,
+                     Pair(ContextCompat.getColor(requireContext(), MaterialYou.materialYouAccentResID), "Material You (Dynamic)"))
         }
 
         adapterAccentColor = AdapterAccentColor(list)

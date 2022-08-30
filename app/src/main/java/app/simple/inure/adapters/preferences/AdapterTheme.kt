@@ -2,6 +2,7 @@ package app.simple.inure.adapters.preferences
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,10 +35,14 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
             -1,
             ThemeConstants.FOLLOW_SYSTEM,
             ThemeConstants.DAY_NIGHT,
-            -1,
-            ThemeConstants.MATERIAL_YOU
-
     )
+
+    init {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            list.add(-1)
+            list.add(ThemeConstants.MATERIAL_YOU)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {

@@ -50,9 +50,10 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU) {
                 presetMaterialYouDynamicColors()
-                if (AppearancePreferences.isMaterialYourAccent()) {
-                    AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID))
-                }
+            }
+
+            if (AppearancePreferences.isMaterialYourAccent()) {
+                AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID))
             }
         }
 
