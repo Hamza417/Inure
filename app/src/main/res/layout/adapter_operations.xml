@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adapter_batch_app_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:padding="5dp">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_ops_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/app_name_text_size"
+        app:appFontStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_ops_desc"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/adapter_batch_app_icon"
+        app:layout_constraintVertical_bias="0.0"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_ops_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_batch_date"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adapter_ops_name"
+        app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.checkbox.CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

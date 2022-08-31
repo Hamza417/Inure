@@ -14,6 +14,7 @@ import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.menus.NotesMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.ui.viewers.Note
@@ -73,7 +74,7 @@ class Notes : ScopedFragment() {
                 override fun onNoteDelete(view: View, notesPackageInfo: NotesPackageInfo?) {
                     val p = Sure.newInstance()
 
-                    p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                    p.setOnSureCallbackListener(object : SureCallbacks {
                         override fun onSure() {
                             notesViewModel.deleteNoteData(notesPackageInfo)
                         }

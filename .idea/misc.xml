@@ -168,6 +168,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_information.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_music.xml" value="0.33" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_notes.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_operations.xml" value="0.2390625" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_permissions.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_preferences.xml" value="0.25" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_preferences_search.xml" value="0.21574074074074073" />
@@ -296,6 +297,7 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_note_viewer.xml" value="0.21574074074074073" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_notes.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_notes_viewer.xml" value="0.22" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_operations.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_permissions.xml" value="0.21574074074074073" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_preference.xml" value="0.23055555555555557" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/fragment_preferences.xml" value="0.24010416666666667" />

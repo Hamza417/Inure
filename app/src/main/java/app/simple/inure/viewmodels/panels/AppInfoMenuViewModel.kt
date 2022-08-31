@@ -114,6 +114,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
             val list = listOf(
                     Pair(R.drawable.ic_permission, R.string.permissions),
+                    Pair(R.drawable.ic_rocket_launch, R.string.operations),
                     Pair(R.drawable.ic_activities, R.string.activities),
                     Pair(R.drawable.ic_services, R.string.services),
                     Pair(R.drawable.ic_certificate, R.string.certificate),

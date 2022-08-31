@@ -9,6 +9,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.extensions.activities.BaseActivity
+import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.activity.ManageSpaceViewModel
@@ -57,7 +58,7 @@ class ManageSpace : BaseActivity() {
 
             clearTrackersData.setOnClickListener {
                 val p = Sure.newInstance()
-                p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                p.setOnSureCallbackListener(object : SureCallbacks {
                     override fun onSure() {
                         trackersLoader.visible(animate = true)
                         manageSpaceViewModel.clearTrackersData()
@@ -76,7 +77,7 @@ class ManageSpace : BaseActivity() {
 
             clearImagesData.setOnClickListener {
                 val p = Sure.newInstance()
-                p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                p.setOnSureCallbackListener(object : SureCallbacks {
                     override fun onSure() {
                         imagesLoader.visible(animate = true)
                         manageSpaceViewModel.clearImagesData()
@@ -90,7 +91,7 @@ class ManageSpace : BaseActivity() {
 
     private fun clearAppData() {
         val p = Sure.newInstance()
-        p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+        p.setOnSureCallbackListener(object : SureCallbacks {
             override fun onSure() {
                 (applicationContext.getSystemService(ACTIVITY_SERVICE) as ActivityManager)
                     .clearApplicationUserData() // note: it has a return value!

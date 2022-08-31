@@ -30,6 +30,7 @@ import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.appinfo.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
@@ -185,6 +186,9 @@ class AppInfo : ScopedFragment() {
                         R.string.trackers -> {
                             openFragment(requireActivity().supportFragmentManager, Trackers.newInstance(packageInfo), icon, "trackers")
                         }
+                        R.string.operations -> {
+                            openFragment(requireActivity().supportFragmentManager, Operations.newInstance(packageInfo), icon, "ops")
+                        }
                     }
                 }
             })
@@ -216,7 +220,7 @@ class AppInfo : ScopedFragment() {
                         R.string.uninstall -> {
                             if (ConfigurationPreferences.isUsingRoot()) {
                                 val p = Sure.newInstance()
-                                p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                                p.setOnSureCallbackListener(object : SureCallbacks {
                                     override fun onSure() {
                                         val uninstaller = Uninstaller.newInstance(packageInfo)
 
@@ -244,7 +248,7 @@ class AppInfo : ScopedFragment() {
                         }
                         R.string.clear_data -> {
                             val p = Sure.newInstance()
-                            p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                            p.setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     ClearData.newInstance(packageInfo).show(parentFragmentManager, "shell_executor")
                                 }
@@ -254,7 +258,7 @@ class AppInfo : ScopedFragment() {
                         }
                         R.string.clear_cache -> {
                             val p = Sure.newInstance()
-                            p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                            p.setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     ClearCache.newInstance(packageInfo).show(parentFragmentManager, "clear_cache")
                                 }
@@ -264,7 +268,7 @@ class AppInfo : ScopedFragment() {
                         }
                         R.string.force_stop -> {
                             val p = Sure.newInstance()
-                            p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                            p.setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     ForceStop.newInstance(packageInfo).show(childFragmentManager, "force_stop")
                                 }
@@ -274,7 +278,7 @@ class AppInfo : ScopedFragment() {
                         }
                         R.string.disable, R.string.enable -> {
                             val p = Sure.newInstance()
-                            p.setOnSureCallbackListener(object : Sure.Companion.SureCallbacks {
+                            p.setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     val f = State.newInstance(requireContext().packageManager.getPackageInfo(packageInfo.packageName, 0))
 

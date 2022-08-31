@@ -559,4 +559,5 @@
     <string name="deep_search_desc">Search over app\'s internal components as well.</string>
     <string name="desc_data_collect">This app does not collect any user data.</string>
     <string name="line_number_on_every_line">Line Numbers on Every Line</string>
+    <string name="operations">Operations</string>
 </resources>
