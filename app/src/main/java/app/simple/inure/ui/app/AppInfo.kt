@@ -54,7 +54,6 @@ class AppInfo : ScopedFragment() {
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var storage: DynamicRippleTextView
-    private lateinit var directories: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
     private lateinit var unpack: DynamicRippleTextView
     private lateinit var meta: RecyclerView
@@ -81,7 +80,6 @@ class AppInfo : ScopedFragment() {
         settings = view.findViewById(R.id.settings_button)
         appInformation = view.findViewById(R.id.app_info_information_tv)
         storage = view.findViewById(R.id.app_info_storage_tv)
-        directories = view.findViewById(R.id.app_info_directories_tv)
         notes = view.findViewById(R.id.app_info_notes_tv)
         unpack = view.findViewById(R.id.app_info_unpack_tv)
         meta = view.findViewById(R.id.app_info_menu)
@@ -368,10 +366,6 @@ class AppInfo : ScopedFragment() {
 
         storage.setOnClickListener {
             openFragment(UsageStatistics.newInstance(packageInfo), "storage")
-        }
-
-        directories.setOnClickListener {
-            openFragment(Directories.newInstance(packageInfo), "directories")
         }
 
         notes.setOnClickListener {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterOperations
@@ -18,7 +19,7 @@ import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.AppOpsModel
 import app.simple.inure.preferences.OperationsPreferences
-import app.simple.inure.preferences.PermissionPreferences
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.OperationsViewModel
 
 class Operations : SearchBarScopedFragment() {
@@ -40,7 +41,7 @@ class Operations : SearchBarScopedFragment() {
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        operationsViewModel = ViewModelProvider(this, packageInfoFactory).get(OperationsViewModel::class.java)
+        operationsViewModel = ViewModelProvider(this, packageInfoFactory)[OperationsViewModel::class.java]
 
         return view
     }
@@ -48,9 +49,11 @@ class Operations : SearchBarScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        options.gone()
+        searchBoxState(false, OperationsPreferences.isSearchVisible())
 
         operationsViewModel.getAppOpsData().observe(viewLifecycleOwner) {
-            adapterOperations = AdapterOperations(it, packageInfo)
+            adapterOperations = AdapterOperations(it, searchBox.text.toString().trim())
 
             adapterOperations?.setOnOpsCheckedChangeListener(object : AdapterOperations.Companion.AdapterOpsCallbacks {
                 override fun onCheckedChanged(appOpsModel: AppOpsModel, position: Int) {
@@ -75,9 +78,15 @@ class Operations : SearchBarScopedFragment() {
             adapterOperations?.updateOperation(it.first, it.second)
         }
 
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            if (searchBox.isFocused) {
+                operationsViewModel.loadAppOpsData(text.toString().trim())
+            }
+        }
+
         search.setOnClickListener {
             if (searchBox.text.isNullOrEmpty()) {
-                PermissionPreferences.setSearchVisibility(!PermissionPreferences.isSearchVisible())
+                OperationsPreferences.setSearchVisibility(!OperationsPreferences.isSearchVisible())
             } else {
                 searchBox.text?.clear()
             }
@@ -87,7 +96,7 @@ class Operations : SearchBarScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             OperationsPreferences.operationsSearch -> {
-                searchBoxState(true, PermissionPreferences.isSearchVisible())
+                searchBoxState(true, OperationsPreferences.isSearchVisible())
             }
         }
     }

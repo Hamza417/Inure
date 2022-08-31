@@ -19,7 +19,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
     private val appOpsData: MutableLiveData<ArrayList<AppOpsModel>> by lazy {
         MutableLiveData<ArrayList<AppOpsModel>>().also {
-            loadAppOpsData()
+            loadAppOpsData("")
         }
     }
 
@@ -35,10 +35,18 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         return appOpsState
     }
 
-    private fun loadAppOpsData() {
+    fun loadAppOpsData(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val p = AppOps.getOps(applicationContext(), packageInfo.packageName)
-            appOpsData.postValue(p)
+            val ops = AppOps.getOps(applicationContext(), packageInfo.packageName)
+            val filtered = arrayListOf<AppOpsModel>()
+
+            for (op in ops) {
+                if (op.title.lowercase().contains(keyword) || op.description.lowercase().contains(keyword)) {
+                    filtered.add(op)
+                }
+            }
+
+            appOpsData.postValue(filtered)
         }
     }
 

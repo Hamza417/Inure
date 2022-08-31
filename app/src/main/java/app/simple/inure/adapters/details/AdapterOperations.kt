@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.details
 
-import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,9 @@ import app.simple.inure.decorations.checkbox.CheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.AppOpsModel
+import app.simple.inure.util.AdapterUtils
 
-class AdapterOperations(private val ops: ArrayList<AppOpsModel>, private val packageInfo: PackageInfo) : RecyclerView.Adapter<AdapterOperations.Holder>() {
+class AdapterOperations(private val ops: ArrayList<AppOpsModel>, val keyword: String) : RecyclerView.Adapter<AdapterOperations.Holder>() {
 
     private var adapterOpsCallbacks: AdapterOpsCallbacks? = null
 
@@ -22,7 +22,10 @@ class AdapterOperations(private val ops: ArrayList<AppOpsModel>, private val pac
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = ops[position].title
         holder.desc.text = ops[position].description
-        holder.checkBox.setChecked(ops[position].isEnabled)
+        holder.checkBox.setCheckedWithoutAnimations(ops[position].isEnabled)
+
+        AdapterUtils.searchHighlighter(holder.name, keyword)
+        AdapterUtils.searchHighlighter(holder.desc, keyword)
 
         holder.checkBox.setOnCheckedChangeListener {
             adapterOpsCallbacks?.onCheckedChanged(ops[position], position)

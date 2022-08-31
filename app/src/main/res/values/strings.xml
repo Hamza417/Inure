@@ -560,4 +560,5 @@
     <string name="desc_data_collect">This app does not collect any user data.</string>
     <string name="line_number_on_every_line">Line Numbers on Every Line</string>
     <string name="operations">Operations</string>
+    <string name="native_libraries_dir">Native Libraries Directory</string>
 </resources>

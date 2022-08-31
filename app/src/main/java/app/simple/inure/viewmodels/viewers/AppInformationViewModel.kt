@@ -49,9 +49,12 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
                 getVersion(),
                 getVersionCode(),
                 getInstallLocation(),
+                getDataDir(),
+                getApkPath(),
                 getGlesVersion(),
                 getArchitecture(),
                 getNativeLibraries(),
+                getNativeLibsDir(),
                 getUID(),
                 getInstallDate(),
                 getUpdateDate(),
@@ -70,6 +73,16 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
     private fun getPackageName(): Pair<String, Spannable> {
         return Pair(getString(R.string.package_name),
                     packageInfo.packageName.applySecondaryTextColor())
+    }
+
+    private fun getApkPath(): Pair<String, Spannable> {
+        return Pair(getString(R.string.apk_base_package),
+                    packageInfo.applicationInfo.sourceDir.applySecondaryTextColor())
+    }
+
+    private fun getDataDir(): Pair<String, Spannable> {
+        return Pair(getString(R.string.data),
+                    packageInfo.applicationInfo.dataDir.applySecondaryTextColor())
     }
 
     private fun getVersion(): Pair<String, Spannable> {
@@ -127,6 +140,11 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
     private fun getNativeLibraries(): Pair<String, Spannable> {
         return Pair(getString(R.string.native_libraries),
                     packageInfo.getNativeLibraries(context).toString().applySecondaryTextColor())
+    }
+
+    private fun getNativeLibsDir(): Pair<String, Spannable> {
+        return Pair(getString(R.string.native_libraries_dir),
+                    packageInfo.applicationInfo.nativeLibraryDir.applySecondaryTextColor())
     }
 
     private fun getUID(): Pair<String, Spannable> {
