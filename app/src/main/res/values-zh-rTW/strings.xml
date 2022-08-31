@@ -560,4 +560,6 @@
     <string name="deep_search_desc">一併搜尋應用程式內部元件</string>
     <string name="desc_data_collect">這個應用程式不蒐集任何使用者資料</string>
     <string name="line_number_on_every_line">每行行號</string>
+    <string name="operations">作業</string>
+    <string name="native_libraries_dir">原生程式庫目錄</string>
 </resources>
