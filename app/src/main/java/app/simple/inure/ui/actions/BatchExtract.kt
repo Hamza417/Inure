@@ -58,6 +58,12 @@ class BatchExtract : ScopedFragment() {
         // LocalBroadcastManager.getInstance(requireContext()).registerReceiver(extractBroadcastReceiver!!, batchExtractIntentFilter)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        requireActivity().unbindService(serviceConnection!!)
+        requireActivity().stopService(Intent(requireActivity(), BatchExtractService::class.java))
+    }
+
     companion object {
         fun newInstance(arrayList: ArrayList<BatchPackageInfo>): BatchExtract {
             val args = Bundle()

@@ -1,21 +1,28 @@
 package app.simple.inure.services
 
-import android.app.NotificationManager
-import android.app.Service
+import android.app.*
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import app.simple.inure.R
+import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.util.BatchUtils
 import app.simple.inure.util.BatchUtils.getBundlePathAndFileName
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileSizeHelper.getDirectoryLength
+import app.simple.inure.util.FileSizeHelper.getDirectorySize
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.areStoragePermissionsGranted
+import com.anggrayudi.storage.extension.launchOnUiThread
 import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.progress.ProgressMonitor
 import java.io.*
@@ -28,8 +35,15 @@ class BatchExtractService : Service() {
     private var inputStream: FileInputStream? = null
     private var outputStream: FileOutputStream? = null
 
-    private lateinit var notificationManager: NotificationManager
+    private lateinit var notificationManager: NotificationManagerCompat
     private lateinit var notificationBuilder: NotificationCompat.Builder
+    private lateinit var notification: Notification
+
+    private val notificationId = 123
+    private var maxSize = 0L
+    private var progress = 0L
+
+    private var channelId = "inure_batch_extract"
 
     var appsList = arrayListOf<BatchPackageInfo>()
         set(value) {
@@ -42,7 +56,21 @@ class BatchExtractService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
+            ServiceConstants.actionCancel -> {
+                copyThread.interrupt()
+                stopForeground(true)
+                stopSelf()
+            }
+        }
         return START_NOT_STICKY
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        SharedPreferences.init(applicationContext)
+        notificationManager = NotificationManagerCompat.from(applicationContext)
+        notificationBuilder = NotificationCompat.Builder(applicationContext, channelId)
     }
 
     override fun onDestroy() {
@@ -59,11 +87,18 @@ class BatchExtractService : Service() {
 
     inner class CopyRunnable : Runnable {
         override fun run() {
-            for (app in appsList) {
-                try {
+            measureTotalSize()
+
+            launchOnUiThread {
+                createNotification(maxSize)
+            }
+
+            try {
+                for (app in appsList) {
                     if (applicationContext.areStoragePermissionsGranted()) {
                         PackageData.makePackageFolder(applicationContext)
                     } else {
+                        notificationBuilder.setContentText(getString(R.string.grant_storage_access_permission))
                         throw SecurityException("Storage Permission not granted")
                     }
 
@@ -74,33 +109,32 @@ class BatchExtractService : Service() {
                         sendApkTypeBroadcast(APK_TYPE_FILE)
                         extractApk(packageInfo = app.packageInfo)
                     }
-                } catch (e: SecurityException) {
-                    /**
-                     * Terminate the process since the permission is
-                     * not granted, file cannot be copied
-                     */
-                    e.printStackTrace()
-                    break
-                } catch (e: NullPointerException) {
-                    /**
-                     * File does not exit
-                     */
-                    e.printStackTrace()
+                }
+            } catch (e: SecurityException) {
+                /**
+                 * Terminate the process since the permission is
+                 * not granted, file cannot be copied
+                 */
+                e.printStackTrace()
+            } catch (e: NullPointerException) {
+                /**
+                 * File does not exit
+                 */
+                e.printStackTrace()
+            } catch (e: IOException) {
+                /**
+                 * Some IO error happened, skip this apk
+                 * and flush the buffer
+                 */
+                e.printStackTrace()
+            } finally {
+                try {
+
                 } catch (e: IOException) {
                     /**
-                     * Some IO error happened, skip this apk
-                     * and flush the buffer
+                     * Failed to close streams
                      */
                     e.printStackTrace()
-                } finally {
-                    try {
-
-                    } catch (e: IOException) {
-                        /**
-                         * Failed to close streams
-                         */
-                        e.printStackTrace()
-                    }
                 }
             }
         }
@@ -125,15 +159,25 @@ class BatchExtractService : Service() {
     private fun extractBundle(packageInfo: PackageInfo) {
         kotlin.runCatching {
             if (!File(applicationContext.getBundlePathAndFileName(packageInfo)).exists()) {
-                // status.postValue(getString(R.string.creating_split_package))
+                println(packageInfo.applicationInfo.name)
+                launchOnUiThread {
+                    notificationBuilder.setContentText(packageInfo.applicationInfo.name)
+                    notificationManager.notify(notificationId, notification)
+                }
+
                 val zipFile = ZipFile(applicationContext.getBundlePathAndFileName(packageInfo))
                 val progressMonitor = zipFile.progressMonitor
+                val length = packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
 
                 zipFile.isRunInThread = true
                 zipFile.addFiles(createSplitApkFiles(packageInfo))
 
                 while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
+                    progress += length * (progressMonitor.percentDone / 100)
+                    notificationBuilder.setProgress(maxSize.toInt(), progress.toInt(), false)
+                    notificationManager.notify(notificationId, notification)
                     sendProgressBroadcast(progressMonitor.percentDone.toLong())
+                    Thread.sleep(100)
                 }
 
                 if (progressMonitor.result.equals(ProgressMonitor.Result.ERROR)) {
@@ -173,6 +217,15 @@ class BatchExtractService : Service() {
         }
     }
 
+    private fun measureTotalSize() {
+        for (app in appsList) {
+            maxSize += File(app.packageInfo.applicationInfo.sourceDir).length()
+            if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
+                maxSize += app.packageInfo.applicationInfo.splitSourceDirs.getDirectorySize()
+            }
+        }
+    }
+
     /* ----------------------------------------------------------------------------------------------------- */
 
     private fun sendApkTypeBroadcast(apkType: Int) {
@@ -184,6 +237,48 @@ class BatchExtractService : Service() {
     }
 
     /* ----------------------------------------------------------------------------------------------------- */
+
+    private fun createNotification(maxProgress: Long) {
+        createNotificationChannel()
+
+        // Create an explicit intent for an Activity in your app
+        val intent = Intent(applicationContext, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        notificationBuilder.setContentTitle(getString(R.string.extract))
+            .setContentText("Extracting apps")
+            .setSmallIcon(R.drawable.ic_downloading)
+            .setCategory(Notification.CATEGORY_SERVICE)
+            .setShowWhen(true)
+            .setSilent(true)
+            .setContentIntent(pendingIntent)
+            .addAction(generateAction(R.drawable.ic_close, getString(R.string.cancel), ServiceConstants.actionCancel))
+            .setProgress(maxProgress.toInt(), 0, false)
+
+        notification = notificationBuilder.build()
+        notificationManager.notify(notificationId, notification)
+        startForeground(notificationId, notification)
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = getString(R.string.batch)
+            val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_HIGH)
+            channel.enableVibration(false)
+            channel.enableLights(false)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun generateAction(icon: Int, title: String, action: String): NotificationCompat.Action {
+        val intent = Intent(this, BatchExtractService::class.java)
+        intent.action = action
+        val close = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        return NotificationCompat.Action.Builder(icon, title, close).build()
+    }
 
     inner class BatchCopyBinder : Binder() {
         fun getService(): BatchExtractService {

@@ -3,6 +3,7 @@ package app.simple.inure.constants
 import android.media.MediaPlayer
 
 object ServiceConstants {
+
     private const val appPackageName = "app.simple.inure"
     const val musicPackageName = "com.android.music"
 
@@ -23,6 +24,7 @@ object ServiceConstants {
     const val actionBuffering = "$appPackageName.media.buffering"
     const val actionMediaError = "$appPackageName.media.error"
 
+    const val actionCancel = "$appPackageName.action.cancel"
     const val actionApkType = "$appPackageName.apk.type"
     const val actionCopyProgress = "$appPackageName.copy.progress"
 

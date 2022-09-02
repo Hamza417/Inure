@@ -507,7 +507,6 @@ class AudioService : Service(),
             .setShowWhen(false)
             .setColorized(true)
             .setCategory(Notification.CATEGORY_SERVICE)
-            // Setting this style will not show notification icon in some devices
             .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 

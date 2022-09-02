@@ -21,14 +21,14 @@ object FileSizeHelper {
         return File(this).length()
     }
 
-    fun Array<String>.getDirectorySize(): String {
+    fun Array<String>.getDirectorySize(): Long {
         var total = 0L
 
         for (i in this.indices) {
             total = File(this[i]).length()
         }
 
-        return total.toSize()
+        return total
     }
 
     fun String.getDirectorySize(): String {
