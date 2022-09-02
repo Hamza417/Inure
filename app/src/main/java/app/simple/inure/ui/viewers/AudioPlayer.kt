@@ -257,6 +257,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         serviceBound = false
         requireContext().unbindService(serviceConnection!!)
         requireContext().stopService(Intent(requireContext(), AudioService::class.java))
+        requireActivity().finish()
     }
 
     private val progressRunnable: Runnable = object : Runnable {

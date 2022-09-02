@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.util.BatchUtils.getApkPathAndFileName
+import app.simple.inure.util.BatchUtils.getBundlePathAndFileName
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.areStoragePermissionsGranted
 import kotlinx.coroutines.Dispatchers
@@ -74,9 +76,9 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private fun extractBundle() {
         kotlin.runCatching {
-            if (!File(getBundlePathAndFileName()).exists()) {
+            if (!File(applicationContext().getBundlePathAndFileName(packageInfo)).exists()) {
                 status.postValue(getString(R.string.creating_split_package))
-                val zipFile = ZipFile(getBundlePathAndFileName())
+                val zipFile = ZipFile(applicationContext().getBundlePathAndFileName(packageInfo))
                 val progressMonitor = zipFile.progressMonitor
 
                 zipFile.isRunInThread = true
@@ -96,17 +98,17 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
             it.printStackTrace()
             error.postValue(it.stackTraceToString())
         }.onSuccess {
-            file.postValue(File(getBundlePathAndFileName()))
+            file.postValue(File(applicationContext().getBundlePathAndFileName(packageInfo)))
         }
     }
 
     @Throws(IOException::class)
     private fun extractApk() {
-        if (File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName()).exists()) {
-            file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName()))
+        if (File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)).exists()) {
+            file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
         } else {
             val source = File(packageInfo.applicationInfo.sourceDir)
-            val dest = File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName())
+            val dest = File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo))
             val length = source.length()
 
             val inputStream = FileInputStream(source)
@@ -117,7 +119,7 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
             inputStream.close()
             outputStream.close()
 
-            file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName()))
+            file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
         }
     }
 
@@ -131,24 +133,6 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
             total += len
             progress.postValue(total * 100 / length)
         }
-    }
-
-    private fun getBundlePathAndFileName(): String {
-        val stringBuilder = StringBuilder()
-        stringBuilder.append(PackageData.getPackageDir(applicationContext()))
-        stringBuilder.append("/")
-        stringBuilder.append(packageInfo.applicationInfo.name)
-        stringBuilder.append("_(${packageInfo.versionName})")
-        stringBuilder.append(".apkm")
-        return stringBuilder.toString()
-    }
-
-    private fun getApkPathAndFileName(): String {
-        val stringBuilder = StringBuilder()
-        stringBuilder.append(packageInfo.applicationInfo.name)
-        stringBuilder.append("_(${packageInfo.versionName})")
-        stringBuilder.append(".apk")
-        return stringBuilder.toString()
     }
 
     private fun createSplitApkFiles(): ArrayList<File> {

@@ -15,15 +15,18 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.batch.DialogBatchSelectedApps
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.menus.BatchMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.batch.PopupBatchAppsCategory
 import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
+import app.simple.inure.ui.actions.BatchExtract
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
@@ -121,7 +124,16 @@ class Batch : ScopedFragment() {
         }
 
         extract.setOnClickListener {
-
+            val p0 = Sure.newInstance()
+            p0.setOnSureCallbackListener(object : SureCallbacks {
+                override fun onSure() {
+                    FragmentHelper.openFragment(
+                            parentFragmentManager,
+                            BatchExtract.newInstance(adapterBatch!!.getCurrentAppsList()),
+                            "batch_extract")
+                }
+            })
+            p0.show(childFragmentManager, "sure")
         }
 
         checklist.setOnClickListener {

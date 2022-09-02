@@ -443,7 +443,7 @@
             android:foregroundServiceType="mediaPlayback" />
 
         <service
-            android:name=".services.BatchCopyService"
+            android:name=".services.BatchExtractService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="dataSync" />

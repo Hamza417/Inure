@@ -1,6 +1,5 @@
 package app.simple.inure.preferences
 
-import android.net.Uri
 import androidx.annotation.NonNull
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
@@ -79,15 +78,5 @@ object MainPreferences {
 
     fun getAppsCategory(): String {
         return getSharedPreferences().getString(listAppsCategory, PopupAppsCategory.BOTH)!!
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setStoragePermissionUri(@NonNull uri: Uri) {
-        getSharedPreferences().edit().putString(storagePermissionUri, uri.toString()).apply()
-    }
-
-    fun getStoragePermissionUri(): String? {
-        return getSharedPreferences().getString(storagePermissionUri, null)
     }
 }

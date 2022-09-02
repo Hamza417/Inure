@@ -11,6 +11,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromUri
 import app.simple.inure.models.AudioModel
 
@@ -60,6 +61,13 @@ class AdapterMusic(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Verti
 
     override fun getItemCount(): Int {
         return list.size.plus(1)
+    }
+
+    override fun onViewRecycled(holder: VerticalListViewHolder) {
+        super.onViewRecycled(holder)
+        if (holder is Holder) {
+            GlideApp.with(holder.art).clear(holder.art)
+        }
     }
 
     fun setOnMusicCallbackListener(musicCallbacks: MusicCallbacks) {

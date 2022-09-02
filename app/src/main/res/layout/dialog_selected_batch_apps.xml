@@ -14,7 +14,8 @@
         android:clipChildren="true"
         android:clipToPadding="true"
         android:elevation="@dimen/dialog_elevation"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:roundAllCorners="true">
 
         <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
             android:id="@+id/batch_selected_apps_rv"

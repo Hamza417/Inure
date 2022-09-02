@@ -25,6 +25,9 @@ public class DynamicCornerFrameLayout extends ThemeFrameLayout {
     }
     
     private void init(AttributeSet attributeSet) {
+        if (isInEditMode()) {
+            return;
+        }
         LayoutBackground.setBackground(getContext(), this, attributeSet);
         ViewUtils.INSTANCE.addShadow(this);
     }
