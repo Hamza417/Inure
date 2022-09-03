@@ -28,7 +28,6 @@ import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.ui.actions.BatchExtract
 import app.simple.inure.ui.app.AppInfo
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.BatchViewModel
@@ -72,9 +71,7 @@ class Batch : ScopedFragment() {
 
             adapterBatch?.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                AppInfo.newInstance(packageInfo, icon.transitionName),
-                                                icon, "app_info")
+                    openFragmentArc(AppInfo.newInstance(packageInfo, icon.transitionName), icon, "app_info")
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
@@ -83,10 +80,7 @@ class Batch : ScopedFragment() {
                 }
 
                 override fun onSearchPressed(view: View) {
-                    clearTransitions()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                Search.newInstance(true),
-                                                "search")
+                    openFragmentSlide(Search.newInstance(true), "search")
                 }
 
                 override fun onSettingsPressed(view: View) {
@@ -127,10 +121,7 @@ class Batch : ScopedFragment() {
             val p0 = Sure.newInstance()
             p0.setOnSureCallbackListener(object : SureCallbacks {
                 override fun onSure() {
-                    FragmentHelper.openFragment(
-                            parentFragmentManager,
-                            BatchExtract.newInstance(adapterBatch!!.getCurrentAppsList()),
-                            "batch_extract")
+                    openFragmentSlide(BatchExtract.newInstance(adapterBatch?.getCurrentAppsList()!!), "batch_extract")
                 }
             })
             p0.show(childFragmentManager, "sure")

@@ -18,7 +18,6 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceAppTheme
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.TextViewUtils.makeLinks
 
 class AppearanceScreen : ScopedFragment() {
@@ -67,18 +66,15 @@ class AppearanceScreen : ScopedFragment() {
         transparentStatus.setChecked(AppearancePreferences.isTransparentStatusDisabled())
 
         appTheme.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, AppearanceAppTheme.newInstance(), "theme")
+            openFragmentSlide(AppearanceAppTheme.newInstance(), "theme")
         }
 
         accent.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, AccentColor.newInstance(), "accent_color")
+            openFragmentSlide(AccentColor.newInstance(), "accent_color")
         }
 
         typeface.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, AppearanceTypeFace.newInstance(), "typeface")
+            openFragmentSlide(AppearanceTypeFace.newInstance(), "typeface")
         }
 
         roundedCorner.setOnClickListener {

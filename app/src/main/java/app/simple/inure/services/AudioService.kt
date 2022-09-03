@@ -104,10 +104,10 @@ class AudioService : Service(),
                 ServiceConstants.actionTogglePause -> {
                     changePlayerState()
                 }
-                ServiceConstants.actionQuitService -> {
+                ServiceConstants.actionQuitMusicService -> {
                     stopForeground(true)
                     stopSelf()
-                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitService, applicationContext)
+                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
                 }
             }
         }
@@ -170,7 +170,7 @@ class AudioService : Service(),
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitService, applicationContext)
+        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
         stopForeground(true)
     }
 
@@ -499,7 +499,7 @@ class AudioService : Service(),
             .setSmallIcon(R.drawable.ic_main_app_icon_regular)
             .setLargeIcon(metaData?.art)
             .addAction(action) /* Play Pause Action */
-            .addAction(generateAction(R.drawable.ic_close, "Close", ServiceConstants.actionQuitService))
+            .addAction(generateAction(R.drawable.ic_close, "Close", ServiceConstants.actionQuitMusicService))
             .setContentTitle(metaData?.title)
             .setContentText(metaData?.artists)
             .setSubText(metaData?.album)

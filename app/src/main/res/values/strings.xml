@@ -561,4 +561,5 @@
     <string name="line_number_on_every_line">Line Numbers on Every Line</string>
     <string name="operations">Operations</string>
     <string name="native_libraries_dir">Native Libraries Directory</string>
+    <string name="queued">Queued</string>
 </resources>

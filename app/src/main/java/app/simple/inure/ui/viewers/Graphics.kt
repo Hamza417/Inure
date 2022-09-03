@@ -19,7 +19,6 @@ import app.simple.inure.popups.viewers.PopupGraphicsFilter
 import app.simple.inure.popups.viewers.PopupGraphicsMenu
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.GraphicsPreferences
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.viewmodels.viewers.GraphicsViewModel
 
@@ -61,20 +60,14 @@ class Graphics : SearchBarScopedFragment() {
 
                 adapterGraphics!!.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
                     override fun onGraphicsClicked(path: String, filePath: String, view: ViewGroup, xOff: Float, yOff: Float) {
-                        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                    ImageViewer.newInstance(packageInfo.applicationInfo.sourceDir, filePath),
-                                                    "image_viewer")
+                        openFragmentSlide(ImageViewer.newInstance(packageInfo.applicationInfo.sourceDir, filePath), "image_viewer")
                     }
 
                     override fun onGraphicsLongPressed(filePath: String) {
                         if (DevelopmentPreferences.isWebViewXmlViewer()) {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        XMLViewerWebView.newInstance(packageInfo, false, filePath),
-                                                        "wv_xml")
+                            openFragmentSlide(XMLViewerWebView.newInstance(packageInfo, false, filePath), "wv_xml")
                         } else {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        XMLViewerTextView.newInstance(packageInfo, false, filePath),
-                                                        "tv_xml")
+                            openFragmentSlide(XMLViewerTextView.newInstance(packageInfo, false, filePath), "tv_xml")
                         }
                     }
                 })

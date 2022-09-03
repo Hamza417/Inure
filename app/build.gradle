@@ -76,7 +76,6 @@ android {
 
 dependencies {
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -90,8 +89,15 @@ dependencies {
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.8.0'
+
+    /**
+     * This library contains Play Services and Firebase APIs
+     *
+     * TODO - Remove it and find alternative
+     */
     implementation 'androidx.core:core-google-shortcuts:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.fragment:fragment-ktx:1.5.2'
     implementation 'androidx.activity:activity-ktx:1.5.1'

@@ -17,7 +17,6 @@ import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AnalyticsPreferences
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
 import com.github.mikephil.charting.charts.PieChart
@@ -134,10 +133,7 @@ class Analytics : ScopedFragment() {
         }
 
         search.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Search.newInstance(true),
-                                        "preferences_screen")
+            openFragmentSlide(Search.newInstance(true), "preferences_screen")
         }
     }
 

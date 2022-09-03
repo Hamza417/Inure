@@ -21,8 +21,6 @@ import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.popups.usagestats.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatisticsPreferences
-import app.simple.inure.ui.app.AppInfo
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 
@@ -90,10 +88,7 @@ class Statistics : ScopedFragment() {
                 }
 
                 override fun onSearchPressed(view: View) {
-                    clearTransitions()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                Search.newInstance(true),
-                                                "search")
+                    openFragmentSlide(Search.newInstance(true), "search")
                 }
             })
 
@@ -103,12 +98,6 @@ class Statistics : ScopedFragment() {
                 startPostponedEnterTransition()
             }
         }
-    }
-
-    private fun openAppInfo(applicationInfo: PackageInfo, icon: ImageView) {
-        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                    AppInfo.newInstance(applicationInfo, icon.transitionName),
-                                    icon, "app_info")
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

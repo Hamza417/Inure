@@ -8,8 +8,10 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.annotation.IntegerRes
+import android.view.View
+import android.widget.ImageView
 import androidx.annotation.Nullable
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.transition.Fade
 import app.simple.inure.R
@@ -21,8 +23,9 @@ import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.ui.app.AppInfo
+import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
-import app.simple.inure.util.FragmentHelper
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -87,11 +90,11 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * for making the custom animations work for the fragments that needs
      * to originate from the current fragment
      */
-    open fun clearExitTransition() {
+    internal fun clearExitTransition() {
         exitTransition = null
     }
 
-    open fun clearEnterTransition() {
+    internal fun clearEnterTransition() {
         enterTransition = null
     }
 
@@ -148,7 +151,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    open fun clearTransitions() {
+    private fun clearTransitions() {
         clearEnterTransition()
         clearExitTransition()
     }
@@ -196,7 +199,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         p0.show(childFragmentManager, "warning")
     }
 
-    open fun showWarning(@IntegerRes warning: Int) {
+    open fun showWarning(@StringRes warning: Int) {
         val p0 = Warning.newInstance(warning)
         p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
             override fun onDismiss() {
@@ -218,7 +221,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     open fun openWebPage(source: String) {
         clearExitTransition()
-        FragmentHelper.openFragment(parentFragmentManager, WebPage.newInstance(string = source), "web_page")
+        openFragmentSlide(WebPage.newInstance(string = source), "web_page")
     }
 
     /**
@@ -239,17 +242,69 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     /**
      * Open fragment using slide animation
      *
+     * If the fragment does not need to be pushed into backstack
+     * leave the [tag] unattended
+     *
      * @param fragment [Fragment]
      * @param tag back stack tag for fragment
      */
-    protected fun openFragment(fragment: ScopedFragment, @Nullable tag: String?) {
+    protected fun openFragmentSlide(fragment: ScopedFragment, @Nullable tag: String? = null) {
         clearExitTransition()
 
-        requireActivity().supportFragmentManager.beginTransaction()
+        parentFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(R.id.app_container, fragment, tag)
             .addToBackStack(tag)
             .commit()
+    }
+
+    /**
+     * Open fragment using linear animation for shared element
+     *
+     * If the fragment does not need to be pushed into backstack
+     * leave the [tag] unattended
+     *
+     * @param fragment [Fragment]
+     * @param view [View] that needs to be animated
+     * @param tag back stack tag for fragment
+     */
+    fun openFragmentLinear(fragment: ScopedFragment, view: View, tag: String? = null, duration: Long? = null) {
+        fragment.setLinearTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
+
+        parentFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .addSharedElement(view, view.transitionName)
+            .replace(R.id.app_container, fragment, tag)
+            .addToBackStack(tag)
+            .commit()
+    }
+
+    /**
+     * Open fragment using arc animation for shared element
+     *
+     * If the fragment does not need to be pushed into backstack
+     * leave the [tag] unattended
+     *
+     * @param fragment [Fragment]
+     * @param icon [View] that needs to be animated
+     * @param tag back stack tag for fragment
+     */
+    protected fun openFragmentArc(fragment: ScopedFragment, icon: View, tag: String? = null, duration: Long? = null) {
+        fragment.setTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
+        parentFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .addSharedElement(icon, icon.transitionName)
+            .replace(R.id.app_container, fragment, tag)
+            .addToBackStack(tag)
+            .commit()
+    }
+
+    protected fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
+        openFragmentArc(AppInfo.newInstance(packageInfo, icon.transitionName), icon, "app_info_${packageInfo.packageName}")
+    }
+
+    protected fun openAppSearch() {
+        openFragmentSlide(Search.newInstance(true), "search")
     }
 }

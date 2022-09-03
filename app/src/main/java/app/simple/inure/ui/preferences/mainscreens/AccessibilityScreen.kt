@@ -11,7 +11,6 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.TextViewUtils.makeLinks
 
 class AccessibilityScreen : ScopedFragment() {
@@ -89,8 +88,7 @@ class AccessibilityScreen : ScopedFragment() {
 
         reduceAnimationsDesc.makeLinks(Pair(getString(R.string.behaviour), object : View.OnClickListener {
             override fun onClick(v: View) {
-                clearExitTransition()
-                FragmentHelper.openFragment(parentFragmentManager, BehaviourScreen.newInstance(), "behavior_screen")
+                openFragmentSlide(BehaviourScreen.newInstance(), "behavior_screen")
             }
         }))
     }

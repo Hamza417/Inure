@@ -39,7 +39,6 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.panels.Unpack
 import app.simple.inure.ui.viewers.*
-import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -140,52 +139,52 @@ class AppInfo : ScopedFragment() {
                     when (source) {
                         R.string.manifest -> {
                             if (DevelopmentPreferences.isWebViewXmlViewer()) {
-                                openFragment(requireActivity().supportFragmentManager, XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
+                                openFragmentArc(XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             } else {
-                                openFragment(requireActivity().supportFragmentManager, XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
+                                openFragmentArc(XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             }
                         }
                         R.string.services -> {
-                            openFragment(requireActivity().supportFragmentManager, Services.newInstance(packageInfo), icon, "services")
+                            openFragmentArc(Services.newInstance(packageInfo), icon, "services")
                         }
                         R.string.activities -> {
-                            openFragment(requireActivity().supportFragmentManager, Activities.newInstance(packageInfo), icon, "activities")
+                            openFragmentArc(Activities.newInstance(packageInfo), icon, "activities")
                         }
                         R.string.providers -> {
-                            openFragment(requireActivity().supportFragmentManager, Providers.newInstance(packageInfo), icon, "providers")
+                            openFragmentArc(Providers.newInstance(packageInfo), icon, "providers")
                         }
                         R.string.permissions -> {
-                            openFragment(requireActivity().supportFragmentManager, Permissions.newInstance(packageInfo), icon, "permissions")
+                            openFragmentArc(Permissions.newInstance(packageInfo), icon, "permissions")
                         }
                         R.string.certificate -> {
-                            openFragment(requireActivity().supportFragmentManager, Certificate.newInstance(packageInfo), icon, "certificate")
+                            openFragmentArc(Certificate.newInstance(packageInfo), icon, "certificate")
                         }
                         R.string.receivers -> {
-                            openFragment(requireActivity().supportFragmentManager, Receivers.newInstance(packageInfo), icon, "broadcasts")
+                            openFragmentArc(Receivers.newInstance(packageInfo), icon, "broadcasts")
                         }
                         R.string.resources -> {
-                            openFragment(requireActivity().supportFragmentManager, Resources.newInstance(packageInfo), icon, "resources")
+                            openFragmentArc(Resources.newInstance(packageInfo), icon, "resources")
                         }
                         R.string.uses_feature -> {
-                            openFragment(requireActivity().supportFragmentManager, Features.newInstance(packageInfo), icon, "uses_feature")
+                            openFragmentArc(Features.newInstance(packageInfo), icon, "uses_feature")
                         }
                         R.string.graphics -> {
-                            openFragment(requireActivity().supportFragmentManager, Graphics.newInstance(packageInfo), icon, "graphics")
+                            openFragmentArc(Graphics.newInstance(packageInfo), icon, "graphics")
                         }
                         R.string.extras -> {
-                            openFragment(requireActivity().supportFragmentManager, Extras.newInstance(packageInfo), icon, "extras")
+                            openFragmentArc(Extras.newInstance(packageInfo), icon, "extras")
                         }
                         R.string.shared_libs -> {
-                            openFragment(requireActivity().supportFragmentManager, SharedLibs.newInstance(packageInfo), icon, "shared_libs")
+                            openFragmentArc(SharedLibs.newInstance(packageInfo), icon, "shared_libs")
                         }
                         R.string.dex_classes -> {
-                            openFragment(requireActivity().supportFragmentManager, Dexs.newInstance(packageInfo), icon, "dexs")
+                            openFragmentArc(Dexs.newInstance(packageInfo), icon, "dexs")
                         }
                         R.string.trackers -> {
-                            openFragment(requireActivity().supportFragmentManager, Trackers.newInstance(packageInfo), icon, "trackers")
+                            openFragmentArc(Trackers.newInstance(packageInfo), icon, "trackers")
                         }
                         R.string.operations -> {
-                            openFragment(requireActivity().supportFragmentManager, Operations.newInstance(packageInfo), icon, "ops")
+                            openFragmentArc(Operations.newInstance(packageInfo), icon, "ops")
                         }
                     }
                 }
@@ -361,19 +360,19 @@ class AppInfo : ScopedFragment() {
         }
 
         appInformation.setOnClickListener {
-            openFragment(Information.newInstance(packageInfo), "information")
+            openFragmentSlide(Information.newInstance(packageInfo), "information")
         }
 
         storage.setOnClickListener {
-            openFragment(UsageStatistics.newInstance(packageInfo), "storage")
+            openFragmentSlide(UsageStatistics.newInstance(packageInfo), "storage")
         }
 
         notes.setOnClickListener {
-            openFragment(NotesEditor.newInstance(packageInfo), "notes_viewer")
+            openFragmentSlide(NotesEditor.newInstance(packageInfo), "notes_viewer")
         }
 
         unpack.setOnClickListener {
-            openFragment(Unpack.newInstance(packageInfo), "unpack")
+            openFragmentSlide(Unpack.newInstance(packageInfo), "unpack")
         }
 
         foldMetaDataMenu.setOnClickListener {

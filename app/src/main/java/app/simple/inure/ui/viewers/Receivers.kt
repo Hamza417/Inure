@@ -20,7 +20,6 @@ import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.popups.viewers.PopupReceiversMenu
 import app.simple.inure.preferences.ReceiversPreferences
 import app.simple.inure.ui.subviewers.ActivityInfo
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.viewers.ReceiversViewModel
 
 class Receivers : SearchBarScopedFragment() {
@@ -58,10 +57,7 @@ class Receivers : SearchBarScopedFragment() {
 
             adapterReceivers?.setOnReceiversCallbackListener(object : AdapterReceivers.Companion.ReceiversCallbacks {
                 override fun onReceiverClicked(activityInfoModel: ActivityInfoModel) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                ActivityInfo.newInstance(activityInfoModel, packageInfo),
-                                                "activity_info")
+                    openFragmentSlide(ActivityInfo.newInstance(activityInfoModel, packageInfo), "activity_info")
                 }
 
                 override fun onReceiverLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {

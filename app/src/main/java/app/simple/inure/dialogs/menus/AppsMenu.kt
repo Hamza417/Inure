@@ -22,14 +22,12 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.Preparing
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
-import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.isNotZero
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
@@ -82,8 +80,6 @@ class AppsMenu : ScopedDialogFragment() {
 
         quickAppsViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-
-        (parentFragment as ScopedFragment).clearExitTransition()
 
         return view
     }
@@ -141,9 +137,9 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         appInformation.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Information.newInstance(packageInfo),
-                                        "information")
+            openFragmentSlide(
+                    Information.newInstance(packageInfo),
+                    "information")
         }
 
         send.setOnClickListener {
@@ -152,57 +148,39 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         permissions.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Permissions.newInstance(packageInfo),
-                                        "permissions")
+            openFragmentSlide(Permissions.newInstance(packageInfo), "permissions")
         }
 
         activities.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Activities.newInstance(packageInfo),
-                                        "activities")
+            openFragmentSlide(Activities.newInstance(packageInfo), "activities")
         }
 
         services.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Services.newInstance(packageInfo),
-                                        "services")
+            openFragmentSlide(Services.newInstance(packageInfo), "services")
         }
 
         receivers.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Receivers.newInstance(packageInfo),
-                                        "receivers")
+            openFragmentSlide(Receivers.newInstance(packageInfo), "receivers")
         }
 
         providers.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Providers.newInstance(packageInfo),
-                                        "providers")
+            openFragmentSlide(Providers.newInstance(packageInfo), "providers")
         }
 
         trackers.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Trackers.newInstance(packageInfo),
-                                        "trackers")
+            openFragmentSlide(Trackers.newInstance(packageInfo), "trackers")
         }
 
         manifest.setOnClickListener {
             if (DevelopmentPreferences.isWebViewXmlViewer()) {
-                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                            XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"),
-                                            "xml")
+                openFragmentSlide(XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), "xml")
             } else {
-                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                            XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"),
-                                            "xml")
+                openFragmentSlide(XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), "xml")
             }
         }
 
         notes.setOnClickListener {
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        NotesEditor.newInstance(packageInfo),
-                                        "notes_editor")
+            openFragmentSlide(NotesEditor.newInstance(packageInfo), "notes_editor")
         }
 
         quickAppsViewModel.getSimpleQuickAppList().observe(viewLifecycleOwner) {

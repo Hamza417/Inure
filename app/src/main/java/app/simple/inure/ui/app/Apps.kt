@@ -22,7 +22,6 @@ import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.ui.panels.Search
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.AppsViewModel
 
 class Apps : ScopedFragment() {
@@ -61,9 +60,7 @@ class Apps : ScopedFragment() {
 
             adapter.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                AppInfo.newInstance(packageInfo, icon.transitionName),
-                                                icon, "app_info")
+                    openFragmentArc(AppInfo.newInstance(packageInfo, icon.transitionName), icon, "app_info")
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
@@ -72,10 +69,7 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSearchPressed(view: View) {
-                    clearTransitions()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                Search.newInstance(true),
-                                                "search")
+                    openFragmentSlide(Search.newInstance(true), "search")
                 }
 
                 override fun onFilterPressed(view: View) {
@@ -87,8 +81,7 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSettingsPressed(view: View) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(parentFragmentManager, Preferences.newInstance(), "prefs_screen")
+                    openFragmentSlide(Preferences.newInstance(), "prefs_screen")
                 }
             })
         }

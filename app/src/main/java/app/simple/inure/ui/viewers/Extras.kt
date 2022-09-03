@@ -18,7 +18,6 @@ import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.popups.viewers.PopupExtrasFilter
 import app.simple.inure.popups.viewers.PopupExtrasMenu
 import app.simple.inure.preferences.ExtrasPreferences
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.viewmodels.viewers.ExtrasViewModel
 
@@ -43,7 +42,7 @@ class Extras : SearchBarScopedFragment() {
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        extrasViewModel = ViewModelProvider(this, packageInfoFactory).get(ExtrasViewModel::class.java)
+        extrasViewModel = ViewModelProvider(this, packageInfoFactory)[ExtrasViewModel::class.java]
 
         searchBoxState(false, ExtrasPreferences.isSearchVisible())
         startPostponedEnterTransition()
@@ -61,33 +60,21 @@ class Extras : SearchBarScopedFragment() {
 
                 adapterExtras?.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
                     override fun onExtrasClicked(path: String) {
-                        clearEnterTransition()
-                        clearExitTransition()
                         when {
                             path.endsWith(".ttf") -> {
-                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            Font.newInstance(packageInfo, path),
-                                                            "ttf_viewer")
+                                openFragmentSlide(Font.newInstance(packageInfo, path), "ttf_viewer")
                             }
                             path.endsWith(".html") -> {
-                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            HtmlViewer.newInstance(packageInfo, path),
-                                                            "html_viewer")
+                                openFragmentSlide(HtmlViewer.newInstance(packageInfo, path), "html_viewer")
                             }
                             path.endsWith(".java") -> {
-                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            Java.newInstance(packageInfo, path),
-                                                            "java_viewer")
+                                openFragmentSlide(Java.newInstance(packageInfo, path), "java_viewer")
                             }
                             path.endsWith(".md") -> {
-                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            Markdown.newInstance(packageInfo, path),
-                                                            "md_viewer")
+                                openFragmentSlide(Markdown.newInstance(packageInfo, path), "md_viewer")
                             }
                             path.endsWith(".json") -> {
-                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            JSON.newInstance(packageInfo, path),
-                                                            "json_viewer")
+                                openFragmentSlide(JSON.newInstance(packageInfo, path), "json_viewer")
                             }
                             /**
                              * TODO - Add a delicious looking code viewers
@@ -96,21 +83,15 @@ class Extras : SearchBarScopedFragment() {
                              * JAVA done
                              */
                             else -> {
-                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            Text.newInstance(packageInfo, path),
-                                                            "text_viewer")
+                                openFragmentSlide(Text.newInstance(packageInfo, path), "text_viewer")
                             }
                         }
                     }
 
                     override fun onExtrasLongClicked(path: String) {
-                        clearEnterTransition()
-                        clearExitTransition()
                         when {
                             path.endsWith(".ttf") -> {
-                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            Font.newInstance(packageInfo, path),
-                                                            "ttf_viewer")
+                                openFragmentSlide(Font.newInstance(packageInfo, path), "ttf_viewer")
                             }
                             path.endsWith(".html") ||
                                     path.endsWith(".java") ||
@@ -119,14 +100,10 @@ class Extras : SearchBarScopedFragment() {
                                     path.endsWith(".proto") ||
                                     path.endsWith(".js") ||
                                     path.endsWith(".md") -> {
-                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            Text.newInstance(packageInfo, path),
-                                                            "text_viewer")
+                                openFragmentSlide(Text.newInstance(packageInfo, path), "text_viewer")
                             }
                             else -> {
-                                FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                            Text.newInstance(packageInfo, path),
-                                                            "text_viewer")
+                                openFragmentSlide(Text.newInstance(packageInfo, path), "text_viewer")
                             }
                         }
                     }

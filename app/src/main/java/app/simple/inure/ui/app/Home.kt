@@ -30,7 +30,6 @@ import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.panels.*
 import app.simple.inure.util.ConditionUtils.isZero
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.HomeViewModel
@@ -87,16 +86,10 @@ class Home : ScopedFragment() {
                 override fun onMenuItemClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.apps -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Apps.newInstance(),
-                                                        icon,
-                                                        "apps")
+                            openFragmentArc(Apps.newInstance(), icon, "apps")
                         }
                         R.string.analytics -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Analytics.newInstance(),
-                                                        icon,
-                                                        "analytics")
+                            openFragmentArc(Analytics.newInstance(), icon, "analytics")
                         }
                         R.string.terminal -> {
                             if (TerminalPreferences.isUsingTermux() && PackageUtils.isPackageInstalledAndEnabled("com.termux", requirePackageManager())) {
@@ -112,28 +105,22 @@ class Home : ScopedFragment() {
                             }
                         }
                         R.string.usage_statistics -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Statistics.newInstance(), icon, "stats")
+                            openFragmentArc(Statistics.newInstance(), icon, "stats")
                         }
                         R.string.device_info -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        DeviceInformation.newInstance(), icon, "info")
+                            openFragmentArc(DeviceInformation.newInstance(), icon, "info")
                         }
                         R.string.sensors -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Sensors.newInstance(), icon, "sensors")
+                            openFragmentArc(Sensors.newInstance(), icon, "sensors")
                         }
                         R.string.batch -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Batch.newInstance(), icon, "batch")
+                            openFragmentArc(Batch.newInstance(), icon, "batch")
                         }
                         R.string.notes -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Notes.newInstance(), icon, "notes")
+                            openFragmentArc(Notes.newInstance(), icon, "notes")
                         }
                         R.string.music -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Music.newInstance(), icon, "music")
+                            openFragmentArc(Music.newInstance(), icon, "music")
                         }
                     }
                 }
@@ -158,26 +145,21 @@ class Home : ScopedFragment() {
                 override fun onMenuItemClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.recently_installed -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        RecentlyInstalled.newInstance(), icon, "recently_installed")
+                            openFragmentArc(RecentlyInstalled.newInstance(), icon, "recently_installed")
                         }
 
                         R.string.recently_updated -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        RecentlyUpdated.newInstance(), icon, "recently_updated")
+                            openFragmentArc(RecentlyUpdated.newInstance(), icon, "recently_updated")
                         }
 
                         R.string.most_used -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        MostUsed.newInstance(), icon, "most_used")
+                            openFragmentArc(MostUsed.newInstance(), icon, "most_used")
                         }
                         R.string.uninstalled -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Uninstalled.newInstance(), icon, "uninstalled")
+                            openFragmentArc(Uninstalled.newInstance(), icon, "uninstalled")
                         }
                         R.string.disabled -> {
-                            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                        Disabled.newInstance(), icon, "disabled")
+                            openFragmentArc(Disabled.newInstance(), icon, "disabled")
                         }
                     }
                 }
@@ -224,16 +206,11 @@ class Home : ScopedFragment() {
         }
 
         search.setOnClickListener {
-            clearTransitions()
-            FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                        Search.newInstance(true),
-                                        "search")
+            openFragmentSlide(Search.newInstance(true), "search")
         }
 
         settings.setOnClickListener {
-            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                              Preferences.newInstance(), it,
-                                              "preferences_screen")
+            openFragmentLinear(Preferences.newInstance(), it, "preferences_screen")
         }
 
         options.setOnClickListener {
@@ -244,21 +221,12 @@ class Home : ScopedFragment() {
                             homeViewModel.refresh()
                         }
                         R.string.preferences -> {
-                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                                              Preferences.newInstance(),
-                                                              icon,
-                                                              "preferences_screen")
+                            openFragmentLinear(Preferences.newInstance(), icon, "preferences_screen")
                         }
                     }
                 }
             })
         }
-    }
-
-    private fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
-        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                    AppInfo.newInstance(packageInfo, icon.transitionName),
-                                    icon, "app_info")
     }
 
     private fun openAppMenu(packageInfo: PackageInfo) {

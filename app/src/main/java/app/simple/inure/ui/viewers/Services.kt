@@ -20,7 +20,6 @@ import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.popups.viewers.PopupServicesMenu
 import app.simple.inure.preferences.ServicesPreferences
 import app.simple.inure.ui.subviewers.ServiceInfo
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.viewers.ServicesViewModel
 
 class Services : SearchBarScopedFragment() {
@@ -58,10 +57,7 @@ class Services : SearchBarScopedFragment() {
 
             adapterServices?.setOnServiceCallbackListener(object : AdapterServices.Companion.ServicesCallbacks {
                 override fun onServiceClicked(serviceInfoModel: ServiceInfoModel) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                ServiceInfo.newInstance(serviceInfoModel, packageInfo),
-                                                "services_info")
+                    openFragmentSlide(ServiceInfo.newInstance(serviceInfoModel, packageInfo), "services_info")
                 }
 
                 override fun onServiceLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {

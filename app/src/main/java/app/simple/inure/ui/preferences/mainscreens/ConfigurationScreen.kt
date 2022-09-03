@@ -14,7 +14,6 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.preferences.subscreens.Language
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
-import app.simple.inure.util.FragmentHelper
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,13 +55,11 @@ class ConfigurationScreen : ScopedFragment() {
         }
 
         shortcuts.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, Shortcuts.newInstance(), "shortcuts")
+            openFragmentSlide(Shortcuts.newInstance(), "shortcuts")
         }
 
         language.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, Language.newInstance(), "language")
+            openFragmentSlide(Language.newInstance(), "language")
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener {

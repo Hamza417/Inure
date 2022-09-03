@@ -20,7 +20,6 @@ import app.simple.inure.models.ProviderInfoModel
 import app.simple.inure.popups.viewers.PopupProvidersMenu
 import app.simple.inure.preferences.ProvidersPreferences
 import app.simple.inure.ui.subviewers.ProviderInfo
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.viewers.ProvidersViewModel
 
 class Providers : SearchBarScopedFragment() {
@@ -41,7 +40,7 @@ class Providers : SearchBarScopedFragment() {
 
         packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        providersViewModel = ViewModelProvider(this, packageInfoFactory).get(ProvidersViewModel::class.java)
+        providersViewModel = ViewModelProvider(this, packageInfoFactory)[ProvidersViewModel::class.java]
 
         startPostponedEnterTransition()
         searchBoxState(animate = false, ProvidersPreferences.isSearchVisible())
@@ -58,10 +57,7 @@ class Providers : SearchBarScopedFragment() {
 
             adapterProviders?.setOnProvidersCallbackListener(object : AdapterProviders.Companion.ProvidersCallbacks {
                 override fun onProvidersClicked(providerInfoModel: ProviderInfoModel) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                ProviderInfo.newInstance(providerInfoModel, packageInfo),
-                                                "provider_info")
+                    openFragmentSlide(ProviderInfo.newInstance(providerInfoModel, packageInfo), "provider_info")
                 }
 
                 override fun onProvidersLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {

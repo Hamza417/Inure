@@ -26,7 +26,6 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.invisible
@@ -98,26 +97,22 @@ Setup : ScopedFragment() {
 
         startApp.setOnClickListener {
             if (requireContext().checkForUsageAccessPermission() && requireActivity().contentResolver.persistedUriPermissions.isNotEmpty()) {
-                FragmentHelper.openFragment(
-                        requireActivity().supportFragmentManager,
-                        SplashScreen.newInstance(false), view.findViewById(R.id.imageView3))
+                openFragmentArc(SplashScreen.newInstance(false), view.findViewById(R.id.imageView3))
             } else {
                 Toast.makeText(requireContext(), R.string.ss_please_grant_storage_permission, Toast.LENGTH_SHORT).show()
             }
         }
 
         skip.setOnClickListener {
-            FragmentHelper.openFragment(
-                    requireActivity().supportFragmentManager,
-                    SplashScreen.newInstance(true), view.findViewById(R.id.imageView3))
+            openFragmentArc(SplashScreen.newInstance(true), view.findViewById(R.id.imageView3))
         }
 
         accent.setOnClickListener {
-            FragmentHelper.openFragment(parentFragmentManager, AccentColor.newInstance(), "accent_color")
+            openFragmentSlide(AccentColor.newInstance(), "accent_color")
         }
 
         typeface.setOnClickListener {
-            FragmentHelper.openFragment(parentFragmentManager, AppearanceTypeFace.newInstance(), "typeface")
+            openFragmentSlide(AppearanceTypeFace.newInstance(), "typeface")
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener {

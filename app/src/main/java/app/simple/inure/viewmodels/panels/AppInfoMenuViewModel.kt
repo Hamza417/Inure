@@ -139,18 +139,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
             val list = arrayListOf<Pair<Int, Int>>()
 
             list.add(Pair(R.drawable.ic_downloading, R.string.extract))
-
-            if (PackageUtils.isPackageInstalled("com.android.vending", getApplication<Application>().packageManager)) {
-                list.add(Pair(R.drawable.ic_play_store, R.string.play_store))
-            }
-
-            if (PackageUtils.isPackageInstalled("com.amazon.venezia", getApplication<Application>().packageManager)) {
-                list.add(Pair(R.drawable.ic_amazon, R.string.amazon))
-            }
-
-            if (PackageUtils.isPackageInstalled("org.fdroid.fdroid", getApplication<Application>().packageManager)) {
-                list.add(Pair(R.drawable.ic_fdroid, R.string.fdroid))
-            }
+            list.add(Pair(R.drawable.ic_play_store, R.string.play_store))
+            list.add(Pair(R.drawable.ic_amazon, R.string.amazon))
+            list.add(Pair(R.drawable.ic_fdroid, R.string.fdroid))
 
             miscellaneousItems.postValue(list)
         }

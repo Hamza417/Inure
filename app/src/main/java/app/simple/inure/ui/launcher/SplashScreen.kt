@@ -25,7 +25,6 @@ import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.ui.app.Home
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.FragmentHelper.openFragment
 import app.simple.inure.viewmodels.panels.AppsViewModel
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.SearchViewModel
@@ -76,7 +75,7 @@ class SplashScreen : ScopedFragment() {
                     proceed()
                 }
                 !checkForPermission() -> {
-                    openFragment(requireActivity().supportFragmentManager, Setup.newInstance(), icon)
+                    openFragmentArc(Setup.newInstance(), icon)
                 }
                 else -> {
                     proceed()
@@ -123,19 +122,14 @@ class SplashScreen : ScopedFragment() {
         }
 
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
-            openFragment(
-                    requireActivity().supportFragmentManager,
-                    Home.newInstance(),
-                    requireView().findViewById(R.id.imageView))
+            openFragmentArc(Home.newInstance(), requireView().findViewById(R.id.imageView))
         }
     }
 
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
         if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded && isUninstalledPackagesLoaded) {
-            openFragment(requireActivity().supportFragmentManager,
-                         Home.newInstance(),
-                         requireView().findViewById(R.id.imageView))
+            openFragmentArc(Home.newInstance(), requireView().findViewById(R.id.imageView))
         }
     }
 

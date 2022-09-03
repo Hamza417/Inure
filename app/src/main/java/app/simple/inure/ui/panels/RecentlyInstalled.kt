@@ -15,8 +15,6 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
-import app.simple.inure.ui.app.AppInfo
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
 class RecentlyInstalled : ScopedFragment() {
@@ -61,24 +59,14 @@ class RecentlyInstalled : ScopedFragment() {
                 }
 
                 override fun onSearchPressed(view: View) {
-                    clearTransitions()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                Search.newInstance(true),
-                                                "search")
+                    openFragmentSlide(Search.newInstance(true), "search")
                 }
 
                 override fun onSettingsPressed(view: View) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(parentFragmentManager, Preferences.newInstance(), "prefs_screen")
+                    openFragmentSlide(Preferences.newInstance(), "prefs_screen")
                 }
             })
         }
-    }
-
-    private fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
-        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                    AppInfo.newInstance(packageInfo, icon.transitionName),
-                                    icon, "app_info")
     }
 
     companion object {

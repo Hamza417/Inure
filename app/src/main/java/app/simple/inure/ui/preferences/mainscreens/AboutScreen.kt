@@ -11,7 +11,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.ui.preferences.subscreens.Share
-import app.simple.inure.util.FragmentHelper
 
 class AboutScreen : ScopedFragment() {
 
@@ -80,10 +79,7 @@ class AboutScreen : ScopedFragment() {
         }
 
         share.setOnClickListener {
-            clearTransitions()
-            FragmentHelper.openFragment(parentFragmentManager,
-                                        Share.newInstance(),
-                                        "share")
+            openFragmentSlide(Share.newInstance(), "share")
         }
     }
 

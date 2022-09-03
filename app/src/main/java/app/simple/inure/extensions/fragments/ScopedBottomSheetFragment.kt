@@ -8,12 +8,13 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.Nullable
+import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.ui.panels.Preferences
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -94,17 +95,34 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
         }
     }
 
-    protected fun openSettings() {
-        (parentFragment as ScopedFragment).clearExitTransition()
-        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                    Preferences.newInstance(),
-                                    "prefs_screen")
-    }
-
     /**
      * Return the {@link Application} this fragment is currently associated with.
      */
     protected fun requireApplication(): Application {
         return requireActivity().application
+    }
+
+    protected fun openSettings() {
+        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+    }
+
+    /**
+     * Open fragment using slide animation
+     *
+     * If the fragment does not need to be pushed into backstack
+     * leave the [tag] unattended
+     *
+     * @param fragment [Fragment]
+     * @param tag back stack tag for fragment
+     */
+    protected fun openFragmentSlide(fragment: ScopedFragment, @Nullable tag: String? = null) {
+        (parentFragment as ScopedFragment).clearExitTransition()
+
+        parentFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+            .replace(R.id.app_container, fragment, tag)
+            .addToBackStack(tag)
+            .commit()
     }
 }

@@ -13,7 +13,6 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.ui.deviceinfo.BatteryInfo
 import app.simple.inure.ui.deviceinfo.DeviceInfo
 import app.simple.inure.ui.deviceinfo.SystemInfo
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.deviceinfo.PanelItemsViewModel
 
 class DeviceInformation : ScopedFragment() {
@@ -42,34 +41,23 @@ class DeviceInformation : ScopedFragment() {
                 override fun onItemClicked(source: String, icon: View) {
                     when (source) {
                         getString(R.string.system) -> {
-                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                                              SystemInfo.newInstance(),
-                                                              icon, "system_info")
+                            openFragmentLinear(SystemInfo.newInstance(), icon, "system_info")
                         }
                         getString(R.string.device) -> {
-                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                                              DeviceInfo.newInstance(),
-                                                              icon, "device_info")
+                            openFragmentLinear(DeviceInfo.newInstance(), icon, "device_info")
                         }
                         getString(R.string.battery) -> {
-                            FragmentHelper.openFragmentLinear(requireActivity().supportFragmentManager,
-                                                              BatteryInfo.newInstance(),
-                                                              icon, "battery_info")
+                            openFragmentLinear(BatteryInfo.newInstance(), icon, "battery_info")
                         }
                     }
                 }
 
                 override fun onSearchClicked() {
-                    clearEnterTransition()
-                    clearExitTransition()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                Search.newInstance(true),
-                                                "search")
+                    openFragmentSlide(Search.newInstance(true), "search")
                 }
 
                 override fun onSettingsClicked() {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(parentFragmentManager, Preferences.newInstance(), "prefs_screen")
+                    openFragmentSlide(Preferences.newInstance(), "prefs_screen")
                 }
             })
 

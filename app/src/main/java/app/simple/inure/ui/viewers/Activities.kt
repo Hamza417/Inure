@@ -24,7 +24,6 @@ import app.simple.inure.popups.viewers.PopupActivitiesMenu
 import app.simple.inure.preferences.ActivitiesPreferences
 import app.simple.inure.ui.subviewers.ActivityInfo
 import app.simple.inure.util.ActivityUtils
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.viewers.ActivitiesViewModel
 
 class Activities : SearchBarScopedFragment() {
@@ -62,10 +61,7 @@ class Activities : SearchBarScopedFragment() {
 
             adapterActivities?.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
                 override fun onActivityClicked(activityInfoModel: ActivityInfoModel, packageId: String) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                ActivityInfo.newInstance(activityInfoModel, packageInfo),
-                                                "activity_info")
+                    openFragmentSlide(ActivityInfo.newInstance(activityInfoModel, packageInfo), "activity_info")
                 }
 
                 override fun onActivityLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {

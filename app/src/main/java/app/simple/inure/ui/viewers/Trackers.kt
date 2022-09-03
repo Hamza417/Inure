@@ -20,7 +20,6 @@ import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.ui.subviewers.TrackerSourceViewer
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.TrackersViewModel
@@ -67,14 +66,11 @@ class Trackers : SearchBarScopedFragment() {
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
                 override fun onTrackersClicked(className: String) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                TrackerSourceViewer.newInstance(className, packageInfo),
-                                                "tracker_source_viewer")
+                    openFragmentSlide(TrackerSourceViewer.newInstance(className, packageInfo), "tracker_source_viewer")
                 }
 
                 override fun onTrackersLongClicked(className: String) {
-                    clearExitTransition()
+                    /* no-op */
                 }
             })
 

@@ -10,7 +10,6 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.launcher.Setup
-import app.simple.inure.util.FragmentHelper
 
 class DevelopmentScreen : ScopedFragment() {
 
@@ -40,8 +39,7 @@ class DevelopmentScreen : ScopedFragment() {
         debugFeaturesSwitch.setChecked(DevelopmentPreferences.isDebugStateEnabled())
 
         setup.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, Setup.newInstance(), "setup")
+            openFragmentSlide(Setup.newInstance(), "setup")
         }
 
         textViewXmlViewerSwitchView.setOnSwitchCheckedChangeListener { isChecked ->

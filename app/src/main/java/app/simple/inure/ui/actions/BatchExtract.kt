@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.adapters.batch.AdapterBatchExtract
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.services.BatchExtractService
@@ -18,12 +20,16 @@ class BatchExtract : ScopedFragment() {
     private var serviceConnection: ServiceConnection? = null
     private var extractBroadcastReceiver: BroadcastReceiver? = null
     private var batchExtractIntentFilter = IntentFilter()
+    private var adapterBatchExtract: AdapterBatchExtract? = null
 
     private var serviceBound = false
+
+    private lateinit var recyclerView: CustomVerticalRecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_batch_extract, container, false)
 
+        recyclerView = view.findViewById(R.id.batch_process_recycler_view)
 
         return view
     }
@@ -35,9 +41,12 @@ class BatchExtract : ScopedFragment() {
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 kotlin.runCatching {
+                    adapterBatchExtract = AdapterBatchExtract(requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps)!!)
                     batchExtractService = (service as BatchExtractService.BatchCopyBinder).getService()
                     batchExtractService?.appsList = requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps)!!
                     serviceBound = true
+
+                    recyclerView.adapter = adapterBatchExtract
                 }.getOrElse {
                     it.printStackTrace()
                     showError(it.stackTraceToString())

@@ -85,7 +85,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
 
         uri = requireArguments().getParcelable("uri")!!
         audioIntentFilter.addAction(ServiceConstants.actionPrepared)
-        audioIntentFilter.addAction(ServiceConstants.actionQuitService)
+        audioIntentFilter.addAction(ServiceConstants.actionQuitMusicService)
         audioIntentFilter.addAction(ServiceConstants.actionMetaData)
         audioIntentFilter.addAction(ServiceConstants.actionPause)
         audioIntentFilter.addAction(ServiceConstants.actionPlay)
@@ -148,7 +148,7 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                         playPause.isEnabled = true
                         wasSongPlaying = true
                     }
-                    ServiceConstants.actionQuitService -> {
+                    ServiceConstants.actionQuitMusicService -> {
                         if (wasSongPlaying) {
                             requireActivity().finish()
                         } else {

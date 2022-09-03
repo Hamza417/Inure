@@ -20,8 +20,6 @@ import app.simple.inure.dialogs.menus.SearchMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
-import app.simple.inure.ui.app.AppInfo
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.SearchViewModel
 
 class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -116,12 +114,6 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
                 searchViewModel.setSearchKeywords(keywords)
             }
         })
-    }
-
-    private fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
-        FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                    AppInfo.newInstance(packageInfo, icon.transitionName),
-                                    icon, "app_info_by_search")
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

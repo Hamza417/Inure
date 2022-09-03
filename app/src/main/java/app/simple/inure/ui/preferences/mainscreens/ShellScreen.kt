@@ -13,7 +13,6 @@ import app.simple.inure.dialogs.terminal.DialogInitialCommand
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ShellPreferences
 import app.simple.inure.ui.preferences.subscreens.ShellTerminalType
-import app.simple.inure.util.FragmentHelper
 
 class ShellScreen : ScopedFragment() {
 
@@ -64,8 +63,7 @@ class ShellScreen : ScopedFragment() {
         }
 
         terminalType.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, ShellTerminalType.newInstance(), "terminal_type")
+            openFragmentSlide(ShellTerminalType.newInstance(), "terminal_type")
         }
 
         sendMouseEvent.setOnSwitchCheckedChangeListener {

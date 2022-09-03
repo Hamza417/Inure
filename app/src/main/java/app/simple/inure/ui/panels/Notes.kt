@@ -18,7 +18,6 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.ui.viewers.Note
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.viewmodels.panels.NotesViewModel
 
 class Notes : ScopedFragment() {
@@ -46,24 +45,15 @@ class Notes : ScopedFragment() {
 
             adapterNotes?.setOnItemClickListener(object : AppsAdapterCallbacks {
                 override fun onNoteClicked(notesPackageInfo: NotesPackageInfo) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                NotesEditor.newInstance(notesPackageInfo.packageInfo),
-                                                "notes_editor")
+                    openFragmentSlide(NotesEditor.newInstance(notesPackageInfo.packageInfo), "notes_editor")
                 }
 
                 override fun onNoteLongClicked(notesPackageInfo: NotesPackageInfo) {
-                    clearExitTransition()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                Note.newInstance(notesPackageInfo.packageInfo),
-                                                "notes_viewer")
+                    openFragmentSlide(Note.newInstance(notesPackageInfo.packageInfo), "notes_viewer")
                 }
 
                 override fun onSearchPressed(view: View) {
-                    clearTransitions()
-                    FragmentHelper.openFragment(requireActivity().supportFragmentManager,
-                                                Search.newInstance(true),
-                                                "search")
+                    openFragmentSlide(Search.newInstance(true), "search")
                 }
 
                 override fun onSettingsPressed(view: View) {

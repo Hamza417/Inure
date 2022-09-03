@@ -14,7 +14,7 @@ object ServiceConstants {
     const val actionStop = "$appPackageName.stop"
     const val actionSkip = "$appPackageName.skip"
     const val actionRewind = "$appPackageName.rewind"
-    const val actionQuitService = "$appPackageName.quit_service"
+    const val actionQuitMusicService = "$appPackageName.quit.music.service"
     const val actionPendingQuitService = "$appPackageName.pending_quit_service"
     const val shuffleMode = "$appPackageName.shuffle_mode"
     const val actionNext = "$appPackageName.action_next"
@@ -27,6 +27,7 @@ object ServiceConstants {
     const val actionCancel = "$appPackageName.action.cancel"
     const val actionApkType = "$appPackageName.apk.type"
     const val actionCopyProgress = "$appPackageName.copy.progress"
+    const val actionQuitExtractService = "$appPackageName.quit.extract.service"
 
     fun getMediaErrorString(extra: Int): String {
         return when (extra) {

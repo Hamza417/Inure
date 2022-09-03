@@ -20,7 +20,6 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.popups.terminal.PopupInputMethod
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.ui.preferences.subscreens.*
-import app.simple.inure.util.FragmentHelper
 import app.simple.inure.util.ViewUtils.gone
 
 class TerminalScreen : ScopedFragment() {
@@ -99,13 +98,11 @@ class TerminalScreen : ScopedFragment() {
         }
 
         fontSize.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, TerminalFontSize.newInstance(), "font_size")
+            openFragmentSlide(TerminalFontSize.newInstance(), "font_size")
         }
 
         color.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, TerminalColor.newInstance(), "color")
+            openFragmentSlide(TerminalColor.newInstance(), "color")
         }
 
         cursorBlink.setOnSwitchCheckedChangeListener {
@@ -117,18 +114,15 @@ class TerminalScreen : ScopedFragment() {
         }
 
         backButtonAction.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, TerminalBackButtonAction.newInstance(), "back_button")
+            openFragmentSlide(TerminalBackButtonAction.newInstance(), "back_button")
         }
 
         controlKey.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, TerminalControlKey.newInstance(), "control_key")
+            openFragmentSlide(TerminalControlKey.newInstance(), "control_key")
         }
 
         fnKey.setOnClickListener {
-            clearExitTransition()
-            FragmentHelper.openFragment(parentFragmentManager, TerminalFnKey.newInstance(), "fn_key")
+            openFragmentSlide(TerminalFnKey.newInstance(), "fn_key")
         }
 
         inputMethod.setOnClickListener {
