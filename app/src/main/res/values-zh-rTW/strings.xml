@@ -76,7 +76,7 @@
     <string name="providers">提供器</string>
     <string name="screen">螢幕</string>
     <string name="keep_screen_on">保持螢幕開啟</string>
-    <string name="keep_screen_on_desc">防止裝置在應用程式可見時進入睡眠.</string>
+    <string name="keep_screen_on_desc">防止裝置在應用程式可見時進入睡眠。</string>
     <string name="signature_or_system">簽章或系統</string>
     <string name="signature">簽章</string>
     <string name="normal">一般</string>
@@ -380,9 +380,9 @@
     <string name="credits">致謝</string>
     <string name="desc_credits">瞭解參與過此應用程式開發的實體。</string>
     <string name="user_agreements">使用者合約</string>
-    <string name="desc_user_agreements">閱讀應用程式的免責聲明和使用條款</string>
+    <string name="desc_user_agreements">閱讀應用程式的免責聲明和使用條款。</string>
     <string name="translate">翻譯</string>
-    <string name="desc_translate">參與這個應用程式翻譯工作。</string>
+    <string name="desc_translate">參與這個應用程式的翻譯工作。</string>
     <string name="open_source_licenses">開放原始碼授權</string>
     <string name="desc_licenses">列出應用程式開發中使用的開放原始碼程式庫的授權清單。</string>
     <string name="change_logs">變更記錄</string>
@@ -402,7 +402,7 @@
     <string name="shared_libs">已共用的程式庫</string>
     <string name="copy_package_name">複製套件名稱</string>
     <string name="join_telegram">Telegram 群組</string>
-    <string name="desc_telegram">加入 Telegram 群組與開發人員和其他使用者討論</string>
+    <string name="desc_telegram">加入 Telegram 群組與開發人員和其他使用者討論。</string>
     <string name="batch">批次</string>
     <string name="verifying_license">正在驗證授權</string>
     <string name="disable_transparent_status_bar">停用透明狀態列</string>
@@ -555,7 +555,7 @@
     <string name="clear_trackers_data_desc">這個應用程式從應用程式中擷取 Dex 類別以掃描其中的追蹤器。此選項將清除追蹤器儲存的所有遺留項目。</string>
     <string name="clear_images_data_desc">清除應用程式圖示的所有快取資料和由應用程式的圖像載入程式建立的其他圖形。</string>
     <string name="language">語言</string>
-    <string name="language_desc">變更應用程式語言</string>
+    <string name="language_desc">變更應用程式語言。</string>
     <string name="deep_search">深度搜尋</string>
     <string name="deep_search_desc">一併搜尋應用程式內部元件</string>
     <string name="desc_data_collect">這個應用程式不蒐集任何使用者資料</string>
