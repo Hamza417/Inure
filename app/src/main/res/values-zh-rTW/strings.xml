@@ -399,7 +399,7 @@
     <string name="dividers">分隔線</string>
     <string name="desc_dividers">在整個應用程式的每個可捲動清單的項目之間使用分隔線。</string>
     <string name="faq">常見問題</string>
-    <string name="shared_libs">已分享的程式庫</string>
+    <string name="shared_libs">已共用的程式庫</string>
     <string name="copy_package_name">複製套件名稱</string>
     <string name="join_telegram">Telegram 群組</string>
     <string name="desc_telegram">加入 Telegram 群組與開發人員和其他使用者討論</string>
@@ -562,4 +562,5 @@
     <string name="line_number_on_every_line">每行行號</string>
     <string name="operations">作業</string>
     <string name="native_libraries_dir">原生程式庫目錄</string>
+    <string name="queued">已佇列</string>
 </resources>
