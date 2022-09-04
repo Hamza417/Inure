@@ -8,7 +8,7 @@
     android:layout_margin="@dimen/popup_padding"
     android:orientation="vertical">
 
-    <ImageView
+    <app.simple.inure.decorations.views.AppIconImageView
         android:id="@+id/adapter_providers_icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"

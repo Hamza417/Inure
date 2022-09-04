@@ -132,11 +132,12 @@
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_activity_info.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_all_apps.xml" value="0.2364102564102564" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_all_apps_header.xml" value="0.2364102564102564" />
-        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_all_apps_small_details.xml" value="0.33" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_all_apps_small_details.xml" value="0.25" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_app_info_menu.xml" value="0.22407407407407406" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_app_info_menu_grid.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_batch.xml" value="0.2" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_batch_extract.xml" value="0.2390625" />
+        <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_batch_process.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_deep_search.xml" value="0.5104602510460251" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_heading.xml" value="0.24010416666666667" />
         <entry key="..\:/Android_Apps/Inure/app/src/main/res/layout/adapter_device_info_items.xml" value="0.2101851851851852" />

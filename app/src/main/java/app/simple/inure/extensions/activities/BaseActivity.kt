@@ -19,7 +19,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.R
-import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -48,9 +47,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU) {
-                presetMaterialYouDynamicColors()
-            }
+            presetMaterialYouDynamicColors()
 
             if (AppearancePreferences.isMaterialYourAccent()) {
                 AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID))

@@ -26,6 +26,9 @@ object AppearancePreferences {
     const val transparentStatus = "is_transparent_status_disabled"
     const val iconSize = "app_icon_size"
 
+    const val minIconSize = 75
+    const val maxIconSize = 350
+
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setAccentColor(@ColorInt int: Int): Boolean {
@@ -138,13 +141,13 @@ object AppearancePreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setIconSize(@IntRange(from = 50, to = 600) size: Int) {
+    fun setIconSize(@IntRange(from = minIconSize.toLong(), to = maxIconSize.toLong()) size: Int) {
         getSharedPreferences().edit().putInt(iconSize, size).apply()
     }
 
     @Synchronized
     fun getIconSize(): Int {
-        return getSharedPreferences().getInt(iconSize, 400)
+        return getSharedPreferences().getInt(iconSize, 250)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

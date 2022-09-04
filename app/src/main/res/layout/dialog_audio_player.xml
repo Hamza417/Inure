@@ -98,8 +98,8 @@
 
                 <ImageView
                     android:id="@+id/album_art_mime"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout

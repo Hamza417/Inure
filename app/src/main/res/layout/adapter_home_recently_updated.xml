@@ -8,7 +8,7 @@
     android:id="@+id/recently_container"
     android:padding="@dimen/popup_padding">
 
-    <ImageView
+    <app.simple.inure.decorations.views.AppIconImageView
         android:id="@+id/recently_app_icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"

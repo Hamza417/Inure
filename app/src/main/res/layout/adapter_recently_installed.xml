@@ -8,7 +8,7 @@
     android:layout_margin="10dp"
     android:padding="5dp">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/adapter_recently_app_icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"

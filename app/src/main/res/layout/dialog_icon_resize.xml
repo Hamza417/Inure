@@ -18,7 +18,7 @@
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
-        <ImageView
+        <app.simple.inure.decorations.views.AppIconImageView
             android:id="@+id/resized_icon_preview"
             android:layout_width="@dimen/app_icon_dimension"
             android:layout_height="@dimen/app_icon_dimension"

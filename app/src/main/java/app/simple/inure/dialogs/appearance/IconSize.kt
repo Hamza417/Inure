@@ -1,19 +1,22 @@
 package app.simple.inure.dialogs.appearance
 
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.graphics.drawable.toDrawable
+import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.theme.ThemeSeekBar
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.glide.transformation.BlurShadow
 import app.simple.inure.glide.transformation.Padding
+import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.BitmapHelper.toBitmap
 import com.bumptech.glide.Glide
@@ -24,7 +27,7 @@ import com.bumptech.glide.request.target.Target
 
 class IconSize : ScopedBottomSheetFragment() {
 
-    private lateinit var iconPreview: ImageView
+    private lateinit var iconPreview: AppIconImageView
     private lateinit var seekbar: ThemeSeekBar
     private lateinit var set: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
@@ -45,16 +48,21 @@ class IconSize : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setImage(AppearancePreferences.getIconSize())
+        iconPreview.loadAppIcon(BuildConfig.APPLICATION_ID)
         seekbar.progress = AppearancePreferences.getIconSize()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            seekbar.min = AppearancePreferences.minIconSize
+        }
+        seekbar.max = AppearancePreferences.maxIconSize
 
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    if (progress < 50) {
-                        setImage(50)
+                    if (progress < AppearancePreferences.minIconSize) {
+                        iconPreview.setSize(AppearancePreferences.minIconSize)
                     } else {
-                        setImage(progress)
+                        iconPreview.setSize(progress)
                     }
                 }
             }
@@ -69,7 +77,7 @@ class IconSize : ScopedBottomSheetFragment() {
         })
 
         set.setOnClickListener {
-            AppearancePreferences.setIconSize(if (seekbar.progress < 50) 50 else seekbar.progress)
+            AppearancePreferences.setIconSize(if (seekbar.progress < AppearancePreferences.minIconSize) AppearancePreferences.minIconSize else seekbar.progress)
             dismiss()
         }
 
@@ -78,6 +86,7 @@ class IconSize : ScopedBottomSheetFragment() {
         }
     }
 
+    @Deprecated("Use AppIconImageView")
     private fun setImage(size: Int) {
         Glide.with(iconPreview).clear(iconPreview).also {
             Glide.with(iconPreview)
