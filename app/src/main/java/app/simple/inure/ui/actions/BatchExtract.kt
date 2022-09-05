@@ -1,11 +1,11 @@
 package app.simple.inure.ui.actions
 
 import android.content.*
-import android.os.Bundle
-import android.os.IBinder
+import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
@@ -18,6 +18,8 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.services.BatchExtractService
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class BatchExtract : ScopedBottomSheetFragment() {
 
@@ -27,20 +29,27 @@ class BatchExtract : ScopedBottomSheetFragment() {
     private var batchExtractIntentFilter = IntentFilter()
     private val stringBuilder = StringBuilder()
     private var appList = arrayListOf<BatchPackageInfo>()
+    private var vibrator: Vibrator? = null
+    private var vibratorManager: VibratorManager? = null
 
     private var serviceBound = false
+    private val vibratePattern = longArrayOf(500, 500)
 
+    private lateinit var count: TypeFaceTextView
+    private lateinit var name: TypeFaceTextView
     private lateinit var progressStatus: TypeFaceTextView
-    private lateinit var progressDetails: TypeFaceTextView
     private lateinit var progress: CustomProgressBar
+    private lateinit var percentage: TypeFaceTextView
     private lateinit var cancel: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_batch_extract, container, false)
 
+        count = view.findViewById(R.id.progress_count)
+        name = view.findViewById(R.id.name)
         progressStatus = view.findViewById(R.id.progress_status)
-        progressDetails = view.findViewById(R.id.progress_details)
         progress = view.findViewById(R.id.progress)
+        percentage = view.findViewById(R.id.progress_percentage)
         cancel = view.findViewById(R.id.cancel)
 
         batchExtractIntentFilter.addAction(ServiceConstants.actionBatchCopyStart)
@@ -48,8 +57,17 @@ class BatchExtract : ScopedBottomSheetFragment() {
         batchExtractIntentFilter.addAction(ServiceConstants.actionQuitExtractService)
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyProgress)
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyFinished)
+        batchExtractIntentFilter.addAction(ServiceConstants.actionExtractDone)
 
         appList = requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps)!!
+
+        if (Build.VERSION.SDK_INT >= 31) {
+            vibratorManager = requireActivity().getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibrator = vibratorManager?.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator = requireActivity().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?;
+        }
 
         return view
     }
@@ -61,31 +79,33 @@ class BatchExtract : ScopedBottomSheetFragment() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
                     ServiceConstants.actionBatchCopyStart -> {
+                        count.text = buildString {
+                            append(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
+                            append("/")
+                            append(appList.size)
+                        }
+
                         packageInfo = appList[intent.extras?.getInt(IntentHelper.INT_EXTRA)!!].packageInfo
                         val fileName = "${packageInfo.applicationInfo.name}_(${packageInfo.versionName})"
 
                         if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
-                            if (progressStatus.text.isNotEmpty()) {
-                                progressStatus.append("\n$fileName.apkm")
-                            } else {
-                                progressStatus.append("$fileName.apkm")
+                            name.text = buildString {
+                                append(fileName)
+                                append(".apkm")
                             }
                         } else { // For APK files
-                            if (progressStatus.text.isNotEmpty()) {
-                                progressStatus.append("\n$fileName.apk")
-                            } else {
-                                progressStatus.append("$fileName.apk")
+                            name.text = buildString {
+                                append(fileName)
+                                append(".apk")
                             }
                         }
                     }
-                    ServiceConstants.actionCopyProgressMax -> {
-                        progress.max = intent.extras?.getInt(IntentHelper.INT_EXTRA)!!
-                    }
                     ServiceConstants.actionCopyProgress -> {
                         progress.animateProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
+                        percentage.text = getString(R.string.progress, intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
                     }
                     ServiceConstants.actionBatchApkType -> {
-                        progressDetails.text = when (intent.extras?.getInt(BatchExtractService.APK_TYPE_EXTRA)) {
+                        progressStatus.text = when (intent.extras?.getInt(BatchExtractService.APK_TYPE_EXTRA)) {
                             BatchExtractService.APK_TYPE_FILE -> {
                                 getString(R.string.preparing_apk_file)
                             }
@@ -98,7 +118,21 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         }
                     }
                     ServiceConstants.actionCopyFinished -> {
-                        progressStatus.append("... Done")
+                        progressStatus.setText(R.string.done)
+                        progress.animateProgress(progress.max)
+                    }
+                    ServiceConstants.actionExtractDone -> {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            delay(1000)
+                            cancel.callOnClick()
+                            if (Build.VERSION.SDK_INT >= 26) {
+                                vibrator?.vibrate(VibrationEffect.createWaveform(vibratePattern, 0));
+                            } else {
+                                @Suppress("DEPRECATION")
+                                vibrator?.vibrate(vibratePattern, 0);
+                            }
+                            dismiss()
+                        }
                     }
                 }
             }
@@ -121,6 +155,12 @@ class BatchExtract : ScopedBottomSheetFragment() {
                 serviceBound = false
             }
         }
+
+        cancel.setOnClickListener {
+            unbindService()
+            stopService()
+            dismiss()
+        }
     }
 
     override fun onStart() {
@@ -137,9 +177,20 @@ class BatchExtract : ScopedBottomSheetFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        requireActivity().unbindService(serviceConnection!!)
-        requireActivity().stopService(Intent(requireActivity(), BatchExtractService::class.java))
+        unbindService()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(extractBroadcastReceiver!!)
+    }
+
+    private fun unbindService() {
+        kotlin.runCatching {
+            requireActivity().unbindService(serviceConnection!!)
+        }.getOrElse {
+            it.printStackTrace()
+        }
+    }
+
+    private fun stopService() {
+        requireActivity().stopService(Intent(requireActivity(), BatchExtractService::class.java))
     }
 
     companion object {

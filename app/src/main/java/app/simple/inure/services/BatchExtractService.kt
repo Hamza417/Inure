@@ -96,55 +96,74 @@ class BatchExtractService : Service() {
 
             var position = 0
 
-            for (app in appsList) {
-                try {
-                    if (applicationContext.areStoragePermissionsGranted()) {
-                        PackageData.makePackageFolder(applicationContext)
-                    } else {
-                        notificationBuilder.setContentText(getString(R.string.grant_storage_access_permission))
-                        throw SecurityException("Storage Permission not granted")
-                    }
-
-                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionBatchCopyStart, applicationContext, position)
-
-                    if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
-                        sendApkTypeBroadcast(APK_TYPE_SPLIT)
-                        extractBundle(packageInfo = app.packageInfo)
-                    } else { // For APK files
-                        sendApkTypeBroadcast(APK_TYPE_FILE)
-                        extractApk(packageInfo = app.packageInfo)
-                    }
-
-                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyFinished, applicationContext)
-                    position++
-                } catch (e: SecurityException) {
-                    /**
-                     * Terminate the process since the permission is
-                     * not granted, file cannot be copied
-                     */
-                    e.printStackTrace()
-                } catch (e: NullPointerException) {
-                    /**
-                     * File does not exit
-                     */
-                    e.printStackTrace()
-                } catch (e: IOException) {
-                    /**
-                     * Some IO error happened, skip this apk
-                     * and flush the buffer
-                     */
-                    e.printStackTrace()
-                } finally {
+            try {
+                for (app in appsList) {
                     try {
+                        if (applicationContext.areStoragePermissionsGranted()) {
+                            PackageData.makePackageFolder(applicationContext)
+                        } else {
+                            notificationBuilder.setContentText(getString(R.string.grant_storage_access_permission))
+                            throw SecurityException("Storage Permission not granted")
+                        }
 
+                        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionBatchCopyStart, applicationContext, position)
+
+                        if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                            sendApkTypeBroadcast(APK_TYPE_SPLIT)
+                            extractBundle(packageInfo = app.packageInfo)
+                        } else { // For APK files
+                            sendApkTypeBroadcast(APK_TYPE_FILE)
+                            extractApk(packageInfo = app.packageInfo)
+                        }
+
+                        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyFinished, applicationContext)
+                        position++
+                    } catch (e: SecurityException) {
+                        /**
+                         * Terminate the process since the permission is
+                         * not granted, file cannot be copied
+                         */
+                        e.printStackTrace()
+                    } catch (e: NullPointerException) {
+                        /**
+                         * File does not exit
+                         */
+                        e.printStackTrace()
                     } catch (e: IOException) {
                         /**
-                         * Failed to close streams
+                         * Some IO error happened, skip this app
+                         * and flush the buffer
                          */
                         e.printStackTrace()
                     }
                 }
+            } catch (e: InterruptedException) {
+                /**
+                 * Thread has been interrupted
+                 * stop the service
+                 */
+                e.printStackTrace()
+
+                if (appsList[position - 1].packageInfo.applicationInfo.sourceDir.isNotNull()) {
+                    File(applicationContext.getBundlePathAndFileName(appsList[position].packageInfo)).delete()
+                } else {
+                    File(BatchUtils.getApkPathAndFileName(appsList[position].packageInfo)).delete()
+                }
+
+                launchOnUiThread {
+                    notificationManager.cancel(notificationId)
+                    stopForeground(true)
+                    stopSelf()
+                }
             }
+
+            Intent().also { intent ->
+                intent.action = ServiceConstants.actionExtractDone
+                LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
+            }
+
+            stopForeground(true)
+            stopSelf()
         }
     }
 
@@ -165,40 +184,34 @@ class BatchExtractService : Service() {
     }
 
     private fun extractBundle(packageInfo: PackageInfo) {
-        kotlin.runCatching {
-            if (!File(applicationContext.getBundlePathAndFileName(packageInfo)).exists()) {
-                launchOnUiThread {
-                    notificationBuilder.setContentText(packageInfo.applicationInfo.name)
-                    notificationManager.notify(notificationId, notification)
-                }
-
-                val zipFile = ZipFile(applicationContext.getBundlePathAndFileName(packageInfo))
-                val progressMonitor = zipFile.progressMonitor
-                val length = packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
-
-                zipFile.isRunInThread = true
-                zipFile.addFiles(createSplitApkFiles(packageInfo))
-                var tempProgress = 0
-
-                while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
-                    progress += length * (progressMonitor.percentDone / 100) - tempProgress
-                    tempProgress = (length * (progressMonitor.percentDone / 100)).toInt()
-                    notificationBuilder.setProgress(maxSize.toInt(), progress.toInt(), false)
-                    notificationManager.notify(notificationId, notification)
-                    sendProgressBroadcast(progress.toInt())
-                    Thread.sleep(100)
-                }
-
-                if (progressMonitor.result.equals(ProgressMonitor.Result.ERROR)) {
-                    println("Error")
-                    // error.postValue(progressMonitor.exception.stackTraceToString())
-                } else if (progressMonitor.result.equals(ProgressMonitor.Result.CANCELLED)) {
-                    println("Cancelled")
-                    // status.postValue(getString(R.string.cancelled))
-                }
+        if (!File(applicationContext.getBundlePathAndFileName(packageInfo)).exists()) {
+            launchOnUiThread {
+                notificationBuilder.setContentText(packageInfo.applicationInfo.name)
+                notificationManager.notify(notificationId, notification)
             }
-        }.onFailure {
-            it.printStackTrace()
+
+            val zipFile = ZipFile(applicationContext.getBundlePathAndFileName(packageInfo))
+            val progressMonitor = zipFile.progressMonitor
+            val length = packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+
+            zipFile.isRunInThread = true
+            zipFile.addFiles(createSplitApkFiles(packageInfo))
+
+            while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
+                progress += length * (progressMonitor.percentDone / 100)
+                notificationBuilder.setProgress(maxSize.toInt(), progress.toInt(), false)
+                notificationManager.notify(notificationId, notification)
+                sendProgressBroadcast(progressMonitor.percentDone)
+                Thread.sleep(100)
+            }
+
+            if (progressMonitor.result.equals(ProgressMonitor.Result.ERROR)) {
+                println("Error")
+                // error.postValue(progressMonitor.exception.stackTraceToString())
+            } else if (progressMonitor.result.equals(ProgressMonitor.Result.CANCELLED)) {
+                println("Cancelled")
+                // status.postValue(getString(R.string.cancelled))
+            }
         }
     }
 
@@ -222,9 +235,8 @@ class BatchExtractService : Service() {
 
         while (from.read(buf).also { len = it } > 0) {
             to.write(buf, 0, len)
-            progress += total - len
             total += len
-            sendProgressBroadcast(progress.toInt())
+            sendProgressBroadcast((total * 100 / length).toInt())
         }
     }
 
@@ -234,12 +246,6 @@ class BatchExtractService : Service() {
             if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
                 maxSize += app.packageInfo.applicationInfo.splitSourceDirs.getDirectorySize()
             }
-        }
-
-        Intent().also { intent ->
-            intent.action = ServiceConstants.actionCopyProgressMax
-            intent.putExtra(IntentHelper.INT_EXTRA, maxSize)
-            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
         }
     }
 
@@ -255,6 +261,14 @@ class BatchExtractService : Service() {
 
     private fun sendProgressBroadcast(progress: Int) {
         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyProgress, applicationContext, progress)
+    }
+
+    private fun sendMaxProgress(max: Int) {
+        Intent().also { intent ->
+            intent.action = ServiceConstants.actionCopyProgressMax
+            intent.putExtra(IntentHelper.INT_EXTRA, max)
+            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
+        }
     }
 
     /* ----------------------------------------------------------------------------------------------------- */

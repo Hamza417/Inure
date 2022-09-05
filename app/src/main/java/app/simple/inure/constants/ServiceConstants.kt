@@ -28,6 +28,7 @@ object ServiceConstants {
     const val actionBatchCopyStart = "$appPackageName.batch.copy.start"
     const val actionBatchCancel = "$appPackageName.action.cancel"
     const val actionBatchApkType = "$appPackageName.apk.type"
+    const val actionExtractDone = "$appPackageName.extract.done"
     const val actionCopyProgress = "$appPackageName.copy.progress"
     const val actionCopyFinished = "$appPackageName.copy.completed"
     const val actionQuitExtractService = "$appPackageName.quit.extract.service"
