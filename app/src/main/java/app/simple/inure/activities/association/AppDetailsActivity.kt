@@ -6,21 +6,30 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
-import androidx.documentfile.provider.DocumentFile
+import app.simple.inure.R
 import app.simple.inure.extensions.activities.BaseActivity
-import com.anggrayudi.storage.file.getAbsolutePath
+import app.simple.inure.ui.app.AppInfo
+import app.simple.inure.util.FileUtils
 import java.io.File
 
 class AppDetailsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        println(DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)?.getAbsolutePath(applicationContext)!!)
+        kotlin.runCatching {
+            File(getExternalFilesDir(null)!!.path + "/font_cache/").mkdir()
+            val file = File(getExternalFilesDir(null)?.path + "/font_cache/" + "ins.apk")
+            FileUtils.copyStreamToFile(contentResolver.openInputStream(intent.data!!)!!, file)
+            val p = packageManager.getPackageArchiveInfo(getExternalFilesDir(null)?.path + "/font_cache/" + "ins.apk",
+                                                         PackageManager.GET_META_DATA)!!
 
-        val p = packageManager.getPackageArchiveInfo(DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)?.getAbsolutePath(applicationContext)!!,
-                                                     PackageManager.GET_META_DATA)
-
-        println(p!!.packageName)
+            supportFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.app_container, AppInfo.newInstance(p, ""), "asas")
+                .commit()
+        }.getOrElse {
+            it.printStackTrace()
+        }
     }
 
     private fun handleIntent(): String? {
@@ -78,7 +87,7 @@ class AppDetailsActivity : BaseActivity() {
                 pathCursor.moveToFirst()) {
                 // Get the column index in the Cursor
                 filenameIndex = pathCursor.getColumnIndex(
-                    MediaStore.MediaColumns.DATA)
+                        MediaStore.MediaColumns.DATA)
                 // Get the full file name including path
                 fileName = pathCursor.getString(filenameIndex)
                 // Create a File object for the filename

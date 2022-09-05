@@ -26,7 +26,6 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.appinfo.AppInfoMenu
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -339,13 +338,7 @@ class AppInfo : ScopedFragment() {
         }
 
         componentsViewModel.getError().observe(viewLifecycleOwner) {
-            val e = Error.newInstance(it)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    requireActivity().onBackPressed()
-                }
-            })
+            showError(it)
         }
 
         icon.transitionName = requireArguments().getString("transition_name")
