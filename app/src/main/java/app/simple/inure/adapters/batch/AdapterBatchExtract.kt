@@ -58,6 +58,11 @@ class AdapterBatchExtract(private val list: ArrayList<BatchPackageInfo>) : Recyc
         } else RecyclerViewConstants.TYPE_ITEM
     }
 
+    fun removeTopItem() {
+        list.removeAt(0)
+        notifyItemRemoved(1)
+    }
+
     inner class Header(itemView: View) : VerticalListViewHolder(itemView)
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

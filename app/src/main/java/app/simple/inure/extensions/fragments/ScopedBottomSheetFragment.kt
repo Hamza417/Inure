@@ -118,7 +118,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     protected fun openFragmentSlide(fragment: ScopedFragment, @Nullable tag: String? = null) {
         (parentFragment as ScopedFragment).clearExitTransition()
 
-        parentFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(R.id.app_container, fragment, tag)

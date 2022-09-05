@@ -5,8 +5,8 @@ import android.media.MediaPlayer
 object ServiceConstants {
 
     private const val appPackageName = "app.simple.inure"
-    const val musicPackageName = "com.android.music"
 
+    // Audio
     const val actionPrepared = "$appPackageName.prepared"
     const val actionTogglePause = "$appPackageName.toggle_pause"
     const val actionPlay = "$appPackageName.play"
@@ -24,9 +24,12 @@ object ServiceConstants {
     const val actionBuffering = "$appPackageName.media.buffering"
     const val actionMediaError = "$appPackageName.media.error"
 
-    const val actionCancel = "$appPackageName.action.cancel"
-    const val actionApkType = "$appPackageName.apk.type"
+    // Batch
+    const val actionBatchCopyStart = "$appPackageName.batch.copy.start"
+    const val actionBatchCancel = "$appPackageName.action.cancel"
+    const val actionBatchApkType = "$appPackageName.apk.type"
     const val actionCopyProgress = "$appPackageName.copy.progress"
+    const val actionCopyFinished = "$appPackageName.copy.completed"
     const val actionQuitExtractService = "$appPackageName.quit.extract.service"
 
     fun getMediaErrorString(extra: Int): String {

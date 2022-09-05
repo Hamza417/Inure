@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.apk.utils.PackageData
@@ -57,7 +58,7 @@ class BatchExtractService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ServiceConstants.actionCancel -> {
+            ServiceConstants.actionBatchCancel -> {
                 copyThread.interrupt()
                 stopForeground(true)
                 stopSelf()
@@ -102,6 +103,8 @@ class BatchExtractService : Service() {
                         throw SecurityException("Storage Permission not granted")
                     }
 
+                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionBatchCopyStart, applicationContext)
+
                     if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
                         sendApkTypeBroadcast(APK_TYPE_SPLIT)
                         extractBundle(packageInfo = app.packageInfo)
@@ -109,6 +112,8 @@ class BatchExtractService : Service() {
                         sendApkTypeBroadcast(APK_TYPE_FILE)
                         extractApk(packageInfo = app.packageInfo)
                     }
+
+                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyFinished, applicationContext)
                 }
             } catch (e: SecurityException) {
                 /**
@@ -176,7 +181,7 @@ class BatchExtractService : Service() {
                     progress += length * (progressMonitor.percentDone / 100)
                     notificationBuilder.setProgress(maxSize.toInt(), progress.toInt(), false)
                     notificationManager.notify(notificationId, notification)
-                    sendProgressBroadcast(progressMonitor.percentDone.toLong())
+                    sendProgressBroadcast(progressMonitor.percentDone)
                     Thread.sleep(100)
                 }
 
@@ -213,7 +218,7 @@ class BatchExtractService : Service() {
         while (from.read(buf).also { len = it } > 0) {
             to.write(buf, 0, len)
             total += len
-            sendProgressBroadcast(total * 100 / length)
+            sendProgressBroadcast((total * 100 / length).toInt())
         }
     }
 
@@ -229,11 +234,15 @@ class BatchExtractService : Service() {
     /* ----------------------------------------------------------------------------------------------------- */
 
     private fun sendApkTypeBroadcast(apkType: Int) {
-        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionApkType, applicationContext, apkType)
+        Intent().also { intent ->
+            intent.action = ServiceConstants.actionBatchApkType
+            intent.putExtra(APK_TYPE_EXTRA, apkType)
+            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
+        }
     }
 
-    private fun sendProgressBroadcast(progress: Long) {
-        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionApkType, applicationContext, progress)
+    private fun sendProgressBroadcast(progress: Int) {
+        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyProgress, applicationContext, progress)
     }
 
     /* ----------------------------------------------------------------------------------------------------- */
@@ -255,7 +264,7 @@ class BatchExtractService : Service() {
             .setShowWhen(true)
             .setSilent(true)
             .setContentIntent(pendingIntent)
-            .addAction(generateAction(R.drawable.ic_close, getString(R.string.cancel), ServiceConstants.actionCancel))
+            .addAction(generateAction(R.drawable.ic_close, getString(R.string.cancel), ServiceConstants.actionBatchCancel))
             .setProgress(maxProgress.toInt(), 0, false)
 
         notification = notificationBuilder.build()
@@ -290,5 +299,7 @@ class BatchExtractService : Service() {
         const val APK_TYPE_SPLIT = 1
         const val APK_TYPE_FILE = 2
         const val CREATING_SPLIT_PACKAGE = 3
+
+        const val APK_TYPE_EXTRA = "APK_TYPE_EXTRA"
     }
 }
