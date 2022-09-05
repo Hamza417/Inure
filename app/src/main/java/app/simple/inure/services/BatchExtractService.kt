@@ -94,8 +94,10 @@ class BatchExtractService : Service() {
                 createNotification(maxSize)
             }
 
-            try {
-                for (app in appsList) {
+            var position = 0
+
+            for (app in appsList) {
+                try {
                     if (applicationContext.areStoragePermissionsGranted()) {
                         PackageData.makePackageFolder(applicationContext)
                     } else {
@@ -103,7 +105,8 @@ class BatchExtractService : Service() {
                         throw SecurityException("Storage Permission not granted")
                     }
 
-                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionBatchCopyStart, applicationContext)
+                    position++
+                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionBatchCopyStart, applicationContext, position)
 
                     if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
                         sendApkTypeBroadcast(APK_TYPE_SPLIT)
@@ -114,38 +117,39 @@ class BatchExtractService : Service() {
                     }
 
                     IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyFinished, applicationContext)
-                }
-            } catch (e: SecurityException) {
-                /**
-                 * Terminate the process since the permission is
-                 * not granted, file cannot be copied
-                 */
-                e.printStackTrace()
-            } catch (e: NullPointerException) {
-                /**
-                 * File does not exit
-                 */
-                e.printStackTrace()
-            } catch (e: IOException) {
-                /**
-                 * Some IO error happened, skip this apk
-                 * and flush the buffer
-                 */
-                e.printStackTrace()
-            } finally {
-                try {
-
-                } catch (e: IOException) {
+                } catch (e: SecurityException) {
                     /**
-                     * Failed to close streams
+                     * Terminate the process since the permission is
+                     * not granted, file cannot be copied
                      */
                     e.printStackTrace()
+                } catch (e: NullPointerException) {
+                    /**
+                     * File does not exit
+                     */
+                    e.printStackTrace()
+                } catch (e: IOException) {
+                    /**
+                     * Some IO error happened, skip this apk
+                     * and flush the buffer
+                     */
+                    e.printStackTrace()
+                } finally {
+                    try {
+
+                    } catch (e: IOException) {
+                        /**
+                         * Failed to close streams
+                         */
+                        e.printStackTrace()
+                    }
                 }
             }
         }
     }
 
     private fun extractApk(packageInfo: PackageInfo) {
+        println(BatchUtils.getApkPathAndFileName(packageInfo))
         if (File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo)).exists().invert()) {
             val source = File(packageInfo.applicationInfo.sourceDir)
             val dest = File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo))

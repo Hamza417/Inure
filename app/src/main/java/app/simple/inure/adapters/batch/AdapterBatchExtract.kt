@@ -39,7 +39,12 @@ class AdapterBatchExtract(private val list: ArrayList<BatchPackageInfo>) : Recyc
             holder.name.text = list[position].packageInfo.applicationInfo.name
             holder.name.setStrikeThru(list[position].packageInfo.applicationInfo.enabled)
 
-            holder.status.setText(R.string.queued)
+            if (list[position].isCompleted) {
+                holder.status.setText(R.string.done)
+            } else {
+                holder.status.setText(R.string.queued)
+            }
+
             holder.progress.progress = 50
 
             holder.container.setOnClickListener {

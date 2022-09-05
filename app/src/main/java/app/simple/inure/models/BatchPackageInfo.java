@@ -9,17 +9,27 @@ public class BatchPackageInfo implements Parcelable {
     private PackageInfo packageInfo;
     private boolean selected;
     private long dateSelected;
+    private boolean isCompleted;
+    
+    public BatchPackageInfo(PackageInfo packageInfo, boolean selected, long dateSelected, boolean isCompleted) {
+        this.packageInfo = packageInfo;
+        this.selected = selected;
+        this.dateSelected = dateSelected;
+        this.isCompleted = isCompleted;
+    }
     
     public BatchPackageInfo(PackageInfo packageInfo, boolean selected, long dateSelected) {
         this.packageInfo = packageInfo;
         this.selected = selected;
         this.dateSelected = dateSelected;
+        this.isCompleted = false;
     }
     
     protected BatchPackageInfo(Parcel in) {
         packageInfo = in.readParcelable(PackageInfo.class.getClassLoader());
         selected = in.readByte() != 0;
         dateSelected = in.readLong();
+        isCompleted = in.readByte() != 0;
     }
     
     @Override
@@ -27,6 +37,7 @@ public class BatchPackageInfo implements Parcelable {
         dest.writeParcelable(packageInfo, flags);
         dest.writeByte((byte) (selected ? 1 : 0));
         dest.writeLong(dateSelected);
+        dest.writeByte((byte) (isCompleted ? 1 : 0));
     }
     
     @Override
@@ -68,5 +79,13 @@ public class BatchPackageInfo implements Parcelable {
     
     public void setDateSelected(long dateSelected) {
         this.dateSelected = dateSelected;
+    }
+    
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+    
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 }

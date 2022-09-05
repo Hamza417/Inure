@@ -53,7 +53,7 @@ class BatchExtract : ScopedFragment() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
                     ServiceConstants.actionBatchCopyStart -> {
-                        holder = recyclerView.findViewHolderForAdapterPosition(1) as AdapterBatchExtract.Holder
+                        holder = recyclerView.findViewHolderForAdapterPosition(intent.extras?.getInt(IntentHelper.INT_EXTRA) ?: -1) as AdapterBatchExtract.Holder?
                     }
                     ServiceConstants.actionCopyProgress -> {
                         holder?.progress?.progress = intent.extras?.getInt(IntentHelper.INT_EXTRA) ?: 0
@@ -72,8 +72,7 @@ class BatchExtract : ScopedFragment() {
                         }
                     }
                     ServiceConstants.actionCopyFinished -> {
-                        adapterBatchExtract?.removeTopItem()
-                        holder = null
+
                     }
                 }
             }

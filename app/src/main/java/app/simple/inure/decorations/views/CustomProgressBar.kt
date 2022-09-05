@@ -16,7 +16,7 @@ class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: Attri
 
     init {
         progressTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
-        indeterminateTintList = progressTintList
+        indeterminateTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
     }
 
     /**

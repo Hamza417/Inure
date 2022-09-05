@@ -49,9 +49,9 @@
 
     <app.simple.inure.decorations.views.CustomProgressBar
         android:id="@+id/adapter_batch_process_progress"
-        style="?attr/linearProgressIndicatorStyle"
+        style="?attr/progressBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="5dp"
         android:layout_below="@id/adapter_batch_process_status"
         android:layout_alignParentEnd="true"
         android:layout_marginHorizontal="10dp"
@@ -59,6 +59,7 @@
         android:layout_toEndOf="@id/adapter_batch_process_icon"
         android:ellipsize="end"
         android:maxHeight="10dp"
+        android:max="100"
         android:maxLines="1"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
