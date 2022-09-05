@@ -88,7 +88,9 @@ Setup : ScopedFragment() {
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
 
         usageAccess.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+            val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+            intent.data = Uri.fromParts("package", requireContext().packageName, null)
+            startActivity(intent)
         }
 
         storageAccess.setOnClickListener {
@@ -96,7 +98,7 @@ Setup : ScopedFragment() {
         }
 
         startApp.setOnClickListener {
-            if (requireContext().checkForUsageAccessPermission() && requireActivity().contentResolver.persistedUriPermissions.isNotEmpty()) {
+            if (requireContext().checkForUsageAccessPermission()) {
                 openFragmentArc(SplashScreen.newInstance(false), view.findViewById(R.id.imageView3))
             } else {
                 Toast.makeText(requireContext(), R.string.ss_please_grant_storage_permission, Toast.LENGTH_SHORT).show()

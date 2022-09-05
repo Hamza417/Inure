@@ -3,23 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="true"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:orientation="vertical">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         android:layout_weight="1">
 
         <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:clipChildren="false"
             app:layout_behavior="@string/over_scroll_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -36,7 +42,7 @@
                         android:layout_height="@dimen/header_icon_size"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/app_name"
-                        android:padding="8dp"
+                        android:padding="5dp"
                         android:src="@drawable/ic_main_app_icon_big"
                         android:transitionName="main_app_icon"
                         app:tintType="secondary" />
@@ -177,6 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/header_padding"
                     android:drawablePadding="5dp"
+                    android:layout_marginVertical="5dp"
                     android:paddingHorizontal="@dimen/panel_item_padding"
                     android:text="@string/desc_data_collect"
                     android:textSize="@dimen/preferences_description_text_size"

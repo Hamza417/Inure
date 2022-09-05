@@ -40,7 +40,6 @@ class Home : ScopedFragment() {
     private lateinit var scrollView: EdgeEffectNestedScrollView
     private lateinit var header: PaddingAwareLinearLayout
     private lateinit var navigationRecyclerView: RecyclerView
-    private lateinit var appsCategoryRecyclerView: RecyclerView
     private lateinit var quickAppsHeader: TypeFaceTextView
     private lateinit var quickAppsRecyclerView: CustomHorizontalRecyclerView
     private lateinit var icon: DynamicRippleImageButton
@@ -55,7 +54,6 @@ class Home : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         scrollView = view.findViewById(R.id.home_scroll_view)
-        appsCategoryRecyclerView = view.findViewById(R.id.apps_categories)
         quickAppsHeader = view.findViewById(R.id.quick_apps_tv)
         quickAppsRecyclerView = view.findViewById(R.id.quick_app_recycler_view)
         navigationRecyclerView = view.findViewById(R.id.home_menu)
@@ -78,7 +76,15 @@ class Home : ScopedFragment() {
         homeViewModel.getMenuItems().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
-            navigationRecyclerView.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+            val gridLayoutManager = GridLayoutManager(context, getInteger(R.integer.span_count))
+
+            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (it[position].first.isZero()) getInteger(R.integer.span_count) else 1
+                }
+            }
+
+            navigationRecyclerView.layoutManager = gridLayoutManager
 
             val adapter = AdapterHomeMenu(it)
 
@@ -122,28 +128,6 @@ class Home : ScopedFragment() {
                         R.string.music -> {
                             openFragmentArc(Music.newInstance(), icon, "music")
                         }
-                    }
-                }
-            })
-
-            navigationRecyclerView.adapter = adapter
-            navigationRecyclerView.scheduleLayoutAnimation()
-
-            (view.parent as? ViewGroup)?.doOnPreDraw {
-                startPostponedEnterTransition()
-            }
-        }
-
-        homeViewModel.getAppsCategory().observe(viewLifecycleOwner) {
-            postponeEnterTransition()
-
-            appsCategoryRecyclerView.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
-
-            val adapterHomeMenu = AdapterHomeMenu(it)
-
-            adapterHomeMenu.setOnAppInfoMenuCallback(object : AdapterHomeMenu.AdapterHomeMenuCallbacks {
-                override fun onMenuItemClicked(source: Int, icon: ImageView) {
-                    when (source) {
                         R.string.recently_installed -> {
                             openFragmentArc(RecentlyInstalled.newInstance(), icon, "recently_installed")
                         }
@@ -165,7 +149,8 @@ class Home : ScopedFragment() {
                 }
             })
 
-            appsCategoryRecyclerView.adapter = adapterHomeMenu
+            navigationRecyclerView.adapter = adapter
+            navigationRecyclerView.scheduleLayoutAnimation()
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

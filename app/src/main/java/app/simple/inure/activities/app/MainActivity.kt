@@ -1,12 +1,10 @@
 package app.simple.inure.activities.app
 
-import android.animation.Animator
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import app.simple.inure.R
@@ -23,7 +21,6 @@ import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.ui.panels.*
 import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.NullSafety.isNull
-import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ThemeUtils
 import java.time.ZonedDateTime
 import java.util.*
@@ -32,10 +29,6 @@ class MainActivity : BaseActivity() {
 
     private lateinit var container: ThemeCoordinatorLayout
     private lateinit var content: FrameLayout
-
-    private var animator: Animator? = null
-    private var xPoint = 0
-    private var yPoint = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +42,6 @@ class MainActivity : BaseActivity() {
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
 
         ThemeUtils.setAppTheme(resources)
-
-        container.post {
-            xPoint = container.measuredWidth / 2
-            yPoint = container.measuredHeight / 2
-        }
 
         if (savedInstanceState.isNull()) {
             when (intent.action) {
@@ -160,19 +148,8 @@ class MainActivity : BaseActivity() {
         window.setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
     }
 
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        xPoint = event.rawX.toInt()
-        yPoint = if (AppearancePreferences.isTransparentStatusDisabled()) {
-            event.rawY.toInt().minus(StatusBarHeight.getStatusBarHeight(resources))
-        } else {
-            event.rawY.toInt()
-        }
-        return super.dispatchTouchEvent(event)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         ThemeManager.removeListener(this)
-        animator?.cancel()
     }
 }

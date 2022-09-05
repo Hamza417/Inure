@@ -105,17 +105,7 @@
                     android:id="@+id/home_menu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overScrollMode="never" />
-
-                <app.simple.inure.decorations.theme.ThemeDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_margin="10dp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/apps_categories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:minHeight="500dp"
                     android:overScrollMode="never" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleTextView

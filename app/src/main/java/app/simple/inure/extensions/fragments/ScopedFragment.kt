@@ -251,7 +251,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     protected fun openFragmentSlide(fragment: ScopedFragment, @Nullable tag: String? = null) {
         clearExitTransition()
 
-        parentFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(R.id.app_container, fragment, tag)
@@ -272,7 +272,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     fun openFragmentLinear(fragment: ScopedFragment, view: View, tag: String? = null, duration: Long? = null) {
         fragment.setLinearTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
 
-        parentFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .addSharedElement(view, view.transitionName)
             .replace(R.id.app_container, fragment, tag)
@@ -286,13 +286,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * If the fragment does not need to be pushed into backstack
      * leave the [tag] unattended
      *
-     * @param fragment [Fragment]
+     * @param fragment [ScopedFragment]
      * @param icon [View] that needs to be animated
      * @param tag back stack tag for fragment
      */
     protected fun openFragmentArc(fragment: ScopedFragment, icon: View, tag: String? = null, duration: Long? = null) {
         fragment.setTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
-        parentFragmentManager.beginTransaction()
+
+        requireActivity().supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .addSharedElement(icon, icon.transitionName)
             .replace(R.id.app_container, fragment, tag)

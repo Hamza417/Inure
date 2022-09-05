@@ -66,12 +66,6 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
-    private val appsCategoryItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
-        MutableLiveData<List<Pair<Int, Int>>>().also {
-            loadAppsCategoryItems()
-        }
-    }
-
     fun getRecentApps(): LiveData<ArrayList<PackageInfo>> {
         return recentlyInstalledAppData
     }
@@ -90,10 +84,6 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     fun getMenuItems(): LiveData<List<Pair<Int, Int>>> {
         return menuItems
-    }
-
-    fun getAppsCategory(): LiveData<List<Pair<Int, Int>>> {
-        return appsCategoryItems
     }
 
     private fun loadRecentlyInstalledAppData() {
@@ -225,11 +215,19 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     Pair(R.drawable.ic_terminal, R.string.terminal),
                     Pair(R.drawable.ic_stats, R.string.usage_statistics),
                     // Pair(R.drawable.ic_memory, R.string.device_info),
+                    Pair(0, 0), // Divider
                     Pair(R.drawable.ic_sensors, R.string.sensors),
                     Pair(R.drawable.ic_layers, R.string.batch),
                     Pair(R.drawable.ic_analytics, R.string.analytics),
                     Pair(R.drawable.ic_notes, R.string.notes),
                     // Pair(R.drawable.ic_music_note, R.string.music))
+                    Pair(0, 0), // Divider
+                    Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed),
+                    Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated),
+                    Pair(R.drawable.ic_apps_category_most_used, R.string.most_used),
+                    Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled),
+                    Pair(R.drawable.ic_apps_category_disabled, R.string.disabled),
+                    Pair(0, 0), // Divider
             )
 
             if (BuildConfig.DEBUG && DevelopmentPreferences.isDebugStateEnabled()) {
@@ -237,24 +235,6 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
             }
 
             menuItems.postValue(list)
-        }
-    }
-
-    private fun loadAppsCategoryItems() {
-        viewModelScope.launch(Dispatchers.Default) {
-            val list = mutableListOf(
-                    Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed),
-                    Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated),
-                    Pair(R.drawable.ic_apps_category_most_used, R.string.most_used),
-                    Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled),
-                    Pair(R.drawable.ic_apps_category_disabled, R.string.disabled)
-            )
-
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
-                list.removeAt(3)
-            }
-
-            appsCategoryItems.postValue(list)
         }
     }
 

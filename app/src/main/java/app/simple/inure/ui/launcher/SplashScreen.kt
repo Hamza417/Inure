@@ -122,14 +122,14 @@ class SplashScreen : ScopedFragment() {
         }
 
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
-            openFragmentArc(Home.newInstance(), requireView().findViewById(R.id.imageView))
+            openHome()
         }
     }
 
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
         if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded && isUninstalledPackagesLoaded) {
-            openFragmentArc(Home.newInstance(), requireView().findViewById(R.id.imageView))
+            openHome()
         }
     }
 
@@ -149,6 +149,17 @@ class SplashScreen : ScopedFragment() {
                     (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         }
+    }
+
+    private fun openHome() {
+        val frag = Home.newInstance()
+        frag.setTransitions(resources.getInteger(R.integer.animation_duration).toLong())
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .addSharedElement(icon, icon.transitionName)
+            .replace(R.id.app_container, frag, "home")
+            .commit()
     }
 
     companion object {
