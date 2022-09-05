@@ -105,7 +105,6 @@ class BatchExtractService : Service() {
                         throw SecurityException("Storage Permission not granted")
                     }
 
-                    position++
                     IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionBatchCopyStart, applicationContext, position)
 
                     if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
@@ -117,6 +116,7 @@ class BatchExtractService : Service() {
                     }
 
                     IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyFinished, applicationContext)
+                    position++
                 } catch (e: SecurityException) {
                     /**
                      * Terminate the process since the permission is
@@ -149,7 +149,6 @@ class BatchExtractService : Service() {
     }
 
     private fun extractApk(packageInfo: PackageInfo) {
-        println(BatchUtils.getApkPathAndFileName(packageInfo))
         if (File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo)).exists().invert()) {
             val source = File(packageInfo.applicationInfo.sourceDir)
             val dest = File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo))
@@ -168,7 +167,6 @@ class BatchExtractService : Service() {
     private fun extractBundle(packageInfo: PackageInfo) {
         kotlin.runCatching {
             if (!File(applicationContext.getBundlePathAndFileName(packageInfo)).exists()) {
-                println(packageInfo.applicationInfo.name)
                 launchOnUiThread {
                     notificationBuilder.setContentText(packageInfo.applicationInfo.name)
                     notificationManager.notify(notificationId, notification)
@@ -180,12 +178,14 @@ class BatchExtractService : Service() {
 
                 zipFile.isRunInThread = true
                 zipFile.addFiles(createSplitApkFiles(packageInfo))
+                var tempProgress = 0
 
                 while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
-                    progress += length * (progressMonitor.percentDone / 100)
+                    progress += length * (progressMonitor.percentDone / 100) - tempProgress
+                    tempProgress = (length * (progressMonitor.percentDone / 100)).toInt()
                     notificationBuilder.setProgress(maxSize.toInt(), progress.toInt(), false)
                     notificationManager.notify(notificationId, notification)
-                    sendProgressBroadcast(progressMonitor.percentDone)
+                    sendProgressBroadcast(progress.toInt())
                     Thread.sleep(100)
                 }
 
@@ -219,10 +219,12 @@ class BatchExtractService : Service() {
         val buf = ByteArray(1024 * 1024)
         var len: Int
         var total = 0L
+
         while (from.read(buf).also { len = it } > 0) {
             to.write(buf, 0, len)
+            progress += total - len
             total += len
-            sendProgressBroadcast((total * 100 / length).toInt())
+            sendProgressBroadcast(progress.toInt())
         }
     }
 
@@ -232,6 +234,12 @@ class BatchExtractService : Service() {
             if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
                 maxSize += app.packageInfo.applicationInfo.splitSourceDirs.getDirectorySize()
             }
+        }
+
+        Intent().also { intent ->
+            intent.action = ServiceConstants.actionCopyProgressMax
+            intent.putExtra(IntentHelper.INT_EXTRA, maxSize)
+            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
         }
     }
 

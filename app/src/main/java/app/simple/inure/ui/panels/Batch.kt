@@ -121,7 +121,8 @@ class Batch : ScopedFragment() {
             val p0 = Sure.newInstance()
             p0.setOnSureCallbackListener(object : SureCallbacks {
                 override fun onSure() {
-                    openFragmentSlide(BatchExtract.newInstance(adapterBatch?.getCurrentAppsList()!!), "batch_extract")
+                    BatchExtract.newInstance(adapterBatch?.getCurrentAppsList()!!)
+                        .show(childFragmentManager, "batch_extract")
                 }
             })
             p0.show(childFragmentManager, "sure")

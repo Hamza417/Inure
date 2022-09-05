@@ -24,11 +24,10 @@ class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: Attri
      *
      * @param progress progress of the seekbar
      * @param animate animate the progress change
-     * @param fromStart start from the beginning or start from the already progressed value
      */
-    fun setProgress(progress: Int, animate: Boolean, fromStart: Boolean) {
+    fun animateProgress(progress: Int, animate: Boolean = true) {
         if (animate) {
-            valueAnimator = ValueAnimator.ofInt(if (fromStart) 0 else this.progress, progress)
+            valueAnimator = ValueAnimator.ofInt(this.progress, progress)
             valueAnimator?.interpolator = LinearOutSlowInInterpolator()
             valueAnimator?.duration = resources.getInteger(R.integer.animation_duration).toLong()
             valueAnimator?.addUpdateListener { animation -> setProgress(animation.animatedValue as Int) }

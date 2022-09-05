@@ -31,6 +31,7 @@ object ServiceConstants {
     const val actionCopyProgress = "$appPackageName.copy.progress"
     const val actionCopyFinished = "$appPackageName.copy.completed"
     const val actionQuitExtractService = "$appPackageName.quit.extract.service"
+    const val actionCopyProgressMax = "$appPackageName.max.progress.service"
 
     fun getMediaErrorString(extra: Int): String {
         return when (extra) {

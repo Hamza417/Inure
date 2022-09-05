@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_padding"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:drawablePadding="@dimen/dialog_padding"
+            android:gravity="center_vertical"
+            android:text="@string/extract"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_memory"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="accent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/progress_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/error_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="tertiary" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/progress_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:textSize="@dimen/error_text_size"
+            app:appFontStyle="medium"
+            app:textColorStyle="accent" />
+
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:indeterminateTint="?attr/colorAppAccent"
+            android:maxHeight="10dp" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginTop="@dimen/dialog_padding"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/cancel"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

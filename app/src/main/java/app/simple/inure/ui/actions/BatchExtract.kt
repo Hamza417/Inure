@@ -8,33 +8,40 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
-import app.simple.inure.adapters.batch.AdapterBatchExtract
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
-import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.services.BatchExtractService
 import app.simple.inure.util.IntentHelper
-import java.util.stream.Collectors.toCollection
+import app.simple.inure.util.NullSafety.isNotNull
 
-class BatchExtract : ScopedFragment() {
+class BatchExtract : ScopedBottomSheetFragment() {
 
     private var batchExtractService: BatchExtractService? = null
     private var serviceConnection: ServiceConnection? = null
     private var extractBroadcastReceiver: BroadcastReceiver? = null
     private var batchExtractIntentFilter = IntentFilter()
-    private var adapterBatchExtract: AdapterBatchExtract? = null
+    private val stringBuilder = StringBuilder()
+    private var appList = arrayListOf<BatchPackageInfo>()
 
     private var serviceBound = false
 
-    private lateinit var recyclerView: CustomVerticalRecyclerView
-    private var holder: AdapterBatchExtract.Holder? = null
+    private lateinit var progressStatus: TypeFaceTextView
+    private lateinit var progressDetails: TypeFaceTextView
+    private lateinit var progress: CustomProgressBar
+    private lateinit var cancel: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_batch_extract, container, false)
+        val view = inflater.inflate(R.layout.dialog_batch_extract, container, false)
 
-        recyclerView = view.findViewById(R.id.batch_process_recycler_view)
+        progressStatus = view.findViewById(R.id.progress_status)
+        progressDetails = view.findViewById(R.id.progress_details)
+        progress = view.findViewById(R.id.progress)
+        cancel = view.findViewById(R.id.cancel)
 
         batchExtractIntentFilter.addAction(ServiceConstants.actionBatchCopyStart)
         batchExtractIntentFilter.addAction(ServiceConstants.actionBatchApkType)
@@ -42,24 +49,43 @@ class BatchExtract : ScopedFragment() {
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyProgress)
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyFinished)
 
+        appList = requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps)!!
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startPostponedEnterTransition()
 
         extractBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
                     ServiceConstants.actionBatchCopyStart -> {
-                        holder = recyclerView.findViewHolderForAdapterPosition(intent.extras?.getInt(IntentHelper.INT_EXTRA) ?: -1) as AdapterBatchExtract.Holder?
+                        packageInfo = appList[intent.extras?.getInt(IntentHelper.INT_EXTRA)!!].packageInfo
+                        val fileName = "${packageInfo.applicationInfo.name}_(${packageInfo.versionName})"
+
+                        if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                            if (progressStatus.text.isNotEmpty()) {
+                                progressStatus.append("\n$fileName.apkm")
+                            } else {
+                                progressStatus.append("$fileName.apkm")
+                            }
+                        } else { // For APK files
+                            if (progressStatus.text.isNotEmpty()) {
+                                progressStatus.append("\n$fileName.apk")
+                            } else {
+                                progressStatus.append("$fileName.apk")
+                            }
+                        }
+                    }
+                    ServiceConstants.actionCopyProgressMax -> {
+                        progress.max = intent.extras?.getInt(IntentHelper.INT_EXTRA)!!
                     }
                     ServiceConstants.actionCopyProgress -> {
-                        holder?.progress?.progress = intent.extras?.getInt(IntentHelper.INT_EXTRA) ?: 0
+                        progress.animateProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
                     }
                     ServiceConstants.actionBatchApkType -> {
-                        holder?.status?.text = when (intent.extras?.getInt(BatchExtractService.APK_TYPE_EXTRA)) {
+                        progressDetails.text = when (intent.extras?.getInt(BatchExtractService.APK_TYPE_EXTRA)) {
                             BatchExtractService.APK_TYPE_FILE -> {
                                 getString(R.string.preparing_apk_file)
                             }
@@ -72,7 +98,7 @@ class BatchExtract : ScopedFragment() {
                         }
                     }
                     ServiceConstants.actionCopyFinished -> {
-
+                        progressStatus.append("... Done")
                     }
                 }
             }
@@ -81,20 +107,10 @@ class BatchExtract : ScopedFragment() {
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 kotlin.runCatching {
-                    requireArguments().getParcelableArrayList<BatchPackageInfo>(BundleConstants.selectedBatchApps)!!.stream()
-                    adapterBatchExtract = AdapterBatchExtract(requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps)!!)
                     batchExtractService = (service as BatchExtractService.BatchCopyBinder).getService()
-                    batchExtractService?.appsList = requireArguments()
-                        .getParcelableArrayList<BatchPackageInfo>(BundleConstants.selectedBatchApps)!!
-                        .stream()
-                        .map {
-                            BatchPackageInfo(it.packageInfo, it.isSelected, it.dateSelected)
-                        }
-                        .collect(toCollection { ArrayList() })
+                    batchExtractService?.appsList = appList
 
                     serviceBound = true
-
-                    recyclerView.adapter = adapterBatchExtract
                 }.getOrElse {
                     it.printStackTrace()
                     showError(it.stackTraceToString())

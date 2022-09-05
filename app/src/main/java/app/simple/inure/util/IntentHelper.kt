@@ -7,6 +7,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 object IntentHelper {
 
     const val INT_EXTRA = "int_extra"
+    const val LONG_EXTRA = "long_extra"
 
     /**
      * Quickly broadcast a application level local intent
