@@ -1,4 +1,4 @@
-package app.simple.inure.ui.association
+package app.simple.inure.ui.installer
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -13,7 +13,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.viewpager2.widget.ViewPager2
 import app.simple.inure.R
+import app.simple.inure.adapters.installer.AdapterInstallerInfoPanels
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
@@ -21,12 +23,11 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.factories.association.InstallerViewModelFactory
+import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.association.InstallerViewModel
+import app.simple.inure.viewmodels.installer.InstallerViewModel
 
 class Installer : ScopedFragment() {
 
@@ -39,12 +40,13 @@ class Installer : ScopedFragment() {
     private lateinit var cancel: DynamicRippleTextView
     private lateinit var update: DynamicRippleTextView
     private lateinit var uninstall: DynamicRippleTextView
+    private lateinit var viewPager: ViewPager2
 
     private lateinit var broadcastReceiver: BroadcastReceiver
     private val intentFilter = IntentFilter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_installer, container, false)
+        val view = inflater.inflate(R.layout.fragment_installer, container, false)
 
         icon = view.findViewById(R.id.icon)
         name = view.findViewById(R.id.name)
@@ -53,6 +55,7 @@ class Installer : ScopedFragment() {
         cancel = view.findViewById(R.id.cancel)
         update = view.findViewById(R.id.update)
         uninstall = view.findViewById(R.id.uninstall)
+        viewPager = view.findViewById(R.id.viewPager)
 
         val factory = InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri)!!)
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
@@ -140,17 +143,7 @@ class Installer : ScopedFragment() {
 
         installerViewModel.getFile().observe(viewLifecycleOwner) {
             icon.loadAppIcon(it)
-        }
-
-        installerViewModel.installing.observe(viewLifecycleOwner) {
-            if (it.isZero()) {
-                uninstall.visible(animate = false)
-                cancel.setText(R.string.close)
-                cancel.visible(animate = false)
-            } else {
-                install.gone()
-                cancel.gone()
-            }
+            viewPager.adapter = AdapterInstallerInfoPanels(this, it)
         }
 
         cancel.setOnClickListener {

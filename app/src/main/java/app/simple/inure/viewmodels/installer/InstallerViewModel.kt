@@ -1,4 +1,4 @@
-package app.simple.inure.viewmodels.association
+package app.simple.inure.viewmodels.installer
 
 import android.app.Application
 import android.content.pm.PackageInfo

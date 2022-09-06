@@ -1,15 +1,15 @@
-package app.simple.inure.factories.association
+package app.simple.inure.factories.installer
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import app.simple.inure.viewmodels.association.InstallerViewModel
+import app.simple.inure.viewmodels.installer.InstallerManifestViewModel
+import java.io.File
 
-class InstallerViewModelFactory(private val uri: Uri) : ViewModelProvider.Factory {
+class InstallerManifestViewModelFactory(private val file: File) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
-        return InstallerViewModel(application, uri) as T
+        return InstallerManifestViewModel(application, file) as T
     }
 }

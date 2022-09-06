@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="vertical"
-    android:padding="@dimen/panel_item_padding">
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <app.simple.inure.decorations.padding.PaddingAwareConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:padding="@dimen/dialog_padding">
 
         <app.simple.inure.decorations.views.AppIconImageView
             android:id="@+id/icon"
@@ -55,20 +56,32 @@
             app:layout_constraintTop_toBottomOf="@+id/name"
             app:textColorStyle="secondary" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </app.simple.inure.decorations.padding.PaddingAwareConstraintLayout>
 
-    <View
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginVertical="@dimen/dialog_padding"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
 
-    <LinearLayout
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <app.simple.inure.decorations.theme.ThemeLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:animateLayoutChanges="true"
-        android:orientation="horizontal">
+        android:elevation="@dimen/app_views_elevation"
+        android:orientation="horizontal"
+        android:padding="@dimen/popup_padding">
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/uninstall"
@@ -128,6 +141,6 @@
             app:appFontStyle="bold"
             app:textColorStyle="accent" />
 
-    </LinearLayout>
+    </app.simple.inure.decorations.theme.ThemeLinearLayout>
 
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+</LinearLayout>

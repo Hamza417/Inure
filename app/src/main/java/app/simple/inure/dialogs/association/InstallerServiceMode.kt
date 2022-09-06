@@ -36,7 +36,7 @@ class InstallerServiceMode : ScopedBottomSheetFragment() {
     private var installed = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_installer, container, false)
+        val view = inflater.inflate(R.layout.fragment_installer, container, false)
 
         icon = view.findViewById(R.id.icon)
         name = view.findViewById(R.id.name)
