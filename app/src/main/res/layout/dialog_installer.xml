@@ -1,105 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:padding="@dimen/panel_item_padding">
 
-    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <app.simple.inure.decorations.views.AppIconImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/app_icon_dimension"
+            android:layout_height="@dimen/app_icon_dimension"
+            android:contentDescription="@string/app_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="16dp"
+            android:textSize="@dimen/app_name_text_size"
+            app:appFontStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/package_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon"
+            app:layout_constraintTop_toTopOf="@+id/icon"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/package_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="16dp"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/lato_regular"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textSize="@dimen/app_package_text_size"
+            app:appFontStyle="regular"
+            app:layout_constraintBottom_toBottomOf="@+id/icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:textColorStyle="secondary" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/dialog_padding"
+        android:layout_weight="1" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dialog_padding"
-        android:orientation="vertical"
-        android:padding="@dimen/dialog_padding">
+        android:layout_gravity="end|bottom"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <app.simple.inure.decorations.views.AppIconImageView
-                android:id="@+id/icon"
-                android:layout_width="@dimen/app_icon_dimension"
-                android:layout_height="@dimen/app_icon_dimension"
-                android:contentDescription="@string/app_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="16dp"
-                android:textSize="@dimen/app_name_text_size"
-                app:appFontStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/package_id"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/icon"
-                app:layout_constraintTop_toTopOf="@+id/icon"
-                app:textColorStyle="primary" />
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/package_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="16dp"
-                android:ellipsize="marquee"
-                android:fontFamily="@font/lato_regular"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:singleLine="true"
-                android:textSize="@dimen/app_package_text_size"
-                app:appFontStyle="regular"
-                app:layout_constraintBottom_toBottomOf="@+id/icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/icon"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                app:textColorStyle="secondary" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/uninstall"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/dialog_padding"
-            android:animateLayoutChanges="true"
-            android:orientation="horizontal">
+            android:layout_gravity="end|center_vertical"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/uninstall"
+            android:textSize="@dimen/info_text_small"
+            android:visibility="gone"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-            <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:gravity="center"
-                android:padding="@dimen/dialog_padding"
-                android:text="@string/cancel"
-                android:textSize="@dimen/info_text_small"
-                app:appFontStyle="bold"
-                app:textColorStyle="accent" />
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/cancel"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
-            <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/install"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="10dp"
-                android:gravity="center"
-                android:padding="@dimen/dialog_padding"
-                android:text="@string/sure"
-                android:textSize="@dimen/info_text_small"
-                app:appFontStyle="bold"
-                app:textColorStyle="accent" />
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/update"
+            android:textSize="@dimen/info_text_small"
+            android:visibility="gone"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
-        </LinearLayout>
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/install"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/install"
+            android:textSize="@dimen/info_text_small"
+            android:visibility="gone"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
-    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
-</FrameLayout>
+    </LinearLayout>
+
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

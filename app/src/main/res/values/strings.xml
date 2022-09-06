@@ -562,4 +562,6 @@
     <string name="operations">Operations</string>
     <string name="native_libraries_dir">Native Libraries Directory</string>
     <string name="queued">Queued</string>
+    <string name="install">Install</string>
+    <string name="update">Update</string>
 </resources>

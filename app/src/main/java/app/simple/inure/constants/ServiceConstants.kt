@@ -36,6 +36,7 @@ object ServiceConstants {
 
     // Installer
     const val actionPackageInfo = "$appPackageName.package.info"
+    const val actionSessionStatus = "$appPackageName.session.status"
 
     fun getMediaErrorString(extra: Int): String {
         return when (extra) {

@@ -20,6 +20,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.R
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
@@ -163,6 +164,20 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         }
 
         ThemeUtils.updateNavAndStatusColors(resources, window)
+    }
+
+    protected fun showError(error: String) {
+        try {
+            val e = Error.newInstance(error)
+            e.show(supportFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            })
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {
