@@ -1,5 +1,10 @@
 package app.simple.inure.ui.association
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageInstaller
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -33,6 +40,9 @@ class Installer : ScopedFragment() {
     private lateinit var update: DynamicRippleTextView
     private lateinit var uninstall: DynamicRippleTextView
 
+    private lateinit var broadcastReceiver: BroadcastReceiver
+    private val intentFilter = IntentFilter()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_installer, container, false)
 
@@ -47,11 +57,54 @@ class Installer : ScopedFragment() {
         val factory = InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri)!!)
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
 
+        intentFilter.addAction(ServiceConstants.actionSessionStatus)
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                when (intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -999)) {
+                    PackageInstaller.STATUS_PENDING_USER_ACTION -> {
+                        val confirmationIntent = intent.getParcelableExtra<Intent>(Intent.EXTRA_INTENT)
+                        if (confirmationIntent != null) {
+                            confirmationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            try {
+                                context.startActivity(confirmationIntent)
+                            } catch (ignored: Exception) {
+                            }
+                        }
+                    }
+                    PackageInstaller.STATUS_SUCCESS -> {
+
+                    }
+                    PackageInstaller.STATUS_FAILURE_ABORTED -> {
+
+                    }
+                    PackageInstaller.STATUS_FAILURE_BLOCKED -> {
+
+                    }
+                    PackageInstaller.STATUS_FAILURE_CONFLICT -> {
+
+                    }
+                    PackageInstaller.STATUS_FAILURE_INCOMPATIBLE -> {
+
+                    }
+                    PackageInstaller.STATUS_FAILURE_INVALID -> {
+
+                    }
+                    PackageInstaller.STATUS_FAILURE_STORAGE -> {
+
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+        }
 
         installerViewModel.getPackageInfo().observe(viewLifecycleOwner) {
             packageInfo = it
@@ -105,8 +158,14 @@ class Installer : ScopedFragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(broadcastReceiver, intentFilter)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver)
         requireActivity().finish()
     }
 

@@ -76,10 +76,9 @@ public class InstallerUtils {
                 e.printStackTrace();
             }
             
-            PendingIntent pendingIntent = PendingIntent.getService(context, 0, callbackIntent,
+            PendingIntent pendingIntent = PendingIntent.getService(context, 123, callbackIntent,
                     android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S ? PendingIntent.FLAG_MUTABLE : 0);
             
-            assert session != null;
             session.commit(pendingIntent.getIntentSender());
             session.close();
         } catch (Exception e) {

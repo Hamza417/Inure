@@ -1,12 +1,7 @@
 package app.simple.inure.viewmodels.association
 
 import android.app.Application
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageInfo
-import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -14,11 +9,9 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.apk.installer.InstallerUtils
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
-import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.FileUtils
 import kotlinx.coroutines.Dispatchers
@@ -49,21 +42,6 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                 PackageManager.GET_SHARED_LIBRARY_FILES
     }
 
-    private val filter = IntentFilter().also {
-        it.addAction(ServiceConstants.actionSessionStatus)
-    }
-
-    private val broadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            println("InstallerViewModel action -> ${intent.action}")
-            println(intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -999))
-        }
-    }
-
-    init {
-        LocalBroadcastManager.getInstance(applicationContext()).registerReceiver(broadcastReceiver, filter)
-    }
-
     private val packageInfo: MutableLiveData<PackageInfo> by lazy {
         MutableLiveData<PackageInfo>().also {
             viewModelScope.launch(Dispatchers.Default) {
@@ -71,8 +49,6 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
             }
         }
     }
-
-    val installing = MutableLiveData<Int>()
 
     private val file: MutableLiveData<File> by lazy {
         MutableLiveData<File>()
@@ -119,21 +95,13 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
             val file = this@InstallerViewModel.file.value!!
             val sessionParams = InstallerUtils.makeInstallParams(file.length())
             val sessionCode = InstallerUtils.createSession(sessionParams, applicationContext())
-            println("sessionCode -> $sessionCode")
 
             // TODO create a loop for split apks
             if (file.exists() && file.name.endsWith(".apk")) {
-                installing.postValue((1..100).random())
                 InstallerUtils.installWriteSessions(sessionCode, file, applicationContext())
             }
 
             InstallerUtils.commitSession(sessionCode, applicationContext())
-            installing.postValue(0)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        LocalBroadcastManager.getInstance(applicationContext()).unregisterReceiver(broadcastReceiver)
     }
 }
