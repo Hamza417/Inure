@@ -27,7 +27,6 @@ class BatchExtract : ScopedBottomSheetFragment() {
     private var serviceConnection: ServiceConnection? = null
     private var extractBroadcastReceiver: BroadcastReceiver? = null
     private var batchExtractIntentFilter = IntentFilter()
-    private val stringBuilder = StringBuilder()
     private var appList = arrayListOf<BatchPackageInfo>()
     private var vibrator: Vibrator? = null
     private var vibratorManager: VibratorManager? = null

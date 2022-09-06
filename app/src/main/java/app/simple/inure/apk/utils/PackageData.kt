@@ -21,4 +21,13 @@ object PackageData {
             File(Environment.getExternalStorageDirectory(), "Inure App Manager")
         }
     }
+
+    fun Context.getInstallerDir(name: String): File {
+        if (File(getPackageDir(applicationContext)!!.path + "/installer_cache/").exists() &&
+            File(getPackageDir(applicationContext)!!.path + "/installer_cache/").isFile) {
+            File(getPackageDir(applicationContext)!!.path + "/installer_cache/").delete()
+        }
+        File(getPackageDir(applicationContext)!!.path + "/installer_cache/").mkdir()
+        return File(getPackageDir(applicationContext)!!.path + "/installer_cache/" + name)
+    }
 }

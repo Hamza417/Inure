@@ -24,9 +24,9 @@ import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
-import com.jaredrummler.apkparser.model.ApkMeta
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import net.dongliu.apk.parser.bean.ApkMeta
 import java.text.NumberFormat
 
 class AppInformationViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
@@ -119,11 +119,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
 
     private fun getGlesVersion(): Pair<String, Spannable> {
         val glesVersion = kotlin.runCatching {
-            if (packageInfo.getGlEsVersion().isEmpty()) {
-                getString(R.string.not_available)
-            } else {
-                packageInfo.getGlEsVersion()
-            }
+            packageInfo.getGlEsVersion().ifEmpty { getString(R.string.not_available) }
         }.getOrElse {
             getString(R.string.not_available)
         }
@@ -201,7 +197,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             var count = 0
 
             for (i in p0) {
-                count = i.header.methodIdsSize
+                count = i.javaClass.methods.size
             }
 
             if (p0.size > 1) {

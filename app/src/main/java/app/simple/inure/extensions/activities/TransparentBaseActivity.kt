@@ -1,5 +1,6 @@
 package app.simple.inure.extensions.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
@@ -9,27 +10,41 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.R
+import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
+import app.simple.inure.themes.data.MaterialYou
+import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.ContextUtils
 import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.ThemeUtils.setTransparentTheme
 
+@SuppressLint("Registered")
 open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
 
-    override fun attachBaseContext(newBase: Context) {
-        SharedPreferences.init(newBase)
-        super.attachBaseContext(newBase)
+    override fun attachBaseContext(newBaseContext: Context) {
+        SharedPreferences.init(newBaseContext)
+        super.attachBaseContext(ContextUtils.updateLocale(newBaseContext, ConfigurationPreferences.getAppLanguage()!!))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            presetMaterialYouDynamicColors()
+
+            if (AppearancePreferences.isMaterialYouAccent()) {
+                AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID))
+            }
+        }
 
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
                                    .detectLeakedClosableObjects()
@@ -109,6 +124,20 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
         if (AppearancePreferences.isAccentOnNavigationBar()) {
             window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent))
                 .getColor(0, 0)
+        }
+    }
+
+    protected fun showError(error: String) {
+        try {
+            val e = Error.newInstance(error)
+            e.show(supportFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            })
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
         }
     }
 

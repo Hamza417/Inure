@@ -16,7 +16,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.dialog.ErrorViewModelFactory
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.dialogs.ErrorViewModel
 
@@ -35,8 +34,7 @@ class Error : ScopedBottomSheetFragment() {
         error = view.findViewById(R.id.print_error)
         copy = view.findViewById(R.id.copy_button)
 
-        val errorViewModelFactory = ErrorViewModelFactory(requireArguments().getString("error")!!,
-                                                          requireContext().resolveAttrColor(R.attr.colorAppAccent))
+        val errorViewModelFactory = ErrorViewModelFactory(requireArguments().getString("error")!!)
 
         errorViewModel = ViewModelProvider(this, errorViewModelFactory)[ErrorViewModel::class.java]
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MaterialYou_Transparent" parent="Inure.Transparent">
+        <item name="colorAppAccent">@android:color/system_accent1_400</item>
+        <item name="colorAppAccentLight">@android:color/system_accent1_200</item>
+    </style>
+</resources>

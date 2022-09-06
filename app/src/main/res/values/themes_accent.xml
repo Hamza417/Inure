@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MaterialYou" parent="Inure">
-        <item name="colorAppAccent">@android:color/system_accent1_0</item>
-    </style>
-
     <style name="Blue" parent="Inure">
         <item name="colorAppAccent">@color/blue</item>
         <item name="colorAppAccentLight">@color/blue_light</item>

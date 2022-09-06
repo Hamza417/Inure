@@ -19,10 +19,10 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.XMLUtils
-import com.jaredrummler.apkparser.ApkParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import net.dongliu.apk.parser.ApkFile
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -87,7 +87,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: B
                     }
                 } else {
                     kotlin.runCatching {
-                        ApkParser.create(packageInfo.applicationInfo.sourceDir).use {
+                        ApkFile(packageInfo.applicationInfo.sourceDir).use {
                             it.transBinaryXml(pathToXml)
                         }
                     }.getOrElse {

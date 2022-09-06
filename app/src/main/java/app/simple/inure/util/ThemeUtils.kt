@@ -408,6 +408,9 @@ object ThemeUtils {
             ContextCompat.getColor(baseContext, R.color.limed_spruce) -> {
                 setTheme(R.style.LimedSpruce_Transparent)
             }
+            ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID) -> {
+                setTheme(R.style.MaterialYou_Transparent)
+            }
             else -> {
                 setTheme(R.style.Inure_Transparent)
                 AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))

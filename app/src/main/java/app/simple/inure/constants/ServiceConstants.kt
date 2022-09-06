@@ -34,6 +34,9 @@ object ServiceConstants {
     const val actionQuitExtractService = "$appPackageName.quit.extract.service"
     const val actionCopyProgressMax = "$appPackageName.max.progress.service"
 
+    // Installer
+    const val actionPackageInfo = "$appPackageName.package.info"
+
     fun getMediaErrorString(extra: Int): String {
         return when (extra) {
             MediaPlayer.MEDIA_ERROR_IO -> {

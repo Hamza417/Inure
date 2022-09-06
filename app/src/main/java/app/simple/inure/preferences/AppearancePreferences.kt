@@ -168,7 +168,7 @@ object AppearancePreferences {
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
-    fun isMaterialYourAccent(): Boolean {
+    fun isMaterialYouAccent(): Boolean {
         return getSharedPreferences().getBoolean(isMaterialYouAccent, false)
     }
 }

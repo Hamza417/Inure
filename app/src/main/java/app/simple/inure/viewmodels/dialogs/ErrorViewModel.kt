@@ -11,18 +11,21 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.preferences.AppearancePreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class ErrorViewModel(application: Application, private val error: String, val accentColor: Int) : AndroidViewModel(application) {
+class ErrorViewModel(application: Application, private val error: String) : AndroidViewModel(application) {
 
     private val message: Pattern = Pattern.compile("\\s[\\w\\s]+\\n", Pattern.MULTILINE)
 
     private val tags = Pattern.compile("" /*Only for indentation */ +
                                                "\\(\\w+\\.+\\S+\\)",
                                        Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
+
+    private val accentColor = AppearancePreferences.getAccentColor()
 
     private val spanned: MutableLiveData<Spanned> by lazy {
         MutableLiveData<Spanned>().also {

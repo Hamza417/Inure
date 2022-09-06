@@ -124,7 +124,7 @@ dependencies {
     implementation 'com.github.android:renderscript-intrinsics-replacement-toolkit:b6363490c3'
 
     // Third Party
-    implementation 'com.jaredrummler:apk-parser:1.0.2'
+    implementation 'net.dongliu:apk-parser:2.6.10'
     implementation 'com.scottyab:rootbeer-lib:0.0.9'
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'com.bogdwellers:pinchtozoom:0.1'

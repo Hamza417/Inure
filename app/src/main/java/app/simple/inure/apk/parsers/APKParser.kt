@@ -5,17 +5,12 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import app.simple.inure.R
 import app.simple.inure.exceptions.ApkParserException
-import app.simple.inure.exceptions.CertificateParseException
 import app.simple.inure.exceptions.DexClassesNotFoundException
-import app.simple.inure.models.UsesFeatures
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.preferences.GraphicsPreferences
-import app.simple.inure.util.StringUtils.capitalizeFirstLetter
-import com.jaredrummler.apkparser.ApkParser
-import com.jaredrummler.apkparser.model.AndroidComponent
-import com.jaredrummler.apkparser.model.ApkMeta
-import com.jaredrummler.apkparser.model.CertificateMeta
-import com.jaredrummler.apkparser.model.DexInfo
+import net.dongliu.apk.parser.ApkFile
+import net.dongliu.apk.parser.bean.ApkMeta
+import net.dongliu.apk.parser.bean.DexClass
 import java.io.IOException
 import java.util.*
 import java.util.zip.ZipEntry
@@ -35,7 +30,7 @@ object APKParser {
      */
     fun ApplicationInfo.extractManifest(): String? {
         kotlin.runCatching {
-            ApkParser.create(sourceDir).use {
+            ApkFile(sourceDir).use {
                 return it.manifestXml
             }
         }.onFailure { throwable ->
@@ -47,128 +42,15 @@ object APKParser {
     }
 
     /**
-     * Fetch the list of service from an APK file
-     */
-    fun ApplicationInfo.getServices(): MutableList<AndroidComponent>? {
-        kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.androidManifest.services
-            }
-        }.getOrElse {
-            throw ApkParserException("Couldn't fetch services due to error : ${it.message}")
-        }
-    }
-
-    /**
-     * Fetch the list of activities from an APK file
-     */
-    fun PackageInfo.getActivities(): MutableList<AndroidComponent>? {
-        kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.androidManifest.activities
-            }
-        }.getOrElse {
-            throw ApkParserException("Couldn't fetch activities due to error : ${it.message}")
-        }
-    }
-
-    /**
-     * Fetch the list of providers from an APK file
-     */
-    fun ApplicationInfo.getProviders(): MutableList<AndroidComponent>? {
-        kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.androidManifest.providers
-            }
-        }.getOrElse {
-            throw ApkParserException("Couldn't fetch providers due to error : ${it.message}")
-        }
-    }
-
-    /**
-     * Fetch the list of permissions from an APK file
-     *
-     * Warning - This function does not handle any error
-     */
-    fun ApplicationInfo.getPermissions(): MutableList<String> {
-        kotlin.runCatching {
-            ApkParser.create(sourceDir).use {
-                return it.apkMeta.usesPermissions
-            }
-        }.getOrElse {
-            throw ApkParserException("Couldn't fetch permissions due to error : ${it.message}")
-        }
-    }
-
-    /**
-     * Fetch the list of features from an APK file
-     */
-    fun ApplicationInfo.getFeatures(): MutableList<UsesFeatures> {
-        kotlin.runCatching {
-            ApkParser.create(this).use {
-                val list = mutableListOf<UsesFeatures>()
-                for (i in it.androidManifest.apkMeta.usesFeatures) {
-                    list.add(UsesFeatures(i.name, i.required))
-                }
-                return list
-            }
-        }.getOrElse {
-            throw ApkParserException("Couldn't fetch features due to error : ${it.message}")
-        }
-    }
-
-    /**
-     * Fetch the install location of an APK file
-     */
-    fun ApplicationInfo.getInstallLocation(): String {
-        kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.androidManifest.apkMeta
-                    .installLocation.capitalizeFirstLetter()
-            }
-        }.getOrElse {
-            throw Exception()
-        }
-    }
-
-    /**
      * Fetch the install location of an APK file
      */
     fun PackageInfo.getGlEsVersion(): String {
         kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.androidManifest.apkMeta
-                    .glEsVersion.toString()
+            ApkFile(this.applicationInfo.sourceDir).use {
+                return it.apkMeta.glEsVersion.toString()
             }
         }.getOrElse {
             throw ApkParserException("Couldn't fetch GLES version due to error : ${it.message}")
-        }
-    }
-
-    /**
-     * Fetch the certificate data from an APK file
-     */
-    fun PackageInfo.getCertificates(): CertificateMeta {
-        kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.certificateMeta
-            }
-        }.getOrElse {
-            throw CertificateParseException(it.message!!)
-        }
-    }
-
-    /**
-     * Fetch the list of broadcast receivers from
-     * an APK file
-     */
-    fun PackageInfo.getReceivers(): MutableList<AndroidComponent>? {
-        kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.androidManifest.receivers
-            }
-        }.getOrElse {
-            throw ApkParserException("Couldn't fetch receivers due to error : ${it.message}")
         }
     }
 
@@ -315,8 +197,8 @@ object APKParser {
      */
     fun ApplicationInfo.getApkMeta(): ApkMeta {
         kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.androidManifest.apkMeta
+            ApkFile(this.sourceDir).use {
+                return it.apkMeta
             }
         }.getOrElse {
             throw ApkParserException("Couldn't parse app info due to error : ${it.message}")
@@ -326,10 +208,10 @@ object APKParser {
     /**
      * Fetch APK's dex data
      */
-    fun ApplicationInfo.getDexData(): MutableList<DexInfo>? {
+    fun ApplicationInfo.getDexData(): Array<out DexClass>? {
         kotlin.runCatching {
-            ApkParser.create(this).use {
-                return it.dexInfos
+            ApkFile(this.sourceDir).use {
+                return it.dexClasses
             }
         }.getOrElse {
             throw DexClassesNotFoundException("This apk does not contain any recognizable dex classes data.")

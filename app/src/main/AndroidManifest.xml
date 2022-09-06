@@ -152,9 +152,13 @@
 
         <activity
             android:name=".activities.association.ApkInstallerActivity"
-            android:enabled="false"
+            android:autoRemoveFromRecents="true"
+            android:configChanges="uiMode"
+            android:documentLaunchMode="always"
             android:exported="true"
-            android:label="Package Installer">
+            android:label="Package Installer"
+            android:theme="@style/Inure.Transparent"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -448,6 +452,11 @@
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
+
+        <service
+            android:name=".services.InstallerService"
+            android:enabled="true"
+            android:exported="false" />
 
         <receiver
             android:name="app.simple.inure.receivers.MediaButtonIntentReceiver"

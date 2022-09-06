@@ -49,7 +49,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             presetMaterialYouDynamicColors()
 
-            if (AppearancePreferences.isMaterialYourAccent()) {
+            if (AppearancePreferences.isMaterialYouAccent()) {
                 AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID))
             }
         }
