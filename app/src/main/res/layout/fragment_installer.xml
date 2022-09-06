@@ -58,9 +58,19 @@
 
     </app.simple.inure.decorations.padding.PaddingAwareConstraintLayout>
 
+    <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
+        android:id="@+id/tab_layout_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/grid_list_animation_controller"
+        android:paddingHorizontal="10dp"
+        app:statusBarPaddingRequired="false" />
+
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
-        android:layout_height="1px" />
+        android:layout_height="1px"
+        android:layout_marginTop="3dp" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

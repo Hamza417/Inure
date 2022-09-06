@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/panel_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:drawablePadding="5dp"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="6dp"
+    android:text="@string/manifest"
+    android:textSize="@dimen/info_text_small"
+    app:appFontStyle="bold"
+    app:drawableTintStyle="accent"
+    app:textColorStyle="primary" />
+

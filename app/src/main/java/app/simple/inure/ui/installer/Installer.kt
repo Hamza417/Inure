@@ -16,9 +16,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager2.widget.ViewPager2
 import app.simple.inure.R
 import app.simple.inure.adapters.installer.AdapterInstallerInfoPanels
+import app.simple.inure.adapters.menus.AdapterTabLayout
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
+import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -41,9 +43,12 @@ class Installer : ScopedFragment() {
     private lateinit var update: DynamicRippleTextView
     private lateinit var uninstall: DynamicRippleTextView
     private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayoutRecyclerView: CustomHorizontalRecyclerView
 
     private lateinit var broadcastReceiver: BroadcastReceiver
     private val intentFilter = IntentFilter()
+
+    private var adapterTabLayout: AdapterTabLayout? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_installer, container, false)
@@ -56,11 +61,13 @@ class Installer : ScopedFragment() {
         update = view.findViewById(R.id.update)
         uninstall = view.findViewById(R.id.uninstall)
         viewPager = view.findViewById(R.id.viewPager)
+        tabLayoutRecyclerView = view.findViewById(R.id.tab_layout_recycler_view)
 
         val factory = InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri)!!)
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
 
         intentFilter.addAction(ServiceConstants.actionSessionStatus)
+        viewPager.offscreenPageLimit = 5
 
         return view
     }
@@ -144,6 +151,29 @@ class Installer : ScopedFragment() {
         installerViewModel.getFile().observe(viewLifecycleOwner) {
             icon.loadAppIcon(it)
             viewPager.adapter = AdapterInstallerInfoPanels(this, it)
+            adapterTabLayout = AdapterTabLayout(arrayListOf(R.string.information,
+                                                            R.string.permissions,
+                                                            R.string.manifest,
+                                                            R.string.services,
+                                                            R.string.activities,
+                                                            R.string.certificate))
+
+            adapterTabLayout?.setOnTabLayoutCallbackListener(object : AdapterTabLayout.Companion.TabLayoutCallback {
+                override fun onTabClicked(position: Int, res: Int) {
+                    handler.postDelayed({ viewPager.setCurrentItem(position, true) }, 250)
+                }
+            })
+
+            viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrollStateChanged(state: Int) {
+                    super.onPageScrollStateChanged(state)
+                    if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                        handler.postDelayed({ adapterTabLayout?.layoutPositionChanged(viewPager.currentItem) }, 250)
+                    }
+                }
+            })
+
+            tabLayoutRecyclerView.adapter = adapterTabLayout
         }
 
         cancel.setOnClickListener {
