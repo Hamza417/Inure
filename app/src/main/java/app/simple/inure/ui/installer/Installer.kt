@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageInstaller
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,15 +22,16 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.tablayout.SmartTabLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.installer.InstallerViewModel
-import com.kekstudio.dachshundtablayout.DachshundTabLayout
 
 class Installer : ScopedFragment() {
 
@@ -43,7 +45,7 @@ class Installer : ScopedFragment() {
     private lateinit var update: DynamicRippleTextView
     private lateinit var uninstall: DynamicRippleTextView
     private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayout: DachshundTabLayout
+    private lateinit var tabLayout: SmartTabLayout
 
     private lateinit var broadcastReceiver: BroadcastReceiver
     private val intentFilter = IntentFilter()
@@ -68,6 +70,11 @@ class Installer : ScopedFragment() {
 
         intentFilter.addAction(ServiceConstants.actionSessionStatus)
         viewPager.offscreenPageLimit = 5
+
+        tabLayout.apply {
+            setDefaultTabTextColor(ColorStateList.valueOf(ThemeManager.theme.textViewTheme.secondaryTextColor))
+            setSelectedIndicatorColors(ThemeManager.theme.viewGroupTheme.selectedBackground)
+        }
 
         return view
     }
@@ -151,21 +158,10 @@ class Installer : ScopedFragment() {
         installerViewModel.getFile().observe(viewLifecycleOwner) {
             icon.loadAppIcon(it)
 
-            val titleList = arrayOf(getString(R.string.information),
-                                    getString(R.string.permissions),
-                                    getString(R.string.manifest),
-                                    getString(R.string.services),
-                                    getString(R.string.activities),
-                                    getString(R.string.certificate))
+            val titles = arrayOf(getString(R.string.information), getString(R.string.permissions), getString(R.string.manifest), getString(R.string.services), getString(R.string.activities), getString(R.string.certificate))
 
-            viewPager.adapter = AdapterInstallerInfoPanels(this, it)
-
-            adapterTabLayout?.setOnTabLayoutCallbackListener(object : AdapterTabLayout.Companion.TabLayoutCallback {
-                override fun onTabClicked(position: Int, res: Int) {
-                    handler.postDelayed({ viewPager.setCurrentItem(position, true) }, 250)
-                }
-            })
-
+            viewPager.adapter = AdapterInstallerInfoPanels(this, it, titles)
+            tabLayout.setViewPager2(viewPager)
             viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageScrollStateChanged(state: Int) {
                     super.onPageScrollStateChanged(state)
@@ -174,8 +170,6 @@ class Installer : ScopedFragment() {
                     }
                 }
             })
-
-            tabLayout.setupWithViewPager2(viewPager, titleList)
         }
 
         cancel.setOnClickListener {

@@ -58,17 +58,20 @@
 
     </app.simple.inure.decorations.padding.PaddingAwareConstraintLayout>
 
-    <com.kekstudio.dachshundtablayout.DachshundTabLayout
+    <app.simple.inure.decorations.tablayout.SmartTabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_size"
-        app:ddCenterAlign="false"
-        app:tabMode="scrollable" />
-
-    <app.simple.inure.decorations.theme.ThemeDivider
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="3dp" />
+        android:layout_height="@dimen/small_button_size"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/dialog_padding"
+        app:defaultTabBackground="@android:color/transparent"
+        app:defaultTabTextAllCaps="false"
+        app:dividerThickness="0dp"
+        app:indicatorGravity="center"
+        app:indicatorThickness="@dimen/small_button_size"
+        app:indicatorWithoutPadding="false"
+        app:underlineThickness="0dp" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

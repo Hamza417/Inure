@@ -1,12 +1,12 @@
 package app.simple.inure.adapters.installer
 
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import app.simple.inure.extensions.adapters.BaseFragmentStateAdapter
 import app.simple.inure.ui.installer.Manifest
 import app.simple.inure.ui.installer.Permissions
 import java.io.File
 
-class AdapterInstallerInfoPanels(fragment: Fragment, private val file: File) : FragmentStateAdapter(fragment) {
+class AdapterInstallerInfoPanels(fragment: Fragment, private val file: File, private val titles: Array<String>) : BaseFragmentStateAdapter(fragment) {
 
     private val count = 2
 
@@ -20,5 +20,9 @@ class AdapterInstallerInfoPanels(fragment: Fragment, private val file: File) : F
             1 -> Manifest.newInstance(file)
             else -> throw IllegalStateException("Invalid fragment range")
         }
+    }
+
+    override fun getPageTitle(position: Int): String {
+        return titles[position]
     }
 }
