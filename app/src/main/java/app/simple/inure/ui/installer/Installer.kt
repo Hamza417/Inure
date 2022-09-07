@@ -20,7 +20,6 @@ import app.simple.inure.adapters.menus.AdapterTabLayout
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
-import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -30,6 +29,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.installer.InstallerViewModel
+import com.kekstudio.dachshundtablayout.DachshundTabLayout
 
 class Installer : ScopedFragment() {
 
@@ -43,7 +43,7 @@ class Installer : ScopedFragment() {
     private lateinit var update: DynamicRippleTextView
     private lateinit var uninstall: DynamicRippleTextView
     private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayoutRecyclerView: CustomHorizontalRecyclerView
+    private lateinit var tabLayout: DachshundTabLayout
 
     private lateinit var broadcastReceiver: BroadcastReceiver
     private val intentFilter = IntentFilter()
@@ -61,7 +61,7 @@ class Installer : ScopedFragment() {
         update = view.findViewById(R.id.update)
         uninstall = view.findViewById(R.id.uninstall)
         viewPager = view.findViewById(R.id.viewPager)
-        tabLayoutRecyclerView = view.findViewById(R.id.tab_layout_recycler_view)
+        tabLayout = view.findViewById(R.id.tabLayout)
 
         val factory = InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri)!!)
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
@@ -150,13 +150,15 @@ class Installer : ScopedFragment() {
 
         installerViewModel.getFile().observe(viewLifecycleOwner) {
             icon.loadAppIcon(it)
+
+            val titleList = arrayOf(getString(R.string.information),
+                                    getString(R.string.permissions),
+                                    getString(R.string.manifest),
+                                    getString(R.string.services),
+                                    getString(R.string.activities),
+                                    getString(R.string.certificate))
+
             viewPager.adapter = AdapterInstallerInfoPanels(this, it)
-            adapterTabLayout = AdapterTabLayout(arrayListOf(R.string.information,
-                                                            R.string.permissions,
-                                                            R.string.manifest,
-                                                            R.string.services,
-                                                            R.string.activities,
-                                                            R.string.certificate))
 
             adapterTabLayout?.setOnTabLayoutCallbackListener(object : AdapterTabLayout.Companion.TabLayoutCallback {
                 override fun onTabClicked(position: Int, res: Int) {
@@ -173,7 +175,7 @@ class Installer : ScopedFragment() {
                 }
             })
 
-            tabLayoutRecyclerView.adapter = adapterTabLayout
+            tabLayout.setupWithViewPager2(viewPager, titleList)
         }
 
         cancel.setOnClickListener {

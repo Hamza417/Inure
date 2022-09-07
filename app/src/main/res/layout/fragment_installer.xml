@@ -58,14 +58,12 @@
 
     </app.simple.inure.decorations.padding.PaddingAwareConstraintLayout>
 
-    <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
-        android:id="@+id/tab_layout_recycler_view"
+    <com.kekstudio.dachshundtablayout.DachshundTabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:layoutAnimation="@anim/grid_list_animation_controller"
-        android:paddingHorizontal="10dp"
-        app:statusBarPaddingRequired="false" />
+        android:layout_height="@dimen/button_size"
+        app:ddCenterAlign="false"
+        app:tabMode="scrollable" />
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
