@@ -122,19 +122,14 @@ class SmartTabStrip extends LinearLayout {
         dividerThickness = a.getDimensionPixelSize(R.styleable.SmartTabLayout_dividerThickness, dividerThickness);
         drawDecorationAfterTab = a.getBoolean(R.styleable.SmartTabLayout_drawDecorationAfterTab, drawDecorationAfterTab);
         a.recycle();
-        
-        final int[] indicatorColors = (indicatorColorsId == NO_ID)
-                ? new int[] {indicatorColor}
-                : getResources().getIntArray(indicatorColorsId);
-        
-        final int[] dividerColors = (dividerColorsId == NO_ID)
-                ? new int[] {dividerColor}
-                : getResources().getIntArray(dividerColorsId);
-        
+    
+        final int[] indicatorColors = (indicatorColorsId == NO_ID) ? new int[] {indicatorColor} : getResources().getIntArray(indicatorColorsId);
+        final int[] dividerColors = (dividerColorsId == NO_ID) ? new int[] {dividerColor} : getResources().getIntArray(dividerColorsId);
+    
         this.defaultTabColorizer = new SimpleTabColorizer();
         this.defaultTabColorizer.setIndicatorColors(indicatorColors);
         this.defaultTabColorizer.setDividerColors(dividerColors);
-        
+    
         this.topBorderThickness = overlineThickness;
         this.topBorderColor = overlineColor;
         this.bottomBorderThickness = underlineThickness;
@@ -156,7 +151,6 @@ class SmartTabStrip extends LinearLayout {
         this.dividerThickness = dividerThickness;
         
         this.drawDecorationAfterTab = drawDecorationAfterTab;
-        
         this.indicationInterpolator = SmartTabIndicationInterpolator.of(indicationInterpolatorId);
     }
     

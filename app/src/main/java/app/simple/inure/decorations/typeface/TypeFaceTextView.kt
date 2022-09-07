@@ -35,6 +35,12 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
     private var isDrawableHidden = true
     private var lastDrawableColor = Color.GRAY
 
+    var fontStyle = MEDIUM
+        set(value) {
+            field = value
+            typeface = TypeFace.getTypeFace(getAppFont(), field, context)
+        }
+
     constructor(context: Context) : super(context) {
         typedArray = context.theme.obtainStyledAttributes(null, R.styleable.TypeFaceTextView, 0, 0)
         init()
@@ -51,7 +57,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
     }
 
     private fun init() {
-        typeface = TypeFace.getTypeFace(getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, 0), context)
+        typeface = TypeFace.getTypeFace(getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, BOLD), context)
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
         drawableTintMode = typedArray.getInt(R.styleable.TypeFaceTextView_drawableTintStyle, 3)
         isDrawableHidden = typedArray.getBoolean(R.styleable.TypeFaceTextView_isDrawableHidden, true)
@@ -201,5 +207,12 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
                 setDrawableTint(animate = true)
             }
         }
+    }
+
+    companion object {
+        const val LIGHT = 0
+        const val REGULAR = 1
+        const val MEDIUM = 2
+        const val BOLD = 3
     }
 }

@@ -3,8 +3,6 @@ package app.simple.inure.decorations.tablayout;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -20,6 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 import app.simple.inure.R;
+import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.extensions.adapters.BaseFragmentStateAdapter;
 
 /**
@@ -66,7 +65,7 @@ public class SmartTabLayout extends HorizontalScrollView {
     private int tabViewTextHorizontalPadding;
     private int tabViewTextMinWidth;
     private ViewPager2 viewPager;
-    private ViewPager.OnPageChangeListener viewPagerPageChangeListener;
+    private ViewPager2.OnPageChangeCallback viewPagerPageChangeListener;
     private OnScrollChangeListener onScrollChangeListener;
     private TabProvider tabProvider;
     private InternalTabClickListener internalTabClickListener;
@@ -248,7 +247,7 @@ public class SmartTabLayout extends HorizontalScrollView {
      *
      * @see ViewPager#setOnPageChangeListener(ViewPager.OnPageChangeListener)
      */
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
+    public void setOnPageChangeListener(ViewPager2.OnPageChangeCallback listener) {
         viewPagerPageChangeListener = listener;
     }
     
@@ -319,12 +318,12 @@ public class SmartTabLayout extends HorizontalScrollView {
      * {@link #setCustomTabView(int, int)}.
      */
     protected TextView createDefaultTabView(CharSequence title) {
-        TextView textView = new TextView(getContext());
+        TypeFaceTextView textView = new TypeFaceTextView(getContext());
         textView.setGravity(Gravity.CENTER);
         textView.setText(title);
         textView.setTextColor(tabViewTextColors);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabViewTextSize);
-        textView.setTypeface(Typeface.DEFAULT_BOLD);
+        textView.setFontStyle(TypeFaceTextView.MEDIUM);
         textView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
         
@@ -338,20 +337,16 @@ public class SmartTabLayout extends HorizontalScrollView {
                     outValue, true);
             textView.setBackgroundResource(outValue.resourceId);
         }
-        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            // If we're running on ICS or newer, enable all-caps to match the Action Bar tab style
-            textView.setAllCaps(tabViewTextAllCaps);
-        }
-        
-        textView.setPadding(
-                tabViewTextHorizontalPadding, 0,
-                tabViewTextHorizontalPadding, 0);
-        
+    
+        // If we're running on ICS or newer, enable all-caps to match the Action Bar tab style
+        textView.setAllCaps(tabViewTextAllCaps);
+    
+        textView.setPadding(tabViewTextHorizontalPadding, 0, tabViewTextHorizontalPadding, 0);
+    
         if (tabViewTextMinWidth > 0) {
             textView.setMinWidth(tabViewTextMinWidth);
         }
-        
+    
         return textView;
     }
     
@@ -359,10 +354,7 @@ public class SmartTabLayout extends HorizontalScrollView {
         final BaseFragmentStateAdapter adapter = (BaseFragmentStateAdapter) viewPager.getAdapter();
         
         for (int i = 0; i < adapter.getItemCount(); i++) {
-            
-            final View tabView = (tabProvider == null)
-                    ? createDefaultTabView(adapter.getPageTitle(i))
-                    : tabProvider.createTabView(tabStrip, i, adapter);
+            final View tabView = (tabProvider == null) ? createDefaultTabView(adapter.getPageTitle(i)) : tabProvider.createTabView(tabStrip, i, adapter);
             
             if (tabView == null) {
                 throw new IllegalStateException("tabView is null.");
@@ -539,24 +531,24 @@ public class SmartTabLayout extends HorizontalScrollView {
         @Override
         public View createTabView(ViewGroup container, int position, BaseFragmentStateAdapter adapter) {
             View tabView = null;
-            TextView tabTitleView = null;
-            
+            TypeFaceTextView tabTitleView = null;
+    
             if (tabViewLayoutId != NO_ID) {
                 tabView = inflater.inflate(tabViewLayoutId, container, false);
             }
-            
+    
             if (tabViewTextViewId != NO_ID && tabView != null) {
-                tabTitleView = (TextView) tabView.findViewById(tabViewTextViewId);
+                tabTitleView = (TypeFaceTextView) tabView.findViewById(tabViewTextViewId);
             }
-            
-            if (tabTitleView == null && TextView.class.isInstance(tabView)) {
-                tabTitleView = (TextView) tabView;
+    
+            if (tabTitleView == null && tabView instanceof TypeFaceTextView) {
+                tabTitleView = (TypeFaceTextView) tabView;
             }
-            
+    
             if (tabTitleView != null) {
                 tabTitleView.setText(adapter.getPageTitle(position));
             }
-            
+    
             return tabView;
         }
     }
@@ -568,7 +560,7 @@ public class SmartTabLayout extends HorizontalScrollView {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             int tabStripChildCount = tabStrip.getChildCount();
-            if ((tabStripChildCount == 0) || (position < 0) || (position >= tabStripChildCount)) {
+            if ((position < 0) || (position >= tabStripChildCount)) {
                 return;
             }
             
