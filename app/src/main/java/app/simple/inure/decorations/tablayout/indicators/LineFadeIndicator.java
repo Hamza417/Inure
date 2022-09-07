@@ -1,34 +1,36 @@
-package com.kekstudio.dachshundtablayout.indicators;
+package app.simple.inure.decorations.tablayout.indicators;
 
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.view.animation.LinearInterpolator;
 
-import com.kekstudio.dachshundtablayout.DachshundTabLayout;
-
 import androidx.annotation.ColorInt;
+import app.simple.inure.decorations.tablayout.InureTabLayout;
 
 /**
  * Created by Andy671
  */
 
-public class PointFadeIndicator implements AnimatedIndicatorInterface, ValueAnimator.AnimatorUpdateListener {
+public class LineFadeIndicator implements AnimatedIndicatorInterface, ValueAnimator.AnimatorUpdateListener {
     private Paint paint;
+    private RectF rectF;
     
     private int height;
+    private int edgeRadius;
     
     private ValueAnimator valueAnimator;
     
-    private DachshundTabLayout dachshundTabLayout;
+    private InureTabLayout inureTabLayout;
     
-    private int startX, endX;
+    private int startXLeft, startXRight, endXLeft, endXRight;
     
     private int originColor, startColor, endColor;
     
-    public PointFadeIndicator(DachshundTabLayout dachshundTabLayout) {
-        this.dachshundTabLayout = dachshundTabLayout;
+    public LineFadeIndicator(InureTabLayout inureTabLayout) {
+        this.inureTabLayout = inureTabLayout;
         
         valueAnimator = new ValueAnimator();
         valueAnimator.setInterpolator(new LinearInterpolator());
@@ -40,7 +42,18 @@ public class PointFadeIndicator implements AnimatedIndicatorInterface, ValueAnim
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
         
-        startX = (int) dachshundTabLayout.getChildXCenter(dachshundTabLayout.getCurrentPosition());
+        rectF = new RectF();
+        
+        startXLeft = (int) inureTabLayout.getChildXLeft(inureTabLayout.getCurrentPosition());
+        startXRight = (int) inureTabLayout.getChildXRight(inureTabLayout.getCurrentPosition());
+        
+        edgeRadius = -1;
+    }
+    
+    public void setEdgeRadius(int edgeRadius) {
+        this.edgeRadius = edgeRadius;
+        
+        inureTabLayout.invalidate();
     }
     
     @Override
@@ -51,7 +64,7 @@ public class PointFadeIndicator implements AnimatedIndicatorInterface, ValueAnim
         int endAlpha = (int) valueAnimator.getAnimatedValue();
         endColor = Color.argb(endAlpha, Color.red(originColor), Color.green(originColor), Color.blue(originColor));
         
-        dachshundTabLayout.invalidate();
+        inureTabLayout.invalidate();
     }
     
     @Override
@@ -64,14 +77,20 @@ public class PointFadeIndicator implements AnimatedIndicatorInterface, ValueAnim
     @Override
     public void setSelectedTabIndicatorHeight(int height) {
         this.height = height;
+        
+        if (edgeRadius == -1) {
+            edgeRadius = height;
+        }
     }
     
     @Override
     public void setIntValues(int startXLeft, int endXLeft,
             int startXCenter, int endXCenter,
             int startXRight, int endXRight) {
-        startX = startXCenter;
-        endX = endXCenter;
+        this.startXLeft = startXLeft;
+        this.startXRight = startXRight;
+        this.endXLeft = endXLeft;
+        this.endXRight = endXRight;
     }
     
     @Override
@@ -81,11 +100,19 @@ public class PointFadeIndicator implements AnimatedIndicatorInterface, ValueAnim
     
     @Override
     public void draw(Canvas canvas) {
+        rectF.left = startXLeft + height / 2;
+        rectF.right = startXRight - height / 2;
+        rectF.top = inureTabLayout.getHeight() - height;
+        rectF.bottom = inureTabLayout.getHeight();
+        
         paint.setColor(startColor);
-        canvas.drawCircle(startX, canvas.getHeight() - height / 2, height / 2, paint);
+        canvas.drawRoundRect(rectF, edgeRadius, edgeRadius, paint);
+        
+        rectF.left = endXLeft + height / 2;
+        rectF.right = endXRight - height / 2;
         
         paint.setColor(endColor);
-        canvas.drawCircle(endX, canvas.getHeight() - height / 2, height / 2, paint);
+        canvas.drawRoundRect(rectF, edgeRadius, edgeRadius, paint);
     }
     
     @Override

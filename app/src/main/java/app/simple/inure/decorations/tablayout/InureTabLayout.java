@@ -1,4 +1,4 @@
-package com.kekstudio.dachshundtablayout;
+package app.simple.inure.decorations.tablayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,19 +11,20 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.kekstudio.dachshundtablayout.indicators.AnimatedIndicatorInterface;
-import com.kekstudio.dachshundtablayout.indicators.AnimatedIndicatorType;
-import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
-import com.kekstudio.dachshundtablayout.indicators.LineFadeIndicator;
-import com.kekstudio.dachshundtablayout.indicators.LineMoveIndicator;
-import com.kekstudio.dachshundtablayout.indicators.PointFadeIndicator;
-import com.kekstudio.dachshundtablayout.indicators.PointMoveIndicator;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+import app.simple.inure.R;
+import app.simple.inure.decorations.tablayout.indicators.AnimatedIndicatorInterface;
+import app.simple.inure.decorations.tablayout.indicators.AnimatedIndicatorType;
+import app.simple.inure.decorations.tablayout.indicators.DachshundIndicator;
+import app.simple.inure.decorations.tablayout.indicators.LineFadeIndicator;
+import app.simple.inure.decorations.tablayout.indicators.LineMoveIndicator;
+import app.simple.inure.decorations.tablayout.indicators.PointFadeIndicator;
+import app.simple.inure.decorations.tablayout.indicators.PointMoveIndicator;
 
 /**
  * Created by Andy671
@@ -31,7 +32,7 @@ import androidx.viewpager2.widget.ViewPager2;
  * Added ViewPager2 support by Hamza417 (7 Sept, 2022)
  */
 
-public class DachshundTabLayout extends TabLayout implements ViewPager.OnPageChangeListener {
+public class InureTabLayout extends TabLayout implements ViewPager.OnPageChangeListener {
     
     private static final int DEFAULT_HEIGHT_DP = 6;
     
@@ -52,27 +53,27 @@ public class DachshundTabLayout extends TabLayout implements ViewPager.OnPageCha
     private int mTempPosition, mTempPositionOffsetPixels;
     private float mTempPositionOffset;
     
-    public DachshundTabLayout(Context context) {
+    public InureTabLayout(Context context) {
         this(context, null);
     }
     
-    public DachshundTabLayout(Context context, AttributeSet attrs) {
+    public InureTabLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
     
-    public DachshundTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public InureTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         
         super.setSelectedTabIndicatorHeight(0);
         
         mTabStrip = (LinearLayout) super.getChildAt(0);
         
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.DachshundTabLayout);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.InureTabLayout);
         
-        this.mIndicatorHeight = ta.getDimensionPixelSize(R.styleable.DachshundTabLayout_ddIndicatorHeight, HelperUtils.dpToPx(DEFAULT_HEIGHT_DP));
-        this.mIndicatorColor = ta.getColor(R.styleable.DachshundTabLayout_ddIndicatorColor, Color.WHITE);
-        this.mCenterAlign = ta.getBoolean(R.styleable.DachshundTabLayout_ddCenterAlign, false);
-        this.mAnimatedIndicatorType = AnimatedIndicatorType.values()[ta.getInt(R.styleable.DachshundTabLayout_ddAnimatedIndicator, 0)];
+        this.mIndicatorHeight = ta.getDimensionPixelSize(R.styleable.InureTabLayout_ddIndicatorHeight, HelperUtils.dpToPx(DEFAULT_HEIGHT_DP));
+        this.mIndicatorColor = ta.getColor(R.styleable.InureTabLayout_ddIndicatorColor, Color.WHITE);
+        this.mCenterAlign = ta.getBoolean(R.styleable.InureTabLayout_ddCenterAlign, false);
+        this.mAnimatedIndicatorType = AnimatedIndicatorType.values()[ta.getInt(R.styleable.InureTabLayout_ddAnimatedIndicator, 0)];
         
         ta.recycle();
     }
@@ -162,8 +163,6 @@ public class DachshundTabLayout extends TabLayout implements ViewPager.OnPageCha
     @Override
     public void setupWithViewPager(@Nullable final ViewPager viewPager, boolean autoRefresh) {
         super.setupWithViewPager(viewPager, autoRefresh);
-        
-        //TODO
         if (viewPager != null) {
             viewPager.removeOnPageChangeListener(this);
             viewPager.addOnPageChangeListener(this);
@@ -185,7 +184,7 @@ public class DachshundTabLayout extends TabLayout implements ViewPager.OnPageCha
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                     super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                    DachshundTabLayout.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                    InureTabLayout.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 }
             });
             

@@ -1,4 +1,4 @@
-package com.kekstudio.dachshundtablayout.indicators;
+package app.simple.inure.decorations.tablayout.indicators;
 
 /**
  * Created by Andy671

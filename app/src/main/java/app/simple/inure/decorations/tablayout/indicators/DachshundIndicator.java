@@ -1,50 +1,50 @@
-package com.kekstudio.dachshundtablayout.indicators;
+package app.simple.inure.decorations.tablayout.indicators;
 
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.view.animation.LinearInterpolator;
-
-import com.kekstudio.dachshundtablayout.DachshundTabLayout;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.ColorInt;
+import app.simple.inure.decorations.tablayout.InureTabLayout;
 
 /**
  * Created by Andy671
  */
 
-public class LineMoveIndicator implements AnimatedIndicatorInterface, ValueAnimator.AnimatorUpdateListener {
+public class DachshundIndicator implements AnimatedIndicatorInterface, ValueAnimator.AnimatorUpdateListener {
     
     private Paint paint;
     private RectF rectF;
     private Rect rect;
     
     private int height;
-    private int edgeRadius;
-    private int leftX, rightX;
     
     private ValueAnimator valueAnimatorLeft, valueAnimatorRight;
     
-    private LinearInterpolator linearInterpolator;
+    private InureTabLayout inureTabLayout;
     
-    private DachshundTabLayout dachshundTabLayout;
+    private AccelerateInterpolator accelerateInterpolator;
+    private DecelerateInterpolator decelerateInterpolator;
     
-    public LineMoveIndicator(DachshundTabLayout dachshundTabLayout) {
-        this.dachshundTabLayout = dachshundTabLayout;
-        
-        linearInterpolator = new LinearInterpolator();
+    private int leftX, rightX;
+    
+    public DachshundIndicator(InureTabLayout inureTabLayout) {
+        this.inureTabLayout = inureTabLayout;
         
         valueAnimatorLeft = new ValueAnimator();
         valueAnimatorLeft.setDuration(DEFAULT_DURATION);
         valueAnimatorLeft.addUpdateListener(this);
-        valueAnimatorLeft.setInterpolator(linearInterpolator);
         
         valueAnimatorRight = new ValueAnimator();
         valueAnimatorRight.setDuration(DEFAULT_DURATION);
         valueAnimatorRight.addUpdateListener(this);
-        valueAnimatorRight.setInterpolator(linearInterpolator);
+        
+        accelerateInterpolator = new AccelerateInterpolator();
+        decelerateInterpolator = new DecelerateInterpolator();
         
         rectF = new RectF();
         rect = new Rect();
@@ -53,16 +53,8 @@ public class LineMoveIndicator implements AnimatedIndicatorInterface, ValueAnima
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
         
-        leftX = (int) dachshundTabLayout.getChildXLeft(dachshundTabLayout.getCurrentPosition());
-        rightX = (int) dachshundTabLayout.getChildXRight(dachshundTabLayout.getCurrentPosition());
-        
-        edgeRadius = -1;
-    }
-    
-    public void setEdgeRadius(int edgeRadius) {
-        this.edgeRadius = edgeRadius;
-        
-        dachshundTabLayout.invalidate();
+        leftX = (int) inureTabLayout.getChildXCenter(inureTabLayout.getCurrentPosition());
+        rightX = leftX;
     }
     
     @Override
@@ -70,12 +62,12 @@ public class LineMoveIndicator implements AnimatedIndicatorInterface, ValueAnima
         leftX = (int) valueAnimatorLeft.getAnimatedValue();
         rightX = (int) valueAnimatorRight.getAnimatedValue();
         
-        rect.top = dachshundTabLayout.getHeight() - height;
-        rect.left = leftX + height / 2;
-        rect.right = rightX - height / 2;
-        rect.bottom = dachshundTabLayout.getHeight();
+        rect.top = inureTabLayout.getHeight() - height;
+        rect.left = leftX - height / 2;
+        rect.right = rightX + height / 2;
+        rect.bottom = inureTabLayout.getHeight();
         
-        dachshundTabLayout.invalidate(rect);
+        inureTabLayout.invalidate(rect);
     }
     
     @Override
@@ -86,18 +78,24 @@ public class LineMoveIndicator implements AnimatedIndicatorInterface, ValueAnima
     @Override
     public void setSelectedTabIndicatorHeight(int height) {
         this.height = height;
-    
-        if (edgeRadius == -1) {
-            edgeRadius = height;
-        }
     }
     
     @Override
     public void setIntValues(int startXLeft, int endXLeft,
             int startXCenter, int endXCenter,
             int startXRight, int endXRight) {
-        valueAnimatorLeft.setIntValues(startXLeft, endXLeft);
-        valueAnimatorRight.setIntValues(startXRight, endXRight);
+        boolean toRight = endXCenter - startXCenter >= 0;
+        
+        if (toRight) {
+            valueAnimatorLeft.setInterpolator(accelerateInterpolator);
+            valueAnimatorRight.setInterpolator(decelerateInterpolator);
+        } else {
+            valueAnimatorLeft.setInterpolator(decelerateInterpolator);
+            valueAnimatorRight.setInterpolator(accelerateInterpolator);
+        }
+        
+        valueAnimatorLeft.setIntValues(startXCenter, endXCenter);
+        valueAnimatorRight.setIntValues(startXCenter, endXCenter);
     }
     
     @Override
@@ -108,12 +106,12 @@ public class LineMoveIndicator implements AnimatedIndicatorInterface, ValueAnima
     
     @Override
     public void draw(Canvas canvas) {
-        rectF.top = dachshundTabLayout.getHeight() - height;
-        rectF.left = leftX + height / 2;
-        rectF.right = rightX - height / 2;
-        rectF.bottom = dachshundTabLayout.getHeight();
+        rectF.top = inureTabLayout.getHeight() - height;
+        rectF.left = leftX - height / 2;
+        rectF.right = rightX + height / 2;
+        rectF.bottom = inureTabLayout.getHeight();
         
-        canvas.drawRoundRect(rectF, edgeRadius, edgeRadius, paint);
+        canvas.drawRoundRect(rectF, height, height, paint);
     }
     
     @Override

@@ -1,69 +1,63 @@
-package com.kekstudio.dachshundtablayout.indicators;
+package app.simple.inure.decorations.tablayout.indicators;
 
-import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.view.animation.LinearInterpolator;
 
-import com.kekstudio.dachshundtablayout.DachshundTabLayout;
-
 import androidx.annotation.ColorInt;
+import app.simple.inure.decorations.tablayout.InureTabLayout;
 
 /**
  * Created by Andy671
  */
 
-public class PointMoveIndicator implements AnimatedIndicatorInterface, ValueAnimator.AnimatorUpdateListener {
-    
+public class PointFadeIndicator implements AnimatedIndicatorInterface, ValueAnimator.AnimatorUpdateListener {
     private Paint paint;
-    private Rect rect;
     
     private int height;
     
     private ValueAnimator valueAnimator;
     
-    private DachshundTabLayout dachshundTabLayout;
+    private InureTabLayout inureTabLayout;
     
-    private int frameX;
+    private int startX, endX;
     
-    public PointMoveIndicator(DachshundTabLayout dachshundTabLayout) {
-        this.dachshundTabLayout = dachshundTabLayout;
+    private int originColor, startColor, endColor;
+    
+    public PointFadeIndicator(InureTabLayout inureTabLayout) {
+        this.inureTabLayout = inureTabLayout;
         
         valueAnimator = new ValueAnimator();
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.setDuration(DEFAULT_DURATION);
         valueAnimator.addUpdateListener(this);
+        valueAnimator.setIntValues(0, 255);
         
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
         
-        rect = new Rect();
-        
-        frameX = (int) dachshundTabLayout.getChildXCenter(dachshundTabLayout.getCurrentPosition());
-    }
-    
-    public void setInterpolator(TimeInterpolator interpolator) {
-        valueAnimator.setInterpolator(interpolator);
+        startX = (int) inureTabLayout.getChildXCenter(inureTabLayout.getCurrentPosition());
     }
     
     @Override
     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-        frameX = (int) valueAnimator.getAnimatedValue();
+        int startAlpha = 255 - (int) valueAnimator.getAnimatedValue();
+        startColor = Color.argb(startAlpha, Color.red(originColor), Color.green(originColor), Color.blue(originColor));
         
-        rect.left = frameX - height / 2;
-        rect.right = frameX + height / 2;
-        rect.top = dachshundTabLayout.getHeight() - height;
-        rect.bottom = dachshundTabLayout.getHeight();
+        int endAlpha = (int) valueAnimator.getAnimatedValue();
+        endColor = Color.argb(endAlpha, Color.red(originColor), Color.green(originColor), Color.blue(originColor));
         
-        dachshundTabLayout.invalidate(rect);
+        inureTabLayout.invalidate();
     }
     
     @Override
     public void setSelectedTabIndicatorColor(@ColorInt int color) {
-        paint.setColor(color);
+        this.originColor = color;
+        startColor = color;
+        endColor = Color.TRANSPARENT;
     }
     
     @Override
@@ -75,7 +69,8 @@ public class PointMoveIndicator implements AnimatedIndicatorInterface, ValueAnim
     public void setIntValues(int startXLeft, int endXLeft,
             int startXCenter, int endXCenter,
             int startXRight, int endXRight) {
-        valueAnimator.setIntValues(startXCenter, endXCenter);
+        startX = startXCenter;
+        endX = endXCenter;
     }
     
     @Override
@@ -85,12 +80,15 @@ public class PointMoveIndicator implements AnimatedIndicatorInterface, ValueAnim
     
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawCircle(frameX, canvas.getHeight() - height / 2, height / 2, paint);
+        paint.setColor(startColor);
+        canvas.drawCircle(startX, canvas.getHeight() - height / 2, height / 2, paint);
+        
+        paint.setColor(endColor);
+        canvas.drawCircle(endX, canvas.getHeight() - height / 2, height / 2, paint);
     }
     
     @Override
     public long getDuration() {
         return valueAnimator.getDuration();
     }
-    
 }

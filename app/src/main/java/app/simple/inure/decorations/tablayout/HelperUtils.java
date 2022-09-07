@@ -1,4 +1,4 @@
-package com.kekstudio.dachshundtablayout;
+package app.simple.inure.decorations.tablayout;
 
 import android.content.res.Resources;
 import android.util.TypedValue;

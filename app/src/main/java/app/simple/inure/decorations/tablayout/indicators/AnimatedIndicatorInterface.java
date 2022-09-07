@@ -1,4 +1,4 @@
-package com.kekstudio.dachshundtablayout.indicators;
+package app.simple.inure.decorations.tablayout.indicators;
 
 import android.graphics.Canvas;
 
