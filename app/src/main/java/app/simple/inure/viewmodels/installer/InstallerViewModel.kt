@@ -71,8 +71,12 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                 val file = applicationContext().getInstallerDir(name!!)
 
                 if (!file.exists()) {
-                    contentResolver.openInputStream(it).use {
-                        FileUtils.copyStreamToFile(it!!, file)
+                    if (file.path.endsWith(".apk")) {
+                        contentResolver.openInputStream(it).use {
+                            FileUtils.copyStreamToFile(it!!, file)
+                        }
+                    } else if (file.path.endsWith(".apkm")) {
+
                     }
                 }
 

@@ -24,6 +24,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.tablayout.SmartTabLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -43,6 +44,7 @@ class Installer : ScopedFragment() {
     private lateinit var cancel: DynamicRippleTextView
     private lateinit var update: DynamicRippleTextView
     private lateinit var uninstall: DynamicRippleTextView
+    private lateinit var loader: CustomProgressBar
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: SmartTabLayout
 
@@ -61,6 +63,7 @@ class Installer : ScopedFragment() {
         uninstall = view.findViewById(R.id.uninstall)
         viewPager = view.findViewById(R.id.viewPager)
         tabLayout = view.findViewById(R.id.tabLayout)
+        loader = view.findViewById(R.id.loader)
 
         val factory = InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri)!!)
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
@@ -93,25 +96,25 @@ class Installer : ScopedFragment() {
                         }
                     }
                     PackageInstaller.STATUS_SUCCESS -> {
-
+                        update.gone()
+                        install.gone()
+                        loader.gone()
+                        uninstall.visible(false)
+                        cancel.setText(R.string.close)
                     }
                     PackageInstaller.STATUS_FAILURE_ABORTED -> {
-
+                        showWarning(intent.extras!!.getString(PackageInstaller.EXTRA_STATUS_MESSAGE)!!)
                     }
-                    PackageInstaller.STATUS_FAILURE_BLOCKED -> {
-
-                    }
+                    PackageInstaller.STATUS_FAILURE_BLOCKED,
                     PackageInstaller.STATUS_FAILURE_CONFLICT -> {
-
+                        showWarning(intent.extras!!.getString(PackageInstaller.EXTRA_STATUS_MESSAGE)!! +
+                                            " -> " +
+                                            intent.extras!!.getString(PackageInstaller.EXTRA_PACKAGE_NAME)!!)
                     }
-                    PackageInstaller.STATUS_FAILURE_INCOMPATIBLE -> {
-
-                    }
-                    PackageInstaller.STATUS_FAILURE_INVALID -> {
-
-                    }
+                    PackageInstaller.STATUS_FAILURE_INCOMPATIBLE,
+                    PackageInstaller.STATUS_FAILURE_INVALID,
                     PackageInstaller.STATUS_FAILURE_STORAGE -> {
-
+                        showWarning(intent.extras!!.getString(PackageInstaller.EXTRA_STATUS_MESSAGE)!!)
                     }
                     else -> {
 
@@ -140,11 +143,12 @@ class Installer : ScopedFragment() {
             }
 
             install.setOnClickListener {
+                loader.visible(true)
                 installerViewModel.install()
             }
 
             update.setOnClickListener {
-                installerViewModel.install()
+                install.callOnClick()
             }
 
             uninstall.setOnClickListener {

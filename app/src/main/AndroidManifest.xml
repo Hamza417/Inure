@@ -115,7 +115,18 @@
         <activity
             android:name=".activities.association.AppDetailsActivity"
             android:exported="true"
+            android:enabled="false"
             android:label="@string/app_info">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/vnd.android.package-archive" />
+                <data android:mimeType="application/vnd.apkm" />
+                <data android:mimeType="application/xapk-package-archive" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -140,13 +151,27 @@
                 <data android:scheme="content" />
                 <data android:host="*" />
                 <data android:mimeType="*/*" />
-                <data android:pathPattern=".*\\.apk" />
-                <data android:pathPattern=".*\\..*\\.apk" />
-                <data android:pathPattern=".*\\..*\\..*\\.apk" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.apk" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apk" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apk" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk" />
+                <data android:pathPattern=".*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\.apks" />
+                <data android:pathPattern=".*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xapk" />
             </intent-filter>
         </activity>
 
@@ -160,6 +185,16 @@
             android:theme="@style/Inure.Transparent"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/vnd.android.package-archive" />
+                <data android:mimeType="application/vnd.apkm" />
+                <data android:mimeType="application/xapk-package-archive" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -172,6 +207,38 @@
                 <data android:mimeType="application/vnd.apkm" />
                 <data android:mimeType="application/xapk-package-archive" />
                 <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\.apks" />
+                <data android:pathPattern=".*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xapk" />
             </intent-filter>
         </activity>
 

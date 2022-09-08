@@ -55,7 +55,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     /**
      * Fragments own loader instance
      */
-    protected var loader: Loader? = null
+    private var loader: Loader? = null
 
     /**
      * [postponeEnterTransition] here and initialize all the
