@@ -21,25 +21,27 @@ import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.bean.ApkMeta
+import java.io.File
 import java.text.NumberFormat
 
 class AppInformationViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
-    private val information: MutableLiveData<ArrayList<Pair<String, Spannable>>> by lazy {
-        MutableLiveData<ArrayList<Pair<String, Spannable>>>().also {
+    private val information: MutableLiveData<ArrayList<Pair<Int, Spannable>>> by lazy {
+        MutableLiveData<ArrayList<Pair<Int, Spannable>>>().also {
             viewModelScope.launch(Dispatchers.IO) {
                 loadInformation()
             }
         }
     }
 
-    fun getInformation(): LiveData<ArrayList<Pair<String, Spannable>>> {
+    fun getInformation(): LiveData<ArrayList<Pair<Int, Spannable>>> {
         return information
     }
 
@@ -70,95 +72,96 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         ))
     }
 
-    private fun getPackageName(): Pair<String, Spannable> {
-        return Pair(getString(R.string.package_name),
+    private fun getPackageName(): Pair<Int, Spannable> {
+        return Pair(R.string.package_name,
                     packageInfo.packageName.applySecondaryTextColor())
     }
 
-    private fun getApkPath(): Pair<String, Spannable> {
-        return Pair(getString(R.string.apk_base_package),
+    private fun getApkPath(): Pair<Int, Spannable> {
+        return Pair(R.string.apk_base_package,
                     packageInfo.applicationInfo.sourceDir.applySecondaryTextColor())
     }
 
-    private fun getDataDir(): Pair<String, Spannable> {
-        return Pair(getString(R.string.data),
+    private fun getDataDir(): Pair<Int, Spannable> {
+        return Pair(R.string.data,
                     packageInfo.applicationInfo.dataDir.applySecondaryTextColor())
     }
 
-    private fun getVersion(): Pair<String, Spannable> {
-        return Pair(getString(R.string.version),
+    private fun getVersion(): Pair<Int, Spannable> {
+        return Pair(R.string.version,
                     PackageUtils.getApplicationVersion(context, packageInfo).applySecondaryTextColor())
     }
 
-    private fun getVersionCode(): Pair<String, Spannable> {
-        return Pair(getString(R.string.version),
+    private fun getVersionCode(): Pair<Int, Spannable> {
+        return Pair(R.string.version,
                     PackageUtils.getApplicationVersionCode(context, packageInfo).applySecondaryTextColor())
     }
 
-    private fun getInstallLocation(): Pair<String, Spannable> {
+    private fun getInstallLocation(): Pair<Int, Spannable> {
         val installLocation = kotlin.runCatching {
             when (packageInfo.installLocation) {
-                PackageInfo.INSTALL_LOCATION_AUTO -> getString(R.string.auto)
-                PackageInfo.INSTALL_LOCATION_INTERNAL_ONLY -> getString(R.string.internal)
-                PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL -> getString(R.string.prefer_external)
+                PackageInfo.INSTALL_LOCATION_AUTO -> R.string.auto
+                PackageInfo.INSTALL_LOCATION_INTERNAL_ONLY -> R.string.internal
+                PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL -> R.string.prefer_external
                 else -> {
                     if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
-                        getString(R.string.system)
+                        R.string.system
                     } else {
-                        getString(R.string.not_available)
+                        R.string.not_available
                     }
                 }
             }
         }.getOrElse {
-            getString(R.string.not_available)
+            R.string.not_available
         }
 
-        return Pair(getString(R.string.install_location),
-                    installLocation.applySecondaryTextColor())
+        // TODO - fix this string issue
+        return Pair(R.string.install_location,
+                    getString(installLocation).applySecondaryTextColor())
     }
 
-    private fun getGlesVersion(): Pair<String, Spannable> {
+    private fun getGlesVersion(): Pair<Int, Spannable> {
         val glesVersion = kotlin.runCatching {
-            packageInfo.getGlEsVersion().ifEmpty { getString(R.string.not_available) }
+            File(packageInfo.applicationInfo.sourceDir).getGlEsVersion().ifEmpty { getString(R.string.not_available) }
         }.getOrElse {
             getString(R.string.not_available)
         }
 
-        return Pair(getString(R.string.gles_version),
+        return Pair(R.string.gles_version,
                     glesVersion.applySecondaryTextColor())
     }
 
-    private fun getArchitecture(): Pair<String, Spannable> {
-        return Pair(getString(R.string.architecture),
-                    packageInfo.getApkArchitecture(context).toString().applyAccentColor())
+    private fun getArchitecture(): Pair<Int, Spannable> {
+        return Pair(R.string.architecture,
+                    packageInfo.applicationInfo.sourceDir.toFile().getApkArchitecture(context).toString().applyAccentColor())
     }
 
-    private fun getNativeLibraries(): Pair<String, Spannable> {
-        return Pair(getString(R.string.native_libraries),
-                    packageInfo.getNativeLibraries(context).toString().applySecondaryTextColor())
+    private fun getNativeLibraries(): Pair<Int, Spannable> {
+        return Pair(R.string.native_libraries,
+                    packageInfo.applicationInfo.sourceDir.toFile().getNativeLibraries(context).toString().applySecondaryTextColor())
     }
 
-    private fun getNativeLibsDir(): Pair<String, Spannable> {
-        return Pair(getString(R.string.native_libraries_dir),
+    private fun getNativeLibsDir(): Pair<Int, Spannable> {
+        return Pair(R.string.native_libraries_dir,
                     packageInfo.applicationInfo.nativeLibraryDir.applySecondaryTextColor())
     }
 
-    private fun getUID(): Pair<String, Spannable> {
-        return Pair(getString(R.string.uid),
+    private fun getUID(): Pair<Int, Spannable> {
+        return Pair(R.string.uid,
                     packageInfo.applicationInfo.uid.toString().applySecondaryTextColor())
     }
 
-    private fun getInstallDate(): Pair<String, Spannable> {
-        return Pair(getString(R.string.install_date),
+    private fun getInstallDate(): Pair<Int, Spannable> {
+        return Pair(R.string.install_date,
                     packageInfo.getApplicationInstallTime(context, FormattingPreferences.getDateFormat()).applyAccentColor())
     }
 
-    private fun getUpdateDate(): Pair<String, Spannable> {
-        return Pair(getString(R.string.update_date),
+    private fun getUpdateDate(): Pair<Int, Spannable> {
+        return Pair(R.string.update_date,
                     packageInfo.getApplicationLastUpdateTime(context, FormattingPreferences.getDateFormat()).applyAccentColor())
     }
 
-    private fun getMinSDK(): Pair<String, Spannable> {
+    private fun getMinSDK(): Pair<Int, Spannable> {
         val minSdk = kotlin.runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 "${packageInfo.applicationInfo.minSdkVersion}, ${SDKHelper.getSdkTitle(packageInfo.applicationInfo.minSdkVersion)}"
@@ -176,24 +179,24 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             getString(R.string.not_available)
         }
 
-        return Pair(getString(R.string.minimum_sdk),
+        return Pair(R.string.minimum_sdk,
                     minSdk.applyAccentColor())
     }
 
-    private fun getTargetSDK(): Pair<String, Spannable> {
+    private fun getTargetSDK(): Pair<Int, Spannable> {
         val targetSdk = kotlin.runCatching {
             "${packageInfo.applicationInfo.targetSdkVersion}, ${SDKHelper.getSdkTitle(packageInfo.applicationInfo.targetSdkVersion)}"
         }.getOrElse {
             it.message!!
         }
 
-        return Pair(getString(R.string.target_sdk),
+        return Pair(R.string.target_sdk,
                     targetSdk.applyAccentColor())
     }
 
-    private fun getMethodCount(): Pair<String, Spannable> {
+    private fun getMethodCount(): Pair<Int, Spannable> {
         val method = kotlin.runCatching {
-            val p0 = packageInfo.applicationInfo.getDexData()!!
+            val p0 = packageInfo.applicationInfo.sourceDir.toFile().getDexData()!!
             var count = 0
 
             for (i in p0) {
@@ -209,11 +212,11 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             it.message!!
         }
 
-        return Pair(getString(R.string.method_count),
+        return Pair(R.string.method_count,
                     method.applySecondaryTextColor())
     }
 
-    private fun getApex(): Pair<String, Spannable> {
+    private fun getApex(): Pair<Int, Spannable> {
         val apex = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (packageInfo.isApex)
                 getString(R.string.yes) else getString(R.string.no)
@@ -221,22 +224,22 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             getString(R.string.not_available)
         }
 
-        return Pair(getString(R.string.apex),
+        return Pair(R.string.apex,
                     apex.applySecondaryTextColor())
     }
 
-    private fun getApplicationType(): Pair<String, Spannable> {
+    private fun getApplicationType(): Pair<Int, Spannable> {
         val applicationType = if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
             getString(R.string.system)
         } else {
             getString(R.string.user)
         }
 
-        return Pair(getString(R.string.application_type),
+        return Pair(R.string.application_type,
                     applicationType.applySecondaryTextColor())
     }
 
-    private fun getInstallerName(): Pair<String, Spannable> {
+    private fun getInstallerName(): Pair<Int, Spannable> {
         @Suppress("deprecation")
         val name = kotlin.runCatching {
             val p0 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -250,11 +253,11 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             getString(R.string.not_available)
         }
 
-        return Pair(getString(R.string.installer),
+        return Pair(R.string.installer,
                     name!!.applySecondaryTextColor())
     }
 
-    private fun getRequestedPermissions(): Pair<String, Spannable> {
+    private fun getRequestedPermissions(): Pair<Int, Spannable> {
         val permissions = StringBuilder()
 
         try {
@@ -271,16 +274,16 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             }
         } catch (e: NullPointerException) {
             e.printStackTrace()
-            permissions.append(getString(R.string.no_permissions_required))
+            permissions.append(R.string.no_permissions_required)
         } catch (e: PackageManager.NameNotFoundException) {
-            permissions.append(getString(R.string.app_not_installed, packageInfo.packageName))
+            permissions.append(R.string.app_not_installed, packageInfo.packageName)
         }
 
-        return Pair(getString(R.string.permissions),
+        return Pair(R.string.permissions,
                     permissions.toString().applySecondaryTextColor())
     }
 
-    private fun getSplitNames(): Pair<String, Spannable> {
+    private fun getSplitNames(): Pair<Int, Spannable> {
         val names = StringBuilder()
 
         try {
@@ -294,14 +297,14 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             }
         } catch (e: NullPointerException) {
             e.printStackTrace()
-            names.append(getString(R.string.not_available))
+            names.append(R.string.not_available)
         }
 
-        return Pair(getString(R.string.split_packages),
+        return Pair(R.string.split_packages,
                     names.toString().applySecondaryTextColor())
     }
 
-    private fun getFeatures(): Pair<String, Spannable> {
+    private fun getFeatures(): Pair<Int, Spannable> {
         val features = StringBuilder()
 
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -334,10 +337,10 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
             e.printStackTrace()
             features.append(getString(R.string.not_available))
         } catch (e: PackageManager.NameNotFoundException) {
-            features.append(getString(R.string.app_not_installed, packageInfo.packageName))
+            features.append(getString(R.string.app_not_installed), packageInfo.packageName)
         }
 
-        return Pair(getString(R.string.uses_feature),
+        return Pair(R.string.uses_feature,
                     features.toString().applySecondaryTextColor())
     }
 }

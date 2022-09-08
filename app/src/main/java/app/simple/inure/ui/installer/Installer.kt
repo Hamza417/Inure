@@ -17,7 +17,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager2.widget.ViewPager2
 import app.simple.inure.R
 import app.simple.inure.adapters.installer.AdapterInstallerInfoPanels
-import app.simple.inure.adapters.menus.AdapterTabLayout
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
@@ -49,8 +48,6 @@ class Installer : ScopedFragment() {
 
     private lateinit var broadcastReceiver: BroadcastReceiver
     private val intentFilter = IntentFilter()
-
-    private var adapterTabLayout: AdapterTabLayout? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_installer, container, false)
@@ -162,14 +159,6 @@ class Installer : ScopedFragment() {
 
             viewPager.adapter = AdapterInstallerInfoPanels(this, it, titles)
             tabLayout.setViewPager2(viewPager)
-            viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrollStateChanged(state: Int) {
-                    super.onPageScrollStateChanged(state)
-                    if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                        handler.postDelayed({ adapterTabLayout?.layoutPositionChanged(viewPager.currentItem) }, 250)
-                    }
-                }
-            })
         }
 
         cancel.setOnClickListener {
@@ -185,7 +174,6 @@ class Installer : ScopedFragment() {
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver)
-        requireActivity().finish()
     }
 
     companion object {

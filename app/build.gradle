@@ -90,12 +90,6 @@ dependencies {
     // AndroidX
     implementation 'androidx.core:core-ktx:1.8.0'
 
-    /**
-     * This library contains Play Services and Firebase APIs
-     *
-     * TODO - Remove it and find alternative
-     */
-    implementation 'androidx.core:core-google-shortcuts:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

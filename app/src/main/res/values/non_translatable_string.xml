@@ -25,4 +25,5 @@
     <string name="github">GitHub</string>
     <string name="exodus">εxodus</string>
     <string name="progress">%d%%</string>
+    <string name="x_509">X.509</string>
 </resources>

@@ -48,9 +48,9 @@ class ActivityInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activityInfoViewModel.getActivityInfo().observe(viewLifecycleOwner, {
+        activityInfoViewModel.getActivityInfo().observe(viewLifecycleOwner) {
             recyclerView.adapter = AdapterInformation(it)
-        })
+        }
 
         backButton.setOnClickListener {
             requireActivity().onBackPressed()

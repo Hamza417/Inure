@@ -10,7 +10,7 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 
-class AdapterInformation(private val list: ArrayList<Pair<String, Spannable>>) : RecyclerView.Adapter<AdapterInformation.Holder>() {
+class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : RecyclerView.Adapter<AdapterInformation.Holder>() {
 
     private var adapterInformationCallbacks: AdapterInformationCallbacks? = null
 
@@ -19,7 +19,7 @@ class AdapterInformation(private val list: ArrayList<Pair<String, Spannable>>) :
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.heading.text = list[position].first
+        holder.heading.setText(list[position].first)
         holder.data.text = list[position].second
 
         holder.container.setOnClickListener {

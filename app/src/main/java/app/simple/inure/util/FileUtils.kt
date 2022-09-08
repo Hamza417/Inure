@@ -90,6 +90,10 @@ object FileUtils {
         }
     }
 
+    fun String.toFile(): File {
+        return File(this)
+    }
+
     fun Uri.getMimeType(context: Context): String? {
         return if (ContentResolver.SCHEME_CONTENT == scheme) {
             context.contentResolver.getType(this)

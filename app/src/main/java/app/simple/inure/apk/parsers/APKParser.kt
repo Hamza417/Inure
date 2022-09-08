@@ -2,7 +2,6 @@ package app.simple.inure.apk.parsers
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
-import android.content.pm.PackageInfo
 import app.simple.inure.R
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.DexClassesNotFoundException
@@ -11,6 +10,7 @@ import app.simple.inure.preferences.GraphicsPreferences
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
 import net.dongliu.apk.parser.bean.DexClass
+import java.io.File
 import java.io.IOException
 import java.util.*
 import java.util.zip.ZipEntry
@@ -44,9 +44,9 @@ object APKParser {
     /**
      * Fetch the install location of an APK file
      */
-    fun PackageInfo.getGlEsVersion(): String {
+    fun File.getGlEsVersion(): String {
         kotlin.runCatching {
-            ApkFile(this.applicationInfo.sourceDir).use {
+            ApkFile(this).use {
                 return it.apkMeta.glEsVersion.toString()
             }
         }.getOrElse {
@@ -54,11 +54,11 @@ object APKParser {
         }
     }
 
-    fun PackageInfo.getNativeLibraries(context: Context): StringBuilder {
+    fun File.getNativeLibraries(context: Context): StringBuilder {
         val stringBuilder = StringBuilder()
         var zipFile: ZipFile? = null
         try {
-            zipFile = ZipFile(applicationInfo.sourceDir)
+            zipFile = ZipFile(path)
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
             while (entries.hasMoreElements()) {
                 val entry: ZipEntry? = entries.nextElement()
@@ -95,12 +95,12 @@ object APKParser {
         return stringBuilder
     }
 
-    fun PackageInfo.getApkArchitecture(context: Context): StringBuilder {
+    fun File.getApkArchitecture(context: Context): StringBuilder {
         var zipFile: ZipFile? = null
         val stringBuilder = StringBuilder()
 
         try {
-            zipFile = ZipFile(applicationInfo.sourceDir)
+            zipFile = ZipFile(path)
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
             while (entries.hasMoreElements()) {
                 val entry: ZipEntry? = entries.nextElement()
@@ -208,9 +208,9 @@ object APKParser {
     /**
      * Fetch APK's dex data
      */
-    fun ApplicationInfo.getDexData(): Array<out DexClass>? {
+    fun File.getDexData(): Array<out DexClass>? {
         kotlin.runCatching {
-            ApkFile(this.sourceDir).use {
+            ApkFile(this).use {
                 return it.dexClasses
             }
         }.getOrElse {

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/permissions_recycler_view"
+    android:id="@+id/information_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
     android:fadingEdge="vertical"
     android:fadingEdgeLength="25dp"
     android:layoutAnimation="@anim/list_animation_controller"
-    android:padding="10dp"
+    android:paddingVertical="10dp"
     android:requiresFadingEdge="vertical"
     app:isFastScrollRequired="false"
     app:statusBarPaddingRequired="false" />

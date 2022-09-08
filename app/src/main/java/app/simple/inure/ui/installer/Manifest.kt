@@ -9,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.views.LineNumberEditText
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.factories.installer.InstallerManifestViewModelFactory
+import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.viewmodels.installer.InstallerManifestViewModel
 import java.io.File
 
@@ -22,7 +22,7 @@ class Manifest : ScopedFragment() {
         val view = inflater.inflate(R.layout.installer_fragment_manifest, container, false)
 
         text = view.findViewById(R.id.line_edit_text)
-        val p0 = InstallerManifestViewModelFactory(requireArguments().getSerializable(BundleConstants.file) as File)
+        val p0 = InstallerViewModelFactory(null, requireArguments().getSerializable(BundleConstants.file) as File)
         manifestViewModel = ViewModelProvider(this, p0)[InstallerManifestViewModel::class.java]
 
         return view

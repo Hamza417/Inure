@@ -48,9 +48,9 @@ class ServiceInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        serviceInfoViewModel.getServicesInfo().observe(viewLifecycleOwner, {
+        serviceInfoViewModel.getServicesInfo().observe(viewLifecycleOwner) {
             recyclerView.adapter = AdapterInformation(it)
-        })
+        }
 
         backButton.setOnClickListener {
             requireActivity().onBackPressed()
