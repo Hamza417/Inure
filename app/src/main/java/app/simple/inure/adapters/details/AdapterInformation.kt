@@ -6,24 +6,38 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.util.ConditionUtils.isZero
 
-class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : RecyclerView.Adapter<AdapterInformation.Holder>() {
+class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var adapterInformationCallbacks: AdapterInformationCallbacks? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_information, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
+        return when (viewType) {
+            RecyclerViewConstants.TYPE_DIVIDER -> {
+                Divider(LayoutInflater.from(parent.context).inflate(R.layout.adapter_divider_preferences, parent, false))
+            }
+            RecyclerViewConstants.TYPE_ITEM -> {
+                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_information, parent, false))
+            }
+            else -> {
+                throw IllegalStateException()
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.heading.setText(list[position].first)
-        holder.data.text = list[position].second
+    override fun onBindViewHolder(holder: VerticalListViewHolder, position: Int) {
+        if (holder is Holder) {
+            holder.heading.setText(list[position].first)
+            holder.data.text = list[position].second
 
-        holder.container.setOnClickListener {
-            adapterInformationCallbacks?.onInformationClicked(it, list[position].second.toString())
+            holder.container.setOnClickListener {
+                adapterInformationCallbacks?.onInformationClicked(it, list[position].second.toString())
+            }
         }
     }
 
@@ -31,11 +45,21 @@ class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : Re
         return list.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (list[position].first.isZero()) {
+            RecyclerViewConstants.TYPE_DIVIDER
+        } else {
+            RecyclerViewConstants.TYPE_ITEM
+        }
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_information_container)
         val heading: TypeFaceTextView = itemView.findViewById(R.id.information_heading)
         val data: TypeFaceTextView = itemView.findViewById(R.id.information_data)
     }
+
+    inner class Divider(itemView: View) : VerticalListViewHolder(itemView)
 
     fun setOnAdapterInformationCallbacks(adapterInformationCallbacks: AdapterInformationCallbacks) {
         this.adapterInformationCallbacks = adapterInformationCallbacks

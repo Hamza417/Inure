@@ -61,15 +61,14 @@ public class LineNumberEditText extends TypeFaceEditText implements SharedPrefer
                 try {
                     int start = getLayout().getLineStart(i - 1);
                     int end = getLayout().getLineEnd(i - 1);
-                
+    
                     if (getText().subSequence(start, end).toString().endsWith(newline)) {
                         lineNumber++;
                         canvas.drawText(String.format(getFormat() + ":", lineNumber).replaceAll("\\G0", " "), linePadding, baseline, paint);
                     } else {
                         canvas.drawText(" ", rect.left, baseline, paint);
                     }
-                } catch (IndexOutOfBoundsException e) {
-                    e.printStackTrace();
+                } catch (IndexOutOfBoundsException ignore) {
                     lineNumber++;
                     canvas.drawText(String.format(getFormat() + ":", lineNumber).replaceAll("\\G0", " "), linePadding, baseline, paint);
                 }

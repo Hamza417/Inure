@@ -381,7 +381,7 @@ public class SmartTabLayout extends HorizontalScrollView {
     
     private void scrollToTab(int tabIndex, float positionOffset) {
         final int tabStripChildCount = tabStrip.getChildCount();
-        if (tabStripChildCount == 0 || tabIndex < 0 || tabIndex >= tabStripChildCount) {
+        if (tabIndex < 0 || tabIndex >= tabStripChildCount) {
             return;
         }
         
@@ -608,7 +608,7 @@ public class SmartTabLayout extends HorizontalScrollView {
                     if (onTabClickListener != null) {
                         onTabClickListener.onTabClicked(i);
                     }
-                    viewPager.setCurrentItem(i);
+                    viewPager.setCurrentItem(i, false);
                     return;
                 }
             }

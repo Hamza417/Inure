@@ -8,27 +8,33 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterInformation
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.factories.panels.CertificateViewModelFactory
 import app.simple.inure.popups.viewers.PopupInformation
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
+import java.io.File
 
 class Certificate : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var viewModel: CertificatesViewModel
-    private lateinit var packageInfoFactory: PackageInfoFactory
+    private lateinit var certificateViewModelFactory: CertificateViewModelFactory
+
+    private var file: File? = null
+    private var packageInfo_: PackageInfo? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_certificate, container, false)
 
         recyclerView = view.findViewById(R.id.certificate_data_recycler_view)
 
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo_ = requireArguments().getParcelable(BundleConstants.packageInfo)
+        file = requireArguments().getSerializable(BundleConstants.file) as File?
 
-        packageInfoFactory = PackageInfoFactory(packageInfo)
-        viewModel = ViewModelProvider(this, packageInfoFactory).get(CertificatesViewModel::class.java)
+        certificateViewModelFactory = CertificateViewModelFactory(packageInfo_, file)
+        viewModel = ViewModelProvider(this, certificateViewModelFactory).get(CertificatesViewModel::class.java)
 
         return view
     }
@@ -56,9 +62,10 @@ class Certificate : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo): Certificate {
+        fun newInstance(packageInfo: PackageInfo?, file: File?): Certificate {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putSerializable(BundleConstants.file, file)
             val fragment = Certificate()
             fragment.arguments = args
             return fragment

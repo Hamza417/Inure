@@ -560,4 +560,6 @@
     <string name="queued">Queued</string>
     <string name="install">Install</string>
     <string name="update">Update</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="subject">Subject</string>
 </resources>

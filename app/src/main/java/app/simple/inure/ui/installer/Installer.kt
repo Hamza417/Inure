@@ -173,7 +173,7 @@ class Installer : ScopedFragment() {
             val file = if (it.size > 1) it.findFile("base.apk")!! else it[0]
             icon.loadAppIcon(file)
 
-            val titles = arrayOf(getString(R.string.information), getString(R.string.permissions), getString(R.string.manifest), getString(R.string.services), getString(R.string.activities), getString(R.string.certificate))
+            val titles = arrayOf(getString(R.string.information), getString(R.string.permissions), getString(R.string.manifest), getString(R.string.certificate), getString(R.string.activities), getString(R.string.certificate))
 
             viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles)
             tabLayout.setViewPager2(viewPager)

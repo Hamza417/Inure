@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val certificate: String = "certificate"
     const val uri: String = "uri"
     const val file: String = "file"
     const val warning: String = "warning"

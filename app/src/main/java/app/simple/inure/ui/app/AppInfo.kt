@@ -155,7 +155,7 @@ class AppInfo : ScopedFragment() {
                             openFragmentArc(Permissions.newInstance(packageInfo), icon, "permissions")
                         }
                         R.string.certificate -> {
-                            openFragmentArc(Certificate.newInstance(packageInfo), icon, "certificate")
+                            openFragmentArc(Certificate.newInstance(packageInfo, null), icon, "certificate")
                         }
                         R.string.receivers -> {
                             openFragmentArc(Receivers.newInstance(packageInfo), icon, "broadcasts")

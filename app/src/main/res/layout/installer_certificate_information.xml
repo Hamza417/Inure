@@ -1,0 +1,30 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/xml_nested_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fadingEdge="vertical"
+    android:fadingEdgeLength="25dp"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="@dimen/dialog_padding"
+    android:requiresFadingEdge="vertical"
+    app:layout_behavior="@string/over_scroll_behavior">
+
+    <app.simple.inure.decorations.views.LineNumberEditText
+        android:id="@+id/line_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:textIsSelectable="false"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="regular"
+        app:textColorStyle="secondary"
+        tools:ignore="RtlSymmetry" />
+
+</androidx.core.widget.NestedScrollView>

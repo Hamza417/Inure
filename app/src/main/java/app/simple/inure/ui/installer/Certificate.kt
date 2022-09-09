@@ -1,5 +1,6 @@
 package app.simple.inure.ui.installer
 
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,24 +11,30 @@ import app.simple.inure.adapters.details.AdapterInformation
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.factories.installer.InstallerViewModelFactory
+import app.simple.inure.factories.panels.CertificateViewModelFactory
 import app.simple.inure.popups.viewers.PopupInformation
-import app.simple.inure.viewmodels.installer.InstallerInformationViewModel
+import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 import java.io.File
 
-class Information : ScopedFragment() {
+class Certificate : ScopedFragment() {
 
-    private lateinit var installerInformationViewModel: InstallerInformationViewModel
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var viewModel: CertificatesViewModel
+    private lateinit var certificateViewModelFactory: CertificateViewModelFactory
+
+    private var file: File? = null
+    private var packageInfo2: PackageInfo? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.installer_fragment_information, container, false)
 
         recyclerView = view.findViewById(R.id.information_recycler_view)
 
-        val file = requireArguments().getSerializable(BundleConstants.file)!! as File
-        val installerViewModelFactory = InstallerViewModelFactory(null, file)
-        installerInformationViewModel = ViewModelProvider(requireActivity(), installerViewModelFactory)[InstallerInformationViewModel::class.java]
+        packageInfo2 = requireArguments().getParcelable(BundleConstants.packageInfo)
+        file = requireArguments().getSerializable(BundleConstants.file) as File?
+
+        certificateViewModelFactory = CertificateViewModelFactory(packageInfo2, file)
+        viewModel = ViewModelProvider(this, certificateViewModelFactory).get(CertificatesViewModel::class.java)
 
         return view
     }
@@ -36,7 +43,7 @@ class Information : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        installerInformationViewModel.getInformation().observe(viewLifecycleOwner) {
+        viewModel.getCertificateData().observe(viewLifecycleOwner) {
             val adapterInformation = AdapterInformation(it)
 
             adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {
@@ -47,13 +54,17 @@ class Information : ScopedFragment() {
 
             recyclerView.adapter = adapterInformation
         }
+
+        viewModel.getError().observe(viewLifecycleOwner) {
+            showError(it)
+        }
     }
 
     companion object {
-        fun newInstance(file: File): Information {
+        fun newInstance(file: File?): Certificate {
             val args = Bundle()
             args.putSerializable(BundleConstants.file, file)
-            val fragment = Information()
+            val fragment = Certificate()
             fragment.arguments = args
             return fragment
         }

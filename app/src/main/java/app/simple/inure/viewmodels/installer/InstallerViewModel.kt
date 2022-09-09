@@ -74,7 +74,11 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
 
             uri.let { it ->
                 val name = DocumentFile.fromSingleUri(applicationContext(), it)!!
-                val sourceFile = applicationContext().getInstallerDir(name.baseName + ".zip")
+                val sourceFile = if (name.name!!.endsWith(".apk")) {
+                    applicationContext().getInstallerDir(name.name!!)
+                } else {
+                    applicationContext().getInstallerDir(name.baseName + ".zip")
+                }
 
                 if (!sourceFile.exists()) {
                     contentResolver.openInputStream(it).use {
