@@ -33,7 +33,6 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.appinfo.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
-import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.panels.Unpack
@@ -214,30 +213,21 @@ class AppInfo : ScopedFragment() {
                             packageInfo.launchThisPackage(requireActivity())
                         }
                         R.string.uninstall -> {
-                            if (ConfigurationPreferences.isUsingRoot()) {
-                                val p = Sure.newInstance()
-                                p.setOnSureCallbackListener(object : SureCallbacks {
-                                    override fun onSure() {
-                                        val uninstaller = Uninstaller.newInstance(packageInfo)
+                            val sure = Sure.newInstance()
 
-                                        uninstaller.listener = {
-                                            requireActivity().supportFragmentManager.popBackStackImmediate()
-                                        }
+                            sure.setOnSureCallbackListener(object : SureCallbacks {
+                                override fun onSure() {
+                                    val uninstaller = Uninstaller.newInstance(packageInfo)
 
-                                        uninstaller.show(childFragmentManager, "uninstaller")
+                                    uninstaller.listener = {
+                                        requireActivity().supportFragmentManager.popBackStackImmediate()
                                     }
-                                })
 
-                                p.show(childFragmentManager, "sure")
-                            } else {
-                                val p = Uninstaller.newInstance(packageInfo)
-
-                                p.listener = {
-                                    requireActivity().supportFragmentManager.popBackStackImmediate()
+                                    uninstaller.show(childFragmentManager, "uninstaller")
                                 }
+                            })
 
-                                p.show(childFragmentManager, "uninstaller")
-                            }
+                            sure.show(childFragmentManager, "sure")
                         }
                         R.string.send -> {
                             Preparing.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")

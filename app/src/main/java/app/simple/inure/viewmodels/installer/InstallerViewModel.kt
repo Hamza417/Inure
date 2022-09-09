@@ -14,6 +14,8 @@ import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.FileUtils
+import app.simple.inure.util.FileUtils.findFile
+import app.simple.inure.util.FileUtils.getLength
 import com.anggrayudi.storage.file.baseName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,6 +46,8 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                 PackageManager.GET_SHARED_LIBRARY_FILES
     }
 
+    private var listOfFiles: ArrayList<File>? = null
+
     private val packageInfo: MutableLiveData<PackageInfo> by lazy {
         MutableLiveData<PackageInfo>().also {
             viewModelScope.launch(Dispatchers.Default) {
@@ -52,16 +56,16 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
         }
     }
 
-    private val file: MutableLiveData<File> by lazy {
-        MutableLiveData<File>()
+    private val files: MutableLiveData<ArrayList<File>> by lazy {
+        MutableLiveData<ArrayList<File>>()
     }
 
     fun getPackageInfo(): LiveData<PackageInfo> {
         return packageInfo
     }
 
-    fun getFile(): LiveData<File> {
-        return file
+    fun getFile(): LiveData<ArrayList<File>> {
+        return files
     }
 
     private fun prepareInstallation() {
@@ -78,7 +82,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                     }
                 }
 
-                if (name.name!!.endsWith(".apkm")) {
+                if (name.name!!.endsWith(".apkm") || name.name!!.endsWith(".xapk") || name.name!!.endsWith(".apks")) {
                     if (!sourceFile.exists()) {
                         contentResolver.openInputStream(it).use {
                             FileUtils.copyStreamToFile(it!!, sourceFile)
@@ -86,37 +90,40 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                     }
 
                     ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
+                    listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+                    files.postValue(listOfFiles)
                 } else {
-                    val p = packageManager.getPackageArchiveInfo(sourceFile.path, flags)!!
-
-                    ApkFile(sourceFile).use {
-                        p.applicationInfo.name = it.apkMeta.label
-                    }
-
-                    this.file.postValue(sourceFile)
-                    packageInfo.postValue(p)
+                    listOfFiles = arrayListOf(sourceFile)
+                    this.files.postValue(listOfFiles)
                 }
+
+                postPackageInfo()
             }
         }.getOrElse {
             error.postValue(it.stackTraceToString())
         }
     }
 
-    private fun prepareBundleInstallation() {
-        uri.let {
+    private fun postPackageInfo() {
+        val file = if (listOfFiles!!.size > 1) listOfFiles!!.findFile("base.apk")!! else listOfFiles!![0]
+        val info = packageManager.getPackageArchiveInfo(file.path, flags)!!
 
+        ApkFile(file).use {
+            info.applicationInfo.name = it.apkMeta.label
         }
+
+        packageInfo.postValue(info)
     }
 
     fun install() {
         viewModelScope.launch(Dispatchers.Default) {
-            val file = this@InstallerViewModel.file.value!!
-            val sessionParams = InstallerUtils.makeInstallParams(file.length())
+            val sessionParams = InstallerUtils.makeInstallParams(files.value!!.getLength())
             val sessionCode = InstallerUtils.createSession(sessionParams, applicationContext())
 
-            // TODO create a loop for split apks
-            if (file.exists() && file.name.endsWith(".apk")) {
-                InstallerUtils.installWriteSessions(sessionCode, file, applicationContext())
+            for (file in files.value!!) {
+                if (file.exists() && file.name.endsWith(".apk")) {
+                    InstallerUtils.installWriteSessions(sessionCode, file, applicationContext())
+                }
             }
 
             InstallerUtils.commitSession(sessionCode, applicationContext())

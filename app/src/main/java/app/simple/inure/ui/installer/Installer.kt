@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager2.widget.ViewPager2
@@ -25,10 +24,14 @@ import app.simple.inure.decorations.tablayout.SmartTabLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.dialogs.action.Uninstaller
+import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.FileUtils.findFile
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.installer.InstallerViewModel
@@ -152,16 +155,30 @@ class Installer : ScopedFragment() {
             }
 
             uninstall.setOnClickListener {
-                Toast.makeText(requireContext(), "Not yet implemented", Toast.LENGTH_SHORT).show()
+                val sure = Sure.newInstance()
+                sure.setOnSureCallbackListener(object : SureCallbacks {
+                    override fun onSure() {
+                        val uninstaller = Uninstaller.newInstance(packageInfo)
+
+                        uninstaller.listener = {
+                            requireActivity().finish()
+                        }
+
+                        uninstaller.show(childFragmentManager, "uninstaller")
+                    }
+                })
+
+                sure.show(childFragmentManager, "sure")
             }
         }
 
         installerViewModel.getFile().observe(viewLifecycleOwner) {
-            icon.loadAppIcon(it)
+            val file = if (it.size > 1) it.findFile("base.apk")!! else it[0]
+            icon.loadAppIcon(file)
 
             val titles = arrayOf(getString(R.string.information), getString(R.string.permissions), getString(R.string.manifest), getString(R.string.services), getString(R.string.activities), getString(R.string.certificate))
 
-            viewPager.adapter = AdapterInstallerInfoPanels(this, it, titles)
+            viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles)
             tabLayout.setViewPager2(viewPager)
         }
 

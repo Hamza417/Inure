@@ -44,6 +44,24 @@ object FileUtils {
         }
     }
 
+    fun ArrayList<File>.getLength(): Long {
+        var total = 0L
+        for (file in this) {
+            total += file.length()
+        }
+        return total
+    }
+
+    fun ArrayList<File>.findFile(fileName: String): File? {
+        for (file in this) {
+            if (file.isFile && file.path.endsWith(fileName)) {
+                return file
+            }
+        }
+
+        return null
+    }
+
     /**
      * Converts the given input stream to the given output file
      */
@@ -61,9 +79,7 @@ object FileUtils {
         }
     }
 
-    @Throws(IOException::class,
-            NullPointerException::class,
-            ArrayIndexOutOfBoundsException::class)
+    @Throws(IOException::class, NullPointerException::class, ArrayIndexOutOfBoundsException::class)
     fun createZip(_files: Array<String>, zipFileName: File?) {
         var origin: BufferedInputStream? = null
         var out: ZipOutputStream? = null
