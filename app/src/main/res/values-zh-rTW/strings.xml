@@ -90,8 +90,6 @@
     <string name="sign_algorithm_oid">簽章演算法 OID</string>
     <string name="public_key">公開金鑰</string>
     <string name="information">資訊</string>
-    <string name="use_webview_xml_viewer_desc">使用基於 WebView 的 XML 瀏覽器而非 TextView 檢視 XML 資源檔案。</string>
-    <string name="use_webview_xml_viewer"><strike>使用 WebView XML 檢視器</strike></string>
     <string name="save">儲存</string>
     <string name="copy">複製</string>
     <string name="saved_successfully">儲存成功</string>
@@ -508,8 +506,6 @@
     <string name="popup">彈出式視窗</string>
     <string name="multi_toggleable">多重可切換</string>
     <string name="web_page">網頁</string>
-    <string name="hide_preferences_indicators">隱藏偏好指示器</string>
-    <string name="desc_hide_preferences_indicators">從所有偏好標題中隱藏偏好類型指示器。</string>
     <string name="trackers">追蹤器</string>
     <string name="scan">掃描</string>
     <string name="show_all_classes">顯示所有類別</string>

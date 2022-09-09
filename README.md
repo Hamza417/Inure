@@ -10,10 +10,11 @@ An elegant Android app manager, currently in development
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FHamza417%2FInure&count_bg=%239A3DC8&title_bg=%23555555&icon=tencentweibo.svg&icon_color=%23E7E7E7&title=Total+Visits&edge_flat=false)](https://hits.seeyoufarm.com)
 ![](https://img.shields.io/github/repo-size/Hamza417/Inure?color=teal&label=Size)
 ![](https://img.shields.io/github/languages/count/Hamza417/Inure?color=white&label=Languages)
-![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License) 
+![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License)
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
 
 ## Featured
+
 - [Android Weekly Issue #465](https://androidweekly.net/issues/issue-465)
 - ["Inure, a beautifully animated Android App Manager." - Android Dev Notes](https://twitter.com/androiddevnotes/status/1389111968670179340)
 - [Top 5 Android Apps of the Week - NextPit](https://www.nextpit.com/apps-of-the-week-51-2021)
@@ -21,21 +22,25 @@ An elegant Android app manager, currently in development
   27 July, 2022)_ 💀
 
 ## About
-Inure's development was started as an independent learning project which later has become one of the most ambitious and intuitive Android apps
-developed by a single person and is based 100% on custom UI APIs developed to be used only in this app along with a native theme engine, 
-image renderer and a beautiful animation framework.
 
-Currently, the app is in beta testing stage. You can join the app's early beta testing from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure) and join the app's [Telegram Group](https://t.me/inure_app_manager) for development related discussions.
+Inure's development was started as an independent learning project which later has become one of the
+most ambitious and intuitive Android apps developed by a single person and is based 100% on custom
+UI APIs developed to be used only in this app along with a native theme engine along with Material
+You support, image renderer and a beautiful animation framework.
+
+Currently, the app is in beta testing stage. You can join the app's early beta testing
+from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure) and join the
+app's [Telegram Group](https://t.me/inure_app_manager) for development related discussions.
 
 ## Development Status
 
 High priority features
 
-- [ ] Apps Backup feature
-- [ ] Dedicated app installer
-- [ ] External APK information
+- [x] Apps Backup feature
+- [x] Dedicated app installer
+- [x] External APK information
 - [x] Proper analytics panel
-- [ ] App directories panel
+- [x] App directories panel
 - [ ] APK browser for apps that are not yet installed
 
 Low priority features

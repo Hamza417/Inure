@@ -119,8 +119,9 @@ object PreferencesSearchConstants {
     )
 
     private val developmentData = arrayListOf(
-            PreferenceSearchModel(R.drawable.ic_code, R.string.use_webview_xml_viewer, R.string.use_webview_xml_viewer_desc, toggleable, viewers, development),
-            PreferenceSearchModel(R.drawable.ic_preference_indicators, R.string.hide_preferences_indicators, R.string.desc_hide_preferences_indicators, toggleable, preferences, development),
+            PreferenceSearchModel(R.drawable.ic_main_app_icon_regular, R.string.setup, R.string.desc_not_available, none, none, development),
+            PreferenceSearchModel(R.drawable.ic_code, R.string.use_webview_xml_viewer, R.string.desc_not_available, toggleable, none, development),
+            PreferenceSearchModel(R.drawable.ic_preference_indicators, R.string.hide_preferences_indicators, R.string.desc_not_available, none, none, development),
     )
 
     private val aboutData = arrayListOf(

@@ -119,9 +119,6 @@ class Installer : ScopedFragment() {
                     PackageInstaller.STATUS_FAILURE_STORAGE -> {
                         showWarning(intent.extras!!.getString(PackageInstaller.EXTRA_STATUS_MESSAGE)!!)
                     }
-                    else -> {
-
-                    }
                 }
             }
         }

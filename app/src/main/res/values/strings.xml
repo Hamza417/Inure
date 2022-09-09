@@ -89,8 +89,6 @@
     <string name="sign_algorithm_oid">Sign Algorithm OID</string>
     <string name="public_key">Public Key</string>
     <string name="information">Information</string>
-    <string name="use_webview_xml_viewer_desc">Use WebView based Xml Viewer instead of TextView to view Xml resource files.</string>
-    <string name="use_webview_xml_viewer"><strike>Use WebView Xml Viewer</strike></string>
     <string name="save">Save</string>
     <string name="copy">Copy</string>
     <string name="saved_successfully">Saved Successfully</string>
@@ -507,8 +505,6 @@
     <string name="popup">Popup</string>
     <string name="multi_toggleable">Multi Toggleable</string>
     <string name="web_page">Web Page</string>
-    <string name="hide_preferences_indicators">Hide Preferences Indicators</string>
-    <string name="desc_hide_preferences_indicators">Hide the preference type indicator from all preference titles.</string>
     <string name="trackers">Trackers</string>
     <string name="scan">Scan</string>
     <string name="show_all_classes">Show All Classes</string>

@@ -40,6 +40,14 @@
     <li>Optimized home panel to use less views and improve overall performance.</li>
 </ul>
 
+<h4>Removed</h4>
+
+<ul>
+    <li>Removed non required views from <b>Development</b> preferences panel.</li>
+    <li>Removed few unused strings.</li>
+    <li>Removed Firebase and Play Services APIs (was added by a library without information).</li>
+</ul>
+
 <h4>Batch</h4>
 
 <ul>
@@ -49,16 +57,23 @@
 
 <h4>Installer</h4>
 <ul>
-    <li>Implemented partial installer framework.</li>
+    <li>Implemented separate panel for installation and file association for the app.</li>
+    <li>Implemented installer framework.</li>
     <li>Implemented a new framework to fetch APK details of <i>not-installed</i> apps which is
         a part of the <b>Apk File Info</b> panel framework.
     </li>
-    <li>Added tab layout in Installer panel.</li>
+    <li>Added custom tab layout in Installer panel.</li>
+    <li>Added split apk installation support including <i>.apk, .apks</i> and <i>.xapk</i> packages.
+    </li>
 </ul>
 
 <h4>Apk/App Info</h4>
 <ul>
     <li>Implemented a new framework to fetch APK details of <i>not-installed</i> apps.</li>
+    <li><b>App Info</b> panel has been disabled in favour of <b>App Installer</b> panel. The <b>Installer</b>
+        will show most of the app details and having a separate info panel isn't required <i>(Further
+            input is appreciated)</i>.
+    </li>
 </ul>
 
 <br>

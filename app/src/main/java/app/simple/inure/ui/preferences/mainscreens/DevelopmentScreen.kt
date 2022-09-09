@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.decorations.checkbox.CheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.launcher.Setup
@@ -14,9 +14,9 @@ import app.simple.inure.ui.launcher.Setup
 class DevelopmentScreen : ScopedFragment() {
 
     private lateinit var setup: DynamicRippleRelativeLayout
-    private lateinit var textViewXmlViewerSwitchView: SwitchView
-    private lateinit var hidePreferenceIndicator: SwitchView
-    private lateinit var debugFeaturesSwitch: SwitchView
+    private lateinit var textViewXmlViewerSwitchView: CheckBox
+    private lateinit var hidePreferenceIndicator: CheckBox
+    private lateinit var debugFeaturesSwitch: CheckBox
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_development, container, false)
@@ -42,15 +42,15 @@ class DevelopmentScreen : ScopedFragment() {
             openFragmentSlide(Setup.newInstance(), "setup")
         }
 
-        textViewXmlViewerSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
+        textViewXmlViewerSwitchView.setOnCheckedChangeListener { isChecked ->
             DevelopmentPreferences.setWebViewXmlViewer(isChecked)
         }
 
-        hidePreferenceIndicator.setOnSwitchCheckedChangeListener {
+        hidePreferenceIndicator.setOnCheckedChangeListener {
             DevelopmentPreferences.setHidePreferencesIndicator(it)
         }
 
-        debugFeaturesSwitch.setOnSwitchCheckedChangeListener {
+        debugFeaturesSwitch.setOnCheckedChangeListener {
             DevelopmentPreferences.setDebugFeaturesState(it)
         }
     }
