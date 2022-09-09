@@ -14,9 +14,11 @@ import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.FileUtils
+import com.anggrayudi.storage.file.baseName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
+import net.lingala.zip4j.ZipFile
 import java.io.File
 
 class InstallerViewModel(application: Application, private val uri: Uri) : WrappedViewModel(application) {
@@ -67,30 +69,42 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
             PackageData.makePackageFolder(applicationContext())
 
             uri.let { it ->
-                val name = DocumentFile.fromSingleUri(applicationContext(), it)?.name
-                val file = applicationContext().getInstallerDir(name!!)
+                val name = DocumentFile.fromSingleUri(applicationContext(), it)!!
+                val sourceFile = applicationContext().getInstallerDir(name.baseName + ".zip")
 
-                if (!file.exists()) {
-                    if (file.path.endsWith(".apk")) {
-                        contentResolver.openInputStream(it).use {
-                            FileUtils.copyStreamToFile(it!!, file)
-                        }
-                    } else if (file.path.endsWith(".apkm")) {
-
+                if (!sourceFile.exists()) {
+                    contentResolver.openInputStream(it).use {
+                        FileUtils.copyStreamToFile(it!!, sourceFile)
                     }
                 }
 
-                val p = packageManager.getPackageArchiveInfo(file.path, flags)!!
+                if (name.name!!.endsWith(".apkm")) {
+                    if (!sourceFile.exists()) {
+                        contentResolver.openInputStream(it).use {
+                            FileUtils.copyStreamToFile(it!!, sourceFile)
+                        }
+                    }
 
-                ApkFile(file).use {
-                    p.applicationInfo.name = it.apkMeta.label
+                    ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
+                } else {
+                    val p = packageManager.getPackageArchiveInfo(sourceFile.path, flags)!!
+
+                    ApkFile(sourceFile).use {
+                        p.applicationInfo.name = it.apkMeta.label
+                    }
+
+                    this.file.postValue(sourceFile)
+                    packageInfo.postValue(p)
                 }
-
-                this.file.postValue(file)
-                packageInfo.postValue(p)
             }
         }.getOrElse {
             error.postValue(it.stackTraceToString())
+        }
+    }
+
+    private fun prepareBundleInstallation() {
+        uri.let {
+
         }
     }
 
