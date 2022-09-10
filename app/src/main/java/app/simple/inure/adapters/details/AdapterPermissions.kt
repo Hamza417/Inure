@@ -25,7 +25,7 @@ import app.simple.inure.util.ViewUtils.visible
 class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, private val keyword: String)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
-    private lateinit var permissionCallbacks: PermissionCallbacks
+    private var permissionCallbacks: PermissionCallbacks? = null
     private var permissionLabelMode = PermissionPreferences.getLabelType()
     private val isRootMode = ConfigurationPreferences.isUsingRoot()
 
@@ -52,7 +52,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
         if (isRootMode) {
             holder.container.setOnClickListener {
-                permissionCallbacks.onPermissionClicked(it, permissions[position], position)
+                permissionCallbacks?.onPermissionClicked(it, permissions[position], position)
             }
         }
 

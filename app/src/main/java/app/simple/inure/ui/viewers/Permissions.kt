@@ -10,6 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.action.PermissionStatus
@@ -38,7 +39,7 @@ class Permissions : SearchBarScopedFragment() {
         search = view.findViewById(R.id.permissions_search_btn)
         searchBox = view.findViewById(R.id.permissions_search)
         title = view.findViewById(R.id.permission_title)
-        packageInfo = requireArguments().getParcelable("application_info")!!
+        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(packageInfo)
         permissionsViewModel = ViewModelProvider(this, packageInfoFactory).get(PermissionsViewModel::class.java)
 
@@ -124,9 +125,9 @@ class Permissions : SearchBarScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo): Permissions {
+        fun newInstance(packageInfo: PackageInfo): Permissions {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = Permissions()
             fragment.arguments = args
             return fragment

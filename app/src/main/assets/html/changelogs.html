@@ -23,10 +23,19 @@
     <li>Fixed <i>.apk</i> file installation error.</li>
 </ul>
 
+<h4>Improvements</h4>
+
+<ul>
+    <li>Improved certificate parser to add more certificates support and information.</li>
+</ul>
+
 <h4>Installer</h4>
 
 <ul>
     <li>Added <i>Certificate</i> details.</li>
+    <li>Improved <i>Permissions</i> in <b>Installer</b> panel to show permission granted status fro
+        already installed apps and ability to perform permissions actions as well.
+    </li>
 </ul>
 
 <br>
@@ -37,53 +46,69 @@
     <div class="collapsible-content">
         <div class="content-inner">
             <h4>User Interface</h4>
-
             <ul>
-                <li>Added Traditional Chinese translation (Thanks to <a
-                        href="https://crowdin.com/profile/adeptus2">人工知能</a> )
-                </li>
-                <li>Long pressing main app icon will open app's changelogs.</li>
-                <li>Added translators list in <b>About</b> panel.</li>
-                <li>Added line numbers to be shown along side the code in XML and code viewers.</li>
-                <li>Added <i>Deep Search</i> option in <b>Search</b> panel.</li>
-                <li>Added <b>Material You</b> system dependent theme.</li>
-                <li>Added <b>Material You</b> system dependent accent color.</li>
-                <li>Added option to enable debug or developer only features of the app.</li>
-                <li>Added AppOps function in App Info panel backed by root and adb (ADB mode is not
-                    implemented
-                    yet).
-                </li>
+                <li>Adjusted few scrollable views getting clipped in Android 12+.</li>
             </ul>
-
             <h4>Bug Fixes</h4>
-
             <ul>
-                <li>Fixed app panels not opening after changing app's language/locale.</li>
-                <li>Fixed audio player notification not showing in many devices.</li>
-                <li>Fixed audio player getting dismissed when device is rotated.</li>
-                <li>Fixed navigation bar overlapping the app's activity in Android < P.</li>
+                <li>Fixed Material You theme glitching when it is switched from other themes.</li>
+                <li>Fixed Material You accent color getting randomly reset to Inure.</li>
+                <li>Fixed accent color getting reset on opening of a transparent activity.</li>
+                <li>Fixed material you theme for transparent activity.</li>
             </ul>
-
-            <h4>Improvements</h4>
-
+            <h4>Improvement</h4>
             <ul>
-                <li>Changed split package output file to <i>apkm</i>.</li>
-                <li>Improved <i>Send</i> mechanism for the app.</li>
+                <li>Improved <i>Icon Size</i> framework, changing icon will not lag, get pixelated
+                    and will
+                    truly change its size throughout the app now.
+                </li>
+                <li>Optimized home panel to use less views and improve overall performance.</li>
             </ul>
 
             <h4>Removed</h4>
 
             <ul>
-                <li>Removed <i>Directories</i> from <b>Package Info</b> panel and any directory
-                    related info
-                    will now be available in <b>App Information</b> panel.
+                <li>Removed non required views from <b>Development</b> preferences panel.</li>
+                <li>Removed few unused strings.</li>
+                <li>Removed Firebase and Play Services APIs (was added by a library without
+                    disclosure).
                 </li>
             </ul>
 
             <h4>Batch</h4>
 
             <ul>
-                <li>Added new extract framework based on MANAGER_ALL_FILES permission.</li>
+                <li>Implemented <i>Extract</i> in <b>Batch</b>.</li>
+                <li>Added extract progress notification for batch process.</li>
+            </ul>
+
+            <h4>Installer</h4>
+            <ul>
+                <li>Implemented partial installer framework.</li>
+                <li>Implemented separate panel for installation and file association for the app.
+                </li>
+                <li>Implemented installer framework.</li>
+                <li>Implemented a new framework to fetch APK details of <i>not-installed</i> apps
+                    which is
+                    a part of the <b>Apk File Info</b> panel framework.
+                </li>
+                <li>Added tab layout in Installer panel.</li>
+                <li>Added custom tab layout in Installer panel.</li>
+                <li>Added split apk installation support including <i>.apk, .apks</i> and
+                    <i>.xapk</i> packages.
+                </li>
+            </ul>
+
+            <h4>Apk/App Info</h4>
+            <ul>
+                <li>Implemented a new framework to fetch APK details of <i>not-installed</i> apps.
+                </li>
+                <li><b>App Info</b> panel has been disabled in favour of <b>App Installer</b> panel.
+                    The <b>Installer</b>
+                    will show most of the app details and having a separate info panel isn't
+                    required <i>(Further
+                        input is appreciated)</i>.
+                </li>
             </ul>
         </div>
     </div>
