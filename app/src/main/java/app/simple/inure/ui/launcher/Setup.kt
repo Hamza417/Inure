@@ -156,9 +156,11 @@ Setup : ScopedFragment() {
 
     private fun showStartAppButton() {
         if (requireContext().checkForUsageAccessPermission() && checkStoragePermission()) {
-            startApp.visible(true)
+            startApp.visible(false)
+            skip.gone()
         } else {
-            startApp.invisible(true)
+            startApp.invisible(false)
+            skip.visible(false)
         }
     }
 
