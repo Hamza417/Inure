@@ -26,6 +26,7 @@ import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
+import app.simple.inure.util.NullSafety.isNotNull
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -251,12 +252,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     protected fun openFragmentSlide(fragment: ScopedFragment, @Nullable tag: String? = null) {
         clearExitTransition()
 
-        requireActivity().supportFragmentManager.beginTransaction()
-            .setReorderingAllowed(true)
-            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-            .replace(R.id.app_container, fragment, tag)
-            .addToBackStack(tag)
-            .commit()
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.setReorderingAllowed(true)
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+        transaction.replace(R.id.app_container, fragment, tag)
+        if (tag.isNotNull()) {
+            transaction.addToBackStack(tag)
+        }
+        transaction.commit()
     }
 
     /**
@@ -293,12 +296,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     protected fun openFragmentArc(fragment: ScopedFragment, icon: View, tag: String? = null, duration: Long? = null) {
         fragment.setTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
 
-        requireActivity().supportFragmentManager.beginTransaction()
-            .setReorderingAllowed(true)
-            .addSharedElement(icon, icon.transitionName)
-            .replace(R.id.app_container, fragment, tag)
-            .addToBackStack(tag)
-            .commit()
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.setReorderingAllowed(true)
+        transaction.addSharedElement(icon, icon.transitionName)
+        transaction.replace(R.id.app_container, fragment, tag)
+        if (tag.isNotNull()) {
+            transaction.addToBackStack(tag)
+        }
+        transaction.commit()
     }
 
     protected fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {

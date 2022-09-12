@@ -99,14 +99,14 @@ Setup : ScopedFragment() {
 
         startApp.setOnClickListener {
             if (requireContext().checkForUsageAccessPermission()) {
-                openFragmentArc(SplashScreen.newInstance(false), view.findViewById(R.id.imageView3))
+                openFragmentSlide(SplashScreen.newInstance(false))
             } else {
                 Toast.makeText(requireContext(), R.string.ss_please_grant_storage_permission, Toast.LENGTH_SHORT).show()
             }
         }
 
         skip.setOnClickListener {
-            openFragmentArc(SplashScreen.newInstance(true), view.findViewById(R.id.imageView3))
+            openFragmentSlide(SplashScreen.newInstance(true))
         }
 
         accent.setOnClickListener {
@@ -114,7 +114,7 @@ Setup : ScopedFragment() {
         }
 
         typeface.setOnClickListener {
-            openFragmentSlide(AppearanceTypeFace.newInstance(), "typeface")
+            openFragmentSlide(AppearanceTypeFace.newInstance(), "app_typeface")
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener {
