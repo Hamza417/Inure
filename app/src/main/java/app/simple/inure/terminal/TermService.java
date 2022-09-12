@@ -93,6 +93,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "inure_terminal")
                 .setContentIntent(pendingIntent)
                 .setContentTitle(getText(R.string.terminal))
+                .setSilent(true)
                 .setSmallIcon(R.drawable.ic_terminal_black)
                 .addAction(generateAction(R.drawable.ic_close, getString(R.string.close), ACTION_CLOSE))
                 .setContentText(getString(R.string.service_notify_text))

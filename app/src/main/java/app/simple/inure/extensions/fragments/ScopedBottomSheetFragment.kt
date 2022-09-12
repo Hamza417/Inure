@@ -16,6 +16,7 @@ import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.util.ViewUtils
+import com.google.android.material.R.id.design_bottom_sheet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -50,16 +51,39 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
         }
 
         dialog?.setOnShowListener { dialog ->
-            // In a previous life I used this method to get handles to the positive and negative buttons
-            // of a dialog in order to change their Typeface. Good ol' days.
-            val d = dialog as BottomSheetDialog
+            /**
+             * In a previous life I used this method to get handles to the positive and negative buttons
+             * of a dialog in order to change their Typeface. Good ol' days.
+             */
+            val sheetDialog = dialog as BottomSheetDialog
 
-            // This is gotten directly from the source of BottomSheetDialog
-            // in the wrapInBottomSheet() method
-            val bottomSheet = d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+            /**
+             * This is gotten directly from the source of BottomSheetDialog
+             * in the wrapInBottomSheet() method
+             */
+            val bottomSheet = sheetDialog.findViewById<View>(design_bottom_sheet) as FrameLayout
 
-            // Right here!
+            /**
+             *  Right here!
+             *  Make sure the dialog pops up being fully expanded
+             */
             BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
+
+            /**
+             * Also make sure the dialog doesn't half close when we don't want
+             * it to be, so we close them
+             */
+            BottomSheetBehavior.from(bottomSheet).addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
+                        dismiss()
+                    }
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                }
+            })
         }
     }
 

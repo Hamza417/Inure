@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationCompat
@@ -44,6 +45,8 @@ class AudioService : Service(),
     private val audioBecomingNoisyFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
 
     private var mediaSessionCompat: MediaSessionCompat? = null
+    private var mediaControllerCompat: MediaControllerCompat? = null
+    private var mediaMetadataCompat: MediaMetadataCompat? = null
     private var audioManager: AudioManager? = null
     private var focusRequest: AudioFocusRequest? = null
     private var notificationManager: NotificationManager? = null
@@ -223,7 +226,7 @@ class AudioService : Service(),
         val mediaButtonReceiverComponentName = ComponentName(applicationContext, MediaButtonIntentReceiver::class.java)
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
         mediaButtonIntent.component = mediaButtonReceiverComponentName
-        val mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(applicationContext, 0, mediaButtonIntent, PendingIntent.FLAG_IMMUTABLE)
+        val mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(applicationContext, 4558, mediaButtonIntent, PendingIntent.FLAG_IMMUTABLE)
         mediaSessionCompat = MediaSessionCompat(this, getString(R.string.mini_player_name), mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent)
         mediaSessionCompat!!.setCallback(object : MediaSessionCompat.Callback() {
             override fun onPlay() {
@@ -260,8 +263,8 @@ class AudioService : Service(),
         mediaSessionCompat!!.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS or MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS)
         mediaSessionCompat!!.setMediaButtonReceiver(mediaButtonReceiverPendingIntent)
         mediaSessionCompat!!.isActive = true
-        //mediaControllerCompat = mediaSessionCompat.controller
-        //mediaMetadataCompat = mediaControllerCompat.metadata
+        mediaControllerCompat = mediaSessionCompat!!.controller
+        // mediaMetadataCompat = mediaControllerCompat!!.metadata
     }
 
     private fun setPlaybackState(playbackState: Int) {
@@ -277,21 +280,20 @@ class AudioService : Service(),
         kotlin.runCatching {
             metaData = MetadataHelper.getAudioMetadata(applicationContext, audioUri!!)
 
-            val mediaMetadata = MediaMetadataCompat.Builder()
+            mediaMetadataCompat = MediaMetadataCompat.Builder()
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
-                // .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
-                .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, 0)
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, metaData?.art)
+                // .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
                 .build()
 
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaData, applicationContext)
             setupMediaSession()
             createNotificationChannel()
             showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
-            mediaSessionCompat?.setMetadata(mediaMetadata)
+            mediaSessionCompat?.setMetadata(mediaMetadataCompat)
             setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
         }.getOrElse {
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaError, applicationContext, it.stackTraceToString())
@@ -488,12 +490,12 @@ class AudioService : Service(),
     private fun showNotification(action: NotificationCompat.Action) {
         notificationManager = baseContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        val intentAction = Intent(this, AudioPlayerActivity::class.java)
+        val notificationClick = with(Intent(this, AudioPlayerActivity::class.java)) {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            data = audioUri
+            PendingIntent.getActivity(applicationContext, 111, this, PendingIntent.FLAG_IMMUTABLE)
+        }
 
-        intentAction.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        intentAction.data = audioUri
-
-        val buttonClick = PendingIntent.getActivity(applicationContext, 111, intentAction, PendingIntent.FLAG_IMMUTABLE)
         val close = generateAction(R.drawable.ic_close, "Close", ServiceConstants.actionQuitMusicService)
 
         builder = NotificationCompat.Builder(applicationContext, channelId)
@@ -504,12 +506,16 @@ class AudioService : Service(),
             .setContentTitle(metaData?.title)
             .setContentText(metaData?.artists)
             .setSubText(metaData?.album)
-            .setContentIntent(buttonClick)
+            .setContentIntent(notificationClick)
             .setShowWhen(false)
             .setColorized(true)
-            .setCategory(Notification.CATEGORY_SERVICE)
-            .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken).setShowActionsInCompactView(0, 1))
+            .setCategory(Notification.CATEGORY_TRANSPORT)
+            .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken)
+                          .setShowActionsInCompactView(0, 1)
+                          .setShowCancelButton(true)
+                          .setCancelButtonIntent(close.getActionIntent()))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+
 
         val notification: Notification = builder!!.build()
         notificationManager!!.notify(notificationId, notification)
@@ -519,7 +525,7 @@ class AudioService : Service(),
     private fun generateAction(icon: Int, title: String, action: String): NotificationCompat.Action {
         val intent = Intent(this, AudioService::class.java)
         intent.action = action
-        val close = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val close = PendingIntent.getService(this, (0..100).random(), intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Action.Builder(icon, title, close).build()
     }
 

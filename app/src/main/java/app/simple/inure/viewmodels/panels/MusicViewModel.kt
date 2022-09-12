@@ -17,17 +17,18 @@ import kotlinx.coroutines.launch
 class MusicViewModel(application: Application) : WrappedViewModel(application) {
 
     private var cursor: Cursor? = null
+    private var globalList = arrayListOf<AudioModel>()
+
+    init {
+        loadData()
+    }
 
     private val songs: MutableLiveData<ArrayList<AudioModel>> by lazy {
-        MutableLiveData<ArrayList<AudioModel>>().also {
-            loadSongs()
-        }
+        MutableLiveData<ArrayList<AudioModel>>()
     }
 
     private val searched: MutableLiveData<ArrayList<AudioModel>> by lazy {
-        MutableLiveData<ArrayList<AudioModel>>().also {
-            loadSearched(MusicPreferences.getSearchKeyword())
-        }
+        MutableLiveData<ArrayList<AudioModel>>()
     }
 
     fun getSongs(): LiveData<ArrayList<AudioModel>> {
@@ -38,18 +39,18 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
         return searched
     }
 
-    private fun loadSongs() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = arrayListOf<AudioModel>()
-            list.addAll(getAllAudioFiles(externalContentUri))
-            songs.postValue(list)
+    private fun loadData() {
+        viewModelScope.launch(Dispatchers.Default) {
+            globalList = getAllAudioFiles(externalContentUri)
+            songs.postValue(globalList)
+            loadSearched(MusicPreferences.getSearchKeyword())
         }
     }
 
     /**
      * Returns an Arraylist of [AudioModel]
      */
-    @SuppressLint("Range")
+    @SuppressLint("Range", "InlinedApi")
     private fun getAllAudioFiles(contentLocation: Uri): ArrayList<AudioModel> {
         val allAudioModel = ArrayList<AudioModel>()
 
@@ -104,12 +105,10 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
     fun loadSearched(keywords: String) {
         viewModelScope.launch(Dispatchers.Default) {
             val list = arrayListOf<AudioModel>()
-            val songs = arrayListOf<AudioModel>()
-            songs.addAll(getAllAudioFiles(externalContentUri))
 
             kotlin.runCatching {
                 if (keywords.isNotEmpty()) {
-                    for (song in songs) {
+                    for (song in globalList) {
                         if (song.name.lowercase().contains(keywords.lowercase())
                             || song.artists.lowercase().contains(keywords.lowercase())
                             || song.album.lowercase().contains(keywords.lowercase())) {
@@ -123,7 +122,9 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    @Suppress("unused")
     companion object {
+        @SuppressLint("InlinedApi")
         val audioProjection = arrayOf(
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.ALBUM_ID,
