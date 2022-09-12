@@ -230,7 +230,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     Pair(0, 0), // Divider
             )
 
-            if (BuildConfig.DEBUG && DevelopmentPreferences.isDebugStateEnabled()) {
+            if (BuildConfig.DEBUG || DevelopmentPreferences.isDebugStateEnabled()) {
                 list.add(Pair(R.drawable.ic_music_note, R.string.music))
             }
 

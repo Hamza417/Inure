@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import app.simple.inure.decorations.typeface.TypeFaceEditText;
 import app.simple.inure.themes.manager.Theme;
+import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.ViewUtils;
 
 public class DynamicCornerEditText extends TypeFaceEditText {
@@ -33,14 +34,14 @@ public class DynamicCornerEditText extends TypeFaceEditText {
         }
     
         LayoutBackground.setBackground(getContext(), this, attrs, 2F);
-        setBackground(false);
+        setBackground(false, ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground());
         ViewUtils.INSTANCE.addShadow(this);
     }
     
     @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         super.onThemeChanged(theme, animate);
-        setBackground(animate);
+        setBackground(animate, theme.getViewGroupTheme().getViewerBackground());
     }
     
     @Override

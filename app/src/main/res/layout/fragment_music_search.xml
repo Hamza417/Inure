@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.theme.ThemeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/search_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/header_padding"
+        android:animateLayoutChanges="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:translationZ="1dp">
+
+        <app.simple.inure.decorations.corners.DynamicCornerEditText
+            android:id="@+id/search_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:elevation="30dp"
+            android:padding="@dimen/header_padding"
+            app:appFontStyle="bold" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/clear"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/ic_close"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+        android:id="@+id/search_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:isEdgeColorRequired="true"
+        app:statusBarPaddingRequired="true" />
+
+</app.simple.inure.decorations.theme.ThemeFrameLayout>

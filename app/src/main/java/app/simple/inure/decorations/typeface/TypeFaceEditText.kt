@@ -11,6 +11,7 @@ import android.util.AttributeSet
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatEditText
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
@@ -90,11 +91,11 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         }
     }
 
-    open fun setBackground(animate: Boolean) {
+    open fun setBackground(animate: Boolean, @ColorInt color: Int) {
         if (animate) {
-            valueAnimator = animateBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
+            valueAnimator = animateBackgroundColor(color)
         } else {
-            backgroundTintList = ColorStateList.valueOf(ThemeManager.theme.viewGroupTheme.background)
+            backgroundTintList = ColorStateList.valueOf(color)
         }
     }
 

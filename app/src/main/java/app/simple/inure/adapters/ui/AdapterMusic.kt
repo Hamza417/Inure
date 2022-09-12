@@ -10,33 +10,39 @@ import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromUri
 import app.simple.inure.models.AudioModel
 
-class AdapterMusic(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var musicCallbacks: MusicCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
-        return when (viewType) {
-            RecyclerViewConstants.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_header_music, parent, false))
+        if (headerMode) {
+            return when (viewType) {
+                RecyclerViewConstants.TYPE_HEADER -> {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_music, parent, false))
+                }
+                RecyclerViewConstants.TYPE_ITEM -> {
+                    Holder(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_music, parent, false))
+                }
+                else -> {
+                    throw IllegalArgumentException("there is no type that matches the type $viewType, make sure your using types correctly")
+                }
             }
-            RecyclerViewConstants.TYPE_ITEM -> {
-                Holder(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_music, parent, false))
-            }
-            else -> {
-                throw IllegalArgumentException("there is no type that matches the type $viewType, make sure your using types correctly")
-            }
+        } else {
+            return Holder(LayoutInflater.from(parent.context)
+                              .inflate(R.layout.adapter_music, parent, false))
         }
     }
 
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = position_ - 1
+        val position = if (headerMode) position_ - 1 else position_
 
         if (holder is Holder) {
             holder.title.text = list[position].title
@@ -49,18 +55,26 @@ class AdapterMusic(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Verti
                 musicCallbacks?.onMusicClicked(Uri.parse(list[position].fileUri))
             }
         } else if (holder is Header) {
+            holder.total.text = holder.context.getString(R.string.total_apps, list.size.toString())
 
+            holder.search.setOnClickListener {
+                musicCallbacks?.onMusicSearchClicked()
+            }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == 0) {
-            RecyclerViewConstants.TYPE_HEADER
-        } else RecyclerViewConstants.TYPE_ITEM
+        return if (headerMode) {
+            if (position == 0) {
+                RecyclerViewConstants.TYPE_HEADER
+            } else RecyclerViewConstants.TYPE_ITEM
+        } else {
+            RecyclerViewConstants.TYPE_ITEM
+        }
     }
 
     override fun getItemCount(): Int {
-        return list.size.plus(1)
+        return list.size.plus(if (headerMode) 1 else 0)
     }
 
     override fun onViewRecycled(holder: VerticalListViewHolder) {
@@ -82,11 +96,15 @@ class AdapterMusic(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Verti
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_music_container)
     }
 
-    inner class Header(itemView: View) : VerticalListViewHolder(itemView)
+    inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
+        val total: TypeFaceTextView = itemView.findViewById(R.id.total)
+        val search: DynamicRippleImageButton = itemView.findViewById(R.id.search)
+    }
 
     companion object {
         interface MusicCallbacks {
             fun onMusicClicked(uri: Uri)
+            fun onMusicSearchClicked()
         }
     }
 }

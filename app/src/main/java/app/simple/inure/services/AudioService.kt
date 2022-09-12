@@ -494,12 +494,13 @@ class AudioService : Service(),
         intentAction.data = audioUri
 
         val buttonClick = PendingIntent.getActivity(applicationContext, 111, intentAction, PendingIntent.FLAG_IMMUTABLE)
+        val close = generateAction(R.drawable.ic_close, "Close", ServiceConstants.actionQuitMusicService)
 
         builder = NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.drawable.ic_main_app_icon_regular)
             .setLargeIcon(metaData?.art)
             .addAction(action) /* Play Pause Action */
-            .addAction(generateAction(R.drawable.ic_close, "Close", ServiceConstants.actionQuitMusicService))
+            .addAction(close)
             .setContentTitle(metaData?.title)
             .setContentText(metaData?.artists)
             .setSubText(metaData?.album)
@@ -507,7 +508,7 @@ class AudioService : Service(),
             .setShowWhen(false)
             .setColorized(true)
             .setCategory(Notification.CATEGORY_SERVICE)
-            .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken))
+            .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken).setShowActionsInCompactView(0, 1))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
         val notification: Notification = builder!!.build()

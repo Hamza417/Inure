@@ -28,6 +28,7 @@ import app.simple.inure.popups.app.PopupHome
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.terminal.Term
+import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.invisible

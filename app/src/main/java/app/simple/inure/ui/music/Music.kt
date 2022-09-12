@@ -1,4 +1,4 @@
-package app.simple.inure.ui.panels
+package app.simple.inure.ui.music
 
 import android.content.Intent
 import android.net.Uri
@@ -32,14 +32,17 @@ class Music : ScopedFragment() {
         postponeEnterTransition()
 
         musicViewModel.getSongs().observe(viewLifecycleOwner) {
-            println(it.size)
-            val adapterMusic = AdapterMusic(it)
+            val adapterMusic = AdapterMusic(it, headerMode = true)
 
             adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(uri: Uri) {
                     val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
                     intent.data = uri
                     startActivity(intent)
+                }
+
+                override fun onMusicSearchClicked() {
+                    openFragmentSlide(Search.newInstance(), "search_music")
                 }
             })
 
