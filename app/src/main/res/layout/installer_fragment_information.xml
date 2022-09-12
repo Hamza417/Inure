@@ -8,7 +8,7 @@
     android:fadingEdge="vertical"
     android:fadingEdgeLength="25dp"
     android:layoutAnimation="@anim/list_animation_controller"
-    android:paddingVertical="10dp"
     android:requiresFadingEdge="vertical"
+    android:paddingTop="5dp"
     app:isFastScrollRequired="false"
     app:statusBarPaddingRequired="false" />

@@ -45,6 +45,7 @@ class Installer : ScopedFragment() {
     private lateinit var packageName: TypeFaceTextView
     private lateinit var install: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
+    private lateinit var launch: DynamicRippleTextView
     private lateinit var update: DynamicRippleTextView
     private lateinit var uninstall: DynamicRippleTextView
     private lateinit var loader: CustomProgressBar
@@ -62,6 +63,7 @@ class Installer : ScopedFragment() {
         packageName = view.findViewById(R.id.package_id)
         install = view.findViewById(R.id.install)
         cancel = view.findViewById(R.id.cancel)
+        launch = view.findViewById(R.id.launch)
         update = view.findViewById(R.id.update)
         uninstall = view.findViewById(R.id.uninstall)
         viewPager = view.findViewById(R.id.viewPager)
@@ -102,6 +104,7 @@ class Installer : ScopedFragment() {
                         update.gone()
                         install.gone()
                         loader.gone()
+                        checkLaunchStatus()
                         uninstall.visible(false)
                         cancel.setText(R.string.close)
                     }
@@ -136,6 +139,7 @@ class Installer : ScopedFragment() {
                 install.gone()
                 update.visible(true)
                 uninstall.visible(true)
+                checkLaunchStatus()
             } else {
                 install.visible(true)
                 update.gone()
@@ -192,6 +196,16 @@ class Installer : ScopedFragment() {
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver)
+    }
+
+    private fun checkLaunchStatus() {
+        if (PackageUtils.checkIfAppIsLaunchable(requireContext(), packageInfo.packageName)) {
+            launch.visible(animate = false)
+
+            launch.setOnClickListener {
+                PackageUtils.launchThisPackage(requireContext(), packageInfo.packageName)
+            }
+        }
     }
 
     companion object {

@@ -8,7 +8,7 @@
     android:fadingEdge="vertical"
     android:fadingEdgeLength="25dp"
     android:paddingHorizontal="10dp"
-    android:paddingVertical="@dimen/dialog_padding"
+    android:paddingTop="5dp"
     android:requiresFadingEdge="vertical"
     app:layout_behavior="@string/over_scroll_behavior">
 

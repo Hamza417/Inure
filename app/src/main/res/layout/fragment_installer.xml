@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:animateLayoutChanges="true"
+        android:animateLayoutChanges="false"
         android:elevation="@dimen/app_views_elevation"
         android:orientation="horizontal"
         android:padding="@dimen/popup_padding">
@@ -157,6 +157,20 @@
             android:gravity="center"
             android:padding="@dimen/dialog_padding"
             android:text="@string/install"
+            android:textSize="@dimen/info_text_small"
+            android:visibility="gone"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/launch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/launch"
             android:textSize="@dimen/info_text_small"
             android:visibility="gone"
             app:appFontStyle="bold"

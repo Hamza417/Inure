@@ -1,5 +1,6 @@
 package app.simple.inure.glide.apkIcon
 
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import app.simple.inure.R
@@ -14,8 +15,16 @@ import java.io.ByteArrayInputStream
 class ApkIconFetcher internal constructor(private val apkIcon: ApkIcon) : DataFetcher<Bitmap> {
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in Bitmap>) {
         kotlin.runCatching {
-            val p0 = ApkFile(apkIcon.file).allIcons
-            callback.onDataReady(BitmapFactory.decodeStream(ByteArrayInputStream(p0.last().data)))
+            kotlin.runCatching {
+                val p0 = apkIcon.context.packageManager.getPackageArchiveInfo(apkIcon.file.path, PackageManager.GET_META_DATA)
+                p0!!.applicationInfo.sourceDir = apkIcon.file.path
+                p0.applicationInfo.publicSourceDir = apkIcon.file.path
+                val b = apkIcon.context.packageManager.getApplicationIcon(p0.applicationInfo)
+                callback.onDataReady(b.toBitmap())
+            }.onFailure {
+                val p0 = ApkFile(apkIcon.file).allIcons
+                callback.onDataReady(BitmapFactory.decodeStream(ByteArrayInputStream(p0.last().data)))
+            }
         }.getOrElse {
             it.printStackTrace()
             callback.onDataReady(R.drawable.ic_app_icon.toBitmap(apkIcon.context, AppearancePreferences.getIconSize()))
