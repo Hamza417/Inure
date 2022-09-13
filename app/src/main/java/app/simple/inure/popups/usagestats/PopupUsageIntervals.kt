@@ -10,24 +10,42 @@ import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.UsageInterval
 
 class PopupUsageIntervals(view: View) : BasePopupWindow() {
+
+    private val daily: DynamicRippleTextView
+    private val weekly: DynamicRippleTextView
+    private val monthly: DynamicRippleTextView
+    private val yearly: DynamicRippleTextView
+
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_usage_stats_interval, PopupLinearLayout(view.context))
         init(contentView, view)
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_interval_daily).setOnClickListener {
+        daily = contentView.findViewById(R.id.popup_interval_daily)
+        weekly = contentView.findViewById(R.id.popup_interval_weekly)
+        monthly = contentView.findViewById(R.id.popup_interval_monthly)
+        yearly = contentView.findViewById(R.id.popup_interval_yearly)
+
+        daily.setOnClickListener {
             setInterval(UsageInterval.DAILY)
         }
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_interval_weekly).setOnClickListener {
+        weekly.setOnClickListener {
             setInterval(UsageInterval.WEEKlY)
         }
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_interval_monthly).setOnClickListener {
+        monthly.setOnClickListener {
             setInterval(UsageInterval.MONTHLY)
         }
 
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_interval_yearly).setOnClickListener {
+        yearly.setOnClickListener {
             setInterval(UsageInterval.YEARLY)
+        }
+
+        when (StatisticsPreferences.getInterval()) {
+            UsageInterval.DAILY -> daily.isSelected = true
+            UsageInterval.WEEKlY -> weekly.isSelected = true
+            UsageInterval.MONTHLY -> monthly.isSelected = true
+            UsageInterval.YEARLY -> yearly.isSelected = true
         }
     }
 

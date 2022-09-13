@@ -86,7 +86,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                     }
                 }
 
-                if (name.name!!.endsWith(".apkm") || name.name!!.endsWith(".xapk") || name.name!!.endsWith(".apks")) {
+                if (name.name!!.endsWith(".apkm") || name.name!!.endsWith(".apks")) {
                     if (!sourceFile.exists()) {
                         contentResolver.openInputStream(it).use {
                             FileUtils.copyStreamToFile(it!!, sourceFile)
@@ -96,9 +96,11 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                     ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
                     listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
                     files.postValue(listOfFiles)
-                } else {
+                } else if (name.name!!.endsWith(".apk")) {
                     listOfFiles = arrayListOf(sourceFile)
                     this.files.postValue(listOfFiles)
+                } else {
+                    throw UnsupportedOperationException("File type not supported")
                 }
 
                 postPackageInfo()
@@ -132,5 +134,13 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
 
             InstallerUtils.commitSession(sessionCode, applicationContext())
         }
+    }
+
+    override fun onCleared() {
+        // if (File(applicationContext().cacheDir.path + "/installer_cache/").deleteRecursively()) {
+        //    Log.d(javaClass.name, "Installer cache cleared")
+        // }
+        // TODO - think about it
+        super.onCleared()
     }
 }

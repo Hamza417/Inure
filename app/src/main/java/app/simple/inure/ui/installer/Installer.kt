@@ -87,6 +87,8 @@ class Installer : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loader.visible(animate = true)
+
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -999)) {
@@ -127,6 +129,7 @@ class Installer : ScopedFragment() {
         }
 
         installerViewModel.getPackageInfo().observe(viewLifecycleOwner) {
+            loader.gone()
             packageInfo = it
 
             name.text = packageInfo.applicationInfo.name

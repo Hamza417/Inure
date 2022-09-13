@@ -42,8 +42,9 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
                 val certificates: Array<X509Certificate> = if (packageInfo.isNotNull()) {
                     APKCertificateUtils(file, packageInfo!!.packageName, applicationContext()).x509Certificates
                 } else {
-                    val apk = ApkFile(file)
-                    APKCertificateUtils(file, apk.apkMeta.packageName, applicationContext()).x509Certificates
+                    ApkFile(file).use {
+                        APKCertificateUtils(file, it.apkMeta.packageName, applicationContext()).x509Certificates
+                    }
                 }
 
                 for (cert in certificates) {
