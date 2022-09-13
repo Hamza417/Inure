@@ -186,6 +186,10 @@ class Installer : ScopedFragment() {
             tabLayout.setViewPager2(viewPager)
         }
 
+        installerViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
+        }
+
         cancel.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
