@@ -13,43 +13,74 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build39</h2>
+<h2>Build40</h2>
 
 <!-- Write change logs here -->
 
 <h4>User Interface</h4>
 
 <ul>
-    <li>Updated <b>Setup</b> panel UI and removed unnecessary animations.</li>
+    <li>Added a native crash handler to record the traces.
+        <sub><b>How it works?</b> -> When the app crashes the crash handler will record the trace of
+            the error and will show it to user before the app's next launch and allow them to send
+            the logs if user deems it necessary or close it. It won't have any impact on user
+            experience and the reports will show over the top of the main app so any internal app
+            process won't be blocked either.</sub>
+    </li>
 </ul>
 
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed <i>.apk</i> file installation error.</li>
-    <li>Fixed app panel transactions getting stuck between <b>Setup</b> and <b>Home</b> panels</li>
-    <li>Fixed text box background issues in different places of the app.</li>
-    <li>Fixed usage stats interval popup selected highlight missing issue.</li>
-</ul>
-
-<h4>Improvements</h4>
-
-<ul>
-    <li>Improved certificate parser to add more certificates support and information.</li>
-</ul>
-
-<h4>Installer</h4>
-
-<ul>
-    <li>Added <i>Certificate</i> details.</li>
-    <li>Improved <i>Permissions</i> in <b>Installer</b> panel to show permission granted status fro
-        already installed apps and ability to perform permissions actions as well.
-    </li>
-    <li>Added option to launch the app.</li>
-    <li>Fixed loading icon for apps that are not yet installed.</li>
+    <li>Fixed list getting loaded two times in <b>Search</b> panel causing animations to break.</li>
+    <li>Fixed <i>Operations</i> showing in non root mode.</li>
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input id="build_39" class="toggle" type="checkbox">
+    <label for="build_39" class="lbl-toggle">Build39</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Updated <b>Setup</b> panel UI and removed unnecessary animations.</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed <i>.apk</i> file installation error.</li>
+                <li>Fixed app panel transactions getting stuck between <b>Setup</b> and <b>Home</b>
+                    panels
+                </li>
+                <li>Fixed text box background issues in different places of the app.</li>
+                <li>Fixed usage stats interval popup selected highlight missing issue.</li>
+            </ul>
+
+            <h4>Improvements</h4>
+
+            <ul>
+                <li>Improved certificate parser to add more certificates support and information.
+                </li>
+            </ul>
+
+            <h4>Installer</h4>
+
+            <ul>
+                <li>Added <i>Certificate</i> details.</li>
+                <li>Improved <i>Permissions</i> in <b>Installer</b> panel to show permission granted
+                    status fro
+                    already installed apps and ability to perform permissions actions as well.
+                </li>
+                <li>Added option to launch the app.</li>
+                <li>Fixed loading icon for apps that are not yet installed.</li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input id="build_38" class="toggle" type="checkbox">

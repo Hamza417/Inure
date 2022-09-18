@@ -81,7 +81,6 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadSearchData(keywords: String) {
         searchJob?.cancel()
-
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             val apps = getApplication<Application>().applicationContext.packageManager.getInstalledPackages(deepSearchFlags) as ArrayList
 

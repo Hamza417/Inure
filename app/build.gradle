@@ -8,7 +8,7 @@ plugins {
 android {
     compileSdkVersion 32
 
-    def appVersionCode = 38
+    def appVersionCode = 39
     def appVersionName = "build_$appVersionCode (alpha)"
 
     buildFeatures {
@@ -72,6 +72,7 @@ android {
     }
 
     ndkVersion '24.0.8215888'
+    namespace 'app.simple.inure'
 }
 
 dependencies {

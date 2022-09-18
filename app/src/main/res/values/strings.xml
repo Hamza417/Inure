@@ -562,4 +562,5 @@
     <string name="update">Update</string>
     <string name="serial_number">Serial Number</string>
     <string name="subject">Subject</string>
+    <string name="the_app_has_crashed">The app has crashed!</string>
 </resources>

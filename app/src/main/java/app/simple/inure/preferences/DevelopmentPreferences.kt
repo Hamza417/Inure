@@ -1,7 +1,5 @@
 package app.simple.inure.preferences
 
-import org.jetbrains.annotations.NotNull
-
 object DevelopmentPreferences {
 
     private const val isWebViewXmlViewer = "is_xml_viewer_web_view"
@@ -10,7 +8,7 @@ object DevelopmentPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setWebViewXmlViewer(@NotNull value: Boolean) {
+    fun setWebViewXmlViewer(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(isWebViewXmlViewer, value).apply()
     }
 
@@ -20,7 +18,7 @@ object DevelopmentPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setHidePreferencesIndicator(@NotNull value: Boolean) {
+    fun setHidePreferencesIndicator(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(preferencesIndicator, value).apply()
     }
 
@@ -30,7 +28,7 @@ object DevelopmentPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setDebugFeaturesState(@NotNull value: Boolean) {
+    fun setDebugFeaturesState(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(debugFeatures, value).apply()
     }
 

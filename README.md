@@ -23,10 +23,18 @@ An elegant Android app manager, currently in development
 
 ## About
 
+Inure is an Android application package manager irrespective of whether they're installed or not, it
+can scan through any app's internal components and modify them on the go. It also packs a nice
+looking Terminal Emulator, Usage Stats, Split/APK Installer and various other tools and many of them
+are waiting to be implemented as well.
+
 Inure's development was started as an independent learning project which later has become one of the
 most ambitious and intuitive Android apps developed by a single person and is based 100% on custom
-UI APIs developed to be used only in this app along with a native theme engine along with Material
-You support, image renderer and a beautiful animation framework.
+UI APIs developed to be used only in this app with its own native theme engine, crash handler, image
+renderer and a beautiful animation framework.
+
+Along with it own UI perks, Inure also supports dynamic Material You colors with split accent and
+theme color modes.
 
 Currently, the app is in beta testing stage. You can join the app's early beta testing
 from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure) and join the

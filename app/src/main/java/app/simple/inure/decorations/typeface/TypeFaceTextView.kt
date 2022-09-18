@@ -23,6 +23,7 @@ import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ColorUtils.animateDrawableColorChange
 import app.simple.inure.util.ColorUtils.resolveAttrColor
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.fadInAnimation
 import app.simple.inure.util.ViewUtils.fadOutAnimation
@@ -57,6 +58,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
     }
 
     private fun init() {
+        if (isInEditMode) return
         typeface = TypeFace.getTypeFace(getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, BOLD), context)
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
         drawableTintMode = typedArray.getInt(R.styleable.TypeFaceTextView_drawableTintStyle, 3)
@@ -99,7 +101,9 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        app.simple.inure.preferences.SharedPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        if (isInEditMode.invert()) {
+            app.simple.inure.preferences.SharedPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        }
         ThemeManager.addListener(this)
     }
 

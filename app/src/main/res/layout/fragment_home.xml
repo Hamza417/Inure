@@ -116,7 +116,7 @@
                     android:paddingHorizontal="@dimen/dialog_padding"
                     android:paddingVertical="@dimen/header_padding"
                     android:text="@string/quick_apps"
-                    android:textSize="@dimen/home_heading_text_size"
+                    android:textSize="@dimen/info_text_large"
                     android:visibility="gone"
                     app:appFontStyle="bold"
                     app:textColorStyle="primary" />

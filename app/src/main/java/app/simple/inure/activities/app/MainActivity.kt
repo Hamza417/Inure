@@ -40,7 +40,6 @@ class MainActivity : BaseActivity() {
         content = findViewById(android.R.id.content)
 
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
-
         ThemeUtils.setAppTheme(resources)
 
         if (savedInstanceState.isNull()) {

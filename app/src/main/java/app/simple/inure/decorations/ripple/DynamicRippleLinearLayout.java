@@ -19,6 +19,9 @@ public class DynamicRippleLinearLayout extends LinearLayout implements SharedPre
     }
     
     private void init() {
+        if (isInEditMode()) {
+            return;
+        }
         setBackgroundColor(Color.TRANSPARENT);
         setBackground(null);
         setBackground(Utils.getRippleDrawable(getBackground()));
@@ -27,6 +30,9 @@ public class DynamicRippleLinearLayout extends LinearLayout implements SharedPre
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (isInEditMode()) {
+            return;
+        }
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
     

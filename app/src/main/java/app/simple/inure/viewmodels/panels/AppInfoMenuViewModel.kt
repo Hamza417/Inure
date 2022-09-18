@@ -112,9 +112,8 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
     fun loadMetaOptions() {
         viewModelScope.launch(Dispatchers.Default) {
 
-            val list = listOf(
+            val list = mutableListOf(
                     Pair(R.drawable.ic_permission, R.string.permissions),
-                    Pair(R.drawable.ic_rocket_launch, R.string.operations),
                     Pair(R.drawable.ic_activities, R.string.activities),
                     Pair(R.drawable.ic_services, R.string.services),
                     Pair(R.drawable.ic_certificate, R.string.certificate),
@@ -129,6 +128,10 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                     Pair(R.drawable.ic_code, R.string.dex_classes),
                     Pair(R.drawable.ic_radiation_nuclear, R.string.trackers)
             )
+
+            if (ConfigurationPreferences.isUsingRoot()) {
+                list.add(1, Pair(R.drawable.ic_rocket_launch, R.string.operations))
+            }
 
             menuItems.postValue(list)
         }

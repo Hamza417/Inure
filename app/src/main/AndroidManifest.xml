@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="app.simple.inure"
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
@@ -74,6 +73,12 @@
         </activity>
 
         <activity
+            android:name=".activities.app.CrashReporterActivity"
+            android:configChanges="uiMode"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".terminal.Term"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:exported="true"
@@ -114,8 +119,8 @@
 
         <activity
             android:name=".activities.association.AppDetailsActivity"
-            android:exported="true"
             android:enabled="false"
+            android:exported="true"
             android:label="@string/app_info">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

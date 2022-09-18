@@ -22,8 +22,10 @@ public class PaddingAwareNestedScrollView extends FastScrollNestedScrollView imp
     }
     
     private void init() {
+        if (isInEditMode()) {
+            return;
+        }
         updatePadding();
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
     
     private void updatePadding() {
@@ -46,6 +48,14 @@ public class PaddingAwareNestedScrollView extends FastScrollNestedScrollView imp
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(AppearancePreferences.transparentStatus)) {
             updatePadding();
+        }
+    }
+    
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (!isInEditMode()) {
+            app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         }
     }
     

@@ -2,7 +2,6 @@ package app.simple.inure.decorations.searchview;
 
 import android.animation.LayoutTransition;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -51,7 +50,6 @@ public class SearchView extends PaddingAwareLinearLayout implements SharedPrefer
         setLayoutTransition(new LayoutTransition());
     }
     
-    @SuppressLint ("ClickableViewAccessibility")
     private void initViews() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.search_view, this, true);
     
@@ -61,6 +59,7 @@ public class SearchView extends PaddingAwareLinearLayout implements SharedPrefer
     
         editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
         updateSearchIcon();
+        editText.setSaveEnabled(false); // ViewModel and SharedPreferences will handle the saved states
         
         editText.addTextChangedListener(new TextWatcher() {
             @Override
