@@ -334,7 +334,11 @@ class AudioService : Service(),
     }
 
     internal fun getProgress(): Int {
-        return mediaPlayer.currentPosition
+        return kotlin.runCatching {
+            mediaPlayer.currentPosition
+        }.getOrElse {
+            0
+        }
     }
 
     internal fun getDuration(): Int {
@@ -515,7 +519,6 @@ class AudioService : Service(),
                           .setShowCancelButton(true)
                           .setCancelButtonIntent(close.getActionIntent()))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-
 
         val notification: Notification = builder!!.build()
         notificationManager!!.notify(notificationId, notification)

@@ -5,28 +5,32 @@ import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.ImageView
-import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.transition.ArcMotion
 import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.transitions.DetailsTransition
-import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning
+import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
 import app.simple.inure.util.NullSafety.isNotNull
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -39,6 +43,10 @@ import kotlinx.coroutines.CoroutineScope
  * its purpose and importance
  */
 abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private val maximumAngle = 90
+    private val minimumHorizontalAngle = 80
+    private val minimumVerticalAngle = 15
 
     /**
      * [ScopedFragment]'s own [Handler] instance
@@ -84,7 +92,13 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * Override this to get any preferences change events inside
      * the fragment
      */
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {}
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            BehaviourPreferences.transitionType -> {
+                setTransitions()
+            }
+        }
+    }
 
     /**
      * clears the [setExitTransition] for the current fragment in support
@@ -104,51 +118,40 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * Used with shared elements
      */
     open fun setTransitions() {
-        /**
-         * Animations are expensive, every time a view is added into the
-         * animating view transaction time will increase a little
-         * making the interaction a little bit slow.
-         */
-        if (BehaviourPreferences.isTransitionOn()) {
-            exitTransition = Fade()
-            enterTransition = Fade()
-        } else {
-            clearExitTransition()
-            clearEnterTransition()
-        }
-
-        if (BehaviourPreferences.isArcAnimationOn()) {
-            sharedElementEnterTransition = DetailsTransitionArc()
-            sharedElementReturnTransition = DetailsTransitionArc()
-        }
-
         allowEnterTransitionOverlap = true
         allowReturnTransitionOverlap = true
-    }
 
-    /**
-     * Sets fragment transitions prior to creating a new fragment.
-     * Used with shared elements
-     *
-     * @param duration duration of the transition
-     */
-    open fun setTransitions(duration: Long) {
         /**
          * Animations are expensive, every time a view is added into the
          * animating view transaction time will increase a little
          * making the interaction a little bit slow.
          */
         if (BehaviourPreferences.isTransitionOn()) {
-            exitTransition = Fade()
-            enterTransition = Fade()
+            when (BehaviourPreferences.getTransitionType()) {
+                PopupTransitionType.FADE -> {
+                    exitTransition = Fade()
+                    enterTransition = Fade()
+                    reenterTransition = Fade()
+                }
+                PopupTransitionType.ELEVATION -> {
+                    exitTransition = MaterialElevationScale(false)
+                    enterTransition = MaterialElevationScale(true)
+                    reenterTransition = MaterialElevationScale(false)
+                }
+                PopupTransitionType.SHARED_AXIS -> {
+                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+                    enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+                    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+                }
+                PopupTransitionType.THROUGH -> {
+                    exitTransition = MaterialFadeThrough()
+                    enterTransition = MaterialFadeThrough()
+                    reenterTransition = MaterialFadeThrough()
+                }
+            }
         } else {
             clearExitTransition()
             clearEnterTransition()
-        }
-
-        if (BehaviourPreferences.isArcAnimationOn()) {
-            sharedElementEnterTransition = DetailsTransitionArc(duration)
-            sharedElementReturnTransition = DetailsTransitionArc(duration)
         }
     }
 
@@ -157,24 +160,47 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         clearExitTransition()
     }
 
-    open fun setLinearTransitions(duration: Long) {
-
-        /**
-         * Animations are expensive, every time a view is added into the
-         * animating view transaction time will increase a little
-         * making the interaction a little bit slow.
-         */
-        if (BehaviourPreferences.isTransitionOn()) {
-            exitTransition = Fade()
-            enterTransition = Fade()
-        } else {
-            clearExitTransition()
-            clearEnterTransition()
-        }
+    open fun setArcTransitions(duration: Long) {
+        setTransitions()
 
         if (BehaviourPreferences.isArcAnimationOn()) {
-            sharedElementEnterTransition = DetailsTransition(duration)
-            sharedElementReturnTransition = DetailsTransition(duration)
+            sharedElementEnterTransition = MaterialContainerTransform().apply {
+                setDuration(500L)
+                setAllContainerColors(Color.TRANSPARENT)
+                scrimColor = Color.TRANSPARENT
+                setPathMotion(ArcMotion().apply {
+                    maximumAngle = this.maximumAngle
+                    minimumHorizontalAngle = this.minimumHorizontalAngle
+                    minimumVerticalAngle = this.minimumVerticalAngle
+                })
+            }
+            sharedElementReturnTransition = MaterialContainerTransform().apply {
+                setDuration(500L)
+                setAllContainerColors(Color.TRANSPARENT)
+                scrimColor = Color.TRANSPARENT
+                setPathMotion(ArcMotion().apply {
+                    maximumAngle = this.maximumAngle
+                    minimumHorizontalAngle = this.minimumHorizontalAngle
+                    minimumVerticalAngle = this.minimumVerticalAngle
+                })
+            }
+        }
+    }
+
+    open fun setLinearTransitions(duration: Long) {
+        setTransitions()
+
+        if (BehaviourPreferences.isArcAnimationOn()) {
+            sharedElementEnterTransition = MaterialContainerTransform().apply {
+                setDuration(500L)
+                setAllContainerColors(Color.TRANSPARENT)
+                scrimColor = Color.TRANSPARENT
+            }
+            sharedElementReturnTransition = MaterialContainerTransform().apply {
+                setDuration(500L)
+                setAllContainerColors(Color.TRANSPARENT)
+                scrimColor = Color.TRANSPARENT
+            }
         }
     }
 
@@ -249,7 +275,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * @param fragment [Fragment]
      * @param tag back stack tag for fragment
      */
-    protected fun openFragmentSlide(fragment: ScopedFragment, @Nullable tag: String? = null) {
+    protected fun openFragmentSlide(fragment: ScopedFragment, tag: String? = null) {
         clearExitTransition()
 
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
@@ -294,14 +320,15 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * @param tag back stack tag for fragment
      */
     protected fun openFragmentArc(fragment: ScopedFragment, icon: View, tag: String? = null, duration: Long? = null) {
-        fragment.setTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
+        fragment.setArcTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
 
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.setReorderingAllowed(true)
-        transaction.addSharedElement(icon, icon.transitionName)
-        transaction.replace(R.id.app_container, fragment, tag)
-        if (tag.isNotNull()) {
-            transaction.addToBackStack(tag)
+        val transaction = requireActivity().supportFragmentManager.beginTransaction().apply {
+            setReorderingAllowed(true)
+            addSharedElement(icon, icon.transitionName)
+            replace(R.id.app_container, fragment, tag)
+            if (tag.isNotNull()) {
+                addToBackStack(tag)
+            }
         }
         transaction.commit()
     }

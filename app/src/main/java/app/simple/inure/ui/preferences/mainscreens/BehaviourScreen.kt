@@ -12,6 +12,7 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.behavior.PopupDampingRatio
 import app.simple.inure.popups.behavior.PopupStiffness
+import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
 
 class BehaviourScreen : ScopedFragment() {
@@ -23,6 +24,7 @@ class BehaviourScreen : ScopedFragment() {
     private lateinit var marquee: SwitchView
     private lateinit var skipLoading: SwitchView
 
+    private lateinit var transitionType: DynamicRippleTextView
     private lateinit var dampingRatio: DynamicRippleTextView
     private lateinit var stiffness: DynamicRippleTextView
 
@@ -36,6 +38,7 @@ class BehaviourScreen : ScopedFragment() {
         marquee = view.findViewById(R.id.appearance_marquee_switch)
         skipLoading = view.findViewById(R.id.skip_loading_switch)
 
+        transitionType = view.findViewById(R.id.popup_transition_type)
         dampingRatio = view.findViewById(R.id.popup_damping_ratio)
         stiffness = view.findViewById(R.id.popup_stiffness)
 
@@ -54,6 +57,7 @@ class BehaviourScreen : ScopedFragment() {
         marquee.setChecked(BehaviourPreferences.isMarqueeOn())
         skipLoading.setChecked(BehaviourPreferences.isSkipLoadingMainScreenState())
 
+        setTransitionType()
         setDampingRatio()
         setStiffness()
 
@@ -77,6 +81,10 @@ class BehaviourScreen : ScopedFragment() {
             BehaviourPreferences.setMarquee(it)
         }
 
+        transitionType.setOnClickListener {
+            PopupTransitionType(it)
+        }
+
         dampingRatio.setOnClickListener {
             PopupDampingRatio(it)
         }
@@ -87,6 +95,16 @@ class BehaviourScreen : ScopedFragment() {
 
         skipLoading.setOnSwitchCheckedChangeListener {
             BehaviourPreferences.setSkipLoadingMainScreenState(it)
+        }
+    }
+
+    private fun setTransitionType() {
+        transitionType.text = when (BehaviourPreferences.getTransitionType()) {
+            PopupTransitionType.FADE -> getString(R.string.fade)
+            PopupTransitionType.ELEVATION -> getString(R.string.elevation)
+            PopupTransitionType.SHARED_AXIS -> getString(R.string.shared_axis)
+            PopupTransitionType.THROUGH -> getString(R.string.through)
+            else -> getString(R.string.unknown)
         }
     }
 
@@ -117,6 +135,9 @@ class BehaviourScreen : ScopedFragment() {
             }
             BehaviourPreferences.stiffness -> {
                 setStiffness()
+            }
+            BehaviourPreferences.transitionType -> {
+                setTransitionType()
             }
         }
     }

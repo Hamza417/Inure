@@ -36,9 +36,9 @@ renderer and a beautiful animation framework.
 Along with it own UI perks, Inure also supports dynamic Material You colors with split accent and
 theme color modes.
 
-Currently, the app is in beta testing stage. You can join the app's early beta testing
-from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure) and join the
-app's [Telegram Group](https://t.me/inure_app_manager) for development related discussions.
+Currently, the app is in beta testing stage. You can join app's early beta testing
+from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure) and
+its [Telegram Group](https://t.me/inure_app_manager) for development related discussions.
 
 ## Development Status
 

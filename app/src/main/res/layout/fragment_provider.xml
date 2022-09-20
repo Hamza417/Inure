@@ -16,6 +16,7 @@
         android:clipToPadding="false"
         android:orientation="horizontal"
         android:padding="@dimen/header_padding"
+        android:background="@android:color/white"
         android:translationZ="1dp">
 
         <app.simple.inure.decorations.theme.ThemeIcon

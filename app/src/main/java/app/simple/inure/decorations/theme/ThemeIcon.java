@@ -37,6 +37,9 @@ public class ThemeIcon extends AppCompatImageView implements ThemeChangedListene
     }
     
     private void init(AttributeSet attrs) {
+        if (isInEditMode()) {
+            return;
+        }
         TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ThemeIcon, 0, 0);
         tintMode = typedArray.getInteger(R.styleable.ThemeIcon_tintType, 0);
         setTintColor(tintMode, false);

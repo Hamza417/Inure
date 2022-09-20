@@ -14,6 +14,7 @@
         android:animateLayoutChanges="true"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:background="@android:color/white"
         android:orientation="horizontal"
         android:padding="@dimen/header_padding"
         android:translationZ="1dp">

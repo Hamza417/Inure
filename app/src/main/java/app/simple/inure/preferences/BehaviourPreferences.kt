@@ -1,6 +1,7 @@
 package app.simple.inure.preferences
 
 import androidx.dynamicanimation.animation.SpringForce
+import app.simple.inure.popups.behavior.PopupTransitionType
 
 object BehaviourPreferences {
 
@@ -11,6 +12,7 @@ object BehaviourPreferences {
     private const val marquee = "is_marquee_on"
     private const val skipLoading = "skip_main_loading_screen"
 
+    const val transitionType = "transition_type"
     const val stiffness = "scrolling_stiffness"
     const val dampingRatio = "scrolling_damping_ratio"
 
@@ -62,6 +64,16 @@ object BehaviourPreferences {
 
     fun isMarqueeOn(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(marquee, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setTransitionType(boolean: Int) {
+        SharedPreferences.getSharedPreferences().edit().putInt(transitionType, boolean).apply()
+    }
+
+    fun getTransitionType(): Int {
+        return SharedPreferences.getSharedPreferences().getInt(transitionType, PopupTransitionType.FADE)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
