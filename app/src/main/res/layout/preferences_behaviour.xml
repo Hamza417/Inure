@@ -336,7 +336,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/appearance_animation"
+                    android:id="@+id/arc_animation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -396,6 +396,74 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/arc_transitions_type_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingVertical="15dp"
+                    android:paddingStart="15dp"
+                    tools:ignore="RtlSymmetry">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/arc_transition_type_icon"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_animation"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/arc_transitions_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/arc_type"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/arc_transitions_type_desc"
+                        app:layout_constraintEnd_toStartOf="@+id/popup_arc_transition_type"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/arc_transition_type_icon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/arc_transitions_type_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/arc_type_desc"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/popup_arc_transition_type"
+                        app:layout_constraintStart_toEndOf="@+id/arc_transition_type_icon"
+                        app:layout_constraintTop_toBottomOf="@id/arc_transitions_title"
+                        app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                        android:id="@+id/popup_arc_transition_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ani_ic_unfold_popup"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dialog_padding"
+                        android:textSize="5pt"
+                        app:appFontStyle="regular"
+                        app:drawableTintStyle="accent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="tertiary" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

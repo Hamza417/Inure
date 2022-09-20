@@ -10,6 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupDampingRatio
 import app.simple.inure.popups.behavior.PopupStiffness
 import app.simple.inure.popups.behavior.PopupTransitionType
@@ -25,6 +26,7 @@ class BehaviourScreen : ScopedFragment() {
     private lateinit var skipLoading: SwitchView
 
     private lateinit var transitionType: DynamicRippleTextView
+    private lateinit var arcType: DynamicRippleTextView
     private lateinit var dampingRatio: DynamicRippleTextView
     private lateinit var stiffness: DynamicRippleTextView
 
@@ -39,6 +41,7 @@ class BehaviourScreen : ScopedFragment() {
         skipLoading = view.findViewById(R.id.skip_loading_switch)
 
         transitionType = view.findViewById(R.id.popup_transition_type)
+        arcType = view.findViewById(R.id.popup_arc_transition_type)
         dampingRatio = view.findViewById(R.id.popup_damping_ratio)
         stiffness = view.findViewById(R.id.popup_stiffness)
 
@@ -58,6 +61,7 @@ class BehaviourScreen : ScopedFragment() {
         skipLoading.setChecked(BehaviourPreferences.isSkipLoadingMainScreenState())
 
         setTransitionType()
+        setArcType()
         setDampingRatio()
         setStiffness()
 
@@ -85,6 +89,10 @@ class BehaviourScreen : ScopedFragment() {
             PopupTransitionType(it)
         }
 
+        arcType.setOnClickListener {
+            PopupArcType(it)
+        }
+
         dampingRatio.setOnClickListener {
             PopupDampingRatio(it)
         }
@@ -104,6 +112,14 @@ class BehaviourScreen : ScopedFragment() {
             PopupTransitionType.ELEVATION -> getString(R.string.elevation)
             PopupTransitionType.SHARED_AXIS -> getString(R.string.shared_axis)
             PopupTransitionType.THROUGH -> getString(R.string.through)
+            else -> getString(R.string.unknown)
+        }
+    }
+
+    private fun setArcType() {
+        arcType.text = when (BehaviourPreferences.getArcType()) {
+            PopupArcType.INURE -> getString(R.string.app_name)
+            PopupArcType.MATERIAL -> getString(R.string.material)
             else -> getString(R.string.unknown)
         }
     }
@@ -138,6 +154,9 @@ class BehaviourScreen : ScopedFragment() {
             }
             BehaviourPreferences.transitionType -> {
                 setTransitionType()
+            }
+            BehaviourPreferences.arcType -> {
+                setArcType()
             }
         }
     }

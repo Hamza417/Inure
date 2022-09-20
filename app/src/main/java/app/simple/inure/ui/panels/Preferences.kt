@@ -72,7 +72,7 @@ class Preferences : SearchBarScopedFragment() {
                      * Workaround for shared animation lag
                      */
                     var duration = 100L
-                    duration *= position
+                    duration += position * 60
                     duration = duration.coerceIn(500L, 800L)
 
                     when (category) {

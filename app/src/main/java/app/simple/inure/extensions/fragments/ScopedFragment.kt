@@ -20,6 +20,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning
+import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
@@ -27,10 +28,7 @@ import app.simple.inure.ui.app.AppInfo
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
 import app.simple.inure.util.NullSafety.isNotNull
-import com.google.android.material.transition.MaterialContainerTransform
-import com.google.android.material.transition.MaterialElevationScale
-import com.google.android.material.transition.MaterialFadeThrough
-import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.*
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -165,24 +163,38 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
         if (BehaviourPreferences.isArcAnimationOn()) {
             sharedElementEnterTransition = MaterialContainerTransform().apply {
-                setDuration(500L)
+                setDuration(duration)
                 setAllContainerColors(Color.TRANSPARENT)
                 scrimColor = Color.TRANSPARENT
-                setPathMotion(ArcMotion().apply {
-                    maximumAngle = this.maximumAngle
-                    minimumHorizontalAngle = this.minimumHorizontalAngle
-                    minimumVerticalAngle = this.minimumVerticalAngle
-                })
+                when (BehaviourPreferences.getArcType()) {
+                    PopupArcType.INURE -> {
+                        setPathMotion(ArcMotion().apply {
+                            maximumAngle = this.maximumAngle
+                            minimumHorizontalAngle = this.minimumHorizontalAngle
+                            minimumVerticalAngle = this.minimumVerticalAngle
+                        })
+                    }
+                    PopupArcType.MATERIAL -> {
+                        setPathMotion(MaterialArcMotion())
+                    }
+                }
             }
             sharedElementReturnTransition = MaterialContainerTransform().apply {
-                setDuration(500L)
+                setDuration(duration)
                 setAllContainerColors(Color.TRANSPARENT)
                 scrimColor = Color.TRANSPARENT
-                setPathMotion(ArcMotion().apply {
-                    maximumAngle = this.maximumAngle
-                    minimumHorizontalAngle = this.minimumHorizontalAngle
-                    minimumVerticalAngle = this.minimumVerticalAngle
-                })
+                when (BehaviourPreferences.getArcType()) {
+                    PopupArcType.INURE -> {
+                        setPathMotion(ArcMotion().apply {
+                            maximumAngle = this.maximumAngle
+                            minimumHorizontalAngle = this.minimumHorizontalAngle
+                            minimumVerticalAngle = this.minimumVerticalAngle
+                        })
+                    }
+                    PopupArcType.MATERIAL -> {
+                        setPathMotion(MaterialArcMotion())
+                    }
+                }
             }
         }
     }
@@ -192,12 +204,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
         if (BehaviourPreferences.isArcAnimationOn()) {
             sharedElementEnterTransition = MaterialContainerTransform().apply {
-                setDuration(500L)
+                setDuration(duration)
                 setAllContainerColors(Color.TRANSPARENT)
                 scrimColor = Color.TRANSPARENT
             }
             sharedElementReturnTransition = MaterialContainerTransform().apply {
-                setDuration(500L)
+                setDuration(duration)
                 setAllContainerColors(Color.TRANSPARENT)
                 scrimColor = Color.TRANSPARENT
             }

@@ -1,6 +1,7 @@
 package app.simple.inure.preferences
 
 import androidx.dynamicanimation.animation.SpringForce
+import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 
 object BehaviourPreferences {
@@ -13,6 +14,7 @@ object BehaviourPreferences {
     private const val skipLoading = "skip_main_loading_screen"
 
     const val transitionType = "transition_type"
+    const val arcType = "arc_type"
     const val stiffness = "scrolling_stiffness"
     const val dampingRatio = "scrolling_damping_ratio"
 
@@ -74,6 +76,16 @@ object BehaviourPreferences {
 
     fun getTransitionType(): Int {
         return SharedPreferences.getSharedPreferences().getInt(transitionType, PopupTransitionType.FADE)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setArcType(boolean: Int) {
+        SharedPreferences.getSharedPreferences().edit().putInt(arcType, boolean).apply()
+    }
+
+    fun getArcType(): Int {
+        return SharedPreferences.getSharedPreferences().getInt(arcType, PopupArcType.INURE)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

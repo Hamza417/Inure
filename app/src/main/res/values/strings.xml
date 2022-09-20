@@ -569,4 +569,6 @@
     <string name="through">Through</string>
     <string name="transition_type">Transition Type</string>
     <string name="transition_type_desc">Type of transition to be played when panel is switched.</string>
+    <string name="arc_type">Arc Type</string>
+    <string name="arc_type_desc">Type of arc to be used panel is switched.</string>
 </resources>
