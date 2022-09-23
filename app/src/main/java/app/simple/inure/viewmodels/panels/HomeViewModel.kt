@@ -126,7 +126,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
     private fun loadFrequentlyUsed() {
         viewModelScope.launch(Dispatchers.Default) {
             val stats = with(UsageInterval.getTimeInterval()) {
-                usageStatsManager.queryAndAggregateUsageStats(first, second)
+                usageStatsManager.queryAndAggregateUsageStats(startTime, endTime)
             }
 
             val apps = getApplication<Application>()

@@ -47,7 +47,7 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val stats: MutableList<UsageStats> = with(UsageInterval.getTimeInterval()) {
-                    usageStatsManager.queryUsageStats(StatisticsPreferences.getInterval(), first, second)
+                    usageStatsManager.queryUsageStats(StatisticsPreferences.getInterval(), startTime, endTime)
                 }
 
                 val p0 = stats.stream().filter {
@@ -61,6 +61,8 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
                 for (data in p0.indices) {
                     list.add(BarEntry(data.toFloat(), p0[data].totalTimeInForeground.toFloat()))
                 }
+
+                println(list.size)
 
                 totalUsedChartData.postValue(list)
             }.getOrElse {

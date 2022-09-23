@@ -137,9 +137,7 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         appInformation.setOnClickListener {
-            openFragmentSlide(
-                    Information.newInstance(packageInfo),
-                    "information")
+            openFragmentSlide(Information.newInstance(packageInfo), "information")
         }
 
         send.setOnClickListener {

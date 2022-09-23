@@ -106,6 +106,7 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
      * @param tag back stack tag for fragment
      */
     protected fun openFragmentSlide(fragment: ScopedFragment, @Nullable tag: String? = null) {
+        (parentFragment as ScopedFragment).clearReEnterTransition()
         (parentFragment as ScopedFragment).clearExitTransition()
 
         requireActivity().supportFragmentManager.beginTransaction()

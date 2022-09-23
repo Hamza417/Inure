@@ -11,7 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterNotes
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure
-import app.simple.inure.dialogs.menus.NotesMenu
+import app.simple.inure.dialogs.notes.NotesMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks

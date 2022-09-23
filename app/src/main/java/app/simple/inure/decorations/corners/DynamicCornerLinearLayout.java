@@ -26,6 +26,9 @@ public class DynamicCornerLinearLayout extends ThemeLinearLayout {
     }
     
     private void init(AttributeSet attributeSet) {
+        if (isInEditMode()) {
+            return;
+        }
         LayoutBackground.setBackground(getContext(), this, attributeSet);
         ViewUtils.INSTANCE.addShadow(this);
     }

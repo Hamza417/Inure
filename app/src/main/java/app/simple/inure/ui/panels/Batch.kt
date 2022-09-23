@@ -16,9 +16,9 @@ import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.DialogBatchSelectedApps
 import app.simple.inure.dialogs.menus.AppsMenu
-import app.simple.inure.dialogs.menus.BatchMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks

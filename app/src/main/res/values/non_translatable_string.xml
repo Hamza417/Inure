@@ -29,4 +29,5 @@
     <string name="hide_preferences_indicators" translatable="false">Hide Preferences Indicators</string>
     <string name="use_webview_xml_viewer" translatable="false"><strike>Use WebView Xml Viewer</strike></string>
     <string name="material">Material</string>
+    <string name="android">Android</string>
 </resources>

@@ -11,6 +11,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.transition.ArcMotion
@@ -111,6 +112,10 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         enterTransition = null
     }
 
+    internal fun clearReEnterTransition() {
+        reenterTransition = null
+    }
+
     /**
      * Sets fragment transitions prior to creating a new fragment.
      * Used with shared elements
@@ -148,14 +153,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                 }
             }
         } else {
-            clearExitTransition()
-            clearEnterTransition()
+            clearTransitions()
         }
     }
 
     private fun clearTransitions() {
         clearEnterTransition()
         clearExitTransition()
+        clearReEnterTransition()
     }
 
     open fun setArcTransitions(duration: Long) {
@@ -259,7 +264,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     open fun openWebPage(source: String) {
-        clearExitTransition()
+        clearTransitions()
         openFragmentSlide(WebPage.newInstance(string = source), "web_page")
     }
 
@@ -274,7 +279,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         return requireActivity().packageManager
     }
 
-    protected fun getInteger(resId: Int): Int {
+    protected fun getInteger(@IntegerRes resId: Int): Int {
         return resources.getInteger(resId)
     }
 
@@ -288,7 +293,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * @param tag back stack tag for fragment
      */
     protected fun openFragmentSlide(fragment: ScopedFragment, tag: String? = null) {
-        clearExitTransition()
+        clearTransitions()
 
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         transaction.setReorderingAllowed(true)

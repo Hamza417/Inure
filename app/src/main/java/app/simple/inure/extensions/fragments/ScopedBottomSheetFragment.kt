@@ -8,7 +8,6 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.FrameLayout
-import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.dialogs.miscellaneous.Error
@@ -139,7 +138,8 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
      * @param fragment [Fragment]
      * @param tag back stack tag for fragment
      */
-    protected fun openFragmentSlide(fragment: ScopedFragment, @Nullable tag: String? = null) {
+    protected fun openFragmentSlide(fragment: ScopedFragment, tag: String? = null) {
+        (parentFragment as ScopedFragment).clearReEnterTransition()
         (parentFragment as ScopedFragment).clearExitTransition()
 
         requireActivity().supportFragmentManager.beginTransaction()

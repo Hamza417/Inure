@@ -1,19 +1,20 @@
 package app.simple.inure.preferences
 
 import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.popups.usagestats.PopupUsageStatsEngine
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.SortUsageStats
 import app.simple.inure.util.UsageInterval
-import org.jetbrains.annotations.NotNull
 
 object StatisticsPreferences {
 
     const val appsCategory = "stats_app_category"
-    const val statsInterval = "usage_stats_intervals"
+    const val statsInterval = "usage_stats_interval"
     const val statsSorting = "stats_sorted_by"
     const val isSortingReversed = "stats_is_sorting_reversed"
     const val isUnusedHidden = "are_unused_app_hidden"
     const val limitHours = "limits_stats_to_hours"
+    const val statsEngine = "usage_stats_engine"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -21,7 +22,7 @@ object StatisticsPreferences {
         getSharedPreferences().edit().putInt(statsInterval, value).apply()
     }
 
-    fun getInterval(): Int {
+    fun getInterval(): @UsageInterval.IntervalType Int {
         return getSharedPreferences().getInt(statsInterval, UsageInterval.WEEKlY)
     }
 
@@ -37,7 +38,17 @@ object StatisticsPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setReverseSorting(@NotNull value: Boolean) {
+    fun setEngine(value: String) {
+        getSharedPreferences().edit().putString(statsEngine, value).apply()
+    }
+
+    fun getEngine(): String {
+        return getSharedPreferences().getString(statsEngine, PopupUsageStatsEngine.INURE)!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setReverseSorting(value: Boolean) {
         getSharedPreferences().edit().putBoolean(isSortingReversed, value).apply()
     }
 
@@ -57,7 +68,7 @@ object StatisticsPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setUnusedAppState(@NotNull value: Boolean) {
+    fun setUnusedAppState(value: Boolean) {
         getSharedPreferences().edit().putBoolean(isUnusedHidden, value).apply()
     }
 
@@ -67,7 +78,7 @@ object StatisticsPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setLimitToHours(@NotNull value: Boolean) {
+    fun setLimitToHours(value: Boolean) {
         getSharedPreferences().edit().putBoolean(limitHours, value).apply()
     }
 

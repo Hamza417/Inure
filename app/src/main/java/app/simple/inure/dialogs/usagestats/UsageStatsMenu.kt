@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.menus
+package app.simple.inure.dialogs.usagestats
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -10,11 +10,13 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.usagestats.PopupUsageIntervals
+import app.simple.inure.popups.usagestats.PopupUsageStatsEngine
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.UsageInterval
 
 class UsageStatsMenu : ScopedBottomSheetFragment() {
 
+    private lateinit var engine: DynamicRippleTextView
     private lateinit var settings: DynamicRippleTextView
     private lateinit var interval: DynamicRippleTextView
     private lateinit var unusedAppsToggle: SwitchView
@@ -23,6 +25,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_usage_settings, container, false)
 
+        engine = view.findViewById(R.id.popup_usage_engine)
         settings = view.findViewById(R.id.dialog_open_apps_settings)
         interval = view.findViewById(R.id.popup_interval)
         unusedAppsToggle = view.findViewById(R.id.hide_unused_switch)
@@ -35,8 +38,13 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setIntervalText()
+        setEngineText()
         unusedAppsToggle.setChecked(StatisticsPreferences.areUnusedAppHidden())
         limitToHours.setChecked(StatisticsPreferences.isLimitToHours())
+
+        engine.setOnClickListener {
+            PopupUsageStatsEngine(it)
+        }
 
         interval.setOnClickListener {
             PopupUsageIntervals(it)
@@ -65,10 +73,21 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         }
     }
 
+    private fun setEngineText() {
+        engine.text = when (StatisticsPreferences.getEngine()) {
+            PopupUsageStatsEngine.INURE -> getString(R.string.app_name)
+            PopupUsageStatsEngine.ANDROID -> getString(R.string.android)
+            else -> getString(R.string.unknown)
+        }
+    }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             StatisticsPreferences.statsInterval -> {
                 setIntervalText()
+            }
+            StatisticsPreferences.statsEngine -> {
+                setEngineText()
             }
         }
     }

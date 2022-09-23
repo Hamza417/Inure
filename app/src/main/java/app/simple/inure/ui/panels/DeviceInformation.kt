@@ -15,6 +15,9 @@ import app.simple.inure.ui.deviceinfo.DeviceInfo
 import app.simple.inure.ui.deviceinfo.SystemInfo
 import app.simple.inure.viewmodels.deviceinfo.PanelItemsViewModel
 
+/**
+ * This feature is removed from the app
+ */
 class DeviceInformation : ScopedFragment() {
 
     private lateinit var panels: CustomVerticalRecyclerView

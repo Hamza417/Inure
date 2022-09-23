@@ -17,6 +17,45 @@
         android:padding="@dimen/dialog_padding">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/usage_statistics_engine"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/popup_usage_engine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawableEnd="@drawable/ani_ic_unfold_popup"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dialog_padding"
+                android:textSize="5pt"
+                app:appFontStyle="regular"
+                app:drawableTintMode="src_in"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="tertiary" />
+
+        </LinearLayout>
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="@dimen/dialog_padding"
+            android:layout_marginVertical="@dimen/dialog_padding" />
+
+        <LinearLayout
             android:id="@+id/dialog_interval_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

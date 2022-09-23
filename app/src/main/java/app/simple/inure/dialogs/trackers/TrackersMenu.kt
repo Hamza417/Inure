@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.menus
+package app.simple.inure.dialogs.trackers
 
 import android.os.Bundle
 import android.view.LayoutInflater

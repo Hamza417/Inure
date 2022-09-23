@@ -56,10 +56,10 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
             holder.icon.transitionName = "stats_app_$position"
             holder.icon.loadAppIcon(list[position].packageInfo!!.packageName)
             holder.name.text = list[position].packageInfo!!.applicationInfo.name
-            holder.dataUp.text = list[position].dataSent.toSize()
-            holder.dataDown.text = list[position].dataReceived.toSize()
-            holder.wifiUp.text = list[position].dataSentWifi.toSize()
-            holder.wifiDown.text = list[position].dataReceivedWifi.toSize()
+            holder.dataUp.text = list[position].mobileData?.tx?.toSize()
+            holder.dataDown.text = list[position].mobileData?.rx?.toSize()
+            holder.wifiUp.text = list[position].wifiData?.tx?.toSize()
+            holder.wifiDown.text = list[position].wifiData?.rx?.toSize()
 
             holder.name.setStrikeThru(list[position].packageInfo?.applicationInfo?.enabled ?: false)
 

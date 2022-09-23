@@ -31,4 +31,8 @@ object PermissionUtils {
 
         return mode == AppOpsManagerCompat.MODE_ALLOWED
     }
+
+    fun hasPermission(context: Context?, permissionName: String?): Boolean {
+        return ContextCompat.checkSelfPermission(context!!, permissionName!!) == PackageManager.PERMISSION_GRANTED
+    }
 }

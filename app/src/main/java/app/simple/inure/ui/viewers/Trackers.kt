@@ -14,7 +14,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.menus.TrackersMenu
+import app.simple.inure.dialogs.trackers.TrackersMenu
 import app.simple.inure.dialogs.trackers.TrackersMessage
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory

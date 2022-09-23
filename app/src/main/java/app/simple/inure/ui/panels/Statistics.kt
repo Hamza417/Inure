@@ -14,7 +14,7 @@ import app.simple.inure.adapters.ui.AdapterUsageStats
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
-import app.simple.inure.dialogs.menus.UsageStatsMenu
+import app.simple.inure.dialogs.usagestats.UsageStatsMenu
 import app.simple.inure.dialogs.usagestats.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
@@ -27,7 +27,7 @@ import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 class Statistics : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var adapterUsageStats: AdapterUsageStats
+    private var adapterUsageStats: AdapterUsageStats? = null
     private lateinit var usageStatsViewModel: UsageStatsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,7 +50,7 @@ class Statistics : ScopedFragment() {
 
             dialog.setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
                 override fun onClosedAfterGrant() {
-                    adapterUsageStats.enableLoader()
+                    adapterUsageStats?.enableLoader()
                     usageStatsViewModel.loadAppStats()
                 }
             })
@@ -64,7 +64,7 @@ class Statistics : ScopedFragment() {
 
             adapterUsageStats = AdapterUsageStats(it)
 
-            adapterUsageStats.setOnStatsCallbackListener(object : AppsAdapterCallbacks {
+            adapterUsageStats?.setOnStatsCallbackListener(object : AppsAdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
@@ -104,7 +104,9 @@ class Statistics : ScopedFragment() {
         when (key) {
             StatisticsPreferences.statsInterval,
             StatisticsPreferences.isUnusedHidden,
-            StatisticsPreferences.appsCategory -> {
+            StatisticsPreferences.appsCategory,
+            StatisticsPreferences.statsEngine -> {
+                adapterUsageStats?.enableLoader()
                 usageStatsViewModel.loadAppStats()
             }
             StatisticsPreferences.isSortingReversed,
@@ -113,7 +115,7 @@ class Statistics : ScopedFragment() {
             }
             StatisticsPreferences.limitHours -> {
                 handler.postDelayed(
-                        { adapterUsageStats.notifyAllData() }, 500)
+                        { adapterUsageStats?.notifyAllData() }, 500)
             }
         }
     }
