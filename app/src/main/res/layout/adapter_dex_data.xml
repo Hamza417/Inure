@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adapter_permissions_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/adapter_permissions_container"
-    android:padding="@dimen/header_padding"
+    android:layout_marginHorizontal="@dimen/header_padding"
     android:layout_marginVertical="5dp"
-    android:layout_marginHorizontal="@dimen/header_padding">
+    android:orientation="vertical"
+    android:padding="@dimen/header_padding">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_permissions_class_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        app:textColorStyle="primary"
         android:textSize="16sp"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_dex_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:textColorStyle="accent"
         android:textSize="14sp"
-        app:appFontStyle="regular" />
+        app:appFontStyle="regular"
+        app:textColorStyle="accent" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_dex_package_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:textColorStyle="tertiary"
-        android:textSize="14sp"
         android:layout_marginVertical="5dp"
-        app:appFontStyle="regular" />
+        android:textSize="14sp"
+        app:appFontStyle="regular"
+        app:textColorStyle="tertiary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_permissions_super_class"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:textColorStyle="tertiary"
         android:textSize="14sp"
-        app:appFontStyle="regular" />
+        app:appFontStyle="regular"
+        app:textColorStyle="tertiary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

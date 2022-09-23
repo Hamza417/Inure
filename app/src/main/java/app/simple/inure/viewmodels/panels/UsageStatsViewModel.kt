@@ -273,27 +273,25 @@ class UsageStatsViewModel(application: Application) : WrappedViewModel(applicati
     private fun getDataUsageForNetwork(@Transport networkType: Int, @UsageInterval.IntervalType intervalType: Int): SparseArrayCompat<DataUsage> {
         val dataUsageSparseArray = SparseArrayCompat<DataUsage>()
         val range: UsageInterval.UsageInterval = UsageInterval.getTimeInterval(intervalType)
-        val subscriberIds: List<String?> = getSubscriberIds(context, networkType)
-        val bucket = NetworkStats.Bucket()
-        for (subscriberId in subscriberIds) {
-            try {
-                networkStatsManager.querySummary(networkType, subscriberId, range.startTime, range.endTime).use { networkStats ->
-                    if (networkStats != null) {
-                        while (networkStats.hasNextBucket()) {
-                            networkStats.getNextBucket(bucket)
-                            var dataUsage = dataUsageSparseArray[bucket.uid]
-                            dataUsage = if (dataUsage != null) {
-                                DataUsage(bucket.txBytes + dataUsage.tx, bucket.rxBytes + dataUsage.rx)
-                            } else {
-                                DataUsage(bucket.txBytes, bucket.rxBytes)
-                            }
-                            dataUsageSparseArray.put(bucket.uid, dataUsage)
+        // val subscriberIds: List<String?> = getSubscriberIds(context, networkType)
+        try {
+            val bucket = NetworkStats.Bucket()
+            networkStatsManager.querySummary(networkType, null, range.startTime, range.endTime).use { networkStats ->
+                if (networkStats != null) {
+                    while (networkStats.hasNextBucket()) {
+                        networkStats.getNextBucket(bucket)
+                        var dataUsage = dataUsageSparseArray[bucket.uid]
+                        dataUsage = if (dataUsage != null) {
+                            DataUsage(bucket.txBytes + dataUsage.tx, bucket.rxBytes + dataUsage.rx)
+                        } else {
+                            DataUsage(bucket.txBytes, bucket.rxBytes)
                         }
+                        dataUsageSparseArray.put(bucket.uid, dataUsage)
                     }
                 }
-            } catch (e: RemoteException) {
-                e.printStackTrace()
             }
+        } catch (e: RemoteException) {
+            e.printStackTrace()
         }
         return dataUsageSparseArray
     }
