@@ -18,6 +18,7 @@ import androidx.transition.ArcMotion
 import androidx.transition.Fade
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning
@@ -96,6 +97,9 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             BehaviourPreferences.transitionType -> {
                 setTransitions()
             }
+            BehaviourPreferences.arcType -> {
+                setArcTransitions(resources.getInteger(R.integer.animation_duration).toLong())
+            }
         }
     }
 
@@ -167,38 +171,46 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         setTransitions()
 
         if (BehaviourPreferences.isArcAnimationOn()) {
-            sharedElementEnterTransition = MaterialContainerTransform().apply {
-                setDuration(duration)
-                setAllContainerColors(Color.TRANSPARENT)
-                scrimColor = Color.TRANSPARENT
-                when (BehaviourPreferences.getArcType()) {
-                    PopupArcType.INURE -> {
+            when (BehaviourPreferences.getArcType()) {
+                PopupArcType.INURE -> {
+                    sharedElementEnterTransition = MaterialContainerTransform().apply {
+                        setDuration(duration)
+                        setAllContainerColors(Color.TRANSPARENT)
+                        scrimColor = Color.TRANSPARENT
                         setPathMotion(ArcMotion().apply {
                             maximumAngle = this.maximumAngle
                             minimumHorizontalAngle = this.minimumHorizontalAngle
                             minimumVerticalAngle = this.minimumVerticalAngle
                         })
                     }
-                    PopupArcType.MATERIAL -> {
+                    sharedElementReturnTransition = MaterialContainerTransform().apply {
+                        setDuration(duration)
+                        setAllContainerColors(Color.TRANSPARENT)
+                        scrimColor = Color.TRANSPARENT
+                        setPathMotion(ArcMotion().apply {
+                            maximumAngle = this.maximumAngle
+                            minimumHorizontalAngle = this.minimumHorizontalAngle
+                            minimumVerticalAngle = this.minimumVerticalAngle
+                        })
+                    }
+                }
+                PopupArcType.MATERIAL -> {
+                    sharedElementEnterTransition = MaterialContainerTransform().apply {
+                        setDuration(duration)
+                        setAllContainerColors(Color.TRANSPARENT)
+                        scrimColor = Color.TRANSPARENT
+                        setPathMotion(MaterialArcMotion())
+                    }
+                    sharedElementReturnTransition = MaterialContainerTransform().apply {
+                        setDuration(duration)
+                        setAllContainerColors(Color.TRANSPARENT)
+                        scrimColor = Color.TRANSPARENT
                         setPathMotion(MaterialArcMotion())
                     }
                 }
-            }
-            sharedElementReturnTransition = MaterialContainerTransform().apply {
-                setDuration(duration)
-                setAllContainerColors(Color.TRANSPARENT)
-                scrimColor = Color.TRANSPARENT
-                when (BehaviourPreferences.getArcType()) {
-                    PopupArcType.INURE -> {
-                        setPathMotion(ArcMotion().apply {
-                            maximumAngle = this.maximumAngle
-                            minimumHorizontalAngle = this.minimumHorizontalAngle
-                            minimumVerticalAngle = this.minimumVerticalAngle
-                        })
-                    }
-                    PopupArcType.MATERIAL -> {
-                        setPathMotion(MaterialArcMotion())
-                    }
+                PopupArcType.LEGACY -> {
+                    sharedElementEnterTransition = DetailsTransitionArc()
+                    sharedElementReturnTransition = DetailsTransitionArc()
                 }
             }
         }
@@ -237,7 +249,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         val p0 = Warning.newInstance(warning)
         p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
             override fun onDismiss() {
-                requireActivity().onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         })
         p0.show(childFragmentManager, "warning")
@@ -247,7 +259,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         val p0 = Warning.newInstance(warning)
         p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
             override fun onDismiss() {
-                requireActivity().onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         })
         p0.show(childFragmentManager, "warning")
@@ -258,7 +270,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         e.show(childFragmentManager, "error_dialog")
         e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
             override fun onDismiss() {
-                requireActivity().onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         })
     }

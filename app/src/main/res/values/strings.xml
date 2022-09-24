@@ -572,4 +572,5 @@
     <string name="arc_type">Arc Type</string>
     <string name="arc_type_desc">Type of arc to be used panel is switched.</string>
     <string name="usage_statistics_engine">Usage Statistics Engine</string>
+    <string name="legacy">Legacy</string>
 </resources>

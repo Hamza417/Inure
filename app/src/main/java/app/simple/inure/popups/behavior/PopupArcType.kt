@@ -13,19 +13,23 @@ class PopupArcType(view: View) : BasePopupWindow() {
 
     private val inure: DynamicRippleTextView
     private val material: DynamicRippleTextView
+    private val legacy: DynamicRippleTextView
 
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_arc_type, PopupLinearLayout(view.context))
 
         inure = contentView.findViewById(R.id.popup_inure)
         material = contentView.findViewById(R.id.popup_material)
+        legacy = contentView.findViewById(R.id.popup_legacy)
 
         inure.onClick(INURE)
         material.onClick(MATERIAL)
+        legacy.onClick(LEGACY)
 
         when (BehaviourPreferences.getArcType()) {
             INURE -> inure.isSelected = true
             MATERIAL -> material.isSelected = true
+            LEGACY -> legacy.isSelected = true
         }
 
         init(contentView, view)
@@ -41,5 +45,6 @@ class PopupArcType(view: View) : BasePopupWindow() {
     companion object {
         const val INURE = 0
         const val MATERIAL = 1
+        const val LEGACY = 2
     }
 }

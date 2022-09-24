@@ -120,6 +120,7 @@ class BehaviourScreen : ScopedFragment() {
         arcType.text = when (BehaviourPreferences.getArcType()) {
             PopupArcType.INURE -> getString(R.string.app_name)
             PopupArcType.MATERIAL -> getString(R.string.material)
+            PopupArcType.LEGACY -> getString(R.string.legacy)
             else -> getString(R.string.unknown)
         }
     }

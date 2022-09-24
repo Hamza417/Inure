@@ -13,41 +13,63 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build40</h2>
+<h2>Build41</h2>
 
 <!-- Write change logs here -->
 
 <h4>User Interface</h4>
 
 <ul>
-    <li>Added new transition animations to add more natural motion to the how things move in the
-        app.
-    </li>
-    <li>Added option to change transition type in <b>Behaviour</b> panel.</li>
-    <li>Added option to change arc type in <b>Behaviour</b> panel.</li>
-    <li>Added a native crash handler to record the traces.
-        <sub><b>How it works?</b> -> When the app crashes the crash handler will record the trace of
-            the error and will show it to user before the app's next launch and allow them to send
-            the logs if user deems it necessary or close it. It won't have any impact on user
-            experience and the reports will show over the top of the main app so any internal app
-            process won't be blocked either.</sub>
-    </li>
-</ul>
-
-<h4>Bug Fixes</h4>
-
-<ul>
-    <li>Fixed list getting loaded two times in <b>Search</b> panel causing animations to break.</li>
-    <li>Fixed <i>Operations</i> showing in non root mode.</li>
-</ul>
-
-<h4>Usage Stats</h4>
-
-<ul>
-    <li>Added two separate usage stats engines for fetching usage stats for the apps.</li>
+    <li>Added <i>Legacy</i> transitions back to reuse the old code base.</li>
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input id="build_40" class="toggle" type="checkbox">
+    <label for="build_40" class="lbl-toggle">Build40</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added new transition animations to add more natural motion to the how things
+                    move in the
+                    app.
+                </li>
+                <li>Added option to change transition type in <b>Behaviour</b> panel.</li>
+                <li>Added option to change arc type in <b>Behaviour</b> panel.</li>
+                <li>Added a native crash handler to record the traces.
+                    <sub><b>How it works?</b> -> When the app crashes the crash handler will record
+                        the trace of
+                        the error and will show it to user before the app's next launch and allow
+                        them to send
+                        the logs if user deems it necessary or close it. It won't have any impact on
+                        user
+                        experience and the reports will show over the top of the main app so any
+                        internal app
+                        process won't be blocked either.</sub>
+                </li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed list getting loaded two times in <b>Search</b> panel causing animations to
+                    break.
+                </li>
+                <li>Fixed <i>Operations</i> showing in non root mode.</li>
+            </ul>
+
+            <h4>Usage Stats</h4>
+
+            <ul>
+                <li>Added two separate usage stats engines for fetching usage stats for the apps.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input id="build_39" class="toggle" type="checkbox">

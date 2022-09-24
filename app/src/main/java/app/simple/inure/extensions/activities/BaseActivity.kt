@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.transition.ArcMotion
 import android.transition.Fade
 import android.view.Window
 import android.view.WindowManager
@@ -21,7 +22,10 @@ import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.R
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.popups.behavior.PopupArcType
+import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.preferences.ShellPreferences.getHomePath
@@ -34,6 +38,7 @@ import app.simple.inure.util.ContextUtils
 import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.ThemeUtils.setTheme
+import com.google.android.material.transition.platform.*
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.content.SharedPreferences.OnSharedPreferenceChangeListener {
@@ -45,8 +50,6 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             presetMaterialYouDynamicColors()
 
@@ -58,14 +61,14 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         ThemeUtils.setAppTheme(resources)
 
         with(window) {
-            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-            sharedElementEnterTransition = DetailsTransitionArc()
-            sharedElementReturnTransition = DetailsTransitionArc()
-            enterTransition = Fade()
-            exitTransition = Fade()
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
+            window.sharedElementsUseOverlay = false
+            setTransitions()
+            setArc()
         }
 
+        super.onCreate(savedInstanceState)
         setTheme()
         setContentView(R.layout.activity_main)
 
@@ -98,6 +101,90 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         val defValue = getDir("HOME", MODE_PRIVATE).absolutePath
         val homePath = getHomePath(defValue)
         setHomePath(homePath!!)
+    }
+
+    private fun setTransitions() {
+        with(window) {
+            if (BehaviourPreferences.isTransitionOn()) {
+                when (BehaviourPreferences.getTransitionType()) {
+                    PopupTransitionType.FADE -> {
+                        exitTransition = Fade()
+                        enterTransition = Fade()
+                        reenterTransition = Fade()
+                    }
+                    PopupTransitionType.ELEVATION -> {
+                        exitTransition = MaterialElevationScale(false)
+                        enterTransition = MaterialElevationScale(true)
+                        reenterTransition = MaterialElevationScale(false)
+                    }
+                    PopupTransitionType.SHARED_AXIS -> {
+                        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+                        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+                        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+                    }
+                    PopupTransitionType.THROUGH -> {
+                        exitTransition = MaterialFadeThrough()
+                        enterTransition = MaterialFadeThrough()
+                        reenterTransition = MaterialFadeThrough()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setArc() {
+        setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+
+        with(window) {
+            if (BehaviourPreferences.isArcAnimationOn()) {
+                when (BehaviourPreferences.getArcType()) {
+                    PopupArcType.INURE -> {
+                        sharedElementEnterTransition = MaterialContainerTransform().apply {
+                            duration = resources.getInteger(R.integer.animation_duration).toLong()
+                            setAllContainerColors(Color.TRANSPARENT)
+                            scrimColor = Color.TRANSPARENT
+                            addTarget(android.R.id.content)
+                            pathMotion = ArcMotion().apply {
+                                maximumAngle = this.maximumAngle
+                                minimumHorizontalAngle = this.minimumHorizontalAngle
+                                minimumVerticalAngle = this.minimumVerticalAngle
+                            }
+                        }
+                        sharedElementReturnTransition = MaterialContainerTransform().apply {
+                            duration = resources.getInteger(R.integer.animation_duration).toLong()
+                            setAllContainerColors(Color.TRANSPARENT)
+                            scrimColor = Color.TRANSPARENT
+                            addTarget(android.R.id.content)
+                            pathMotion = ArcMotion().apply {
+                                maximumAngle = this.maximumAngle
+                                minimumHorizontalAngle = this.minimumHorizontalAngle
+                                minimumVerticalAngle = this.minimumVerticalAngle
+                            }
+                        }
+                    }
+                    PopupArcType.MATERIAL -> {
+                        sharedElementEnterTransition = MaterialContainerTransform().apply {
+                            duration = resources.getInteger(R.integer.animation_duration).toLong()
+                            setAllContainerColors(Color.TRANSPARENT)
+                            scrimColor = Color.TRANSPARENT
+                            addTarget(android.R.id.content)
+                            pathMotion = MaterialArcMotion()
+                        }
+                        sharedElementReturnTransition = MaterialContainerTransform().apply {
+                            duration = resources.getInteger(R.integer.animation_duration).toLong()
+                            setAllContainerColors(Color.TRANSPARENT)
+                            scrimColor = Color.TRANSPARENT
+                            addTarget(android.R.id.content)
+                            pathMotion = MaterialArcMotion()
+                        }
+                    }
+                    PopupArcType.LEGACY -> {
+                        sharedElementEnterTransition = DetailsTransitionArc()
+                        sharedElementReturnTransition = DetailsTransitionArc()
+                    }
+                }
+            }
+        }
     }
 
     private fun makeAppFullScreen() {
@@ -189,6 +276,12 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             AppearancePreferences.accentColor,
             AppearancePreferences.accentOnNav -> {
                 setNavColor()
+            }
+            BehaviourPreferences.arcType -> {
+                setArc()
+            }
+            BehaviourPreferences.transitionType -> {
+                setTransitions()
             }
         }
     }

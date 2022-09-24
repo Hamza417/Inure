@@ -12,7 +12,6 @@
         android:id="@+id/popup_inure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/lato_bold"
@@ -28,11 +27,24 @@
         android:id="@+id/popup_material"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/popup_item_gap_length"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
         android:fontFamily="@font/lato_bold"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/material"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_legacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/legacy"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold"
         app:textColorStyle="primary" />
