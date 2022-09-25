@@ -559,4 +559,17 @@
     <string name="operations">作業</string>
     <string name="native_libraries_dir">原生程式庫目錄</string>
     <string name="queued">已佇列</string>
+    <string name="install">安裝</string>
+    <string name="update">更新</string>
+    <string name="serial_number">序號</string>
+    <string name="subject">標題</string>
+    <string name="the_app_has_crashed">應用程式已當機！</string>
+    <string name="fade">淡入</string>
+    <string name="elevation">高度</string>
+    <string name="shared_axis">已共用的座標軸</string>
+    <string name="through">穿過</string>
+    <string name="transition_type">轉換類型</string>
+    <string name="transition_type_desc">轉換類型將在切換面板時體現</string>
+    <string name="arc_type">弧形類型</string>
+    <string name="arc_type_desc">弧形類型將在切換面板時使用</string>
 </resources>
