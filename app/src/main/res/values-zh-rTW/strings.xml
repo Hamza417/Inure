@@ -572,4 +572,6 @@
     <string name="transition_type_desc">轉換類型將在切換面板時體現</string>
     <string name="arc_type">弧形類型</string>
     <string name="arc_type_desc">弧形類型將在切換面板時使用</string>
+    <string name="usage_statistics_engine">使用量統計資料引擎</string>
+    <string name="legacy">舊版</string>
 </resources>
