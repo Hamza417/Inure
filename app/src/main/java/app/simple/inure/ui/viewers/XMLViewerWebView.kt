@@ -26,7 +26,6 @@ import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
 import java.io.IOException
 
-
 class XMLViewerWebView : ScopedFragment() {
 
     private lateinit var manifest: XmlWebView
@@ -67,11 +66,8 @@ class XMLViewerWebView : ScopedFragment() {
 
         manifest.enableWithWebClient()
 
-        packageInfo = requireArguments().getParcelable("application_info")!!
-
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean("is_manifest"),
-                                                           requireArguments().getString("path_to_xml")!!,
-                                                           requireArguments().putBoolean(BundleConstants.isRaw)!!)
+                                                           requireArguments().getString("path_to_xml")!!)
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)
 
@@ -121,11 +117,11 @@ class XMLViewerWebView : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo, isManifest: Boolean, pathToXml: String?): XMLViewerWebView {
+        fun newInstance(packageInfo: PackageInfo, isManifest: Boolean, pathToXml: String?): XMLViewerWebView {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
-            args.putBoolean("is_manifest", isManifest)
-            args.putString("path_to_xml", pathToXml)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putBoolean(BundleConstants.isManifest, isManifest)
+            args.putString(BundleConstants.pathToXml, pathToXml)
             val fragment = XMLViewerWebView()
             fragment.arguments = args
             return fragment

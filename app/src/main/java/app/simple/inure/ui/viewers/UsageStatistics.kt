@@ -67,18 +67,20 @@ class UsageStatistics : ScopedFragment() {
     }
 
     private fun observeData() {
-        appStatisticsViewModel.getTotalUsedChartData().observe(viewLifecycleOwner) {
+        appStatisticsViewModel.getUsageData().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             val adapterAppUsageStats = AdapterAppUsageStats(it)
             recyclerView.adapter = adapterAppUsageStats
         }
 
-        appStatisticsViewModel.getTotalAppSize().observe(requireActivity()) {
-
+        appStatisticsViewModel.error.observe(viewLifecycleOwner) {
+            loader.gone(animate = true)
+            showError(it)
         }
 
-        appStatisticsViewModel.error.observe(viewLifecycleOwner) {
-            showError(it)
+        appStatisticsViewModel.warning.observe(viewLifecycleOwner) {
+            loader.gone(animate = true)
+            showWarning(it)
         }
     }
 

@@ -77,7 +77,7 @@ class XMLViewerTextView : ScopedFragment() {
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo,
                                                            requireArguments().getBoolean(BundleConstants.isManifest),
                                                            requireArguments().getString(BundleConstants.pathToXml)!!,
-                                                           requireArguments().putBoolean(BundleConstants.isRaw, false))
+                                                           requireArguments().getBoolean(BundleConstants.isRaw, false))
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory)[XMLViewerViewModel::class.java]
 
@@ -134,7 +134,7 @@ class XMLViewerTextView : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, isManifest: Boolean, pathToXml: String?, isRaw: Boolean): XMLViewerTextView {
+        fun newInstance(packageInfo: PackageInfo, isManifest: Boolean, pathToXml: String?, isRaw: Boolean = false): XMLViewerTextView {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putBoolean(BundleConstants.isManifest, isManifest)

@@ -12,6 +12,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.PackageStats
+import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.DateUtils.toDate
 import java.util.concurrent.TimeUnit
 
@@ -138,7 +139,11 @@ class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        return packageStats.appUsage?.size?.plus(1) ?: 0
+        return if (packageStats.appUsage?.size?.isNotZero() == true) {
+            packageStats.appUsage?.size?.plus(1) ?: 0
+        } else {
+            0
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

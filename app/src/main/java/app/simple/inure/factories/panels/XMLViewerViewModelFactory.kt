@@ -6,7 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
 
-class XMLViewerViewModelFactory(val packageInfo: PackageInfo, private val isManifest: Boolean, private val pathToXml: String, raw: Boolean)
+class XMLViewerViewModelFactory(val packageInfo: PackageInfo,
+                                private val isManifest: Boolean,
+                                private val pathToXml: String,
+                                private val isRaw: Boolean = false)
+
     : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
@@ -15,7 +19,7 @@ class XMLViewerViewModelFactory(val packageInfo: PackageInfo, private val isMani
         @Suppress("UNCHECKED_CAST") // Cast is checked
         when {
             modelClass.isAssignableFrom(XMLViewerViewModel::class.java) -> {
-                return XMLViewerViewModel(packageInfo, isManifest, pathToXml, raw, application) as T
+                return XMLViewerViewModel(packageInfo, isManifest, pathToXml, isRaw, application) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope, Wrong Viewmodel!!")

@@ -581,4 +581,5 @@
     <string name="last_used">Last Used</string>
     <string name="mobile_data">Mobile Data</string>
     <string name="times">%1$d times</string>
+    <string name="usage_data_does_not_exist_for_this_app">Usage data does not exist for this app.</string>
 </resources>

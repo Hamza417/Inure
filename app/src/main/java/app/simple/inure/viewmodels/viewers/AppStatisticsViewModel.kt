@@ -7,11 +7,13 @@ import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.R
 import app.simple.inure.extensions.viewmodels.UsageStatsViewModel
 import app.simple.inure.models.AppUsageModel
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
+import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
@@ -19,26 +21,26 @@ import kotlinx.coroutines.launch
 
 class AppStatisticsViewModel(application: Application, private val packageInfo: PackageInfo) : UsageStatsViewModel(application) {
 
-    private val totalUsedChartData: MutableLiveData<PackageStats> by lazy {
+    private val usageData: MutableLiveData<PackageStats> by lazy {
         MutableLiveData<PackageStats>().also {
             loadStatsData()
         }
     }
 
-    private val totalAppSize: MutableLiveData<Long> by lazy {
-        MutableLiveData<Long>().also {
-            loadTotalAppSize()
-        }
-    }
-
-    fun getTotalUsedChartData(): LiveData<PackageStats> {
-        return totalUsedChartData
+    fun getUsageData(): LiveData<PackageStats> {
+        return usageData
     }
 
     private fun loadStatsData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                totalUsedChartData.postValue(getUsageEvents())
+                with(getUsageEvents()) {
+                    if (this.appUsage?.size?.isNotZero() == true) {
+                        usageData.postValue(this)
+                    } else {
+                        warning.postValue(getString(R.string.usage_data_does_not_exist_for_this_app))
+                    }
+                }
             }.getOrElse {
                 error.postValue(it.stackTraceToString())
                 it.printStackTrace()
@@ -129,12 +131,6 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
             for (i in apps.indices) {
                 size += apps[i].sourceDir.getDirectoryLength()
             }
-
-            totalAppSize.postValue(size)
         }
-    }
-
-    fun getTotalAppSize(): LiveData<Long> {
-        return totalAppSize
     }
 }
