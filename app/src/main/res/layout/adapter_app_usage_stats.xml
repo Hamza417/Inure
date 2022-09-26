@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/panel_item_padding"
+    android:paddingVertical="@dimen/popup_padding">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/preferences_title_text_size"
+        app:appFontStyle="medium"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/popup_padding"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:drawableEndCompat="@drawable/ic_dot_tiny"
+        app:textColorStyle="secondary" />
+
+</LinearLayout>

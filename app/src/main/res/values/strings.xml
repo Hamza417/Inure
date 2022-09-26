@@ -222,6 +222,10 @@
     <string name="used_for_short">Used for %1$s minutes</string>
     <string name="used_for_long">Used for %1$s hours %2$s minutes</string>
     <string name="used_for_days">Used for %1$s days %2$s hours %3$s minutes</string>
+    <string name="last_used_seconds">%1$s seconds ago</string>
+    <string name="last_used_short">%1$s minutes ago</string>
+    <string name="last_used_long">%1$s hours %2$s minutes ago</string>
+    <string name="last_used_days">%1$s days %2$s hours %3$s minutes ago</string>
     <string name="most_used">Most Used</string>
     <string name="time_used">Time Used</string>
     <string name="data_sent">Data Sent</string>
@@ -573,4 +577,8 @@
     <string name="arc_type_desc">Type of arc to be used panel is switched.</string>
     <string name="usage_statistics_engine">Usage Statistics Engine</string>
     <string name="legacy">Legacy</string>
+    <string name="screen_time">Screen Time</string>
+    <string name="last_used">Last Used</string>
+    <string name="mobile_data">Mobile Data</string>
+    <string name="times">%1$d times</string>
 </resources>

@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.XmlWebView
@@ -69,7 +70,8 @@ class XMLViewerWebView : ScopedFragment() {
         packageInfo = requireArguments().getParcelable("application_info")!!
 
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean("is_manifest"),
-                                                           requireArguments().getString("path_to_xml")!!)
+                                                           requireArguments().getString("path_to_xml")!!,
+                                                           requireArguments().putBoolean(BundleConstants.isRaw)!!)
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)
 

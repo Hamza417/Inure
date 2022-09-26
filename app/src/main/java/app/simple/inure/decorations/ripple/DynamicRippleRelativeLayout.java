@@ -28,6 +28,9 @@ public class DynamicRippleRelativeLayout extends RelativeLayout implements Share
     }
     
     private void init() {
+        if (isInEditMode()) {
+            return;
+        }
         setBackgroundColor(Color.TRANSPARENT);
         setBackground(null);
         setBackground(Utils.getRippleDrawable(getBackground()));
@@ -46,6 +49,9 @@ public class DynamicRippleRelativeLayout extends RelativeLayout implements Share
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (isInEditMode()) {
+            return;
+        }
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
     

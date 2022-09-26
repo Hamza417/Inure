@@ -19,6 +19,7 @@ import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.animateColorChange
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils
 
 @SuppressLint("ClickableViewAccessibility")
@@ -41,7 +42,9 @@ class CheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         clipToPadding = false
         clipToOutline = false
 
-        ViewUtils.addShadow(this)
+        if (isInEditMode.invert()) {
+            ViewUtils.addShadow(this)
+        }
 
         setOnClickListener {
             isChecked = if (isChecked) {

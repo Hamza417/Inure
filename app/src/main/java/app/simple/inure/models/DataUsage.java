@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
+import app.simple.inure.util.FileSizeHelper;
 
 public class DataUsage extends Pair <Long, Long> implements Parcelable, Comparable <DataUsage> {
     
@@ -40,6 +41,11 @@ public class DataUsage extends Pair <Long, Long> implements Parcelable, Comparab
         return first;
     }
     
+    /**
+     * Data received
+     *
+     * @return
+     */
     public long getRx() {
         return second;
     }
@@ -65,5 +71,12 @@ public class DataUsage extends Pair <Long, Long> implements Parcelable, Comparab
             return 1;
         }
         return Long.compare(mTotal, o.mTotal);
+    }
+    
+    @NonNull
+    @Override
+    public String toString() {
+        return "↓ " + FileSizeHelper.INSTANCE.toSize(first)
+                + " : ↑ " + FileSizeHelper.INSTANCE.toSize(second);
     }
 }

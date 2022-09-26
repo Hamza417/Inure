@@ -72,13 +72,14 @@ class XMLViewerTextView : ScopedFragment() {
         settings = view.findViewById(R.id.xml_viewer_settings)
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         name.text = requireArguments().getString("path_to_xml")!!
 
-        applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean(BundleConstants.isManifest),
-                                                           requireArguments().getString(BundleConstants.pathToXml)!!)
+        applicationInfoFactory = XMLViewerViewModelFactory(packageInfo,
+                                                           requireArguments().getBoolean(BundleConstants.isManifest),
+                                                           requireArguments().getString(BundleConstants.pathToXml)!!,
+                                                           requireArguments().putBoolean(BundleConstants.isRaw, false))
 
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory)[XMLViewerViewModel::class.java]
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
 
@@ -133,10 +134,11 @@ class XMLViewerTextView : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, isManifest: Boolean, pathToXml: String?): XMLViewerTextView {
+        fun newInstance(packageInfo: PackageInfo, isManifest: Boolean, pathToXml: String?, isRaw: Boolean): XMLViewerTextView {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putBoolean(BundleConstants.isManifest, isManifest)
+            args.putBoolean(BundleConstants.isRaw, isRaw)
             args.putString(BundleConstants.pathToXml, pathToXml)
             val fragment = XMLViewerTextView()
             fragment.arguments = args

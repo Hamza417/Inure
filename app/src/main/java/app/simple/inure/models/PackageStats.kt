@@ -9,11 +9,6 @@ class PackageStats {
     var packageInfo: PackageInfo? = null
 
     /**
-     * Number of times app is opened
-     */
-    var numberOfTimeOpened = 0
-
-    /**
      * Total time the app is being used
      */
     var totalTimeUsed = 0L
@@ -36,5 +31,10 @@ class PackageStats {
     /**
      * Total launch count
      */
-    var launchCount = 0L
+    var launchCount = 0
+
+    /**
+     * App usage data
+     */
+    var appUsage: ArrayList<AppUsageModel>? = null
 }

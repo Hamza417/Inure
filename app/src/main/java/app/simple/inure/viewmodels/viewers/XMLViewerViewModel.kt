@@ -26,7 +26,12 @@ import net.dongliu.apk.parser.ApkFile
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: Boolean, private val pathToXml: String, application: Application)
+class XMLViewerViewModel(val packageInfo: PackageInfo,
+                         private val isManifest: Boolean,
+                         private val pathToXml: String,
+                         private val raw: Boolean,
+                         application: Application)
+
     : WrappedViewModel(application) {
 
     private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
@@ -76,23 +81,28 @@ class XMLViewerViewModel(val packageInfo: PackageInfo, private val isManifest: B
             kotlin.runCatching {
                 val formattedContent: SpannableString
 
-                val code: String = if (isManifest) {
-                    kotlin.runCatching {
-                        packageInfo.applicationInfo.extractManifest()!!
-                    }.getOrElse {
-                        /**
-                         * Alternate engine for parsing manifest
-                         */
-                        XMLUtils.getProperXml(ApkManifestFetcher.getManifestXmlFromFilePath(packageInfo.applicationInfo.sourceDir)!!)!!
-                    }
+                val code: String = if (raw) {
+                    // TODO
+                    "// TODO - add raw reader"
                 } else {
-                    kotlin.runCatching {
-                        ApkFile(packageInfo.applicationInfo.sourceDir).use {
-                            it.transBinaryXml(pathToXml)
+                    if (isManifest) {
+                        kotlin.runCatching {
+                            packageInfo.applicationInfo.extractManifest()!!
+                        }.getOrElse {
+                            /**
+                             * Alternate engine for parsing manifest
+                             */
+                            XMLUtils.getProperXml(ApkManifestFetcher.getManifestXmlFromFilePath(packageInfo.applicationInfo.sourceDir)!!)!!
                         }
-                    }.getOrElse {
-                        XML(packageInfo.applicationInfo.sourceDir).use {
-                            it.transBinaryXml(pathToXml)
+                    } else {
+                        kotlin.runCatching {
+                            ApkFile(packageInfo.applicationInfo.sourceDir).use {
+                                it.transBinaryXml(pathToXml)
+                            }
+                        }.getOrElse {
+                            XML(packageInfo.applicationInfo.sourceDir).use {
+                                it.transBinaryXml(pathToXml)
+                            }
                         }
                     }
                 }

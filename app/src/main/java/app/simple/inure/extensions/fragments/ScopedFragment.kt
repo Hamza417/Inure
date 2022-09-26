@@ -75,8 +75,6 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         super.onCreate(savedInstanceState)
         kotlin.runCatching {
             packageInfo = getPackageInfoFromBundle()
-        }.getOrElse {
-            it.printStackTrace()
         }
 
         postponeEnterTransition()

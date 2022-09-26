@@ -1,32 +1,26 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
-import android.app.usage.NetworkStatsManager
 import android.app.usage.UsageEvents
-import android.app.usage.UsageStatsManager
-import android.content.Context
 import android.content.pm.PackageInfo
+import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.util.DateUtils.toDate
+import app.simple.inure.extensions.viewmodels.UsageStatsViewModel
+import app.simple.inure.models.AppUsageModel
+import app.simple.inure.models.DataUsage
+import app.simple.inure.models.PackageStats
+import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.UsageInterval
-import com.github.mikephil.charting.data.Entry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AppStatisticsViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class AppStatisticsViewModel(application: Application, private val packageInfo: PackageInfo) : UsageStatsViewModel(application) {
 
-    private var usageStatsManager: UsageStatsManager = getApplication<Application>()
-        .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-
-    private var networkStatsManager = getApplication<Application>()
-        .getSystemService(Context.NETWORK_STATS_SERVICE) as NetworkStatsManager
-
-    private val totalUsedChartData: MutableLiveData<Pair<ArrayList<Entry>, ArrayList<String>>> by lazy {
-        MutableLiveData<Pair<ArrayList<Entry>, ArrayList<String>>>().also {
+    private val totalUsedChartData: MutableLiveData<PackageStats> by lazy {
+        MutableLiveData<PackageStats>().also {
             loadStatsData()
         }
     }
@@ -37,7 +31,7 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
         }
     }
 
-    fun getTotalUsedChartData(): LiveData<Pair<ArrayList<Entry>, ArrayList<String>>> {
+    fun getTotalUsedChartData(): LiveData<PackageStats> {
         return totalUsedChartData
     }
 
@@ -52,9 +46,10 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
         }
     }
 
-    private fun getUsageEvents(): Pair<ArrayList<Entry>, ArrayList<String>> {
-        val entries: ArrayList<Entry> = ArrayList()
-        val dates = arrayListOf<String>()
+    private fun getUsageEvents(): PackageStats {
+        val packageStats = PackageStats()
+        packageStats.packageInfo = packageInfo
+        packageStats.appUsage = arrayListOf()
 
         val interval = UsageInterval.getTimeInterval()
         val events: UsageEvents = usageStatsManager.queryEvents(interval.startTime, interval.endTime)
@@ -69,37 +64,60 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
             if (!skipNew) events.getNextEvent(event)
 
             var eventTime = event.timeStamp
-            val packageName = event.packageName
 
-            if (packageInfo.packageName == packageName) {
-                if (event.eventType == UsageEvents.Event.ACTIVITY_RESUMED) { // App is visible (foreground)
-                    startTime = eventTime
+            if (event.eventType == UsageEvents.Event.ACTIVITY_RESUMED) { // App is visible (foreground)
+                startTime = eventTime
 
-                    while (events.hasNextEvent()) {
-                        events.getNextEvent(event)
-                        eventTime = event.timeStamp
+                while (events.hasNextEvent()) {
+                    events.getNextEvent(event)
+                    eventTime = event.timeStamp
 
-                        if (event.eventType == UsageEvents.Event.ACTIVITY_RESUMED) {
-                            skipNew = true
-                            break
-                        } else if (event.eventType == UsageEvents.Event.ACTIVITY_PAUSED) {
-                            endTime = eventTime
-                            skipNew = false
-                            if (packageName.equals(event.packageName)) {
-                                val time = endTime - startTime + 1
-                                entries.add(iteration, Entry(iteration.toFloat(), time.div(1000).div(60).toFloat()))
-                                dates.add(iteration, endTime.toDate())
+                    if (event.eventType == UsageEvents.Event.ACTIVITY_RESUMED) {
+                        skipNew = true
+                        break
+                    } else if (event.eventType == UsageEvents.Event.ACTIVITY_PAUSED) {
+                        endTime = eventTime
+                        skipNew = false
+                        if (packageInfo.packageName.equals(event.packageName)) {
+                            val time = endTime - startTime + 1
+                            packageStats.appUsage?.add(iteration, AppUsageModel(startTime, time, endTime))
+                            packageStats.launchCount = iteration.plus(1)
+                            packageStats.totalTimeUsed += time
+                            packageStats.lastUsageTime = endTime
 
-                                iteration++
-                            }
-                            break
+                            iteration++
                         }
+                        break
                     }
                 }
             }
         }
 
-        return Pair(entries, dates)
+        packageStats.appUsage?.reverse()
+        getDataUsage(packageStats)
+
+        return packageStats
+    }
+
+    private fun getDataUsage(packageStats: PackageStats) {
+        var mobileData = SparseArrayCompat<DataUsage>()
+        var wifiData = SparseArrayCompat<DataUsage>()
+
+        kotlin.runCatching {
+            mobileData = getMobileData(StatisticsPreferences.getInterval())
+        }
+        kotlin.runCatching {
+            wifiData = getWifiData(StatisticsPreferences.getInterval())
+        }
+
+        val uid: Int = packageStats.packageInfo?.applicationInfo?.uid!!
+
+        if (mobileData.containsKey(uid)) {
+            packageStats.mobileData = mobileData[uid]
+        } else packageStats.mobileData = DataUsage.EMPTY
+        if (wifiData.containsKey(uid)) {
+            packageStats.wifiData = wifiData[uid]
+        } else packageStats.wifiData = DataUsage.EMPTY
     }
 
     private fun loadTotalAppSize() {
