@@ -1,11 +1,12 @@
 package app.simple.inure.util
 
+import app.simple.inure.preferences.FormattingPreferences
 import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
     fun Long.toDate(): String {
-        val sdf = SimpleDateFormat("EEE, yyyy MMM dd, hh:mm a", Locale.getDefault())
+        val sdf = SimpleDateFormat(FormattingPreferences.getDateFormat(), Locale.getDefault())
         return sdf.format(Date(this))
     }
 

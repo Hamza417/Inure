@@ -176,7 +176,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
 
         super.setAdapter(adapter)
 
-        if (!manuallyAnimated) {
+        if (!manuallyAnimated && isInEditMode.invert()) {
             if (!AccessibilityPreferences.isAnimationReduced())
                 scheduleLayoutAnimation()
         }

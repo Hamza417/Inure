@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -72,6 +73,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        kotlin.runCatching {
+            packageInfo = getPackageInfoFromBundle()
+        }.getOrElse {
+            it.printStackTrace()
+        }
+
         postponeEnterTransition()
     }
 
@@ -368,5 +375,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     protected fun openAppSearch() {
         openFragmentSlide(Search.newInstance(true), "search")
+    }
+
+    private fun getPackageInfoFromBundle(): PackageInfo {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getParcelable(BundleConstants.packageInfo, PackageInfo::class.java)!!
+        } else {
+            @Suppress("DEPRECATION")
+            requireArguments().getParcelable(BundleConstants.packageInfo)!!
+        }
     }
 }

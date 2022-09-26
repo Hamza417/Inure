@@ -9,6 +9,7 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ColorUtils
+import app.simple.inure.util.ConditionUtils.invert
 
 class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : ProgressBar(context, attrs, defStyleAttr) {
@@ -16,9 +17,11 @@ class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: Attri
     private var valueAnimator: ValueAnimator? = null
 
     init {
-        progressTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
-        indeterminateTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
-        backgroundTintList = ColorStateList.valueOf(ColorUtils.lightenColor(AppearancePreferences.getAccentColor()))
+        if (isInEditMode.invert()) {
+            progressTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+            indeterminateTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+            backgroundTintList = ColorStateList.valueOf(ColorUtils.lightenColor(AppearancePreferences.getAccentColor()))
+        }
     }
 
     /**

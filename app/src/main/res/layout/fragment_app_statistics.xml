@@ -1,61 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.theme.ThemeCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
+
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:elevation="1dp"
+        android:padding="@dimen/header_padding">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/app_info_back_button"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_arrow_back"
+            android:transitionName="@string/app_information"
+            app:buttonTintType="accent"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="@string/usage_statistics"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textSize="@dimen/header_font_size"
+            android:transitionName="@string/app_information"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/information_data_progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/panel_icon_size"
+            android:layout_height="@dimen/panel_icon_size"
+            android:layout_gravity="center_vertical"
+            android:indeterminateTint="?attr/colorAppAccent"
+            android:padding="10dp" />
+
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
         android:layout_height="1px" />
 
-    <androidx.core.widget.NestedScrollView
+    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+        android:id="@+id/usage_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/over_scroll_behavior">
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/list_animation_controller"
+        android:paddingVertical="10dp"
+        app:statusBarPaddingRequired="false" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/header_padding">
-
-                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                    android:id="@+id/app_info_back_button"
-                    android:layout_width="@dimen/header_icon_size"
-                    android:layout_height="@dimen/header_icon_size"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/header_padding"
-                    android:contentDescription="@string/back_button"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_arrow_back"
-                    android:transitionName="@string/services"
-                    app:buttonTintType="accent" />
-
-                <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/usage_statistics"
-                    android:textSize="@dimen/header_font_size"
-                    android:transitionName="@string/usage_statistics"
-                    app:appFontStyle="bold"
-                    app:textColorStyle="accent" />
-
-            </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/total_time_used_bar_chart"
-                android:layout_width="match_parent"
-                android:layout_height="300dp" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-</app.simple.inure.decorations.theme.ThemeCoordinatorLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

@@ -8,20 +8,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.usagestats.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.viewmodels.viewers.AppStatisticsViewModel
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
 
 class UsageStatistics : ScopedFragment() {
 
     private lateinit var back: DynamicRippleImageButton
-    private lateinit var totalTimeUsedChart: BarChart
+    private lateinit var recyclerView: CustomVerticalRecyclerView
 
     private lateinit var appStatisticsViewModel: AppStatisticsViewModel
 
@@ -29,9 +27,7 @@ class UsageStatistics : ScopedFragment() {
         val view = layoutInflater.inflate(R.layout.fragment_app_statistics, container, false)
 
         back = view.findViewById(R.id.app_info_back_button)
-        totalTimeUsedChart = view.findViewById(R.id.total_time_used_bar_chart)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         appStatisticsViewModel = ViewModelProvider(this, AppStatisticsViewModelFactory(packageInfo))[AppStatisticsViewModel::class.java]
 
         return view
@@ -44,7 +40,7 @@ class UsageStatistics : ScopedFragment() {
         doPermissionChecks()
 
         back.setOnClickListener {
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -66,9 +62,7 @@ class UsageStatistics : ScopedFragment() {
 
     private fun observeData() {
         appStatisticsViewModel.getTotalUsedChartData().observe(viewLifecycleOwner) {
-            totalTimeUsedChart.data = BarData(BarDataSet(it, "Total Time Used"))
-            totalTimeUsedChart.notifyDataSetChanged()
-            totalTimeUsedChart.invalidate()
+
         }
 
         appStatisticsViewModel.getTotalAppSize().observe(requireActivity()) {

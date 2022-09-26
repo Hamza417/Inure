@@ -34,6 +34,9 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
     }
     
     private void init(AttributeSet attrs) {
+        if (isInEditMode()) {
+            return;
+        }
         TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ThemeButton, 0, 0);
         tintMode = typedArray.getInteger(R.styleable.ThemeButton_buttonTintType, 0);
         setTint(getTintColor(tintMode), false);

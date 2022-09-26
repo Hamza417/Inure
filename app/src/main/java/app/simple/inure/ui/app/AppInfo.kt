@@ -50,7 +50,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var packageId: TypeFaceTextView
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var appInformation: DynamicRippleTextView
-    private lateinit var storage: DynamicRippleTextView
+    private lateinit var usageStatistics: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
     private lateinit var unpack: DynamicRippleTextView
     private lateinit var meta: RecyclerView
@@ -76,7 +76,7 @@ class AppInfo : ScopedFragment() {
         packageId = view.findViewById(R.id.fragment_app_package_id)
         settings = view.findViewById(R.id.settings_button)
         appInformation = view.findViewById(R.id.app_info_information_tv)
-        storage = view.findViewById(R.id.app_info_storage_tv)
+        usageStatistics = view.findViewById(R.id.app_info_storage_tv)
         notes = view.findViewById(R.id.app_info_notes_tv)
         unpack = view.findViewById(R.id.app_info_unpack_tv)
         meta = view.findViewById(R.id.app_info_menu)
@@ -346,7 +346,7 @@ class AppInfo : ScopedFragment() {
             openFragmentSlide(Information.newInstance(packageInfo), "information")
         }
 
-        storage.setOnClickListener {
+        usageStatistics.setOnClickListener {
             openFragmentSlide(UsageStatistics.newInstance(packageInfo), "storage")
         }
 
