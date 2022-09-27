@@ -36,7 +36,22 @@ class SharedPreferences : SearchBarScopedFragment() {
 
         sharedPreferencesViewModel.getSharedPrefs().observe(viewLifecycleOwner) {
             val adapterResources = AdapterResources(it, "")
+
+            adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
+                override fun onResourceClicked(path: String) {
+
+                }
+
+                override fun onResourceLongClicked(path: String) {
+
+                }
+            })
+
             recyclerView.adapter = adapterResources
+        }
+
+        sharedPreferencesViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
         }
     }
 
