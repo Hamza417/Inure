@@ -14,7 +14,18 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
+    <uses-permission android:name="com.termux.permission.RUN_COMMAND" />
 
+    <uses-permission
+        android:name="android.permission.GET_APP_OPS_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.CLEAR_APP_CACHE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.DELETE_CACHE_FILES"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
