@@ -63,6 +63,9 @@ class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvid
             modelClass.isAssignableFrom(OperationsViewModel::class.java) -> {
                 return OperationsViewModel(application, packageInfo) as T
             }
+            modelClass.isAssignableFrom(SharedPreferencesViewModel::class.java) -> {
+                return SharedPreferencesViewModel(packageInfo, application) as T
+            }
             else -> {
                 throw IllegalArgumentException("Nope!!, Wrong Viewmodel!!")
             }

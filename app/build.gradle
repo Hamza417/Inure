@@ -3,7 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'project-report'
-    id 'dev.rikka.tools.refine' version '3.1.1'
 }
 
 android {
@@ -80,7 +79,6 @@ dependencies {
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly project(':hidden-api')
 
     // Test
     testImplementation 'junit:junit:4.13.2'
@@ -95,8 +93,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.fragment:fragment-ktx:1.5.2'
-    implementation 'androidx.activity:activity-ktx:1.5.1'
+    implementation 'androidx.fragment:fragment-ktx:1.5.3'
+    implementation 'androidx.activity:activity-ktx:1.6.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
@@ -132,8 +130,10 @@ dependencies {
     implementation 'dev.rikka.tools.refine:runtime:3.1.1'
 
     // root
-    implementation "com.github.topjohnwu.libsu:core:4.0.3"
-    implementation "com.github.topjohnwu.libsu:io:3.1.2"
+    def libsuVersion = '5.0.3'
+    implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
+    implementation "com.github.topjohnwu.libsu:service:${libsuVersion}"
+    implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
 
     // Room
     implementation "androidx.room:room-ktx:2.4.3"

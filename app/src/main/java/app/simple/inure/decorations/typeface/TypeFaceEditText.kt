@@ -20,6 +20,7 @@ import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ColorUtils.animateColorChange
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.TextViewUtils.setDrawableTint
 import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.TypeFace
@@ -43,13 +44,15 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     }
 
     private fun init() {
-        typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, -1), context)
-        colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
-        setHighlightColor()
-        setTextColor(colorMode, false)
-        setHintTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
-        setDrawableTint(ThemeManager.theme.iconTheme.secondaryIconColor)
-        setCursorDrawable()
+        if (isInEditMode.invert()) {
+            typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, -1), context)
+            colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
+            setHighlightColor()
+            setTextColor(colorMode, false)
+            setHintTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
+            setDrawableTint(ThemeManager.theme.iconTheme.secondaryIconColor)
+            setCursorDrawable()
+        }
     }
 
     override fun onAttachedToWindow() {

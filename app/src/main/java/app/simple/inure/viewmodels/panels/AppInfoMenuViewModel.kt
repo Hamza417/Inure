@@ -131,6 +131,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
             if (ConfigurationPreferences.isUsingRoot()) {
                 list.add(1, Pair(R.drawable.ic_rocket_launch, R.string.operations))
+                list.add(Pair(R.drawable.sc_preferences, R.string.shared_prefs))
             }
 
             menuItems.postValue(list)

@@ -531,6 +531,11 @@
             android:exported="false" />
 
         <service
+            android:name=".services.RootService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
             android:name=".services.InstallerSessionService"
             android:enabled="true"
             android:exported="false" />
