@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -63,16 +64,10 @@ class Text : ScopedFragment() {
         options = view.findViewById(R.id.txt_viewer_options)
         scrollView = view.findViewById(R.id.text_viewer_scroll_view)
 
-        packageInfo = requireArguments().getParcelable("application_info")!!
-
-        textViewViewModelFactory = TextViewViewModelFactory(
-                packageInfo,
-                requireArguments().getString("path")!!,
-        )
-
+        textViewViewModelFactory = TextViewViewModelFactory(packageInfo, requireArguments().getString(BundleConstants.path)!!)
         textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory).get(TextViewerViewModel::class.java)
 
-        path.text = requireArguments().getString("path")!!
+        path.text = requireArguments().getString(BundleConstants.path)!!
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
 
@@ -118,10 +113,10 @@ class Text : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo, path: String): Text {
+        fun newInstance(packageInfo: PackageInfo, path: String): Text {
             val args = Bundle()
-            args.putParcelable("application_info", applicationInfo)
-            args.putString("path", path)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putString(BundleConstants.path, path)
             val fragment = Text()
             fragment.arguments = args
             return fragment

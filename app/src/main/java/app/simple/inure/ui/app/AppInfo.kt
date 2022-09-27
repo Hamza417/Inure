@@ -93,8 +93,6 @@ class AppInfo : ScopedFragment() {
         foldActionsMenu = view.findViewById(R.id.fold_app_info_actions)
         foldMiscMenu = view.findViewById(R.id.fold_app_info_misc)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-
         packageInfoFactory = PackageInfoFactory(packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory)[AppInfoMenuViewModel::class.java]
 

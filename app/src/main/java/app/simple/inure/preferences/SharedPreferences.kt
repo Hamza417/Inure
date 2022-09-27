@@ -36,4 +36,8 @@ object SharedPreferences {
             return sharedPreferences!!
         }
     }
+
+    fun getSharedPreferencesPath(context: Context): String {
+        return context.applicationInfo.dataDir + "/shared_prefs/" + preferences + ".xml"
+    }
 }

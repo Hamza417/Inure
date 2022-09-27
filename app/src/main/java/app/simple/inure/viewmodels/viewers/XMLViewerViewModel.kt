@@ -23,6 +23,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
+import org.apache.commons.io.IOUtils
+import java.io.File
+import java.io.FileInputStream
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -75,15 +78,13 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
 
     private fun getSpannedXml() {
         viewModelScope.launch(Dispatchers.IO) {
-
-            delay(500L)
-
             kotlin.runCatching {
                 val formattedContent: SpannableString
 
                 val code: String = if (raw) {
-                    // TODO
-                    "// TODO - add raw reader"
+                    FileInputStream(File(pathToXml)).use {
+                        IOUtils.toString(it, "UTF-8")
+                    }
                 } else {
                     if (isManifest) {
                         kotlin.runCatching {

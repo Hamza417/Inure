@@ -134,7 +134,7 @@ class XMLViewerTextView : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, isManifest: Boolean, pathToXml: String?, isRaw: Boolean = false): XMLViewerTextView {
+        fun newInstance(packageInfo: PackageInfo?, isManifest: Boolean, pathToXml: String?, isRaw: Boolean = false): XMLViewerTextView {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putBoolean(BundleConstants.isManifest, isManifest)
