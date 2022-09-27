@@ -36,7 +36,7 @@ class SharedPreferencesViewModel(packageInfo: PackageInfo, application: Applicat
                 }
 
                 with(fileSystemManager?.getFile(path)) {
-                    val list = this?.list()?.asList() as ArrayList<String>?
+                    val list = this?.list()?.toList() as ArrayList<String>?
                     sharedPrefsFiles.postValue(list!!)
                 }
             }.getOrElse {

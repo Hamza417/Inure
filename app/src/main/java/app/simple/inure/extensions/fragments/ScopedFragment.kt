@@ -143,21 +143,37 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                 PopupTransitionType.FADE -> {
                     exitTransition = Fade()
                     enterTransition = Fade()
+                    returnTransition = Fade()
                     reenterTransition = Fade()
                 }
                 PopupTransitionType.ELEVATION -> {
-                    exitTransition = MaterialElevationScale(false)
                     enterTransition = MaterialElevationScale(true)
-                    reenterTransition = MaterialElevationScale(false)
+                    exitTransition = MaterialElevationScale(false)
+                    returnTransition = MaterialElevationScale(false)
+                    reenterTransition = MaterialElevationScale(true)
                 }
-                PopupTransitionType.SHARED_AXIS -> {
-                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+                PopupTransitionType.SHARED_AXIS_X -> {
                     enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
                     reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+                    returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+                }
+                PopupTransitionType.SHARED_AXIS_Y -> {
+                    enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+                    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+                    returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+                }
+                PopupTransitionType.SHARED_AXIS_Z -> {
+                    enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+                    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+                    returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
                 }
                 PopupTransitionType.THROUGH -> {
                     exitTransition = MaterialFadeThrough()
                     enterTransition = MaterialFadeThrough()
+                    returnTransition = MaterialFadeThrough()
                     reenterTransition = MaterialFadeThrough()
                 }
             }

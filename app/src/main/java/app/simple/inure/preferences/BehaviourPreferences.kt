@@ -13,7 +13,7 @@ object BehaviourPreferences {
     private const val marquee = "is_marquee_on"
     private const val skipLoading = "skip_main_loading_screen"
 
-    const val transitionType = "transition_type"
+    const val transitionType = "panel_transition_type"
     const val arcType = "arc_type"
     const val stiffness = "scrolling_stiffness"
     const val dampingRatio = "scrolling_damping_ratio"

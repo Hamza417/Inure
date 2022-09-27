@@ -129,37 +129,4 @@ object FileUtils {
             null
         }
     }
-
-    fun removeLastPathSegment(uri: Uri): Uri? {
-        var strValue = uri.path
-        if (strValue == File.separator) return uri
-        if (strValue!!.endsWith(File.separator)) {
-            strValue = strValue.substring(0, strValue.length - 1)
-        }
-        val index = strValue.lastIndexOf('/')
-        if (index > 0) {
-            strValue = strValue.substring(0, index)
-        }
-        return Uri.Builder()
-            .scheme(uri.scheme)
-            .authority(uri.authority)
-            .path(strValue)
-            .build()
-    }
-
-    fun getSanitizedPath(name: String): String {
-        var name = name
-        name = name.replace("[/]+".toRegex(), File.separator)
-        if (name.startsWith("./")) name = name.substring(2) else if (name.startsWith(File.separator)) name = name.substring(1)
-        if (name.endsWith(File.separator)) name = name.substring(0, name.length - 1)
-        return name
-    }
-
-    fun addSegmentAtEnd(uri: Uri, lastPathSegment: String): Uri? {
-        return Uri.Builder()
-            .scheme(uri.scheme)
-            .authority(uri.authority)
-            .path(uri.path + File.separator.toString() + lastPathSegment)
-            .build()
-    }
 }

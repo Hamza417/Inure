@@ -569,7 +569,7 @@
     <string name="the_app_has_crashed">The app has crashed!</string>
     <string name="fade">Fade</string>
     <string name="elevation">Elevation</string>
-    <string name="shared_axis">Shared Axis</string>
+    <string name="shared_axis">Shared Axis %1$s</string>
     <string name="through">Through</string>
     <string name="transition_type">Transition Type</string>
     <string name="transition_type_desc">Type of transition to be played when panel is switched.</string>

@@ -566,7 +566,7 @@
     <string name="the_app_has_crashed">應用程式已當機！</string>
     <string name="fade">淡入</string>
     <string name="elevation">高度</string>
-    <string name="shared_axis">已共用的座標軸</string>
+    <string name="shared_axis">已共用的座標軸 %1$s</string>
     <string name="through">穿過</string>
     <string name="transition_type">轉換類型</string>
     <string name="transition_type_desc">轉換類型將在切換面板時體現</string>

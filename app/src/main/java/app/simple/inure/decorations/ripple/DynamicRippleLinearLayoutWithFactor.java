@@ -92,7 +92,9 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         ThemeManager.INSTANCE.addListener(this);
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        if (!isInEditMode()) {
+            app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
     }
     
     @Override

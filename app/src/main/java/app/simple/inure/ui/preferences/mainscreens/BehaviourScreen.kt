@@ -110,7 +110,9 @@ class BehaviourScreen : ScopedFragment() {
         transitionType.text = when (BehaviourPreferences.getTransitionType()) {
             PopupTransitionType.FADE -> getString(R.string.fade)
             PopupTransitionType.ELEVATION -> getString(R.string.elevation)
-            PopupTransitionType.SHARED_AXIS -> getString(R.string.shared_axis)
+            PopupTransitionType.SHARED_AXIS_X -> getString(R.string.shared_axis, "X")
+            PopupTransitionType.SHARED_AXIS_Y -> getString(R.string.shared_axis, "Y")
+            PopupTransitionType.SHARED_AXIS_Z -> getString(R.string.shared_axis, "Z")
             PopupTransitionType.THROUGH -> getString(R.string.through)
             else -> getString(R.string.unknown)
         }

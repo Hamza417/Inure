@@ -25,17 +25,19 @@ public class DynamicCornerEditText extends TypeFaceEditText {
     }
     
     private void setProps(AttributeSet attrs) {
-        setFocusableInTouchMode(true);
-        setFocusable(true);
-        setSaveEnabled(true);
-    
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_YES);
+        if (!isInEditMode()) {
+            setFocusableInTouchMode(true);
+            setFocusable(true);
+            setSaveEnabled(true);
+        
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_YES);
+            }
+        
+            LayoutBackground.setBackground(getContext(), this, attrs, 2F);
+            setBackground(false, ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground());
+            ViewUtils.INSTANCE.addShadow(this);
         }
-    
-        LayoutBackground.setBackground(getContext(), this, attrs, 2F);
-        setBackground(false, ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground());
-        ViewUtils.INSTANCE.addShadow(this);
     }
     
     @Override

@@ -13,6 +13,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollR
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollTranslationMagnitude
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.StatusBarHeight
 
 /**
@@ -31,8 +32,12 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
                 }
 
                 isLandscape = StatusBarHeight.isLandscape(context)
-                if (AccessibilityPreferences.isAnimationReduced())
-                    layoutAnimation = null
+
+                if (isInEditMode.invert()) {
+                    if (AccessibilityPreferences.isAnimationReduced()) {
+                        layoutAnimation = null
+                    }
+                }
             } finally {
                 recycle()
             }
@@ -46,15 +51,17 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
 
         setHasFixedSize(true)
 
-        if (AccessibilityPreferences.isDividerEnabled()) {
-            val divider = DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
+        if (isInEditMode.invert()) {
+            if (AccessibilityPreferences.isDividerEnabled()) {
+                val divider = DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
 
-            divider.setDrawable(ShapeDrawable().apply {
-                intrinsicHeight = 1
-                paint.color = ThemeManager.theme.viewGroupTheme.dividerBackground
-            })
+                divider.setDrawable(ShapeDrawable().apply {
+                    intrinsicHeight = 1
+                    paint.color = ThemeManager.theme.viewGroupTheme.dividerBackground
+                })
 
-            addItemDecoration(divider)
+                addItemDecoration(divider)
+            }
         }
 
         this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
@@ -129,8 +136,11 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
     override fun setAdapter(adapter: Adapter<*>?) {
         super.setAdapter(adapter)
         adapter?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
-        if (!AccessibilityPreferences.isAnimationReduced())
-            scheduleLayoutAnimation()
+        if (isInEditMode.invert()) {
+            if (!AccessibilityPreferences.isAnimationReduced()) {
+                scheduleLayoutAnimation()
+            }
+        }
     }
 
     private inline fun <reified T : HorizontalListViewHolder> RecyclerView.forEachVisibleHolder(action: (T) -> Unit) {
