@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
 import androidx.annotation.Nullable;
@@ -23,6 +24,11 @@ public class PaddingAwareLinearLayout extends ThemeLinearLayout implements Share
     
     public PaddingAwareLinearLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        init();
+    }
+    
+    public PaddingAwareLinearLayout(@NotNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         init();
     }
     

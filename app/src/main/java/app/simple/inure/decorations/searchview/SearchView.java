@@ -18,14 +18,13 @@ import java.text.DecimalFormat;
 import androidx.annotation.Nullable;
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import app.simple.inure.R;
-import app.simple.inure.decorations.padding.PaddingAwareLinearLayout;
 import app.simple.inure.decorations.typeface.TypeFaceEditText;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.preferences.SearchPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.TextViewUtils;
 
-public class SearchView extends PaddingAwareLinearLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SearchView extends LinearLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
     
     private TypeFaceEditText editText;
     private TypeFaceTextView number;

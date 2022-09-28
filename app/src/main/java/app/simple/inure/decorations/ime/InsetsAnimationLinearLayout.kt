@@ -10,6 +10,7 @@ import androidx.core.view.NestedScrollingParentHelper
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.decorations.ime.Utils.suppressLayoutCompat
+import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 
 /**
  * A [LinearLayout] which acts as a [nested scroll parent][NestedScrollingParent3] to automatically
@@ -31,9 +32,7 @@ import app.simple.inure.decorations.ime.Utils.suppressLayoutCompat
  * Note: all of the nested scrolling logic could be extracted to a `CoordinatorLayout.Behavior`
  * if desired.
  */
-open class InsetsAnimationLinearLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr), NestedScrollingParent3 {
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : this(context, attrs, defStyleAttr)
+open class InsetsAnimationLinearLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : PaddingAwareLinearLayout(context, attrs, defStyleAttr), NestedScrollingParent3 {
 
     private val nestedScrollingParentHelper = NestedScrollingParentHelper(this)
     private var currentNestedScrollingChild: View? = null

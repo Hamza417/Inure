@@ -50,7 +50,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchView.editText.setWindowInsetsAnimationCallback()
+        // searchView.editText.setWindowInsetsAnimationCallback()
         searchView.showInput()
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
