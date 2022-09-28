@@ -11,8 +11,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsAnimation
 import android.widget.ImageView
 import androidx.annotation.IntegerRes
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.transition.ArcMotion
@@ -397,6 +400,51 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         } else {
             @Suppress("DEPRECATION")
             requireArguments().getParcelable(BundleConstants.packageInfo)!!
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    protected fun View.setKeyboardChangeListener() {
+        val cb = object : WindowInsetsAnimation.Callback(DISPATCH_MODE_STOP) {
+            var startBottom = 0
+            var endBottom = 0
+
+            override fun onPrepare(animation: WindowInsetsAnimation) {
+                /**
+                 * #1: First up, onPrepare is called which allows apps to record any
+                 * view state from the current layout
+                 */
+                // endBottom = view.calculateBottomInWindow()
+            }
+
+            /**
+             * #2: After onPrepare, the normal WindowInsets will be dispatched to
+             * the view hierarchy, containing the end state. This means that your
+             * view's OnApplyWindowInsetsListener will be called, which will cause
+             * a layout pass to reflect the end state.
+             */
+            override fun onStart(animation: WindowInsetsAnimation, bounds: WindowInsetsAnimation.Bounds): WindowInsetsAnimation.Bounds {
+                /**
+                 * #3: Next up is onStart, which is called at the start of the animation.
+                 * This allows apps to record the view state of the target or end state.
+                 */
+                return bounds
+            }
+
+            override fun onProgress(insets: WindowInsets, runningAnimations: List<WindowInsetsAnimation>): WindowInsets {
+                /** #4: Next up is the important call: onProgress. This is called every time
+                 * the insets change in the animation. In the case of the keyboard, which
+                 * would be as it slides on screen.
+                 */
+                return insets
+            }
+
+            override fun onEnd(animation: WindowInsetsAnimation) {
+                /**
+                 * #5: And finally onEnd is called when the animation has finished. Use this
+                 * to clear up any old state.
+                 */
+            }
         }
     }
 }

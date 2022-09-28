@@ -17,12 +17,12 @@ import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.menus.SearchMenu
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.viewmodels.panels.SearchViewModel
 
-class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: CustomVerticalRecyclerView
@@ -50,6 +50,7 @@ class Search : ScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        searchView.editText.setWindowInsetsAnimationCallback()
         searchView.showInput()
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {

@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import android.widget.LinearLayout
@@ -225,5 +226,44 @@ object ViewUtils {
         }
         valueAnimator.start()
         return valueAnimator
+    }
+
+    fun <T : View> T.onDimensions(function: (Int, Int) -> Unit) {
+        if (isLaidOut && height != 0 && width != 0) {
+            function(width, height)
+        } else {
+            if (height == 0 || width == 0) {
+                var onLayoutChangeListener: View.OnLayoutChangeListener? = null
+                var onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+
+                onGlobalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        if (isShown) {
+                            removeOnLayoutChangeListener(onLayoutChangeListener)
+                            viewTreeObserver.removeOnGlobalLayoutListener(this)
+                            function(width, height)
+                        }
+                    }
+                }
+
+                onLayoutChangeListener = object : View.OnLayoutChangeListener {
+                    override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+                        val width = v?.width ?: 0
+                        val height = v?.height ?: 0
+                        if (width > 0 && height > 0) {
+                            // remove after finish
+                            viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
+                            v?.removeOnLayoutChangeListener(this)
+                            function(width, height)
+                        }
+                    }
+                }
+
+                viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
+                addOnLayoutChangeListener(onLayoutChangeListener)
+            } else {
+                function(width, height)
+            }
+        }
     }
 }

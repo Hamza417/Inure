@@ -154,4 +154,8 @@ public class SearchView extends PaddingAwareLinearLayout implements SharedPrefer
             updateSearchIcon();
         }
     }
+    
+    public TypeFaceEditText getEditText() {
+        return editText;
+    }
 }

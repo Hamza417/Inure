@@ -234,6 +234,8 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         } else {
             ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
                 val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                val imeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
+                val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
 
                 /**
                  * Apply the insets as a margin to the view. Here the system is setting

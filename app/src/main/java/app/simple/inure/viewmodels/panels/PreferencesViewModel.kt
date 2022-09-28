@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.constants.PreferencesSearchConstants
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.models.PreferenceSearchModel
+import app.simple.inure.models.PreferenceModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -25,15 +25,15 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
         }
     }
 
-    private val preferencesSearchData: MutableLiveData<ArrayList<PreferenceSearchModel>> by lazy {
-        MutableLiveData<ArrayList<PreferenceSearchModel>>()
+    private val preferencesSearchData: MutableLiveData<ArrayList<PreferenceModel>> by lazy {
+        MutableLiveData<ArrayList<PreferenceModel>>()
     }
 
     fun getPreferences(): LiveData<ArrayList<Pair<Int, Int>>> {
         return preferences
     }
 
-    fun getPreferencesSearchData(): LiveData<ArrayList<PreferenceSearchModel>> {
+    fun getPreferencesSearchData(): LiveData<ArrayList<PreferenceModel>> {
         return preferencesSearchData
     }
 
@@ -60,7 +60,7 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
 
     private fun loadPreferencesSearchData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val list = arrayListOf<PreferenceSearchModel>()
+            val list = arrayListOf<PreferenceModel>()
 
             if (keyword.isNullOrEmpty()) {
                 loadPreferencesData()

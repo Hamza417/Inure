@@ -7,7 +7,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
-open class SearchBarScopedFragment : ScopedFragment() {
+open class SearchBarScopedFragment : KeyboardScopedFragment() {
 
     open lateinit var search: DynamicRippleImageButton
     open lateinit var title: TypeFaceTextView

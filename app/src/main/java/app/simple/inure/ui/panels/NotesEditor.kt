@@ -20,7 +20,7 @@ import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.notes.NotesEditorMenu
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.popups.notes.PopupBackgroundSpan
@@ -49,7 +49,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-class NotesEditor : ScopedFragment() {
+class NotesEditor : KeyboardScopedFragment() {
 
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
@@ -112,6 +112,7 @@ class NotesEditor : ScopedFragment() {
 
         name.text = packageInfo.applicationInfo.name
         packageId.text = packageInfo.packageName
+        noteEditText.setWindowInsetsAnimationCallback()
         handleFormattingState()
 
         noteEditText.doAfterTextChanged {

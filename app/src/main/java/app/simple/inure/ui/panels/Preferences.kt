@@ -27,7 +27,7 @@ import app.simple.inure.dialogs.terminal.DialogHomePath
 import app.simple.inure.dialogs.terminal.DialogInitialCommand
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
-import app.simple.inure.models.PreferenceSearchModel
+import app.simple.inure.models.PreferenceModel
 import app.simple.inure.ui.preferences.mainscreens.*
 import app.simple.inure.ui.preferences.subscreens.*
 import app.simple.inure.viewmodels.panels.PreferencesViewModel
@@ -125,10 +125,10 @@ class Preferences : SearchBarScopedFragment() {
             adapterPreferenceSearch.keyword = searchBox.text.toString()
 
             adapterPreferenceSearch.setOnPreferencesCallbackListener(object : PreferencesCallbacks {
-                override fun onPrefsSearchItemClicked(preferenceSearchModel: PreferenceSearchModel) {
-                    when (preferenceSearchModel.panel) {
+                override fun onPrefsSearchItemClicked(preferenceModel: PreferenceModel) {
+                    when (preferenceModel.panel) {
                         R.string.appearance -> {
-                            when (preferenceSearchModel.title) {
+                            when (preferenceModel.title) {
                                 R.string.application_theme -> {
                                     openFragmentSlide(AppearanceAppTheme.newInstance(), "theme")
                                 }
@@ -153,7 +153,7 @@ class Preferences : SearchBarScopedFragment() {
                             openFragmentSlide(BehaviourScreen.newInstance(), "behaviour_prefs")
                         }
                         R.string.configuration -> {
-                            when (preferenceSearchModel.title) {
+                            when (preferenceModel.title) {
                                 R.string.shortcuts -> {
                                     openFragmentSlide(Shortcuts.newInstance(), "shortcuts")
                                 }
@@ -163,7 +163,7 @@ class Preferences : SearchBarScopedFragment() {
                             }
                         }
                         R.string.formatting -> {
-                            when (preferenceSearchModel.title) {
+                            when (preferenceModel.title) {
                                 R.string.date_format -> {
                                     DateFormat.newInstance().show(childFragmentManager, "date_format")
                                 }
@@ -173,7 +173,7 @@ class Preferences : SearchBarScopedFragment() {
                             }
                         }
                         R.string.terminal -> {
-                            when (preferenceSearchModel.title) {
+                            when (preferenceModel.title) {
                                 R.string.title_fontsize_preference -> {
                                     openFragmentSlide(TerminalFontSize.newInstance(), "font_size")
                                 }
@@ -195,7 +195,7 @@ class Preferences : SearchBarScopedFragment() {
                             }
                         }
                         R.string.shell -> {
-                            when (preferenceSearchModel.title) {
+                            when (preferenceModel.title) {
                                 R.string.title_shell_preference -> {
                                     DialogCommandLine.newInstance()
                                         .show(childFragmentManager, "command_line")
@@ -223,7 +223,7 @@ class Preferences : SearchBarScopedFragment() {
                             openFragmentSlide(DevelopmentScreen.newInstance(), "development_prefs")
                         }
                         R.string.about -> {
-                            when (preferenceSearchModel.title) {
+                            when (preferenceModel.title) {
                                 R.string.change_logs -> {
                                     openFragmentSlide(WebPage.newInstance(getString(R.string.change_logs)), "web_page")
                                 }

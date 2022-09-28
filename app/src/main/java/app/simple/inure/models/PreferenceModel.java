@@ -3,7 +3,7 @@ package app.simple.inure.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class PreferenceSearchModel implements Parcelable {
+public class PreferenceModel implements Parcelable {
     private int icon;
     private int title;
     private int description;
@@ -11,7 +11,7 @@ public class PreferenceSearchModel implements Parcelable {
     private int category;
     private int panel;
     
-    public PreferenceSearchModel(int icon, int title, int description, int type, int category, int panel) {
+    public PreferenceModel(int icon, int title, int description, int type, int category, int panel) {
         this.icon = icon;
         this.title = title;
         this.description = description;
@@ -20,7 +20,7 @@ public class PreferenceSearchModel implements Parcelable {
         this.panel = panel;
     }
     
-    protected PreferenceSearchModel(Parcel in) {
+    protected PreferenceModel(Parcel in) {
         icon = in.readInt();
         title = in.readInt();
         description = in.readInt();
@@ -44,15 +44,15 @@ public class PreferenceSearchModel implements Parcelable {
         return 0;
     }
     
-    public static final Creator <PreferenceSearchModel> CREATOR = new Creator <PreferenceSearchModel>() {
+    public static final Creator <PreferenceModel> CREATOR = new Creator <PreferenceModel>() {
         @Override
-        public PreferenceSearchModel createFromParcel(Parcel in) {
-            return new PreferenceSearchModel(in);
+        public PreferenceModel createFromParcel(Parcel in) {
+            return new PreferenceModel(in);
         }
         
         @Override
-        public PreferenceSearchModel[] newArray(int size) {
-            return new PreferenceSearchModel[size];
+        public PreferenceModel[] newArray(int size) {
+            return new PreferenceModel[size];
         }
     };
     
@@ -104,7 +104,7 @@ public class PreferenceSearchModel implements Parcelable {
         this.panel = panel;
     }
     
-    public static Creator <PreferenceSearchModel> getCREATOR() {
+    public static Creator <PreferenceModel> getCREATOR() {
         return CREATOR;
     }
 }

@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import app.simple.inure.decorations.ime.InsetsAnimationLinearLayout;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 
-public class ThemeLinearLayout extends LinearLayout implements ThemeChangedListener {
+public class ThemeLinearLayout extends InsetsAnimationLinearLayout implements ThemeChangedListener {
     
     private ValueAnimator valueAnimator;
     
@@ -41,6 +41,7 @@ public class ThemeLinearLayout extends LinearLayout implements ThemeChangedListe
         if (isInEditMode()) {
             return;
         }
+    
         // TODO - try ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground()
         setBackgroundColor(Color.WHITE);
         setBackground(false);
