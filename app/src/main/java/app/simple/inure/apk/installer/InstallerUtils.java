@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
+import android.os.Build;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +20,9 @@ public class InstallerUtils {
     
     public static PackageInstaller.SessionParams makeInstallParams(long totalSize) {
         sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            sessionParams.setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED);
+        }
         sessionParams.setSize(totalSize);
         return sessionParams;
     }

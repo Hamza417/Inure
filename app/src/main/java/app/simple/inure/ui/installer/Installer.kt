@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageInstaller
 import android.content.res.ColorStateList
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -70,7 +71,13 @@ class Installer : ScopedFragment() {
         tabLayout = view.findViewById(R.id.tabLayout)
         loader = view.findViewById(R.id.loader)
 
-        val factory = InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri)!!)
+        val factory = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri, Uri::class.java)!!)
+        } else {
+            @Suppress("DEPRECATION")
+            InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri)!!)
+        }
+
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
 
         intentFilter.addAction(ServiceConstants.actionSessionStatus)
@@ -93,7 +100,13 @@ class Installer : ScopedFragment() {
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -999)) {
                     PackageInstaller.STATUS_PENDING_USER_ACTION -> {
-                        val confirmationIntent = intent.getParcelableExtra<Intent>(Intent.EXTRA_INTENT)
+                        val confirmationIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            intent.getParcelableExtra(Intent.EXTRA_INTENT, Intent::class.java)
+                        } else {
+                            @Suppress("DEPRECATION")
+                            intent.getParcelableExtra(Intent.EXTRA_INTENT)
+                        }
+
                         if (confirmationIntent != null) {
                             confirmationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             try {
@@ -138,11 +151,12 @@ class Installer : ScopedFragment() {
                 append(" (${packageInfo.versionName})")
             }
 
+            checkLaunchStatus()
+
             if (PackageUtils.isPackageInstalled(packageInfo.packageName, requireContext().packageManager)) {
                 install.gone()
                 update.visible(true)
                 uninstall.visible(true)
-                checkLaunchStatus()
             } else {
                 install.visible(true)
                 update.gone()
@@ -165,7 +179,13 @@ class Installer : ScopedFragment() {
                         val uninstaller = Uninstaller.newInstance(packageInfo)
 
                         uninstaller.listener = {
-                            requireActivity().finish()
+                            if (!PackageUtils.isPackageInstalled(packageInfo.packageName, requirePackageManager())) {
+                                uninstall.gone(animate = false)
+                                update.gone(animate = false)
+                                install.visible(animate = false)
+                            }
+
+                            checkLaunchStatus()
                         }
 
                         uninstaller.show(childFragmentManager, "uninstaller")
@@ -206,12 +226,15 @@ class Installer : ScopedFragment() {
     }
 
     private fun checkLaunchStatus() {
-        if (PackageUtils.checkIfAppIsLaunchable(requireContext(), packageInfo.packageName)) {
+        if (PackageUtils.isPackageInstalled(packageInfo.packageName, requirePackageManager()) &&
+            PackageUtils.checkIfAppIsLaunchable(requireContext(), packageInfo.packageName)) {
             launch.visible(animate = false)
 
             launch.setOnClickListener {
                 PackageUtils.launchThisPackage(requireContext(), packageInfo.packageName)
             }
+        } else {
+            launch.gone(animate = false)
         }
     }
 
