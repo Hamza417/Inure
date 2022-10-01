@@ -48,5 +48,4 @@ public class NotesPackageInfo {
     public void setDateUpdated(long dateUpdated) {
         this.dateUpdated = dateUpdated;
     }
-    
 }

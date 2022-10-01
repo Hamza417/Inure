@@ -12,12 +12,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+import app.simple.inure.extensions.livedata.ErrorLiveData;
 import app.simple.inure.preferences.ConfigurationPreferences;
 import app.simple.inure.util.ContextUtils;
 
 public class WrappedViewModel extends AndroidViewModel {
     
-    public final MutableLiveData <String> error = new MutableLiveData <>();
+    public final MutableLiveData <String> error = new ErrorLiveData();
     public final MutableLiveData <String> warning = new MutableLiveData <>();
     public final MutableLiveData <Integer> notFound = new MutableLiveData <>();
     

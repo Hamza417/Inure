@@ -21,7 +21,9 @@ import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.popups.behavior.PopupArcType
@@ -41,6 +43,8 @@ import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.ThemeUtils.setTheme
 import com.google.android.material.transition.platform.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.content.SharedPreferences.OnSharedPreferenceChangeListener {
@@ -311,8 +315,21 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         onBackPressedDispatcher.onBackPressed()
     }
 
+    override fun onResume() {
+        super.onResume()
+        /**
+         * Create a global database instance maybe?
+         */
+        lifecycleScope.launchWhenCreated {
+            withContext(Dispatchers.IO) {
+                StackTraceDatabase.init(applicationContext)
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        StackTraceDatabase.getInstance()?.close()
         SharedPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 }
