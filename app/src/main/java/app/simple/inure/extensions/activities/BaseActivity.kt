@@ -12,6 +12,8 @@ import android.transition.Fade
 import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -102,6 +104,18 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         val defValue = getDir("HOME", MODE_PRIVATE).absolutePath
         val homePath = getHomePath(defValue)
         setHomePath(homePath!!)
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
+                onBackEvent()
+            }
+        } else {
+            onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    onBackEvent()
+                }
+            })
+        }
     }
 
     private fun setTransitions() {
@@ -291,6 +305,10 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                 setTransitions()
             }
         }
+    }
+
+    open fun onBackEvent() {
+        onBackPressedDispatcher.onBackPressed()
     }
 
     override fun onDestroy() {

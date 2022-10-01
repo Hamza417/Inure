@@ -228,6 +228,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled),
                     Pair(R.drawable.ic_apps_category_disabled, R.string.disabled),
                     Pair(0, 0), // Divider
+                    Pair(R.drawable.ic_stacktrace, R.string.stacktraces)
             )
 
             if (BuildConfig.DEBUG || DevelopmentPreferences.isDebugStateEnabled()) {

@@ -47,7 +47,7 @@ class CrashReporterActivity : BaseActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    override fun onBackEvent() {
         close()
     }
 
