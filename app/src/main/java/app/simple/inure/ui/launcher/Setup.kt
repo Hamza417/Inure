@@ -35,8 +35,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class
-Setup : ScopedFragment() {
+class Setup : ScopedFragment() {
 
     private lateinit var usageAccess: DynamicRippleLinearLayout
     private lateinit var storageAccess: DynamicRippleLinearLayout
@@ -90,7 +89,12 @@ Setup : ScopedFragment() {
         usageAccess.setOnClickListener {
             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
             intent.data = Uri.fromParts("package", requireContext().packageName, null)
-            startActivity(intent)
+            kotlin.runCatching {
+                startActivity(intent)
+            }.onFailure {
+                intent.data = null
+                startActivity(intent)
+            }
         }
 
         storageAccess.setOnClickListener {
@@ -119,7 +123,7 @@ Setup : ScopedFragment() {
 
         rootSwitchView.setOnSwitchCheckedChangeListener {
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                if (it && Shell.rootAccess()) {
+                if (it && Shell.isAppGrantedRoot()!!) {
                     ConfigurationPreferences.setUsingRoot(true)
 
                     withContext(Dispatchers.Main) {

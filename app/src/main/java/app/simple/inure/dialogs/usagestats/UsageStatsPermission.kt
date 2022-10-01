@@ -1,6 +1,7 @@
 package app.simple.inure.dialogs.usagestats
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -39,7 +40,14 @@ class UsageStatsPermission : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         container.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+            val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+            intent.data = Uri.fromParts("package", requireContext().packageName, null)
+            kotlin.runCatching {
+                startActivity(intent)
+            }.onFailure {
+                intent.data = null
+                startActivity(intent)
+            }
         }
 
         grant.setOnClickListener {

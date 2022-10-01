@@ -86,8 +86,9 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
         if (!AppearancePreferences.isTransparentStatusDisabled()) {
             makeAppFullScreen()
-            fixNavigationBarOverlap()
         }
+
+        fixNavigationBarOverlap()
 
         /**
          * Keeps the instance of current locale of the app
@@ -150,7 +151,8 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
         with(window) {
             if (BehaviourPreferences.isArcAnimationOn()) {
-                when (BehaviourPreferences.getArcType()) {
+                // TODO - Fix activity crashing on [MaterialContainerTransform]
+                when (PopupArcType.LEGACY /* BehaviourPreferences.getArcType() */) {
                     PopupArcType.INURE -> {
                         sharedElementEnterTransition = MaterialContainerTransform().apply {
                             duration = resources.getInteger(R.integer.animation_duration).toLong()
@@ -223,38 +225,28 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
          */
         val root = findViewById<CoordinatorLayout>(R.id.app_container)
 
-        if (AppearancePreferences.isTransparentStatusDisabled()) {
-            root.layoutParams = (root.layoutParams as FrameLayout.LayoutParams).apply {
-                leftMargin = 0
-                bottomMargin = 0
-                rightMargin = 0
+        ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
+            val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+
+            /**
+             * Apply the insets as a margin to the view. Here the system is setting
+             * only the bottom, left, and right dimensions, but apply whichever insets are
+             * appropriate to your layout. You can also update the view padding
+             * if that's more appropriate.
+             */
+            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
             }
 
-            root.requestLayout()
-        } else {
-            ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
-                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-                val imeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
-                val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-
-                /**
-                 * Apply the insets as a margin to the view. Here the system is setting
-                 * only the bottom, left, and right dimensions, but apply whichever insets are
-                 * appropriate to your layout. You can also update the view padding
-                 * if that's more appropriate.
-                 */
-                view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                    leftMargin = insets.left
-                    bottomMargin = insets.bottom
-                    rightMargin = insets.right
-                }
-
-                /**
-                 * Return CONSUMED if you don't want want the window insets to keep being
-                 * passed down to descendant views.
-                 */
-                WindowInsetsCompat.CONSUMED
-            }
+            /**
+             * Return CONSUMED if you don't want want the window insets to keep being
+             * passed down to descendant views.
+             */
+            WindowInsetsCompat.CONSUMED
         }
     }
 

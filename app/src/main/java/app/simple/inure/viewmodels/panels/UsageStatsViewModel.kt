@@ -220,6 +220,10 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
 
         for (packageName in screenTimes.keys) {
             // Skip uninstalled packages?
+            if (!PackageUtils.isPackageInstalled(packageName, packageManager)) {
+                continue
+            }
+
             val packageStats = PackageStats()
             packageStats.packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_META_DATA)
 
@@ -234,6 +238,7 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
             if (wifiData.containsKey(uid)) {
                 packageStats.wifiData = wifiData[uid]
             } else packageStats.wifiData = DataUsage.EMPTY
+
             screenTimeList.add(packageStats)
         }
         return screenTimeList

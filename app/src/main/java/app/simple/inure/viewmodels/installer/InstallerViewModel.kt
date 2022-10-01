@@ -106,10 +106,15 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
 
     private fun postPackageInfo() {
         val file = if (listOfFiles!!.size > 1) listOfFiles!!.findFile("base.apk")!! else listOfFiles!![0]
-        val info = packageManager.getPackageArchiveInfo(file.path, flags)!!
+        val info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getPackageArchiveInfo(file.path, PackageManager.PackageInfoFlags.of(0))!!
+        } else {
+            @Suppress("DEPRECATION")
+            packageManager.getPackageArchiveInfo(file.path, flags)
+        }
 
         ApkFile(file).use {
-            info.applicationInfo.name = it.apkMeta.label
+            info?.applicationInfo?.name = it.apkMeta.label
         }
 
         packageInfo.postValue(info)
@@ -130,6 +135,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
         }
     }
 
+    @Suppress("RedundantOverride")
     override fun onCleared() {
         // if (File(applicationContext().cacheDir.path + "/installer_cache/").deleteRecursively()) {
         //    Log.d(javaClass.name, "Installer cache cleared")

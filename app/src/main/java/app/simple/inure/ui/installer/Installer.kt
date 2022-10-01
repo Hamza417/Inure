@@ -165,6 +165,10 @@ class Installer : ScopedFragment() {
 
             install.setOnClickListener {
                 loader.visible(true)
+                install.gone()
+                update.gone()
+                uninstall.gone()
+                launch.gone()
                 installerViewModel.install()
             }
 
@@ -231,7 +235,12 @@ class Installer : ScopedFragment() {
             launch.visible(animate = false)
 
             launch.setOnClickListener {
-                PackageUtils.launchThisPackage(requireContext(), packageInfo.packageName)
+                kotlin.runCatching {
+                    PackageUtils.launchThisPackage(requireContext(), packageInfo.packageName)
+                    requireActivity().finish()
+                }.onFailure {
+                    showError(it.stackTraceToString())
+                }
             }
         } else {
             launch.gone(animate = false)

@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
 import java.io.File;
@@ -22,6 +23,10 @@ public class InstallerUtils {
         sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             sessionParams.setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED);
+        }
+    
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            sessionParams.setInstallReason(PackageManager.INSTALL_REASON_USER);
         }
         sessionParams.setSize(totalSize);
         return sessionParams;
