@@ -87,7 +87,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
                 loadClasses()
                 subStats()
             }.getOrElse {
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

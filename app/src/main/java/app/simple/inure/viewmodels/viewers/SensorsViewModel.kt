@@ -41,7 +41,7 @@ class SensorsViewModel(application: Application) : WrappedViewModel(application)
                 }
             }.onFailure {
                 it.printStackTrace()
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

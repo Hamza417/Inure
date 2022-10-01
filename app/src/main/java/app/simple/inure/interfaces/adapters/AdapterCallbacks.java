@@ -7,8 +7,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import app.simple.inure.models.BatchPackageInfo;
 import app.simple.inure.models.NotesPackageInfo;
+import app.simple.inure.models.StackTrace;
 
-public interface AppsAdapterCallbacks {
+public interface AdapterCallbacks {
     default void onAppClicked(@NonNull PackageInfo packageInfo, @NonNull ImageView icon) {
     
     }
@@ -50,6 +51,10 @@ public interface AppsAdapterCallbacks {
     }
     
     default void onNoteLongClicked(@NonNull NotesPackageInfo notesPackageInfo) {
+    
+    }
+    
+    default void onStackTraceClicked(@NonNull StackTrace stackTrace) {
     
     }
 }

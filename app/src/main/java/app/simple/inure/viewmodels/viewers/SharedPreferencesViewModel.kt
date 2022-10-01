@@ -41,7 +41,7 @@ class SharedPreferencesViewModel(packageInfo: PackageInfo, application: Applicat
                 }
             }.getOrElse {
                 it.printStackTrace()
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

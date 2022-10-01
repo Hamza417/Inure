@@ -18,7 +18,7 @@ import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.menus.SearchMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.viewmodels.panels.SearchViewModel
 
@@ -62,7 +62,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 appsAdapterSearchSmall = AdapterSearch(it, searchViewModel.getSearchKeywords().value ?: "")
                 recyclerView.adapter = appsAdapterSearchSmall
 
-                appsAdapterSearchSmall.setOnItemClickListener(object : AppsAdapterCallbacks {
+                appsAdapterSearchSmall.setOnItemClickListener(object : AdapterCallbacks {
                     override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                         openAppInfo(packageInfo, icon)
                     }
@@ -88,7 +88,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 adapterDeepSearch = AdapterDeepSearch(it, searchViewModel.getSearchKeywords().value ?: "")
                 recyclerView.adapter = adapterDeepSearch
 
-                adapterDeepSearch.setOnItemClickListener(object : AppsAdapterCallbacks {
+                adapterDeepSearch.setOnItemClickListener(object : AdapterCallbacks {
                     override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                         openAppInfo(packageInfo, icon)
                     }

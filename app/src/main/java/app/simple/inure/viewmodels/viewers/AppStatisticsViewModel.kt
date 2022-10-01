@@ -42,7 +42,7 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
                     }
                 }
             }.getOrElse {
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
                 it.printStackTrace()
             }
         }

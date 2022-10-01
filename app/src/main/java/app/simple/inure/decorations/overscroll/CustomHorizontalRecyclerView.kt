@@ -25,9 +25,9 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
     private var isLandscape = false
 
     init {
-        context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
+        context.theme.obtainStyledAttributes(attrs, R.styleable.RecyclerView, 0, 0).apply {
             try {
-                if (getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {
+                if (getBoolean(R.styleable.RecyclerView_statusBarPaddingRequired, true)) {
                     setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
                 }
 
@@ -64,7 +64,7 @@ class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : Rec
             }
         }
 
-        this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
+        this.edgeEffectFactory = object : EdgeEffectFactory() {
             override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {
                 return object : EdgeEffect(recyclerView.context) {
                     override fun onPull(deltaDistance: Float) {

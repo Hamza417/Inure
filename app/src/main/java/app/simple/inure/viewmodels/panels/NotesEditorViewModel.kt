@@ -86,7 +86,7 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
                 saved.postValue(saved.value?.plus(1) ?: 0)
             }.onFailure {
                 it.printStackTrace()
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
                 saved.postValue(-1 /* Save has failed, tell the UI */)
             }
         }

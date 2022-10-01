@@ -100,7 +100,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                 postPackageInfo()
             }
         }.getOrElse {
-            error.postValue(it.stackTraceToString())
+            error.postValue(it)
         }
     }
 

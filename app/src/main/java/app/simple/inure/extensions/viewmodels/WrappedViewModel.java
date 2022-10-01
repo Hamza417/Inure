@@ -18,7 +18,7 @@ import app.simple.inure.util.ContextUtils;
 
 public class WrappedViewModel extends AndroidViewModel {
     
-    public final MutableLiveData <String> error = new ErrorLiveData();
+    public final ErrorLiveData error = new ErrorLiveData();
     public final MutableLiveData <String> warning = new MutableLiveData <>();
     public final MutableLiveData <Integer> notFound = new MutableLiveData <>();
     

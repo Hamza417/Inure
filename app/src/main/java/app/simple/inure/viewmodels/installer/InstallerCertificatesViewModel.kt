@@ -29,10 +29,6 @@ class InstallerCertificatesViewModel(application: Application, val file: File) :
         }
     }
 
-    fun getError(): LiveData<String> {
-        return error
-    }
-
     fun getCertificateData(): LiveData<ArrayList<Pair<Int, Spannable>>> {
         return certificate
     }
@@ -68,7 +64,7 @@ class InstallerCertificatesViewModel(application: Application, val file: File) :
                 this@InstallerCertificatesViewModel.certificate.postValue(list)
             }.getOrElse {
                 it.printStackTrace()
-                error.postValue(it.message)
+                error.postValue(it)
             }
         }
     }

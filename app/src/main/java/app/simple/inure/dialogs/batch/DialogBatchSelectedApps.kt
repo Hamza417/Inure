@@ -10,7 +10,7 @@ import app.simple.inure.adapters.ui.AdapterBatch
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.viewmodels.panels.BatchViewModel
 
@@ -37,7 +37,7 @@ class DialogBatchSelectedApps : ScopedBottomSheetFragment() {
         @Suppress("UNCHECKED_CAST") // Cast already checked
         adapterBatch = AdapterBatch(requireArguments().getSerializable(BundleConstants.selectedBatchApps) as ArrayList<BatchPackageInfo>, false)
 
-        adapterBatch.setOnItemClickListener(object : AppsAdapterCallbacks {
+        adapterBatch.setOnItemClickListener(object : AdapterCallbacks {
             override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
                 batchViewModel.updateBatchItem(batchPackageInfo)
                 batchSelectedAppsCallbacks?.onBatchChanged(batchPackageInfo)

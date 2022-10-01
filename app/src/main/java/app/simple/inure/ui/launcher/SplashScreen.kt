@@ -74,6 +74,7 @@ class SplashScreen : ScopedFragment() {
             // Initialize native crash handler
             CrashReporterUtils(requireContext()).initialize()
 
+
             when {
                 requireArguments().getBoolean("skip") -> {
                     proceed()

@@ -69,11 +69,11 @@ class ClearDataViewModel(application: Application, val packageInfo: PackageInfo)
             }.onFailure {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }.getOrElse {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

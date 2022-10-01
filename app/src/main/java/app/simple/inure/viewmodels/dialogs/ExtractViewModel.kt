@@ -37,10 +37,6 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
         return status
     }
 
-    fun getError(): LiveData<String> {
-        return error
-    }
-
     fun getSuccess(): LiveData<Boolean> {
         return success
     }
@@ -67,7 +63,7 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
                 }
             }.onFailure {
                 it.printStackTrace()
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }.onSuccess {
                 success.postValue(true)
             }
@@ -89,14 +85,14 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
                 }
 
                 if (progressMonitor.result.equals(ProgressMonitor.Result.ERROR)) {
-                    error.postValue(progressMonitor.exception.stackTraceToString())
+                    error.postValue(progressMonitor.exception)
                 } else if (progressMonitor.result.equals(ProgressMonitor.Result.CANCELLED)) {
                     status.postValue(getString(R.string.cancelled))
                 }
             }
         }.onFailure {
             it.printStackTrace()
-            error.postValue(it.stackTraceToString())
+            error.postValue(it)
         }.onSuccess {
             file.postValue(File(applicationContext().getBundlePathAndFileName(packageInfo)))
         }

@@ -39,19 +39,19 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
 
     init {
         if (isInEditMode.invert()) {
-            context.theme.obtainStyledAttributes(attrs, R.styleable.CustomRecyclerView, 0, 0).apply {
+            context.theme.obtainStyledAttributes(attrs, R.styleable.RecyclerView, 0, 0).apply {
                 try {
                     edgeColor = AppearancePreferences.getAccentColor()
 
-                    if (getBoolean(R.styleable.CustomRecyclerView_statusBarPaddingRequired, true)) {
+                    if (getBoolean(R.styleable.RecyclerView_statusBarPaddingRequired, true)) {
                         if (!AppearancePreferences.isTransparentStatusDisabled()) {
                             setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
                         }
                     }
 
-                    fastScroll = getBoolean(R.styleable.CustomRecyclerView_isFastScrollRequired, true)
-                    manuallyAnimated = getBoolean(R.styleable.CustomRecyclerView_manuallyAnimated, false)
-                    isEdgeColorRequired = getBoolean(R.styleable.CustomRecyclerView_isEdgeColorRequired, true)
+                    fastScroll = getBoolean(R.styleable.RecyclerView_isFastScrollRequired, true)
+                    manuallyAnimated = getBoolean(R.styleable.RecyclerView_manuallyAnimated, false)
+                    isEdgeColorRequired = getBoolean(R.styleable.RecyclerView_isEdgeColorRequired, true)
 
                     if (AccessibilityPreferences.isAnimationReduced())
                         layoutAnimation = null
@@ -75,7 +75,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                 addItemDecoration(divider)
             }
 
-            this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
+            this.edgeEffectFactory = object : EdgeEffectFactory() {
                 override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {
                     return object : EdgeEffect(recyclerView.context) {
                         override fun onPull(deltaDistance: Float) {

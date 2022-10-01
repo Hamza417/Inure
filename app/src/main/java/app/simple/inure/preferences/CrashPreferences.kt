@@ -2,16 +2,37 @@ package app.simple.inure.preferences
 
 object CrashPreferences {
 
-    const val crashLog = "crash_log"
+    private const val crashTimestamp = "crash_timestamp"
+    private const val crashMessage = "crash_message"
+    private const val crashCause = "crashCause"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun saveCrashLog(value: String?) {
-        SharedPreferences.getSharedPreferences().edit().putString(crashLog, value).apply()
+    fun saveCrashLog(value: Long): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putLong(crashTimestamp, value).commit()
     }
 
-    fun getCrashLog(): String? {
-        return SharedPreferences.getSharedPreferences()
-            .getString(crashLog, null)
+    fun getCrashLog(): Long {
+        return SharedPreferences.getSharedPreferences().getLong(crashTimestamp, -1)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun saveMessage(value: String?): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putString(crashMessage, value).commit()
+    }
+
+    fun getMessage(): String? {
+        return SharedPreferences.getSharedPreferences().getString(crashMessage, null)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun saveCause(value: String?): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putString(crashCause, value).commit()
+    }
+
+    fun getCause(): String? {
+        return SharedPreferences.getSharedPreferences().getString(crashCause, null)
     }
 }

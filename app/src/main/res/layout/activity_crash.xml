@@ -32,12 +32,13 @@
                 android:paddingHorizontal="@dimen/popup_padding">
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/warning"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/header_padding"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="@dimen/header_padding"
-                    android:text="@string/the_app_has_crashed"
+                    android:text="@string/crash_report"
                     android:textSize="@dimen/preferences_title_text_size"
                     app:appFontStyle="bold"
                     app:drawableStartCompat="@drawable/ic_main_app_icon_regular"
@@ -48,6 +49,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_margin="@dimen/panel_item_padding" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/dialog_padding"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/panel_item_padding"
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/cause"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingHorizontal="@dimen/panel_item_padding"
+                    android:textSize="@dimen/desc_text_size"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="accent" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/timestamp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingHorizontal="@dimen/panel_item_padding"
+                    android:textSize="@dimen/desc_text_size"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.theme.ThemeDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginHorizontal="@dimen/panel_item_padding"
+                    android:layout_marginVertical="@dimen/popup_padding" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/error"

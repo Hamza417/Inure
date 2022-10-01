@@ -48,14 +48,10 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
         return miscellaneousItems
     }
 
-    fun getError(): LiveData<String> {
-        return error
-    }
-
     fun loadActionOptions() {
         viewModelScope.launch(Dispatchers.Default) {
             if (!PackageUtils.isPackageInstalled(packageInfo.packageName, context.packageManager)) {
-                error.postValue(context.getString(R.string.app_not_installed, packageInfo.packageName))
+                warning.postValue(context.getString(R.string.app_not_installed, packageInfo.packageName))
                 return@launch
             }
 

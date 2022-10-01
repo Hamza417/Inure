@@ -74,7 +74,7 @@ class JSONViewerViewModel(application: Application, private val accentColor: Int
 
                 spanned.postValue(formattedContent)
             }.getOrElse {
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

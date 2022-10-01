@@ -16,13 +16,13 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.FormattingPreferences
 
 class AdapterDisabled : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     var apps = arrayListOf<PackageInfo>()
-    private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
+    private lateinit var adapterCallbacks: AdapterCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -55,22 +55,22 @@ class AdapterDisabled : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.date.text = apps[position].getApplicationInstallTime(holder.itemView.context, FormattingPreferences.getDateFormat())
 
             holder.container.setOnClickListener {
-                appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
+                adapterCallbacks.onAppClicked(apps[position], holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks.onAppLongPressed(apps[position], holder.icon)
+                adapterCallbacks.onAppLongPressed(apps[position], holder.icon)
                 true
             }
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
 
             holder.search.setOnClickListener {
-                appsAdapterCallbacks.onSearchPressed(it)
+                adapterCallbacks.onSearchPressed(it)
             }
 
             holder.settings.setOnClickListener {
-                appsAdapterCallbacks.onSettingsPressed(it)
+                adapterCallbacks.onSettingsPressed(it)
             }
         }
     }
@@ -96,8 +96,8 @@ class AdapterDisabled : RecyclerView.Adapter<VerticalListViewHolder>() {
         return position.toLong()
     }
 
-    fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
-        this.appsAdapterCallbacks = appsAdapterCallbacks
+    fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {
+        this.adapterCallbacks = adapterCallbacks
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

@@ -17,7 +17,7 @@ import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.usagestats.UsageStatsMenu
 import app.simple.inure.dialogs.usagestats.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.usagestats.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatisticsPreferences
@@ -64,7 +64,7 @@ class Statistics : ScopedFragment() {
 
             adapterUsageStats = AdapterUsageStats(it)
 
-            adapterUsageStats?.setOnStatsCallbackListener(object : AppsAdapterCallbacks {
+            adapterUsageStats?.setOnStatsCallbackListener(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }

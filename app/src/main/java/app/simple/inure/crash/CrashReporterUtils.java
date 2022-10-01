@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.concurrent.Executors;
 
 import androidx.annotation.NonNull;
 import app.simple.inure.activities.app.CrashReporterActivity;
@@ -30,41 +29,44 @@ public class CrashReporterUtils implements Thread.UncaughtExceptionHandler {
         defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
     }
     
-    public void uncaughtException(@NonNull Thread thread, Throwable exception) {
+    public void uncaughtException(@NonNull Thread thread, Throwable throwable) {
         final Writer result = new StringWriter();
         final PrintWriter printWriter = new PrintWriter(result);
-        exception.printStackTrace(printWriter);
+        throwable.printStackTrace(printWriter);
         String stacktrace = result.toString();
         printWriter.close();
-        
-        saveTraceToDataBase(stacktrace);
-        Utils.create(stacktrace, new File(context.getExternalFilesDir("logs"), "crashLog_" + Utils.getTimeStamp()));
-        CrashPreferences.INSTANCE.saveCrashLog(Utils.getTimeStamp());
-        
+    
+        Utils.create(stacktrace, new File(context.getExternalFilesDir("logs"), "crashLog_" + System.currentTimeMillis()));
+        CrashPreferences.INSTANCE.saveCrashLog(System.currentTimeMillis());
+        CrashPreferences.INSTANCE.saveMessage(Utils.getCause(throwable).getMessage());
+        CrashPreferences.INSTANCE.saveCause(Utils.getCause(throwable).toString());
+    
         Intent intent = new Intent(context, CrashReporterActivity.class);
-        intent.putExtra("crashLog", stacktrace);
+        intent.putExtra(CrashReporterActivity.MODE_NORMAL, stacktrace);
         context.startActivity(intent);
-        
-        defaultUncaughtExceptionHandler.uncaughtException(thread, exception);
+    
+        defaultUncaughtExceptionHandler.uncaughtException(thread, throwable);
     }
     
     public void initialize() {
-        String timeStamp = CrashPreferences.INSTANCE.getCrashLog();
-        if (timeStamp != null) {
+        long timeStamp = CrashPreferences.INSTANCE.getCrashLog();
+        if (timeStamp != -1) {
             Intent intent = new Intent(context, CrashReporterActivity.class);
-            intent.putExtra("crashLog", Utils.read(new File(context.getExternalFilesDir("logs"), "crashLog_" + timeStamp)));
+            intent.putExtra(CrashReporterActivity.MODE_NORMAL,
+                    Utils.read(new File(context.getExternalFilesDir("logs"), "crashLog_" + timeStamp)));
             context.startActivity(intent);
         }
         Thread.setDefaultUncaughtExceptionHandler(new CrashReporterUtils(context));
     }
     
-    public void saveTraceToDataBase(String trace) {
-        Executors.newSingleThreadExecutor().submit(() -> {
-            StackTrace stackTrace = new StackTrace(trace, System.currentTimeMillis());
+    @SuppressWarnings ("unused")
+    public void saveTraceToDataBase(Throwable throwable) {
+        new Thread(() -> {
+            Log.d(TAG, "Thread started");
+            StackTrace stackTrace = new StackTrace(throwable);
             StackTraceDatabase stackTraceDatabase = StackTraceDatabase.Companion.getInstance(context);
             stackTraceDatabase.stackTraceDao().insertTrace(stackTrace);
             Log.d(TAG, "Trace saved to database");
-        });
+        }).start();
     }
-    
 }

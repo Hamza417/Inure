@@ -16,7 +16,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
@@ -58,7 +58,7 @@ class Apps : ScopedFragment() {
                 startPostponedEnterTransition()
             }
 
-            adapter.setOnItemClickListener(object : AppsAdapterCallbacks {
+            adapter.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openFragmentArc(AppInfo.newInstance(packageInfo, icon.transitionName), icon, "app_info")
                 }

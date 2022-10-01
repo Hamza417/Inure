@@ -97,7 +97,7 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
                     }
                 })
             }.getOrElse {
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

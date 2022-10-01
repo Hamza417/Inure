@@ -118,6 +118,20 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
         }
     }
 
+    protected fun showError(error: Throwable) {
+        try {
+            val e = Error.newInstance(error.stackTraceToString())
+            e.show(childFragmentManager, "error_dialog")
+            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+                override fun onDismiss() {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
+            })
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        }
+    }
+
     /**
      * Return the {@link Application} this fragment is currently associated with.
      */

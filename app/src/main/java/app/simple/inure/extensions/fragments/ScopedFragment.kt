@@ -299,6 +299,16 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         })
     }
 
+    open fun showError(error: Throwable) {
+        val e = Error.newInstance(error.stackTraceToString())
+        e.show(childFragmentManager, "error_dialog")
+        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
+            override fun onDismiss() {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        })
+    }
+
     open fun openWebPage(source: String) {
         clearTransitions()
         openFragmentSlide(WebPage.newInstance(string = source), "web_page")

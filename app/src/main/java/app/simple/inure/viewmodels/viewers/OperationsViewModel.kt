@@ -67,7 +67,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
                 appsOpsModel.isEnabled = appsOpsModel.isEnabled.invert()
                 appOpsState.postValue(Pair(appsOpsModel, position))
             }.getOrElse {
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

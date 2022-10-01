@@ -14,13 +14,13 @@ import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.util.AdapterUtils.searchHighlighter
 
 @Deprecated("not in use anymore")
 class AdapterApps : RecyclerView.Adapter<AdapterApps.Holder>(), PopupTextProvider {
 
-    private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
+    private lateinit var adapterCallbacks: AdapterCallbacks
     var apps = arrayListOf<PackageInfo>()
     var searchKeyword: String = ""
 
@@ -42,11 +42,11 @@ class AdapterApps : RecyclerView.Adapter<AdapterApps.Holder>(), PopupTextProvide
         }
 
         holder.container.setOnClickListener {
-            appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
+            adapterCallbacks.onAppClicked(apps[position], holder.icon)
         }
 
         holder.container.setOnLongClickListener {
-            appsAdapterCallbacks.onAppLongPressed(apps[position], holder.icon)
+            adapterCallbacks.onAppLongPressed(apps[position], holder.icon)
             true
         }
     }
@@ -60,8 +60,8 @@ class AdapterApps : RecyclerView.Adapter<AdapterApps.Holder>(), PopupTextProvide
         return apps.size
     }
 
-    fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
-        this.appsAdapterCallbacks = appsAdapterCallbacks
+    fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {
+        this.adapterCallbacks = adapterCallbacks
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

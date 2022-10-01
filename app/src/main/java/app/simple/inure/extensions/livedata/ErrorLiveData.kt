@@ -7,12 +7,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ErrorLiveData : MutableLiveData<String>() {
-    override fun postValue(value: String?) {
+open class ErrorLiveData : MutableLiveData<Throwable>() {
+    override fun postValue(value: Throwable) {
         super.postValue(value)
+        saveTraceToDatabase(value)
+    }
+
+    private fun saveTraceToDatabase(throwable: Throwable) {
         CoroutineScope(Dispatchers.IO).launch {
             StackTraceDatabase.getInstance()
-                ?.stackTraceDao()?.insertTrace(StackTrace(value!!, System.currentTimeMillis()))
+                ?.stackTraceDao()?.insertTrace(StackTrace(throwable))
         }
     }
 }

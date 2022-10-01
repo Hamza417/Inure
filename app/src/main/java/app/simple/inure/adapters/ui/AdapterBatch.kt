@@ -15,7 +15,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.preferences.FormattingPreferences
@@ -25,7 +25,7 @@ import java.util.stream.Collectors
 
 class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boolean = true) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
+    private var adapterCallbacks: AdapterCallbacks? = null
     private val pattern = FormattingPreferences.getDateFormat()
     private var highlight = BatchPreferences.isSelectedBatchHighlighted()
 
@@ -67,7 +67,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             holder.checkBox.setOnCheckedChangeListener {
                 apps[position].isSelected = it
                 apps[position].dateSelected = if (it) System.currentTimeMillis() else -1
-                appsAdapterCallbacks?.onBatchChanged(apps[position])
+                adapterCallbacks?.onBatchChanged(apps[position])
 
                 if (highlight) {
                     holder.container.setDefaultBackground(apps[position].isSelected)
@@ -97,26 +97,26 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks?.onAppLongPressed(apps[position].packageInfo, holder.icon)
+                adapterCallbacks?.onAppLongPressed(apps[position].packageInfo, holder.icon)
                 true
             }
         }
 
         if (holder is Header) {
             holder.search.setOnClickListener {
-                appsAdapterCallbacks?.onSearchPressed(it)
+                adapterCallbacks?.onSearchPressed(it)
             }
 
             holder.filter.setOnClickListener {
-                appsAdapterCallbacks?.onFilterPressed(it)
+                adapterCallbacks?.onFilterPressed(it)
             }
 
             holder.sort.setOnClickListener {
-                appsAdapterCallbacks?.onSortPressed(it)
+                adapterCallbacks?.onSortPressed(it)
             }
 
             holder.settings.setOnClickListener {
-                appsAdapterCallbacks?.onSettingsPressed(it)
+                adapterCallbacks?.onSettingsPressed(it)
             }
 
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
@@ -148,8 +148,8 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         }
     }
 
-    fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
-        this.appsAdapterCallbacks = appsAdapterCallbacks
+    fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {
+        this.adapterCallbacks = adapterCallbacks
     }
 
     fun getCurrentAppsList(): ArrayList<BatchPackageInfo> {

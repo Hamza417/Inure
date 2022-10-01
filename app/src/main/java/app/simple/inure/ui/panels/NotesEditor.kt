@@ -18,7 +18,6 @@ import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.notes.NotesEditorMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
@@ -189,7 +188,7 @@ class NotesEditor : KeyboardScopedFragment() {
                         textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
                         undoRedoButtonState()
                     }.getOrElse {
-                        printError(it.stackTraceToString())
+                        showError(it)
                     }
                 }
             })
@@ -229,7 +228,7 @@ class NotesEditor : KeyboardScopedFragment() {
         }
 
         notesViewModel.error.observe(viewLifecycleOwner) {
-            printError(it)
+            showError(it)
         }
 
         undoRedoButtonState()
@@ -261,11 +260,6 @@ class NotesEditor : KeyboardScopedFragment() {
         redo.isEnabled = textViewUndoRedo?.canRedo ?: false
 
         notesViewModel.updateNoteData(notesPackageInfo!!)
-    }
-
-    private fun printError(error: String) {
-        Error.newInstance(error)
-            .show(childFragmentManager, "error_dialog")
     }
 
     private fun handleFormattingState() {

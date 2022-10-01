@@ -20,7 +20,7 @@ import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.DialogBatchSelectedApps
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.batch.PopupBatchAppsCategory
@@ -69,7 +69,7 @@ class Batch : ScopedFragment() {
             batchMenuState(it)
             hideLoader()
 
-            adapterBatch?.setOnItemClickListener(object : AppsAdapterCallbacks {
+            adapterBatch?.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openFragmentArc(AppInfo.newInstance(packageInfo, icon.transitionName), icon, "app_info")
                 }

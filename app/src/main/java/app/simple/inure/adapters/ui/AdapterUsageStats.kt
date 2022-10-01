@@ -15,7 +15,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.FileSizeHelper.toSize
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 
 class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
-    private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
+    private var adapterCallbacks: AdapterCallbacks? = null
     private var isLimitedToHours = StatisticsPreferences.isLimitToHours()
     private var isLoader = false // list.isEmpty()
         set(value) {
@@ -96,29 +96,29 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
             }
 
             holder.container.setOnClickListener {
-                appsAdapterCallbacks?.onAppClicked(list[position].packageInfo!!, holder.icon)
+                adapterCallbacks?.onAppClicked(list[position].packageInfo!!, holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks?.onAppLongPressed(list[position].packageInfo!!, holder.icon)
+                adapterCallbacks?.onAppLongPressed(list[position].packageInfo!!, holder.icon)
                 true
             }
 
         } else if (holder is Header) {
             holder.settings.setOnClickListener {
-                appsAdapterCallbacks?.onSettingsPressed(it)
+                adapterCallbacks?.onSettingsPressed(it)
             }
 
             holder.filter.setOnClickListener {
-                appsAdapterCallbacks?.onFilterPressed(it)
+                adapterCallbacks?.onFilterPressed(it)
             }
 
             holder.sort.setOnClickListener {
-                appsAdapterCallbacks?.onSortPressed(it)
+                adapterCallbacks?.onSortPressed(it)
             }
 
             holder.search.setOnClickListener {
-                appsAdapterCallbacks?.onSearchPressed(it)
+                adapterCallbacks?.onSearchPressed(it)
             }
 
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), list.size)
@@ -148,8 +148,8 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
         return list[position].packageInfo?.applicationInfo?.name?.substring(0, 1) ?: ""
     }
 
-    fun setOnStatsCallbackListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
-        this.appsAdapterCallbacks = appsAdapterCallbacks
+    fun setOnStatsCallbackListener(adapterCallbacks: AdapterCallbacks) {
+        this.adapterCallbacks = adapterCallbacks
     }
 
     fun notifyAllData() {

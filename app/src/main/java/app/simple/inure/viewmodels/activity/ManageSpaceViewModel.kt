@@ -38,7 +38,7 @@ class ManageSpaceViewModel(application: Application) : WrappedViewModel(applicat
                 }
             }.onFailure {
                 it.printStackTrace()
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }
@@ -53,7 +53,7 @@ class ManageSpaceViewModel(application: Application) : WrappedViewModel(applicat
                 }
             }.onFailure {
                 it.printStackTrace()
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

@@ -28,7 +28,7 @@ class StackTraceViewModel(application: Application) : WrappedViewModel(applicati
                 val db = StackTraceDatabase.getInstance(applicationContext())
                 stackTraces.postValue(db?.stackTraceDao()?.getStackTraces() as ArrayList<StackTrace>)
             }.getOrElse {
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

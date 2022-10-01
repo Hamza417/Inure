@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-class Utils {
+public class Utils {
     public static void create(String text, File path) {
         try {
             FileWriter writer = new FileWriter(path);
@@ -48,5 +48,15 @@ class Utils {
             }
         }
         return null;
+    }
+    
+    public static Throwable getCause(Throwable e) {
+        Throwable cause;
+        Throwable result = e;
+        
+        while (null != (cause = result.getCause()) && (result != cause)) {
+            result = cause;
+        }
+        return result;
     }
 }

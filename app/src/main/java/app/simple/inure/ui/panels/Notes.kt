@@ -13,7 +13,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.notes.NotesMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
@@ -43,7 +43,7 @@ class Notes : ScopedFragment() {
         notesViewModel.getNotesData().observe(viewLifecycleOwner) {
             adapterNotes = AdapterNotes(it)
 
-            adapterNotes?.setOnItemClickListener(object : AppsAdapterCallbacks {
+            adapterNotes?.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onNoteClicked(notesPackageInfo: NotesPackageInfo) {
                     openFragmentSlide(NotesEditor.newInstance(notesPackageInfo.packageInfo), "notes_editor")
                 }

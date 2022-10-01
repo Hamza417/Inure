@@ -30,7 +30,7 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
                     dexData.postValue(it.dexClasses.toMutableList())
                 }
             }.getOrElse {
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

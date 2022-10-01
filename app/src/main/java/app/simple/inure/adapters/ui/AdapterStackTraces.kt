@@ -8,14 +8,15 @@ import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.StackTrace
 import app.simple.inure.util.DateUtils.toDate
 
 class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
+    private var adapterCallbacks: AdapterCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -37,11 +38,17 @@ class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.
         val position = position_ - 1
 
         if (holder is Holder) {
+            holder.message.text = stackTraces[position].message
+            holder.cause.text = stackTraces[position].cause
             holder.trace.text = stackTraces[position].trace
             holder.timestamp.text = stackTraces[position].timestamp.toDate()
+
+            holder.container.setOnClickListener {
+                adapterCallbacks?.onStackTraceClicked(stackTraces[position])
+            }
         } else if (holder is Header) {
             holder.settings.setOnClickListener {
-                appsAdapterCallbacks?.onSettingsPressed(it)
+                adapterCallbacks?.onSettingsPressed(it)
             }
         }
     }
@@ -58,13 +65,16 @@ class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.
         }
     }
 
-    fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
-        this.appsAdapterCallbacks = appsAdapterCallbacks
+    fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {
+        this.adapterCallbacks = adapterCallbacks
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+        val message: TypeFaceTextView = itemView.findViewById(R.id.message)
+        val cause: TypeFaceTextView = itemView.findViewById(R.id.cause)
         val timestamp: TypeFaceTextView = itemView.findViewById(R.id.timestamp)
         val trace: TypeFaceTextView = itemView.findViewById(R.id.trace)
+        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {

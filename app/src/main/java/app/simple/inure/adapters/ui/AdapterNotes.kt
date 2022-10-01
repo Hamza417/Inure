@@ -17,14 +17,14 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.util.DateUtils
 
 class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    private var appsAdapterCallbacks: AppsAdapterCallbacks? = null
+    private var adapterCallbacks: AdapterCallbacks? = null
 
     var areNotesExpanded = NotesPreferences.areNotesExpanded()
         set(value) {
@@ -78,26 +78,26 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             }
 
             holder.delete.setOnClickListener {
-                appsAdapterCallbacks?.onNoteDelete(it, notes[position])
+                adapterCallbacks?.onNoteDelete(it, notes[position])
             }
 
             holder.container.setOnClickListener {
-                appsAdapterCallbacks?.onNoteClicked(notes[position])
+                adapterCallbacks?.onNoteClicked(notes[position])
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks?.onNoteLongClicked(notes[position])
+                adapterCallbacks?.onNoteLongClicked(notes[position])
                 true
             }
         }
 
         if (holder is Header) {
             holder.search.setOnClickListener {
-                appsAdapterCallbacks?.onSearchPressed(it)
+                adapterCallbacks?.onSearchPressed(it)
             }
 
             holder.settings.setOnClickListener {
-                appsAdapterCallbacks?.onSettingsPressed(it)
+                adapterCallbacks?.onSettingsPressed(it)
             }
 
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), notes.size)
@@ -128,8 +128,8 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
         } else RecyclerViewConstants.TYPE_ITEM
     }
 
-    fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
-        this.appsAdapterCallbacks = appsAdapterCallbacks
+    fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {
+        this.adapterCallbacks = adapterCallbacks
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

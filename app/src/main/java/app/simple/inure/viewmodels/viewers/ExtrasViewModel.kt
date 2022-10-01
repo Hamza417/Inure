@@ -52,7 +52,7 @@ class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : 
                 if (it is NullPointerException) {
                     notFound.postValue(88)
                 } else {
-                    error.postValue(it.stackTraceToString())
+                    error.postValue(it)
                 }
             }
         }

@@ -1,27 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/dialog_padding"
     android:orientation="vertical"
     android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/dialog_padding"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="medium"
+        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+        app:drawableTintStyle="accent"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/cause"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:textColorStyle="accent" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/timestamp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:textSize="@dimen/desc_text_size"
-        app:appFontStyle="bold"
-        app:textColorStyle="accent" />
+        app:appFontStyle="regular"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginVertical="5dp" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/trace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:ellipsize="end"
-        android:maxLines="20"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
         app:textColorStyle="secondary" />

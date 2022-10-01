@@ -50,7 +50,7 @@ class JavaViewModel(application: Application, val accentColor: Int, val packageI
 
                 spanned.postValue(formattedContent)
             }.getOrElse {
-                error.postValue(it.stackTraceToString())
+                error.postValue(it)
             }
         }
     }

@@ -566,7 +566,7 @@
     <string name="update">Update</string>
     <string name="serial_number">Serial Number</string>
     <string name="subject">Subject</string>
-    <string name="the_app_has_crashed">The app has crashed!</string>
+    <string name="the_app_has_crashed">The app was crashed!</string>
     <string name="fade">Fade</string>
     <string name="elevation">Elevation</string>
     <string name="shared_axis">Shared Axis %1$s</string>
@@ -584,4 +584,5 @@
     <string name="usage_data_does_not_exist_for_this_app">Usage data does not exist for this app.</string>
     <string name="shared_prefs">Shared Preferences</string>
     <string name="stacktraces">Stacktraces</string>
+    <string name="crash_report">Crash Report</string>
 </resources>

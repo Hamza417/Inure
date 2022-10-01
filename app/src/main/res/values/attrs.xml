@@ -81,7 +81,7 @@
         <attr name="switchPadding" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="CustomRecyclerView">
+    <declare-styleable name="RecyclerView">
         <attr name="statusBarPaddingRequired" format="boolean" />
         <attr name="manuallyAnimated" format="boolean" />
         <attr name="isFastScrollRequired" format="boolean" />

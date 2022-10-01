@@ -28,10 +28,6 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
         }
     }
 
-    fun getError(): LiveData<String> {
-        return error
-    }
-
     fun getCertificateData(): LiveData<ArrayList<Pair<Int, Spannable>>> {
         return certificate
     }
@@ -57,7 +53,7 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
 
                 this@CertificatesViewModel.certificate.postValue(list)
             }.getOrElse {
-                error.postValue(it.message)
+                error.postValue(it)
             }
         }
     }

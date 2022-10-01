@@ -58,7 +58,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                 if (it is NullPointerException) {
                     notFound.postValue(55)
                 } else {
-                    error.postValue(it.stackTraceToString())
+                    error.postValue(it)
                 }
             }
         }
@@ -75,7 +75,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                 if (it is NullPointerException) {
                     notFound.postValue(3)
                 } else {
-                    error.postValue(it.stackTraceToString())
+                    error.postValue(it)
                 }
             }
         }

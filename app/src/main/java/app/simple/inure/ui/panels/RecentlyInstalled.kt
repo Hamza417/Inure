@@ -14,7 +14,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.viewmodels.panels.HomeViewModel
 
 class RecentlyInstalled : ScopedFragment() {
@@ -48,7 +48,7 @@ class RecentlyInstalled : ScopedFragment() {
                 startPostponedEnterTransition()
             }
 
-            appsAdapterSmall?.setOnItemClickListener(object : AppsAdapterCallbacks {
+            appsAdapterSmall?.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }

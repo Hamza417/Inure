@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "31e15e1254d5b57bf9cf4eb5d106f3a3",
+    "version": 3,
+    "identityHash": "041462db69220f9a20bcc1494d6be5b4",
     "entities": [
       {
         "tableName": "stacktrace",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trace` TEXT, `message` TEXT, `timestamp` INTEGER, PRIMARY KEY(`timestamp`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trace` TEXT, `message` TEXT, `cause` TEXT, `timestamp` INTEGER, PRIMARY KEY(`timestamp`))",
         "fields": [
           {
             "fieldPath": "trace",
@@ -17,6 +17,12 @@
           {
             "fieldPath": "message",
             "columnName": "message",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cause",
+            "columnName": "cause",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -40,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '31e15e1254d5b57bf9cf4eb5d106f3a3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '041462db69220f9a20bcc1494d6be5b4')"
     ]
   }
 }

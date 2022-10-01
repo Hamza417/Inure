@@ -55,7 +55,7 @@ class Certificate : ScopedFragment() {
             recyclerView.adapter = adapterInformation
         }
 
-        viewModel.getError().observe(viewLifecycleOwner) {
+        viewModel.error.observe(viewLifecycleOwner) {
             showError(it)
         }
     }

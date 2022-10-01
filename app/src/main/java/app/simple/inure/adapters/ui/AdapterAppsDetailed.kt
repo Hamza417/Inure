@@ -16,14 +16,14 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.interfaces.adapters.AppsAdapterCallbacks
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.util.PackageListUtils.setAppInfo
 import java.util.*
 
 class AdapterAppsDetailed : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
     var apps = arrayListOf<PackageInfo>()
-    private lateinit var appsAdapterCallbacks: AppsAdapterCallbacks
+    private lateinit var adapterCallbacks: AdapterCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -55,30 +55,30 @@ class AdapterAppsDetailed : RecyclerView.Adapter<VerticalListViewHolder>(), Popu
             holder.info.setAppInfo(apps[position])
 
             holder.container.setOnClickListener {
-                appsAdapterCallbacks.onAppClicked(apps[position], holder.icon)
+                adapterCallbacks.onAppClicked(apps[position], holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                appsAdapterCallbacks.onAppLongPressed(apps[position], holder.icon)
+                adapterCallbacks.onAppLongPressed(apps[position], holder.icon)
                 true
             }
         }
 
         if (holder is Header) {
             holder.search.setOnClickListener {
-                appsAdapterCallbacks.onSearchPressed(it)
+                adapterCallbacks.onSearchPressed(it)
             }
 
             holder.filter.setOnClickListener {
-                appsAdapterCallbacks.onFilterPressed(it)
+                adapterCallbacks.onFilterPressed(it)
             }
 
             holder.sort.setOnClickListener {
-                appsAdapterCallbacks.onSortPressed(it)
+                adapterCallbacks.onSortPressed(it)
             }
 
             holder.settings.setOnClickListener {
-                appsAdapterCallbacks.onSettingsPressed(it)
+                adapterCallbacks.onSettingsPressed(it)
             }
 
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
@@ -106,8 +106,8 @@ class AdapterAppsDetailed : RecyclerView.Adapter<VerticalListViewHolder>(), Popu
         } else RecyclerViewConstants.TYPE_ITEM
     }
 
-    fun setOnItemClickListener(appsAdapterCallbacks: AppsAdapterCallbacks) {
-        this.appsAdapterCallbacks = appsAdapterCallbacks
+    fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {
+        this.adapterCallbacks = adapterCallbacks
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
