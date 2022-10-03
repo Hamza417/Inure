@@ -223,6 +223,10 @@
     <string name="used_for_short">使用了 %1$s 分鐘</string>
     <string name="used_for_long">使用了 %1$s 小時 %2$s 分鐘</string>
     <string name="used_for_days">使用了 %1$s 天 %2$s 小時 %3$s 分鐘</string>
+    <string name="last_used_seconds">%1$s 秒前</string>
+    <string name="last_used_short">%1$s 分鐘前</string>
+    <string name="last_used_long">%1$s 小時 %2$s 分鐘前</string>
+    <string name="last_used_days">%1$s 天 %2$s 小時 %3$s 分鐘前</string>
     <string name="most_used">最常使用</string>
     <string name="time_used">使用時間</string>
     <string name="data_sent">資料已傳送</string>
@@ -574,4 +578,12 @@
     <string name="arc_type_desc">弧形類型將在切換面板時使用</string>
     <string name="usage_statistics_engine">使用量統計資料引擎</string>
     <string name="legacy">舊版</string>
+    <string name="screen_time">螢幕時間</string>
+    <string name="last_used">上次使用</string>
+    <string name="mobile_data">行動數據</string>
+    <string name="times">%1$d 次</string>
+    <string name="usage_data_does_not_exist_for_this_app">使用量資料內不存在本應用程式。</string>
+    <string name="shared_prefs">已共用的偏好設定</string>
+    <string name="stacktraces">堆疊追蹤</string>
+    <string name="crash_report">當機報告</string>
 </resources>
