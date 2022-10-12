@@ -71,7 +71,7 @@ class SplashScreen : ScopedFragment() {
             delay(500)
 
             // Initialize native crash handler
-            // CrashReporterUtils(requireContext()).initialize()
+            CrashReporterUtils(requireContext()).initialize()
 
 
             when {
