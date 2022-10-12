@@ -61,10 +61,9 @@ Low priority features
 *This list will be updated as the development progresses*
 
 ## Screenshots
-
 | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/01.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/03.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/04.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/06.jpg" width="100%"> |
 |:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
-|                                         All Apps                                          |                                  App Functions Navigator                                  |                                      App Information                                      |                                     Preferences Style                                     |
+|                                             1                                             |                                             2                                             |                                             3                                             |                                             4                                             |
 
 | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/15.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/07.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/05.jpg" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/08.jpg" width="100%"> |
 |:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
