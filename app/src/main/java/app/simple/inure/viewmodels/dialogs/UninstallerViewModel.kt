@@ -30,14 +30,7 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
 
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(Misc.delay)
-
             kotlin.runCatching {
-                Shell.enableVerboseLogging = BuildConfig.DEBUG
-                Shell.setDefaultBuilder(Shell.Builder.create()
-                                            .setFlags(Shell.FLAG_MOUNT_MASTER)
-                                            .setTimeout(10))
-
                 Shell.cmd(formUninstallCommand()).submit { shellResult ->
                     if (shellResult.isSuccess) {
                         success.postValue("Done")
