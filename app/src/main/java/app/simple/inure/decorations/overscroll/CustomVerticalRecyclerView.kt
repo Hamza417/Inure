@@ -4,7 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
+import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.EdgeEffect
+import android.widget.ImageView
+import androidx.core.view.children
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +21,7 @@ import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollT
 import app.simple.inure.decorations.theme.ThemeRecyclerView
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.RecyclerViewPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
@@ -36,6 +41,8 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
     private var fastScrollerBuilder: FastScrollerBuilder? = null
 
     private var edgeColor = 0
+
+    var parentViewTag: String? = null
 
     init {
         if (isInEditMode.invert()) {
@@ -177,8 +184,41 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
         super.setAdapter(adapter)
 
         if (!manuallyAnimated && isInEditMode.invert()) {
-            if (!AccessibilityPreferences.isAnimationReduced())
+            if (!AccessibilityPreferences.isAnimationReduced()) {
                 scheduleLayoutAnimation()
+
+                layoutAnimationListener = object : Animation.AnimationListener {
+                    override fun onAnimationStart(animation: Animation?) {
+                        if (RecyclerViewPreferences.getViewTag().equals(parentViewTag)) {
+                            kotlin.runCatching {
+                                for (view in (layoutManager?.findViewByPosition(RecyclerViewPreferences.getViewPosition()) as ViewGroup).children) {
+                                    if (view is ImageView) {
+                                        if (view.transitionName.isNotEmpty()) {
+                                            // view.animation.cancel()
+                                            // view.clearAnimation()
+                                        }
+                                    }
+                                }
+                            }.getOrElse {
+                                it.printStackTrace()
+                            }
+
+                            layoutManager?.findViewByPosition(RecyclerViewPreferences.getViewPosition())?.apply {
+                                // clearAnimation()
+                                // startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_in))
+                            }
+                        }
+                    }
+
+                    override fun onAnimationEnd(animation: Animation?) {
+                        /* no-op */
+                    }
+
+                    override fun onAnimationRepeat(animation: Animation?) {
+                        /* no-op */
+                    }
+                }
+            }
         }
 
         /**

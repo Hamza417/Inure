@@ -58,6 +58,7 @@ android {
         }
         debug {
             versionNameSuffix "_debug"
+            debuggable true
         }
     }
 

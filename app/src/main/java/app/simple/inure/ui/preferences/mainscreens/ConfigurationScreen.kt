@@ -76,6 +76,8 @@ class ConfigurationScreen : ScopedFragment() {
                     it.printStackTrace()
                 }
 
+                Shell.getShell()
+
                 if (it && Shell.isAppGrantedRoot() == true) {
                     ConfigurationPreferences.setUsingRoot(true)
 

@@ -2,21 +2,18 @@ package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.BuildConfig
 import app.simple.inure.R
-import app.simple.inure.constants.Misc
 import app.simple.inure.exceptions.InureShellException
+import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.PermissionInfo
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PermissionStatusViewModel(application: Application, val packageInfo: PackageInfo, val permissionInfo: PermissionInfo, val mode: String?) : AndroidViewModel(application) {
+class PermissionStatusViewModel(application: Application, val packageInfo: PackageInfo, val permissionInfo: PermissionInfo, val mode: String?) : RootViewModel(application) {
 
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -24,7 +21,7 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
 
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
-            runCommand()
+            initShell()
         }
     }
 
@@ -38,17 +35,10 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
 
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(Misc.delay)
-
             kotlin.runCatching {
-                Shell.enableVerboseLogging = BuildConfig.DEBUG
-                Shell.setDefaultBuilder(Shell.Builder.create()
-                                                .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                                .setTimeout(10))
-
                 val mode = if (mode == getApplication<Application>().getString(R.string.revoke)) "revoke" else "grant"
 
-                Shell.su("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").submit { shellResult ->
+                Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
@@ -81,8 +71,7 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Shell.getShell().close()
+    override fun onShellCreated(shell: Shell?) {
+        runCommand()
     }
 }

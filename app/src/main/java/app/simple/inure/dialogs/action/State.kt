@@ -37,9 +37,9 @@ class State : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(ViewModelProvider(this, StateViewModelFactory(packageInfo))[StateViewModel::class.java]) {
-            getResults().observe(viewLifecycleOwner, {
+            getResults().observe(viewLifecycleOwner) {
 
-            })
+            }
 
             getSuccessStatus().observe(viewLifecycleOwner) {
                 when (it) {
@@ -57,6 +57,10 @@ class State : ScopedBottomSheetFragment() {
                         status.setText(R.string.failed)
                     }
                 }
+            }
+
+            warning.observe(viewLifecycleOwner) {
+                showWarning(it)
             }
         }
     }

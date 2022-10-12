@@ -8,9 +8,11 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.ui.panels.Preferences
@@ -110,7 +112,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                    dismiss()
                 }
             })
         } catch (e: IllegalStateException) {
@@ -124,7 +126,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
             e.show(childFragmentManager, "error_dialog")
             e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
                 override fun onDismiss() {
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                    dismiss()
                 }
             })
         } catch (e: IllegalStateException) {
@@ -162,5 +164,25 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
             .replace(R.id.app_container, fragment, tag)
             .addToBackStack(tag)
             .commit()
+    }
+
+    open fun showWarning(warning: String) {
+        val p0 = Warning.newInstance(warning)
+        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
+            override fun onDismiss() {
+                dismiss()
+            }
+        })
+        p0.show(parentFragmentManager, "warning")
+    }
+
+    open fun showWarning(@StringRes warning: Int) {
+        val p0 = Warning.newInstance(warning)
+        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
+            override fun onDismiss() {
+                dismiss()
+            }
+        })
+        p0.show(parentFragmentManager, "warning")
     }
 }

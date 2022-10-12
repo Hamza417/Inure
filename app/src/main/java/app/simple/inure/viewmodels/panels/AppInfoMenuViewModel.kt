@@ -75,7 +75,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
                     list.add(Pair(R.drawable.ic_close, R.string.force_stop))
                     list.add(Pair(R.drawable.ic_delete_sweep, R.string.clear_data))
-                    list.add(Pair(R.drawable.ic_broom, R.string.clear_cache))
+                    // list.add(Pair(R.drawable.ic_broom, R.string.clear_cache))
                 }
 
                 list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))

@@ -28,6 +28,7 @@ import app.simple.inure.dialogs.terminal.DialogInitialCommand
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.models.PreferenceModel
+import app.simple.inure.preferences.RecyclerViewPreferences
 import app.simple.inure.ui.preferences.mainscreens.*
 import app.simple.inure.ui.preferences.subscreens.*
 import app.simple.inure.viewmodels.panels.PreferencesViewModel
@@ -66,6 +67,8 @@ class Preferences : SearchBarScopedFragment() {
 
             adapterPreferences.setOnPreferencesCallbackListener(object : PreferencesCallbacks {
                 override fun onPrefsClicked(imageView: ImageView, category: Int, position: Int) {
+                    RecyclerViewPreferences.setViewTag(tag)
+                    RecyclerViewPreferences.setViewPosition(position)
 
                     /**
                      * Workaround for shared animation lag

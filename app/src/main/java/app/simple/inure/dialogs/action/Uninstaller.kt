@@ -15,7 +15,6 @@ import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.UninstallerViewModelFactory
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -47,10 +46,7 @@ class Uninstaller : ScopedBottomSheetFragment() {
         if (ConfigurationPreferences.isUsingRoot()) {
             with(ViewModelProvider(this, UninstallerViewModelFactory(packageInfo))[UninstallerViewModel::class.java]) {
                 error.observe(viewLifecycleOwner) {
-                    println(it)
-                    dismiss()
-                    Error.newInstance(it)
-                        .show(parentFragmentManager, "error")
+                    showError(it)
                 }
 
                 getSuccessStatus().observe(viewLifecycleOwner) {

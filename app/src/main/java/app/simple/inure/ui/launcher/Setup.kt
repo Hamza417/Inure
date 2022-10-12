@@ -123,7 +123,20 @@ class Setup : ScopedFragment() {
 
         rootSwitchView.setOnSwitchCheckedChangeListener {
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                if (it && Shell.isAppGrantedRoot()!!) {
+                kotlin.runCatching {
+                    Shell.enableVerboseLogging = BuildConfig.DEBUG
+                    Shell.setDefaultBuilder(
+                            Shell.Builder
+                                .create()
+                                .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
+                                .setTimeout(10))
+                }.getOrElse {
+                    it.printStackTrace()
+                }
+
+                Shell.getShell()
+
+                if (it && Shell.isAppGrantedRoot() == true) {
                     ConfigurationPreferences.setUsingRoot(true)
 
                     withContext(Dispatchers.Main) {
@@ -133,7 +146,7 @@ class Setup : ScopedFragment() {
                     ConfigurationPreferences.setUsingRoot(false)
 
                     withContext(Dispatchers.Main) {
-                        (false).also { rootSwitchView.setChecked(it) }
+                        rootSwitchView.setChecked(false)
                     }
                 }
             }

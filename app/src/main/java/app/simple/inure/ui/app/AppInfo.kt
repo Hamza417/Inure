@@ -38,6 +38,7 @@ import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.panels.Unpack
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.MarketUtils
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
@@ -111,7 +112,8 @@ class AppInfo : ScopedFragment() {
         componentsViewModel.getMenuItems().observe(viewLifecycleOwner) {
             if (AppInformationPreferences.isMetaMenuFolded()) return@observe
 
-            metaAdapter = AdapterMenu(it)
+            metaAdapter = AdapterMenu()
+            metaAdapter?.list = it
             metaAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
 
             when (AppInformationPreferences.getMenuLayout()) {
@@ -193,7 +195,12 @@ class AppInfo : ScopedFragment() {
         componentsViewModel.getMenuOptions().observe(viewLifecycleOwner) {
             if (AppInformationPreferences.isActionMenuFolded()) return@observe
 
-            actionsAdapter = AdapterMenu(it)
+            if (actionsAdapter.isNull()) {
+                actionsAdapter = AdapterMenu()
+                actionsAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+            }
+
+            actionsAdapter?.list = it
 
             when (AppInformationPreferences.getMenuLayout()) {
                 PopupMenuLayout.HORIZONTAL -> {
@@ -204,8 +211,10 @@ class AppInfo : ScopedFragment() {
                 }
             }
 
-            actions.adapter = actionsAdapter
-            actions.scheduleLayoutAnimation()
+            if (actions.adapter.isNull()) {
+                actions.adapter = actionsAdapter
+                actions.scheduleLayoutAnimation()
+            }
 
             actionsAdapter?.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
@@ -293,7 +302,9 @@ class AppInfo : ScopedFragment() {
 
             if (AppInformationPreferences.isMiscMenuFolded()) return@observe
 
-            miscellaneousAdapter = AdapterMenu(it)
+            miscellaneousAdapter = AdapterMenu()
+            miscellaneousAdapter?.list = it
+            miscellaneousAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
 
             when (AppInformationPreferences.getMenuLayout()) {
                 PopupMenuLayout.HORIZONTAL -> {
