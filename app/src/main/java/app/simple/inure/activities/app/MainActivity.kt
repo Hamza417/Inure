@@ -1,6 +1,7 @@
 package app.simple.inure.activities.app
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -10,9 +11,11 @@ import android.widget.Toast
 import app.simple.inure.R
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
+import app.simple.inure.crash.CrashReporterUtils
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
@@ -145,6 +148,16 @@ class MainActivity : BaseActivity() {
         ThemeUtils.setBarColors(resources, window)
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
         window.setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            DevelopmentPreferences.crashHandler -> {
+                if (DevelopmentPreferences.isUsingNativeCrashHandler()) {
+                    CrashReporterUtils(applicationContext).initialize()
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

@@ -6,6 +6,8 @@ object DevelopmentPreferences {
     private const val preferencesIndicator = "is_preferences_indicator_hidden"
     private const val debugFeatures = "is_debug_features_enabled"
 
+    const val crashHandler = "is_using_native_crash_handler"
+
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setWebViewXmlViewer(value: Boolean) {
@@ -34,5 +36,15 @@ object DevelopmentPreferences {
 
     fun isDebugStateEnabled(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(debugFeatures, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setNativeCrashHandler(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(crashHandler, value).apply()
+    }
+
+    fun isUsingNativeCrashHandler(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(crashHandler, true)
     }
 }

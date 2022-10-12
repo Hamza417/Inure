@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
+import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
@@ -64,7 +65,18 @@ class ConfigurationScreen : ScopedFragment() {
 
         rootSwitchView.setOnSwitchCheckedChangeListener {
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                if (it && Shell.rootAccess()) {
+                kotlin.runCatching {
+                    Shell.enableVerboseLogging = BuildConfig.DEBUG
+                    Shell.setDefaultBuilder(
+                            Shell.Builder
+                                .create()
+                                .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
+                                .setTimeout(10))
+                }.getOrElse {
+                    it.printStackTrace()
+                }
+
+                if (it && Shell.isAppGrantedRoot() == true) {
                     ConfigurationPreferences.setUsingRoot(true)
 
                     withContext(Dispatchers.Main) {

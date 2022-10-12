@@ -57,16 +57,33 @@
                 app:appFontStyle="regular"
                 app:textColorStyle="primary" />
 
-            <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/clear_app_data"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="@dimen/panel_item_padding"
-                android:padding="@dimen/button_padding"
-                android:text="@string/clear_app_data"
-                app:appFontStyle="bold"
-                app:textColorStyle="accent" />
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.views.CustomProgressBar
+                    android:id="@+id/clear_app_data_loader"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="@dimen/loader_size"
+                    android:layout_height="@dimen/loader_size"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/clear_app_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:padding="@dimen/button_padding"
+                    android:text="@string/clear_app_data"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
+
+            </LinearLayout>
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="wrap_content"

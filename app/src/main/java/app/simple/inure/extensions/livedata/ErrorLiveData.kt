@@ -15,6 +15,7 @@ open class ErrorLiveData : MutableLiveData<Throwable>() {
 
     private fun saveTraceToDatabase(throwable: Throwable) {
         CoroutineScope(Dispatchers.IO).launch {
+            println(throwable.toString())
             StackTraceDatabase.getInstance()
                 ?.stackTraceDao()?.insertTrace(StackTrace(throwable))
         }
