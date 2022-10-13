@@ -1,6 +1,7 @@
 package app.simple.inure.extensions.viewmodels
 
 import android.app.Application
+import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -12,6 +13,7 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
 
     private var shell: Shell? = null
 
+    @MainThread
     protected fun initShell() {
         viewModelScope.launch(Dispatchers.IO) {
             if (ConfigurationPreferences.isUsingRoot()) {
@@ -25,11 +27,19 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
                                     .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
                                     .setTimeout(10))
                     }.getOrElse {
+                        /**
+                         * Block crashed deliberately,
+                         * get the traces and ignore the warning
+                         */
                         it.printStackTrace()
                     }
 
                     Shell.getShell(this@RootViewModel)
                 }.onFailure {
+                    /**
+                     * Connection could not be established with the system shell
+                     * Show the warning to the user
+                     */
                     warning.postValue(it.message)
                 }
             }
