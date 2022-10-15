@@ -17,6 +17,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.batch.BatchMenu
+import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.batch.DialogBatchSelectedApps
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -110,7 +111,14 @@ class Batch : ScopedFragment() {
         }
 
         delete.setOnClickListener {
-
+            val p0 = Sure.newInstance()
+            p0.setOnSureCallbackListener(object : SureCallbacks {
+                override fun onSure() {
+                    BatchUninstaller.newInstance(adapterBatch?.getCurrentAppsList()!!)
+                        .show(childFragmentManager, "batch_extract")
+                }
+            })
+            p0.show(childFragmentManager, "sure")
         }
 
         send.setOnClickListener {

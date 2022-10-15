@@ -537,6 +537,12 @@
             android:foregroundServiceType="dataSync" />
 
         <service
+            android:name=".services.BatchUninstallerService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <service
             android:name=".services.InstallerService"
             android:enabled="true"
             android:exported="false" />

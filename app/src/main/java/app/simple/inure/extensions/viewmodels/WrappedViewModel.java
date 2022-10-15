@@ -58,4 +58,12 @@ public class WrappedViewModel extends AndroidViewModel {
             return getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA);
         }
     }
+    
+    protected void postWarning(String string) {
+        warning.postValue(string);
+    }
+    
+    protected void postError(Throwable throwable) {
+        error.postValue(throwable);
+    }
 }

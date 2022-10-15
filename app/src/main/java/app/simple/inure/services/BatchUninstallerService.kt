@@ -9,8 +9,7 @@ import android.os.IBinder
 class BatchUninstallerService : Service() {
 
     private val binder = BatchUninstallerBinder()
-
-    var list = arrayListOf<PackageInfo>()
+    private var list = arrayListOf<PackageInfo>()
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -20,15 +19,12 @@ class BatchUninstallerService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-
-    }
-
     /* ----------------------------------------------------------------------------------------------------- */
 
     fun setAppsListForUninstallation(list: ArrayList<PackageInfo>) {
+        kotlin.runCatching {
 
+        }
     }
 
     /* ----------------------------------------------------------------------------------------------------- */

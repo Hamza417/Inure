@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.constants.Misc
+import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
@@ -68,11 +70,10 @@ class SplashScreen : ScopedFragment() {
         // (icon.drawable as AnimatedVectorDrawable).start()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            delay(500)
+            delay(Misc.delay)
 
             // Initialize native crash handler
-            CrashReporterUtils(requireContext()).initialize()
-
+            CrashReporter(requireContext()).initialize()
 
             when {
                 requireArguments().getBoolean("skip") -> {

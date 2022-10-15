@@ -6,12 +6,9 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.BuildConfig
-import app.simple.inure.constants.Misc
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class UninstallerViewModel(application: Application, val packageInfo: PackageInfo) : RootViewModel(application) {
@@ -41,15 +38,15 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
                             sb.append(s)
                             sb.append("\t")
                         }
-                        warning.postValue(sb.toString())
+                        postWarning(sb.toString())
                     }
                 }
             }.onFailure {
                 success.postValue("Failed")
-                error.postValue(it)
+                postError(it)
             }.getOrElse {
                 success.postValue("Failed")
-                error.postValue(it)
+                postError(it)
             }
         }
     }

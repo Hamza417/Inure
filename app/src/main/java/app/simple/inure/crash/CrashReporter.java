@@ -18,13 +18,13 @@ import app.simple.inure.preferences.CrashPreferences;
 /*
  * Ref: https://stackoverflow.com/questions/601503/how-do-i-obtain-crash-data-from-my-android-application
  */
-public class CrashReporterUtils implements Thread.UncaughtExceptionHandler {
+public class CrashReporter implements Thread.UncaughtExceptionHandler {
     
     private final String TAG = getClass().getSimpleName();
     private final Context context;
     private final Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
     
-    public CrashReporterUtils(Context context) {
+    public CrashReporter(Context context) {
         this.context = context;
         defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
     }
@@ -56,7 +56,7 @@ public class CrashReporterUtils implements Thread.UncaughtExceptionHandler {
                     Utils.read(new File(context.getExternalFilesDir("logs"), "crashLog_" + timeStamp)));
             context.startActivity(intent);
         }
-        Thread.setDefaultUncaughtExceptionHandler(new CrashReporterUtils(context));
+        Thread.setDefaultUncaughtExceptionHandler(new CrashReporter(context));
     }
     
     @SuppressWarnings ("unused")

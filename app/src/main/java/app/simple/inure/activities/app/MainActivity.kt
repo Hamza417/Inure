@@ -11,7 +11,7 @@ import android.widget.Toast
 import app.simple.inure.R
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
-import app.simple.inure.crash.CrashReporterUtils
+import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
@@ -154,7 +154,7 @@ class MainActivity : BaseActivity() {
         when (key) {
             DevelopmentPreferences.crashHandler -> {
                 if (DevelopmentPreferences.isUsingNativeCrashHandler()) {
-                    CrashReporterUtils(applicationContext).initialize()
+                    CrashReporter(applicationContext).initialize()
                 }
             }
         }
