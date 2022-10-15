@@ -16,12 +16,14 @@ import app.simple.inure.factories.panels.BatchViewModelFactory
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.viewmodels.panels.BatchUninstallerViewModel
+import java.util.*
 
 class BatchUninstaller : ScopedBottomSheetFragment() {
 
     private lateinit var count: TypeFaceTextView
     private lateinit var name: TypeFaceTextView
-    private lateinit var progressStatus: TypeFaceTextView
+    private lateinit var success: TypeFaceTextView
+    private lateinit var failed: TypeFaceTextView
     private lateinit var progress: CustomProgressBar
     private lateinit var percentage: TypeFaceTextView
     private lateinit var cancel: DynamicRippleTextView
@@ -35,7 +37,8 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
 
         count = view.findViewById(R.id.progress_count)
         name = view.findViewById(R.id.name)
-        progressStatus = view.findViewById(R.id.progress_status)
+        success = view.findViewById(R.id.success)
+        failed = view.findViewById(R.id.failed)
         progress = view.findViewById(R.id.progress)
         percentage = view.findViewById(R.id.progress_percentage)
         cancel = view.findViewById(R.id.cancel)
@@ -62,10 +65,11 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
 
         batchUninstallerViewModel.getDone().observe(viewLifecycleOwner) {
             progress.animateProgress(it, animate = true)
+            success.text = getString(R.string.count_done, it)
         }
 
         batchUninstallerViewModel.getFailed().observe(viewLifecycleOwner) {
-
+            success.text = getString(R.string.count_failed, it)
         }
 
         batchUninstallerViewModel.getDone().observe(viewLifecycleOwner) {

@@ -23,7 +23,6 @@
             android:layout_gravity="center_vertical"
             android:drawablePadding="@dimen/dialog_padding"
             android:gravity="center_vertical"
-            android:text="@string/uninstalling"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
             app:drawableStartCompat="@drawable/ic_delete"
@@ -39,14 +38,30 @@
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/progress_status"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
-            android:textSize="@dimen/app_package_text_size"
-            app:appFontStyle="regular"
-            app:textColorStyle="secondary" />
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/success"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/app_package_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/failed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textSize="@dimen/app_package_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

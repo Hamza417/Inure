@@ -1,6 +1,7 @@
 package app.simple.inure.extensions.livedata
 
 import androidx.lifecycle.MutableLiveData
+import app.simple.inure.crash.Utils
 import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.models.StackTrace
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +18,11 @@ open class ErrorLiveData : MutableLiveData<Throwable>() {
         CoroutineScope(Dispatchers.IO).launch {
             println(throwable.toString())
             StackTraceDatabase.getInstance()
-                ?.stackTraceDao()?.insertTrace(StackTrace(throwable))
+                ?.stackTraceDao()?.insertTrace(
+                        StackTrace(throwable.toString(),
+                                   Utils.getCause(throwable).message,
+                                   Utils.getCause(throwable).toString(),
+                                   System.currentTimeMillis()))
         }
     }
 }

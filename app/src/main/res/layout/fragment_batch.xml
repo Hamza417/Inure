@@ -16,6 +16,11 @@
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller" />
 
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
     <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
         android:id="@+id/batch_menu_container"
         android:layout_width="match_parent"

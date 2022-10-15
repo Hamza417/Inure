@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import app.simple.inure.crash.Utils;
 
@@ -31,6 +32,7 @@ public class StackTrace implements Parcelable {
         this.timestamp = timestamp;
     }
     
+    @Ignore
     public StackTrace(Throwable throwable) {
         this.trace = throwable.toString();
         this.message = Utils.getCause(throwable).getMessage();
@@ -38,6 +40,7 @@ public class StackTrace implements Parcelable {
         this.timestamp = System.currentTimeMillis();
     }
     
+    @Ignore
     public StackTrace() {
     }
     

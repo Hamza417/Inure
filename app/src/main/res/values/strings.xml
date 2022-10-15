@@ -585,5 +585,6 @@
     <string name="shared_prefs">Shared Preferences</string>
     <string name="stacktraces">Stacktraces</string>
     <string name="crash_report">Crash Report</string>
-    <string name="uninstalling">Uninstalling</string>
+    <string name="count_done">%1$d Done</string>
+    <string name="count_failed">%1$d Failed</string>
 </resources>

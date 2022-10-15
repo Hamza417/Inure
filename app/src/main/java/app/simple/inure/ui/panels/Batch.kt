@@ -15,6 +15,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.theme.ThemeDivider
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchUninstaller
@@ -36,6 +37,7 @@ import app.simple.inure.viewmodels.panels.BatchViewModel
 class Batch : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var divider: ThemeDivider
     private lateinit var batchMenuContainer: DynamicCornerLinearLayout
     private lateinit var delete: DynamicRippleImageButton
     private lateinit var send: DynamicRippleImageButton
@@ -49,6 +51,7 @@ class Batch : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_batch, container, false)
 
         recyclerView = view.findViewById(R.id.batch_recycler_view)
+        divider = view.findViewById(R.id.divider)
         batchMenuContainer = view.findViewById(R.id.batch_menu_container)
         delete = view.findViewById(R.id.delete)
         send = view.findViewById(R.id.send)
@@ -153,11 +156,13 @@ class Batch : ScopedFragment() {
         for (batch in arrayList) {
             if (batch.isSelected) {
                 batchMenuContainer.visible(false)
+                divider.visible(animate = false)
                 return
             }
         }
 
         batchMenuContainer.gone()
+        divider.gone()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
