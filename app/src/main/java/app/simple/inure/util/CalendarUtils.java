@@ -1,7 +1,11 @@
 package app.simple.inure.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import app.simple.inure.preferences.FormattingPreferences;
 
 public class CalendarUtils {
     
@@ -213,8 +217,10 @@ public class CalendarUtils {
         return c.getTime();
     }
     
-    /** Determines whether or not a date has any time values (hour, minute,
-     * seconds or millisecondsReturns the given date with the time values cleared. */
+    /*
+     * Determines whether or not a date has any time values (hour, minute,
+     * seconds or millisecondsReturns the given date with the time values cleared.
+     */
     
     /**
      * Determines whether or not a date has any time values.
@@ -292,6 +298,67 @@ public class CalendarUtils {
             return d1;
         }
         return (d1.before(d2)) ? d1 : d2;
+    }
+    
+    public static int getDaysBetweenTwoDates() {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(new Date());
+        cal2.setTime(new Date());
+        cal2.add(Calendar.DATE, 1);
+        long milis1 = cal1.getTimeInMillis();
+        long milis2 = cal2.getTimeInMillis();
+        long diff = milis2 - milis1;
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+        return (int) diffDays;
+    }
+    
+    public static int getDaysBetweenTwoDates(Date startDate, Date endDate) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(startDate);
+        cal2.setTime(endDate);
+        long milis1 = cal1.getTimeInMillis();
+        long milis2 = cal2.getTimeInMillis();
+        long diff = milis2 - milis1;
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+        return (int) diffDays;
+    }
+    
+    public static int getDaysBetweenTwoDates(Calendar cal1, Calendar cal2) {
+        long milis1 = cal1.getTimeInMillis();
+        long milis2 = cal2.getTimeInMillis();
+        long diff = milis2 - milis1;
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+        return (int) diffDays;
+    }
+    
+    public static int getDaysBetweenTwoDates(String startDate, String endDate) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(convertStringToDate(startDate));
+        cal2.setTime(convertStringToDate(endDate));
+        long milis1 = cal1.getTimeInMillis();
+        long milis2 = cal2.getTimeInMillis();
+        long diff = milis2 - milis1;
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+        return (int) diffDays;
+    }
+    
+    public static Date convertStringToDate(String date) {
+        SimpleDateFormat format = new SimpleDateFormat(FormattingPreferences.INSTANCE.getDateFormat(),
+                LocaleHelper.INSTANCE.getAppLocale());
+        try {
+            return format.parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+    
+    public static String convertDateToString(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat(FormattingPreferences.INSTANCE.getDateFormat(),
+                LocaleHelper.INSTANCE.getAppLocale());
+        return format.format(date);
     }
     
     /**

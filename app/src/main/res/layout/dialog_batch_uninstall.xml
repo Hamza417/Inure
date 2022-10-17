@@ -38,59 +38,27 @@
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
-        <LinearLayout
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/dialog_padding"
+            android:layout_weight="1"
+            android:max="100"
+            android:maxHeight="10dp" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/progress_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:orientation="horizontal">
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/success"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/app_package_text_size"
-                app:appFontStyle="regular"
-                app:textColorStyle="secondary" />
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/failed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textSize="@dimen/app_package_text_size"
-                app:appFontStyle="regular"
-                app:textColorStyle="secondary" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <app.simple.inure.decorations.views.CustomProgressBar
-                android:id="@+id/progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/dialog_padding"
-                android:layout_weight="1"
-                android:max="100"
-                android:maxHeight="10dp" />
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/progress_percentage"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:gravity="center"
-                android:text="@string/progress"
-                android:textSize="@dimen/app_package_text_size"
-                app:appFontStyle="regular"
-                app:textColorStyle="secondary" />
-
-        </LinearLayout>
+            android:layout_gravity="end"
+            android:text="@string/progress"
+            android:layout_marginTop="@dimen/popup_padding"
+            android:textSize="@dimen/app_package_text_size"
+            app:appFontStyle="regular"
+            app:textColorStyle="secondary" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/cancel"

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.models.BatchUninstallerProgressStateModel
 import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -16,39 +17,47 @@ import kotlinx.coroutines.launch
 
 class BatchUninstallerViewModel(application: Application, val list: ArrayList<BatchPackageInfo>) : RootViewModel(application) {
 
-    private val failed = MutableLiveData(0)
-    private val success = MutableLiveData(0)
+    private val state = MutableLiveData<BatchUninstallerProgressStateModel>()
     private val done = MutableLiveData(0)
+    private val batchUninstallerProgressStateModel = BatchUninstallerProgressStateModel()
 
-    fun getFailed(): LiveData<Int> {
-        return failed
-    }
-
-    fun getSuccess(): LiveData<Int> {
-        return success
+    fun getState(): LiveData<BatchUninstallerProgressStateModel> {
+        return state
     }
 
     fun getDone(): LiveData<Int> {
         return done
     }
 
+    init {
+        batchUninstallerProgressStateModel.queued = list.size
+        state.postValue(batchUninstallerProgressStateModel)
+        initShell()
+    }
+
     override fun onShellCreated(shell: Shell?) {
         viewModelScope.launch(Dispatchers.IO) {
             for (app in list) {
                 kotlin.runCatching {
+                    batchUninstallerProgressStateModel.incrementCount()
+                    state.postValue(batchUninstallerProgressStateModel)
+
                     Shell.cmd(app.packageInfo.getUninstallCommand()).submit {
                         if (it.isSuccess) {
                             if (app.packageInfo.isPackageInstalled(packageManager).invert()) {
-                                success.postValue(success.value ?: 0.plus(1))
+                                batchUninstallerProgressStateModel.incrementDone()
                             }
                         } else {
-                            failed.postValue(failed.value ?: 0.plus(1))
+                            batchUninstallerProgressStateModel.incrementFailed()
                         }
                     }
+                }.getOrElse {
+                    batchUninstallerProgressStateModel.incrementFailed()
                 }
-            }
 
-            done.postValue(/* value = */ (1..10).random())
+                batchUninstallerProgressStateModel.decrementQueued()
+                state.postValue(batchUninstallerProgressStateModel)
+            }
         }
     }
 

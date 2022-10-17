@@ -175,10 +175,10 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
     }
 
     fun setStrikeThru(boolean: Boolean) {
-        if (boolean) {
-            paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        paintFlags = if (boolean) {
+            paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         } else {
-            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
     }
 
