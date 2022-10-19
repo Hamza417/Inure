@@ -588,4 +588,5 @@
     <string name="crash_report">當機報告</string>
     <string name="count_done">%1$d 項工作完成</string>
     <string name="count_failed">%1$d 項工作失敗</string>
+    <string name="count_queued">%1$d 已佇列</string>
 </resources>
