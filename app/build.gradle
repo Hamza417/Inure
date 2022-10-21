@@ -8,7 +8,7 @@ plugins {
 android {
     compileSdkVersion 33
 
-    def appVersionCode = 40
+    def appVersionCode = 41
     def appVersionName = "build_$appVersionCode (alpha)"
 
     buildFeatures {
@@ -109,7 +109,7 @@ dependencies {
     implementation 'androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03'
 
     // Google
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'com.google.code.gson:gson:2.9.0'
 
     // Glide

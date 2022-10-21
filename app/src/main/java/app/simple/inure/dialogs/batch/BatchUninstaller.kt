@@ -24,7 +24,6 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
     private lateinit var name: TypeFaceTextView
     private lateinit var state: TypeFaceTextView
     private lateinit var progress: CustomProgressBar
-    private lateinit var percentage: TypeFaceTextView
     private lateinit var cancel: DynamicRippleTextView
 
     private var appList = arrayListOf<BatchPackageInfo>()
@@ -38,7 +37,6 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
         name = view.findViewById(R.id.name)
         state = view.findViewById(R.id.progress_state)
         progress = view.findViewById(R.id.progress)
-        percentage = view.findViewById(R.id.progress_percentage)
         cancel = view.findViewById(R.id.cancel)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -67,7 +65,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
 
         batchUninstallerViewModel.getState().observe(viewLifecycleOwner) {
             with(StringBuilder()) {
-                append(getString(R.string.progress, it.count / appList.size * 100F))
+                append(getString(R.string.progress, (it.count / appList.size * 100F).toInt()))
                 append(" | ")
                 append(getString(R.string.count_done, it.done))
                 append(" | ")
