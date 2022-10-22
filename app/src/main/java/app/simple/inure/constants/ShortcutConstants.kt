@@ -13,6 +13,7 @@ object ShortcutConstants {
     const val USAGE_STATS_ACTION = "open_usage_stats"
     const val PREFERENCES_ACTION = "open_preferences"
     const val SEARCH_ACTION = "open_search"
+    const val MUSIC_ACTION = "open_music"
 
     const val ANALYTICS_ID = "sc_analytics"
     const val APPS_ID = "sc_apps"
@@ -26,4 +27,5 @@ object ShortcutConstants {
     const val USAGE_STATS_ID = "sc_usage_stats"
     const val PREFERENCES_ID = "sc_preferences"
     const val SEARCH_ID = "sc_search"
+    const val MUSIC_ID = "sc_music"
 }

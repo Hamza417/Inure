@@ -34,7 +34,7 @@ object DevelopmentPreferences {
         SharedPreferences.getSharedPreferences().edit().putBoolean(debugFeatures, value).apply()
     }
 
-    fun isDebugStateEnabled(): Boolean {
+    fun isDebugFeaturesEnabled(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(debugFeatures, false)
     }
 

@@ -3,13 +3,17 @@ package app.simple.inure.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.StringRes;
+
 public class ShortcutModel implements Parcelable {
     private int icon;
     private String id;
     private String action;
-    private String name;
     
-    public ShortcutModel(int icon, String id, String action, String name) {
+    @StringRes
+    private int name;
+    
+    public ShortcutModel(int icon, String id, String action, int name) {
         this.icon = icon;
         this.id = id;
         this.action = action;
@@ -20,7 +24,7 @@ public class ShortcutModel implements Parcelable {
         icon = in.readInt();
         id = in.readString();
         action = in.readString();
-        name = in.readString();
+        name = in.readInt();
     }
     
     @Override
@@ -28,7 +32,7 @@ public class ShortcutModel implements Parcelable {
         dest.writeInt(icon);
         dest.writeString(id);
         dest.writeString(action);
-        dest.writeString(name);
+        dest.writeInt(name);
     }
     
     @Override
@@ -36,7 +40,7 @@ public class ShortcutModel implements Parcelable {
         return 0;
     }
     
-    public static final Creator <ShortcutModel> CREATOR = new Creator <ShortcutModel>() {
+    public static final Creator <ShortcutModel> CREATOR = new Creator <>() {
         @Override
         public ShortcutModel createFromParcel(Parcel in) {
             return new ShortcutModel(in);
@@ -64,11 +68,11 @@ public class ShortcutModel implements Parcelable {
         this.id = id;
     }
     
-    public String getName() {
+    public int getName() {
         return name;
     }
     
-    public void setName(String name) {
+    public void setName(int name) {
         this.name = name;
     }
     

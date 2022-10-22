@@ -41,7 +41,7 @@ class DevelopmentScreen : ScopedFragment() {
 
         textViewXmlViewerSwitchView.setChecked(DevelopmentPreferences.isWebViewXmlViewer())
         hidePreferenceIndicator.setChecked(DevelopmentPreferences.isPreferencesIndicatorHidden())
-        debugFeaturesSwitch.setChecked(DevelopmentPreferences.isDebugStateEnabled())
+        debugFeaturesSwitch.setChecked(DevelopmentPreferences.isDebugFeaturesEnabled())
 
         setup.setOnClickListener {
             openFragmentSlide(Setup.newInstance(), "setup")

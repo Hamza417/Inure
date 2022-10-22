@@ -231,7 +231,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     Pair(R.drawable.ic_stacktrace, R.string.stacktraces)
             )
 
-            if (BuildConfig.DEBUG || DevelopmentPreferences.isDebugStateEnabled()) {
+            if (BuildConfig.DEBUG || DevelopmentPreferences.isDebugFeaturesEnabled()) {
                 list.add(Pair(R.drawable.ic_music_note, R.string.music))
             }
 

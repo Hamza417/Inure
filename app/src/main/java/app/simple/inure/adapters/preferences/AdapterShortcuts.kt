@@ -41,7 +41,7 @@ class AdapterShortcuts(private val list: List<ShortcutModel>, private val shortc
 
         if (holder is Holder) {
             holder.icon.setImageResource(list[position].icon)
-            holder.name.text = list[position].name
+            holder.name.setText(list[position].name)
             holder.id.text = list[position].id
             holder.action.text = list[position].action
 
@@ -60,7 +60,7 @@ class AdapterShortcuts(private val list: List<ShortcutModel>, private val shortc
                 intent.action = list[position].action
 
                 val shortcut = ShortcutInfoCompat.Builder(holder.context, list[position].id)
-                    .setShortLabel(list[position].name)
+                    .setShortLabel(holder.getString(list[position].name))
                     .setActivity(ComponentName(holder.context, MainActivity::class.java))
                     .setIcon(IconCompat.createWithResource(holder.context, list[position].icon))
                     .setIntent(intent)

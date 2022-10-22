@@ -21,6 +21,7 @@ import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.app.Apps
 import app.simple.inure.ui.launcher.SplashScreen
+import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*
 import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.NullSafety.isNull
@@ -104,6 +105,11 @@ class MainActivity : BaseActivity() {
                 ShortcutConstants.SEARCH_ACTION -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.app_container, Search.newInstance(true), "search")
+                        .commit()
+                }
+                ShortcutConstants.MUSIC_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Music.newInstance(), "music")
                         .commit()
                 }
                 "open_device_info" -> {

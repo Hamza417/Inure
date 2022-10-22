@@ -75,6 +75,8 @@
             android:name=".activities.app.MainActivity"
             android:configChanges="uiMode"
             android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="app.simple.inure"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -93,6 +95,8 @@
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:exported="true"
             android:label="@string/terminal"
+            android:launchMode="singleTask"
+            android:taskAffinity="app.simple.inure"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
@@ -391,8 +395,10 @@
             android:exported="true"
             android:icon="@mipmap/ic_terminal"
             android:label="@string/terminal"
+            android:launchMode="singleTask"
             android:roundIcon="@mipmap/ic_terminal_round"
-            android:targetActivity=".terminal.Term">
+            android:targetActivity=".terminal.Term"
+            android:taskAffinity="app.simple.inure">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
