@@ -2,11 +2,11 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.database.instances.QuickAppsDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.QuickApp
@@ -45,12 +45,12 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
             val apps = arrayListOf<PackageInfo>()
 
             for (quickApp in quickApps) {
-                apps.add(packageManager.getPackageInfo(quickApp.packageName, PackageManager.GET_META_DATA))
+                packageManager.getPackageInfo(quickApp.packageName)?.let { apps.add(it) }
             }
 
             for (i in apps.indices) {
-                apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>()
-                                                                                   .applicationContext, apps[i].applicationInfo)
+                apps[i].applicationInfo.name = PackageUtils
+                    .getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
 
             this@QuickAppsViewModel.quickApps.postValue(apps)

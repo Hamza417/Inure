@@ -6,6 +6,7 @@ import android.app.usage.StorageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.*
+import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
 import android.os.RemoteException
@@ -21,6 +22,27 @@ object PackageUtils {
 
     private const val UNINSTALL_REQUEST_CODE = 6452
 
+    val flags: Long = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        (PackageManager.GET_META_DATA or
+                PackageManager.GET_SERVICES or
+                PackageManager.GET_PROVIDERS or
+                PackageManager.GET_RECEIVERS or
+                PackageManager.GET_PERMISSIONS or
+                PackageManager.GET_ACTIVITIES or
+                PackageManager.GET_SIGNING_CERTIFICATES or
+                PackageManager.GET_SHARED_LIBRARY_FILES).toLong()
+    } else {
+        @Suppress("DEPRECATION")
+        (PackageManager.GET_META_DATA or
+                PackageManager.GET_SERVICES or
+                PackageManager.GET_PROVIDERS or
+                PackageManager.GET_RECEIVERS or
+                PackageManager.GET_PERMISSIONS or
+                PackageManager.GET_ACTIVITIES or
+                PackageManager.GET_SIGNATURES or
+                PackageManager.GET_SHARED_LIBRARY_FILES).toLong()
+    }
+
     /**
      * Fetches the app's name from the package id of the same application
      * @param context of the given environment
@@ -31,9 +53,24 @@ object PackageUtils {
     fun getApplicationName(context: Context, applicationInfo: ApplicationInfo): String? {
         return try {
             context.packageManager.getApplicationLabel(applicationInfo).toString()
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             context.getString(R.string.unknown)
         }
+    }
+
+    fun PackageManager.getPackageInfo(packageName: String): PackageInfo? {
+        try {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags))
+            } else {
+                @Suppress("DEPRECATION")
+                getPackageInfo(packageName, flags.toInt())
+            }
+        } catch (e: NameNotFoundException) {
+            e.printStackTrace()
+        }
+
+        return null
     }
 
     /**
@@ -46,7 +83,7 @@ object PackageUtils {
         return try {
             val p0 = context.packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
             return context.packageManager.getApplicationLabel(p0).toString()
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             context.getString(R.string.unknown)
         }
     }
@@ -61,7 +98,7 @@ object PackageUtils {
     fun getApplicationVersion(context: Context, applicationInfo: PackageInfo): String {
         return try {
             context.packageManager.getPackageInfo(applicationInfo.packageName, PackageManager.GET_META_DATA).versionName
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             context.getString(R.string.unknown)
         } catch (e: NullPointerException) {
             context.getString(R.string.unknown)
@@ -83,7 +120,7 @@ object PackageUtils {
                 @Suppress("deprecation")
                 context.packageManager.getPackageInfo(packageInfo.packageName, 0).versionCode.toString()
             }
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             context.getString(R.string.unknown)
         }
     }
@@ -96,7 +133,7 @@ object PackageUtils {
     fun PackageInfo.getApplicationInstallTime(context: Context, pattern: String): String {
         return try {
             DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).firstInstallTime, pattern)
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             context.getString(R.string.unknown)
         }
     }
@@ -110,7 +147,7 @@ object PackageUtils {
     fun PackageInfo.getApplicationLastUpdateTime(context: Context, pattern: String): String {
         return try {
             DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName, 0).lastUpdateTime, pattern)
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             context.getString(R.string.unknown)
         }
     }
@@ -152,7 +189,7 @@ object PackageUtils {
         return try {
             packageManager.getPackageInfo(packageName, 0)
             true
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             false
         }
     }
@@ -177,7 +214,7 @@ object PackageUtils {
         return try {
             packageManager.getPackageInfo(packageName, 0)
             true
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             false
         }
     }
@@ -186,7 +223,7 @@ object PackageUtils {
         return try {
             val p0 = packageManager.getPackageInfo(packageName, 0)
             p0.applicationInfo.enabled
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             false
         }
     }

@@ -13,47 +13,64 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build41</h2>
+<h2>Build42</h2>
 
 <!-- Write change logs here -->
-
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added <i>Legacy</i> transitions back to reuse the old code base.</li>
-    <li>Implemented <i>Usage Stats</i> <b>App Info </b>panel.</li>
-    <li>Implemented app's <b>Stack Trace</b> panel.</li>
-    <li>Added framework for reading other app's shared preference files (root).</li>
-</ul>
 
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed a few UI issues.</li>
-    <li>Fixed a few animation issues.</li>
-    <li>Fixed AndroidBug #5497 issue on transparent status bars.</li>
-    <li>Fixed usage stats permission crashing the app in some devices.</li>
-    <li>Added checks to skip stats of uninstalled packages fixing a few crashes.</li>
-    <li>Fixed root button not working sometimes in some devices and root versions.</li>
-    <li>Fixed crashes when root connection cannot be established properly.</li>
-</ul>
-
-<h4>Removed</h4>
-
-<ul>
-    <li>Removed <i>Clear Cache</i> due to restrictions in newer Android versions.</li>
-</ul>
-
-<h4>Installer</h4>
-
-<ul>
-    <li>Updated flow style for better installation procedure.</li>
-    <li>App won't require user action to finish package installation in Android S and higher in some
-        case.
+    <li>Fixed app crashing when data is explicitly restored from cloud after factory reset or
+        setting up a new device.
     </li>
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input id="build_41" class="toggle" type="checkbox">
+    <label for="build_41" class="lbl-toggle">Build41</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added <i>Legacy</i> transitions back to reuse the old code base.</li>
+                <li>Implemented <i>Usage Stats</i> <b>App Info </b>panel.</li>
+                <li>Implemented app's <b>Stack Trace</b> panel.</li>
+                <li>Added framework for reading other app's shared preference files (root).</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed a few UI issues.</li>
+                <li>Fixed a few animation issues.</li>
+                <li>Fixed AndroidBug #5497 issue on transparent status bars.</li>
+                <li>Fixed usage stats permission crashing the app in some devices.</li>
+                <li>Added checks to skip stats of uninstalled packages fixing a few crashes.</li>
+                <li>Fixed root button not working sometimes in some devices and root versions.</li>
+                <li>Fixed crashes when root connection cannot be established properly.</li>
+            </ul>
+
+            <h4>Removed</h4>
+
+            <ul>
+                <li>Removed <i>Clear Cache</i> due to restrictions in newer Android versions.</li>
+            </ul>
+
+            <h4>Installer</h4>
+
+            <ul>
+                <li>Updated flow style for better installation procedure.</li>
+                <li>App won't require user action to finish package installation in Android S and
+                    higher in some
+                    case.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input id="build_40" class="toggle" type="checkbox">

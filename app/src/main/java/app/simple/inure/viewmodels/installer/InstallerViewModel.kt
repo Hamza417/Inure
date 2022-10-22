@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.installer.InstallerUtils
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
+import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.findFile
@@ -24,27 +25,6 @@ import net.lingala.zip4j.ZipFile
 import java.io.File
 
 class InstallerViewModel(application: Application, private val uri: Uri) : WrappedViewModel(application) {
-
-    private val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        PackageManager.GET_META_DATA or
-                PackageManager.GET_SERVICES or
-                PackageManager.GET_PROVIDERS or
-                PackageManager.GET_RECEIVERS or
-                PackageManager.GET_PERMISSIONS or
-                PackageManager.GET_ACTIVITIES or
-                PackageManager.GET_SIGNING_CERTIFICATES or
-                PackageManager.GET_SHARED_LIBRARY_FILES
-    } else {
-        @Suppress("DEPRECATION")
-        PackageManager.GET_META_DATA or
-                PackageManager.GET_SERVICES or
-                PackageManager.GET_PROVIDERS or
-                PackageManager.GET_RECEIVERS or
-                PackageManager.GET_PERMISSIONS or
-                PackageManager.GET_ACTIVITIES or
-                PackageManager.GET_SIGNATURES or
-                PackageManager.GET_SHARED_LIBRARY_FILES
-    }
 
     private var listOfFiles: ArrayList<File>? = null
 
@@ -86,7 +66,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                     }
                 }
 
-                if (name.name!!.endsWith(".apkm") || name.name!!.endsWith(".apks")) {
+                if (name.name!!.endsWith(".apkm") || name.name!!.endsWith(".apks") || name.name!!.endsWith(".zip")) {
                     ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
                     listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
                     files.postValue(listOfFiles)
@@ -110,7 +90,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
             packageManager.getPackageArchiveInfo(file.path, PackageManager.PackageInfoFlags.of(0))!!
         } else {
             @Suppress("DEPRECATION")
-            packageManager.getPackageArchiveInfo(file.path, flags)
+            packageManager.getPackageArchiveInfo(file.path, PackageUtils.flags.toInt())
         }
 
         ApkFile(file).use {

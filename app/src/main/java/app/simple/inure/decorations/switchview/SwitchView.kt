@@ -101,13 +101,13 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      * This method will animate the checked status, to
      * change without animation use [animateChecked] method.
      */
-    fun setChecked(boolean: Boolean) {
-        isChecked = if (boolean) {
+    fun setChecked(checked: Boolean) {
+        isChecked = if (checked) {
             animateChecked()
-            boolean
+            checked
         } else {
             animateUnchecked()
-            boolean
+            checked
         }
     }
 

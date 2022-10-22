@@ -63,34 +63,39 @@ class ConfigurationScreen : ScopedFragment() {
             openFragmentSlide(Language.newInstance(), "language")
         }
 
-        rootSwitchView.setOnSwitchCheckedChangeListener {
-            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                kotlin.runCatching {
-                    Shell.enableVerboseLogging = BuildConfig.DEBUG
-                    Shell.setDefaultBuilder(
-                            Shell.Builder
-                                .create()
-                                .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                .setTimeout(10))
-                }.getOrElse {
-                    it.printStackTrace()
-                }
-
-                Shell.getShell()
-
-                if (it && Shell.isAppGrantedRoot() == true) {
-                    ConfigurationPreferences.setUsingRoot(true)
-
-                    withContext(Dispatchers.Main) {
-                        rootSwitchView.setChecked(true)
+        rootSwitchView.setOnSwitchCheckedChangeListener { it ->
+            if (it) {
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                    kotlin.runCatching {
+                        Shell.enableVerboseLogging = BuildConfig.DEBUG
+                        Shell.setDefaultBuilder(
+                                Shell.Builder
+                                    .create()
+                                    .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
+                                    .setTimeout(10))
+                    }.getOrElse {
+                        it.printStackTrace()
                     }
-                } else {
-                    ConfigurationPreferences.setUsingRoot(false)
 
-                    withContext(Dispatchers.Main) {
-                        rootSwitchView.setChecked(false)
+                    Shell.getShell()
+
+                    if (Shell.isAppGrantedRoot() == true) {
+                        ConfigurationPreferences.setUsingRoot(true)
+
+                        withContext(Dispatchers.Main) {
+                            rootSwitchView.setChecked(true)
+                        }
+                    } else {
+                        ConfigurationPreferences.setUsingRoot(false)
+
+                        withContext(Dispatchers.Main) {
+                            rootSwitchView.setChecked(false)
+                        }
                     }
                 }
+            } else {
+                rootSwitchView.setChecked(checked = false)
+                ConfigurationPreferences.setUsingRoot(false)
             }
         }
     }
