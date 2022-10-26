@@ -38,7 +38,7 @@ class ManageSpaceViewModel(application: Application) : WrappedViewModel(applicat
                 }
             }.onFailure {
                 it.printStackTrace()
-                error.postValue(it)
+                postError(it)
             }
         }
     }
@@ -52,8 +52,7 @@ class ManageSpaceViewModel(application: Application) : WrappedViewModel(applicat
                     loadImagesCacheSize()
                 }
             }.onFailure {
-                it.printStackTrace()
-                error.postValue(it)
+                postError(it)
             }
         }
     }

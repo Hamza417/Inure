@@ -73,7 +73,7 @@ class UsageStatistics : ScopedFragment() {
             recyclerView.adapter = adapterAppUsageStats
         }
 
-        appStatisticsViewModel.error.observe(viewLifecycleOwner) {
+        appStatisticsViewModel.getError().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             showError(it)
         }

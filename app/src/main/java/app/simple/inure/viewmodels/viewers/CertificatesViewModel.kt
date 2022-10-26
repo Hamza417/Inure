@@ -53,7 +53,7 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
 
                 this@CertificatesViewModel.certificate.postValue(list)
             }.getOrElse {
-                error.postValue(it)
+                postError(it)
             }
         }
     }

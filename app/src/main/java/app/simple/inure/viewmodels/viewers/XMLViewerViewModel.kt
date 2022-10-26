@@ -128,8 +128,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
 
                 spanned.postValue(formattedContent)
             }.getOrElse {
-                it.printStackTrace()
-                error.postValue(it)
+                postError(it)
             }
         }
     }

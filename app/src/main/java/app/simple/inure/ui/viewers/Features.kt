@@ -40,7 +40,7 @@ class Features : ScopedFragment() {
             recyclerView.adapter = AdapterFeatures(it)
         }
 
-        componentsViewModel.error.observe(viewLifecycleOwner) {
+        componentsViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

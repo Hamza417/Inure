@@ -39,7 +39,7 @@ class SharedLibs : ScopedFragment() {
             recyclerView.adapter = AdapterSharedLibs(it)
         }
 
-        sharedLibrariesViewModel.error.observe(viewLifecycleOwner) {
+        sharedLibrariesViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

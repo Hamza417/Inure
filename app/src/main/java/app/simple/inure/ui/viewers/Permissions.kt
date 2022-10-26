@@ -95,7 +95,7 @@ class Permissions : SearchBarScopedFragment() {
             }
         }
 
-        permissionsViewModel.error.observe(viewLifecycleOwner) {
+        permissionsViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

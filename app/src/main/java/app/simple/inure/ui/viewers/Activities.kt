@@ -107,7 +107,7 @@ class Activities : SearchBarScopedFragment() {
             }
         }
 
-        activitiesViewModel.error.observe(viewLifecycleOwner) {
+        activitiesViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

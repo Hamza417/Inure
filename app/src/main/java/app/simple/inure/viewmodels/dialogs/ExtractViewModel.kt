@@ -62,8 +62,7 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
                     extractApk()
                 }
             }.onFailure {
-                it.printStackTrace()
-                error.postValue(it)
+                postError(it)
             }.onSuccess {
                 success.postValue(true)
             }
@@ -85,14 +84,13 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
                 }
 
                 if (progressMonitor.result.equals(ProgressMonitor.Result.ERROR)) {
-                    error.postValue(progressMonitor.exception)
+                    postError(progressMonitor.exception)
                 } else if (progressMonitor.result.equals(ProgressMonitor.Result.CANCELLED)) {
                     status.postValue(getString(R.string.cancelled))
                 }
             }
         }.onFailure {
-            it.printStackTrace()
-            error.postValue(it)
+            postError(it)
         }.onSuccess {
             file.postValue(File(applicationContext().getBundlePathAndFileName(packageInfo)))
         }

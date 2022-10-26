@@ -45,7 +45,7 @@ class Uninstaller : ScopedBottomSheetFragment() {
 
         if (ConfigurationPreferences.isUsingRoot()) {
             with(ViewModelProvider(this, UninstallerViewModelFactory(packageInfo))[UninstallerViewModel::class.java]) {
-                error.observe(viewLifecycleOwner) {
+                getError().observe(viewLifecycleOwner) {
                     showError(it)
                 }
 

@@ -11,7 +11,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import app.simple.inure.database.instances.StackTraceDatabase;
 import app.simple.inure.extensions.livedata.ErrorLiveData;
 import app.simple.inure.preferences.ConfigurationPreferences;
 import app.simple.inure.util.ContextUtils;
@@ -28,6 +30,18 @@ public class WrappedViewModel extends AndroidViewModel {
     
     public final Context getContext() {
         return ContextUtils.Companion.updateLocale(applicationContext(), ConfigurationPreferences.INSTANCE.getAppLanguage());
+    }
+    
+    public LiveData <Throwable> getError() {
+        return error;
+    }
+    
+    public LiveData <String> getWarning() {
+        return warning;
+    }
+    
+    public LiveData <Integer> getNotFound() {
+        return notFound;
     }
     
     public final Context applicationContext() {
@@ -64,6 +78,16 @@ public class WrappedViewModel extends AndroidViewModel {
     }
     
     protected void postError(Throwable throwable) {
-        error.postValue(throwable);
+        error.postError(throwable, getApplication());
+    }
+    
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        try {
+            StackTraceDatabase.Companion.getInstance().close();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }

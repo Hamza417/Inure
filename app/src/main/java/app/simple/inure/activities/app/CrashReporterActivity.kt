@@ -3,8 +3,8 @@ package app.simple.inure.activities.app
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.database.instances.StackTraceDatabase.Companion.getInstance
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -17,6 +17,8 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.ProcessUtils
 import app.simple.inure.viewmodels.dialogs.ErrorViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CrashReporterActivity : BaseActivity() {
 
@@ -34,6 +36,7 @@ class CrashReporterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crash)
+        fixNavigationBarOverlap()
 
         warning = findViewById(R.id.warning)
         message = findViewById(R.id.message)
@@ -95,7 +98,9 @@ class CrashReporterActivity : BaseActivity() {
         }
     }
 
-    override fun onBackEvent() {
+    @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
+    override fun onBackPressed() {
+        super.onBackPressed()
         close()
     }
 
@@ -110,19 +115,21 @@ class CrashReporterActivity : BaseActivity() {
         finish()
     }
 
-    @MainThread
-    fun saveTraceToDataBase(trace: String?) {
-        Thread {
+    private fun saveTraceToDataBase(trace: String?) {
+        lifecycleScope.launch(Dispatchers.IO) {
             ProcessUtils.ensureNotOnMainThread {
-                val stackTrace = StackTrace(
-                        trace,
-                        CrashPreferences.getMessage() ?: getString(R.string.desc_not_available),
-                        CrashPreferences.getCause() ?: getString(R.string.not_available),
-                        System.currentTimeMillis())
-                val stackTraceDatabase = getInstance(applicationContext)
-                stackTraceDatabase!!.stackTraceDao()!!.insertTrace(stackTrace)
+                kotlin.runCatching {
+                    val stackTrace = StackTrace(
+                            trace,
+                            CrashPreferences.getMessage() ?: getString(R.string.desc_not_available),
+                            CrashPreferences.getCause() ?: getString(R.string.not_available),
+                            System.currentTimeMillis())
+                    val stackTraceDatabase = getInstance(applicationContext)
+                    stackTraceDatabase!!.stackTraceDao()!!.insertTrace(stackTrace)
+                    stackTraceDatabase.close()
+                }
             }
-        }.start()
+        }
     }
 
     companion object {

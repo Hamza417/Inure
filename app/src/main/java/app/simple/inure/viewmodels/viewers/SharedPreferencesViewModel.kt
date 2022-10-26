@@ -40,8 +40,7 @@ class SharedPreferencesViewModel(packageInfo: PackageInfo, application: Applicat
                     sharedPrefsFiles.postValue(list!!)
                 }
             }.getOrElse {
-                it.printStackTrace()
-                error.postValue(it)
+                postError(it)
             }
         }
     }

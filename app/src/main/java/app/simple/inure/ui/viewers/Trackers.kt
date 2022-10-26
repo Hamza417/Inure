@@ -99,7 +99,7 @@ class Trackers : SearchBarScopedFragment() {
             }
         }
 
-        trackersViewModel.error.observe(viewLifecycleOwner) {
+        trackersViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

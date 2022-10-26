@@ -104,7 +104,7 @@ class XMLViewerTextView : ScopedFragment() {
             settings.visible(true)
         }
 
-        componentsViewModel.error.observe(viewLifecycleOwner) {
+        componentsViewModel.getError().observe(viewLifecycleOwner) {
             progress.gone()
             showError(it)
         }

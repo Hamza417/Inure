@@ -71,7 +71,7 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                 if (it is NullPointerException) {
                     notFound.postValue(4)
                 } else {
-                    error.postValue(it)
+                    postError(it)
                 }
             }
         }

@@ -339,7 +339,7 @@ class AppInfo : ScopedFragment() {
             })
         }
 
-        componentsViewModel.error.observe(viewLifecycleOwner) {
+        componentsViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

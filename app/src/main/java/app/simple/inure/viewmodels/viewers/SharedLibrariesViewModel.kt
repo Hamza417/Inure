@@ -31,8 +31,7 @@ class SharedLibrariesViewModel(application: Application, val packageInfo: Packag
                 if (it is NullPointerException) {
                     notFound.postValue((0..100).random())
                 } else {
-                    it.printStackTrace()
-                    error.postValue(it)
+                    postError(it)
                 }
             }
         }

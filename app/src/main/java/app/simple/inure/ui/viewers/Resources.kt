@@ -73,7 +73,7 @@ class Resources : SearchBarScopedFragment() {
             }
         }
 
-        componentsViewModel.error.observe(viewLifecycleOwner) {
+        componentsViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

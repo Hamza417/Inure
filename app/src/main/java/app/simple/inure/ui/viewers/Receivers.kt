@@ -88,7 +88,7 @@ class Receivers : SearchBarScopedFragment() {
             }
         }
 
-        receiversViewModel.error.observe(viewLifecycleOwner) {
+        receiversViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

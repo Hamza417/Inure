@@ -88,7 +88,7 @@ class Services : SearchBarScopedFragment() {
             }
         }
 
-        servicesViewModel.error.observe(viewLifecycleOwner) {
+        servicesViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

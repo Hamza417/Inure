@@ -119,7 +119,7 @@ class Extras : SearchBarScopedFragment() {
             }
         }
 
-        extrasViewModel.error.observe(viewLifecycleOwner) {
+        extrasViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

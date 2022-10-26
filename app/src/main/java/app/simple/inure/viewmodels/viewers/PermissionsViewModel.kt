@@ -7,12 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
-import app.simple.inure.constants.Misc
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -67,8 +65,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                     }
                 })
             }.getOrElse {
-                delay(Misc.delay)
-                error.postValue(it)
+                postError(it)
             }
         }
     }

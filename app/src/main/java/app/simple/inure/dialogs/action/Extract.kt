@@ -56,7 +56,7 @@ class Extract : ScopedBottomSheetFragment() {
             status.text = it
         }
 
-        extractViewModel.error.observe(viewLifecycleOwner) {
+        extractViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

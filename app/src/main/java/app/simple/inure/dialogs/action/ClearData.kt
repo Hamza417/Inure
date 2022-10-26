@@ -51,7 +51,7 @@ class ClearData : ScopedBottomSheetFragment() {
                 }
             }
 
-            error.observe(viewLifecycleOwner) {
+            getError().observe(viewLifecycleOwner) {
                 showError(it)
                 dismiss()
             }

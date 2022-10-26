@@ -50,7 +50,7 @@ class SharedPreferences : SearchBarScopedFragment() {
             recyclerView.adapter = adapterResources
         }
 
-        sharedPreferencesViewModel.error.observe(viewLifecycleOwner) {
+        sharedPreferencesViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
     }

@@ -63,8 +63,7 @@ class InstallerCertificatesViewModel(application: Application, val file: File) :
 
                 this@InstallerCertificatesViewModel.certificate.postValue(list)
             }.getOrElse {
-                it.printStackTrace()
-                error.postValue(it)
+                postError(it)
             }
         }
     }

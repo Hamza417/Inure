@@ -88,7 +88,7 @@ class Providers : SearchBarScopedFragment() {
             }
         }
 
-        providersViewModel.error.observe(viewLifecycleOwner) {
+        providersViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

@@ -95,7 +95,7 @@ class Java : ScopedFragment() {
             options.visible(true)
         }
 
-        javaViewModel.error.observe(viewLifecycleOwner) {
+        javaViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

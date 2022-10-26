@@ -42,7 +42,7 @@ class Dexs : ScopedFragment() {
             recyclerView.adapter = adapter
         }
 
-        dexDataViewModel.error.observe(viewLifecycleOwner) {
+        dexDataViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
     }

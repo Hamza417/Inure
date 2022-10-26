@@ -82,7 +82,7 @@ class Graphics : SearchBarScopedFragment() {
             }
         }
 
-        graphicsViewModel.error.observe(viewLifecycleOwner) {
+        graphicsViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

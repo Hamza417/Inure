@@ -69,7 +69,7 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
                 if (it is NullPointerException) {
                     notFound.postValue(9)
                 } else {
-                    error.postValue(it)
+                    postError(it)
                 }
             }
         }

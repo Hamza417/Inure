@@ -227,7 +227,7 @@ class NotesEditor : KeyboardScopedFragment() {
                 .show(childFragmentManager, "notes_editor_menu")
         }
 
-        notesViewModel.error.observe(viewLifecycleOwner) {
+        notesViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

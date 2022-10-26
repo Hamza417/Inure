@@ -96,7 +96,7 @@ class JSON : ScopedFragment() {
             options.visible(true)
         }
 
-        jsonViewerViewModel.error.observe(viewLifecycleOwner) {
+        jsonViewerViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

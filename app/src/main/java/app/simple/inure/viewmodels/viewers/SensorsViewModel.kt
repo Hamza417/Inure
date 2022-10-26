@@ -40,8 +40,7 @@ class SensorsViewModel(application: Application) : WrappedViewModel(application)
                     this@SensorsViewModel.sensors.postValue(list)
                 }
             }.onFailure {
-                it.printStackTrace()
-                error.postValue(it)
+                postError(it)
             }
         }
     }

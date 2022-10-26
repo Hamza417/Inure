@@ -75,7 +75,6 @@
             android:name=".activities.app.MainActivity"
             android:configChanges="uiMode"
             android:exported="true"
-            android:launchMode="singleTask"
             android:taskAffinity="app.simple.inure"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -96,7 +95,7 @@
             android:exported="true"
             android:label="@string/terminal"
             android:launchMode="singleTask"
-            android:taskAffinity="app.simple.inure"
+            android:taskAffinity="app.simple.inure.terminal.Term"
             android:windowSoftInputMode="adjustResize" />
 
         <activity

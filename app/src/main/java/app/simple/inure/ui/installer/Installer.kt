@@ -210,7 +210,7 @@ class Installer : ScopedFragment() {
             tabLayout.setViewPager2(viewPager)
         }
 
-        installerViewModel.error.observe(viewLifecycleOwner) {
+        installerViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 

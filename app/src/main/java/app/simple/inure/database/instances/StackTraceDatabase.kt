@@ -7,6 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import app.simple.inure.database.dao.StackTraceDao
 import app.simple.inure.models.StackTrace
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNull
 
 @Database(entities = [StackTrace::class], exportSchema = true, version = 3, autoMigrations = [AutoMigration(from = 2, to = 3)])
@@ -20,9 +21,11 @@ abstract class StackTraceDatabase : RoomDatabase() {
         @Synchronized
         fun init(context: Context) {
             if (instance.isNull()) {
-                instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
-                    .fallbackToDestructiveMigration()
-                    .build()
+                if (instance?.isOpen?.invert() == true) {
+                    instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
+                        .fallbackToDestructiveMigration()
+                        .build()
+                }
             }
         }
 
