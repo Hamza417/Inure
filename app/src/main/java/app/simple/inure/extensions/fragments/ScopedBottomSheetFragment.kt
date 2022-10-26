@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
+import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.preferences.BehaviourPreferences
@@ -82,10 +83,12 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
                 }
 
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
+                    // do nothing
                 }
             })
         }
+
+        (requireActivity() as MainActivity).onWindowOpened()
     }
 
     override fun onResume() {
@@ -95,6 +98,9 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
+        kotlin.runCatching {
+            (requireActivity() as MainActivity).onWindowClosed()
+        }
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 
@@ -137,6 +143,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     /**
      * Return the {@link Application} this fragment is currently associated with.
      */
+    @Suppress("unused")
     protected fun requireApplication(): Application {
         return requireActivity().application
     }
