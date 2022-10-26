@@ -38,6 +38,11 @@ object ServiceConstants {
     const val actionPackageInfo = "$appPackageName.package.info"
     const val actionSessionStatus = "$appPackageName.session.status"
 
+    // Widgets
+    const val actionWidgetLockScreen = "$appPackageName.widget.lock_screen"
+    const val actionDeviceAdminDisabled = "${appPackageName}.device_admin_action_disabled"
+    const val actionDeviceAdminEnabled = "${appPackageName}.device_admin_action_enabled"
+
     fun getMediaErrorString(extra: Int): String {
         return when (extra) {
             MediaPlayer.MEDIA_ERROR_IO -> {

@@ -1,0 +1,10 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/lock_screen_desc"
+    android:initialLayout="@layout/widget_lock"
+    android:minWidth="40dp"
+    android:minHeight="40dp"
+    android:previewImage="@mipmap/ic_lock_screen"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="1"
+    android:targetCellHeight="1"
+    android:widgetCategory="home_screen|keyguard|searchbox" />
