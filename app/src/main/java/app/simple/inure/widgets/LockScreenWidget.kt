@@ -12,7 +12,14 @@ import android.widget.RemoteViews
 import android.widget.Toast
 import app.simple.inure.R
 import app.simple.inure.constants.ServiceConstants
-import app.simple.inure.receivers.AdminReceiver
+import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.SharedPreferences
+import app.simple.inure.util.ConditionUtils.invert
+import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LockScreenWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
@@ -25,7 +32,7 @@ class LockScreenWidget : AppWidgetProvider() {
          */
         for (appWidgetID in appWidgetIds!!) {
             val remoteViews = RemoteViews(context!!.packageName, R.layout.widget_lock)
-            remoteViews.setOnClickPendingIntent(R.id.lock_screen, getPendingSelfIntent(context, ServiceConstants.actionWidgetLockScreen))
+            remoteViews.setOnClickPendingIntent(R.id.lock_screen, getPendingSelfIntent(context))
             appWidgetManager!!.updateAppWidget(appWidgetID, remoteViews)
         }
     }
@@ -42,16 +49,21 @@ class LockScreenWidget : AppWidgetProvider() {
         super.onReceive(context, intent)
         try {
             if (intent!!.action == ServiceConstants.actionWidgetLockScreen) {
-                lock(context)
+                SharedPreferences.init(context)
+                if (ConfigurationPreferences.isUsingRoot()) {
+                    lockRoot(context)
+                } else {
+                    lock(context)
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    private fun getPendingSelfIntent(context: Context, action: String): PendingIntent? {
+    private fun getPendingSelfIntent(context: Context): PendingIntent? {
         val intent = Intent(context, this.javaClass)
-        intent.action = action
+        intent.action = ServiceConstants.actionWidgetLockScreen
         return PendingIntent.getBroadcast(context, 123, intent, PendingIntent.FLAG_IMMUTABLE)
     }
 
@@ -63,6 +75,7 @@ class LockScreenWidget : AppWidgetProvider() {
      * @see [Android-er > 2010-10-19 > Update Widget in onReceive]
      *      (http://android-er.blogspot.com.au/2010/10/update-widget-in-onreceive-method.html)
      */
+    @Suppress("unused")
     private fun onUpdate(context: Context) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
 
@@ -75,6 +88,23 @@ class LockScreenWidget : AppWidgetProvider() {
         onUpdate(context, appWidgetManager, appWidgetIds)
     }
 
+    private fun lockRoot(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            kotlin.runCatching {
+                Shell.cmd("input keyevent 26").submit {
+                    if (it.isSuccess.invert()) {
+                        throw java.lang.IllegalStateException()
+                    }
+                }
+            }.onFailure {
+                withContext(Dispatchers.Main) {
+                    lock(context = context)
+                }
+            }
+        }
+    }
+
+    // TODO - fix this
     private fun lock(context: Context) {
         val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager?
         if (pm!!.isInteractive) {
@@ -87,8 +117,9 @@ class LockScreenWidget : AppWidgetProvider() {
                     Toast.makeText(context, "must enable device administrator", Toast.LENGTH_LONG).show()
                     with(Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)) {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, ComponentName(context, AdminReceiver::class.java))
-                        putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why this needs to be added.")
+                        component = ComponentName("com.android.settings", "com.android.settings.DeviceAdminSettings")
+                        // putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, ComponentName(context, AdminReceiver::class.java))
+                        // putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why this needs to be added.")
                         context.startActivity(this)
                     }
                 } catch (e: Exception) {

@@ -1,7 +1,5 @@
 package app.simple.inure.activities.app
 
-import android.app.admin.DevicePolicyManager
-import android.content.ComponentName
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
@@ -18,7 +16,6 @@ import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.receivers.AdminReceiver
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
@@ -48,12 +45,6 @@ class MainActivity : BaseActivity() {
 
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
         ThemeUtils.setAppTheme(resources)
-
-        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, ComponentName(applicationContext, AdminReceiver::class.java))
-        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why this needs to be added.")
-        applicationContext.startActivity(intent)
 
         if (savedInstanceState.isNull()) {
             when (intent.action) {
@@ -135,6 +126,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @Suppress("unused")
     private fun setExpiryStamp() {
         val expiryDate = Calendar.getInstance()
 
