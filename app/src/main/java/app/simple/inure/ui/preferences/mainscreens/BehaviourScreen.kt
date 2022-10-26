@@ -19,6 +19,7 @@ import app.simple.inure.preferences.BehaviourPreferences
 class BehaviourScreen : ScopedFragment() {
 
     private lateinit var dimWindows: SwitchView
+    private lateinit var blurWindows: SwitchView
     private lateinit var shadows: SwitchView
     private lateinit var transition: SwitchView
     private lateinit var animations: SwitchView
@@ -34,6 +35,7 @@ class BehaviourScreen : ScopedFragment() {
         val view = inflater.inflate(R.layout.preferences_behaviour, container, false)
 
         dimWindows = view.findViewById(R.id.appearance_switch_dim_windows)
+        blurWindows = view.findViewById(R.id.appearance_switch_blur_windows)
         shadows = view.findViewById(R.id.appearance_switch_shadows)
         transition = view.findViewById(R.id.appearance_transition_switch)
         animations = view.findViewById(R.id.appearance_animations_switch)
@@ -54,6 +56,7 @@ class BehaviourScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dimWindows.setChecked(BehaviourPreferences.isDimmingOn())
+        blurWindows.setChecked(BehaviourPreferences.isBlurringOn())
         shadows.setChecked(BehaviourPreferences.areColoredShadowsOn())
         transition.setChecked(BehaviourPreferences.isTransitionOn())
         animations.setChecked(BehaviourPreferences.isArcAnimationOn())
@@ -67,6 +70,10 @@ class BehaviourScreen : ScopedFragment() {
 
         dimWindows.setOnSwitchCheckedChangeListener {
             BehaviourPreferences.setDimWindows(it)
+        }
+
+        blurWindows.setOnSwitchCheckedChangeListener {
+            BehaviourPreferences.setBlurWindows(it)
         }
 
         shadows.setOnSwitchCheckedChangeListener {

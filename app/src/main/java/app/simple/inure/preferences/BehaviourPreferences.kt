@@ -7,6 +7,7 @@ import app.simple.inure.popups.behavior.PopupTransitionType
 object BehaviourPreferences {
 
     private const val dimWindows = "is_dimming_windows_on"
+    private const val blurWindow = "is_blurring_windows_on"
     private const val coloredShadows = "are_colored_shadows_on"
     private const val transition = "is_transition_on"
     private const val arcAnimation = "is_animation_on"
@@ -26,6 +27,16 @@ object BehaviourPreferences {
 
     fun isDimmingOn(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(dimWindows, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setBlurWindows(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(blurWindow, boolean).apply()
+    }
+
+    fun isBlurringOn(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(blurWindow, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

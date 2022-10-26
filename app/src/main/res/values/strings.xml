@@ -41,6 +41,8 @@
     <string name="behaviour">Behaviour</string>
     <string name="dim_windows_desc">Dim underlying windows when a popup appears on the screen.\n\nTurning it off can help elevation shadows to standout more but reduces the contrast and vice-versa.</string>
     <string name="dim_windows">Dim Windows</string>
+    <string name="blur_windows">Blur Windows</string>
+    <string name="blur_windows_desc">Blur underlying windows when a popup appears on the screen.\n\nMay affect performance of the app.</string>
     <string name="shadows_desc">Adds the nice looking accent colored ambient shadows to various elevated views of the app.\n\nOnly available in API 28 or above.</string>
     <string name="show_colored_shadows">Show Colored Shadows</string>
     <string name="configuration">Configuration</string>

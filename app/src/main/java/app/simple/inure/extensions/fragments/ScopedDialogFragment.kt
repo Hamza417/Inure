@@ -4,17 +4,19 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
-import app.simple.inure.activities.app.MainActivity
+import app.simple.inure.constants.Misc
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.ui.panels.Preferences
@@ -55,11 +57,14 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
             dialog?.window?.setDimAmount(0f)
         }
 
-        window.attributes.gravity = Gravity.CENTER
-
-        kotlin.runCatching {
-            (requireActivity() as MainActivity).onWindowOpened()
+        if (BehaviourPreferences.isBlurringOn()) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                window.attributes.blurBehindRadius = Misc.blurRadius.toInt()
+            }
         }
+
+        window.attributes.gravity = Gravity.CENTER
 
         // TODO - fixe dialog height
         if (StatusBarHeight.isLandscape(requireContext())) {
@@ -78,7 +83,6 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
 
     override fun onDestroy() {
         super.onDestroy()
-        (requireActivity() as MainActivity).onWindowClosed()
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 

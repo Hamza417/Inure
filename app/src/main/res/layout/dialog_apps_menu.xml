@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.corners.DynamicCornerCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:maxHeight="@dimen/dialog_height">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/apps_menu_scroll_view"
-        app:layout_behavior="@string/over_scroll_behavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fadingEdge="vertical"
         android:fadingEdgeLength="20dp"
+        android:overScrollMode="never"
         android:padding="@dimen/dialog_padding"
-        android:requiresFadingEdge="vertical">
+        android:requiresFadingEdge="vertical"
+        app:layout_behavior="@string/over_scroll_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,53 +25,53 @@
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/copy_package_name"
-                app:appFontStyle="bold"
-                app:textColorStyle="secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/copy_package_name"
-                android:textSize="@dimen/popup_text_size" />
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/launch"
-                app:appFontStyle="bold"
-                app:textColorStyle="secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/launch"
-                android:textSize="@dimen/popup_text_size" />
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/app_information"
-                app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                app:drawableTintStyle="accent"
-                app:textColorStyle="secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/app_information"
-                android:textSize="@dimen/popup_text_size" />
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/send"
-                app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_dot_tiny"
-                app:drawableTintStyle="accent"
-                app:textColorStyle="secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/send"
-                android:textSize="@dimen/popup_text_size" />
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_dot_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.theme.ThemeDivider
                 android:layout_width="match_parent"
@@ -84,10 +85,6 @@
 
                 <app.simple.inure.decorations.ripple.DynamicRippleTextView
                     android:id="@+id/permissions"
-                    app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                    app:drawableTintStyle="accent"
-                    app:textColorStyle="secondary"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/popup_item_gap_length"
@@ -96,14 +93,14 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
                     android:text="@string/permissions"
-                    android:textSize="@dimen/popup_text_size" />
-
-                <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                    android:id="@+id/activities"
+                    android:textSize="@dimen/popup_text_size"
                     app:appFontStyle="bold"
                     app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                     app:drawableTintStyle="accent"
-                    app:textColorStyle="secondary"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/activities"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/popup_item_gap_length"
@@ -111,7 +108,11 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
                     android:text="@string/activities"
-                    android:textSize="@dimen/popup_text_size" />
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
 
             </LinearLayout>
 
@@ -122,10 +123,6 @@
 
                 <app.simple.inure.decorations.ripple.DynamicRippleTextView
                     android:id="@+id/services"
-                    app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                    app:drawableTintStyle="accent"
-                    app:textColorStyle="secondary"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/popup_item_gap_length"
@@ -134,14 +131,14 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
                     android:text="@string/services"
-                    android:textSize="@dimen/popup_text_size" />
-
-                <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                    android:id="@+id/receivers"
+                    android:textSize="@dimen/popup_text_size"
                     app:appFontStyle="bold"
                     app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                     app:drawableTintStyle="accent"
-                    app:textColorStyle="secondary"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/receivers"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/popup_item_gap_length"
@@ -149,7 +146,11 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
                     android:text="@string/receivers"
-                    android:textSize="@dimen/popup_text_size" />
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
 
             </LinearLayout>
 
@@ -160,31 +161,31 @@
 
                 <app.simple.inure.decorations.ripple.DynamicRippleTextView
                     android:id="@+id/providers"
-                    app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                    app:drawableTintStyle="accent"
-                    app:textColorStyle="secondary"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
                     android:text="@string/providers"
-                    android:textSize="@dimen/popup_text_size" />
-
-                <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                    android:id="@+id/trackers"
+                    android:textSize="@dimen/popup_text_size"
                     app:appFontStyle="bold"
                     app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                     app:drawableTintStyle="accent"
-                    app:textColorStyle="secondary"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/trackers"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:padding="@dimen/menu_text_button_padding"
                     android:text="@string/trackers"
-                    android:textSize="@dimen/popup_text_size" />
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
 
             </LinearLayout>
 
@@ -195,42 +196,42 @@
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/manifest"
-                app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                app:drawableTintStyle="accent"
-                app:textColorStyle="secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/manifest"
-                android:textSize="@dimen/popup_text_size" />
-
-            <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/notes"
+                android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
                 app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                 app:drawableTintStyle="accent"
-                app:textColorStyle="secondary"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/notes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/notes"
-                android:textSize="@dimen/popup_text_size" />
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/to_quick_app"
-                app:appFontStyle="bold"
-                app:textColorStyle="secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
                 android:text="@string/add_to_quick_apps"
-                android:textSize="@dimen/popup_text_size" />
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="secondary" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

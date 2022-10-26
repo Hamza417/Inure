@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.annotation.ColorInt
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.R.dimen
+import app.simple.inure.constants.Misc
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
 
@@ -26,14 +28,23 @@ object ViewUtils {
      * initialized
      */
     fun dimBehind(contentView: View) {
+        val container = contentView.rootView
+        val windowManager = contentView.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val layoutParams = container.layoutParams as WindowManager.LayoutParams
+
         if (BehaviourPreferences.isDimmingOn()) {
-            val container = contentView.rootView
-            val windowManager = contentView.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-            val layoutParams = container.layoutParams as WindowManager.LayoutParams
             layoutParams.flags = layoutParams.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
             layoutParams.dimAmount = getDimValue(contentView.context)
-            windowManager.updateViewLayout(container, layoutParams)
         }
+
+        if (BehaviourPreferences.isBlurringOn()) {
+            layoutParams.flags = layoutParams.flags or WindowManager.LayoutParams.FLAG_BLUR_BEHIND
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                layoutParams.blurBehindRadius = Misc.blurRadius.toInt()
+            }
+        }
+
+        windowManager.updateViewLayout(container, layoutParams)
     }
 
     fun View.setMargins(marginLeft: Int, marginTop: Int, marginRight: Int, marginBottom: Int) {

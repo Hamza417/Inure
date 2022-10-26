@@ -1,10 +1,12 @@
 <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/xml_nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:layout_behavior="@string/over_scroll_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +33,8 @@
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"
-            app:textColorStyle="secondary" />
+            app:textColorStyle="secondary"
+            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

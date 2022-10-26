@@ -3,15 +3,17 @@ package app.simple.inure.extensions.fragments
 import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
-import app.simple.inure.activities.app.MainActivity
+import app.simple.inure.constants.Misc
 import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.preferences.BehaviourPreferences
@@ -88,7 +90,12 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
             })
         }
 
-        (requireActivity() as MainActivity).onWindowOpened()
+        if (BehaviourPreferences.isBlurringOn()) {
+            dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                dialog?.window?.attributes?.blurBehindRadius = Misc.blurRadius.toInt()
+            }
+        }
     }
 
     override fun onResume() {
@@ -98,9 +105,6 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
-        kotlin.runCatching {
-            (requireActivity() as MainActivity).onWindowClosed()
-        }
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 
