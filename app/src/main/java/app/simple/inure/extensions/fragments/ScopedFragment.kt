@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.transition.ArcMotion
 import androidx.transition.Fade
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.dialogs.miscellaneous.Error
@@ -30,7 +31,7 @@ import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
-import app.simple.inure.ui.app.AppInfo
+import app.simple.inure.ui.panels.AppInfo
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
 import app.simple.inure.util.NullSafety.isNotNull
@@ -413,6 +414,16 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
+    protected fun getPackageInfo(packageName: String): PackageInfo {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireContext().packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(PackageUtils.flags))
+        } else {
+            @Suppress("DEPRECATION")
+            requireContext().packageManager.getPackageInfo(packageName, PackageUtils.flags.toInt())
+        }
+    }
+
+    @Suppress("unused", "UNUSED_VARIABLE")
     @RequiresApi(Build.VERSION_CODES.R)
     protected fun View.setKeyboardChangeListener() {
         val cb = object : WindowInsetsAnimation.Callback(DISPATCH_MODE_STOP) {

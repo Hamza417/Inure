@@ -2,6 +2,7 @@ package app.simple.inure.decorations.edgeeffect;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EdgeEffect;
@@ -32,7 +33,9 @@ public class EdgeEffectNestedScrollView extends NestedScrollView implements Shar
     
     private void init() {
         setEdgeEffectColor();
-        setOverScrollMode(View.OVER_SCROLL_NEVER);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            setOverScrollMode(View.OVER_SCROLL_NEVER);
+        }
     }
     
     @Override

@@ -20,7 +20,6 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
-import app.simple.inure.ui.app.Apps
 import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*

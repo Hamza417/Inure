@@ -61,21 +61,22 @@ Low priority features
 *This list will be updated as the development progresses*
 
 ## Screenshots
-| <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/01.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/03.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/04.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/06.jpg" width="100%"> |
-|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
-|                                             1                                             |                                             2                                             |                                             3                                             |                                             4                                             |
 
-| <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/15.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/07.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/05.jpg" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/08.jpg" width="100%"> |
-|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
-|                                             5                                             |                                             6                                             |                                             7                                             |                                             8                                             |
+| ![01](./screenshots/01.png) | ![02](./screenshots/03.png) | ![03](./screenshots/04.png) | ![04](./screenshots/06.jpg) |
+|:---------------------------:|:---------------------------:|:---------------------------:|:---------------------------:|
+|              1              |              2              |              3              |              4              |
 
-| <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/02.jpg" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/09.jpg" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/10.jpg" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/11.jpg" width="100%"> |
-|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
-|                                             9                                             |                                             0                                             |                                             A                                             |                                             B                                             |
+| ![15](./screenshots/15.png) | ![01](./screenshots/07.png) | ![01](./screenshots/05.jpg) | ![01](./screenshots/08.jpg) |
+|:---------------------------:|:---------------------------:|:---------------------------:|:---------------------------:|
+|              5              |              6              |              7              |              8              |
 
-| <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/12.jpg" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/13.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/00.png" width="100%"> | <img src="https://github.com/Hamza417/Inure/blob/master/screenshots/14.png" width="100%"> |
-|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
-|                                             C                                             |                                             D                                             |                                             E                                             |                                             F                                             |
+| ![01](./screenshots/02.jpg) | ![01](./screenshots/09.jpg) | ![01](./screenshots/10.jpg) | ![01](./screenshots/11.jpg) |
+|:---------------------------:|:---------------------------:|:---------------------------:|:---------------------------:|
+|              9              |              0              |              A              |              B              |
+
+| ![01](./screenshots/12.jpg) | ![01](./screenshots/13.png) | ![01](./screenshots/00.png) | ![01](./screenshots/14.png) |
+|:---------------------------:|:---------------------------:|:---------------------------:|:---------------------------:|
+|              C              |              D              |              E              |              F              |
 
 ## Behind The Scenes
 

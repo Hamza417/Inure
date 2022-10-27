@@ -1,4 +1,4 @@
-package app.simple.inure.ui.app
+package app.simple.inure.ui.panels
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -34,8 +34,6 @@ import app.simple.inure.popups.appinfo.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.ui.panels.NotesEditor
-import app.simple.inure.ui.panels.Unpack
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.NullSafety.isNull
@@ -276,7 +274,7 @@ class AppInfo : ScopedFragment() {
                             val p = Sure.newInstance()
                             p.setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    val f = State.newInstance(requireContext().packageManager.getPackageInfo(packageInfo.packageName, 0))
+                                    val f = State.newInstance(getPackageInfo(packageInfo.packageName))
 
                                     f.onSuccess = {
                                         componentsViewModel.loadActionOptions()

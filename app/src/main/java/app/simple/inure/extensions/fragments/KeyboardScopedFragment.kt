@@ -12,11 +12,17 @@ import app.simple.inure.decorations.ime.RootViewDeferringInsetsCallback
 import app.simple.inure.decorations.ime.TranslateDeferringInsetsAnimationCallback
 
 open class KeyboardScopedFragment : ScopedFragment() {
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.addHeightKeyboardCallbacks()
     }
 
+    /**
+     * Call this function on the root view of your layout to enable the keyboard height being
+     * intercepted by touch (swipe up/down) and the keyboard height being animated when the
+     * keyboard is shown/hidden.
+     */
     protected fun View.addHeightKeyboardCallbacks() {
         /**
          * Since our Activity has declared `window.setDecorFitsSystemWindows(false)`, we need to
@@ -27,7 +33,7 @@ open class KeyboardScopedFragment : ScopedFragment() {
          * [WindowInsetsCompat.Type.ime] insets, depending on any ongoing WindowInsetAnimations
          * (see that class for more information).
          */
-        val deferringInsetsListener = RootViewDeferringInsetsCallback(
+        @Suppress("UNUSED_VARIABLE") val deferringInsetsListener = RootViewDeferringInsetsCallback(
                 persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
                 deferredInsetTypes = WindowInsetsCompat.Type.ime()
         )
@@ -68,6 +74,10 @@ open class KeyboardScopedFragment : ScopedFragment() {
         )
     }
 
+    /**
+     * Call this function on the root view of your layout to enable the view being translated
+     * when the keyboard is shown/hidden.
+     */
     protected fun View.addTranslateKeyboardCallbacks() {
         /**
          * Since our Activity has declared `window.setDecorFitsSystemWindows(false)`, we need to
@@ -78,7 +88,7 @@ open class KeyboardScopedFragment : ScopedFragment() {
          * [WindowInsetsCompat.Type.ime] insets, depending on any ongoing WindowInsetAnimations
          * (see that class for more information).
          */
-        val deferringInsetsListener = RootViewDeferringInsetsCallback(
+        @Suppress("UNUSED_VARIABLE") val deferringInsetsListener = RootViewDeferringInsetsCallback(
                 persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
                 deferredInsetTypes = WindowInsetsCompat.Type.ime()
         )
@@ -133,9 +143,7 @@ open class KeyboardScopedFragment : ScopedFragment() {
          * [WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE] dispatch mode, which
          * we have done above.
          */
-        ViewCompat.setWindowInsetsAnimationCallback(
-                this,
-                ControlFocusInsetsAnimationCallback(this)
+        ViewCompat.setWindowInsetsAnimationCallback(this, ControlFocusInsetsAnimationCallback(this)
         )
     }
 }

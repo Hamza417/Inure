@@ -1,5 +1,7 @@
 package app.simple.inure.extensions.fragments
 
+import android.os.Bundle
+import android.view.View
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -12,6 +14,11 @@ open class SearchBarScopedFragment : KeyboardScopedFragment() {
     open lateinit var search: DynamicRippleImageButton
     open lateinit var title: TypeFaceTextView
     open lateinit var searchBox: DynamicCornerEditText
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        searchBox.setWindowInsetsAnimationCallback()
+    }
 
     protected fun searchBoxState(animate: Boolean, isVisible: Boolean) {
         if (isVisible) {

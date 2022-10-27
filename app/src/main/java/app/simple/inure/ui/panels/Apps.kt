@@ -1,4 +1,4 @@
-package app.simple.inure.ui.app
+package app.simple.inure.ui.panels
 
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
@@ -20,8 +20,6 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.ui.panels.Preferences
-import app.simple.inure.ui.panels.Search
 import app.simple.inure.viewmodels.panels.AppsViewModel
 
 class Apps : ScopedFragment() {

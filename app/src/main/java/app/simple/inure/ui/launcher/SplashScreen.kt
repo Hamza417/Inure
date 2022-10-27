@@ -25,7 +25,7 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.BehaviourPreferences
-import app.simple.inure.ui.app.Home
+import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.viewmodels.panels.AppsViewModel
 import app.simple.inure.viewmodels.panels.HomeViewModel
