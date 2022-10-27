@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.adapters.ui.AdapterMusic
@@ -47,6 +48,13 @@ class Music : ScopedFragment() {
 
                 override fun onMusicSearchClicked() {
                     openFragmentSlide(Search.newInstance(), "search_music")
+                }
+
+                override fun onMusicPlayClicked(position: Int) {
+                    (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 150)
+                    val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
+                    intent.data = Uri.parse(it[position].fileUri)
+                    startActivity(intent)
                 }
             })
 

@@ -67,6 +67,15 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             holder.search.setOnClickListener {
                 musicCallbacks?.onMusicSearchClicked()
             }
+
+            holder.play.setOnClickListener {
+                for (i in list.indices) {
+                    if (id == list[i].id) {
+                        musicCallbacks?.onMusicPlayClicked(i.plus(1))
+                        break
+                    }
+                }
+            }
         }
     }
 
@@ -120,12 +129,14 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.total)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.search)
+        val play: DynamicRippleImageButton = itemView.findViewById(R.id.play)
     }
 
     companion object {
         interface MusicCallbacks {
             fun onMusicClicked(uri: Uri)
             fun onMusicSearchClicked()
+            fun onMusicPlayClicked(position: Int)
         }
     }
 }

@@ -81,6 +81,10 @@ class Search : ScopedFragment() {
                 override fun onMusicSearchClicked() {
                     /* no-op */
                 }
+
+                override fun onMusicPlayClicked(position: Int) {
+                    /* no-op */
+                }
             })
 
             recyclerView.adapter = adapterMusic

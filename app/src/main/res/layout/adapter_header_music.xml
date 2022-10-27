@@ -12,8 +12,8 @@
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/popup_padding"
         android:layout_gravity="end"
+        android:layout_marginStart="@dimen/popup_padding"
         android:text="debug_dev_feature_music"
         app:appFontStyle="light"
         app:textColorStyle="quaternary"
@@ -80,6 +80,17 @@
             android:textSize="16sp"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/play"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/search_button"
+            android:src="@drawable/ic_play"
+            android:transitionName="adapter_search_icon"
+            app:buttonTintType="regular" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/search"
