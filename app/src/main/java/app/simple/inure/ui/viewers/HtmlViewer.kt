@@ -37,7 +37,7 @@ class HtmlViewer : ScopedFragment() {
 
     private var htmlTxt: String = ""
 
-    private val exportText = registerForActivityResult(CreateDocument("todo/todo")) { uri: Uri? ->
+    private val exportText = registerForActivityResult(CreateDocument("text/html")) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult

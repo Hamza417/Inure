@@ -45,6 +45,10 @@ class SharedPreferencesViewModel(packageInfo: PackageInfo, application: Applicat
         }
     }
 
+    fun getSharedPrefsPath(): String {
+        return path
+    }
+
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
         loadSharedPrefsFiles(fileSystemManager)
     }

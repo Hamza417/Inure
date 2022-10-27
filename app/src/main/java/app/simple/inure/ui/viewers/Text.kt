@@ -38,7 +38,7 @@ class Text : ScopedFragment() {
     private lateinit var textViewerViewModel: TextViewerViewModel
     private lateinit var textViewViewModelFactory: TextViewViewModelFactory
 
-    private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
+    private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult

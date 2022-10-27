@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
@@ -102,10 +103,14 @@ class Setup : ScopedFragment() {
         }
 
         startApp.setOnClickListener {
-            if (requireContext().checkForUsageAccessPermission()) {
-                openFragmentSlide(SplashScreen.newInstance(false))
+            if (requireArguments().getBoolean(BundleConstants.goBack)) {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             } else {
-                Toast.makeText(requireContext(), R.string.ss_please_grant_storage_permission, Toast.LENGTH_SHORT).show()
+                if (requireContext().checkForUsageAccessPermission()) {
+                    openFragmentSlide(SplashScreen.newInstance(false))
+                } else {
+                    Toast.makeText(requireContext(), R.string.ss_please_grant_storage_permission, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -230,8 +235,9 @@ class Setup : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): Setup {
+        fun newInstance(goBack: Boolean = false): Setup {
             val args = Bundle()
+            args.putBoolean(BundleConstants.goBack, goBack)
             val fragment = Setup()
             fragment.arguments = args
             return fragment

@@ -9,6 +9,9 @@ import app.simple.inure.models.StackTrace
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.PrintWriter
+import java.io.StringWriter
+import java.io.Writer
 
 open class ErrorLiveData : MutableLiveData<Throwable>() {
 
@@ -23,12 +26,16 @@ open class ErrorLiveData : MutableLiveData<Throwable>() {
 
     private fun saveTraceToDatabase(throwable: Throwable, applicationContext: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            StackTraceDatabase.init(applicationContext)
+            val stacktrace: Writer = StringWriter()
+            val printWriter = PrintWriter(stacktrace)
+            throwable.printStackTrace(printWriter)
+            printWriter.close()
+
             throwable.printStackTrace()
-            StackTraceDatabase.getInstance()
+            StackTraceDatabase.getInstance(applicationContext)
                 ?.stackTraceDao()?.insertTrace(
-                        StackTrace(throwable.toString(),
-                                   Utils.getCause(throwable).message,
+                        StackTrace(stacktrace.toString(),
+                                   throwable.localizedMessage ?: throwable.toString(),
                                    Utils.getCause(throwable).toString(),
                                    System.currentTimeMillis()))
         }

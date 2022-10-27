@@ -17,7 +17,11 @@ open class SearchBarScopedFragment : KeyboardScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchBox.setWindowInsetsAnimationCallback()
+        try {
+            searchBox.setWindowInsetsAnimationCallback()
+        } catch (e: UninitializedPropertyAccessException) {
+            e.printStackTrace()
+        }
     }
 
     protected fun searchBoxState(animate: Boolean, isVisible: Boolean) {

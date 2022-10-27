@@ -1,5 +1,6 @@
 package app.simple.inure.activities.app
 
+import android.app.ActivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +11,10 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.activity.ManageSpaceViewModel
@@ -97,18 +100,7 @@ class ManageSpace : BaseActivity() {
         }
     }
 
-    private fun clearAppData() {
-        val p = Sure.newInstance()
-        p.setOnSureCallbackListener(object : SureCallbacks {
-            override fun onSure() {
-                clearAppDataLoader.visible(true)
-                clearData()
-            }
-        })
-
-        p.show(supportFragmentManager, "sure")
-    }
-
+    @Suppress("unused")
     fun clearData() {
         lifecycleScope.launch(Dispatchers.IO) {
             // TODO - implement this
@@ -152,5 +144,17 @@ class ManageSpace : BaseActivity() {
         }
 
         return dir!!.delete()
+    }
+
+    private fun clearAppData() {
+        val p = Sure.newInstance()
+        p.setOnSureCallbackListener(object : SureCallbacks {
+            override fun onSure() {
+                if ((applicationContext.getSystemService(ACTIVITY_SERVICE) as ActivityManager).clearApplicationUserData().invert()) {
+                    Warning.newInstance(getString(R.string.failed)).show(supportFragmentManager, "warning")
+                }
+            }
+        })
+        p.show(supportFragmentManager, "sure")
     }
 }

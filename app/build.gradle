@@ -8,7 +8,7 @@ plugins {
 android {
     compileSdkVersion 33
 
-    def appVersionCode = 42
+    def appVersionCode = 43
     def appVersionName = "build_$appVersionCode (alpha)"
 
     buildFeatures {
@@ -36,6 +36,12 @@ android {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
+        }
+    }
+
+    bundle {
+        language {
+            enableSplit = false
         }
     }
 

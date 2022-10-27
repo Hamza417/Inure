@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val goBack = "go_back"
     const val path: String = "path"
     const val isRaw: String = "is_raw"
     const val certificate: String = "certificate"

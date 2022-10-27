@@ -44,7 +44,7 @@ class DevelopmentScreen : ScopedFragment() {
         debugFeaturesSwitch.setChecked(DevelopmentPreferences.isDebugFeaturesEnabled())
 
         setup.setOnClickListener {
-            openFragmentSlide(Setup.newInstance(), "setup")
+            openFragmentSlide(Setup.newInstance(goBack = true), "setup")
         }
 
         sharedPref.setOnClickListener {

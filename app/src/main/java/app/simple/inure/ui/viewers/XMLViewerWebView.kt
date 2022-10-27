@@ -38,7 +38,7 @@ class XMLViewerWebView : ScopedFragment() {
     private lateinit var componentsViewModel: XMLViewerViewModel
     private lateinit var applicationInfoFactory: XMLViewerViewModelFactory
 
-    private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
+    private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult

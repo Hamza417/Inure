@@ -40,7 +40,7 @@ class Markdown : ScopedFragment() {
 
     private var backPress: OnBackPressedDispatcher? = null
 
-    private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
+    private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument("text/markdown")) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult

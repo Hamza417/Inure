@@ -8,7 +8,6 @@ import androidx.room.RoomDatabase
 import app.simple.inure.database.dao.StackTraceDao
 import app.simple.inure.models.StackTrace
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.NullSafety.isNull
 
 @Database(entities = [StackTrace::class], exportSchema = true, version = 3, autoMigrations = [AutoMigration(from = 2, to = 3)])
 abstract class StackTraceDatabase : RoomDatabase() {
@@ -20,18 +19,28 @@ abstract class StackTraceDatabase : RoomDatabase() {
 
         @Synchronized
         fun init(context: Context) {
-            if (instance.isNull()) {
-                if (instance?.isOpen?.invert() == true) {
+            kotlin.runCatching {
+                if (instance!!.isOpen.invert()) {
                     instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
                         .fallbackToDestructiveMigration()
                         .build()
                 }
+            }.getOrElse {
+                instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
+                    .fallbackToDestructiveMigration()
+                    .build()
             }
         }
 
         @Synchronized
         fun getInstance(context: Context): StackTraceDatabase? {
-            if (instance.isNull()) {
+            kotlin.runCatching {
+                if (instance!!.isOpen.invert()) {
+                    instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
+                        .fallbackToDestructiveMigration()
+                        .build()
+                }
+            }.getOrElse {
                 instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
                     .fallbackToDestructiveMigration()
                     .build()

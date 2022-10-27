@@ -39,7 +39,8 @@ class SharedPreferences : SearchBarScopedFragment() {
 
             adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
                 override fun onResourceClicked(path: String) {
-
+                    openFragmentSlide(SharedPrefsViewer.newInstance(
+                            sharedPreferencesViewModel.getSharedPrefsPath() + path), "shared_prefs_viewer")
                 }
 
                 override fun onResourceLongClicked(path: String) {

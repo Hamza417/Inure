@@ -424,7 +424,7 @@
                         android:text="@string/translate"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                        app:drawableEndCompat="@drawable/ic_web_page_tiny"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
