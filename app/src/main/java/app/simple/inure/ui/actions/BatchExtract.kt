@@ -58,14 +58,19 @@ class BatchExtract : ScopedBottomSheetFragment() {
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyFinished)
         batchExtractIntentFilter.addAction(ServiceConstants.actionExtractDone)
 
-        appList = requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps)!!
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            appList = requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps, BatchPackageInfo::class.java)!!
+        } else {
+            @Suppress("DEPRECATION")
+            appList = requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps)!!
+        }
 
         if (Build.VERSION.SDK_INT >= 31) {
             vibratorManager = requireActivity().getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
             vibrator = vibratorManager?.defaultVibrator
         } else {
             @Suppress("DEPRECATION")
-            vibrator = requireActivity().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?;
+            vibrator = requireActivity().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
         }
 
         return view
@@ -125,10 +130,10 @@ class BatchExtract : ScopedBottomSheetFragment() {
                             delay(1000)
                             cancel.callOnClick()
                             if (Build.VERSION.SDK_INT >= 26) {
-                                vibrator?.vibrate(VibrationEffect.createWaveform(vibratePattern, 0));
+                                vibrator?.vibrate(VibrationEffect.createWaveform(vibratePattern, 0))
                             } else {
                                 @Suppress("DEPRECATION")
-                                vibrator?.vibrate(vibratePattern, 0);
+                                vibrator?.vibrate(vibratePattern, 0)
                             }
                             dismiss()
                         }

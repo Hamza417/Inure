@@ -22,7 +22,6 @@ import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.NullSafety.isNotNull
 import com.google.android.material.animation.ArgbEvaluatorCompat
-import org.jetbrains.annotations.NotNull
 
 class ImageViewer : ScopedFragment() {
 
@@ -61,7 +60,7 @@ class ImageViewer : ScopedFragment() {
         name.text = requireArguments().getString("path_of_image")
 
         back.setOnClickListener {
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         image.setOnClickListener {
@@ -118,7 +117,7 @@ class ImageViewer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(@NotNull pathOfApk: String, filePath: String): ImageViewer {
+        fun newInstance(pathOfApk: String, filePath: String): ImageViewer {
             val args = Bundle()
             args.putString("path_of_apk", pathOfApk)
             args.putString("path_of_image", filePath)

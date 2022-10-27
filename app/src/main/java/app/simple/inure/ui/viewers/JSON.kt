@@ -69,14 +69,13 @@ class JSON : ScopedFragment() {
         options = view.findViewById(R.id.json_viewer_options)
 
         path = requireArguments().getString(BundleConstants.pathToJSON)!!
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         codeViewModelFactory = CodeViewModelFactory(requireActivity().application,
                                                     packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent),
                                                     path!!)
 
-        jsonViewerViewModel = ViewModelProvider(this, codeViewModelFactory).get(JSONViewerViewModel::class.java)
+        jsonViewerViewModel = ViewModelProvider(this, codeViewModelFactory)[JSONViewerViewModel::class.java]
 
         startPostponedEnterTransition()
 

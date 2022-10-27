@@ -64,7 +64,6 @@ class Markdown : ScopedFragment() {
         codeView = view.findViewById(R.id.code_viewer)
         path = view.findViewById(R.id.code_name)
         options = view.findViewById(R.id.code_viewer_options)
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         textViewViewModelFactory = TextViewViewModelFactory(
                 packageInfo,
@@ -72,7 +71,7 @@ class Markdown : ScopedFragment() {
         )
 
         backPress = requireActivity().onBackPressedDispatcher
-        textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory).get(TextViewerViewModel::class.java)
+        textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory)[TextViewerViewModel::class.java]
 
         path.text = requireArguments().getString("path")!!
 
@@ -127,7 +126,7 @@ class Markdown : ScopedFragment() {
                     codeView.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.NORMAL
                 } else {
                     remove()
-                    requireActivity().onBackPressed()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
             }
         })

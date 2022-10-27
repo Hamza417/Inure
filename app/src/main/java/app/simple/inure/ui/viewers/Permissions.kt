@@ -39,9 +39,8 @@ class Permissions : SearchBarScopedFragment() {
         search = view.findViewById(R.id.permissions_search_btn)
         searchBox = view.findViewById(R.id.permissions_search)
         title = view.findViewById(R.id.permission_title)
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        permissionsViewModel = ViewModelProvider(this, packageInfoFactory).get(PermissionsViewModel::class.java)
+        permissionsViewModel = ViewModelProvider(this, packageInfoFactory)[PermissionsViewModel::class.java]
 
         searchBoxState(false, PermissionPreferences.isSearchVisible())
         startPostponedEnterTransition()

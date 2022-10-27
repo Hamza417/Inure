@@ -13,11 +13,11 @@ import app.simple.inure.R
 import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.adapters.ui.AdapterMusic
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
-class Music : ScopedFragment() {
+class Music : KeyboardScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
 

@@ -71,7 +71,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             holder.play.setOnClickListener {
                 for (i in list.indices) {
                     if (id == list[i].id) {
-                        musicCallbacks?.onMusicPlayClicked(i.plus(1))
+                        musicCallbacks?.onMusicPlayClicked(i)
                         break
                     }
                 }

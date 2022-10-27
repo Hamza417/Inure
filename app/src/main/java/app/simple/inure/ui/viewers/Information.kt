@@ -34,10 +34,8 @@ class Information : ScopedFragment() {
         back = view.findViewById(R.id.app_info_back_button)
         progress = view.findViewById(R.id.information_data_progress)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        viewModel = ViewModelProvider(this, packageInfoFactory).get(AppInformationViewModel::class.java)
+        viewModel = ViewModelProvider(this, packageInfoFactory)[AppInformationViewModel::class.java]
 
         return view
     }
@@ -61,7 +59,7 @@ class Information : ScopedFragment() {
         }
 
         back.setOnClickListener {
-            activity?.onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

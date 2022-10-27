@@ -1,5 +1,6 @@
 package app.simple.inure.ui.installer
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,13 @@ class Information : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.information_recycler_view)
 
-        val file = requireArguments().getSerializable(BundleConstants.file)!! as File
+        val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getSerializable(BundleConstants.file, File::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            requireArguments().getSerializable(BundleConstants.file) as File
+        }
+
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
         installerInformationViewModel = ViewModelProvider(requireActivity(), installerViewModelFactory)[InstallerInformationViewModel::class.java]
 

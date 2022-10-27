@@ -34,7 +34,7 @@ class Resources : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.resources_search)
         title = view.findViewById(R.id.resources_title)
         recyclerView = view.findViewById(R.id.resources_recycler_view)
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
+
         packageInfoFactory = PackageInfoFactory(packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory)[ApkDataViewModel::class.java]
 

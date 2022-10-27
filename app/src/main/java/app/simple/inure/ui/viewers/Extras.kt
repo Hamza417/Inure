@@ -39,7 +39,6 @@ class Extras : SearchBarScopedFragment() {
         search = view.findViewById(R.id.extras_search_btn)
         searchBox = view.findViewById(R.id.extras_search)
         title = view.findViewById(R.id.extras_title)
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
         extrasViewModel = ViewModelProvider(this, packageInfoFactory)[ExtrasViewModel::class.java]

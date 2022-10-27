@@ -1,6 +1,6 @@
 package app.simple.inure.ui.installer
 
-import android.content.pm.PackageInfo
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,17 +23,20 @@ class Certificate : ScopedFragment() {
     private lateinit var certificateViewModelFactory: CertificateViewModelFactory
 
     private var file: File? = null
-    private var packageInfo2: PackageInfo? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.installer_fragment_information, container, false)
 
         recyclerView = view.findViewById(R.id.information_recycler_view)
 
-        packageInfo2 = requireArguments().getParcelable(BundleConstants.packageInfo)
-        file = requireArguments().getSerializable(BundleConstants.file) as File?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            file = requireArguments().getSerializable(BundleConstants.file, File::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            file = requireArguments().getSerializable(BundleConstants.file) as File
+        }
 
-        certificateViewModelFactory = CertificateViewModelFactory(packageInfo2, file)
+        certificateViewModelFactory = CertificateViewModelFactory(packageInfo, file)
         viewModel = ViewModelProvider(this, certificateViewModelFactory).get(CertificatesViewModel::class.java)
 
         return view

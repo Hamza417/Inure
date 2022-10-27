@@ -33,8 +33,6 @@ class Font : ScopedFragment() {
         fontEditText = view.findViewById(R.id.ttf_viewer)
         fontName = view.findViewById(R.id.ttf_name)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-
         fontViewModelFactory = FontViewModelFactory(requireArguments().getString("path")!!,
                                                     packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent))

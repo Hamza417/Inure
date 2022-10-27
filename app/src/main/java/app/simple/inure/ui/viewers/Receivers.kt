@@ -38,9 +38,8 @@ class Receivers : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.receivers_search)
         title = view.findViewById(R.id.receivers_title)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        receiversViewModel = ViewModelProvider(this, packageInfoFactory).get(ReceiversViewModel::class.java)
+        receiversViewModel = ViewModelProvider(this, packageInfoFactory)[ReceiversViewModel::class.java]
 
         searchBoxState(false, ReceiversPreferences.isSearchVisible())
         startPostponedEnterTransition()

@@ -40,7 +40,6 @@ class Graphics : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.graphics_search)
         title = view.findViewById(R.id.graphics_title)
         filter = view.findViewById(R.id.graphics_filter)
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(packageInfo)
         graphicsViewModel = ViewModelProvider(this, packageInfoFactory).get(GraphicsViewModel::class.java)
 

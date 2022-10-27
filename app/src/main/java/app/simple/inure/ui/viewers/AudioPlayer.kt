@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.*
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.view.LayoutInflater
@@ -83,7 +84,13 @@ class AudioPlayer : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.loader)
         playerContainer = view.findViewById(R.id.container)
 
-        uri = requireArguments().getParcelable("uri")!!
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            uri = requireArguments().getParcelable("uri", Uri::class.java)!!
+        } else {
+            @Suppress("DEPRECATION")
+            uri = requireArguments().getParcelable("uri")!!
+        }
+
         audioIntentFilter.addAction(ServiceConstants.actionPrepared)
         audioIntentFilter.addAction(ServiceConstants.actionQuitMusicService)
         audioIntentFilter.addAction(ServiceConstants.actionMetaData)

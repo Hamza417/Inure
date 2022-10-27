@@ -26,8 +26,6 @@ class Directories : ScopedFragment() {
         dataDir = view.findViewById(R.id.sub_directory_data)
         back = view.findViewById(R.id.app_info_back_button)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-
         return view
     }
 
@@ -48,7 +46,7 @@ class Directories : ScopedFragment() {
         }))
 
         back.setOnClickListener {
-            activity?.onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

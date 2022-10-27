@@ -47,7 +47,6 @@ class Trackers : SearchBarScopedFragment() {
         progress = view.findViewById(R.id.trackers_data_progress)
         recyclerView = view.findViewById(R.id.trackers_recycler_view)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(packageInfo)
         trackersViewModel = ViewModelProvider(this, packageInfoFactory)[TrackersViewModel::class.java]
 

@@ -62,7 +62,6 @@ class HtmlViewer : ScopedFragment() {
         html = view.findViewById(R.id.html_viewer)
         path = view.findViewById(R.id.html_name)
         options = view.findViewById(R.id.html_viewer_options)
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         textViewViewModelFactory = TextViewViewModelFactory(
                 packageInfo,

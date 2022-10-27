@@ -38,7 +38,6 @@ class Services : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.services_search)
         title = view.findViewById(R.id.services_title)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageInfoFactory = PackageInfoFactory(packageInfo)
         servicesViewModel = ViewModelProvider(this, packageInfoFactory)[ServicesViewModel::class.java]
 

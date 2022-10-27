@@ -69,14 +69,13 @@ class Java : ScopedFragment() {
         options = view.findViewById(R.id.java_viewer_options)
 
         path = requireArguments().getString(BundleConstants.pathToJava)!!
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         codeViewModelFactory = CodeViewModelFactory(requireActivity().application,
                                                     packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent),
                                                     path!!)
 
-        javaViewModel = ViewModelProvider(this, codeViewModelFactory).get(JavaViewModel::class.java)
+        javaViewModel = ViewModelProvider(this, codeViewModelFactory)[JavaViewModel::class.java]
 
         startPostponedEnterTransition()
         FastScrollerBuilder(scrollView).setupAesthetics().build()
