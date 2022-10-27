@@ -1,6 +1,7 @@
 package app.simple.inure.ui.music
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,11 +13,14 @@ import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.adapters.ui.AdapterMusic
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
 class Music : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
+
+    private var adapterMusic: AdapterMusic? = null
     private val musicViewModel: MusicViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,9 +36,9 @@ class Music : ScopedFragment() {
         postponeEnterTransition()
 
         musicViewModel.getSongs().observe(viewLifecycleOwner) {
-            val adapterMusic = AdapterMusic(it, headerMode = true)
+            adapterMusic = AdapterMusic(it, headerMode = true)
 
-            adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
+            adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(uri: Uri) {
                     val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
                     intent.data = uri
@@ -49,6 +53,14 @@ class Music : ScopedFragment() {
             recyclerView.adapter = adapterMusic
 
             startPostponedEnterTransition()
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            MusicPreferences.lastMusicId -> {
+                adapterMusic?.updateHighlightedSongState()
+            }
         }
     }
 

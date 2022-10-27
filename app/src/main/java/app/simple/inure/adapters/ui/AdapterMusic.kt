@@ -15,10 +15,13 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromUri
 import app.simple.inure.models.AudioModel
+import app.simple.inure.preferences.MusicPreferences
 
 class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var musicCallbacks: MusicCallbacks? = null
+    private var lastHighlightId = MusicPreferences.getLastMusicId()
+    private var id = MusicPreferences.getLastMusicId()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         if (headerMode) {
@@ -50,9 +53,13 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             holder.album.text = list[position].album
 
             holder.art.loadFromUri(holder.context, Uri.parse(list[position].artUri))
+            holder.container.setDefaultBackground(MusicPreferences.getLastMusicId() == list[position].id)
 
             holder.container.setOnClickListener {
+                MusicPreferences.setLastMusicId(list[position].id)
+                id = list[position].id
                 musicCallbacks?.onMusicClicked(Uri.parse(list[position].fileUri))
+                updateHighlightedSongState()
             }
         } else if (holder is Header) {
             holder.total.text = holder.context.getString(R.string.total_apps, list.size.toString())
@@ -86,6 +93,20 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     fun setOnMusicCallbackListener(musicCallbacks: MusicCallbacks) {
         this.musicCallbacks = musicCallbacks
+    }
+
+    fun updateHighlightedSongState() {
+        val compensate = if (headerMode) 1 else 0
+        for (i in list.indices) {
+            if (list[i].id == id) {
+                notifyItemChanged(i.plus(compensate))
+            }
+            if (list[i].id == lastHighlightId) {
+                notifyItemChanged(i.plus(compensate))
+            }
+        }
+
+        lastHighlightId = id
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
