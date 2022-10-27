@@ -38,7 +38,7 @@ public class CrashReporter implements Thread.UncaughtExceptionHandler {
     
         Utils.create(stacktrace, new File(context.getExternalFilesDir("logs"), "crashLog_" + System.currentTimeMillis()));
         CrashPreferences.INSTANCE.saveCrashLog(System.currentTimeMillis());
-        CrashPreferences.INSTANCE.saveMessage(Utils.getCause(throwable).getMessage());
+        CrashPreferences.INSTANCE.saveMessage(throwable.toString());
         CrashPreferences.INSTANCE.saveCause(Utils.getCause(throwable).toString());
     
         Intent intent = new Intent(context, CrashReporterActivity.class);

@@ -19,7 +19,10 @@ class RootService : com.topjohnwu.superuser.ipc.RootService() {
             // The classloader will load this class (and call this static block) in the non-root
             // process because we accessed it when constructing the Intent to send.
             // Add this check so we don't unnecessarily load native code that'll never be used.
-            System.loadLibrary("inure_su")
+            if (Process.myUid() == 0) {
+                System.loadLibrary("inure_su")
+                Log.d("RootService", "Loaded native library")
+            }
         }
 
         // Demonstrate we can also run native code via JNI with RootServices

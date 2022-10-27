@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -59,6 +60,8 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, applicatio
                                                 .setContext(applicationContext())
                                                 .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
                                                 .setTimeout(10))
+                }.onFailure {
+                    Log.e(javaClass.name, "Failed to initialize Shell", it)
                 }
 
                 with(fileSystemManager?.getFile(pathToXml)) {

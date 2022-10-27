@@ -17,67 +17,81 @@
 
 <!-- Write change logs here -->
 
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added blur effect on the background when a popup window is showing.</li>
-    <li>Added option to enable disable blur effect on popup windows <b>Behaviour Preferences</b>
-        panel.
-    </li>
-    <li>Added <i>Shared Preferences</i> viewer panel.<br>
-        <sub>Due to restrictions imposed by Android 12 data directory of other apps aren't
-            accessible anymore even with root access. Android 11 and below should work fine.</sub>
-    </li>
-    <li>Updated translators and licenses lists.</li>
-</ul>
-
-<h4>Bug Fixes</h4>
-
-<ul>
-    <li>Fixed stack traces not getting recorded properly.</li>
-    <li>Fixed languages not included in Play Store build.</li>
-</ul>
-
 <h4>Improvements</h4>
 
 <ul>
-    <li>Improved keyboard interactions with panel views.</li>
-    <li>Updated many outdated APIs.</li>
-</ul>
-
-<h4>Removed</h4>
-
-<ul>
-    <li>Removed views intercepting IME movement behaviour for time being due to unexpected
-        behaviour.
-    </li>
-</ul>
-
-<h4>Music</h4>
-
-<ul>
-    <li>Music state highlight.</li>
-    <li>Added quick play button.</li>
-</ul>
-
-<h4>Widgets</h4>
-
-<ul>
-    <li>Added <i>Lock Screen</i> widget.</li>
-</ul>
-
-<h4>Android 12</h4>
-
-<ul>
-    <li>Disabled Android 12's stretching effect from the whole app.<br>
-        <sub>Google added a stretching effect in Android 12 that creates a stretching effect when
-            the view is overscrolled. There were few issues with this feature first it is really
-            ugly and second it is creating a conflict with app's native overscroll effect animation
-            engine creating a glitch effect out of it.</sub>
-    </li>
+    <li>Improved app's interaction with system navigation gestures.</li>
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input id="build_43" class="toggle" type="checkbox">
+    <label for="build_43" class="lbl-toggle">Build43</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added blur effect on the background when a popup window is showing.</li>
+                <li>Added option to enable disable blur effect on popup windows <b>Behaviour Preferences</b>
+                    panel.
+                </li>
+                <li>Added <i>Shared Preferences</i> viewer panel.<br>
+                    <sub>Due to restrictions imposed by Android 12 data directory of other apps aren't
+                        accessible anymore even with root access. Android 11 and below should work fine.</sub>
+                </li>
+                <li>Updated translators and licenses lists.</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed stack traces not getting recorded properly.</li>
+                <li>Fixed languages not included in Play Store build.</li>
+            </ul>
+
+            <h4>Improvements</h4>
+
+            <ul>
+                <li>Improved keyboard interactions with panel views.</li>
+                <li>Updated many outdated APIs.</li>
+            </ul>
+
+            <h4>Removed</h4>
+
+            <ul>
+                <li>Removed views intercepting IME movement behaviour for time being due to unexpected
+                    behaviour.
+                </li>
+            </ul>
+
+            <h4>Music</h4>
+
+            <ul>
+                <li>Music state highlight.</li>
+                <li>Added quick play button.</li>
+            </ul>
+
+            <h4>Widgets</h4>
+
+            <ul>
+                <li>Added <i>Lock Screen</i> widget.</li>
+            </ul>
+
+            <h4>Android 12</h4>
+
+            <ul>
+                <li>Disabled Android 12's stretching effect from the whole app.<br>
+                    <sub>Google added a stretching effect in Android 12 that creates a stretching effect when
+                        the view is overscrolled. There were few issues with this feature first it is really
+                        ugly and second it is creating a conflict with app's native overscroll effect animation
+                        engine creating a glitch effect out of it.</sub>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input id="build_42" class="toggle" type="checkbox">

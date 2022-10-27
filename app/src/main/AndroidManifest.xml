@@ -62,6 +62,7 @@
 
     <application
         android:allowBackup="true"
+        android:enableOnBackInvokedCallback="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -74,7 +75,7 @@
         android:theme="@style/Inure"
         android:windowSoftInputMode="adjustPan"
         tools:ignore="AllowBackup"
-        tools:targetApi="n">
+        tools:targetApi="tiramisu">
 
         <activity
             android:name=".activities.app.MainActivity"

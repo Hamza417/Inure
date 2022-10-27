@@ -16,34 +16,42 @@ import com.topjohnwu.superuser.nio.FileSystemManager
 abstract class RootServiceViewModel(application: Application) : WrappedViewModel(application) {
 
     private val tag = javaClass.simpleName
-    private var aidlConn: AIDLConnection? = null
-    private var daemonConn: AIDLConnection? = null
+    private var aidlConnection: AIDLConnection? = null
+    private var daemonConnection: AIDLConnection? = null
     private var fileSystemManager: FileSystemManager? = null
 
     init {
         val intent = Intent(applicationContext(), RootService::class.java)
-        bind(intent, AIDLConnection(false))
+        bind(intent, AIDLConnection(isDaemon = false))
     }
 
     abstract fun runRootProcess(fileSystemManager: FileSystemManager?)
 
     private fun stopService() {
-        unbind(aidlConn!!)
+        try {
+            unbind(aidlConnection!!)
+        } catch (e: java.lang.NullPointerException) {
+            Log.e(tag, "Service not bound")
+        }
     }
 
     inner class AIDLConnection(private val isDaemon: Boolean) : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             Log.d(tag, "AIDL onServiceConnected")
             if (isDaemon) {
-                daemonConn = this
+                daemonConnection = this
             } else {
-                aidlConn = this
+                aidlConnection = this
             }
             val ipc: IRootService = IRootService.Stub.asInterface(service)
             try {
-                // consoleList.add("AIDL PID : " + ipc.pid)
-                // consoleList.add("AIDL UID : " + ipc.uid)
-                // consoleList.add("AIDL UUID: " + ipc.uuid)
+                kotlin.runCatching {
+                    Log.d(tag, "AIDL PID: ${ipc.pid}")
+                    // It's crashing, don't uncomment
+                    // Log.d(tag, "AIDL UUID: ${ipc.uuid}")
+                    // Log.d(tag, "AIDL UID: ${ipc.uid}")
+                }
+
                 if (!isDaemon) {
                     // Get the remote file system service proxy through AIDL
                     val binder: IBinder = ipc.fileSystemService
@@ -61,9 +69,9 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
         override fun onServiceDisconnected(name: ComponentName) {
             Log.d(tag, "AIDL onServiceDisconnected")
             if (isDaemon) {
-                daemonConn = null
+                daemonConnection = null
             } else {
-                aidlConn = null
+                aidlConnection = null
                 fileSystemManager = null
             }
         }
