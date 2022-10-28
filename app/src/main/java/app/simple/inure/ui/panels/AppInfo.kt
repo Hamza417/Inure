@@ -52,7 +52,6 @@ class AppInfo : ScopedFragment() {
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var usageStatistics: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
-    private lateinit var unpack: DynamicRippleTextView
     private lateinit var meta: RecyclerView
     private lateinit var actions: RecyclerView
     private lateinit var miscellaneous: RecyclerView
@@ -78,7 +77,6 @@ class AppInfo : ScopedFragment() {
         appInformation = view.findViewById(R.id.app_info_information_tv)
         usageStatistics = view.findViewById(R.id.app_info_storage_tv)
         notes = view.findViewById(R.id.app_info_notes_tv)
-        unpack = view.findViewById(R.id.app_info_unpack_tv)
         meta = view.findViewById(R.id.app_info_menu)
         actions = view.findViewById(R.id.app_info_options)
         miscellaneous = view.findViewById(R.id.app_info_miscellaneous)
@@ -363,10 +361,6 @@ class AppInfo : ScopedFragment() {
 
         notes.setOnClickListener {
             openFragmentSlide(NotesEditor.newInstance(packageInfo), "notes_viewer")
-        }
-
-        unpack.setOnClickListener {
-            openFragmentSlide(Unpack.newInstance(packageInfo), "unpack")
         }
 
         foldMetaDataMenu.setOnClickListener {

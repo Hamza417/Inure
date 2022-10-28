@@ -7,11 +7,12 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import app.simple.inure.constants.Misc;
 import app.simple.inure.preferences.AppearancePreferences;
 
 public class AppIconImageView extends AppCompatImageView implements SharedPreferences.OnSharedPreferenceChangeListener {
     
-    private int size = AppearancePreferences.INSTANCE.getIconSize();
+    private int size = 0;
     
     public AppIconImageView(@NonNull Context context) {
         super(context);
@@ -29,19 +30,28 @@ public class AppIconImageView extends AppCompatImageView implements SharedPrefer
     }
     
     private void init() {
+        if (isInEditMode()) {
+            size = Misc.appIconsDimension;
+        } else {
+            size = AppearancePreferences.INSTANCE.getIconSize();
+        }
         // updateLayout(AppearancePreferences.INSTANCE.getIconSize());
     }
     
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        if (!isInEditMode()) {
+            app.simple.inure.preferences.SharedPreferences.INSTANCE.registerListener(this);
+        }
     }
     
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        if (!isInEditMode()) {
+            app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterListener(this);
+        }
     }
     
     @Override

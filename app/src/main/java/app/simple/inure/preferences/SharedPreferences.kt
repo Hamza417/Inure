@@ -26,6 +26,14 @@ object SharedPreferences {
         return sharedPreferences ?: throw NullPointerException()
     }
 
+    fun registerListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    fun unregisterListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(listener)
+    }
+
     /**
      * Singleton to hold reference of SharedPreference.
      *

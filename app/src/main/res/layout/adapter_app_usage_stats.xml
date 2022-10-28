@@ -23,7 +23,6 @@
         android:gravity="center_vertical"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
-        app:drawableEndCompat="@drawable/ic_dot_tiny"
         app:textColorStyle="secondary" />
 
 </LinearLayout>

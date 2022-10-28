@@ -1,11 +1,8 @@
 package app.simple.inure.adapters.details
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants
@@ -34,7 +31,7 @@ class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: VerticalListViewHolder, position: Int) {
-        val position = position - 1
+        @Suppress("NAME_SHADOWING") val position = position - 1
 
         if (holder is Holder) {
             holder.date.text = packageStats.appUsage!![position].date.toDate()
@@ -63,21 +60,6 @@ class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerVie
                         }
                     }
                 }
-
-                TextViewCompat.setCompoundDrawableTintList(holder.time, when {
-                    TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
-                        ColorStateList.valueOf(Color.parseColor("#16a085"))
-                    }
-                    TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
-                        ColorStateList.valueOf(Color.parseColor("#3498db"))
-                    }
-                    TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
-                        ColorStateList.valueOf(Color.parseColor("#8e44ad"))
-                    }
-                    else -> {
-                        ColorStateList.valueOf(Color.parseColor("#e74c3c"))
-                    }
-                })
             }
         } else if (holder is Header) {
             with(System.currentTimeMillis() - packageStats.appUsage!![0].date) {

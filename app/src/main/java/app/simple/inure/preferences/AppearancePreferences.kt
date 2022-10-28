@@ -3,7 +3,6 @@ package app.simple.inure.preferences
 import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
-import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
@@ -42,10 +41,12 @@ object AppearancePreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
+    @Suppress("unused")
     fun setAccentColorLight(@ColorInt int: Int) {
         getSharedPreferences().edit().putInt(accentColorLight, int).apply()
     }
 
+    @Suppress("unused")
     @ColorInt
     fun getAccentColorLight(): Int {
         return getSharedPreferences().getInt(accentColorLight, 0)
@@ -91,7 +92,7 @@ object AppearancePreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppFont(@NonNull font: String): Boolean {
+    fun setAppFont(font: String): Boolean {
         return getSharedPreferences().edit().putString(appFont, font).commit()
     }
 
