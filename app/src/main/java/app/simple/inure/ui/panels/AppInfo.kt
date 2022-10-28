@@ -192,12 +192,9 @@ class AppInfo : ScopedFragment() {
         componentsViewModel.getMenuOptions().observe(viewLifecycleOwner) {
             if (AppInformationPreferences.isActionMenuFolded()) return@observe
 
-            if (actionsAdapter.isNull()) {
-                actionsAdapter = AdapterMenu()
-                actionsAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-            }
-
+            actionsAdapter = AdapterMenu()
             actionsAdapter?.list = it
+            actionsAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
 
             when (AppInformationPreferences.getMenuLayout()) {
                 PopupMenuLayout.HORIZONTAL -> {

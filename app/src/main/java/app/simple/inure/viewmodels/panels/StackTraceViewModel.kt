@@ -18,8 +18,14 @@ class StackTraceViewModel(application: Application) : WrappedViewModel(applicati
         }
     }
 
+    private val delete = MutableLiveData<Int>()
+
     fun getStackTraces(): LiveData<ArrayList<StackTrace>> {
         return stackTraces
+    }
+
+    fun getDelete(): LiveData<Int> {
+        return delete
     }
 
     private fun loadTraces() {
@@ -33,12 +39,12 @@ class StackTraceViewModel(application: Application) : WrappedViewModel(applicati
         }
     }
 
-    fun deleteStackTrace(stackTrace: StackTrace) {
+    fun deleteStackTrace(stackTrace: StackTrace, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val db = StackTraceDatabase.getInstance(applicationContext())
                 db?.stackTraceDao()?.deleteStackTrace(stackTrace)
-                // loadTraces()
+                delete.postValue(position)
             }.getOrElse {
                 postError(it)
             }

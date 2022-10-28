@@ -1,0 +1,43 @@
+Inure is a powerful open source applications manager and analyzer with a good-looking and easy to use interface. This app can be used to manage all apps installed in the device, in addition to that Inure allows you to access all the core components of the app including services, activities etc. and modify them on the go. All that combined with a gorgeous and pleasing interface, with every tap accompanied by fluid animations.
+
+<b>Features</b>
+ • Organized list of all apps
+ • Usage stats of all apps
+ • Create notes for specific apps
+ • Terminal Emulator
+ • Sensors information
+ • Scan for trackers in any app
+ • Inbuilt device information panel
+ • App information panel
+ • Ability to uninstall, send, disable, force close any user or system app
+ • Dedicated app's component viewer and editor
+ • Clear data and cache of any app
+ • Grant or Deny permissions for any app
+
+<b>Extra Capabilities</b>
+ • Audio player
+ • Preview any TTF format font
+ • Image viewer
+ • Inbuilt text viewer and editor
+ • Markdown viewer
+ • HTML support
+ • Pretty code highlight support for some programming languages
+ • XML pretty printing and highlighting
+ • SVG support
+
+<b>UI Features</b>
+ • Full-screen with status and navigation bar
+ • Beautiful unique interface
+ • Smooth animations for every element of the app
+ • Interconnected interface by icons and shared animations
+ • Universal accent color picker
+ • Ability to change font style of the app
+ • Rounded corner support
+ • Pleasing colored shadows for every layer of the app
+ • Glowing app icons effect
+ • Unique switch style
+ • Native theme engine to support all dark and light modes
+ • AMOLED, Slate, Grey and High Contrast dark modes
+
+<b>Note</b>
+Inure is currently in Alpha stage and there maybe features that are not yet added, and the app may crash sometimes. I am actively developing this app and would love to hear feedback, ideas and general discussions about the app. You can submit your feedback on GitHub: https://bit.ly/inure_discussion or join Telegram group for the app (Recommended): https://t.me/inure_app_manager

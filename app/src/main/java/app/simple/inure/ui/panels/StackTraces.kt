@@ -35,7 +35,7 @@ class StackTraces : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        stackTraceViewModel.getStackTraces().observe(viewLifecycleOwner) {
+        stackTraceViewModel.getStackTraces().observe(viewLifecycleOwner) { it ->
             val adapterStackTraces = AdapterStackTraces(it)
 
             adapterStackTraces.setOnItemClickListener(object : AdapterCallbacks {
@@ -53,8 +53,7 @@ class StackTraces : ScopedFragment() {
                     PopupStackTracesMenu(view).setOnDeleteListener {
                         childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                             override fun onSure() {
-                                stackTraceViewModel.deleteStackTrace(stackTrace)
-                                adapterStackTraces.itemRemoved(position)
+                                stackTraceViewModel.deleteStackTrace(stackTrace, position)
                             }
 
                             override fun onCancel() {
@@ -64,6 +63,10 @@ class StackTraces : ScopedFragment() {
                     }
                 }
             })
+
+            stackTraceViewModel.getDelete().observe(viewLifecycleOwner) {
+                adapterStackTraces.itemRemoved(it)
+            }
 
             recyclerView.adapter = adapterStackTraces
 
