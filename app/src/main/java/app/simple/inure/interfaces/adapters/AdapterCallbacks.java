@@ -50,7 +50,7 @@ public interface AdapterCallbacks {
     
     }
     
-    default void onNoteLongClicked(@NonNull NotesPackageInfo notesPackageInfo) {
+    default void onNoteLongClicked(@NonNull NotesPackageInfo notesPackageInfo, int position, View view) {
     
     }
     

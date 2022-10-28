@@ -34,8 +34,14 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    private val delete = MutableLiveData<Int>()
+
     fun getNotesData(): LiveData<ArrayList<NotesPackageInfo>> {
         return notesData
+    }
+
+    fun getDelete(): LiveData<Int> {
+        return delete
     }
 
     private fun loadNotesData() {
@@ -72,7 +78,7 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
         return list
     }
 
-    fun deleteNoteData(notesPackageInfo: NotesPackageInfo?) {
+    fun deleteNoteData(notesPackageInfo: NotesPackageInfo?, position: Int) {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 notesDatabase = NotesDatabase.getInstance(context)
@@ -84,8 +90,9 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
                         notesPackageInfo.dateUpdated)
 
                 notesDatabase?.getNotesDao()?.deleteNote(notesModel)
-            }.onSuccess {
-                loadNotesData()
+                delete.postValue(position)
+            }.getOrElse {
+                postError(it)
             }
         }
     }

@@ -53,7 +53,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="@string/apps"
             app:textColorStyle="primary"
             android:textSize="16sp"
             app:appFontStyle="bold" />

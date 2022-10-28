@@ -77,16 +77,12 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
                 holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
 
-            holder.delete.setOnClickListener {
-                adapterCallbacks?.onNoteDelete(it, notes[position])
-            }
-
             holder.container.setOnClickListener {
                 adapterCallbacks?.onNoteClicked(notes[position])
             }
 
             holder.container.setOnLongClickListener {
-                adapterCallbacks?.onNoteLongClicked(notes[position])
+                adapterCallbacks?.onNoteLongClicked(notes[position], position, it)
                 true
             }
         }
@@ -132,12 +128,17 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
         this.adapterCallbacks = adapterCallbacks
     }
 
+    fun removeItem(position: Int) {
+        notes.removeAt(position)
+        notifyItemRemoved(position.plus(1))
+        notifyItemChanged(0)
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_all_app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_all_app_name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_notes_package_id)
         val updated: TypeFaceTextView = itemView.findViewById(R.id.adapter_notes_updated)
-        val delete: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_delete_button)
         val note: TypeFaceTextView = itemView.findViewById(R.id.adapter_note)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
     }
