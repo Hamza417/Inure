@@ -1,5 +1,5 @@
 ![Banner](./screenshots/banner.png)
-
+  
 # Inure App Manager
 
 An elegant Android app manager, currently in development
