@@ -1,7 +1,6 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,14 +29,7 @@ class Certificate : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.certificate_data_recycler_view)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            file = requireArguments().getSerializable(BundleConstants.file, File::class.java)
-        } else {
-            @Suppress("DEPRECATION")
-            file = requireArguments().getSerializable(BundleConstants.file) as File
-        }
-
-        certificateViewModelFactory = CertificateViewModelFactory(packageInfo, file)
+        certificateViewModelFactory = CertificateViewModelFactory(packageInfo)
         viewModel = ViewModelProvider(this, certificateViewModelFactory)[CertificatesViewModel::class.java]
 
         return view

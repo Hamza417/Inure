@@ -69,7 +69,7 @@ class Permissions : ScopedFragment() {
                                     p.show(childFragmentManager, "permission_status")
                                     p.setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
                                         override fun onSuccess(grantedStatus: Boolean) {
-                                            adapterPermissions.permissionStatusChanged(position, grantedStatus)
+                                            adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
                                         }
                                     })
                                 }
@@ -78,7 +78,7 @@ class Permissions : ScopedFragment() {
                                     p.show(childFragmentManager, "permission_status")
                                     p.setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
                                         override fun onSuccess(grantedStatus: Boolean) {
-                                            adapterPermissions.permissionStatusChanged(position, grantedStatus)
+                                            adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
                                         }
                                     })
                                 }

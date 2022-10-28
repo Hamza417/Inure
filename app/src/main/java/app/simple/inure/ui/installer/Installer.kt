@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2
 import app.simple.inure.R
 import app.simple.inure.adapters.installer.AdapterInstallerInfoPanels
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -153,7 +154,7 @@ class Installer : ScopedFragment() {
 
             checkLaunchStatus()
 
-            if (PackageUtils.isPackageInstalled(packageInfo.packageName, requireContext().packageManager)) {
+            if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
                 install.gone()
                 update.visible(true)
                 uninstall.visible(true)
@@ -183,7 +184,7 @@ class Installer : ScopedFragment() {
                         val uninstaller = Uninstaller.newInstance(packageInfo)
 
                         uninstaller.listener = {
-                            if (!PackageUtils.isPackageInstalled(packageInfo.packageName, requirePackageManager())) {
+                            if (!requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
                                 uninstall.gone(animate = false)
                                 update.gone(animate = false)
                                 install.visible(animate = false)
@@ -230,7 +231,7 @@ class Installer : ScopedFragment() {
     }
 
     private fun checkLaunchStatus() {
-        if (PackageUtils.isPackageInstalled(packageInfo.packageName, requirePackageManager()) &&
+        if (requirePackageManager().isPackageInstalled(packageInfo.packageName) &&
             PackageUtils.checkIfAppIsLaunchable(requireContext(), packageInfo.packageName)) {
             launch.visible(animate = false)
 

@@ -261,7 +261,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         val permissions = StringBuilder()
 
         try {
-            val appPackageInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)
+            val appPackageInfo = getPackageInfo(packageInfo.packageName)
             appPackageInfo.requestedPermissions.sort()
 
             for (permission in appPackageInfo.requestedPermissions) {
@@ -307,17 +307,8 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
     private fun getFeatures(): Pair<Int, Spannable> {
         val features = StringBuilder()
 
-        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            PackageManager.GET_CONFIGURATIONS or PackageManager.MATCH_DISABLED_COMPONENTS
-        } else {
-            @Suppress("deprecation")
-            PackageManager.GET_CONFIGURATIONS or PackageManager.GET_DISABLED_COMPONENTS
-        }
-
         try {
-            val p0 = packageManager.getPackageInfo(packageInfo.packageName, flags)
-
-            for (feature in p0.reqFeatures) {
+            for (feature in getPackageInfo(packageInfo.packageName).reqFeatures) {
                 if (features.isEmpty()) {
                     if (feature.name.isNullOrEmpty()) {
                         features.append(MetaUtils.getOpenGL(feature.reqGlEsVersion))

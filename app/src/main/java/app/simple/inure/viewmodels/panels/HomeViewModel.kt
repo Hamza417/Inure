@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -88,9 +89,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = getApplication<Application>()
-                .applicationContext.packageManager
-                .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+            val apps = installedPackages
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
@@ -106,9 +105,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadRecentlyUpdatedAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = getApplication<Application>()
-                .applicationContext.packageManager
-                .getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+            val apps = installedPackages
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
@@ -129,9 +126,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                 usageStatsManager.queryAndAggregateUsageStats(startTime, endTime)
             }
 
-            val apps = getApplication<Application>()
-                .packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-
+            val apps = installedPackages
             val list = arrayListOf<PackageStats>()
 
             for (app in apps) {
@@ -165,10 +160,15 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         viewModelScope.launch(Dispatchers.Default) {
             val packageManager = packageManager
 
-            var apps = packageManager.getInstalledPackages(PackageManager.MATCH_UNINSTALLED_PACKAGES) as ArrayList
+            var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.MATCH_UNINSTALLED_PACKAGES.toLong())) as ArrayList
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getInstalledPackages(PackageManager.MATCH_UNINSTALLED_PACKAGES) as ArrayList
+            }
 
             apps = apps.stream().filter { p ->
-                !PackageUtils.isPackageInstalled(p.packageName, packageManager)
+                !packageManager.isPackageInstalled(p.packageName)
             }.collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {
@@ -186,9 +186,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadDisabledApps() {
         viewModelScope.launch(Dispatchers.Default) {
-            val packageManager = packageManager
-
-            var apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+            var apps = installedPackages
 
             apps = apps.stream().filter { p ->
                 !p.applicationInfo.enabled

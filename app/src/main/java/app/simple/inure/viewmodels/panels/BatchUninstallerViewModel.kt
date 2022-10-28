@@ -44,7 +44,7 @@ class BatchUninstallerViewModel(application: Application, val list: ArrayList<Ba
 
                     Shell.cmd(app.packageInfo.getUninstallCommand()).submit {
                         if (it.isSuccess) {
-                            if (app.packageInfo.isPackageInstalled(packageManager).invert()) {
+                            if (packageManager.isPackageInstalled(app.packageInfo.packageName).invert()) {
                                 batchUninstallerProgressStateModel.incrementDone()
                             }
                         } else {

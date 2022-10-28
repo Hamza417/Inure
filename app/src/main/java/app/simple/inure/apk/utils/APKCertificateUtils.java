@@ -25,12 +25,12 @@ public class APKCertificateUtils {
     
     private final Context context;
     private final File mAPKFile;
-    private final String packagename;
+    private final String packageName;
     
     // Either apkFile or packageName should be provided
     public APKCertificateUtils(File apkFile, String packageName, Context context) {
         mAPKFile = apkFile;
-        packagename = packageName;
+        this.packageName = packageName;
         this.context = context;
     }
     
@@ -54,6 +54,7 @@ public class APKCertificateUtils {
         return String.format("%0" + (bytes.length << 1) + "X", bi);
     }
     
+    @SuppressWarnings ("unused")
     public String getCertificateDetails() {
         StringBuilder sb = new StringBuilder();
         X509Certificate[] certs = getX509Certificates();
@@ -85,10 +86,10 @@ public class APKCertificateUtils {
         CertificateFactory certificateFactory;
         try {
             certificateFactory = CertificateFactory.getInstance("X509");
-            
+    
             PackageInfo packageInfo = null;
-            if (packagename != null && PackageUtils.INSTANCE.isPackageInstalled(packagename, context.getPackageManager())) {
-                packageInfo = context.getPackageManager().getPackageInfo(packagename, PackageManager.GET_SIGNATURES);
+            if (packageName != null && PackageUtils.INSTANCE.isPackageInstalled(context.getPackageManager(), packageName)) {
+                packageInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
             } else if (mAPKFile != null && mAPKFile.exists()) {
                 packageInfo = context.getPackageManager().getPackageArchiveInfo(mAPKFile.getAbsolutePath(), PackageManager.GET_SIGNATURES);
             }

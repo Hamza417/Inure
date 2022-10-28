@@ -2,7 +2,6 @@ package app.simple.inure.viewmodels.installer
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.os.Build
 import android.text.Spannable
 import androidx.annotation.StringRes
@@ -15,6 +14,7 @@ import app.simple.inure.apk.parsers.APKParser.getNativeLibraries
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.NullSafety.isNotNull
@@ -33,27 +33,6 @@ class InstallerInformationViewModel(application: Application, private val file: 
     private var apkFile: ApkFile? = null
     private var packageInfo: PackageInfo? = null
 
-    private val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        PackageManager.GET_META_DATA or
-                PackageManager.GET_SERVICES or
-                PackageManager.GET_PROVIDERS or
-                PackageManager.GET_RECEIVERS or
-                PackageManager.GET_PERMISSIONS or
-                PackageManager.GET_ACTIVITIES or
-                PackageManager.GET_SIGNING_CERTIFICATES or
-                PackageManager.GET_SHARED_LIBRARY_FILES
-    } else {
-        @Suppress("DEPRECATION")
-        PackageManager.GET_META_DATA or
-                PackageManager.GET_SERVICES or
-                PackageManager.GET_PROVIDERS or
-                PackageManager.GET_RECEIVERS or
-                PackageManager.GET_PERMISSIONS or
-                PackageManager.GET_ACTIVITIES or
-                PackageManager.GET_SIGNATURES or
-                PackageManager.GET_SHARED_LIBRARY_FILES
-    }
-
     private val information: MutableLiveData<ArrayList<Pair<Int, Spannable>>> by lazy {
         MutableLiveData<ArrayList<Pair<@StringRes Int, Spannable>>>().also {
             viewModelScope.launch(Dispatchers.IO) {
@@ -69,8 +48,8 @@ class InstallerInformationViewModel(application: Application, private val file: 
     private fun loadInformation() {
         apkFile = ApkFile(file)
 
-        if (PackageUtils.isPackageInstalled(apkFile!!.apkMeta.packageName, packageManager)) {
-            packageInfo = packageManager.getPackageInfo(apkFile!!.apkMeta.packageName, flags)
+        if (packageManager.isPackageInstalled(apkFile!!.apkMeta.packageName)) {
+            packageInfo = getPackageInfo(apkFile!!.apkMeta.packageName)
         }
 
         val list = arrayListOf<Pair<Int, Spannable>>()

@@ -73,10 +73,19 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             protectionToString(permissionInfo.permissionInfo!!.protectionLevel, permissionInfo.permissionInfo!!.protectionLevel, context)
         }
 
-        text = if (permissions[position].isGranted) {
-            text.toString() + " | " + context.getString(R.string.granted)
-        } else {
-            text.toString() + " | " + context.getString(R.string.rejected)
+        text = when (permissions[position].isGranted) {
+            0 -> {
+                text.toString() + " | " + context.getString(R.string.rejected)
+            }
+            1 -> {
+                text.toString() + " | " + context.getString(R.string.granted)
+            }
+            2 -> {
+                text.toString() + " | " + context.getString(R.string.unknown)
+            }
+            else -> {
+                text.toString() + " | " + context.getString(R.string.unknown)
+            }
         }
     }
 
@@ -111,7 +120,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
      *                 is being changed
      * @param grantedStatus status of the permission if it is granted or not
      */
-    fun permissionStatusChanged(position: Int, grantedStatus: Boolean) {
+    fun permissionStatusChanged(position: Int, grantedStatus: Int) {
         permissions[position].isGranted = grantedStatus
         notifyItemChanged(position)
     }

@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import kotlinx.coroutines.Dispatchers
@@ -32,10 +33,6 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
-    private val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
     fun getMenuItems(): LiveData<List<Pair<Int, Int>>> {
         return menuItems
     }
@@ -50,7 +47,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
     fun loadActionOptions() {
         viewModelScope.launch(Dispatchers.Default) {
-            if (!PackageUtils.isPackageInstalled(packageInfo.packageName, context.packageManager)) {
+            if (!packageManager.isPackageInstalled(packageInfo.packageName)) {
                 warning.postValue(context.getString(R.string.app_not_installed, packageInfo.packageName))
                 return@launch
             }
@@ -67,7 +64,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 if (isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
 
-                    if (getApplication<Application>().packageManager.getApplicationInfo(packageInfo.packageName, 0).enabled) {
+                    if (getApplicationInfo(packageInfo.packageName).enabled) {
                         list.add(Pair(R.drawable.ic_disable, R.string.disable))
                     } else {
                         list.add(Pair(R.drawable.ic_check, R.string.enable))
@@ -80,6 +77,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
                 list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
 
+                if (!isNotThisApp()) {
+                    list.add(Pair(R.drawable.ic_change_history, R.string.change_logs))
+                }
             } else {
                 if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
                     if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {

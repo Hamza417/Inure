@@ -53,11 +53,13 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
     fun updateAppOpsState(appsOpsModel: AppOpsModel, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                if (ConfigurationPreferences.isUsingRoot() && Shell.rootAccess()) {
-                    Shell.enableVerboseLogging = BuildConfig.DEBUG
-                    Shell.setDefaultBuilder(Shell.Builder.create()
-                                                .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                                .setTimeout(10))
+                if (ConfigurationPreferences.isUsingRoot()) {
+                    kotlin.runCatching {
+                        Shell.enableVerboseLogging = BuildConfig.DEBUG
+                        Shell.setDefaultBuilder(Shell.Builder.create()
+                                                    .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
+                                                    .setTimeout(10))
+                    }
 
                     Shell.cmd(getStateChangeCommand(appsOpsModel)).exec()
                 } else {

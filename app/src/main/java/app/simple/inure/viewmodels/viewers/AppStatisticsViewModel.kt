@@ -121,6 +121,7 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
         } else packageStats.wifiData = DataUsage.EMPTY
     }
 
+    @Suppress("unused")
     private fun loadTotalAppSize() {
         viewModelScope.launch(Dispatchers.Default) {
             val apps = apps

@@ -95,6 +95,24 @@ public class WrappedViewModel extends AndroidViewModel {
         }
     }
     
+    protected ApplicationInfo getApplicationInfo(String packageName) throws PackageManager.NameNotFoundException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return getPackageManager().getApplicationInfo(packageName, PackageManager.ApplicationInfoFlags.of(PackageUtils.INSTANCE.getFlags()));
+        } else {
+            //noinspection deprecation
+            return getPackageManager().getApplicationInfo(packageName, (int) PackageUtils.INSTANCE.getFlags());
+        }
+    }
+    
+    protected PackageInfo getPackageInfo(String packageName) throws PackageManager.NameNotFoundException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return getPackageManager().getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(PackageUtils.INSTANCE.getFlags()));
+        } else {
+            //noinspection deprecation
+            return getPackageManager().getPackageInfo(packageName, (int) PackageUtils.INSTANCE.getFlags());
+        }
+    }
+    
     @Override
     protected void onCleared() {
         super.onCleared();

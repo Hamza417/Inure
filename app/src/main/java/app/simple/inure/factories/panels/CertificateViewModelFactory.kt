@@ -7,7 +7,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 import java.io.File
 
-class CertificateViewModelFactory(private val packageInfo: PackageInfo?, private val file: File?) : ViewModelProvider.Factory {
+class CertificateViewModelFactory(private val packageInfo: PackageInfo? = null, private val file: File? = null) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
 

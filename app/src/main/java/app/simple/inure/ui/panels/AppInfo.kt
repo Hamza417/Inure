@@ -25,6 +25,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.appinfo.AppInfoMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
@@ -271,8 +272,7 @@ class AppInfo : ScopedFragment() {
                             p.show(childFragmentManager, "sure")
                         }
                         R.string.disable, R.string.enable -> {
-                            val p = Sure.newInstance()
-                            p.setOnSureCallbackListener(object : SureCallbacks {
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     val f = State.newInstance(getPackageInfo(packageInfo.packageName))
 
@@ -283,13 +283,14 @@ class AppInfo : ScopedFragment() {
                                     f.show(childFragmentManager, "state")
                                 }
                             })
-
-                            p.show(childFragmentManager, "sure")
                         }
                         R.string.open_in_settings -> {
                             startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                                 data = Uri.fromParts("package", packageInfo.packageName, null)
                             })
+                        }
+                        R.string.change_logs -> {
+                            openFragmentSlide(WebPage.newInstance(getString(R.string.change_logs)), "change_logs")
                         }
                     }
                 }

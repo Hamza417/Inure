@@ -2,11 +2,10 @@ package app.simple.inure.viewmodels.installer
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PermissionInfo
@@ -43,7 +42,7 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 ApkFile(file).use { apkFile ->
-                    if (PackageUtils.isPackageInstalled(apkFile.apkMeta.packageName, packageManager)) return@launch
+                    if (packageManager.isPackageInstalled(apkFile.apkMeta.packageName)) return@launch
 
                     val permissions = apkFile.apkMeta.usesPermissions
                     for (p in apkFile.apkMeta.permissions) {
@@ -66,7 +65,7 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
             kotlin.runCatching {
                 val context = context
                 val apkFile = ApkFile(file)
-                val appPackageInfo = getApplication<Application>().packageManager.getPackageInfo(apkFile.apkMeta.packageName, PackageManager.GET_PERMISSIONS)
+                val appPackageInfo = getPackageInfo(apkFile.apkMeta.packageName)
                 val permissions = arrayListOf<PermissionInfo>()
 
                 for (count in appPackageInfo.requestedPermissions.indices) {
@@ -75,17 +74,43 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
                     kotlin.runCatching {
                         permissionInfo.permissionInfo = appPackageInfo.requestedPermissions[count].getPermissionInfo(context)
                         permissionInfo.label = permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
-                        permissionInfo.isGranted = appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0
+                        if (appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
+                            permissionInfo.isGranted = 1
+                        } else {
+                            permissionInfo.isGranted = 0
+                        }
                         permissionInfo.name = appPackageInfo.requestedPermissions[count]
                         permissions.add(permissionInfo)
                     }.onFailure {
                         permissionInfo.permissionInfo = null
                         permissionInfo.label = appPackageInfo.requestedPermissions[count]
-                        permissionInfo.isGranted = appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0
+                        if (appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
+                            permissionInfo.isGranted = 1
+                        } else {
+                            permissionInfo.isGranted = 0
+                        }
                         permissionInfo.name = appPackageInfo.requestedPermissions[count]
                         permissions.add(permissionInfo)
 
                         it.printStackTrace()
+                    }
+                }
+                val requestedPermissions = appPackageInfo.requestedPermissions.toMutableList()
+
+                apkFile.apkMeta.permissions.forEach { permission ->
+                    if (permission.name !in requestedPermissions) {
+                        val permissionInfo = PermissionInfo()
+
+                        permissionInfo.permissionInfo = permission.name.getPermissionInfo(context)
+                        permissionInfo.label = kotlin.runCatching {
+                            permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
+                        }.getOrElse {
+                            permission.name
+                        }
+
+                        permissionInfo.isGranted = 2
+                        permissionInfo.name = permission.name
+                        permissions.add(permissionInfo)
                     }
                 }
 

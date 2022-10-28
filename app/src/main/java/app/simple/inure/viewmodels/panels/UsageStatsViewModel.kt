@@ -5,11 +5,11 @@ import android.app.usage.UsageEvents
 import android.app.usage.UsageStats
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
 import app.simple.inure.popups.apps.PopupAppsCategory
@@ -93,7 +93,7 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
             usageStatsManager.queryUsageStats(StatisticsPreferences.getInterval(), startTime, endTime)
         }
 
-        var apps = getApplication<Application>().packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+        var apps = installedPackages
 
         when (StatisticsPreferences.getAppsCategory()) {
             PopupAppsCategory.SYSTEM -> {
@@ -220,12 +220,12 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
 
         for (packageName in screenTimes.keys) {
             // Skip uninstalled packages?
-            if (!PackageUtils.isPackageInstalled(packageName, packageManager)) {
+            if (!packageManager.isPackageInstalled(packageName)) {
                 continue
             }
 
             val packageStats = PackageStats()
-            packageStats.packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_META_DATA)
+            packageStats.packageInfo = getPackageInfo(packageName)
 
             packageStats.launchCount = accessCount[packageName] ?: 0
             packageStats.lastUsageTime = lastUse[packageName] ?: 0

@@ -36,8 +36,8 @@ class Certificate : ScopedFragment() {
             file = requireArguments().getSerializable(BundleConstants.file) as File
         }
 
-        certificateViewModelFactory = CertificateViewModelFactory(packageInfo, file)
-        viewModel = ViewModelProvider(this, certificateViewModelFactory).get(CertificatesViewModel::class.java)
+        certificateViewModelFactory = CertificateViewModelFactory(null, file)
+        viewModel = ViewModelProvider(this, certificateViewModelFactory)[CertificatesViewModel::class.java]
 
         return view
     }

@@ -16,6 +16,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
 import app.simple.inure.adapters.menus.AdapterHomeMenu
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
@@ -98,7 +99,7 @@ class Home : ScopedFragment() {
                             openFragmentArc(Analytics.newInstance(), icon, "analytics")
                         }
                         R.string.terminal -> {
-                            if (TerminalPreferences.isUsingTermux() && PackageUtils.isPackageInstalledAndEnabled("com.termux", requirePackageManager())) {
+                            if (TerminalPreferences.isUsingTermux() && requirePackageManager().isPackageInstalledAndEnabled("com.termux")) {
                                 PackageUtils.launchThisPackage(requireContext(), "com.termux")
                             } else {
                                 val intent = Intent(requireActivity(), Term::class.java)

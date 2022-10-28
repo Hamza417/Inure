@@ -11,7 +11,7 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import app.simple.inure.R
 import app.simple.inure.activities.alias.TerminalAlias
-import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
@@ -75,7 +75,7 @@ class TerminalScreen : ScopedFragment() {
 
         setInputMethodText()
 
-        if (PackageUtils.isPackageInstalled("com.termux", requirePackageManager())) {
+        if (requirePackageManager().isPackageInstalledAndEnabled("com.termux")) {
             termuxAppIcon.loadAppIcon("com.termux")
         } else {
             termuxContainer.gone()
