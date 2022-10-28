@@ -42,6 +42,8 @@
     <string name="behaviour">行為</string>
     <string name="dim_windows_desc">彈出式視窗出現在螢幕上時，調暗基礎視窗。\n\n關閉它可以協助提升陰影更加突出，但會降低對比度，反之亦然。</string>
     <string name="dim_windows">變暗視窗</string>
+    <string name="blur_windows">模糊視窗</string>
+    <string name="blur_windows_desc">在螢幕上顯示彈出式視窗時模糊基礎視窗。\n\n可能會影響應用程式效能。</string>
     <string name="shadows_desc">在應用程式的各種較高檢視中新增好看的輔色環境陰影。\n\n僅在 API 28 或更高時可用。</string>
     <string name="show_colored_shadows">顯示彩色陰影</string>
     <string name="configuration">組態</string>
@@ -353,7 +355,7 @@
     <string name="init_order">初始順序</string>
     <string name="mandatory">強制</string>
     <string name="optional">可選</string>
-    <string name="extract">解壓縮</string>
+    <string name="extract">擷取</string>
     <string name="launched">已啟動</string>
     <string name="launching">正在啟動</string>
     <string name="date_format">日期格式</string>
@@ -589,4 +591,7 @@
     <string name="count_done">%1$d 項工作完成</string>
     <string name="count_failed">%1$d 項工作失敗</string>
     <string name="count_queued">%1$d 已佇列</string>
+    <string name="lock_screen">鎖定螢幕</string>
+    <string name="lock_screen_desc">允許這個應用程式鎖定裝置螢幕。</string>
+    <string name="device_admin_desc">允許應用程式處理裝置層級動作。</string>
 </resources>
