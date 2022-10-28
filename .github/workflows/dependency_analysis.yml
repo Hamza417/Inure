@@ -1,4 +1,4 @@
-name: "CI"
+name: "Dependency Analysis"
 
 on: [push, pull_request]
 
@@ -6,7 +6,7 @@ jobs:
 
   validation:
     # Skip if head commit contains 'skip ci'
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    if: "!contains(github.event.head_commit.message, 'skip dependency analysis')"
     name: "Validation"
     runs-on: ubuntu-latest
     steps:
