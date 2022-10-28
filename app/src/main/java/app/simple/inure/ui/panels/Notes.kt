@@ -32,7 +32,7 @@ class Notes : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.notes_recycler_view)
 
-        notesViewModel = ViewModelProvider(this)[NotesViewModel::class.java]
+        notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
 
         return view
     }

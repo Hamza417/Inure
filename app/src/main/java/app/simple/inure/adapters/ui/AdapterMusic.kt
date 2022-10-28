@@ -62,7 +62,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 updateHighlightedSongState()
             }
         } else if (holder is Header) {
-            holder.total.text = holder.context.getString(R.string.total_apps, list.size.toString())
+            holder.total.text = list.size.toString()
 
             holder.search.setOnClickListener {
                 musicCallbacks?.onMusicSearchClicked()

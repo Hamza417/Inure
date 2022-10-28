@@ -41,11 +41,25 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_margin="@dimen/header_item_margin"
         android:orientation="horizontal">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/popup_text_size"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_numbers_textview"
+            app:drawableTintStyle="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_configuration_button"

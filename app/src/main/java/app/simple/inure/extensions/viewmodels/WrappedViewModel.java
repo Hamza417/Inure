@@ -4,15 +4,18 @@ import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import app.simple.inure.apk.utils.PackageUtils;
 import app.simple.inure.database.instances.StackTraceDatabase;
 import app.simple.inure.extensions.livedata.ErrorLiveData;
 import app.simple.inure.preferences.ConfigurationPreferences;
@@ -79,6 +82,17 @@ public class WrappedViewModel extends AndroidViewModel {
     
     protected void postError(Throwable throwable) {
         error.postError(throwable, getApplication());
+    }
+    
+    protected ArrayList <PackageInfo> getInstalledPackages() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return (ArrayList <PackageInfo>) getPackageManager()
+                    .getInstalledPackages(PackageManager
+                            .PackageInfoFlags.of(PackageUtils.INSTANCE.getFlags()));
+        } else {
+            //noinspection deprecation
+            return (ArrayList <PackageInfo>) getPackageManager().getInstalledPackages((int) PackageUtils.INSTANCE.getFlags());
+        }
     }
     
     @Override

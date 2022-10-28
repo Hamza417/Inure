@@ -1,4 +1,4 @@
-<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/xml_nested_scroll_view"
     android:layout_width="match_parent"
@@ -7,19 +7,18 @@
     android:orientation="vertical"
     app:layout_behavior="@string/over_scroll_behavior">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/panel_item_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/fragment_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/fragment_app_package_id"
@@ -32,8 +31,6 @@
             android:id="@+id/fragment_app_package_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="10dp"
             android:ellipsize="marquee"
             android:fontFamily="@font/lato_regular"
             android:marqueeRepeatLimit="marquee_forever"
@@ -44,7 +41,8 @@
 
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
-            android:layout_height="1px" />
+            android:layout_height="1px"
+            android:layout_marginVertical="@dimen/header_padding" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/text_viewer"
@@ -52,12 +50,11 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:inputType="textMultiLine|textNoSuggestions"
-            android:padding="10dp"
             android:textCursorDrawable="@drawable/text_cursor"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"
             app:textColorStyle="secondary" />
 
-    </LinearLayout>
-</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+</app.simple.inure.decorations.theme.ThemeNestedScrollView>

@@ -57,4 +57,8 @@ public interface AdapterCallbacks {
     default void onStackTraceClicked(@NonNull StackTrace stackTrace) {
     
     }
+    
+    default void onStackTraceLongClicked(@NonNull StackTrace stackTrace, View view, int position) {
+    
+    }
 }

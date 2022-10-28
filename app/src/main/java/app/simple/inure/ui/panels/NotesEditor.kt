@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,6 @@ import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.text.EditTextHelper.addBullet
 import app.simple.inure.text.EditTextHelper.blur
 import app.simple.inure.text.EditTextHelper.decreaseTextSize
-import app.simple.inure.text.EditTextHelper.fixBrokenSpans
 import app.simple.inure.text.EditTextHelper.highlightText
 import app.simple.inure.text.EditTextHelper.increaseTextSize
 import app.simple.inure.text.EditTextHelper.toBold
@@ -43,6 +43,7 @@ import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
+import app.simple.inure.viewmodels.panels.NotesViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -59,7 +60,8 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var formattingStrip: CustomHorizontalRecyclerView
 
-    private lateinit var notesViewModel: NotesEditorViewModel
+    private lateinit var notesViewModel: NotesViewModel
+    private lateinit var notesEditorViewModel: NotesEditorViewModel
     private var notesPackageInfo: NotesPackageInfo? = null
     private var textViewUndoRedo: TextViewUndoRedo? = null
 
@@ -75,8 +77,6 @@ class NotesEditor : KeyboardScopedFragment() {
     private val backgroundSpan = 10
     private val quote = 11
     private val blur = 12
-
-    private var saved = false
 
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
@@ -97,9 +97,9 @@ class NotesEditor : KeyboardScopedFragment() {
         settings = view.findViewById(R.id.settings)
         formattingStrip = view.findViewById(R.id.formatting_strip_rv)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         val factory = NotesViewModelFactory(packageInfo)
-        notesViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
+        notesEditorViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
+        notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
 
         startPostponedEnterTransition()
 
@@ -115,12 +115,16 @@ class NotesEditor : KeyboardScopedFragment() {
         handleFormattingState()
 
         noteEditText.doAfterTextChanged {
-            if (NotesPreferences.isAutoSave()) {
-                handleTextChange()
-            }
+            handler.removeCallbacksAndMessages(null)
+            println(NotesPreferences.isAutoSave())
+            save.visible(true)
+            handler.postDelayed({
+                                    Log.d("NotesEditor", "Saving notes")
+                                    handleTextChange(NotesPreferences.isAutoSave())
+                                }, 2000)
         }
 
-        notesViewModel.getNoteData().observe(viewLifecycleOwner) {
+        notesEditorViewModel.getNoteData().observe(viewLifecycleOwner) {
             notesPackageInfo = it
             if (NotesPreferences.areJSONSpans()) {
                 noteEditText.setText(gson.toJson(it.note), TextView.BufferType.SPANNABLE)
@@ -131,13 +135,13 @@ class NotesEditor : KeyboardScopedFragment() {
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
 
-        notesViewModel.getFormattingStrip().observe(viewLifecycleOwner) { list ->
+        notesEditorViewModel.getFormattingStrip().observe(viewLifecycleOwner) { list ->
             val adapterFormattingStrip = AdapterFormattingStrip(list)
             adapterFormattingStrip.setOnFormattingStripCallbackListener(object : AdapterFormattingStrip.Companion.FormattingStripCallbacks {
                 override fun onFormattingButtonClicked(position: Int, view: View) {
                     kotlin.runCatching {
                         val start = noteEditText.selectionStart
-                        val beforeChange: Editable = noteEditText.fixBrokenSpans(noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd))
+                        val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
 
                         when (position) {
                             bold -> {
@@ -171,19 +175,19 @@ class NotesEditor : KeyboardScopedFragment() {
                                 noteEditText.toQuote()
                             }
                             backgroundSpan -> {
-                                val p = PopupBackgroundSpan(view)
-                                p.setOnPopupBackgroundCallbackListener(object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
-                                    override fun onColorClicked(color: Int) {
-                                        noteEditText.highlightText(color)
-                                    }
-                                })
+                                PopupBackgroundSpan(view).setOnPopupBackgroundCallbackListener(
+                                        object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
+                                            override fun onColorClicked(color: Int) {
+                                                noteEditText.highlightText(color)
+                                            }
+                                        })
                             }
                             blur -> {
                                 noteEditText.blur()
                             }
                         }
 
-                        val afterChange: Editable = noteEditText.fixBrokenSpans(noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd))
+                        val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
 
                         textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
                         undoRedoButtonState()
@@ -196,11 +200,9 @@ class NotesEditor : KeyboardScopedFragment() {
             formattingStrip.adapter = adapterFormattingStrip
         }
 
-        notesViewModel.getSavedState().observe(viewLifecycleOwner) {
+        notesEditorViewModel.getSavedState().observe(viewLifecycleOwner) {
             if (it >= 0) {
-                if (!NotesPreferences.isAutoSave()) {
-                    save.gone(true)
-                }
+                save.gone(true)
             }
         }
 
@@ -219,7 +221,7 @@ class NotesEditor : KeyboardScopedFragment() {
         }
 
         save.setOnClickListener {
-            handleTextChange()
+            handleTextChange(save = true)
         }
 
         settings.setOnClickListener {
@@ -227,16 +229,15 @@ class NotesEditor : KeyboardScopedFragment() {
                 .show(childFragmentManager, "notes_editor_menu")
         }
 
-        notesViewModel.getError().observe(viewLifecycleOwner) {
+        notesEditorViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 
         undoRedoButtonState()
     }
 
-    private fun handleTextChange() {
-        handler.removeCallbacksAndMessages(null)
-        save.visible(true)
+    private fun handleTextChange(save: Boolean) {
+        this.save.visible(true)
 
         if (notesPackageInfo.isNull()) {
             notesPackageInfo = NotesPackageInfo(
@@ -259,7 +260,11 @@ class NotesEditor : KeyboardScopedFragment() {
         undo.isEnabled = textViewUndoRedo?.canUndo ?: false
         redo.isEnabled = textViewUndoRedo?.canRedo ?: false
 
-        notesViewModel.updateNoteData(notesPackageInfo!!)
+        if (save) {
+            Log.d(javaClass.simpleName, "Saving note")
+            notesEditorViewModel.updateNoteData(notesPackageInfo!!)
+            notesViewModel.refreshNotes()
+        }
     }
 
     private fun handleFormattingState() {
@@ -278,14 +283,14 @@ class NotesEditor : KeyboardScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             NotesPreferences.jsonSpans -> {
-                notesViewModel.refresh()
+                notesEditorViewModel.refresh()
                 handleFormattingState()
             }
             NotesPreferences.autoSave -> {
                 if (!NotesPreferences.isAutoSave()) {
                     save.visible(true)
                 } else {
-                    handleTextChange()
+                    handleTextChange(save = true)
                 }
             }
         }
@@ -294,7 +299,6 @@ class NotesEditor : KeyboardScopedFragment() {
     override fun onDestroy() {
         super.onDestroy()
         textViewUndoRedo?.disconnect()
-        handler.removeCallbacksAndMessages(null)
     }
 
     companion object {

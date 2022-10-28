@@ -63,7 +63,12 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
 
             for (note in notesDatabase!!.getNotesDao()!!.getAllNotes()) {
                 if (note.packageName == packageInfo.packageName) {
-                    noteData.postValue(NotesPackageInfo(packageInfo, gson.fromJson(note.note, SpannableStringBuilder::class.java), note.dateCreated, note.dateChanged))
+                    noteData.postValue(
+                            NotesPackageInfo(
+                                    packageInfo,
+                                    gson.fromJson(note.note, SpannableStringBuilder::class.java),
+                                    note.dateCreated,
+                                    note.dateChanged))
                     break
                 }
             }
@@ -82,7 +87,7 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
                             notesPackageInfo.dateCreated,
                             System.currentTimeMillis()))
 
-                delay(1500)
+                delay(100)
                 saved.postValue(saved.value?.plus(1) ?: 0)
             }.onFailure {
                 postError(it)
@@ -98,14 +103,14 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
                     R.drawable.ic_format_italic,
                     R.drawable.ic_format_underlined,
                     R.drawable.ic_format_strikethrough,
-                    R.drawable.ic_format_size_lower,
-                    R.drawable.ic_format_size_upper,
-                    R.drawable.ic_format_list_bulleted,
+                    // R.drawable.ic_format_size_lower,
+                    // R.drawable.ic_format_size_upper,
+                    // R.drawable.ic_format_list_bulleted,
                     R.drawable.ic_format_superscript,
                     R.drawable.ic_format_subscript,
                     R.drawable.ic_format_paint,
-                    R.drawable.ic_format_quote,
-                    R.drawable.ic_blur_on
+                    // R.drawable.ic_format_quote,
+                    // R.drawable.ic_blur_on
                     // R.drawable.ic_format_align_left,
                     // R.drawable.ic_format_align_center,
                     // R.drawable.ic_format_align_right

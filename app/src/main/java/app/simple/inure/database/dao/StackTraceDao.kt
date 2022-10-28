@@ -13,7 +13,7 @@ interface StackTraceDao {
      * from the table
      */
     @Delete
-    suspend fun deleteTrace(stackTrace: StackTrace)
+    suspend fun deleteStackTrace(stackTrace: StackTrace)
 
     /**
      * Insert [StackTrace] item

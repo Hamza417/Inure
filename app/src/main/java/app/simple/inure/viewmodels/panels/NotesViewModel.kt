@@ -2,7 +2,6 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.text.SpannableStringBuilder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -41,8 +40,7 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadNotesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
-            notesData.postValue(getNotesData(apps))
+            notesData.postValue(getNotesData(installedPackages))
         }
     }
 
@@ -90,6 +88,10 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
                 loadNotesData()
             }
         }
+    }
+
+    fun refreshNotes() {
+        loadNotesData()
     }
 
     override fun onCleared() {

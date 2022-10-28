@@ -11,9 +11,12 @@ import app.simple.inure.R
 import app.simple.inure.activities.app.CrashReporterActivity
 import app.simple.inure.adapters.ui.AdapterStackTraces
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.StackTrace
+import app.simple.inure.popups.stacktraces.PopupStackTracesMenu
 import app.simple.inure.viewmodels.panels.StackTraceViewModel
 
 class StackTraces : ScopedFragment() {
@@ -44,6 +47,21 @@ class StackTraces : ScopedFragment() {
                     val intent = Intent(context, CrashReporterActivity::class.java)
                     intent.putExtra(CrashReporterActivity.MODE_PREVIEW, stackTrace)
                     startActivity(intent)
+                }
+
+                override fun onStackTraceLongClicked(stackTrace: StackTrace, view: View, position: Int) {
+                    PopupStackTracesMenu(view).setOnDeleteListener {
+                        childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                            override fun onSure() {
+                                stackTraceViewModel.deleteStackTrace(stackTrace)
+                                adapterStackTraces.itemRemoved(position)
+                            }
+
+                            override fun onCancel() {
+                                // do nothing
+                            }
+                        })
+                    }
                 }
             })
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
@@ -49,6 +50,14 @@ class Sure : ScopedBottomSheetFragment() {
             val args = Bundle()
             val fragment = Sure()
             fragment.arguments = args
+            return fragment
+        }
+
+        fun FragmentManager.newSureInstance(): Sure {
+            val args = Bundle()
+            val fragment = Sure()
+            fragment.arguments = args
+            fragment.show(this, "sure")
             return fragment
         }
     }

@@ -46,10 +46,17 @@ class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.
             holder.container.setOnClickListener {
                 adapterCallbacks?.onStackTraceClicked(stackTraces[position])
             }
+
+            holder.container.setOnLongClickListener {
+                adapterCallbacks?.onStackTraceLongClicked(stackTraces[position], it, position)
+                true
+            }
         } else if (holder is Header) {
             holder.settings.setOnClickListener {
                 adapterCallbacks?.onSettingsPressed(it)
             }
+
+            holder.total.text = stackTraces.size.toString()
         }
     }
 
@@ -69,6 +76,12 @@ class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.
         this.adapterCallbacks = adapterCallbacks
     }
 
+    fun itemRemoved(position: Int) {
+        stackTraces.removeAt(position)
+        notifyItemChanged(0)
+        notifyItemRemoved(position.plus(1))
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val message: TypeFaceTextView = itemView.findViewById(R.id.message)
         val cause: TypeFaceTextView = itemView.findViewById(R.id.cause)
@@ -79,5 +92,6 @@ class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
+        val total: TypeFaceTextView = itemView.findViewById(R.id.total)
     }
 }

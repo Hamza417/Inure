@@ -100,7 +100,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
                 adapterCallbacks?.onSettingsPressed(it)
             }
 
-            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), notes.size)
+            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_notes), notes.size)
         }
     }
 

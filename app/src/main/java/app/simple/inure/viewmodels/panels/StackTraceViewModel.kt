@@ -32,4 +32,16 @@ class StackTraceViewModel(application: Application) : WrappedViewModel(applicati
             }
         }
     }
+
+    fun deleteStackTrace(stackTrace: StackTrace) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val db = StackTraceDatabase.getInstance(applicationContext())
+                db?.stackTraceDao()?.deleteStackTrace(stackTrace)
+                // loadTraces()
+            }.getOrElse {
+                postError(it)
+            }
+        }
+    }
 }
