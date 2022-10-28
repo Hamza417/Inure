@@ -1,4 +1,4 @@
-![Banner](./fastlane/metadata/android/en-US/images/featureGraphic.png)
+![Banner](./screenshots/banner.png)
 
 # Inure App Manager
 
