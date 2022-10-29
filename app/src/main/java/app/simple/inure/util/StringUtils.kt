@@ -7,6 +7,8 @@ import android.text.style.ForegroundColorSpan
 import androidx.core.text.toSpannable
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeManager
+import java.io.InputStream
+import java.nio.charset.Charset
 import java.util.*
 
 object StringUtils {
@@ -27,7 +29,6 @@ object StringUtils {
      * strings in the format of a/y/z and the last index
      * of "/" is used.
      *
-     * @param context used for fetching text color resource
      * @param lookupIndex [String] that needs to be looked for
      *                    conversion
      *
@@ -128,6 +129,7 @@ object StringUtils {
         }
     }
 
+    @Suppress("unused")
     fun checkStringBuilderEnd(builder: StringBuilder) {
         val length = builder.length
         if (length > 2) builder.delete(builder.length - 2, builder.length)
@@ -138,6 +140,15 @@ object StringUtils {
             append(" | $string")
         } else {
             append(string)
+        }
+    }
+
+    /**
+     * Convert [InputStream] object to [String] data
+     */
+    fun InputStream.readTextSafely(charset: Charset = Charsets.UTF_8): String {
+        return this.bufferedReader(charset).use {
+            it.readText()
         }
     }
 }

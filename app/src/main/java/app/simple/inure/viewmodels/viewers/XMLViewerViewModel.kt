@@ -18,12 +18,12 @@ import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.StringUtils.readTextSafely
 import app.simple.inure.util.XMLUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
-import org.apache.commons.io.IOUtils
 import java.io.File
 import java.io.FileInputStream
 import java.util.regex.Matcher
@@ -83,7 +83,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
 
                 val code: String = if (raw) {
                     FileInputStream(File(pathToXml)).use {
-                        IOUtils.toString(it, "UTF-8")
+                        it.readTextSafely()
                     }
                 } else {
                     if (isManifest) {

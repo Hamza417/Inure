@@ -16,7 +16,6 @@ import app.simple.inure.preferences.FormattingPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.apache.commons.io.IOUtils
 import java.io.BufferedInputStream
 import java.io.FileNotFoundException
 import java.util.*
@@ -52,7 +51,7 @@ class JSONViewerViewModel(application: Application, private val accentColor: Int
             kotlin.runCatching {
                 val formattedContent: SpannableString
 
-                val code: String = getJsonFile()!!
+                val code: String = getJsonFile()
 
                 if (code.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
                     throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
@@ -74,22 +73,24 @@ class JSONViewerViewModel(application: Application, private val accentColor: Int
 
                 spanned.postValue(formattedContent)
             }.getOrElse {
-               postError(it)
+                postError(it)
             }
         }
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    private fun getJsonFile(): String? {
+    private fun getJsonFile(): String {
         ZipFile(packageInfo.applicationInfo.sourceDir).use { zipFile ->
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
 
             while (entries.hasMoreElements()) {
                 entries.nextElement()!!.let { entry ->
                     if (entry.name == path) {
-                        return IOUtils.toString(
-                            BufferedInputStream(zipFile.getInputStream(entry)),
-                            "UTF-8")
+                        return BufferedInputStream(zipFile.getInputStream(entry)).use { bufferedInputStream ->
+                            bufferedInputStream.bufferedReader().use {
+                                it.readText()
+                            }
+                        }
                     }
                 }
             }
