@@ -82,7 +82,9 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             }
 
             holder.container.setOnLongClickListener {
-                adapterCallbacks?.onNoteLongClicked(notes[position], position, it)
+                adapterCallbacks?.onNoteLongClicked(
+                        notes[holder.bindingAdapterPosition.minus(1)],
+                        holder.bindingAdapterPosition.minus(1), it)
                 true
             }
         }
@@ -129,6 +131,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
     }
 
     fun removeItem(position: Int) {
+        println(position)
         notes.removeAt(position)
         notifyItemRemoved(position.plus(1))
         notifyItemChanged(0)

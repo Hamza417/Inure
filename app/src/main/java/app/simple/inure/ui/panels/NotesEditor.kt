@@ -116,12 +116,12 @@ class NotesEditor : KeyboardScopedFragment() {
 
         noteEditText.doAfterTextChanged {
             handler.removeCallbacksAndMessages(null)
-            println(NotesPreferences.isAutoSave())
             save.visible(true)
-            handler.postDelayed({
-                                    Log.d("NotesEditor", "Saving notes")
-                                    handleTextChange(NotesPreferences.isAutoSave())
-                                }, 2000)
+            handler.postDelayed(
+                    {
+                        Log.d("NotesEditor", "Saving notes")
+                        handleTextChange(NotesPreferences.isAutoSave())
+                    }, 1000)
         }
 
         notesEditorViewModel.getNoteData().observe(viewLifecycleOwner) {

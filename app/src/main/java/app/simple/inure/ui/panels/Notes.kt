@@ -54,6 +54,7 @@ class Notes : ScopedFragment() {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
+                                    println(position)
                                     notesViewModel.deleteNoteData(notesPackageInfo, position)
                                 }
                             })

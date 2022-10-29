@@ -48,7 +48,9 @@ class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.
             }
 
             holder.container.setOnLongClickListener {
-                adapterCallbacks?.onStackTraceLongClicked(stackTraces[position], it, position)
+                adapterCallbacks?.onStackTraceLongClicked(
+                        stackTraces[holder.bindingAdapterPosition.minus(1)],
+                        it, holder.bindingAdapterPosition.minus(1))
                 true
             }
         } else if (holder is Header) {
