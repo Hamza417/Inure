@@ -15,12 +15,18 @@ public class ThemeStateIcon extends ThemeIcon {
     
     public ThemeStateIcon(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        updateIcon(false);
+        init();
     }
     
     public ThemeStateIcon(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        updateIcon(false);
+        init();
+    }
+    
+    private void init() {
+        if (!isInEditMode()) {
+            updateIcon(false);
+        }
     }
     
     @Override

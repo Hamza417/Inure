@@ -55,7 +55,6 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_navigation_color, R.string.accent_for_nav, R.string.desc_accent_on_nav, toggleable, color, appearance),
             PreferenceModel(R.drawable.ic_text_fields, R.string.app_typeface, R.string.desc_app_typeface, options, layouts, appearance),
             PreferenceModel(R.drawable.ic_rounded_corner, R.string.corner_radius, R.string.corner_radius_desc, popup, layouts, appearance),
-            PreferenceModel(R.drawable.ic_fullscreen, R.string.disable_transparent_status_bar, R.string.desc_transparent_status, toggleable, layouts, appearance),
             PreferenceModel(R.drawable.ic_light_shadow, R.string.icon_shadows, R.string.icon_shadow_desc, toggleable, icons, appearance),
             PreferenceModel(R.drawable.ic_ruler, R.string.icon_size, R.string.icon_size_desc, popup, icons, appearance),
             PreferenceModel(R.drawable.ic_colorize, R.string.colored_shadows, R.string.colored_shadows_desc, toggleable, icons, appearance)
@@ -147,7 +146,7 @@ object PreferencesSearchConstants {
                 accessibilityData +
                 terminalData +
                 shellData +
-                developmentData +
+                // developmentData +
                 aboutData
 
     // ---------------------------------------------------------------------------------------------------------- //

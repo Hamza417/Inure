@@ -409,8 +409,6 @@
     <string name="desc_telegram">Join app\'s group on Telegram for discussions with other users and developer.</string>
     <string name="batch">Batch</string>
     <string name="verifying_license">Verifying License</string>
-    <string name="disable_transparent_status_bar">Disable Transparent Status Bar</string>
-    <string name="desc_transparent_status">Make Status Bar non transparent and disable full screen immersive layout for the app.\n\nWorkaround for AndroidBug #5497 where opening keyboard doesn\'t resize the screen.</string>
     <string name="day_night">Day/Night</string>
     <string name="slate">Slate</string>
     <string name="hardware">Hardware</string>

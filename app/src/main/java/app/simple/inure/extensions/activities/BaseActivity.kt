@@ -68,8 +68,11 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
             window.sharedElementsUseOverlay = false
-            setTransitions()
-            setArc()
+            sharedElementEnterTransition = DetailsTransitionArc()
+            sharedElementReturnTransition = DetailsTransitionArc()
+            exitTransition = Fade()
+            enterTransition = Fade()
+            reenterTransition = Fade()
         }
 
         super.onCreate(savedInstanceState)
@@ -108,6 +111,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         setHomePath(homePath!!)
     }
 
+    @Suppress("unused")
     private fun setTransitions() {
         with(window) {
             if (BehaviourPreferences.isTransitionOn()) {
@@ -150,6 +154,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         }
     }
 
+    @Suppress("unused")
     private fun setArc() {
         setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
 
@@ -223,34 +228,42 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     /**
      * Making the Navigation system bar not overlapping with the activity
      */
-    protected fun fixNavigationBarOverlap() {
+    fun fixNavigationBarOverlap() {
         /**
          * Root ViewGroup of this activity
          */
         val root = findViewById<CoordinatorLayout>(R.id.app_container)
 
-        ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val imeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
-            val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-
-            /**
-             * Apply the insets as a margin to the view. Here the system is setting
-             * only the bottom, left, and right dimensions, but apply whichever insets are
-             * appropriate to your layout. You can also update the view padding
-             * if that's more appropriate.
-             */
-            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                leftMargin = insets.left
-                bottomMargin = insets.bottom
-                rightMargin = insets.right
+        if (AppearancePreferences.isTransparentStatusDisabled()) {
+            root.layoutParams = (root.layoutParams as FrameLayout.LayoutParams).apply {
+                leftMargin = 0
+                bottomMargin = 0
+                rightMargin = 0
             }
+            root.requestLayout()
+        } else {
+            ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                // val imeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
+                // val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
 
-            /**
-             * Return CONSUMED if you don't want want the window insets to keep being
-             * passed down to descendant views.
-             */
-            WindowInsetsCompat.CONSUMED
+                /**
+                 * Apply the insets as a margin to the view. Here the system is setting
+                 * only the bottom, left, and right dimensions, but apply whichever insets are
+                 * appropriate to your layout. You can also update the view padding
+                 * if that's more appropriate.
+                 */
+                view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                    leftMargin = insets.left
+                    bottomMargin = insets.bottom
+                    rightMargin = insets.right
+                }
+                /**
+                 * Return CONSUMED if you don't want want the window insets to keep being
+                 * passed down to descendant views.
+                 */
+                WindowInsetsCompat.CONSUMED
+            }
         }
     }
 
@@ -289,10 +302,10 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                 setNavColor()
             }
             BehaviourPreferences.arcType -> {
-                setArc()
+                // setArc()
             }
             BehaviourPreferences.transitionType -> {
-                setTransitions()
+                // setTransitions()
             }
         }
     }
