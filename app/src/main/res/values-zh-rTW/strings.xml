@@ -409,8 +409,6 @@
     <string name="desc_telegram">加入 Telegram 群組與開發人員和其他使用者討論。</string>
     <string name="batch">批次</string>
     <string name="verifying_license">正在驗證授權</string>
-    <string name="disable_transparent_status_bar">停用透明狀態列</string>
-    <string name="desc_transparent_status">使狀態列不透明，並停用應用程式的全螢幕沉浸式版面配置。\n\nAndroidBug #5497 問題的因應措施，即開啟鍵盤時不會重新調整螢幕大小。</string>
     <string name="day_night">日間/夜間</string>
     <string name="slate">板岩</string>
     <string name="hardware">硬體</string>
@@ -487,8 +485,6 @@
     <string name="desc_reduce_animations">停用整個應用程式中一些不必要的動畫。可能會提高應用程式在某些裝置上的效能。\n\n要停用轉換動畫，請前往 %1s 面板。</string>
     <string name="info_uninstalled">這個清單只顯示被刪除的應用程式，其標誌是 <bold>DELETE_KEEP_DATA</bold>，並有可能在未來重新被安裝。\n\n這個清單不監測定期解除安裝的應用程式。</string>
     <string name="gestures">手勢</string>
-    <string name="show_taps">顯示輕觸</string>
-    <string name="show_taps_desc">顯示應用程式內觸控活動可見回饋</string>
     <string name="not_selected">未選取</string>
     <string name="selected_on">已在 %1$s 上選取</string>
     <string name="move_selection_on_top">將選取項目移至頂部</string>
