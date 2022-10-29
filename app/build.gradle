@@ -39,6 +39,10 @@ android {
         }
     }
 
+    lintOptions {
+        disable "Instantiatable"
+    }
+
     bundle {
         language {
             enableSplit = false
