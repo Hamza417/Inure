@@ -23,6 +23,7 @@
     <string name="appearance_icon">外觀圖示</string>
     <string name="total_apps">%1$s 個應用程式</string>
     <string name="total_sensors">%1$s 個感應器</string>
+    <string name="total_notes">%1$s 則附註</string>
     <string name="apps">應用程式</string>
     <string name="configuration_button">組態按鈕</string>
     <string name="search_button">搜尋按鈕</string>
@@ -590,4 +591,6 @@
     <string name="lock_screen">鎖定螢幕</string>
     <string name="lock_screen_desc">允許這個應用程式鎖定裝置螢幕。</string>
     <string name="device_admin_desc">允許應用程式處理裝置層級動作。</string>
+    <string name="delete">刪除</string>
+    <string name="open">開啟</string>
 </resources>
