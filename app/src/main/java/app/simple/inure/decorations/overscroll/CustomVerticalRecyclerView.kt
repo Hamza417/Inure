@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.widget.EdgeEffect
 import android.widget.ImageView
 import androidx.core.view.children
+import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -31,7 +33,7 @@ import app.simple.inure.util.StatusBarHeight
  * Custom recycler view with nice layout animation and
  * smooth overscroll effect and various states retention
  */
-class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : ThemeRecyclerView(context, attrs) {
+class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : ThemeRecyclerView(context, attrs), DynamicAnimation.OnAnimationUpdateListener {
 
     private var manuallyAnimated = false
     private var fastScroll = true
@@ -124,6 +126,20 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                              * the view property values back to their resting states.
                              */
                             recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
+                                try {
+                                    holder.translationY.removeUpdateListener(this@CustomVerticalRecyclerView)
+                                    holder.translationY.removeUpdateListener(this@CustomVerticalRecyclerView)
+                                } catch (e: UnsupportedOperationException) {
+                                    Log.e("CustomVerticalRecyclerView", "onRelease: ", e)
+                                }
+
+                                try {
+                                    holder.translationY.addUpdateListener(this@CustomVerticalRecyclerView)
+                                    holder.rotation.addUpdateListener(this@CustomVerticalRecyclerView)
+                                } catch (e: UnsupportedOperationException) {
+                                    Log.e("CustomVerticalRecyclerView", "onRelease: ${e.message}")
+                                }
+
                                 holder.rotation.start()
                                 holder.translationY.start()
                             }
@@ -139,11 +155,27 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                              */
                             val translationVelocity = sign * velocity * flingTranslationMagnitude
                             recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
+                                try {
+                                    holder.translationY.removeUpdateListener(this@CustomVerticalRecyclerView)
+                                    holder.translationY.removeUpdateListener(this@CustomVerticalRecyclerView)
+                                } catch (e: UnsupportedOperationException) {
+                                    Log.e("CustomVerticalRecyclerView", "onRelease: ", e)
+                                }
+
+                                try {
+                                    holder.translationY.addUpdateListener(this@CustomVerticalRecyclerView)
+                                    holder.rotation.addUpdateListener(this@CustomVerticalRecyclerView)
+                                } catch (e: UnsupportedOperationException) {
+                                    Log.e("CustomVerticalRecyclerView", "onRelease: ${e.message}")
+                                }
+
                                 holder.translationY
                                     .setStartVelocity(translationVelocity)
                                     .start()
 
-                                holder.rotation.start()
+                                holder.rotation
+                                    .setStartVelocity(translationVelocity)
+                                    .start()
                             }
                         }
 
@@ -261,5 +293,9 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                 fastScrollerBuilder?.updateAesthetics()
             }
         }
+    }
+
+    override fun onAnimationUpdate(animation: DynamicAnimation<*>?, value: Float, velocity: Float) {
+        invalidateItemDecorations()
     }
 }

@@ -28,19 +28,22 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
                     .setFinalPosition(0f)
                     .setDampingRatio(BehaviourPreferences.getDampingRatio())
                     .setStiffness(BehaviourPreferences.getStiffness()))
-            .addUpdateListener { _, _, velocity ->
-                currentVelocity = velocity
-            }
+        .addUpdateListener { _, _, velocity ->
+            currentVelocity = velocity
+        }
 
     /**
      * A [SpringAnimation] for this RecyclerView item. This animation is used to bring the item back
      * after the over-scroll effect.
      */
     val translationY: SpringAnimation = SpringAnimation(itemView, SpringAnimation.TRANSLATION_Y)
-            .setSpring(
-                    SpringForce()
-                        .setFinalPosition(0f)
-                        .setDampingRatio(BehaviourPreferences.getDampingRatio())
-                        .setStiffness(BehaviourPreferences.getStiffness()))
+        .setSpring(
+                SpringForce()
+                    .setFinalPosition(0f)
+                    .setDampingRatio(BehaviourPreferences.getDampingRatio())
+                    .setStiffness(BehaviourPreferences.getStiffness()))
+        .addUpdateListener { animation, value, velocity ->
+            println("value: $value")
+        }
 
 }
