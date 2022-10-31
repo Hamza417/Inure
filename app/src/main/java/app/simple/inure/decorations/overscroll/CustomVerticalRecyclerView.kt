@@ -9,12 +9,12 @@ import android.view.animation.Animation
 import android.widget.EdgeEffect
 import android.widget.ImageView
 import androidx.core.view.children
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
+import app.simple.inure.decorations.itemdecorations.DividerItemDecoration
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.flingTranslationMagnitude
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollRotationMagnitude
 import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollTranslationMagnitude
@@ -38,6 +38,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
     private var isEdgeColorRequired = true
     private var isFastScrollerAdded = false
 
+    private var dividerItemDecoration: DividerItemDecoration? = null
     private var fastScrollerBuilder: FastScrollerBuilder? = null
 
     private var edgeColor = 0
@@ -72,14 +73,14 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
             setHasFixedSize(true)
 
             if (AccessibilityPreferences.isDividerEnabled()) {
-                val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+                dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
 
-                divider.setDrawable(ShapeDrawable().apply {
+                dividerItemDecoration!!.setDrawable(ShapeDrawable().apply {
                     intrinsicHeight = 1
                     paint.color = ThemeManager.theme.viewGroupTheme.dividerBackground
                 })
 
-                addItemDecoration(divider)
+                addItemDecoration(dividerItemDecoration!!)
             }
 
             this.edgeEffectFactory = object : EdgeEffectFactory() {
@@ -89,12 +90,14 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                             super.onPull(deltaDistance)
                             handlePull(deltaDistance)
                             setEdgeColor()
+                            updateDivider()
                         }
 
                         override fun onPull(deltaDistance: Float, displacement: Float) {
                             super.onPull(deltaDistance, displacement)
                             handlePull(deltaDistance)
                             setEdgeColor()
+                            updateDivider()
                         }
 
                         private fun handlePull(deltaDistance: Float) {
@@ -163,6 +166,10 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                             } else {
                                 color = edgeColor
                             }
+                        }
+
+                        private fun updateDivider() {
+                            // dividerItemDecoration?.invalidate()
                         }
                     }
                 }
@@ -243,6 +250,11 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
         for (i in 0 until childCount) {
             action(getChildViewHolder(getChildAt(i)) as T)
         }
+    }
+
+    override fun invalidate() {
+        super.invalidate()
+        println("Called invalidate")
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
