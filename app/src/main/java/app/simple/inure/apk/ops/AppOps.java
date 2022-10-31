@@ -12,7 +12,7 @@ import app.simple.inure.models.AppOpsModel;
 public class AppOps {
     public static ArrayList <AppOpsModel> getOps(Context context, String packageName) {
         ArrayList <AppOpsModel> mData = new ArrayList <>();
-        for (String line : Utils.runAndGetOutput(getCommandPrefix() + " appops get " + packageName).split("\\r?\\n")) {
+        for (String line : Utils.runAndGetOutput("appops get " + packageName).split("\\r?\\n")) {
             String[] splitOp = line.split(":");
             String name = splitOp[0];
             /*

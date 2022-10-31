@@ -37,7 +37,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
     fun loadAppOpsData(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val ops = AppOps.getOps(applicationContext(), packageInfo.packageName)
+            val ops = AppOps.getOps(context, packageInfo.packageName)
             val filtered = arrayListOf<AppOpsModel>()
 
             for (op in ops) {
@@ -76,8 +76,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
     private fun getStateChangeCommand(appsOpsModel: AppOpsModel): String {
         val stringBuilder = StringBuilder()
-        stringBuilder.append(AppOps.getCommandPrefix().toString())
-        stringBuilder.append(" appops set ")
+        stringBuilder.append("appops set ")
         stringBuilder.append(packageInfo.packageName)
         stringBuilder.append(" ")
         stringBuilder.append(appsOpsModel.title + if (appsOpsModel.isEnabled) " deny" else " allow")

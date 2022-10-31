@@ -1,5 +1,7 @@
 package app.simple.inure.apk.utils;
 
+import android.util.Log;
+
 import com.topjohnwu.superuser.Shell;
 import com.topjohnwu.superuser.ShellUtils;
 
@@ -27,9 +29,10 @@ public class Utils {
     public static String runAndGetOutput(String command) {
         StringBuilder sb = new StringBuilder();
         try {
-            List <String> outputs = Shell.su(command).exec().getOut();
+            List <String> outputs = Shell.cmd(command).exec().getOut();
             if (ShellUtils.isValidOutput(outputs)) {
                 for (String output : outputs) {
+                    Log.d("AppOp -> ", output);
                     sb.append(output).append("\n");
                 }
             }
