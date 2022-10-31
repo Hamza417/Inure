@@ -111,9 +111,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                             val translationYDelta = sign * recyclerView.height / 2 * deltaDistance * overScrollTranslationMagnitude
 
                             recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
-                                holder.rotation.cancel()
                                 holder.translationY.cancel()
-                                holder.itemView.rotation += rotationDelta
                                 holder.itemView.translationY += translationYDelta
                             }
                         }
@@ -127,7 +125,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                              */
                             recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
                                 try {
-                                    holder.translationY.removeUpdateListener(this@CustomVerticalRecyclerView)
+                                    holder.translationY.cancel()
                                     holder.translationY.removeUpdateListener(this@CustomVerticalRecyclerView)
                                 } catch (e: UnsupportedOperationException) {
                                     Log.e("CustomVerticalRecyclerView", "onRelease: ", e)
@@ -135,12 +133,10 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
 
                                 try {
                                     holder.translationY.addUpdateListener(this@CustomVerticalRecyclerView)
-                                    holder.rotation.addUpdateListener(this@CustomVerticalRecyclerView)
                                 } catch (e: UnsupportedOperationException) {
                                     Log.e("CustomVerticalRecyclerView", "onRelease: ${e.message}")
                                 }
 
-                                holder.rotation.start()
                                 holder.translationY.start()
                             }
                         }
@@ -156,7 +152,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                             val translationVelocity = sign * velocity * flingTranslationMagnitude
                             recyclerView.forEachVisibleHolder { holder: VerticalListViewHolder ->
                                 try {
-                                    holder.translationY.removeUpdateListener(this@CustomVerticalRecyclerView)
+                                    holder.translationY.cancel()
                                     holder.translationY.removeUpdateListener(this@CustomVerticalRecyclerView)
                                 } catch (e: UnsupportedOperationException) {
                                     Log.e("CustomVerticalRecyclerView", "onRelease: ", e)
@@ -164,16 +160,11 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
 
                                 try {
                                     holder.translationY.addUpdateListener(this@CustomVerticalRecyclerView)
-                                    holder.rotation.addUpdateListener(this@CustomVerticalRecyclerView)
                                 } catch (e: UnsupportedOperationException) {
                                     Log.e("CustomVerticalRecyclerView", "onRelease: ${e.message}")
                                 }
 
                                 holder.translationY
-                                    .setStartVelocity(translationVelocity)
-                                    .start()
-
-                                holder.rotation
                                     .setStartVelocity(translationVelocity)
                                     .start()
                             }

@@ -124,7 +124,6 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
             parent.getDecoratedBoundsWithMargins(child, bounds);
-            System.out.println(child.getTranslationY());
             final int bottom = bounds.bottom + Math.round(child.getTranslationY());
             final int top = bottom - dividerDrawable.getIntrinsicHeight();
             dividerDrawable.setBounds(left, top, right, bottom);

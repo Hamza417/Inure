@@ -14,24 +14,6 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
         return context.getString(resId)
     }
 
-    private var currentVelocity = 0f
-
-    /**
-     * A [SpringAnimation] for this RecyclerView item. This animation rotates the view with a bouncy
-     * spring configuration, resulting in the oscillation effect.
-     *
-     * The animation is started in [RecyclerView.addOnScrollListener].
-     */
-    val rotation: SpringAnimation = SpringAnimation(itemView, SpringAnimation.ROTATION)
-        .setSpring(
-                SpringForce()
-                    .setFinalPosition(0f)
-                    .setDampingRatio(BehaviourPreferences.getDampingRatio())
-                    .setStiffness(BehaviourPreferences.getStiffness()))
-        .addUpdateListener { _, _, velocity ->
-            currentVelocity = velocity
-        }
-
     /**
      * A [SpringAnimation] for this RecyclerView item. This animation is used to bring the item back
      * after the over-scroll effect.
@@ -42,8 +24,4 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
                     .setFinalPosition(0f)
                     .setDampingRatio(BehaviourPreferences.getDampingRatio())
                     .setStiffness(BehaviourPreferences.getStiffness()))
-        .addUpdateListener { animation, value, velocity ->
-            println("value: $value")
-        }
-
 }
