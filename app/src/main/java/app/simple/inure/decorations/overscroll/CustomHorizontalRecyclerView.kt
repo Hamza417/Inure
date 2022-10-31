@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.flingTranslationMagnitude
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollRotationMagnitude
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollTranslationMagnitude
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.RecyclerViewUtils.flingTranslationMagnitude
+import app.simple.inure.util.RecyclerViewUtils.overScrollRotationMagnitude
+import app.simple.inure.util.RecyclerViewUtils.overScrollTranslationMagnitude
 import app.simple.inure.util.StatusBarHeight
 
 /**

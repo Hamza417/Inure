@@ -12,22 +12,22 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.decorations.checkbox.CheckBox
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.ShortcutModel
 import app.simple.inure.util.ConditionUtils.isZero
+import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterShortcuts(private val list: List<ShortcutModel>, private val shortcuts: MutableList<ShortcutInfoCompat>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            RecyclerViewConstants.TYPE_ITEM -> {
+            RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_shortcuts, parent, false))
             }
-            RecyclerViewConstants.TYPE_HEADER -> {
+            RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_typeface, parent, false))
             }
             else -> {
@@ -89,8 +89,8 @@ class AdapterShortcuts(private val list: List<ShortcutModel>, private val shortc
 
     override fun getItemViewType(position: Int): Int {
         return if (position.isZero()) {
-            RecyclerViewConstants.TYPE_HEADER
-        } else RecyclerViewConstants.TYPE_ITEM
+            RecyclerViewUtils.TYPE_HEADER
+        } else RecyclerViewUtils.TYPE_ITEM
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

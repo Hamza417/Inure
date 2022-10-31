@@ -21,6 +21,8 @@ open class CheckBoxFrameLayout @JvmOverloads constructor(context: Context, attrs
 
         minimumWidth = resources.getDimensionPixelOffset(R.dimen.checkbox_dimensions)
         minimumHeight = resources.getDimensionPixelOffset(R.dimen.checkbox_dimensions)
+        clipToPadding = false
+        clipChildren = false
 
         backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
 

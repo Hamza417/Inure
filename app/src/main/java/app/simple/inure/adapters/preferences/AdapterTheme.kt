@@ -10,13 +10,13 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.ThemeConstants
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ThemeStateIcon
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ConditionUtils.isZero
+import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 
@@ -46,13 +46,13 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            RecyclerViewConstants.TYPE_ITEM -> {
+            RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_type_face, parent, false))
             }
-            RecyclerViewConstants.TYPE_HEADER -> {
+            RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_app_theme, parent, false))
             }
-            RecyclerViewConstants.TYPE_DIVIDER -> {
+            RecyclerViewUtils.TYPE_DIVIDER -> {
                 Divider(LayoutInflater.from(parent.context).inflate(R.layout.adapter_divider_app_theme, parent, false))
             }
             else -> {
@@ -122,10 +122,10 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return if (position.isZero()) {
-            RecyclerViewConstants.TYPE_HEADER
+            RecyclerViewUtils.TYPE_HEADER
         } else if (list[position - 1] == -1) {
-            RecyclerViewConstants.TYPE_DIVIDER
-        } else RecyclerViewConstants.TYPE_ITEM
+            RecyclerViewUtils.TYPE_DIVIDER
+        } else RecyclerViewUtils.TYPE_ITEM
     }
 
     private fun Context.getThemeName(theme: Int): String {

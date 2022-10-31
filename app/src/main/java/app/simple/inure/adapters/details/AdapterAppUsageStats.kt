@@ -5,22 +5,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.PackageStats
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.DateUtils.toDate
+import app.simple.inure.util.RecyclerViewUtils
 import java.util.concurrent.TimeUnit
 
 class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            RecyclerViewConstants.TYPE_HEADER -> {
+            RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_header_app_usage_stats, parent, false))
             }
-            RecyclerViewConstants.TYPE_ITEM -> {
+            RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_app_usage_stats, parent, false))
             }
@@ -130,8 +130,8 @@ class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerVie
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
-            RecyclerViewConstants.TYPE_HEADER
-        } else RecyclerViewConstants.TYPE_ITEM
+            RecyclerViewUtils.TYPE_HEADER
+        } else RecyclerViewUtils.TYPE_ITEM
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {

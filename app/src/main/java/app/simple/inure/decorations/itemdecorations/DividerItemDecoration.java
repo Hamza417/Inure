@@ -98,7 +98,6 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         if (parent.getLayoutManager() == null || dividerDrawable == null) {
             return;
         }
-        System.out.println("onDraw");
         if (orientation == VERTICAL) {
             drawVertical(c, parent);
         } else {
@@ -125,6 +124,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
             parent.getDecoratedBoundsWithMargins(child, bounds);
+            System.out.println(child.getTranslationY());
             final int bottom = bounds.bottom + Math.round(child.getTranslationY());
             final int top = bottom - dividerDrawable.getIntrinsicHeight();
             dividerDrawable.setBounds(left, top, right, bottom);

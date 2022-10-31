@@ -14,8 +14,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.TYPE_HEADER
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.TYPE_ITEM
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.Utils
 import app.simple.inure.decorations.theme.ThemeIcon
@@ -24,6 +22,8 @@ import app.simple.inure.preferences.AppearancePreferences.getCornerRadius
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.ConditionUtils.isZero
+import app.simple.inure.util.RecyclerViewUtils.TYPE_HEADER
+import app.simple.inure.util.RecyclerViewUtils.TYPE_ITEM
 import java.util.*
 
 class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : RecyclerView.Adapter<VerticalListViewHolder>() {

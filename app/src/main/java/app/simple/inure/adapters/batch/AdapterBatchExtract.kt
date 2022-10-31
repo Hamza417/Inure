@@ -6,23 +6,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterBatchExtract(private val list: ArrayList<BatchPackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            RecyclerViewConstants.TYPE_HEADER -> {
+            RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_header_batch_process, parent, false))
             }
-            RecyclerViewConstants.TYPE_ITEM -> {
+            RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_batch_process, parent, false))
             }
@@ -59,8 +59,8 @@ class AdapterBatchExtract(private val list: ArrayList<BatchPackageInfo>) : Recyc
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
-            RecyclerViewConstants.TYPE_HEADER
-        } else RecyclerViewConstants.TYPE_ITEM
+            RecyclerViewUtils.TYPE_HEADER
+        } else RecyclerViewUtils.TYPE_ITEM
     }
 
     fun removeTopItem() {

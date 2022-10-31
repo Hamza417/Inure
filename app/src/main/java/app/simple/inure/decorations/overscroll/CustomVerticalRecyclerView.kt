@@ -15,9 +15,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.itemdecorations.DividerItemDecoration
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.flingTranslationMagnitude
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollRotationMagnitude
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants.overScrollTranslationMagnitude
 import app.simple.inure.decorations.theme.ThemeRecyclerView
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
@@ -25,6 +22,9 @@ import app.simple.inure.preferences.RecyclerViewPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.RecyclerViewUtils.flingTranslationMagnitude
+import app.simple.inure.util.RecyclerViewUtils.overScrollRotationMagnitude
+import app.simple.inure.util.RecyclerViewUtils.overScrollTranslationMagnitude
 import app.simple.inure.util.StatusBarHeight
 
 /**
@@ -72,16 +72,7 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
 
-            if (AccessibilityPreferences.isDividerEnabled()) {
-                dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-
-                dividerItemDecoration!!.setDrawable(ShapeDrawable().apply {
-                    intrinsicHeight = 1
-                    paint.color = ThemeManager.theme.viewGroupTheme.dividerBackground
-                })
-
-                addItemDecoration(dividerItemDecoration!!)
-            }
+            addDividers()
 
             this.edgeEffectFactory = object : EdgeEffectFactory() {
                 override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {
@@ -90,14 +81,14 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                             super.onPull(deltaDistance)
                             handlePull(deltaDistance)
                             setEdgeColor()
-                            updateDivider()
+                            // clearDividerDecorations()
                         }
 
                         override fun onPull(deltaDistance: Float, displacement: Float) {
                             super.onPull(deltaDistance, displacement)
                             handlePull(deltaDistance)
                             setEdgeColor()
-                            updateDivider()
+                            // clearDividerDecorations()
                         }
 
                         private fun handlePull(deltaDistance: Float) {
@@ -151,6 +142,8 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                                 holder.translationY
                                     .setStartVelocity(translationVelocity)
                                     .start()
+
+                                holder.rotation.start()
                             }
                         }
 
@@ -167,13 +160,22 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                                 color = edgeColor
                             }
                         }
-
-                        private fun updateDivider() {
-                            // dividerItemDecoration?.invalidate()
-                        }
                     }
                 }
             }
+        }
+    }
+
+    private fun addDividers() {
+        if (AccessibilityPreferences.isDividerEnabled()) {
+            dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+
+            dividerItemDecoration!!.setDrawable(ShapeDrawable().apply {
+                intrinsicHeight = 1
+                paint.color = ThemeManager.theme.viewGroupTheme.dividerBackground
+            })
+
+            addItemDecoration(dividerItemDecoration!!)
         }
     }
 
@@ -250,11 +252,6 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
         for (i in 0 until childCount) {
             action(getChildViewHolder(getChildAt(i)) as T)
         }
-    }
-
-    override fun invalidate() {
-        super.invalidate()
-        println("Called invalidate")
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

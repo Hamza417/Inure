@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -21,6 +20,7 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.util.DateUtils
+import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -36,11 +36,11 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            RecyclerViewConstants.TYPE_HEADER -> {
+            RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_header_notes, parent, false))
             }
-            RecyclerViewConstants.TYPE_ITEM -> {
+            RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_notes, parent, false))
             }
@@ -122,8 +122,8 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
-            RecyclerViewConstants.TYPE_HEADER
-        } else RecyclerViewConstants.TYPE_ITEM
+            RecyclerViewUtils.TYPE_HEADER
+        } else RecyclerViewUtils.TYPE_ITEM
     }
 
     fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {

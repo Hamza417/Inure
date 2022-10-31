@@ -7,7 +7,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -19,6 +18,7 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.FileSizeHelper.toSize
+import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.ViewUtils.visible
 import java.util.concurrent.TimeUnit
 
@@ -34,11 +34,11 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            RecyclerViewConstants.TYPE_HEADER -> {
+            RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_header_usage_stats, parent, false))
             }
-            RecyclerViewConstants.TYPE_ITEM -> {
+            RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_usage_stats, parent, false))
             }
@@ -133,8 +133,8 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
-            RecyclerViewConstants.TYPE_HEADER
-        } else RecyclerViewConstants.TYPE_ITEM
+            RecyclerViewUtils.TYPE_HEADER
+        } else RecyclerViewUtils.TYPE_ITEM
     }
 
     override fun onViewRecycled(holder: VerticalListViewHolder) {

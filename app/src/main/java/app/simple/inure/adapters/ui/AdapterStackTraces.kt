@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
@@ -13,6 +12,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.StackTrace
 import app.simple.inure.util.DateUtils.toDate
+import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -20,11 +20,11 @@ class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            RecyclerViewConstants.TYPE_HEADER -> {
+            RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_header_stacktraces, parent, false))
             }
-            RecyclerViewConstants.TYPE_ITEM -> {
+            RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_stacktraces, parent, false))
             }
@@ -68,9 +68,9 @@ class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
-            RecyclerViewConstants.TYPE_HEADER
+            RecyclerViewUtils.TYPE_HEADER
         } else {
-            RecyclerViewConstants.TYPE_ITEM
+            RecyclerViewUtils.TYPE_ITEM
         }
     }
 

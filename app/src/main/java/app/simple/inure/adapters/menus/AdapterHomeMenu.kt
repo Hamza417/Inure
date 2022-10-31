@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.ConditionUtils.isZero
+import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -19,10 +19,10 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            RecyclerViewConstants.TYPE_ITEM -> {
+            RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_menu, parent, false))
             }
-            RecyclerViewConstants.TYPE_DIVIDER -> {
+            RecyclerViewUtils.TYPE_DIVIDER -> {
                 Divider(LayoutInflater.from(parent.context).inflate(R.layout.adapter_divider_preferences, parent, false))
             }
             else -> {
@@ -48,8 +48,8 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
 
     override fun getItemViewType(position: Int): Int {
         return if (list[position].first.isZero()) {
-            RecyclerViewConstants.TYPE_DIVIDER
-        } else RecyclerViewConstants.TYPE_ITEM
+            RecyclerViewUtils.TYPE_DIVIDER
+        } else RecyclerViewUtils.TYPE_ITEM
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

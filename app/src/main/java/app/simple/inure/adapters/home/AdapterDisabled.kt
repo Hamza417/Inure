@@ -9,7 +9,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
-import app.simple.inure.decorations.overscroll.RecyclerViewConstants
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -18,6 +17,7 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterDisabled : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -26,11 +26,11 @@ class AdapterDisabled : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
-            RecyclerViewConstants.TYPE_HEADER -> {
+            RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_header_disabled, parent, false))
             }
-            RecyclerViewConstants.TYPE_ITEM -> {
+            RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_recently_installed, parent, false))
             }
@@ -88,8 +88,8 @@ class AdapterDisabled : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
-            RecyclerViewConstants.TYPE_HEADER
-        } else RecyclerViewConstants.TYPE_ITEM
+            RecyclerViewUtils.TYPE_HEADER
+        } else RecyclerViewUtils.TYPE_ITEM
     }
 
     override fun getItemId(position: Int): Long {
