@@ -85,6 +85,17 @@
             app:drawableTintStyle="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/shuffle"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/search_button"
+            android:src="@drawable/shuffle"
+            android:transitionName="adapter_search_icon"
+            app:buttonTintType="regular" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/play"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
