@@ -67,7 +67,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         with(window) {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
-            window.sharedElementsUseOverlay = false
+            sharedElementsUseOverlay = true
             sharedElementEnterTransition = DetailsTransitionArc()
             sharedElementReturnTransition = DetailsTransitionArc()
             exitTransition = Fade()
@@ -80,8 +80,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         setContentView(R.layout.activity_main)
 
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
-                                   .detectLeakedClosableObjects()
-                                   .penaltyLog()
+                                   .detectAll()
                                    .build())
 
         /**

@@ -1,4 +1,4 @@
-![Banner](./screenshots/banner.png)
+![Banner](assets/banner.png)
   
 # Inure App Manager
 
@@ -62,21 +62,21 @@ Low priority features
 
 ## Screenshots
 
-| ![01](./screenshots/01.png) | ![02](./screenshots/03.png) | ![03](./screenshots/04.png) | ![04](./screenshots/06.jpg) |
-|:---------------------------:|:---------------------------:|:---------------------------:|:---------------------------:|
-|              1              |              2              |              3              |              4              |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/01.png) | ![02](fastlane/metadata/android/en-US/images/phoneScreenshots/03.png) | ![03](fastlane/metadata/android/en-US/images/phoneScreenshots/04.png) | ![04](fastlane/metadata/android/en-US/images/phoneScreenshots/06.jpg) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                   1                                   |                                   2                                   |                                   3                                   |                                   4                                   |
 
-| ![15](./screenshots/15.png) | ![01](./screenshots/07.png) | ![01](./screenshots/05.jpg) | ![01](./screenshots/08.jpg) |
-|:---------------------------:|:---------------------------:|:---------------------------:|:---------------------------:|
-|              5              |              6              |              7              |              8              |
+| ![15](fastlane/metadata/android/en-US/images/phoneScreenshots/15.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/07.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/05.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/08.jpg) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                   5                                   |                                   6                                   |                                   7                                   |                                   8                                   |
 
-| ![01](./screenshots/02.jpg) | ![01](./screenshots/09.jpg) | ![01](./screenshots/10.jpg) | ![01](./screenshots/11.jpg) |
-|:---------------------------:|:---------------------------:|:---------------------------:|:---------------------------:|
-|              9              |              0              |              A              |              B              |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/09.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/10.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/11.jpg) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                   9                                   |                                   0                                   |                                   A                                   |                                   B                                   |
 
-| ![01](./screenshots/12.jpg) | ![01](./screenshots/13.png) | ![01](./screenshots/00.png) | ![01](./screenshots/14.png) |
-|:---------------------------:|:---------------------------:|:---------------------------:|:---------------------------:|
-|              C              |              D              |              E              |              F              |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/12.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/13.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/00.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/14.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                   C                                   |                                   D                                   |                                   E                                   |                                   F                                   |
 
 ## Behind The Scenes
 
