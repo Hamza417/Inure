@@ -1,0 +1,30 @@
+Categories:
+  - System
+License: GPL-3.0-only
+AuthorName: Hamza Rizwan
+AuthorEmail: HamzaRizwan243@gmail.com
+SourceCode: https://github.com/Hamza417/Inure
+IssueTracker: https://github.com/Hamza417/Inure/issues
+Translation: https://crowdin.com/project/inure
+Changelog: https://github.com/Hamza417/Inure/releases
+
+AutoName: Inure App Manager (Alpha)
+
+RepoType: git
+Repo: https://github.com/Hamza417/Inure
+
+Builds:
+  - versionName: build_44 (alpha)
+    versionCode: 44
+    commit: build44
+    subdir: app
+    gradle:
+      - yes
+    scanignore:
+      - Inure/app/src/main/java/app/simple/inure/trackers/dex/DexLoaderBuilder.java
+
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: build_44 (alpha)
+CurrentVersionCode: 44
