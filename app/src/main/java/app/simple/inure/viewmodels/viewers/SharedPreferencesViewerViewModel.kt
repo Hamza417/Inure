@@ -95,7 +95,8 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, applicatio
 
     private fun FileSystemManager.getSharedPrefsString(): String {
         val channel = openChannel(pathToXml, FileSystemManager.MODE_READ_WRITE)
-        val byteBuffer = ByteBuffer.allocate(channel.size().toInt())
+        val capacity = channel.size()
+        val byteBuffer = ByteBuffer.allocate(capacity.toInt())
         channel.read(byteBuffer)
         return String(byteBuffer.array(), Charset.defaultCharset())
     }

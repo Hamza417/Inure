@@ -11,6 +11,8 @@ import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
+import java.nio.ByteBuffer
 
 class SharedPreferencesViewModel(packageInfo: PackageInfo, application: Application) : RootServiceViewModel(application) {
 

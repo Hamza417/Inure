@@ -2,7 +2,6 @@ package app.simple.inure.decorations.views
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -24,24 +23,13 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
         settings.javaScriptEnabled = true
 
         // TODO - Calling non-final function setBackgroundColor in constructor
-        @Suppress("LeakingThis")
         setBackgroundColor(0)
 
         color = AppearancePreferences.getAccentColor().toHexColor()
 
-        /**
-         * This won't work anymore in Android 11
-         */
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
             if (ThemeUtils.isNightMode(resources)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
-                        WebSettingsCompat.setAlgorithmicDarkeningAllowed(settings, true)
-                    }
-                } else {
-                    @Suppress("DEPRECATION")
-                    WebSettingsCompat.setForceDark(this.settings, WebSettingsCompat.FORCE_DARK_ON)
-                }
+                WebSettingsCompat.setForceDark(this.settings, WebSettingsCompat.FORCE_DARK_ON)
             }
         }
 
