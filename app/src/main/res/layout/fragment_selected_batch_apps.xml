@@ -6,5 +6,5 @@
     android:fadingEdgeLength="@dimen/fading_edge_length"
     android:clipToPadding="false"
     android:clipChildren="false"
-    android:requiresFadingEdge="vertical"
+    app:isFadingEdgeRequired="true"
     app:statusBarPaddingRequired="true" />

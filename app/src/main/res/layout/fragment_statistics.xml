@@ -8,5 +8,6 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:layoutAnimation="@anim/list_animation_controller"
+    app:isFadingEdgeRequired="true"
     app:manuallyAnimated="false"
     app:statusBarPaddingRequired="true" />

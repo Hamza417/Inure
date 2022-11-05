@@ -59,6 +59,11 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                         }
                     }
 
+                    if (getBoolean(R.styleable.RecyclerView_isFadingEdgeRequired, false)) {
+                        isVerticalFadingEdgeEnabled = true
+                        setFadingEdgeLength(StatusBarHeight.getStatusBarHeight(resources) + paddingTop)
+                    }
+
                     fastScroll = getBoolean(R.styleable.RecyclerView_isFastScrollRequired, true)
                     manuallyAnimated = getBoolean(R.styleable.RecyclerView_manuallyAnimated, false)
                     isEdgeColorRequired = getBoolean(R.styleable.RecyclerView_isEdgeColorRequired, true)
@@ -260,6 +265,22 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
         if (adapter!!.itemCount > 25 && fastScroll && !isFastScrollerAdded) {
             setupFastScroller()
         }
+    }
+
+    override fun isPaddingOffsetRequired(): Boolean {
+        return true
+    }
+
+    override fun getTopPaddingOffset(): Int {
+        return -paddingTop
+    }
+
+    override fun getBottomPaddingOffset(): Int {
+        return paddingBottom
+    }
+
+    override fun getBottomFadingEdgeStrength(): Float {
+        return 0F
     }
 
     /**
