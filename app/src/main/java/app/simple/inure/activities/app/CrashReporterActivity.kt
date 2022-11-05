@@ -54,6 +54,7 @@ class CrashReporterActivity : BaseActivity() {
             message.text = CrashPreferences.getMessage() ?: getString(R.string.desc_not_available)
             showTrace(crash)
             saveTraceToDataBase(crash)
+            isPreview = false
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -106,8 +107,8 @@ class CrashReporterActivity : BaseActivity() {
 
     private fun close() {
         if (isPreview.invert()) {
-            if (CrashPreferences.getCrashLog() != -1L) {
-                CrashPreferences.saveCrashLog(-1L)
+            if (CrashPreferences.getCrashLog() != CrashPreferences.crashTimestampEmptyDefault) {
+                CrashPreferences.saveCrashLog(CrashPreferences.crashTimestampEmptyDefault)
                 CrashPreferences.saveMessage(null)
                 CrashPreferences.saveCause(null)
             }

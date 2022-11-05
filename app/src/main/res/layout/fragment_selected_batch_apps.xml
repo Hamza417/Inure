@@ -3,7 +3,6 @@
     android:id="@+id/batch_selected_apps_rv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fadingEdgeLength="@dimen/fading_edge_length"
     android:clipToPadding="false"
     android:clipChildren="false"
     app:isFadingEdgeRequired="true"

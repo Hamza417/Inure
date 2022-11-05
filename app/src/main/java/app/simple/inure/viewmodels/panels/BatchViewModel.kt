@@ -3,7 +3,6 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -35,7 +34,7 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+            var apps = installedPackages
 
             when (BatchPreferences.getAppsCategory()) {
                 PopupAppsCategory.SYSTEM -> {

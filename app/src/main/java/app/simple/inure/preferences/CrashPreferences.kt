@@ -6,6 +6,8 @@ object CrashPreferences {
     private const val crashMessage = "crash_message"
     private const val crashCause = "crashCause"
 
+    const val crashTimestampEmptyDefault = -1L
+
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun saveCrashLog(value: Long): Boolean {
@@ -13,7 +15,7 @@ object CrashPreferences {
     }
 
     fun getCrashLog(): Long {
-        return SharedPreferences.getSharedPreferences().getLong(crashTimestamp, -1)
+        return SharedPreferences.getSharedPreferences().getLong(crashTimestamp, crashTimestampEmptyDefault)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

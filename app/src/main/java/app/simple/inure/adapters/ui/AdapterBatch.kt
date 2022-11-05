@@ -156,6 +156,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         return apps.stream().filter { it.isSelected }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
     }
 
+    @Suppress("unused")
     fun updateBatchItem(batchPackageInfo: BatchPackageInfo) {
         for (i in apps.indices) {
             if (apps[i].packageInfo.packageName == batchPackageInfo.packageInfo.packageName) {
@@ -187,6 +188,14 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                 notifyItemChanged(i.plus(1))
             }
         }
+    }
+
+    fun submitList(it: java.util.ArrayList<BatchPackageInfo>) {
+        val oldSize: Int = apps.size
+        apps.clear()
+        notifyItemRangeRemoved(1, oldSize.plus(1))
+        apps.addAll(it)
+        notifyItemRangeInserted(1, it.size.plus(1))
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

@@ -280,7 +280,6 @@ public class FastScroller {
     
                 break;
             case MotionEvent.ACTION_MOVE:
-        
                 if (!mDragging && isInViewTouchTarget(mTrackView, mDownX, mDownY)
                         && Math.abs(eventY - mDownY) > mTouchSlop) {
                     if (isInViewTouchTarget(mThumbView, mDownX, mDownY)) {
@@ -374,7 +373,7 @@ public class FastScroller {
     
     private void setDragging(boolean dragging) {
     
-        /**
+        /*
          * This will prevent the loading of images when scroller
          * is being dragged to allow room for smoother scrolling
          * and not load unnecessary resources.
