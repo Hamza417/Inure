@@ -80,8 +80,8 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                 }
 
                 if (BatchPreferences.isSelectionOnTop() && it) {
-                    apps.move(position, 0)
-                    notifyItemMoved(position_, 1)
+                    apps.move(holder.bindingAdapterPosition.minus(1), 0)
+                    notifyItemMoved(holder.bindingAdapterPosition, 1)
                 }
             }
 

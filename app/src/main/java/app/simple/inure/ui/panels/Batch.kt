@@ -16,10 +16,8 @@ import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeDivider
-import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.batch.BatchMenu
-import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
@@ -32,6 +30,7 @@ import app.simple.inure.popups.batch.PopupBatchAppsCategory
 import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.ui.actions.BatchExtract.Companion.showBatchExtract
+import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -117,14 +116,12 @@ class Batch : ScopedFragment() {
         }
 
         delete.setOnClickListener {
-            val p0 = Sure.newInstance()
-            p0.setOnSureCallbackListener(object : SureCallbacks {
+            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                 override fun onSure() {
-                    BatchUninstaller.newInstance(adapterBatch?.getCurrentAppsList()!!)
-                        .show(childFragmentManager, "batch_extract")
+                    BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
+                        .show(childFragmentManager, "batch_uninstaller")
                 }
             })
-            p0.show(childFragmentManager, "sure")
         }
 
         send.setOnClickListener {
