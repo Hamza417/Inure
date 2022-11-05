@@ -19,6 +19,8 @@ import app.simple.inure.R
 import app.simple.inure.constants.Misc
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
+import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
@@ -78,12 +80,12 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
 
     override fun onResume() {
         super.onResume()
-        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        registerSharedPreferenceChangeListener()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+        unregisterSharedPreferenceChangeListener()
     }
 
     /**

@@ -31,6 +31,8 @@ import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
+import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.ui.panels.AppInfo
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
@@ -86,13 +88,13 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     override fun onResume() {
         super.onResume()
-        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        registerSharedPreferenceChangeListener()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
-        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+        unregisterSharedPreferenceChangeListener()
     }
 
     /**

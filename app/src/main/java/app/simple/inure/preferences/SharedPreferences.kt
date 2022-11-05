@@ -35,6 +35,24 @@ object SharedPreferences {
     }
 
     /**
+     * Use this function to register shared preference change listener if
+     * the current context has [SharedPreferences.OnSharedPreferenceChangeListener]
+     * implemented.
+     */
+    fun SharedPreferences.OnSharedPreferenceChangeListener.registerSharedPreferenceChangeListener() {
+        registerListener(this)
+    }
+
+    /**
+     * Use this function to unregister shared preference change listener if
+     * the current context has [SharedPreferences.OnSharedPreferenceChangeListener]
+     * implemented.
+     */
+    fun SharedPreferences.OnSharedPreferenceChangeListener.unregisterSharedPreferenceChangeListener() {
+        unregisterListener(this)
+    }
+
+    /**
      * Singleton to hold reference of SharedPreference.
      *
      * @see init

@@ -15,6 +15,8 @@ import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
+import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.ui.panels.Preferences
 import app.simple.inure.util.ViewUtils
 import com.google.android.material.R.id.design_bottom_sheet
@@ -97,12 +99,12 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
 
     override fun onResume() {
         super.onResume()
-        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        registerSharedPreferenceChangeListener()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+        unregisterSharedPreferenceChangeListener()
     }
 
     /**

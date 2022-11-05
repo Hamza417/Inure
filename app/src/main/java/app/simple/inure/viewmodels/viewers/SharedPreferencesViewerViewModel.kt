@@ -19,6 +19,8 @@ import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.nio.ByteBuffer
+import java.nio.charset.Charset
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -64,33 +66,39 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, applicatio
                     Log.e(javaClass.name, "Failed to initialize Shell", it)
                 }
 
-                with(fileSystemManager?.getFile(pathToXml)) {
-                    val code = this?.readText()!!
-                    val formattedContent = SpannableString(code)
+                val code = fileSystemManager?.getSharedPrefsString()!!
+                val formattedContent = SpannableString(code)
 
-                    if (code.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
-                        throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
-                    }
-
-                    val matcher: Matcher = tags.matcher(code)
-                    while (matcher.find()) {
-                        formattedContent.setSpan(ForegroundColorSpan(Color.parseColor("#2980B9")), matcher.start(),
-                                                 matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
-
-                    matcher.usePattern(quotations)
-                    while (matcher.find()) {
-                        formattedContent.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()),
-                                                 matcher.start(), matcher.end(),
-                                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
-
-                    spanned.postValue(formattedContent)
+                if (code.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
+                    throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
                 }
+
+                val matcher: Matcher = tags.matcher(code)
+                while (matcher.find()) {
+                    formattedContent.setSpan(ForegroundColorSpan(Color.parseColor("#2980B9")), matcher.start(),
+                                             matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+
+                matcher.usePattern(quotations)
+                while (matcher.find()) {
+                    formattedContent.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()),
+                                             matcher.start(), matcher.end(),
+                                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+
+                spanned.postValue(formattedContent)
             }.getOrElse {
                 postError(it)
             }
         }
+    }
+
+    private fun FileSystemManager.getSharedPrefsString(): String {
+        val channel = openChannel(pathToXml, FileSystemManager.MODE_READ_WRITE)
+        val capacity = channel.size()
+        val byteBuffer = ByteBuffer.allocate(capacity.toInt())
+        channel.read(byteBuffer)
+        return String(byteBuffer.array(), Charset.defaultCharset())
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
