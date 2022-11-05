@@ -100,7 +100,16 @@
             android:exported="true"
             android:label="@string/terminal"
             android:launchMode="singleTask"
-            android:taskAffinity="app.simple.inure.terminal.Term"
+            android:taskAffinity="app.simple.inure"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".terminal.TermAffinity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:exported="true"
+            android:label="@string/terminal"
+            android:launchMode="singleTask"
+            android:taskAffinity="app.simple.inure.terminal.TermAffinity"
             android:windowSoftInputMode="adjustResize" />
 
         <!--suppress DeprecatedClassUsageInspection -->
@@ -402,8 +411,8 @@
             android:label="@string/terminal"
             android:launchMode="singleTask"
             android:roundIcon="@mipmap/ic_terminal_round"
-            android:targetActivity=".terminal.Term"
-            android:taskAffinity="app.simple.inure">
+            android:targetActivity=".terminal.TermAffinity"
+            android:taskAffinity="app.simple.inure.terminal.TermAffinity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
