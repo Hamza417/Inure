@@ -5,6 +5,7 @@ import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
@@ -203,6 +204,12 @@ class BatchExtract : ScopedBottomSheetFragment() {
             args.putParcelableArrayList(BundleConstants.selectedBatchApps, arrayList)
             val fragment = BatchExtract()
             fragment.arguments = args
+            return fragment
+        }
+
+        fun FragmentManager.showBatchExtract(arrayList: ArrayList<BatchPackageInfo>): BatchExtract {
+            val fragment = newInstance(arrayList)
+            fragment.show(this, "BatchExtract")
             return fragment
         }
     }

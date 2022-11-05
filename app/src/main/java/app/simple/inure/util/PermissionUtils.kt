@@ -32,6 +32,15 @@ object PermissionUtils {
         return mode == AppOpsManagerCompat.MODE_ALLOWED
     }
 
+    fun Context.checkStoragePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
     fun hasPermission(context: Context?, permissionName: String?): Boolean {
         return ContextCompat.checkSelfPermission(context!!, permissionName!!) == PackageManager.PERMISSION_GRANTED
     }

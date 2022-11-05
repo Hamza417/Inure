@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.usagestats
+package app.simple.inure.dialogs.miscellaneous
 
 import android.content.Intent
 import android.net.Uri
@@ -26,7 +26,7 @@ class UsageStatsPermission : ScopedBottomSheetFragment() {
     private var usageStatsPermissionCallbacks: UsageStatsPermissionCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_usage_stats_permission, container, false)
+        val view = inflater.inflate(R.layout.dialog_permission_usage_stats, container, false)
 
         this.container = view.findViewById(R.id.grant_usage_access)
         grant = view.findViewById(R.id.grant)

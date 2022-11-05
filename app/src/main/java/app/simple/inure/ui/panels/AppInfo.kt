@@ -24,9 +24,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.*
+import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.appinfo.AppInfoMenu
+import app.simple.inure.dialogs.miscellaneous.StoragePermission
+import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.newStoragePermissionInstance
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -38,6 +41,7 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
@@ -316,8 +320,15 @@ class AppInfo : ScopedFragment() {
                 override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.extract -> {
-                            Extract.newInstance(packageInfo)
-                                .show(parentFragmentManager, "extract")
+                            if (requireContext().checkStoragePermission()) {
+                                childFragmentManager.launchExtract(packageInfo)
+                            } else {
+                                childFragmentManager.newStoragePermissionInstance().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                                    override fun onStoragePermissionGranted() {
+                                        childFragmentManager.launchExtract(packageInfo)
+                                    }
+                                })
+                            }
                         }
                         R.string.play_store -> {
                             MarketUtils.openAppOnPlayStore(requireContext(), packageInfo.packageName)

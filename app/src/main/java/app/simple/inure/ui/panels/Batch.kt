@@ -17,10 +17,13 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeDivider
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.batch.BatchMenu
+import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.dialogs.batch.BatchUninstaller
-import app.simple.inure.dialogs.batch.DialogBatchSelectedApps
 import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.miscellaneous.StoragePermission
+import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.newStoragePermissionInstance
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
@@ -28,7 +31,8 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.batch.PopupBatchAppsCategory
 import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
-import app.simple.inure.ui.actions.BatchExtract
+import app.simple.inure.ui.actions.BatchExtract.Companion.showBatchExtract
+import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.BatchViewModel
@@ -128,26 +132,23 @@ class Batch : ScopedFragment() {
         }
 
         extract.setOnClickListener {
-            val p0 = Sure.newInstance()
-            p0.setOnSureCallbackListener(object : SureCallbacks {
+            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                 override fun onSure() {
-                    BatchExtract.newInstance(adapterBatch?.getCurrentAppsList()!!)
-                        .show(childFragmentManager, "batch_extract")
+                    if (requireContext().checkStoragePermission()) {
+                        childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
+                    } else {
+                        childFragmentManager.newStoragePermissionInstance().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                            override fun onStoragePermissionGranted() {
+                                childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
+                            }
+                        })
+                    }
                 }
             })
-            p0.show(childFragmentManager, "sure")
         }
 
         checklist.setOnClickListener {
-            val d = DialogBatchSelectedApps.newInstance(adapterBatch!!.getCurrentAppsList())
-
-            d.setOnBatchSelectedAppsCallbacks(object : DialogBatchSelectedApps.Companion.BatchSelectedAppsCallbacks {
-                override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
-                    adapterBatch?.updateBatchItem(batchPackageInfo)
-                }
-            })
-
-            d.show(childFragmentManager, "batch_selected_apps")
+            openFragmentSlide(BatchSelectedApps.newInstance(adapterBatch?.getCurrentAppsList()!!), "batch_selected_apps")
         }
     }
 
