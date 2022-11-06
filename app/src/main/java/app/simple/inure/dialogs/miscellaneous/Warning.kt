@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -58,6 +59,12 @@ class Warning : ScopedBottomSheetFragment() {
             args.putInt(BundleConstants.warning, warning)
             val fragment = Warning()
             fragment.arguments = args
+            return fragment
+        }
+
+        fun FragmentManager.showWarning(warning: String): Warning {
+            val fragment = newInstance(warning)
+            fragment.show(this, "warning")
             return fragment
         }
 

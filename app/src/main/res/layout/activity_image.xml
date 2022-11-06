@@ -2,12 +2,24 @@
 <app.simple.inure.decorations.theme.ThemeCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:id="@+id/app_container"
     android:clipToPadding="false"
     android:fitsSystemWindows="false">
+
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        android:id="@+id/image_viewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="ContentDescription" />
+
+    <app.simple.inure.decorations.views.ZoomImageView
+        android:id="@+id/gif_viewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:id="@+id/header"
@@ -33,16 +45,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            app:textColorStyle="accent"
             android:textSize="@dimen/header_name_text_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
-
-    <app.simple.inure.decorations.views.ZoomImageView
-        android:id="@+id/image_viewer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="ContentDescription" />
 
 </app.simple.inure.decorations.theme.ThemeCoordinatorLayout>

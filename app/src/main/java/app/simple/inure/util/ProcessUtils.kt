@@ -10,4 +10,12 @@ object ProcessUtils {
 
         return block()
     }
+
+    inline fun <T> ensureOnMainThread(block: () -> T): T {
+        check(Thread.currentThread() == Looper.getMainLooper().thread) {
+            "This function should only be called on main thread"
+        }
+
+        return block()
+    }
 }

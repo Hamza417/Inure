@@ -50,12 +50,16 @@ High priority features
 - [x] Proper analytics panel
 - [x] App directories panel
 - [ ] APK browser for apps that are not yet installed
+- [ ] Modify Shared Prefs of other apps (root).
+- [ ] Modify SQLite databases of other apps (root).
+- [ ] Multiple user support.
+- [ ] Use app via ADB Shell instead of root?
 
 Low priority features
 
 - [ ] Code highlights for all languages an Android app possibly contains
 - [x] Dedicated TextEditor
-- [ ] ImageViewer scalable zoom support
+- [x] ImageViewer scalable zoom support
 - [ ] APK data extraction
 
 *This list will be updated as the development progresses*

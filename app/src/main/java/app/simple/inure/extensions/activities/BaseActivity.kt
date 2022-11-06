@@ -12,6 +12,7 @@ import android.transition.Fade
 import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -24,6 +25,7 @@ import app.simple.inure.R
 import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.AppearancePreferences
@@ -288,6 +290,26 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
+    }
+
+    open fun showWarning(warning: String) {
+        val p0 = Warning.newInstance(warning)
+        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
+            override fun onDismiss() {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        })
+        p0.show(supportFragmentManager, "warning")
+    }
+
+    open fun showWarning(@StringRes warning: Int) {
+        val p0 = Warning.newInstance(warning)
+        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
+            override fun onDismiss() {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        })
+        p0.show(supportFragmentManager, "warning")
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {

@@ -1,6 +1,8 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val pathToImage = "path_of_image"
+    const val pathToApk = "path_of_apk"
     const val goBack = "go_back"
     const val path: String = "path"
     const val isRaw: String = "is_raw"

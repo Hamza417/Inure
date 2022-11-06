@@ -11,26 +11,38 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.glide.util.ImageLoader.loadGraphics
+import app.simple.inure.factories.viewers.ImageViewerViewModelFactory
 import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.viewmodels.viewers.ImageViewerViewModel
+import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.google.android.material.animation.ArgbEvaluatorCompat
 
 class ImageViewer : ScopedFragment() {
 
-    private lateinit var image: ZoomImageView
+    private lateinit var image: SubsamplingScaleImageView
+    private lateinit var gif: ZoomImageView
     private lateinit var back: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
     private lateinit var header: PaddingAwareLinearLayout
     private lateinit var background: FrameLayout
+
+    private val imageViewerViewModel: ImageViewerViewModel by lazy {
+        val p0 = ImageViewerViewModelFactory(requireArguments().getString(BundleConstants.pathToImage)!!, requireArguments().getString(BundleConstants.pathToApk)!!)
+        ViewModelProvider(this, p0)[ImageViewerViewModel::class.java]
+    }
 
     private var isFullScreen = true
 
@@ -38,6 +50,7 @@ class ImageViewer : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_image_viewer, container, false)
 
         image = view.findViewById(R.id.image_viewer)
+        gif = view.findViewById(R.id.gif_viewer)
         back = view.findViewById(R.id.image_viewer_back_button)
         name = view.findViewById(R.id.image_name)
         options = view.findViewById(R.id.image_viewer_option)
@@ -53,11 +66,21 @@ class ImageViewer : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        image.loadGraphics(requireContext(),
-                           requireArguments().getString("path_of_apk")!!,
-                           requireArguments().getString("path_of_image")!!)
+        imageViewerViewModel.getBitmap().observe(viewLifecycleOwner) {
+            image.setImage(ImageSource.bitmap(it))
+            gif.gone()
+        }
 
-        name.text = requireArguments().getString("path_of_image")
+        imageViewerViewModel.getGif().observe(viewLifecycleOwner) {
+            gif.setImageDrawable(it)
+            image.gone()
+        }
+
+        imageViewerViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
+        }
+
+        name.text = requireArguments().getString(BundleConstants.pathToImage)
 
         back.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
@@ -71,6 +94,10 @@ class ImageViewer : ScopedFragment() {
                 setFullScreen(0F)
                 true
             }
+        }
+
+        gif.setOnClickListener {
+            image.callOnClick()
         }
 
         options.setOnClickListener {
@@ -117,10 +144,10 @@ class ImageViewer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(pathOfApk: String, filePath: String): ImageViewer {
+        fun newInstance(pathToApk: String, imagePath: String): ImageViewer {
             val args = Bundle()
-            args.putString("path_of_apk", pathOfApk)
-            args.putString("path_of_image", filePath)
+            args.putString(BundleConstants.pathToApk, pathToApk)
+            args.putString(BundleConstants.pathToImage, imagePath)
             val fragment = ImageViewer()
             fragment.arguments = args
             return fragment
