@@ -39,11 +39,6 @@ import app.simple.inure.exceptions.ParserException;
  */
 public class BinaryXmlParser {
     
-    /**
-     * By default the data buffer Chunks is buffer little-endian byte order both at runtime and when stored buffer
-     * files.
-     */
-    private final ByteOrder byteOrder = ByteOrder.LITTLE_ENDIAN;
     private StringPool stringPool;
     // some attribute name stored by resource id
     private String[] resourceMap;
@@ -57,6 +52,11 @@ public class BinaryXmlParser {
     
     public BinaryXmlParser(ByteBuffer buffer, ResourceTable resourceTable) {
         this.buffer = buffer.duplicate();
+        /*
+         * By default the data buffer Chunks is buffer little-endian byte order both at runtime and when stored buffer
+         * files.
+         */
+        ByteOrder byteOrder = ByteOrder.LITTLE_ENDIAN;
         this.buffer.order(byteOrder);
         this.resourceTable = resourceTable;
     }

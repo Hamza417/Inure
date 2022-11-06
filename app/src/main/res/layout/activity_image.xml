@@ -25,6 +25,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="@dimen/app_views_elevation"
         android:padding="@dimen/header_padding">
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton

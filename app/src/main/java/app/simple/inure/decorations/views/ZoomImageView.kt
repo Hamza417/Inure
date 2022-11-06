@@ -395,9 +395,9 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
         get() {
             drawable?.let { d ->
                 field?.set(
-                    0f, 0f, d.intrinsicWidth.toFloat(), d.intrinsicHeight.toFloat()
+                        0f, 0f, d.intrinsicWidth.toFloat(), d.intrinsicHeight.toFloat()
                 )
-                drawMatrix.mapRect(field!!)
+                drawMatrix.mapRect(field)
                 return field
             }
             return null

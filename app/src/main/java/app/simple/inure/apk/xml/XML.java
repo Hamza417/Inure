@@ -19,12 +19,10 @@ import app.simple.inure.constants.AndroidConstants;
 public class XML implements Closeable {
     
     private final ZipFile zipFile;
-    private final File apkFile;
     private ResourceTable resourceTable;
-    private Set <Locale> locales;
     
     public XML(String path) throws IOException {
-        this.apkFile = new File(path);
+        File apkFile = new File(path);
         // create zip file cost time, use one zip file for apk parser life cycle
         this.zipFile = new ZipFile(apkFile);
     }
@@ -63,10 +61,11 @@ public class XML implements Closeable {
      */
     private void parseResourceTable() throws IOException {
         byte[] data = getFileData(AndroidConstants.RESOURCE_FILE);
+        Set <Locale> locales;
         if (data == null) {
             // if no resource entry has been found, we assume it is not needed by this APK
             this.resourceTable = new ResourceTable();
-            this.locales = Collections.emptySet();
+            locales = Collections.emptySet();
             return;
         }
         
@@ -74,7 +73,7 @@ public class XML implements Closeable {
         ResourceTableParser resourceTableParser = new ResourceTableParser(buffer);
         resourceTableParser.parse();
         this.resourceTable = resourceTableParser.getResourceTable();
-        this.locales = resourceTableParser.getLocales();
+        locales = resourceTableParser.getLocales();
     }
     
     public byte[] getFileData(String path) throws IOException {

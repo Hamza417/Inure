@@ -14,12 +14,10 @@
         android:id="@+id/image_viewer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.views.ZoomImageView
         android:id="@+id/gif_viewer"
-        android:background="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -28,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:elevation="5dp"
+        android:elevation="@dimen/app_views_elevation"
         android:padding="@dimen/header_padding">
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton

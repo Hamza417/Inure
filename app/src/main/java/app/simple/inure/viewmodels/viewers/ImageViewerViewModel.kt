@@ -67,7 +67,7 @@ class ImageViewerViewModel(application: Application, private val pathToImage: St
                     }
 
                     override fun onLoadFailed(errorDrawable: Drawable?) {
-                        postWarning(Warnings.getInureWarning02(pathToImage))
+                        postWarning(Warnings.getInureWarning02(pathToImage, "GIF"))
                     }
                 })
         }
@@ -88,7 +88,7 @@ class ImageViewerViewModel(application: Application, private val pathToImage: St
                     }
 
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                        postWarning(Warnings.getInureWarning02(pathToImage))
+                        postWarning(Warnings.getInureWarning02(pathToImage, "Bitmap"))
                         return true
                     }
                 })

@@ -4,12 +4,15 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.graphics.PointF
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -69,11 +72,22 @@ class ImageViewer : ScopedFragment() {
         imageViewerViewModel.getBitmap().observe(viewLifecycleOwner) {
             image.setImage(ImageSource.bitmap(it))
             gif.gone()
+            if (savedInstanceState.isNotNull()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center", PointF::class.java)!!)
+                } else {
+                    @Suppress("DEPRECATION")
+                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center")!!)
+                }
+            }
         }
 
         imageViewerViewModel.getGif().observe(viewLifecycleOwner) {
             gif.setImageDrawable(it)
             image.gone()
+            if (savedInstanceState.isNotNull()) {
+                gif.currentZoom = savedInstanceState!!.getFloat("zoom")
+            }
         }
 
         imageViewerViewModel.getWarning().observe(viewLifecycleOwner) {
@@ -112,6 +126,22 @@ class ImageViewer : ScopedFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putFloat("translation", header.translationY)
         outState.putBoolean("fullscreen", isFullScreen)
+        kotlin.runCatching {
+            if (image.isVisible) {
+                outState.putFloat("scale", image.scale)
+                outState.putParcelable("center", image.center)
+            }
+        }.getOrElse {
+            outState.putFloat("scale", image.scale)
+            outState.putParcelable("center", image.center)
+        }
+        kotlin.runCatching {
+            if (gif.isVisible) {
+                outState.putFloat("zoom", gif.currentZoom)
+            }
+        }.getOrElse {
+            outState.putFloat("zoom", 1F)
+        }
         super.onSaveInstanceState(outState)
     }
 
