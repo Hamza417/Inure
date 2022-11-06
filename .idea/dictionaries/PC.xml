@@ -39,9 +39,14 @@
       <w>lightbulb</w>
       <w>lingala</w>
       <w>mittsu</w>
+      <w>msword</w>
       <w>multiwindow</w>
+      <w>mxmf</w>
       <w>nocase</w>
       <w>odex</w>
+      <w>officedocument</w>
+      <w>opendocument</w>
+      <w>openxmlformats</w>
       <w>overline</w>
       <w>overvoltage</w>
       <w>palevich</w>
@@ -51,9 +56,12 @@
       <w>proc</w>
       <w>quickapps</w>
       <w>română</w>
+      <w>rtttl</w>
       <w>rummler</w>
       <w>searchbox</w>
       <w>solarized</w>
+      <w>spmf</w>
+      <w>spreadsheetml</w>
       <w>srikanth</w>
       <w>stacktraces</w>
       <w>statusbar</w>
@@ -68,6 +76,7 @@
       <w>waleedon</w>
       <w>wifilock</w>
       <w>withaar</w>
+      <w>wordprocessingml</w>
       <w>wowo</w>
       <w>čeština</w>
       <w>εxodus</w>

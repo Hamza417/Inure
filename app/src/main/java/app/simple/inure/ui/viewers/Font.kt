@@ -14,7 +14,6 @@ import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.FontViewModelFactory
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.FontViewModel
 
@@ -33,10 +32,7 @@ class Font : ScopedFragment() {
         fontEditText = view.findViewById(R.id.ttf_viewer)
         fontName = view.findViewById(R.id.ttf_name)
 
-        fontViewModelFactory = FontViewModelFactory(requireArguments().getString("path")!!,
-                                                    packageInfo,
-                                                    requireContext().resolveAttrColor(R.attr.colorAppAccent))
-
+        fontViewModelFactory = FontViewModelFactory(requireArguments().getString(BundleConstants.path)!!, packageInfo)
         fontViewModel = ViewModelProvider(this, fontViewModelFactory).get(FontViewModel::class.java)
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
@@ -49,7 +45,7 @@ class Font : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        fontName.text = requireArguments().getString("path")
+        fontName.text = requireArguments().getString(BundleConstants.path)
 
         fontViewModel.getQuote().observe(viewLifecycleOwner) {
             fontEditText.setText(it)
@@ -69,7 +65,7 @@ class Font : ScopedFragment() {
     companion object {
         fun newInstance(applicationInfo: PackageInfo, path: String): Font {
             val args = Bundle()
-            args.putString("path", path)
+            args.putString(BundleConstants.path, path)
             args.putParcelable(BundleConstants.packageInfo, applicationInfo)
             val fragment = Font()
             fragment.arguments = args

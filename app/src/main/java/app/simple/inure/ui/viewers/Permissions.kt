@@ -39,6 +39,7 @@ class Permissions : SearchBarScopedFragment() {
         search = view.findViewById(R.id.permissions_search_btn)
         searchBox = view.findViewById(R.id.permissions_search)
         title = view.findViewById(R.id.permission_title)
+
         packageInfoFactory = PackageInfoFactory(packageInfo)
         permissionsViewModel = ViewModelProvider(this, packageInfoFactory)[PermissionsViewModel::class.java]
 

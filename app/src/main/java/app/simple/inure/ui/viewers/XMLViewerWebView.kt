@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.MimeConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.XmlWebView
@@ -38,7 +39,7 @@ class XMLViewerWebView : ScopedFragment() {
     private lateinit var componentsViewModel: XMLViewerViewModel
     private lateinit var applicationInfoFactory: XMLViewerViewModelFactory
 
-    private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri: Uri? ->
+    private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument(MimeConstants.xmlType)) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult
@@ -69,7 +70,7 @@ class XMLViewerWebView : ScopedFragment() {
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean("is_manifest"),
                                                            requireArguments().getString("path_to_xml")!!)
 
-        componentsViewModel = ViewModelProvider(this, applicationInfoFactory).get(XMLViewerViewModel::class.java)
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory)[XMLViewerViewModel::class.java]
 
         return view
     }

@@ -37,6 +37,7 @@ import app.simple.inure.ui.panels.AppInfo
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.ParcelUtils.parcelable
 import com.google.android.material.transition.*
 import kotlinx.coroutines.CoroutineScope
 
@@ -80,7 +81,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         kotlin.runCatching {
-            packageInfo = getPackageInfoFromBundle()
+            packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
         }
 
         postponeEnterTransition()

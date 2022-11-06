@@ -9,13 +9,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Quotes
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.TTFHelper
 import app.simple.inure.util.TextViewUtils.toHtmlSpanned
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FontViewModel(application: Application, val path: String, val packageInfo: PackageInfo, val color: Int) : AndroidViewModel(application) {
+class FontViewModel(application: Application, val path: String, val packageInfo: PackageInfo) : AndroidViewModel(application) {
 
     private val quote: MutableLiveData<Spanned> by lazy {
         MutableLiveData<Spanned>()
@@ -37,7 +38,7 @@ class FontViewModel(application: Application, val path: String, val packageInfo:
 
     private fun setQuote() {
         val spanned = Quotes.quotes.random().replace(
-            "%%%", color.toHexColor())
+                "%%%", AppearancePreferences.getAccentColor().toHexColor())
                 .toHtmlSpanned()
 
         quote.postValue(spanned)

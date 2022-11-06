@@ -24,7 +24,7 @@ import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.ui.panels.Preferences
-import app.simple.inure.util.BundleUtils.parcelable
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 

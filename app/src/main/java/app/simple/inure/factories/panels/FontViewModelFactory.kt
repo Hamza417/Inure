@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import app.simple.inure.viewmodels.viewers.FontViewModel
 
-class FontViewModelFactory(val path: String, val packageInfo: PackageInfo, val color: Int)
+class FontViewModelFactory(val path: String, val packageInfo: PackageInfo)
     : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
@@ -15,7 +15,7 @@ class FontViewModelFactory(val path: String, val packageInfo: PackageInfo, val c
         @Suppress("UNCHECKED_CAST") // Cast is checked
         when {
             modelClass.isAssignableFrom(FontViewModel::class.java) -> {
-                return FontViewModel(application, path, packageInfo, color) as T
+                return FontViewModel(application, path, packageInfo) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope, Wrong Viewmodel!!")

@@ -25,7 +25,7 @@ class Features : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.features_recycler_view)
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        componentsViewModel = ViewModelProvider(this, packageInfoFactory).get(ApkDataViewModel::class.java)
+        componentsViewModel = ViewModelProvider(this, packageInfoFactory)[ApkDataViewModel::class.java]
 
         return view
     }

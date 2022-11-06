@@ -8,8 +8,8 @@ import androidx.core.net.toUri
 import app.simple.inure.extensions.activities.TransparentBaseActivity
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.ui.viewers.AudioPlayer
-import app.simple.inure.util.BundleUtils.parcelable
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ThemeUtils
 
 class AudioPlayerActivity : TransparentBaseActivity() {

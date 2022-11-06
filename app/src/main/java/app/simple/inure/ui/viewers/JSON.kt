@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.MimeConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -41,7 +42,7 @@ class JSON : ScopedFragment() {
 
     private var path: String? = null
 
-    private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri: Uri? ->
+    private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument(MimeConstants.jsonType)) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult
