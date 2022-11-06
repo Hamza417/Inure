@@ -14,7 +14,6 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.popups.app.PopupXmlViewer
@@ -102,13 +101,7 @@ class TextViewerActivity : BaseActivity() {
                 }
             }.getOrElse {
                 withContext(Dispatchers.Main) {
-                    val e = Error.newInstance(it.stackTraceToString())
-                    e.show(supportFragmentManager, "error_dialog")
-                    e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                        override fun onDismiss() {
-                            onBackPressedDispatcher.onBackPressed()
-                        }
-                    })
+                    showError(it.stackTraceToString())
                 }
             }
         }

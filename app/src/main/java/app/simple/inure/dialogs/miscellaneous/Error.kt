@@ -1,29 +1,26 @@
 package app.simple.inure.dialogs.miscellaneous
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.dialog.ErrorViewModelFactory
-import app.simple.inure.util.ViewUtils.visible
+import app.simple.inure.interfaces.fragments.ErrorCallbacks
+import app.simple.inure.popups.viewers.PopupInformation
 import app.simple.inure.viewmodels.dialogs.ErrorViewModel
 
 class Error : ScopedBottomSheetFragment() {
 
-    private lateinit var error: TypeFaceTextView
-    private lateinit var copy: DynamicRippleImageButton
-    private var errorDialogCallbacks: ErrorDialogCallbacks? = null
+    private lateinit var error: DynamicRippleTextView
+    private var errorCallbacks: ErrorCallbacks? = null
     private lateinit var errorViewModel: ErrorViewModel
 
     private var spanned: Spanned? = null
@@ -32,10 +29,8 @@ class Error : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_error, container, false)
 
         error = view.findViewById(R.id.print_error)
-        copy = view.findViewById(R.id.copy_button)
 
-        val errorViewModelFactory = ErrorViewModelFactory(requireArguments().getString("error")!!)
-
+        val errorViewModelFactory = ErrorViewModelFactory(requireArguments().getString(BundleConstants.error)!!)
         errorViewModel = ViewModelProvider(this, errorViewModelFactory)[ErrorViewModel::class.java]
 
         return view
@@ -44,43 +39,40 @@ class Error : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        errorViewModel.getSpanned().observe(viewLifecycleOwner) {
-            error.text = it
-            spanned = it
-            copy.visible(true)
-        }
+        errorViewModel.getSpanned().observe(viewLifecycleOwner) { spanned ->
+            error.text = spanned
+            this.spanned = spanned
 
-        copy.setOnClickListener {
-            val clipBoard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("Error", spanned)
-            clipBoard.setPrimaryClip(clipData)
-
-            if (clipBoard.hasPrimaryClip()) Toast.makeText(requireContext(), R.string.copied, Toast.LENGTH_SHORT).show()
+            error.setOnClickListener {
+                PopupInformation(it, spanned.toString())
+            }
         }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         if (!requireActivity().isDestroyed) {
-            errorDialogCallbacks?.onDismiss()
+            errorCallbacks?.onDismiss()
         }
     }
 
-    fun setOnErrorDialogCallbackListener(errorDialogCallbacks: ErrorDialogCallbacks) {
-        this.errorDialogCallbacks = errorDialogCallbacks
+    fun setOnErrorCallbackListener(errorCallbacks: ErrorCallbacks) {
+        this.errorCallbacks = errorCallbacks
     }
 
     companion object {
         fun newInstance(error: String): Error {
             val args = Bundle()
-            args.putString("error", error)
+            args.putString(BundleConstants.error, error)
             val fragment = Error()
             fragment.arguments = args
             return fragment
         }
 
-        interface ErrorDialogCallbacks {
-            fun onDismiss()
+        fun FragmentManager.showError(error: String): Error {
+            val errorDialog = newInstance(error)
+            errorDialog.show(this, "error_dialog")
+            return errorDialog
         }
     }
 }

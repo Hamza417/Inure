@@ -14,7 +14,6 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.ActivityLauncher
 import app.simple.inure.dialogs.action.ComponentState
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.dialogs.miscellaneous.IntentAction
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
@@ -93,8 +92,7 @@ class Activities : SearchBarScopedFragment() {
                     kotlin.runCatching {
                         ActivityUtils.launchPackage(requireContext(), packageName, name)
                     }.getOrElse {
-                        Error.newInstance(it.message ?: getString(R.string.unknown))
-                            .show(childFragmentManager, "error_dialog")
+                        showError(it)
                     }
                 }
             })

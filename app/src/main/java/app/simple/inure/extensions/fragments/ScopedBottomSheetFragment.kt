@@ -11,7 +11,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.constants.Misc
-import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
@@ -117,13 +117,9 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
 
     protected fun showError(error: String) {
         try {
-            val e = Error.newInstance(error)
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    dismiss()
-                }
-            })
+            childFragmentManager.showError(error).setOnErrorCallbackListener {
+                dismiss()
+            }
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
@@ -131,13 +127,9 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
 
     protected fun showError(error: Throwable) {
         try {
-            val e = Error.newInstance(error.stackTraceToString())
-            e.show(childFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    dismiss()
-                }
-            })
+            childFragmentManager.showError(error.stackTraceToString()).setOnErrorCallbackListener {
+                dismiss()
+            }
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }

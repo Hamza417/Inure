@@ -8,7 +8,6 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.constants.Quotes
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ColorUtils.toHexColor
@@ -54,13 +53,7 @@ class TTFViewerActivity : BaseActivity() {
                 }
             }.onFailure {
                 withContext(Dispatchers.Main) {
-                    val e = Error.newInstance(it.stackTraceToString())
-                    e.show(supportFragmentManager, "error_dialog")
-                    e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                        override fun onDismiss() {
-                            onBackPressed()
-                        }
-                    })
+                    showError(it.stackTraceToString())
                 }
             }
         }

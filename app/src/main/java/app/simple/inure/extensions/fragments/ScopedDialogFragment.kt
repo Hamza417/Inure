@@ -16,12 +16,15 @@ import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
+import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.ui.panels.Preferences
+import app.simple.inure.util.BundleUtils.parcelable
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 
@@ -40,6 +43,9 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
+        kotlin.runCatching {
+            packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,5 +133,11 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
             .replace(R.id.app_container, fragment, tag)
             .addToBackStack(tag)
             .commit()
+    }
+
+    protected fun showError(error: String) {
+        childFragmentManager.showError(error).setOnErrorCallbackListener {
+            dismiss()
+        }
     }
 }

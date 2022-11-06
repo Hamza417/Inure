@@ -20,7 +20,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.action.Preparing
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
@@ -79,7 +78,6 @@ class AppsMenu : ScopedDialogFragment() {
         toQuickApp = view.findViewById(R.id.to_quick_app)
 
         quickAppsViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         return view
     }
@@ -126,13 +124,8 @@ class AppsMenu : ScopedDialogFragment() {
             kotlin.runCatching {
                 packageInfo.launchThisPackage(requireContext())
             }.onFailure {
-                val e = Error.newInstance(it.stackTraceToString())
-                e.show(childFragmentManager, "error_dialog")
-                e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                    override fun onDismiss() {
-                        dismiss()
-                    }
-                })
+                it.printStackTrace()
+                showError(it.stackTraceToString())
             }
         }
 

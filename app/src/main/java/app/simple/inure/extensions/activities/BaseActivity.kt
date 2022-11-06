@@ -24,7 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
-import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
@@ -280,13 +280,9 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
     protected fun showError(error: String) {
         try {
-            val e = Error.newInstance(error)
-            e.show(supportFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    onBackPressedDispatcher.onBackPressed()
-                }
-            })
+            supportFragmentManager.showError(error).setOnErrorCallbackListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }

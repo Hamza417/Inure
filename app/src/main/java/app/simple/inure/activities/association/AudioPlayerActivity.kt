@@ -4,12 +4,11 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.core.net.toUri
-import app.simple.inure.dialogs.miscellaneous.Error
 import app.simple.inure.extensions.activities.TransparentBaseActivity
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.ui.viewers.AudioPlayer
+import app.simple.inure.util.BundleUtils.parcelable
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ThemeUtils
 
@@ -23,7 +22,7 @@ class AudioPlayerActivity : TransparentBaseActivity() {
         if (savedInstanceState.isNull()) {
             kotlin.runCatching {
                 uri = if (intent?.action == Intent.ACTION_SEND && intent?.type?.startsWith("audio/") == true) {
-                    intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri
+                    intent.parcelable(Intent.EXTRA_STREAM)
                 } else if (intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain") {
                     intent.getStringExtra(Intent.EXTRA_TEXT)?.toUri()
                 } else {
@@ -33,14 +32,7 @@ class AudioPlayerActivity : TransparentBaseActivity() {
                 val dialog = AudioPlayer.newInstance(uri!!)
                 dialog.show(supportFragmentManager, "audio_player")
             }.getOrElse {
-                it.printStackTrace()
-                val e = Error.newInstance(it.stackTraceToString())
-                e.show(supportFragmentManager, "error_dialog")
-                e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                    override fun onDismiss() {
-                        onBackPressed()
-                    }
-                })
+                showError(it)
             }
         }
     }

@@ -86,7 +86,7 @@ object BehaviourPreferences {
     }
 
     fun getTransitionType(): Int {
-        return SharedPreferences.getSharedPreferences().getInt(transitionType, PopupTransitionType.FADE)
+        return SharedPreferences.getSharedPreferences().getInt(transitionType, PopupTransitionType.SHARED_AXIS_Z)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

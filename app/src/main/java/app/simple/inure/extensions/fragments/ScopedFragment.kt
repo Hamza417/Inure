@@ -24,7 +24,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
-import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.popups.behavior.PopupArcType
@@ -293,23 +293,15 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     open fun showError(error: String) {
-        val e = Error.newInstance(error)
-        e.show(childFragmentManager, "error_dialog")
-        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-            override fun onDismiss() {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
-            }
-        })
+        childFragmentManager.showError(error).setOnErrorCallbackListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     open fun showError(error: Throwable) {
-        val e = Error.newInstance(error.stackTraceToString())
-        e.show(childFragmentManager, "error_dialog")
-        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-            override fun onDismiss() {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
-            }
-        })
+        childFragmentManager.showError(error.stackTraceToString()).setOnErrorCallbackListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     open fun openWebPage(source: String) {

@@ -22,7 +22,7 @@ import app.simple.inure.decorations.theme.ThemeMaterialCardView
 import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
 import app.simple.inure.preferences.AppearancePreferences
@@ -177,13 +177,9 @@ class AudioPlayer : ScopedBottomSheetFragment() {
                         seekBar.updateSecondaryProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
                     }
                     ServiceConstants.actionMediaError -> {
-                        val e = Error.newInstance(intent.extras?.getString("stringExtra", "unknown_media_playback_error")!!)
-                        e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                            override fun onDismiss() {
-                                stopService()
-                            }
-                        })
-                        e.show(childFragmentManager, "error")
+                        childFragmentManager.showError(intent.extras?.getString("stringExtra", "unknown_media_playback_error")!!).setOnErrorCallbackListener {
+                            stopService()
+                        }
                     }
                 }
             }

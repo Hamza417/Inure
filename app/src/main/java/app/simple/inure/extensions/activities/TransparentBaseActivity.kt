@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.R
-import app.simple.inure.dialogs.miscellaneous.Error
+import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences
@@ -129,13 +129,20 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
 
     protected fun showError(error: String) {
         try {
-            val e = Error.newInstance(error)
-            e.show(supportFragmentManager, "error_dialog")
-            e.setOnErrorDialogCallbackListener(object : Error.Companion.ErrorDialogCallbacks {
-                override fun onDismiss() {
-                    onBackPressedDispatcher.onBackPressed()
-                }
-            })
+            supportFragmentManager.showError(error).setOnErrorCallbackListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        }
+    }
+
+    protected fun showError(error: Throwable) {
+        try {
+            error.printStackTrace()
+            supportFragmentManager.showError(error.stackTraceToString()).setOnErrorCallbackListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
