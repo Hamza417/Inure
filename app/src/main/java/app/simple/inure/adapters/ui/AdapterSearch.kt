@@ -30,7 +30,7 @@ class AdapterSearch(private var apps: ArrayList<PackageInfo>, private var search
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.icon.transitionName = "app_$position"
+        holder.icon.transitionName = apps[position].packageName
         holder.icon.loadAppIcon(apps[position].packageName)
         holder.name.text = apps[position].applicationInfo.name
         holder.packageId.text = apps[position].packageName

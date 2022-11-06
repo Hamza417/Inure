@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatch
-import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -34,23 +33,22 @@ class BatchSelectedApps : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        @Suppress("UNCHECKED_CAST") // Cast already checked
-        adapterBatch = AdapterBatch(requireArguments().getSerializable(BundleConstants.selectedBatchApps, ArrayList::class.java)
-                                            as ArrayList<BatchPackageInfo>, false)
+        batchViewModel.getSelectedApps().observe(viewLifecycleOwner) {
+            adapterBatch = AdapterBatch(it, headerEnabled = false)
 
-        adapterBatch.setOnItemClickListener(object : AdapterCallbacks {
-            override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
-                batchViewModel.updateBatchItem(batchPackageInfo)
-            }
-        })
+            adapterBatch.setOnItemClickListener(object : AdapterCallbacks {
+                override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
+                    batchViewModel.updateBatchItem(batchPackageInfo, update = true)
+                }
+            })
 
-        recyclerView.adapter = adapterBatch
+            recyclerView.adapter = adapterBatch
+        }
     }
 
     companion object {
-        fun newInstance(currentAppsList: ArrayList<BatchPackageInfo>): BatchSelectedApps {
+        fun newInstance(): BatchSelectedApps {
             val args = Bundle()
-            args.putSerializable(BundleConstants.selectedBatchApps, currentAppsList)
             val fragment = BatchSelectedApps()
             fragment.arguments = args
             return fragment

@@ -46,7 +46,7 @@ class AdapterAppsDetailed : RecyclerView.Adapter<VerticalListViewHolder>(), Popu
         val position = position_ - 1
         if (holder is Holder) {
 
-            holder.icon.transitionName = "app_$position"
+            holder.icon.transitionName = apps[position].packageName
             holder.icon.loadAppIcon(apps[position].packageName)
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName

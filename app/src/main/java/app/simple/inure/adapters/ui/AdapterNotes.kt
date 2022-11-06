@@ -55,7 +55,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
         val position = position_ - 1
 
         if (holder is Holder) {
-            holder.icon.transitionName = "app_$position"
+            holder.icon.transitionName = notes[position].packageInfo.packageName
             holder.icon.loadAppIcon(notes[position].packageInfo.packageName)
             holder.name.text = notes[position].packageInfo.applicationInfo.name
             holder.packageId.text = notes[position].packageInfo.packageName

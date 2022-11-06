@@ -44,7 +44,7 @@ class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
         val position = position_ - 1
 
         if (holder is Holder) {
-            holder.icon.transitionName = "recently_app_$position"
+            holder.icon.transitionName = apps[position].packageInfo?.packageName
             holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName)
             holder.name.text = apps[position].packageInfo?.applicationInfo!!.name
             holder.packageId.text = apps[position].packageInfo?.packageName

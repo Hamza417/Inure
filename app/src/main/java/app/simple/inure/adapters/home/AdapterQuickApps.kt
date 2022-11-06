@@ -21,7 +21,7 @@ class AdapterQuickApps(private val list: ArrayList<PackageInfo>) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.icon.transitionName = "quick_app_$position"
+        holder.icon.transitionName = list[position].packageName
         holder.icon.loadAppIcon(list[position].packageName)
         holder.name.text = list[position].applicationInfo.name
 

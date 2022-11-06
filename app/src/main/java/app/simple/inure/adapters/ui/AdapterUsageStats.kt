@@ -53,7 +53,7 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
         val position = position_ - 1
 
         if (holder is Holder) {
-            holder.icon.transitionName = "stats_app_$position"
+            holder.icon.transitionName = list[position].packageInfo?.packageName
             holder.icon.loadAppIcon(list[position].packageInfo!!.packageName)
             holder.name.text = list[position].packageInfo!!.applicationInfo.name
             holder.dataUp.text = list[position].mobileData?.tx?.toSize()

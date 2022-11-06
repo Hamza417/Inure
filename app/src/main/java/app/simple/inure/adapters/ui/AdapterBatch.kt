@@ -80,8 +80,13 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                 }
 
                 if (BatchPreferences.isSelectionOnTop() && it) {
-                    apps.move(holder.bindingAdapterPosition.minus(1), 0)
-                    notifyItemMoved(holder.bindingAdapterPosition, 1)
+                    if (headerEnabled) {
+                        apps.move(holder.bindingAdapterPosition.minus(1), 0)
+                        notifyItemMoved(holder.bindingAdapterPosition, 1)
+                    } else {
+                        apps.move(holder.bindingAdapterPosition, 0)
+                        notifyItemMoved(holder.bindingAdapterPosition, 0)
+                    }
                 }
             }
 
@@ -190,7 +195,8 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         }
     }
 
-    fun submitList(it: java.util.ArrayList<BatchPackageInfo>) {
+    @Suppress("unused")
+    fun updateList(it: java.util.ArrayList<BatchPackageInfo>) {
         val oldSize: Int = apps.size
         apps.clear()
         notifyItemRangeRemoved(1, oldSize.plus(1))

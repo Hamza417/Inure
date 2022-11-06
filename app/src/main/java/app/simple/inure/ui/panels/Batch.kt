@@ -31,7 +31,6 @@ import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.ui.actions.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.ui.subpanels.BatchSelectedApps
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -72,11 +71,7 @@ class Batch : ScopedFragment() {
         showLoader()
 
         batchViewModel.getAppData().observe(viewLifecycleOwner) {
-            if (adapterBatch.isNull()) {
-                adapterBatch = AdapterBatch(it)
-            } else {
-                adapterBatch?.submitList(it)
-            }
+            adapterBatch = AdapterBatch(it)
 
             batchMenuState(it)
             hideLoader()
@@ -114,11 +109,9 @@ class Batch : ScopedFragment() {
                 }
             })
 
-            if (recyclerView.adapter.isNull()) {
-                recyclerView.adapter = adapterBatch
-                // recyclerView.itemAnimator = SlidingAnimator()
-                // (recyclerView.itemAnimator as SlidingAnimator).supportsChangeAnimations = true
-            }
+            recyclerView.adapter = adapterBatch
+            // recyclerView.itemAnimator = SlidingAnimator()
+            // (recyclerView.itemAnimator as SlidingAnimator).supportsChangeAnimations = true
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -155,7 +148,7 @@ class Batch : ScopedFragment() {
         }
 
         checklist.setOnClickListener {
-            openFragmentSlide(BatchSelectedApps.newInstance(adapterBatch?.getCurrentAppsList()!!), "batch_selected_apps")
+            openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
         }
     }
 
