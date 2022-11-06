@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +39,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
             kotlin.runCatching {
                 val list = arrayListOf<FeatureInfo>()
 
-                for (featureInfo in getPackageInfo(packageInfo.packageName).reqFeatures) {
+                for (featureInfo in packageManager.getPackageInfo(packageInfo.packageName)!!.reqFeatures) {
                     list.add(featureInfo)
                 }
 

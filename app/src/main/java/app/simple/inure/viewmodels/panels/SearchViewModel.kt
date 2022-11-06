@@ -3,14 +3,13 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
+import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
@@ -20,30 +19,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class SearchViewModel(application: Application) : AndroidViewModel(application) {
+class SearchViewModel(application: Application) : WrappedViewModel(application) {
 
     private var searchJob: Job? = null
-
-    private val deepSearchFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        PackageManager.GET_META_DATA or
-                PackageManager.GET_PERMISSIONS or
-                PackageManager.GET_ACTIVITIES or
-                PackageManager.GET_SERVICES or
-                PackageManager.GET_RECEIVERS or
-                PackageManager.GET_PROVIDERS or
-                PackageManager.GET_SHARED_LIBRARY_FILES or
-                PackageManager.MATCH_DISABLED_COMPONENTS
-    } else {
-        @Suppress("DEPRECATION")
-        PackageManager.GET_META_DATA or
-                PackageManager.GET_PERMISSIONS or
-                PackageManager.GET_ACTIVITIES or
-                PackageManager.GET_SERVICES or
-                PackageManager.GET_RECEIVERS or
-                PackageManager.GET_PROVIDERS or
-                PackageManager.GET_SHARED_LIBRARY_FILES or
-                PackageManager.GET_DISABLED_COMPONENTS
-    }
 
     private val searchKeywords: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
@@ -82,7 +60,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     fun loadSearchData(keywords: String) {
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
-            val apps = getApplication<Application>().applicationContext.packageManager.getInstalledPackages(deepSearchFlags) as ArrayList
+            val apps = packageManager.getInstalledPackages()
 
             if (keywords.isEmpty()) {
                 if (SearchPreferences.isDeepSearchEnabled()) {

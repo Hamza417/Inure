@@ -39,7 +39,7 @@ class ShellExecutorViewModel(application: Application, private val command: Stri
                                                 .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
                                                 .setTimeout(10))
 
-                Shell.su(command).submit {
+                Shell.cmd(command).submit {
                     kotlin.runCatching {
                         for (i in it.out) {
                             result.postValue("\n" + i)

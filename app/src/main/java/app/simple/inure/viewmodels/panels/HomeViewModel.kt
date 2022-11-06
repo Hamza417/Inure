@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PackageStats
@@ -23,6 +24,8 @@ import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
 class HomeViewModel(application: Application) : WrappedViewModel(application) {
+
+    private val oneMonth = 2592000000
 
     private var usageStatsManager: UsageStatsManager = getApplication<Application>()
         .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
@@ -89,7 +92,11 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = installedPackages
+            val apps = packageManager.getInstalledPackages()
+                .stream()
+                .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
+                .sorted { o1, o2 -> o2.firstInstallTime.compareTo(o1.firstInstallTime) }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
@@ -105,7 +112,11 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadRecentlyUpdatedAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = installedPackages
+            val apps = packageManager.getInstalledPackages()
+                .stream()
+                .filter { it.lastUpdateTime > System.currentTimeMillis() - oneMonth }
+                .sorted { o1, o2 -> o2.lastUpdateTime.compareTo(o1.lastUpdateTime) }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
@@ -126,8 +137,9 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                 usageStatsManager.queryAndAggregateUsageStats(startTime, endTime)
             }
 
-            val apps = installedPackages
-            val list = arrayListOf<PackageStats>()
+            val apps = packageManager.getInstalledPackages()
+
+            var list = arrayListOf<PackageStats>()
 
             for (app in apps) {
                 kotlin.runCatching {
@@ -147,9 +159,10 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                 }
             }
 
-            list.sortByDescending {
-                it.totalTimeUsed
-            }
+            list = list
+                .filter { it.totalTimeUsed > 0L }
+                .sortedByDescending { it.totalTimeUsed }
+                .toCollection(ArrayList())
 
             frequentlyUsed.postValue(list)
         }
@@ -186,7 +199,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadDisabledApps() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = installedPackages
+            var apps = packageManager.getInstalledPackages()
 
             apps = apps.stream().filter { p ->
                 !p.applicationInfo.enabled

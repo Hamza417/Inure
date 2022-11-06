@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.database.instances.BatchDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.BatchModel
@@ -44,7 +45,7 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = installedPackages
+            var apps = packageManager.getInstalledPackages()
 
             when (BatchPreferences.getAppsCategory()) {
                 PopupAppsCategory.SYSTEM -> {
@@ -72,7 +73,7 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadSelectedApps() {
         viewModelScope.launch(Dispatchers.IO) {
-            selectedApps.postValue(getSelectedBatchStateData(installedPackages))
+            selectedApps.postValue(getSelectedBatchStateData(packageManager.getInstalledPackages()))
         }
     }
 

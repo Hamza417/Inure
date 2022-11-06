@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +30,7 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
             kotlin.runCatching {
                 val list = arrayListOf<ActivityInfoModel>()
 
-                for (ai in getPackageInfo(packageInfo.packageName).activities) {
+                for (ai in packageManager.getPackageInfo(packageInfo.packageName)!!.activities) {
                     val activityInfoModel = ActivityInfoModel()
 
                     activityInfoModel.activityInfo = ai

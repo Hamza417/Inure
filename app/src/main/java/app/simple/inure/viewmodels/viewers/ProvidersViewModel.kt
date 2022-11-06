@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.MetaUtils
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ProviderInfoModel
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,7 @@ class ProvidersViewModel(application: Application, val packageInfo: PackageInfo)
             kotlin.runCatching {
                 val list = arrayListOf<ProviderInfoModel>()
 
-                for (pi in getPackageInfo(packageInfo.packageName).providers) {
+                for (pi in packageManager.getPackageInfo(packageInfo.packageName)!!.providers) {
                     val providerInfoModel = ProviderInfoModel()
 
                     providerInfoModel.providerInfo = pi

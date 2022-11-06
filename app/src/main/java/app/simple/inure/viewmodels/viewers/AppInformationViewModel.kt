@@ -19,6 +19,7 @@ import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.FileUtils.toFile
@@ -261,7 +262,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         val permissions = StringBuilder()
 
         try {
-            val appPackageInfo = getPackageInfo(packageInfo.packageName)
+            val appPackageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
             appPackageInfo.requestedPermissions.sort()
 
             for (permission in appPackageInfo.requestedPermissions) {
@@ -308,7 +309,7 @@ class AppInformationViewModel(application: Application, val packageInfo: Package
         val features = StringBuilder()
 
         try {
-            for (feature in getPackageInfo(packageInfo.packageName).reqFeatures) {
+            for (feature in packageManager.getPackageInfo(packageInfo.packageName)!!.reqFeatures) {
                 if (features.isEmpty()) {
                     if (feature.name.isNullOrEmpty()) {
                         features.append(MetaUtils.getOpenGL(feature.reqGlEsVersion))

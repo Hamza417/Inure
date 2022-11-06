@@ -311,4 +311,15 @@ object PackageUtils {
         }
         return s
     }
+
+    fun PackageManager.getInstalledPackages(flags: Long = PackageUtils.flags): ArrayList<PackageInfo> {
+        val packageInfoList = ArrayList<PackageInfo>()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageInfoList.addAll(getInstalledPackages(PackageManager.PackageInfoFlags.of(flags)))
+        } else {
+            @Suppress("DEPRECATION")
+            packageInfoList.addAll(getInstalledPackages(flags.toInt()))
+        }
+        return packageInfoList
+    }
 }

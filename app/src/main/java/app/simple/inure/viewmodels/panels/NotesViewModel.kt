@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.NotesModel
@@ -46,7 +47,7 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadNotesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            notesData.postValue(getNotesData(installedPackages))
+            notesData.postValue(getNotesData(packageManager.getInstalledPackages()))
         }
     }
 

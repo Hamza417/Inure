@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -64,7 +65,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 if (isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
 
-                    if (getApplicationInfo(packageInfo.packageName).enabled) {
+                    if (packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
                         list.add(Pair(R.drawable.ic_disable, R.string.disable))
                     } else {
                         list.add(Pair(R.drawable.ic_check, R.string.enable))

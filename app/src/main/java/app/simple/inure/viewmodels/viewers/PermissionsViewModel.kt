@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PermissionInfo
@@ -30,7 +31,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val context = context
-                val appPackageInfo = getPackageInfo(packageInfo.packageName)
+                val appPackageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
                 val permissions = arrayListOf<PermissionInfo>()
 
                 for (count in appPackageInfo.requestedPermissions.indices) {

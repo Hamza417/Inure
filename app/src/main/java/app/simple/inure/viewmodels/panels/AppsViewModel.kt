@@ -3,11 +3,11 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
+import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.popups.apps.PopupAppsCategory
@@ -35,7 +35,7 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
 
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA) as ArrayList
+            var apps = packageManager.getInstalledPackages()
 
             when (MainPreferences.getAppsCategory()) {
                 PopupAppsCategory.SYSTEM -> {

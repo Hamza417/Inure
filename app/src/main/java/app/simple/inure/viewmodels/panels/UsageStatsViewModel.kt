@@ -9,6 +9,8 @@ import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
@@ -93,7 +95,7 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
             usageStatsManager.queryUsageStats(StatisticsPreferences.getInterval(), startTime, endTime)
         }
 
-        var apps = installedPackages
+        var apps = packageManager.getInstalledPackages()
 
         when (StatisticsPreferences.getAppsCategory()) {
             PopupAppsCategory.SYSTEM -> {
@@ -225,7 +227,7 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
             }
 
             val packageStats = PackageStats()
-            packageStats.packageInfo = getPackageInfo(packageName)
+            packageStats.packageInfo = packageManager.getPackageInfo(packageName)
 
             packageStats.launchCount = accessCount[packageName] ?: 0
             packageStats.lastUsageTime = lastUse[packageName] ?: 0

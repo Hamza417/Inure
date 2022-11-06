@@ -43,7 +43,7 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
                                             .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
                                             .setTimeout(10))
 
-                Shell.su(getCommand()).submit { shellResult ->
+                Shell.cmd(getCommand()).submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)

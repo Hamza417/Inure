@@ -14,6 +14,7 @@ import app.simple.inure.apk.parsers.APKParser.getNativeLibraries
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
@@ -49,7 +50,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         apkFile = ApkFile(file)
 
         if (packageManager.isPackageInstalled(apkFile!!.apkMeta.packageName)) {
-            packageInfo = getPackageInfo(apkFile!!.apkMeta.packageName)
+            packageInfo = packageManager.getPackageInfo(apkFile!!.apkMeta.packageName)
         }
 
         val list = arrayListOf<Pair<Int, Spannable>>()
