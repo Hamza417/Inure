@@ -34,12 +34,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
             android:text="@string/shared_prefs"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold"
             app:textColorStyle="accent" />
+
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/loader"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/panel_icon_size"
+            android:layout_height="@dimen/panel_icon_size"
+            android:layout_gravity="center_vertical"
+            android:indeterminateTint="?attr/colorAppAccent"
+            android:padding="10dp" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 

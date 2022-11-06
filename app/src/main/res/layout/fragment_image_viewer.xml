@@ -56,7 +56,6 @@
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_more_vert"
-            android:visibility="gone"
             app:tint="?attr/colorAppAccent"
             tools:ignore="ContentDescription" />
 
