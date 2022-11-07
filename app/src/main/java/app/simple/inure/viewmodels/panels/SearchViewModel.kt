@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -14,6 +15,7 @@ import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort.getSortedList
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -58,7 +60,10 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
     }
 
     fun loadSearchData(keywords: String) {
-        searchJob?.cancel()
+        searchJob?.cancel(CancellationException("new search data requested"))
+        if (searchJob?.isActive == true) {
+            Log.e("SearchViewModel", "loadSearchData: job is still active")
+        }
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             val apps = packageManager.getInstalledPackages()
 

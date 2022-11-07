@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     tools:parentTag="app.simple.inure.decorations.corners.DynamicCornerLinearLayout">
 
     <app.simple.inure.decorations.typeface.TypeFaceEditText
@@ -16,6 +17,7 @@
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         android:hint="@string/search"
+        android:imeOptions="actionSearch"
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="20"
@@ -37,6 +39,15 @@
         app:appFontStyle="bold"
         app:textColorStyle="quaternary"
         tools:ignore="HardcodedText" />
+
+    <app.simple.inure.decorations.views.CustomProgressBar
+        android:id="@+id/loader"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="@dimen/panel_icon_size"
+        android:layout_height="@dimen/panel_icon_size"
+        android:layout_gravity="center_vertical"
+        android:indeterminateTint="?attr/colorAppAccent"
+        android:padding="10dp" />
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="1px"

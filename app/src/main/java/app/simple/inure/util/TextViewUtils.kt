@@ -9,8 +9,8 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.NonNull
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.widget.addTextChangedListener
 
 object TextViewUtils {
     fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
@@ -31,7 +31,7 @@ object TextViewUtils {
                     textPaint.isUnderlineText = true
                 }
 
-                override fun onClick(@NonNull view: View) {
+                override fun onClick(view: View) {
                     Selection.setSelection((view as TextView).text as Spannable, 0)
                     view.invalidate()
                     link.second.onClick(view)
@@ -107,4 +107,13 @@ object TextViewUtils {
             )
         }
     }
+
+    inline fun TextView.doOnTextChanged(
+            crossinline action: (
+                    text: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+            ) -> Unit
+    ): TextWatcher = addTextChangedListener(onTextChanged = action)
 }

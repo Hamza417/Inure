@@ -26,5 +26,5 @@ public interface SearchViewEventListener {
      *                 update it manually
      * @param count    is the total characters count of the keywords
      */
-    void onSearchTextChanged(@NotNull String keywords, @NotNull int count);
+    void onSearchTextChanged(@NotNull String keywords, int count);
 }

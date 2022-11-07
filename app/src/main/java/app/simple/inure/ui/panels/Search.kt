@@ -56,7 +56,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             if (!SearchPreferences.isDeepSearchEnabled()) {
                 postponeEnterTransition()
-
+                searchView.hideLoader()
                 searchView.setNewNumber(it.size)
 
                 appsAdapterSearchSmall = AdapterSearch(it, searchViewModel.getSearchKeywords().value ?: "")
@@ -84,6 +84,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 postponeEnterTransition()
 
                 searchView.setNewNumber(it.size)
+                searchView.hideLoader()
 
                 adapterDeepSearch = AdapterDeepSearch(it, searchViewModel.getSearchKeywords().value ?: "")
                 recyclerView.adapter = adapterDeepSearch
