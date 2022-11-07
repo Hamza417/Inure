@@ -15,6 +15,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.subpanels.ActivityInfoFactory
 import app.simple.inure.models.ActivityInfoModel
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.viewmodels.subviewers.ActivityInfoViewModel
 
 class ActivityInfo : ScopedFragment() {
@@ -32,13 +33,13 @@ class ActivityInfo : ScopedFragment() {
         recyclerView = view.findViewById(R.id.activity_info_recycler_view)
         backButton = view.findViewById(R.id.activity_info_back_button)
 
-        with(requireArguments().getParcelable<ActivityInfoModel>(BundleConstants.activityInfo)!!) {
-            packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
+        with(requireArguments().parcelable<ActivityInfoModel>(BundleConstants.activityInfo)!!) {
+            packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
             this@ActivityInfo.name.text = name
             activityInfoFactory = ActivityInfoFactory(this, packageInfo)
         }
 
-        activityInfoViewModel = ViewModelProvider(this, activityInfoFactory).get(ActivityInfoViewModel::class.java)
+        activityInfoViewModel = ViewModelProvider(this, activityInfoFactory)[ActivityInfoViewModel::class.java]
 
         startPostponedEnterTransition()
 
@@ -53,7 +54,7 @@ class ActivityInfo : ScopedFragment() {
         }
 
         backButton.setOnClickListener {
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

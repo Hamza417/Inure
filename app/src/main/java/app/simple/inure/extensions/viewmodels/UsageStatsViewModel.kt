@@ -29,7 +29,7 @@ open class UsageStatsViewModel(application: Application) : WrappedViewModel(appl
     protected var usageStatsManager: UsageStatsManager = getApplication<Application>()
         .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
-    protected var networkStatsManager = getApplication<Application>()
+    private var networkStatsManager = getApplication<Application>()
         .getSystemService(Context.NETWORK_STATS_SERVICE) as NetworkStatsManager
 
     protected fun getMobileData(@UsageInterval.IntervalType intervalType: Int): SparseArrayCompat<DataUsage> {
@@ -40,7 +40,7 @@ open class UsageStatsViewModel(application: Application) : WrappedViewModel(appl
         return getDataUsageForNetwork(NetworkCapabilities.TRANSPORT_WIFI, intervalType)
     }
 
-    protected fun getDataUsageForNetwork(@Transport networkType: Int, @UsageInterval.IntervalType intervalType: Int): SparseArrayCompat<DataUsage> {
+    private fun getDataUsageForNetwork(@Transport networkType: Int, @UsageInterval.IntervalType intervalType: Int): SparseArrayCompat<DataUsage> {
         val dataUsageSparseArray = SparseArrayCompat<DataUsage>()
         val range: UsageInterval.UsageInterval = UsageInterval.getTimeInterval(intervalType)
         // val subscriberIds: List<String?> = getSubscriberIds(context, networkType)
@@ -72,7 +72,7 @@ open class UsageStatsViewModel(application: Application) : WrappedViewModel(appl
      */
     @SuppressLint("HardwareIds", "MissingPermission")
     @Deprecated("Requires {@code android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE} from Android 10 (API 29)")
-    protected fun getSubscriberIds(context: Context, @Transport networkType: Int): List<String?> {
+    protected fun getSubscriberIds(@Transport networkType: Int): List<String?> {
         return if (networkType != NetworkCapabilities.TRANSPORT_CELLULAR || !PermissionUtils.hasPermission(applicationContext(), Manifest.permission.READ_PHONE_STATE)) {
             Collections.singletonList(null)
         } else try {

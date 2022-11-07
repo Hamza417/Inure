@@ -108,7 +108,12 @@ class AudioService : Service(),
                     changePlayerState()
                 }
                 ServiceConstants.actionQuitMusicService -> {
-                    stopForeground(true)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        stopForeground(STOP_FOREGROUND_REMOVE)
+                    } else {
+                        @Suppress("DEPRECATION")
+                        stopForeground(true)
+                    }
                     stopSelf()
                     IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
                 }
@@ -174,7 +179,12 @@ class AudioService : Service(),
 
     override fun onCompletion(mp: MediaPlayer?) {
         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
-        stopForeground(true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } else {
+            @Suppress("DEPRECATION")
+            stopForeground(true)
+        }
     }
 
     override fun onPrepared(mp: MediaPlayer?) {
@@ -246,7 +256,12 @@ class AudioService : Service(),
             }
 
             override fun onStop() {
-                stopForeground(true)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    stopForeground(STOP_FOREGROUND_DETACH)
+                } else {
+                    @Suppress("DEPRECATION")
+                    stopForeground(true)
+                }
                 stopSelf()
             }
 
@@ -389,7 +404,12 @@ class AudioService : Service(),
                             setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
                             kotlin.runCatching {
                                 showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlay))
-                                stopForeground(false)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    stopForeground(STOP_FOREGROUND_REMOVE)
+                                } else {
+                                    @Suppress("DEPRECATION")
+                                    stopForeground(true)
+                                }
                             }
                         }
                         timer!!.cancel()

@@ -60,7 +60,7 @@ class UsageStatsPermission : ScopedBottomSheetFragment() {
                 dismiss()
             } else {
                 dismiss()
-                requireActivity().onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
     }

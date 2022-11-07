@@ -18,6 +18,7 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +26,7 @@ import java.util.stream.Collectors
 
 class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
-    private val oneMonth = 2592000000
+    private val oneMonth = 2592000000 // 30 days
 
     private var usageStatsManager: UsageStatsManager = getApplication<Application>()
         .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
@@ -44,7 +45,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private val mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> by lazy {
         MutableLiveData<ArrayList<PackageStats>>().also {
-            loadFrequentlyUsed()
+            loadMostUsed()
         }
     }
 
@@ -147,7 +148,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
-    private fun loadFrequentlyUsed() {
+    private fun loadMostUsed() {
         viewModelScope.launch(Dispatchers.Default) {
             val stats = with(UsageInterval.getTimeInterval()) {
                 usageStatsManager.queryAndAggregateUsageStats(startTime, endTime)
@@ -222,20 +223,16 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadDisabledApps() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+            val apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getInstalledPackages(PackageInfoFlags.of((PackageManager.GET_META_DATA).toLong()))
                     .stream()
-                    .filter { it.applicationInfo.enabled }
+                    .filter { it.applicationInfo.enabled.invert() }
                     .collect(Collectors.toList()) as ArrayList<PackageInfo>
             } else {
                 @Suppress("DEPRECATION")
                 packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-                    .filter { it.applicationInfo.enabled } as ArrayList<PackageInfo>
+                    .filter { it.applicationInfo.enabled.invert() } as ArrayList<PackageInfo>
             }
-
-            apps = apps.stream().filter { p ->
-                !p.applicationInfo.enabled
-            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
@@ -284,7 +281,7 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     fun refresh() {
         loadRecentlyInstalledAppData()
-        loadFrequentlyUsed()
+        loadMostUsed()
         loadRecentlyUpdatedAppData()
     }
 }

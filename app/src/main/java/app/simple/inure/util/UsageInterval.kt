@@ -20,6 +20,7 @@ object UsageInterval {
     const val YEARLY = UsageStatsManager.INTERVAL_YEARLY
 
     fun getTimeInterval(): UsageInterval {
+        @Suppress("DEPRECATION")
         return when (StatisticsPreferences.getInterval()) {
             TODAY -> getTodayInterval()
             DAILY -> getDailyInterval()
@@ -31,6 +32,7 @@ object UsageInterval {
     }
 
     fun getTimeInterval(interval: Int): UsageInterval {
+        @Suppress("DEPRECATION")
         return when (interval) {
             TODAY -> getTodayInterval()
             DAILY -> getDailyInterval()

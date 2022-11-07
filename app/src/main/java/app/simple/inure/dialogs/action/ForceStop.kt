@@ -25,8 +25,6 @@ class ForceStop : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.loader)
         status = view.findViewById(R.id.force_stop_result)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-
         return view
     }
 
@@ -34,9 +32,9 @@ class ForceStop : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(ViewModelProvider(this, ForceCloseViewModelFactory(packageInfo))[ForceCloseViewModel::class.java]) {
-            getResults().observe(viewLifecycleOwner, {
+            getResults().observe(viewLifecycleOwner) {
 
-            })
+            }
 
             getSuccessStatus().observe(viewLifecycleOwner) {
                 when (it) {

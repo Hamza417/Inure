@@ -23,6 +23,7 @@ import kotlin.math.absoluteValue
  * @since 03/09/20
  */
 
+@Suppress("MemberVisibilityCanBePrivate")
 class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
 
     private val textPaint = Paint()
@@ -132,8 +133,8 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
                 flingRunnable.lastX = -preEventImgRect.left
                 flingRunnable.lastY = -preEventImgRect.top
                 scroller.fling(
-                    flingRunnable.lastX.toInt(), flingRunnable.lastY.toInt(), -velocityX.toInt(),
-                    -velocityY.toInt(), 0, maxX, 0, maxY
+                        flingRunnable.lastX.toInt(), flingRunnable.lastY.toInt(), -velocityX.toInt(),
+                        -velocityY.toInt(), 0, maxX, 0, maxY
                 )
                 ViewCompat.postOnAnimation(this@ZoomImageView, flingRunnable)
                 return true
@@ -142,7 +143,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
             override fun onDown(e: MotionEvent): Boolean {
                 removeCallbacks(flingRunnable)
                 scroller.forceFinished(true)
-                displayRect?.let {
+                displayRect.let {
                     preEventImgRect.set(it)
                 }
                 panAnimator?.removeAllUpdateListeners()
@@ -167,11 +168,12 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
         }
     }
 
+    @Suppress("KotlinConstantConditions")
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val disallowIntercept =
             currentScale > MIN_SCALE || scaleDetector.isInProgress || handlingDismiss
-        if (event?.action == MotionEvent.ACTION_UP) {
+        if (event.action == MotionEvent.ACTION_UP) {
             if (handlingDismiss) {
                 if (currentTransY.absoluteValue > dismissThreshold) {
                     onDismiss.invoke()
@@ -181,7 +183,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
             }
         }
         parent?.requestDisallowInterceptTouchEvent(disallowIntercept)
-        return tapDetector.onTouchEvent(event) || return scaleDetector.onTouchEvent(event) || return true
+        return tapDetector.onTouchEvent(event) || return scaleDetector.onTouchEvent(event)
     }
 
     private fun setZoom(scale: Float, x: Float, y: Float) {
@@ -269,9 +271,9 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
         super.onDraw(canvas)
         if (debugInfoVisible) {
             canvas.drawText(logText, 10F, height - 10F, textPaint)
-            val drawableBound = displayRect?.let {
+            val drawableBound = displayRect.let {
                 "Drawable: $it"
-            } ?: ""
+            }
             canvas.drawText(drawableBound, 10F, 40F, textPaint)
         }
     }
@@ -294,6 +296,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
         }
     }
 
+    @Suppress("SameParameterValue", "SameParameterValue")
     private fun animatePan(startX: Float, startY: Float, endX: Float, endY: Float, dismissProgress: Float? = null) {
         panAnimator = ValueAnimator.ofFloat(startX, startY, endX, endY).apply {
             duration = VALUE_ANIMATOR_DURATION
@@ -334,7 +337,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
     }
 
     private fun setBounds() {
-        val rect = displayRect ?: return
+        val rect = displayRect
         val height = rect.height()
         val width = rect.width()
         val viewHeight: Int = this.viewHeight
@@ -391,16 +394,14 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
     private inline val dismissProgress: Float
         get() = currentTransY.absoluteValue / dismissThreshold
 
-    private val displayRect: RectF? = RectF()
+    private val displayRect: RectF = RectF()
         get() {
             drawable?.let { d ->
-                field?.set(
-                        0f, 0f, d.intrinsicWidth.toFloat(), d.intrinsicHeight.toFloat()
-                )
+                field.set(0f, 0f, d.intrinsicWidth.toFloat(), d.intrinsicHeight.toFloat())
                 drawMatrix.mapRect(field)
                 return field
             }
-            return null
+            return RectF()
         }
 
     private val drawMatrix: Matrix = Matrix()

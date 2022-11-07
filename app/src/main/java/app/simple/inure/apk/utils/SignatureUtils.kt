@@ -20,7 +20,15 @@ object SignatureUtils {
 
     fun PackageInfo.getApplicationSignature(context: Context): Pair<X509Certificate, Signature> {
         val arrayOfSignatures: Array<Signature> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.apkContentsSigners
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                context.packageManager
+                    .getPackageInfo(packageName,
+                                    PackageManager.PackageInfoFlags.of(
+                                            PackageManager.GET_SIGNING_CERTIFICATES.toLong())).signingInfo.apkContentsSigners
+            } else {
+                @Suppress("DEPRECATION")
+                context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.apkContentsSigners
+            }
         } else {
             @Suppress("deprecation", "PackageManagerGetSignatures")
             context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
@@ -53,14 +61,14 @@ object SignatureUtils {
         try {
             for (sg in z) {
                 x509Certificate = CertificateFactory.getInstance("X.509")
-                        .generateCertificate(ByteArrayInputStream(sg.toByteArray())) as X509Certificate
+                    .generateCertificate(ByteArrayInputStream(sg.toByteArray())) as X509Certificate
                 string = x509Certificate.issuerX500Principal.name
                 if (string != "") tuple.first = string
                 string = x509Certificate.sigAlgName
                 if (string != "") tuple.second = string + "| " + convertToHex(MessageDigest.getInstance("sha256").digest(sg.toByteArray()))
             }
-        } catch (e: NoSuchAlgorithmException) {
-        } catch (e: CertificateException) {
+        } catch (_: NoSuchAlgorithmException) {
+        } catch (_: CertificateException) {
         }
         return tuple
     }
@@ -90,7 +98,7 @@ object SignatureUtils {
         var s = ""
         s = try {
             val cert = CertificateFactory.getInstance("X.509")
-                    .generateCertificate(ByteArrayInputStream(sign.toByteArray())) as X509Certificate
+                .generateCertificate(ByteArrayInputStream(sign.toByteArray())) as X509Certificate
             """
      
      ${cert.issuerX500Principal.name}

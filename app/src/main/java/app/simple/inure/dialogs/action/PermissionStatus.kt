@@ -13,6 +13,7 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.PermissionStatusFactory
 import app.simple.inure.models.PermissionInfo
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.viewmodels.dialogs.PermissionStatusViewModel
 
 class PermissionStatus : ScopedBottomSheetFragment() {
@@ -33,8 +34,8 @@ class PermissionStatus : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.loader)
         status = view.findViewById(R.id.permission_status_result)
 
-        permissionInfo = requireArguments().getParcelable(BundleConstants.permissionInfo)!!
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
+        permissionInfo = requireArguments().parcelable(BundleConstants.permissionInfo)!!
+        packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
         mode = requireArguments().getString(BundleConstants.permissionMode)
 
         permissionStatusFactory = PermissionStatusFactory(packageInfo,
@@ -43,7 +44,7 @@ class PermissionStatus : ScopedBottomSheetFragment() {
 
         println(mode)
 
-        permissionStatusViewModel = ViewModelProvider(this, permissionStatusFactory).get(PermissionStatusViewModel::class.java)
+        permissionStatusViewModel = ViewModelProvider(this, permissionStatusFactory)[PermissionStatusViewModel::class.java]
 
         return view
     }

@@ -15,6 +15,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.UnpackViewModelFactory
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.UnpackViewModel
 
@@ -35,7 +36,7 @@ class Unpack : ScopedFragment() {
         progress = view.findViewById(R.id.data_progress)
         recyclerView = view.findViewById(R.id.unpack_recycler_view)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
+        packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
         val unpackViewModelFactory = UnpackViewModelFactory(packageInfo)
         unpackViewModel = ViewModelProvider(this, unpackViewModelFactory)[UnpackViewModel::class.java]
 

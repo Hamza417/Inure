@@ -14,13 +14,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.MimeConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.subpanels.TrackerSourceViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
-import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.viewmodels.subviewers.TrackerSourceViewModel
 import java.io.IOException
 
@@ -33,7 +33,7 @@ class TrackerSourceViewer : ScopedFragment() {
     private lateinit var trackerSourceViewModelFactory: TrackerSourceViewModelFactory
     private lateinit var trackerSourceViewModel: TrackerSourceViewModel
 
-    private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
+    private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument(MimeConstants.javaType)) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult
@@ -58,10 +58,7 @@ class TrackerSourceViewer : ScopedFragment() {
         options = view.findViewById(R.id.tracker_viewer_options)
         text = view.findViewById(R.id.tracker_viewer)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-        trackerSourceViewModelFactory = TrackerSourceViewModelFactory(requireArguments().getString(BundleConstants.className)!!,
-                                                                      packageInfo,
-                                                                      requireContext().resolveAttrColor(R.attr.colorAppAccent))
+        trackerSourceViewModelFactory = TrackerSourceViewModelFactory(requireArguments().getString(BundleConstants.className)!!, packageInfo)
         trackerSourceViewModel = ViewModelProvider(this, trackerSourceViewModelFactory)[TrackerSourceViewModel::class.java]
 
         return view

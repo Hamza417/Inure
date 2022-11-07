@@ -17,6 +17,11 @@ object ParcelUtils {
         else -> @Suppress("DEPRECATION") getParcelable(key) as? T
     }
 
+    inline fun <reified T : java.io.Serializable> Bundle.serializable(key: String): T? = when {
+        SDK_INT >= 33 -> getSerializable(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializable(key) as? T
+    }
+
     inline fun <reified T : Parcelable> Bundle.parcelable(key: String, default: T): T = when {
         SDK_INT >= 33 -> getParcelable(key, T::class.java) ?: default
         else -> @Suppress("DEPRECATION") getParcelable(key) as? T ?: default

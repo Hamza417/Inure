@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Warning
@@ -18,6 +19,7 @@ import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.ui.panels.Preferences
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils
 import com.google.android.material.R.id.design_bottom_sheet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -40,6 +42,9 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.CustomBottomSheetDialogTheme)
+        kotlin.runCatching {
+            packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -60,7 +60,12 @@ class BatchExtractService : Service() {
         when (intent?.action) {
             ServiceConstants.actionBatchCancel -> {
                 copyThread.interrupt()
-                stopForeground(true)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    stopForeground(STOP_FOREGROUND_REMOVE)
+                } else {
+                    @Suppress("DEPRECATION")
+                    stopForeground(true)
+                }
                 stopSelf()
             }
         }
@@ -152,7 +157,12 @@ class BatchExtractService : Service() {
 
                 launchOnUiThread {
                     notificationManager.cancel(notificationId)
-                    stopForeground(true)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        stopForeground(STOP_FOREGROUND_REMOVE)
+                    } else {
+                        @Suppress("DEPRECATION")
+                        stopForeground(true)
+                    }
                     stopSelf()
                 }
             }
@@ -162,7 +172,16 @@ class BatchExtractService : Service() {
                 LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
             }
 
-            stopForeground(true)
+            launchOnUiThread {
+                notificationManager.cancel(notificationId)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    stopForeground(STOP_FOREGROUND_REMOVE)
+                } else {
+                    @Suppress("DEPRECATION")
+                    stopForeground(true)
+                }
+                stopSelf()
+            }
             stopSelf()
         }
     }

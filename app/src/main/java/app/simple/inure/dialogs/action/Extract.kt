@@ -38,8 +38,6 @@ class Extract : ScopedBottomSheetFragment() {
         status = view.findViewById(R.id.extracting_updates)
         share = view.findViewById(R.id.share)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-
         val extractViewModelFactory = ExtractViewModelFactory(packageInfo)
         extractViewModel = ViewModelProvider(this, extractViewModelFactory)[ExtractViewModel::class.java]
 

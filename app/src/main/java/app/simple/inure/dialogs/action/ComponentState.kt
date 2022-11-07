@@ -32,7 +32,6 @@ class ComponentState : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.loader)
         status = view.findViewById(R.id.component_state_result)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageId = requireArguments().getString(BundleConstants.packageId)!!
         mode = requireArguments().getBoolean(BundleConstants.componentMode)
 

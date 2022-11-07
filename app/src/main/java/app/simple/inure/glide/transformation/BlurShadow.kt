@@ -171,8 +171,8 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
         } else {
             //Scale
             val scaleFactor = MAX_BLUR_RADIUS / blurRadius
-            val scaledWidth = 1.coerceAtLeast((source.width.toFloat() * scaleFactor).roundToInt())
-            val scaledHeight = 1.coerceAtLeast((source.height.toFloat() * scaleFactor).roundToInt())
+            @Suppress("UNUSED_VARIABLE") val scaledWidth = 1.coerceAtLeast((source.width.toFloat() * scaleFactor).roundToInt())
+            @Suppress("UNUSED_VARIABLE") val scaledHeight = 1.coerceAtLeast((source.height.toFloat() * scaleFactor).roundToInt())
             val scaled = Bitmap.createScaledBitmap(source, source.width, source.height, true)
 
             //Apply Blur

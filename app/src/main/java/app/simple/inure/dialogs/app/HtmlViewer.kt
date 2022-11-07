@@ -22,7 +22,7 @@ class HtmlViewer : ScopedBottomSheetFragment() {
         webView = view.findViewById(R.id.web_view)
 
         if (this.arguments != null) {
-            when (this.requireArguments().get("source")) {
+            when (this.requireArguments().getString("source")) {
                 getString(R.string.permissions) -> {
                     webView.loadUrl("file:///android_asset/html/required_permissions.html")
                 }

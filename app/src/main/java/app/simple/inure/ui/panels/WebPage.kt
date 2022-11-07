@@ -30,7 +30,7 @@ class WebPage : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (this.arguments != null && savedInstanceState.isNull()) {
-            when (this.requireArguments().get(BundleConstants.webPage)) {
+            when (this.requireArguments().getString(BundleConstants.webPage)) {
                 getString(R.string.permissions) -> {
                     webView.loadUrl("file:///android_asset/html/required_permissions.html")
                 }

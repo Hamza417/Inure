@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import app.simple.inure.BuildConfig
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.services.AudioService
+import app.simple.inure.util.ParcelUtils.parcelable
 
 /**
  * Used to control headset playback.
@@ -63,7 +64,7 @@ class MediaButtonIntentReceiver : BroadcastReceiver() {
         fun handleIntent(context: Context, intent: Intent): Boolean {
             val intentAction = intent.action
             if (Intent.ACTION_MEDIA_BUTTON == intentAction) {
-                val event: KeyEvent = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT)
+                val event: KeyEvent = intent.parcelable(Intent.EXTRA_KEY_EVENT)
                     ?: return false
                 val keycode: Int = event.keyCode
                 val action: Int = event.action

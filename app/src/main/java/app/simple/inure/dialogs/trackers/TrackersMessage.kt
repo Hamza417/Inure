@@ -8,6 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
+import app.simple.inure.util.ParcelUtils.serializable
 
 class TrackersMessage : ScopedBottomSheetFragment() {
 
@@ -28,7 +29,7 @@ class TrackersMessage : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        data = requireArguments().getSerializable(BundleConstants.trackersMessage) as Pair<String, String>?
+        data = requireArguments().serializable(BundleConstants.trackersMessage) as Pair<String, String>?
 
         title.text = data!!.first
         message.text = data!!.second

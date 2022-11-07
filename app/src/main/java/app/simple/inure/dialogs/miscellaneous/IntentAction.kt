@@ -41,11 +41,10 @@ class IntentAction : ScopedDialogFragment() {
         launch = view.findViewById(R.id.launch_intent_action)
         loader = view.findViewById(R.id.loader)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageId = requireArguments().getString(BundleConstants.packageId)!!
 
         activityLaunchFactory = ActivityLaunchFactory(packageInfo, packageId!!)
-        activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory).get(ActivityLauncherViewModel::class.java)
+        activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory)[ActivityLauncherViewModel::class.java]
 
         return view
     }
@@ -82,13 +81,13 @@ class IntentAction : ScopedDialogFragment() {
             activityLauncherViewModel.runActionCommand(action.text.toString())
         }
 
-        activityLauncherViewModel.getActionStatus().observe(viewLifecycleOwner, {
+        activityLauncherViewModel.getActionStatus().observe(viewLifecycleOwner) {
             when (it) {
                 "Done", "Failed" -> {
                     loader.invisible(true)
                 }
             }
-        })
+        }
     }
 
     companion object {

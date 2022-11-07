@@ -4,12 +4,11 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import app.simple.inure.preferences.AppearancePreferences
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 object JavaSyntaxUtils {
-
-    var accentColor = Color.parseColor("#e74c3c")
 
     private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"",
                                                       Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
@@ -37,7 +36,7 @@ object JavaSyntaxUtils {
 
         val matcher: Matcher = javaKeywords.matcher(this)
         while (matcher.find()) {
-            formatted.setSpan(ForegroundColorSpan(accentColor), matcher.start(),
+            formatted.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()), matcher.start(),
                               matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 

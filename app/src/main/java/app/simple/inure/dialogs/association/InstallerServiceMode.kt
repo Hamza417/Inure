@@ -18,6 +18,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.services.BatchExtractService
 import app.simple.inure.services.InstallerService
+import app.simple.inure.util.ParcelUtils.parcelable
 
 class InstallerServiceMode : ScopedBottomSheetFragment() {
 
@@ -56,7 +57,7 @@ class InstallerServiceMode : ScopedBottomSheetFragment() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
                     ServiceConstants.actionPackageInfo -> {
-                        packageInfo = intent.extras?.getParcelable(BundleConstants.packageInfo)!!
+                        packageInfo = intent.extras?.parcelable(BundleConstants.packageInfo)!!
                         icon.setImageDrawable(packageInfo.applicationInfo.loadIcon(requireContext().packageManager))
                         name.text = packageInfo.applicationInfo.loadLabel(requireContext().packageManager)
                         packageName.text = buildString {
@@ -71,7 +72,7 @@ class InstallerServiceMode : ScopedBottomSheetFragment() {
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 installerService = (service as InstallerService.InstallerServiceBinder).getService()
-                installerService?.uri = requireArguments().getParcelable(BundleConstants.uri)
+                installerService?.uri = requireArguments().parcelable(BundleConstants.uri)
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {

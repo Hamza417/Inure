@@ -42,8 +42,17 @@ object ActivityUtils {
             PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ->       // We need to get the application info to get the component's default state
                 try {
                     val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES
-                                or PackageManager.MATCH_DISABLED_COMPONENTS)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            context.packageManager
+                                .getPackageInfo(packageName,
+                                                PackageManager.PackageInfoFlags.of(
+                                                        (PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS).toLong()))
+                        } else {
+                            @Suppress("DEPRECATION")
+                            context.packageManager
+                                .getPackageInfo(packageName,
+                                                PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS)
+                        }
                     } else {
                         @Suppress("deprecation")
                         context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES
@@ -74,8 +83,17 @@ object ActivityUtils {
             else -> {
                 try {
                     val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES
-                                or PackageManager.MATCH_DISABLED_COMPONENTS)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            context.packageManager
+                                .getPackageInfo(packageName,
+                                                PackageManager.PackageInfoFlags.of(
+                                                        (PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS).toLong()))
+                        } else {
+                            @Suppress("DEPRECATION")
+                            context.packageManager
+                                .getPackageInfo(packageName,
+                                                PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS)
+                        }
                     } else {
                         @Suppress("deprecation")
                         context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES

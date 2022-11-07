@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.trackers.utils.PackageUtils.*
@@ -19,6 +20,7 @@ import dalvik.system.DexFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 import java.security.MessageDigest
@@ -35,17 +37,17 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
 
     private var isLoaded = false
-    private var Signz = 0
-    private var Totalz = 0
-    private var ClassTotalz = 0
+    private var signs = 0
+    private var totals = 0
+    private var classTotals = 0
     private var totalTT = 0
 
     private val classesList = ArrayList<String>()
     private val classesListAll = ArrayList<String>()
-    private var Sign: Array<String>? = null
-    private var Names: Array<String>? = null
-    private var SignStat: IntArray? = null
-    private var SignB: BooleanArray? = null
+    private var sign: Array<String>? = null
+    private var names: Array<String>? = null
+    private var signStat: IntArray? = null
+    private var signB: BooleanArray? = null
 
     private val classesListData: MutableLiveData<ArrayList<String>> by lazy {
         MutableLiveData<ArrayList<String>>().also {
@@ -92,11 +94,17 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     @SuppressLint("PackageManagerGetSignatures")
     private fun loadClasses() {
         runBlocking {
             val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA or PackageManager.GET_SIGNING_CERTIFICATES)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    packageManager.getPackageInfo(packageInfo.packageName, PackageManager.PackageInfoFlags.of((PackageManager.GET_META_DATA or PackageManager.GET_SIGNING_CERTIFICATES).toLong()))
+                } else {
+                    @Suppress("DEPRECATION")
+                    packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA or PackageManager.GET_SIGNING_CERTIFICATES)
+                }
             } else {
                 @Suppress("DEPRECATION")
                 packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA or PackageManager.GET_SIGNATURES)
@@ -113,35 +121,35 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
                 val dexFile = DexFile.loadDex(incomeFile.path, optimizedFile.path, 0)
 
                 msg = ""
-                Sign = context.resources.getStringArray(R.array.trackers)
-                SignStat = IntArray(Sign!!.size)
-                SignB = BooleanArray(Sign!!.size) //Arrays.fill(SignB,false);
-                Names = context.resources.getStringArray(R.array.tname)
+                sign = context.resources.getStringArray(R.array.trackers)
+                signStat = IntArray(sign!!.size)
+                signB = BooleanArray(sign!!.size) //Arrays.fill(SignB,false);
+                names = context.resources.getStringArray(R.array.tname)
 
                 val classNames = dexFile.entries()
 
                 while (classNames.hasMoreElements()) {
                     val className = classNames.nextElement()
                     classesListAll.add(className)
-                    ClassTotalz++
+                    classTotals++
                     if (className.length > 8) {
                         if (className.contains(".")) {
-                            Signz = 0
-                            while (Signz < Sign!!.size) {
+                            signs = 0
+                            while (signs < sign!!.size) {
                                 totalTT++ //TESTING only
-                                if (className.contains(Sign!![Signz])) {
+                                if (className.contains(sign!![signs])) {
                                     classesList.add(className)
-                                    SignStat!![Signz]++
-                                    SignB!![Signz] = true
-                                    if (msg.contains(Names!![Signz])) {
+                                    signStat!![signs]++
+                                    signB!![signs] = true
+                                    if (msg.contains(names!![signs])) {
                                         break
                                     } else {
-                                        msg += Names!![Signz] + "\n"
+                                        msg += names!![signs] + "\n"
                                     }
-                                    Totalz++
+                                    totals++
                                     break
                                 }
-                                Signz++
+                                signs++
                             }
                         }
                     }
@@ -155,7 +163,9 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
                 // ODEX, need to see how to handle
                 e.printStackTrace()
             } finally {
-                uriStream.close()
+                withContext(Dispatchers.IO) {
+                    uriStream.close()
+                }
             }
         }
 
@@ -192,7 +202,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
             .toString() + "\nSHA1sum: " + convertS(MessageDigest.getInstance("sha1").digest(bytes))
             .toString() + "\nSHA256sum: " + convertS(MessageDigest.getInstance("sha256").digest(bytes))
 
-        val pInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA or PackageManager.GET_SERVICES or PackageManager.GET_SERVICES)
+        val pInfo = packageManager.getPackageInfo(packageInfo.packageName)
         if (Build.VERSION.SDK_INT >= 29) sha256 += apkIsolatedZygote(packageInfo, getString(R.string.app_zygote).trimIndent())
         sha256 += apkCert(pInfo)
     }
@@ -203,21 +213,21 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         val message = StringBuilder()
         val title: String?
 
-        if (Signz >= 0) {
+        if (signs >= 0) {
             i = 0
-            while (i < Sign!!.size) {
-                if (SignB!![i]) {
-                    if (!statsMsg.contains(Names!![i])) {
-                        statsMsg += "*${Names!![i]}".trimIndent()
+            while (i < sign!!.size) {
+                if (signB!![i]) {
+                    if (!statsMsg.contains(names!![i])) {
+                        statsMsg += "*${names!![i]}".trimIndent()
                     }
 
-                    statsMsg += "${SignStat!![i]}${Sign!![i]}".trimIndent()
+                    statsMsg += "${signStat!![i]}${sign!![i]}".trimIndent()
                 }
                 i++
             }
         }
 
-        message.append("$i tested signatures on $ClassTotalz classes ($totalTT)")
+        message.append("$i tested signatures on $classTotals classes ($totalTT)")
         message.append("\n\n")
         message.append(msg)
         message.append("\n")
@@ -225,7 +235,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         message.append("\n")
         message.append(sha256)
 
-        title = Totalz.toString() + " Trackers = " + classesList.size + " Classes"
+        title = totals.toString() + " Trackers = " + classesList.size + " Classes"
 
         this.message.postValue(Pair(title, message.toString()))
     }

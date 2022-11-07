@@ -32,7 +32,6 @@ class Preparing : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.preparing_loader_indicator)
         updates = view.findViewById(R.id.preparing_updates)
         progress = view.findViewById(R.id.preparing_progress)
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
         extractViewModel = ViewModelProvider(this, packageInfoFactory)[ExtractViewModel::class.java]

@@ -15,6 +15,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.subpanels.ProviderInfoFactory
 import app.simple.inure.models.ProviderInfoModel
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.viewmodels.subviewers.ProviderInfoViewModel
 
 class ProviderInfo : ScopedFragment() {
@@ -32,8 +33,8 @@ class ProviderInfo : ScopedFragment() {
         recyclerView = view.findViewById(R.id.activity_info_recycler_view)
         backButton = view.findViewById(R.id.activity_info_back_button)
 
-        with(requireArguments().getParcelable<ProviderInfoModel>(BundleConstants.providerInfo)!!) {
-            packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
+        with(requireArguments().parcelable<ProviderInfoModel>(BundleConstants.providerInfo)!!) {
+            packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
             this@ProviderInfo.name.text = name
             providerInfoFactory = ProviderInfoFactory(this, packageInfo)
         }
@@ -53,7 +54,7 @@ class ProviderInfo : ScopedFragment() {
         }
 
         backButton.setOnClickListener {
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

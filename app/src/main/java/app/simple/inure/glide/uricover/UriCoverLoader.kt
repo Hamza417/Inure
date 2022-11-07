@@ -13,7 +13,7 @@ class UriCoverLoader : ModelLoader<UriCoverModel, Bitmap> {
         return ModelLoader.LoadData(ObjectKey(uriCoverModel), UriCoverFetcher(uriCoverModel))
     }
 
-    fun getResourceFetcher(model: UriCoverModel, width: Int, height: Int): DataFetcher<Bitmap> {
+    fun getResourceFetcher(model: UriCoverModel): DataFetcher<Bitmap> {
         return UriCoverFetcher(model)
     }
 

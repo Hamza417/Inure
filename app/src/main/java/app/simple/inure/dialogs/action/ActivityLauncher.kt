@@ -30,7 +30,6 @@ class ActivityLauncher : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.loader)
         status = view.findViewById(R.id.activity_launcher_result)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
         packageId = requireArguments().getString(BundleConstants.packageId)!!
 
         activityLaunchFactory = ActivityLaunchFactory(packageInfo, packageId!!)

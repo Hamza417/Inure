@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
-import app.simple.inure.util.JavaSyntaxUtils
 import app.simple.inure.util.JavaSyntaxUtils.highlightJava
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -44,7 +43,6 @@ class JavaViewModel(application: Application, val accentColor: Int, val packageI
                     throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
                 }
 
-                JavaSyntaxUtils.accentColor = accentColor
                 val formattedContent = code.highlightJava()
 
                 spanned.postValue(formattedContent)

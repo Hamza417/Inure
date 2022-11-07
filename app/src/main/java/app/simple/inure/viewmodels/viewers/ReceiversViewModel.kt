@@ -2,13 +2,12 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
 import kotlinx.coroutines.Dispatchers
@@ -31,14 +30,7 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
             kotlin.runCatching {
                 val list = arrayListOf<ActivityInfoModel>()
 
-                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    PackageManager.GET_RECEIVERS or PackageManager.MATCH_DISABLED_COMPONENTS
-                } else {
-                    @Suppress("deprecation")
-                    PackageManager.GET_RECEIVERS or PackageManager.GET_DISABLED_COMPONENTS
-                }
-
-                for (ai in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName, flags).receivers) {
+                for (ai in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName)!!.receivers) {
                     val activityInfoModel = ActivityInfoModel()
 
                     activityInfoModel.activityInfo = ai

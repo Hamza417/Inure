@@ -3,8 +3,10 @@ package app.simple.inure.util
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
+import android.os.Build
 
 object MarketUtils {
 
@@ -22,7 +24,12 @@ object MarketUtils {
         /**
          * find all applications able to handle our rateIntent
          */
-        val otherApps: List<ResolveInfo> = context.packageManager.queryIntentActivities(rateIntent, 0)
+        val otherApps: List<ResolveInfo> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.packageManager.queryIntentActivities(rateIntent, PackageManager.ResolveInfoFlags.of(0))
+        } else {
+            @Suppress("DEPRECATION")
+            context.packageManager.queryIntentActivities(rateIntent, 0)
+        }
 
         for (otherApp in otherApps) {
             /**
@@ -83,7 +90,12 @@ object MarketUtils {
         /**
          * find all applications able to handle our rateIntent
          */
-        val otherApps: List<ResolveInfo> = context.packageManager.queryIntentActivities(rateIntent, 0)
+        val otherApps: List<ResolveInfo> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.packageManager.queryIntentActivities(rateIntent, PackageManager.ResolveInfoFlags.of(0))
+        } else {
+            @Suppress("DEPRECATION")
+            context.packageManager.queryIntentActivities(rateIntent, 0)
+        }
 
         for (otherApp in otherApps) {
             /**

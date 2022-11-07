@@ -245,7 +245,7 @@ object ViewUtils {
         } else {
             if (height == 0 || width == 0) {
                 var onLayoutChangeListener: View.OnLayoutChangeListener? = null
-                var onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+                val onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener?
 
                 onGlobalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {

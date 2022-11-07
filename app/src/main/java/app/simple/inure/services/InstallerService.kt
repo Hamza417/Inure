@@ -55,11 +55,6 @@ class InstallerService : Service() {
         return InstallerServiceBinder()
     }
 
-    override fun onCreate() {
-        super.onCreate()
-
-    }
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return super.onStartCommand(intent, flags, startId)
     }
@@ -87,7 +82,12 @@ class InstallerService : Service() {
                 FileUtils.copyStreamToFile(it!!, file)
             }
 
-            packageInfo = packageManager.getPackageArchiveInfo(file.path, flags)!!
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageInfo = packageManager.getPackageArchiveInfo(file.path, PackageManager.PackageInfoFlags.of(flags.toLong()))!!
+            } else {
+                @Suppress("DEPRECATION")
+                packageInfo = packageManager.getPackageArchiveInfo(file.path, flags)
+            }
 
             Intent().let {
                 it.action = ServiceConstants.actionPackageInfo

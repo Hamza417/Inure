@@ -25,7 +25,6 @@ import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.RecyclerViewUtils.flingTranslationMagnitude
-import app.simple.inure.util.RecyclerViewUtils.overScrollRotationMagnitude
 import app.simple.inure.util.RecyclerViewUtils.overScrollTranslationMagnitude
 import app.simple.inure.util.StatusBarHeight
 
@@ -104,7 +103,6 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                              * simply update the view properties without animation.
                              */
                             val sign = if (direction == DIRECTION_BOTTOM) -1 else 1
-                            val rotationDelta = sign * deltaDistance * overScrollRotationMagnitude
 
                             /**
                              * This value decides how fast the recycler view views should move when

@@ -6,7 +6,6 @@ import android.content.res.Resources
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Size
-import android.view.Surface
 import android.view.WindowManager
 import android.view.WindowMetrics
 import app.simple.inure.R
@@ -108,12 +107,10 @@ object ScreenMetrics {
     }
 
     fun getOrientation(context: Context): String {
-        return when (context.getSystemService(WindowManager::class.java).defaultDisplay.rotation) {
-            Surface.ROTATION_0 -> context.getString(R.string.portrait)
-            Surface.ROTATION_90 -> context.getString(R.string.landscape)
-            Surface.ROTATION_180 -> context.getString(R.string.reverse_portrait)
-            Surface.ROTATION_270 -> context.getString(R.string.reverse_landscape)
-            else -> context.getString(R.string.unknown)
+        return when (context.resources.configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> context.resources.getString(R.string.landscape)
+            Configuration.ORIENTATION_PORTRAIT -> context.resources.getString(R.string.portrait)
+            else -> context.resources.getString(R.string.unknown)
         }
     }
 }

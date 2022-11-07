@@ -35,8 +35,6 @@ class Uninstaller : ScopedBottomSheetFragment() {
         loader = view.findViewById(R.id.loader)
         status = view.findViewById(R.id.uninstall_result)
 
-        packageInfo = requireArguments().getParcelable(BundleConstants.packageInfo)!!
-
         return view
     }
 
