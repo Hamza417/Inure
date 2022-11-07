@@ -77,6 +77,8 @@
         tools:ignore="AllowBackup"
         tools:targetApi="tiramisu">
 
+        <profileable android:shell="true" />
+
         <activity
             android:name=".activities.app.MainActivity"
             android:configChanges="uiMode"

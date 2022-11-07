@@ -313,6 +313,12 @@ object PackageUtils {
         return s
     }
 
+    /**
+     * Can cause reference issues if list is modified.
+     * All objects returned in this list are immutable and share the same reference.
+     * @warning do not modify the returned [PackageInfo] object
+     * @return [ArrayList] of [PackageInfo] objects
+     */
     fun PackageManager.getInstalledPackages(flags: Long = PackageUtils.flags): ArrayList<PackageInfo> {
         val packageInfoList = ArrayList<PackageInfo>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

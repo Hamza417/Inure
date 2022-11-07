@@ -15,7 +15,6 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -154,7 +153,16 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                 usageStatsManager.queryAndAggregateUsageStats(startTime, endTime)
             }
 
-            val apps = packageManager.getInstalledPackages()
+            val apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getInstalledPackages(PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+                    .stream()
+                    .filter { stats.containsKey(it.packageName) }
+                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+                    .filter { stats.containsKey(it.packageName) } as ArrayList<PackageInfo>
+            }
 
             var list = arrayListOf<PackageStats>()
 
@@ -214,7 +222,16 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadDisabledApps() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = packageManager.getInstalledPackages()
+            var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getInstalledPackages(PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+                    .stream()
+                    .filter { it.applicationInfo.enabled }
+                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+                    .filter { it.applicationInfo.enabled } as ArrayList<PackageInfo>
+            }
 
             apps = apps.stream().filter { p ->
                 !p.applicationInfo.enabled
