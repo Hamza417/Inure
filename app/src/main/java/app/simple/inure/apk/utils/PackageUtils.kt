@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
 import app.simple.inure.models.PackageSizes
+import app.simple.inure.util.ArrayUtils
 import app.simple.inure.util.DateUtils
 import java.lang.reflect.Method
 import java.util.*
@@ -320,6 +321,6 @@ object PackageUtils {
             @Suppress("DEPRECATION")
             packageInfoList.addAll(getInstalledPackages(flags.toInt()))
         }
-        return packageInfoList
+        return ArrayUtils.deepCopy(packageInfoList)
     }
 }

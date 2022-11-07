@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterRecentlyInstalled
 import app.simple.inure.constants.BundleConstants
@@ -21,13 +21,15 @@ class RecentlyInstalled : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private var appsAdapterSmall: AdapterRecentlyInstalled? = null
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_recently_installed, container, false)
 
         recyclerView = view.findViewById(R.id.recently_installed_recycler_view)
         appsAdapterSmall = AdapterRecentlyInstalled()
+
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
         return view
     }
@@ -37,7 +39,7 @@ class RecentlyInstalled : ScopedFragment() {
 
         showLoader()
 
-        homeViewModel.getRecentApps().observe(viewLifecycleOwner) {
+        homeViewModel.getRecentlyInstalled().observe(viewLifecycleOwner) {
             postponeEnterTransition()
             hideLoader()
 

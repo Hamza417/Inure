@@ -61,6 +61,35 @@ object Sort {
     }
 
     /**
+     * Sort the given [ArrayList] in various ways
+     *
+     * @param type use [Sort.NAME] constants
+     *             to specify sorting methods for the list
+     *
+     * @throws IllegalArgumentException if the [type] parameter
+     *                                  is specified correctly
+     */
+    fun MutableList<PackageInfo>.getSortedList(type: String, reverse: Boolean) {
+        when (type) {
+            NAME -> {
+                (this as ArrayList).sortByName(reverse)
+            }
+            PACKAGE_NAME -> {
+                (this as ArrayList).sortByPackageName(reverse)
+            }
+            SIZE -> {
+                (this as ArrayList).sortBySize(reverse)
+            }
+            INSTALL_DATE -> {
+                (this as ArrayList).sortByInstallDate(reverse)
+            }
+            else -> {
+                throw IllegalArgumentException("use default sorting constants to sort the list")
+            }
+        }
+    }
+
+    /**
      * sort application list name
      */
     private fun ArrayList<PackageInfo>.sortByName(reverse: Boolean) {
