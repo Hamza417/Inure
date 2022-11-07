@@ -15,10 +15,7 @@ import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort.getSortedList
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.stream.Collectors
 
 class SearchViewModel(application: Application) : WrappedViewModel(application) {
@@ -33,7 +30,7 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
 
     private val searchData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadSearchData(SearchPreferences.getLastSearchKeyword())
+            initiateSearch(SearchPreferences.getLastSearchKeyword())
         }
     }
 
@@ -48,7 +45,7 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
     fun setSearchKeywords(keywords: String) {
         SearchPreferences.setLastSearchKeyword(keywords)
         searchKeywords.postValue(keywords)
-        loadSearchData(keywords)
+        initiateSearch(keywords)
     }
 
     fun getSearchData(): LiveData<ArrayList<PackageInfo>> {
@@ -59,58 +56,65 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         return deepSearchData
     }
 
-    fun loadSearchData(keywords: String) {
+    fun initiateSearch(keywords: String) {
         searchJob?.cancel(CancellationException("new search data requested"))
         if (searchJob?.isActive == true) {
             Log.e("SearchViewModel", "loadSearchData: job is still active")
         }
-        searchJob = viewModelScope.launch(Dispatchers.IO) {
-            val apps = packageManager.getInstalledPackages()
 
-            if (keywords.isEmpty()) {
-                if (SearchPreferences.isDeepSearchEnabled()) {
-                    deepSearchData.postValue(arrayListOf())
-                    return@launch
-                } else {
-                    searchData.postValue(arrayListOf())
-                    return@launch
-                }
-            }
-
-            for (i in apps.indices) {
-                apps[i].applicationInfo.name = getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
-            }
-
-            var filtered: ArrayList<PackageInfo> =
-                apps.stream().filter { p ->
-                    p.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored())
-                            || p.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
-                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
-
-            when (SearchPreferences.getAppsCategory()) {
-                PopupAppsCategory.SYSTEM -> {
-                    filtered = filtered.stream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
-                }
-                PopupAppsCategory.USER -> {
-                    filtered = filtered.stream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
-                }
-            }
-
-            filtered.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
-
-            if (SearchPreferences.isDeepSearchEnabled()) {
-                loadDeepSearchData(keywords, filtered)
-            } else {
-                searchData.postValue(filtered)
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            loadSearchData(keywords)
         }
     }
 
-    private fun loadDeepSearchData(keywords: String, apps: ArrayList<PackageInfo>) {
+    private suspend fun loadSearchData(keywords: String) {
+        searchJob?.join()
+        val apps = packageManager.getInstalledPackages()
+
+        if (keywords.isEmpty()) {
+            if (SearchPreferences.isDeepSearchEnabled()) {
+                deepSearchData.postValue(arrayListOf())
+                return
+            } else {
+                searchData.postValue(arrayListOf())
+                return
+            }
+        }
+
+        for (i in apps.indices) {
+            apps[i].applicationInfo.name = getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+        }
+
+        var filtered: ArrayList<PackageInfo> =
+            apps.stream().filter { p ->
+                p.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored())
+                        || p.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
+            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+
+        when (SearchPreferences.getAppsCategory()) {
+            PopupAppsCategory.SYSTEM -> {
+                filtered = filtered.stream().filter { p ->
+                    p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            }
+            PopupAppsCategory.USER -> {
+                filtered = filtered.stream().filter { p ->
+                    p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            }
+        }
+
+        filtered.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
+
+        if (SearchPreferences.isDeepSearchEnabled()) {
+            loadDeepSearchData(keywords, filtered)
+        } else {
+            yield()
+            searchData.postValue(filtered)
+        }
+    }
+
+    private suspend fun loadDeepSearchData(keywords: String, apps: ArrayList<PackageInfo>) {
         val list = arrayListOf<SearchModel>()
 
         for (app in apps) {
@@ -126,6 +130,7 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
             list.add(searchModel)
         }
 
+        yield()
         deepSearchData.postValue(list)
     }
 

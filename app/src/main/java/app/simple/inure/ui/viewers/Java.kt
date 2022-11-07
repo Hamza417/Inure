@@ -21,7 +21,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.CodeViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
@@ -30,7 +30,7 @@ import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.JavaViewModel
 import java.io.IOException
 
-class Java : ScopedFragment() {
+class Java : KeyboardScopedFragment() {
 
     private lateinit var java: TypeFaceEditText
     private lateinit var name: TypeFaceTextView

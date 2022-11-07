@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDeepSearch
 import app.simple.inure.adapters.ui.AdapterSearch
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
@@ -37,9 +38,9 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.search_recycler_view)
 
-        if (requireArguments().getBoolean("first_launch")) {
+        if (requireArguments().getBoolean(BundleConstants.firstLaunch)) {
             startPostponedEnterTransition()
-            requireArguments().putBoolean("first_launch", false)
+            requireArguments().putBoolean(BundleConstants.firstLaunch, false)
         }
 
         searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
@@ -124,7 +125,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             SearchPreferences.isSortingReversed,
             SearchPreferences.listAppsCategory,
             SearchPreferences.deepSearch -> {
-                searchViewModel.loadSearchData(SearchPreferences.getLastSearchKeyword())
+                searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
             }
             SearchPreferences.ignoreCasing -> {
                 if (SearchPreferences.isDeepSearchEnabled()) {
@@ -132,7 +133,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 } else {
                     appsAdapterSearchSmall.ignoreCasing = SearchPreferences.isCasingIgnored()
                 }
-                searchViewModel.loadSearchData(SearchPreferences.getLastSearchKeyword())
+                searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
             }
         }
     }
@@ -140,7 +141,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     companion object {
         fun newInstance(firstLaunch: Boolean): Search {
             val args = Bundle()
-            args.putBoolean("first_launch", firstLaunch)
+            args.putBoolean(BundleConstants.firstLaunch, firstLaunch)
             val fragment = Search()
             fragment.arguments = args
             return fragment

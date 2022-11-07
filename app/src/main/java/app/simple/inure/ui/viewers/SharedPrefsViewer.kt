@@ -21,7 +21,7 @@ import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.menus.CodeViewerMenu
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.SharedPrefsViewerViewModelFactory
 import app.simple.inure.popups.app.PopupXmlViewer
 import app.simple.inure.util.ViewUtils.gone
@@ -29,7 +29,7 @@ import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.SharedPreferencesViewerViewModel
 import java.io.IOException
 
-class SharedPrefsViewer : ScopedFragment() {
+class SharedPrefsViewer : KeyboardScopedFragment() {
 
     private lateinit var text: TypeFaceEditText
     private lateinit var icon: ImageView
