@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterFrequentlyUsed
 import app.simple.inure.constants.BundleConstants
@@ -22,13 +22,15 @@ class MostUsed : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterFrequentlyUsed: AdapterFrequentlyUsed
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_most_used, container, false)
 
         recyclerView = view.findViewById(R.id.most_used_recycler_view)
         adapterFrequentlyUsed = AdapterFrequentlyUsed()
+
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
         return view
     }
@@ -38,7 +40,7 @@ class MostUsed : ScopedFragment() {
 
         showLoader()
 
-        homeViewModel.frequentlyUsed.observe(viewLifecycleOwner) {
+        homeViewModel.getMostUsed().observe(viewLifecycleOwner) {
             postponeEnterTransition()
             hideLoader()
 

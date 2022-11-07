@@ -46,6 +46,10 @@ class SplashScreen : ScopedFragment() {
     private var areSensorsLoaded = false
     private var isSearchLoaded = false
     private var isUninstalledPackagesLoaded = false
+    private var isDisabledPackagesLoaded = false
+    private var isRecentlyInstalledLoaded = false
+    private var isRecentlyUpdatedLoaded = false
+    private var isFrequentlyUsedLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -121,6 +125,26 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
+        homeViewModel.getRecentlyInstalled().observe(viewLifecycleOwner) {
+            isRecentlyInstalledLoaded = true
+            openApp()
+        }
+
+        homeViewModel.getRecentlyUpdated().observe(viewLifecycleOwner) {
+            isRecentlyUpdatedLoaded = true
+            openApp()
+        }
+
+        homeViewModel.getMostUsed().observe(viewLifecycleOwner) {
+            isFrequentlyUsedLoaded = true
+            openApp()
+        }
+
+        homeViewModel.getDisabledApps().observe(viewLifecycleOwner) {
+            isDisabledPackagesLoaded = true
+            openApp()
+        }
+
         homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
             isUninstalledPackagesLoaded = true
             openApp()
@@ -133,7 +157,8 @@ class SplashScreen : ScopedFragment() {
 
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
-        if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded && isUninstalledPackagesLoaded) {
+        if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded && isUninstalledPackagesLoaded &&
+            isDisabledPackagesLoaded && isFrequentlyUsedLoaded && isRecentlyUpdatedLoaded && isRecentlyInstalledLoaded) {
             openFragmentArc(Home.newInstance(), icon)
         }
     }

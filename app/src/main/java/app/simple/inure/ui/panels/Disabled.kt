@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterDisabled
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -20,13 +20,15 @@ class Disabled : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private var adapterDisabled: AdapterDisabled? = null
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_disabled, container, false)
 
         recyclerView = view.findViewById(R.id.disabled_recycler_view)
         adapterDisabled = AdapterDisabled()
+
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
         return view
     }
