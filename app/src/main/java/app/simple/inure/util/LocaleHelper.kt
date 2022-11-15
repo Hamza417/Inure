@@ -28,16 +28,14 @@ object LocaleHelper {
      * https://www.oracle.com/java/technologies/javase/jdk8-jre8-suported-locales.html
      */
     val localeList = arrayListOf(
+            // Auto detect language (default)
             Locales("autoSystemLanguageString" /* Placeholder */, "default"),
+            // English (United States)
             Locales("English (US)", "en"),
-            // Locales("български", "bg"),
-            // Locales("Français", "fr"),
-            // Locales("Čeština", "cs"),
-            // Locales("हिन्दी", "hi"),
-            // Locales("Română", "ro"),
-            // Locales("Русский", "ru"),
-            // Locales("اردو", "ur"))
-            Locales("漢語 (Traditional Chinese)", "zh-TW")
+            // Traditional Chinese (Taiwan)
+            Locales("漢語 (Traditional Chinese)", "zh-TW"),
+            // Russian
+            Locales("Русский (Russian)", "ru"),
     )
 
     fun getAppLocale(): Locale {
