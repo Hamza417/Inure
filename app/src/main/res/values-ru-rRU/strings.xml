@@ -476,7 +476,7 @@
     <string name="ignore_case">Игнорировать регистр</string>
     <string name="formatting">Форматирование</string>
     <string name="sdk_value">Значение SDK</string>
-    <string name="pie_hole_radius">Радиус Pie Hole</string>
+    <string name="pie_hole_radius">Радиус отверстия кругового графика</string>
     <string name="termux_title">Использование Termux</string>
     <string name="termux_desc">Использовать Termux вместо встроенного эмулятора терминала.</string>
     <string name="desc_share">Расскажите другим об этом приложении \☺</string>
@@ -550,9 +550,9 @@
     <string name="news">Новости</string>
     <string name="maps">Карты</string>
     <string name="productivity">Продуктивность</string>
-    <string name="clear_trackers_data_title">Очистка данные кэша всех трекеров приложений.</string>
+    <string name="clear_trackers_data_title">Очистка всего кеша данных трекеров приложений.</string>
     <string name="clear_trackers_cache">Очистить кэш трекеров</string>
-    <string name="clear_images_data_title">Очистка всех данных кеша изображений.</string>
+    <string name="clear_images_data_title">Очистка всего кеша данных изображений.</string>
     <string name="clear_images_cache">Очистить кеш изображений</string>
     <string name="clear_trackers_data_desc">Приложение извлекает классы dex из приложения, чтобы сканировать в них трекер. Эта опция удалит все остатки, сохраненные трекерами.</string>
     <string name="clear_images_data_desc">Очистить все данные из кэша иконок приложений и другие графики, созданные загрузчиком изображений.</string>
