@@ -34,7 +34,7 @@
     <string name="app_icon">Значок приложения</string>
     <string name="corner_radius_desc">Скругление углов разных элементов приложения.</string>
     <string name="corner_radius">Радиус скругления углов</string>
-    <string name="layouts">Макет</string>
+    <string name="layouts">Макеты</string>
     <string name="set">Установить</string>
     <string name="cancel">Отмена</string>
     <string name="color">Цвет</string>
@@ -471,7 +471,7 @@
     <string name="add_to_quick_apps">Добавить в Быстрый доступ к приложениям</string>
     <string name="remove_from_quick_apps">Убрать из Быстрый доступ к приложениям</string>
     <string name="limit_stats_to_hours">Ограничить статистику по часам</string>
-    <string name="sure">Да</string>
+    <string name="sure">Уверены</string>
     <string name="editor">Редактор</string>
     <string name="ignore_case">Игнорировать регистр</string>
     <string name="formatting">Форматирование</string>
@@ -573,7 +573,7 @@
     <string name="fade">Затухание</string>
     <string name="elevation">Эффект подъема</string>
     <string name="shared_axis">Деление по оси %1$s</string>
-    <string name="through">Сквозной</string>
+    <string name="through">Насквозь</string>
     <string name="transition_type">Тип перехода</string>
     <string name="transition_type_desc">Тип перехода при переключении панели.</string>
     <string name="arc_type">Тип дуги</string>
