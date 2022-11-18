@@ -1,10 +1,13 @@
 package app.simple.inure.decorations.overscroll
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.widget.EdgeEffect
@@ -27,12 +30,15 @@ import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.RecyclerViewUtils.flingTranslationMagnitude
 import app.simple.inure.util.RecyclerViewUtils.overScrollTranslationMagnitude
 import app.simple.inure.util.StatusBarHeight
+import kotlin.math.min
 
 /**
  * Custom recycler view with nice layout animation and
  * smooth overscroll effect and various states retention
  */
-class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : ThemeRecyclerView(context, attrs), DynamicAnimation.OnAnimationUpdateListener {
+class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : ThemeRecyclerView(context, attrs),
+                                                                           DynamicAnimation.OnAnimationUpdateListener,
+                                                                           ScaleGestureDetector.OnScaleGestureListener {
 
     private var manuallyAnimated = false
     private var fastScroll = true
@@ -41,8 +47,10 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
 
     private var dividerItemDecoration: DividerItemDecoration? = null
     private var fastScrollerBuilder: FastScrollerBuilder? = null
+    private var scaleGestureDetector: ScaleGestureDetector? = null
 
     private var edgeColor = 0
+    private var scaleFactor = RecyclerViewPreferences.getViewScaleFactor()
 
     var parentViewTag: String? = null
 
@@ -67,8 +75,11 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
                     manuallyAnimated = getBoolean(R.styleable.RecyclerView_manuallyAnimated, false)
                     isEdgeColorRequired = getBoolean(R.styleable.RecyclerView_isEdgeColorRequired, true)
 
-                    if (AccessibilityPreferences.isAnimationReduced())
+                    if (AccessibilityPreferences.isAnimationReduced()) {
                         layoutAnimation = null
+                    }
+
+                    scaleGestureDetector = ScaleGestureDetector(context, this@CustomVerticalRecyclerView)
                 } finally {
                     recycle()
                 }
@@ -265,6 +276,12 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(e: MotionEvent): Boolean {
+        scaleGestureDetector?.onTouchEvent(e)
+        return super.onTouchEvent(e)
+    }
+
     override fun isPaddingOffsetRequired(): Boolean {
         return true
     }
@@ -307,5 +324,34 @@ class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : Theme
 
     override fun onAnimationUpdate(animation: DynamicAnimation<*>?, value: Float, velocity: Float) {
         invalidateItemDecorations()
+    }
+
+    override fun onScale(detector: ScaleGestureDetector): Boolean {
+        Log.d("CustomVerticalRecyclerView", "onScale: ${detector.scaleFactor}")
+        kotlin.runCatching {
+            for (itemPosition in 0 until adapter?.itemCount!!) {
+                for (view in (layoutManager?.findViewByPosition(itemPosition) as? ViewGroup?)!!.children) {
+                    scaleFactor *= detector.scaleFactor
+                    scaleFactor = 0.1f.coerceAtLeast(min(scaleFactor, 10.0f));
+                    view.scaleX = detector.scaleFactor
+                    view.scaleY = detector.scaleFactor
+                    view.invalidate()
+                    RecyclerViewPreferences.setViewScaleFactor(scaleFactor)
+                }
+            }
+        }.getOrElse {
+            it.printStackTrace()
+        }
+
+        return true
+    }
+
+    override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+        return true
+        /* no-op */
+    }
+
+    override fun onScaleEnd(detector: ScaleGestureDetector) {
+        /* no-op */
     }
 }

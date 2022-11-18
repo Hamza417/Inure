@@ -4,6 +4,7 @@ object RecyclerViewPreferences {
 
     private const val viewTag = "view_tag"
     private const val position = "view_positions"
+    private const val scaleFactor = "view_scale_factor"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -25,4 +26,13 @@ object RecyclerViewPreferences {
         return SharedPreferences.getSharedPreferences().getInt(position, -1)
     }
 
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setViewScaleFactor(value: Float) {
+        SharedPreferences.getSharedPreferences().edit().putFloat(scaleFactor, value).apply()
+    }
+
+    fun getViewScaleFactor(): Float {
+        return SharedPreferences.getSharedPreferences().getFloat(scaleFactor, 1.0f)
+    }
 }
