@@ -57,53 +57,55 @@ public class ZoomItemAnimator extends RecyclerView.ItemAnimator implements Scale
         this.layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
         this.recyclerView.setOnScaleGestureListener(this);
         this.recyclerView.setItemAnimator(this);
+        this.setAddDuration(1000);
+        this.setRemoveDuration(1000);
     }
     
     @Override
     public boolean animateDisappearance(@NonNull RecyclerView.ViewHolder viewHolder, @NonNull ItemHolderInfo preLayoutInfo, @Nullable ItemHolderInfo postLayoutInfo) {
-        AnimatedItem ai = new AnimatedItem.Builder()
+        AnimatedItem animatedItem = new AnimatedItem.Builder()
                 .setViewHolder(viewHolder)
                 .setPreRect(preLayoutInfo)
                 .setPostRect(postLayoutInfo)
                 .setType(AnimatedItem.Type.DISAPPEARANCE)
                 .build();
-        animatedSet.add(ai);
+        animatedSet.add(animatedItem);
         return false;
     }
     
     @Override
     public boolean animateAppearance(@NonNull RecyclerView.ViewHolder viewHolder, @Nullable ItemHolderInfo preLayoutInfo, @NonNull ItemHolderInfo postLayoutInfo) {
-        AnimatedItem ai = new AnimatedItem.Builder()
+        AnimatedItem animatedItem = new AnimatedItem.Builder()
                 .setViewHolder(viewHolder)
                 .setPreRect(preLayoutInfo)
                 .setPostRect(postLayoutInfo)
                 .setType(AnimatedItem.Type.APPEARANCE)
                 .build();
-        animatedSet.add(ai);
+        animatedSet.add(animatedItem);
         return false;
     }
     
     @Override
     public boolean animatePersistence(@NonNull RecyclerView.ViewHolder viewHolder, @NonNull ItemHolderInfo preLayoutInfo, @NonNull ItemHolderInfo postLayoutInfo) {
-        AnimatedItem ai = new AnimatedItem.Builder()
+        AnimatedItem animatedItem = new AnimatedItem.Builder()
                 .setViewHolder(viewHolder)
                 .setPreRect(preLayoutInfo)
                 .setPostRect(postLayoutInfo)
                 .setType(AnimatedItem.Type.PERSISTENCE)
                 .build();
-        animatedSet.add(ai);
+        animatedSet.add(animatedItem);
         return false;
     }
     
     @Override
     public boolean animateChange(@NonNull RecyclerView.ViewHolder oldHolder, @NonNull RecyclerView.ViewHolder newHolder, @NonNull ItemHolderInfo preLayoutInfo, @NonNull ItemHolderInfo postLayoutInfo) {
-        AnimatedItem ai = new AnimatedItem.Builder()
+        AnimatedItem animatedItem = new AnimatedItem.Builder()
                 .setViewHolder(newHolder)
                 .setPreRect(preLayoutInfo)
                 .setPostRect(postLayoutInfo)
                 .setType(AnimatedItem.Type.CHANGE)
                 .build();
-        animatedSet.add(ai);
+        animatedSet.add(animatedItem);
         return false;
     }
     
@@ -173,7 +175,7 @@ public class ZoomItemAnimator extends RecyclerView.ItemAnimator implements Scale
             for (AnimatedItem ai : items) {
                 addItemAnimators(ai, animators);
             }
-            
+    
             animator.playTogether(animators);
             animator.start();
         } catch (NullPointerException e) {
@@ -181,22 +183,23 @@ public class ZoomItemAnimator extends RecyclerView.ItemAnimator implements Scale
         }
     }
     
-    private void addItemAnimators(final AnimatedItem ai, List <Animator> animators) {
-        Rect post = ai.getPostRect();
-        
-        final View view = ai.getViewHolder().itemView;
+    private void addItemAnimators(final AnimatedItem animatedItem, List <Animator> animators) {
+        Rect post = animatedItem.getPostRect();
+        final View view = animatedItem.getViewHolder().itemView;
         
         Animator viewAnimator = ObjectAnimator.ofPropertyValuesHolder(view,
                 PropertyValuesHolder.ofInt("top", post.top),
                 PropertyValuesHolder.ofInt("left", post.left),
                 PropertyValuesHolder.ofInt("bottom", post.bottom),
                 PropertyValuesHolder.ofInt("right", post.right));
+        
         viewAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                dispatchAnimationFinished(ai.getViewHolder());
+                dispatchAnimationFinished(animatedItem.getViewHolder());
             }
         });
+        
         animators.add(viewAnimator);
     }
     
@@ -234,15 +237,14 @@ public class ZoomItemAnimator extends RecyclerView.ItemAnimator implements Scale
     }
     
     private void scaleItem(AnimatedItem h) {
-        View itemVIew = h.getViewHolder().itemView;
+        View itemView = h.getViewHolder().itemView;
         int top = h.getPreRect().top + (int) (scale.getScale() * (h.getPostRect().top - h.getPreRect().top));
         int left = h.getPreRect().left + (int) (scale.getScale() * (h.getPostRect().left - h.getPreRect().left));
         int bottom = h.getPreRect().bottom + (int) (scale.getScale() * (h.getPostRect().bottom - h.getPreRect().bottom));
         int right = h.getPreRect().right + (int) (scale.getScale() * (h.getPostRect().right - h.getPreRect().right));
-        itemVIew.setTop(top);
-        itemVIew.setLeft(left);
-        itemVIew.setBottom(bottom);
-        itemVIew.setRight(right);
-        
+        itemView.setTop(top);
+        itemView.setLeft(left);
+        itemView.setBottom(bottom);
+        itemView.setRight(right);
     }
 }

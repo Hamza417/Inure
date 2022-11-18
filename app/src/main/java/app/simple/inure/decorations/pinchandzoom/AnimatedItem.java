@@ -33,8 +33,7 @@ public class AnimatedItem {
             if (preLayoutInfo == null) {
                 preRect = new Rect();
             } else {
-                this.preRect = new Rect(preLayoutInfo.left, preLayoutInfo.top,
-                        preLayoutInfo.right, preLayoutInfo.bottom);
+                this.preRect = new Rect(preLayoutInfo.left, preLayoutInfo.top, preLayoutInfo.right, preLayoutInfo.bottom);
             }
             return this;
         }
@@ -43,8 +42,7 @@ public class AnimatedItem {
             if (postLayoutInfo == null) {
                 postRect = new Rect();
             } else {
-                this.postRect = new Rect(postLayoutInfo.left, postLayoutInfo.top,
-                        postLayoutInfo.right, postLayoutInfo.bottom);
+                this.postRect = new Rect(postLayoutInfo.left, postLayoutInfo.top, postLayoutInfo.right, postLayoutInfo.bottom);
             }
             return this;
         }

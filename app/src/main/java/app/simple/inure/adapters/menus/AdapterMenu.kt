@@ -49,6 +49,10 @@ class AdapterMenu : RecyclerView.Adapter<AdapterMenu.Holder>() {
         return list.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_app_info_menu_icon)
         val text: TypeFaceTextView = itemView.findViewById(R.id.adapter_app_info_menu_text)

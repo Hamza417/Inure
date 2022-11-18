@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -116,6 +117,7 @@ class AppInfo : ScopedFragment() {
             if (AppInformationPreferences.isMetaMenuFolded()) return@observe
 
             metaAdapter = AdapterMenu()
+            metaAdapter?.setHasStableIds(true)
             metaAdapter?.list = it
             metaAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
 
@@ -130,8 +132,13 @@ class AppInfo : ScopedFragment() {
 
             meta.adapter = metaAdapter
             meta.scheduleLayoutAnimation()
-            val itemAnimator = ZoomItemAnimator()
-            itemAnimator.setup(meta)
+
+            if (meta.layoutManager is GridLayoutManager) {
+                val itemAnimator = ZoomItemAnimator()
+                itemAnimator.setup(meta)
+            } else {
+                meta.itemAnimator = DefaultItemAnimator()
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
