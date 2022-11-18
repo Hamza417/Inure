@@ -3,7 +3,6 @@ package app.simple.inure.decorations.itemlistener;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.Property;
 import android.view.MotionEvent;
@@ -160,17 +159,12 @@ public class PinchZoomItemTouchListener implements RecyclerView.OnItemTouchListe
             
             // Redraw item decorations on every frame, but only once per child.
             if (i == 0) {
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        mRecyclerView.invalidateItemDecorations();
-                    }
-                });
+                animator.addUpdateListener(animation -> mRecyclerView.invalidateItemDecorations());
             }
         }
         
         // Invoke listener if the gesture and position are valid.
-        RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+        @SuppressWarnings ("rawtypes") RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
         if (mListener != null && getSpan(detector) - mSpan > mSpanSlop
                 && adapter != null && mPosition < adapter.getItemCount()) {
             mListener.onPinchZoom(mPosition);

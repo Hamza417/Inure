@@ -42,7 +42,7 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <app.simple.inure.decorations.pinchandzoom.ZoomingRecyclerView
             android:id="@+id/app_info_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
