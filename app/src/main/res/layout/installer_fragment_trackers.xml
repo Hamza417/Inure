@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.theme.ThemeNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="regular"
+        app:textColorStyle="secondary" />
+
+</app.simple.inure.decorations.theme.ThemeNestedScrollView>

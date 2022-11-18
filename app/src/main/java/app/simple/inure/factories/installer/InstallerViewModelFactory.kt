@@ -28,8 +28,14 @@ class InstallerViewModelFactory(private val uri: Uri? = null, private val file: 
             modelClass.isAssignableFrom(InstallerPermissionViewModel::class.java) -> {
                 InstallerPermissionViewModel(application, file) as T
             }
+            modelClass.isAssignableFrom(InstallerServicesViewModel::class.java) -> {
+                InstallerServicesViewModel(application, file!!) as T
+            }
+            modelClass.isAssignableFrom(InstallerTrackersViewModel::class.java) -> {
+                InstallerTrackersViewModel(application, file!!) as T
+            }
             else -> {
-                throw IllegalArgumentException("Wrong ViewModel!!")
+                throw IllegalArgumentException("Unknown ViewModel Class")
             }
         }
     }
