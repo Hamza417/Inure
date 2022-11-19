@@ -25,7 +25,7 @@ import app.simple.inure.R
 import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
-import app.simple.inure.dialogs.miscellaneous.Warning
+import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.AppearancePreferences
@@ -289,23 +289,15 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     }
 
     open fun showWarning(warning: String) {
-        val p0 = Warning.newInstance(warning)
-        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
-            override fun onDismiss() {
-                onBackPressedDispatcher.onBackPressed()
-            }
-        })
-        p0.show(supportFragmentManager, "warning")
+        supportFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     open fun showWarning(@StringRes warning: Int) {
-        val p0 = Warning.newInstance(warning)
-        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
-            override fun onDismiss() {
-                onBackPressedDispatcher.onBackPressed()
-            }
-        })
-        p0.show(supportFragmentManager, "warning")
+        supportFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {

@@ -13,7 +13,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
-import app.simple.inure.dialogs.miscellaneous.Warning
+import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
@@ -174,22 +174,14 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     }
 
     open fun showWarning(warning: String) {
-        val p0 = Warning.newInstance(warning)
-        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
-            override fun onDismiss() {
-                dismiss()
-            }
-        })
-        p0.show(parentFragmentManager, "warning")
+        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+            dismiss()
+        }
     }
 
     open fun showWarning(@StringRes warning: Int) {
-        val p0 = Warning.newInstance(warning)
-        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
-            override fun onDismiss() {
-                dismiss()
-            }
-        })
-        p0.show(parentFragmentManager, "warning")
+        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+            dismiss()
+        }
     }
 }
