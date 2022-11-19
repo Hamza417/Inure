@@ -596,4 +596,5 @@
     <string name="device_admin_desc">Позволяет приложению выполнять действия уровня устройства.</string>
     <string name="delete">Удалить</string>
     <string name="open">Открыть</string>
+    <string name="this_app_doesnt_require_any_permissions">Это приложение не требует никаких разрешений.</string>
 </resources>
