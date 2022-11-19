@@ -99,7 +99,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                 })
             }.getOrElse {
                 if (it is java.lang.NullPointerException) {
-                    postWarning(getString(R.string.this_app_doesnt_require_any_permission))
+                    postWarning(getString(R.string.this_app_doesnt_require_any_permissions))
                 } else {
                     postError(it)
                 }

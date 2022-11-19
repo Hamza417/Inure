@@ -2,6 +2,7 @@ package app.simple.inure.util
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.os.Build
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -27,8 +28,10 @@ object PackageListUtils {
             stringBuilder.append(context.getString(R.string.disabled))
         }
 
-        stringBuilder.append(" | ")
-        stringBuilder.append(MetaUtils.getCategory(apps.applicationInfo.category, context))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stringBuilder.append(" | ")
+            stringBuilder.append(MetaUtils.getCategory(apps.applicationInfo.category, context))
+        }
 
         text = stringBuilder
     }
