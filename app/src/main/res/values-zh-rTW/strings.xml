@@ -593,4 +593,5 @@
     <string name="device_admin_desc">允許應用程式處理裝置層級動作。</string>
     <string name="delete">刪除</string>
     <string name="open">開啟</string>
+    <string name="this_app_doesnt_require_any_permissions">這個應用程式不需要任何權限。</string>
 </resources>
