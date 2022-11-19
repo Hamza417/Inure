@@ -592,4 +592,5 @@
     <string name="device_admin_desc">Allows the app to perform device level actions.</string>
     <string name="delete">Delete</string>
     <string name="open">Open</string>
+    <string name="this_app_doesnt_require_any_permission">This app doesn\'t require any permission.</string>
 </resources>

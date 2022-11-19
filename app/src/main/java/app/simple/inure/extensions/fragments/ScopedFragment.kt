@@ -26,7 +26,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Loader
-import app.simple.inure.dialogs.miscellaneous.Warning
+import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
@@ -274,23 +274,15 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     open fun showWarning(warning: String) {
-        val p0 = Warning.newInstance(warning)
-        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
-            override fun onDismiss() {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
-            }
-        })
-        p0.show(childFragmentManager, "warning")
+        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     open fun showWarning(@StringRes warning: Int) {
-        val p0 = Warning.newInstance(warning)
-        p0.setOnWarningCallbackListener(object : Warning.Companion.WarningCallbacks {
-            override fun onDismiss() {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
-            }
-        })
-        p0.show(childFragmentManager, "warning")
+        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     open fun showError(error: String) {

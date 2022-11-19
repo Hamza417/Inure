@@ -99,6 +99,10 @@ class Permissions : SearchBarScopedFragment() {
             showError(it)
         }
 
+        permissionsViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
+        }
+
         options.setOnClickListener {
             PermissionsMenu.newInstance()
                 .show(childFragmentManager, "permission_menu")

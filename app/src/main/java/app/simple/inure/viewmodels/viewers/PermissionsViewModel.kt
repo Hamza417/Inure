@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -97,7 +98,11 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                     }
                 })
             }.getOrElse {
-                postError(it)
+                if (it is java.lang.NullPointerException) {
+                    postWarning(getString(R.string.this_app_doesnt_require_any_permission))
+                } else {
+                    postError(it)
+                }
             }
         }
     }
