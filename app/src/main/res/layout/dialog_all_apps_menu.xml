@@ -17,19 +17,37 @@
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
-        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        <app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
             android:id="@+id/dialog_export_app_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:padding="@dimen/dialog_padding"
-            android:text="@string/generate_apps_list"
-            android:textSize="6pt"
-            app:appFontStyle="bold"
-            app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
-            app:drawableTintStyle="accent"
-            app:textColorStyle="primary" />
+            android:orientation="vertical"
+            android:padding="@dimen/dialog_padding">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="5dp"
+                android:text="@string/generate_apps_list"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
+                app:textColorStyle="primary"
+                app:drawableTint="@color/indian_red" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="2dp"
+                android:text="@string/generate_apps_list_desc"
+                android:textSize="@dimen/desc_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="tertiary" />
+
+        </app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor>
 
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
