@@ -5,6 +5,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import androidx.core.text.toSpannable
+import app.simple.inure.constants.Extensions
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeManager
 import java.io.InputStream
@@ -103,29 +104,12 @@ object StringUtils {
     }
 
     private fun getExtensionHardcodedColors(path: String): Int {
-        return when {
-            path.endsWith(".json") -> Color.parseColor("#3498db")
-            path.endsWith(".css") -> Color.parseColor("#af7ac5")
-            path.endsWith(".html") -> Color.parseColor("#48c9b0")
-            path.endsWith(".properties") -> Color.parseColor("#f4d03f")
-            path.endsWith(".js") -> Color.parseColor("#99a3a4")
-            path.endsWith(".tsv") -> Color.parseColor("#af7ac5")
-            path.endsWith(".txt") -> Color.parseColor("#D35400")
-            path.endsWith(".proto") -> Color.parseColor("#e59866")
-            path.endsWith(".java") -> Color.parseColor("#e74c3c")
-            path.endsWith(".bin") -> Color.parseColor("#28b463")
-            path.endsWith(".ttf") -> Color.parseColor("#1f618d")
-            path.endsWith(".md") -> Color.parseColor("#2e4053")
-            path.endsWith(".pdf") -> Color.parseColor("#b03a2e")
-            path.endsWith(".svg") -> Color.parseColor("#45b39d")
-            path.endsWith(".png") -> Color.parseColor("#F5B041")
-            path.endsWith(".jpg") -> Color.parseColor("#e67e22")
-            path.endsWith(".jpeg") -> Color.parseColor("#707b7c")
-            path.endsWith(".gif") -> Color.parseColor("#808b96")
-            path.endsWith(".webp") -> Color.parseColor("#196f3d")
-            path.endsWith(".ini") -> Color.parseColor("#d68910")
-            path.endsWith(".version") -> Color.parseColor("#05b4c1")
-            else -> Color.BLACK
+        return kotlin.runCatching {
+            Color.parseColor(Extensions.imageExtensionColors[path.substring(path.lastIndexOf(".") + 1)])
+        }.onFailure {
+            Color.parseColor(Extensions.nonImageFileExtensionColor[path.substring(path.lastIndexOf(".") + 1)])
+        }.getOrElse {
+            AppearancePreferences.getAccentColor()
         }
     }
 
