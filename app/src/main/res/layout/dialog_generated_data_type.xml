@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="@dimen/dialog_padding"
+            android:text=".TXT"
+            android:textSize="6pt"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary"
+            tools:ignore="HardcodedText" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/xml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="@dimen/dialog_padding"
+            android:text=".XML"
+            android:textSize="6pt"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary"
+            tools:ignore="HardcodedText" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

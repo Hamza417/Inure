@@ -16,6 +16,8 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.apps.AllAppsMenu.Companion.newAppsMenuInstance
 import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.miscellaneous.GeneratedDataType
+import app.simple.inure.dialogs.miscellaneous.GeneratedDataType.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
@@ -83,8 +85,12 @@ class Apps : ScopedFragment() {
 
                 override fun onSettingsPressed(view: View) {
                     childFragmentManager.newAppsMenuInstance().setOnGenerateListClicked {
-                        showLoader(manualOverride = true)
-                        model.generateAllAppsTXTFile()
+                        childFragmentManager.showGeneratedDataTypeSelector().setOnDataTypeSelected(object : GeneratedDataType.Companion.OnDataTypeSelected {
+                            override fun onDataTypeSelected(type: String) {
+                                showLoader(manualOverride = true)
+                                model.generateAllAppsTXTFile(type)
+                            }
+                        })
 
                         model.getGeneratedAppData().observe(viewLifecycleOwner) {
                             if (it.isNotNull()) {
