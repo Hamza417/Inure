@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.text.DecimalFormat;
@@ -16,19 +15,22 @@ import java.text.DecimalFormat;
 import androidx.annotation.Nullable;
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import app.simple.inure.R;
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton;
 import app.simple.inure.decorations.typeface.TypeFaceEditText;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.decorations.views.CustomProgressBar;
 import app.simple.inure.preferences.SearchPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.TextViewUtils;
+import app.simple.inure.util.ViewUtils;
 import kotlin.Unit;
 
 public class SearchView extends LinearLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
     
     private TypeFaceEditText editText;
     private TypeFaceTextView number;
-    private ImageButton imageButton;
+    private DynamicRippleImageButton menu;
+    private DynamicRippleImageButton clear;
     private CustomProgressBar loader;
     private SearchViewEventListener searchViewEventListener;
     
@@ -55,7 +57,8 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     
         editText = view.findViewById(R.id.search_view_text_input_layout);
         number = view.findViewById(R.id.search_number);
-        imageButton = view.findViewById(R.id.search_view_menu_button);
+        menu = view.findViewById(R.id.search_view_menu_button);
+        clear = view.findViewById(R.id.search_view_clear_button);
         loader = view.findViewById(R.id.loader);
     
         editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
@@ -68,11 +71,19 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                     loader.setVisibility(View.VISIBLE);
                     searchViewEventListener.onSearchTextChanged(s.toString().trim(), count);
                 }
+            
+                if (count > 0 || !s.toString().isBlank()) {
+                    ViewUtils.INSTANCE.visible(clear, true);
+                } else {
+                    ViewUtils.INSTANCE.gone(clear, true);
+                }
             }
             return Unit.INSTANCE;
         });
     
-        imageButton.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
+        menu.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
+    
+        clear.setOnClickListener(button -> editText.setText(""));
     }
     
     @Override
@@ -85,7 +96,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         editText.clearAnimation();
-        imageButton.clearAnimation();
+        menu.clearAnimation();
         if (numberAnimator != null) {
             numberAnimator.cancel();
         }
