@@ -17,10 +17,8 @@ open class SearchBarScopedFragment : KeyboardScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        try {
+        kotlin.runCatching {
             searchBox.setWindowInsetsAnimationCallback()
-        } catch (e: UninitializedPropertyAccessException) {
-            e.printStackTrace()
         }
     }
 

@@ -43,7 +43,6 @@ import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.MarketUtils
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -116,10 +115,8 @@ class AppInfo : ScopedFragment() {
         componentsViewModel.getMenuItems().observe(viewLifecycleOwner) {
             if (AppInformationPreferences.isMetaMenuFolded()) return@observe
 
-            metaAdapter = AdapterMenu()
+            metaAdapter = AdapterMenu(it)
             metaAdapter?.setHasStableIds(true)
-            metaAdapter?.list = it
-            metaAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
 
             when (AppInformationPreferences.getMenuLayout()) {
                 PopupMenuLayout.HORIZONTAL -> {
@@ -207,9 +204,7 @@ class AppInfo : ScopedFragment() {
         componentsViewModel.getMenuOptions().observe(viewLifecycleOwner) {
             if (AppInformationPreferences.isActionMenuFolded()) return@observe
 
-            actionsAdapter = AdapterMenu()
-            actionsAdapter?.list = it
-            actionsAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+            actionsAdapter = AdapterMenu(it)
 
             when (AppInformationPreferences.getMenuLayout()) {
                 PopupMenuLayout.HORIZONTAL -> {
@@ -220,10 +215,8 @@ class AppInfo : ScopedFragment() {
                 }
             }
 
-            if (actions.adapter.isNull()) {
-                actions.adapter = actionsAdapter
-                actions.scheduleLayoutAnimation()
-            }
+            actions.adapter = actionsAdapter
+            actions.scheduleLayoutAnimation()
 
             actionsAdapter?.setOnAppInfoMenuCallback(object : AdapterMenu.AdapterMenuCallbacks {
                 override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
@@ -272,14 +265,11 @@ class AppInfo : ScopedFragment() {
                             p.show(childFragmentManager, "sure")
                         }
                         R.string.force_stop -> {
-                            val p = Sure.newInstance()
-                            p.setOnSureCallbackListener(object : SureCallbacks {
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     ForceStop.newInstance(packageInfo).show(childFragmentManager, "force_stop")
                                 }
                             })
-
-                            p.show(childFragmentManager, "sure")
                         }
                         R.string.disable, R.string.enable -> {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
@@ -311,9 +301,7 @@ class AppInfo : ScopedFragment() {
 
             if (AppInformationPreferences.isMiscMenuFolded()) return@observe
 
-            miscellaneousAdapter = AdapterMenu()
-            miscellaneousAdapter?.list = it
-            miscellaneousAdapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+            miscellaneousAdapter = AdapterMenu(it)
 
             when (AppInformationPreferences.getMenuLayout()) {
                 PopupMenuLayout.HORIZONTAL -> {

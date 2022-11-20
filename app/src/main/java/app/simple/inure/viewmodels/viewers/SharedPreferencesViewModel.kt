@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,8 +12,7 @@ import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
-import java.nio.ByteBuffer
+import kotlinx.coroutines.withTimeout
 
 class SharedPreferencesViewModel(packageInfo: PackageInfo, application: Application) : RootServiceViewModel(application) {
 
@@ -28,21 +28,23 @@ class SharedPreferencesViewModel(packageInfo: PackageInfo, application: Applicat
 
     private fun loadSharedPrefsFiles(fileSystemManager: FileSystemManager?) {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
+            withTimeout(10000) {
                 kotlin.runCatching {
-                    Shell.enableVerboseLogging = BuildConfig.DEBUG
-                    Shell.setDefaultBuilder(Shell.Builder.create()
-                                                .setContext(applicationContext())
-                                                .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                                .setTimeout(10))
-                }
+                    kotlin.runCatching {
+                        Shell.enableVerboseLogging = BuildConfig.DEBUG
+                        Shell.setDefaultBuilder(Shell.Builder.create()
+                                                    .setContext(applicationContext())
+                                                    .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
+                                                    .setTimeout(10))
+                    }
 
-                with(fileSystemManager?.getFile(path)) {
-                    val list = this?.list()?.toList() as ArrayList<String>?
-                    sharedPrefsFiles.postValue(list!!)
+                    with(fileSystemManager?.getFile(path)) {
+                        val list = this?.list()?.toList() as ArrayList<String>?
+                        sharedPrefsFiles.postValue(list!!)
+                    }
+                }.getOrElse {
+                    postError(it)
                 }
-            }.getOrElse {
-                postError(it)
             }
         }
     }
@@ -52,6 +54,7 @@ class SharedPreferencesViewModel(packageInfo: PackageInfo, application: Applicat
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
+        Log.d("SharedPreferences", "runRootProcess: Root proc acquired")
         loadSharedPrefsFiles(fileSystemManager)
     }
 }

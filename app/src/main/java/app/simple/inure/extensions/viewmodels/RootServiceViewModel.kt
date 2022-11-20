@@ -46,8 +46,8 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
             val ipc: IRootService = IRootService.Stub.asInterface(service)
             try {
                 kotlin.runCatching {
-                    Log.d(tag, "AIDL PID: ${ipc.pid}")
                     // It's crashing, don't uncomment
+                    // Log.d(tag, "AIDL PID: ${ipc.pid}")
                     // Log.d(tag, "AIDL UUID: ${ipc.uuid}")
                     // Log.d(tag, "AIDL UID: ${ipc.uid}")
                 }

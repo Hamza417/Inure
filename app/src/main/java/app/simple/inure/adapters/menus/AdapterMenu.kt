@@ -11,19 +11,9 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.popups.appinfo.PopupMenuLayout
 import app.simple.inure.preferences.AppInformationPreferences
 
-class AdapterMenu : RecyclerView.Adapter<AdapterMenu.Holder>() {
+class AdapterMenu(val list: List<Pair<Int, Int>>) : RecyclerView.Adapter<AdapterMenu.Holder>() {
 
     private var adapterMenuCallbacks: AdapterMenuCallbacks? = null
-
-    var list: List<Pair<Int, Int>> = arrayListOf()
-        set(value) {
-            if (field.isNotEmpty()) {
-                field = value
-                notifyDataSetChanged()
-            } else {
-                field = value
-            }
-        }
 
     private val menuLayout = when (AppInformationPreferences.getMenuLayout()) {
         PopupMenuLayout.HORIZONTAL -> R.layout.adapter_app_info_menu_horizontal
