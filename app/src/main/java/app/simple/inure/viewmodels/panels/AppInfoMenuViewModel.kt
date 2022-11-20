@@ -12,6 +12,7 @@ import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -77,10 +78,6 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 }
 
                 list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
-
-                if (!isNotThisApp()) {
-                    list.add(Pair(R.drawable.ic_change_history, R.string.change_logs))
-                }
             } else {
                 if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
                     if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {
@@ -100,6 +97,10 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 }
 
                 list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
+            }
+
+            if (isNotThisApp().invert()) {
+                list.add(Pair(R.drawable.ic_change_history, R.string.change_logs))
             }
 
             menuOptions.postValue(list)
