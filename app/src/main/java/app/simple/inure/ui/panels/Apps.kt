@@ -22,6 +22,7 @@ import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.viewers.XMLViewerTextView
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.panels.AppsViewModel
 
 class Apps : ScopedFragment() {
@@ -45,7 +46,7 @@ class Apps : ScopedFragment() {
 
         showLoader()
 
-        model.getAppData().observe(viewLifecycleOwner) {
+        model.getAppData().observe(viewLifecycleOwner) { it ->
             postponeEnterTransition()
             hideLoader()
 
@@ -83,19 +84,22 @@ class Apps : ScopedFragment() {
                 override fun onSettingsPressed(view: View) {
                     childFragmentManager.newAppsMenuInstance().setOnGenerateListClicked {
                         showLoader(manualOverride = true)
-                        model.generateAllAppsXMLFile()
+                        model.generateAllAppsTXTFile()
+
+                        model.getGeneratedAppData().observe(viewLifecycleOwner) {
+                            if (it.isNotNull()) {
+                                hideLoader()
+                                openFragmentSlide(XMLViewerTextView
+                                                      .newInstance(packageInfo = PackageInfo(), /* Empty package info */
+                                                                   isManifest = false,
+                                                                   pathToXml = it,
+                                                                   isRaw = true), "xml_viewer")
+                                model.clearGeneratedAppsDataLiveData()
+                            }
+                        }
                     }
                 }
             })
-        }
-
-        model.getGeneratedAppData().observe(viewLifecycleOwner) {
-            hideLoader()
-            openFragmentSlide(XMLViewerTextView
-                                  .newInstance(packageInfo = PackageInfo(), /* Empty package info */
-                                               isManifest = false,
-                                               pathToXml = it,
-                                               isRaw = true), "xml_viewer")
         }
 
         model.appLoaded.observe(viewLifecycleOwner) { appsEvent ->

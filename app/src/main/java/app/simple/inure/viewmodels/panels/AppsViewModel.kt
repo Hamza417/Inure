@@ -5,20 +5,23 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
+import app.simple.inure.constants.Misc
 import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.Sort.getSortedList
-import app.simple.inure.util.XMLUtils.formatXML
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 import java.util.stream.Collectors
@@ -80,33 +83,42 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
-    fun generateAllAppsXMLFile() {
+    fun generateAllAppsTXTFile() {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(1000)
+            delay(Misc.delay)
             val apps = appData.value
-            val path = applicationContext().cacheDir.absolutePath + "/all_apps_generated_data.xml"
+
+            val path = applicationContext().cacheDir.absolutePath + "/all_apps_generated_data.txt"
+
+            if (File(path).exists()) {
+                if (File(path).delete()) {
+                    Log.d("AppsViewModel", "Deleted old generated file")
+                }
+            }
 
             if (apps != null) {
                 val stringBuilder = StringBuilder()
 
-                stringBuilder.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
-                stringBuilder.append("<resources>\n")
+                stringBuilder.append("Total apps: ${apps.size}")
 
                 for (i in apps.indices) {
-                    // XML Array
-                    stringBuilder.append("\t<string-array name=\"${apps[i].packageName}\">\n")
-                    stringBuilder.append("\t\t<item>${apps[i].applicationInfo.name}</item>\n")
-                    stringBuilder.append("\t\t<item>${apps[i].packageName}</item>\n")
-                    stringBuilder.append("\t\t<item>${apps[i].versionName}</item>\n")
-                    stringBuilder.append("\t</string-array>\n")
-                    stringBuilder.append("\n")
+                    stringBuilder.append("\n\n")
+                    stringBuilder.append(apps[i].applicationInfo.packageName)
+                    stringBuilder.append("\n\t")
+                    stringBuilder.append("Name: ${apps[i].applicationInfo.name}")
+                    stringBuilder.append("\n\t")
+                    stringBuilder.append("Version: ${apps[i].versionName}")
+                    stringBuilder.append("\n\t")
+                    stringBuilder.append("Installed on: ${apps[i].firstInstallTime.toDate()}")
+                    stringBuilder.append("\n\t")
+                    stringBuilder.append("Updated on: ${apps[i].lastUpdateTime.toDate()}")
                 }
 
-                stringBuilder.append("</resources>")
+                stringBuilder.append("\n")
 
                 FileOutputStream(path).use { fileOutputStream ->
                     OutputStreamWriter(fileOutputStream).use {
-                        it.write(stringBuilder.toString().formatXML())
+                        it.write(stringBuilder.toString()) // skip the formatting here, the viewer should format the XML files
                     }
                 }
 
@@ -115,5 +127,9 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
                 postWarning(getString(R.string.not_available))
             }
         }
+    }
+
+    fun clearGeneratedAppsDataLiveData() {
+        generatedAppDataPath.postValue(null)
     }
 }
