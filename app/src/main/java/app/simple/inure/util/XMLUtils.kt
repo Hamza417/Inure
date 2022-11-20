@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathConstants
 import javax.xml.xpath.XPathFactory
 
 object XMLUtils {
+
     /**
      * Format xml file to correct indentation ...
      */
@@ -42,5 +43,9 @@ object XMLUtils {
             e.printStackTrace()
             null
         }
+    }
+
+    fun String.formatXML(): String {
+        return getProperXml(this) ?: this
     }
 }

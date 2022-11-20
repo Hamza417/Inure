@@ -7,6 +7,9 @@ import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.preferences.GraphicsPreferences
+import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.LocaleHelper
+import com.jaredrummler.apkparser.ApkParser
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
 import net.dongliu.apk.parser.bean.DexClass
@@ -30,12 +33,20 @@ object APKParser {
      */
     fun ApplicationInfo.extractManifest(): String? {
         kotlin.runCatching {
-            ApkFile(sourceDir).use {
-                return it.manifestXml
+            kotlin.runCatching {
+                ApkParser.create(this.sourceDir.toFile()).use {
+                    it.preferredLocale = LocaleHelper.getAppLocale()
+                    return it.androidManifest.xml
+                }
+            }.getOrElse {
+                ApkFile(sourceDir).use {
+                    it.preferredLocale = LocaleHelper.getAppLocale()
+                    return it.manifestXml
+                }
             }
         }.onFailure { throwable ->
             throwable.printStackTrace()
-            ApkManifestFetcher.getManifestXmlFromFilePath(sourceDir)
+            return ApkManifestFetcher.getManifestXmlFromFilePath(sourceDir)
         }.getOrElse {
             throw ApkParserException("Couldn't parse manifest file due to error : ${it.message}")
         }

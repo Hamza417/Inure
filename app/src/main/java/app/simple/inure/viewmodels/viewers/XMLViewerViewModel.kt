@@ -18,8 +18,10 @@ import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.StringUtils.readTextSafely
-import app.simple.inure.util.XMLUtils
+import app.simple.inure.util.XMLUtils.formatXML
+import com.jaredrummler.apkparser.ApkParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -81,7 +83,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
             kotlin.runCatching {
                 val formattedContent: SpannableString
 
-                val code: String = if (raw) {
+                var code: String = if (raw) {
                     FileInputStream(File(pathToXml)).use {
                         it.readTextSafely()
                     }
@@ -93,12 +95,18 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
                             /**
                              * Alternate engine for parsing manifest
                              */
-                            XMLUtils.getProperXml(ApkManifestFetcher.getManifestXmlFromFilePath(packageInfo.applicationInfo.sourceDir)!!)!!
+                            ApkManifestFetcher.getManifestXmlFromFilePath(packageInfo.applicationInfo.sourceDir)!!
                         }
                     } else {
                         kotlin.runCatching {
-                            ApkFile(packageInfo.applicationInfo.sourceDir).use {
-                                it.transBinaryXml(pathToXml)
+                            kotlin.runCatching {
+                                ApkParser.create(packageInfo.applicationInfo.sourceDir.toFile()).use {
+                                    it.transBinaryXml(pathToXml)
+                                }
+                            }.getOrElse {
+                                ApkFile(packageInfo.applicationInfo.sourceDir.toFile()).use {
+                                    it.transBinaryXml(pathToXml)
+                                }
                             }
                         }.getOrElse {
                             XML(packageInfo.applicationInfo.sourceDir).use {
@@ -111,6 +119,8 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
                 if (code.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
                     throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
                 }
+
+                code = code.formatXML()
 
                 formattedContent = SpannableString(code)
                 val matcher: Matcher = tags.matcher(code)
