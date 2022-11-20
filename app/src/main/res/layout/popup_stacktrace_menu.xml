@@ -23,4 +23,52 @@
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold" />
 
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:paddingHorizontal="30dp"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:paddingVertical="20dp"
+        android:text="@string/send"
+        app:textColorStyle="primary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_open"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/open"
+        app:textColorStyle="primary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_copy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/copy"
+        app:textColorStyle="primary"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold" />
+
 </merge>
