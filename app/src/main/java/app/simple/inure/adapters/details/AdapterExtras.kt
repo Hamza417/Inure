@@ -37,6 +37,8 @@ class AdapterExtras(var list: MutableList<String>, var keyword: String) : Recycl
             list[position].optimizeToColoredString("/")
         }
 
+        list[position].optimizeToColoredString("...") // fade ellipsis maybe?
+
         holder.extra.setOnClickListener {
             extrasCallbacks.onExtrasClicked(list[position])
         }

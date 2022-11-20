@@ -318,8 +318,7 @@ object APKParser {
                         name.endsWith(".dex") ||
                         name.endsWith(".ttf") ||
                         name.endsWith(".otf") ||
-                        name.endsWith(".arsc") ||
-                        name.contains("META-INF")) {
+                        name.endsWith(".arsc")) {
                         continue
                     } else {
                         if (name.isImageFile().invert()) {

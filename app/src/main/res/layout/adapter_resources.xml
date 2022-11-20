@@ -4,9 +4,11 @@
     android:id="@+id/adapter_resources_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="10dp"
-    android:padding="@dimen/header_padding"
     android:layout_marginHorizontal="@dimen/header_padding"
-    app:textColorStyle="primary"
+    android:layout_marginVertical="10dp"
+    android:ellipsize="middle"
+    android:maxLines="1"
+    android:padding="@dimen/header_padding"
     android:textSize="@dimen/resource_name_text_size"
-    app:appFontStyle="bold" />
+    app:appFontStyle="bold"
+    app:textColorStyle="primary" />

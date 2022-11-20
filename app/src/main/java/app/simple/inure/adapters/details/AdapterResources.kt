@@ -20,6 +20,7 @@ class AdapterResources(private val list: MutableList<String>, private val keywor
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.xml.text = list[position].optimizeToColoredString("/")
+        list[position].optimizeToColoredString("...") // fade ellipsis maybe?
 
         holder.xml.setOnClickListener {
             resourceCallbacks?.onResourceClicked(list[position])

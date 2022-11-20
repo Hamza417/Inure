@@ -77,7 +77,7 @@ object Extensions {
     /**
      * random color for all image file extensions
      */
-    val imageExtensionColors = hashMapOf<String, String>(
+    val imageExtensionColors = hashMapOf(
             "jpg" to "#F44336",
             "jpeg" to "#E91E63",
             "png" to "#9C27B0",
@@ -144,7 +144,7 @@ object Extensions {
             "vrml" to "#FF3D00",
     )
 
-    val nonImageFileExtensionColor = hashMapOf(
+    val nonImageFileExtensionColors = hashMapOf(
             "txt" to "#FF5252",
             "md" to "#FF4081",
             "html" to "#E040FB",
@@ -189,5 +189,55 @@ object Extensions {
             "psd1yml" to "#FFD740",
             "ps1txt" to "#FFFF00",
             "psm1txt" to "#FF6E40",
+            "ini" to "#FF3D00",
+            "gz" to "#FF5252",
+            "zip" to "#FF4081",
+            "kotlin_builtins" to "#E040FB",
+            "kotlinx.coroutines" to "#7C4DFF",
+            "bin" to "#536DFE",
+            "dat" to "#448AFF",
+            "properties" to "#40C4FF",
+            "yml" to "#18FFFF",
+            "yaml" to "#64FFDA",
+            "toml" to "#69F0AE",
+            "sql" to "#B2FF59",
+            "key" to "#EEFF41",
+            "pem" to "#FFFF00",
+            "crt" to "#FFD740",
+            "cer" to "#FFAB40",
+            "der" to "#FF6E40",
+            "pfx" to "#FF3D00",
+            "p12" to "#DD2C00",
+            "p7b" to "#FF1744",
+            "p7c" to "#D50000",
+            "p7r" to "#FF80AB",
+            "p7s" to "#FF4081",
+            "p7m" to "#F50057",
+            "p7x" to "#C51162",
+            "p8" to "#AA00FF",
+            "prof" to "#6200EA",
+            "profm" to "#304FFE",
+            "sln" to "#2962FF",
+            "suo" to "#0091EA",
+            "rsa" to "#00B8D4",
+            "sf" to "#00BFA5",
+            "0" to "#00C853",
+            "1" to "#64DD17",
+            "version" to "#AEEA00",
+            "dll" to "#FFD600",
+            "exe" to "#FFAB00",
+            "so" to "#FF6D00",
+            "dylib" to "#DD2C00",
+            "lib" to "#FF3D00",
+            "a" to "#FF6E40",
+            "o" to "#FFAB40",
+            "obj" to "#FFD740",
+            "class" to "#FFFF00",
+            "jar" to "#FF6E40",
+            "war" to "#FF3D00",
+            "ear" to "#FF5252",
+            "apk" to "#FF4081",
+            "ipa" to "#E040FB",
+            "app" to "#7C4DFF",
     )
 }

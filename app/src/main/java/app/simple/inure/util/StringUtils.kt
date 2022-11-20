@@ -104,13 +104,13 @@ object StringUtils {
     }
 
     private fun getExtensionHardcodedColors(path: String): Int {
-        return kotlin.runCatching {
-            Color.parseColor(Extensions.imageExtensionColors[path.substring(path.lastIndexOf(".") + 1)])
+        kotlin.runCatching {
+            return Color.parseColor(Extensions.imageExtensionColors[path.substring(path.lastIndexOf(".") + 1)])
         }.onFailure {
-            Color.parseColor(Extensions.nonImageFileExtensionColor[path.substring(path.lastIndexOf(".") + 1)])
-        }.getOrElse {
-            AppearancePreferences.getAccentColor()
+            return Color.parseColor(Extensions.nonImageFileExtensionColors[path.substring(path.lastIndexOf(".") + 1)])
         }
+
+        return AppearancePreferences.getAccentColor()
     }
 
     @Suppress("unused")
