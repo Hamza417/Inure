@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val text = "text_only"
     const val firstLaunch = "first_launch"
     const val error = "error"
     const val pathToImage = "path_of_image"

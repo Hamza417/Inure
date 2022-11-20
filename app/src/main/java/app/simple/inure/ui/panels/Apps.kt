@@ -14,12 +14,14 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterAppsDetailed
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.apps.AllAppsMenu.Companion.newAppsMenuInstance
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.ui.viewers.XMLViewerTextView
 import app.simple.inure.viewmodels.panels.AppsViewModel
 
 class Apps : ScopedFragment() {
@@ -79,9 +81,21 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onSettingsPressed(view: View) {
-                    openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+                    childFragmentManager.newAppsMenuInstance().setOnGenerateListClicked {
+                        showLoader(manualOverride = true)
+                        model.generateAllAppsXMLFile()
+                    }
                 }
             })
+        }
+
+        model.getGeneratedAppData().observe(viewLifecycleOwner) {
+            hideLoader()
+            openFragmentSlide(XMLViewerTextView
+                                  .newInstance(packageInfo = PackageInfo(), /* Empty package info */
+                                               isManifest = false,
+                                               pathToXml = it,
+                                               isRaw = true), "xml_viewer")
         }
 
         model.appLoaded.observe(viewLifecycleOwner) { appsEvent ->

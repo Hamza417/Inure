@@ -65,7 +65,8 @@ class Text : KeyboardScopedFragment() {
         options = view.findViewById(R.id.txt_viewer_options)
         scrollView = view.findViewById(R.id.text_viewer_scroll_view)
 
-        textViewViewModelFactory = TextViewViewModelFactory(packageInfo, requireArguments().getString(BundleConstants.path)!!)
+        textViewViewModelFactory = TextViewViewModelFactory(packageInfo,
+                                                            requireArguments().getString(BundleConstants.path)!!)
         textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory)[TextViewerViewModel::class.java]
 
         path.text = requireArguments().getString(BundleConstants.path)!!
@@ -114,10 +115,11 @@ class Text : KeyboardScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, path: String): Text {
+        fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): Text {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putString(BundleConstants.path, path)
+            args.putBoolean(BundleConstants.isRaw, isRaw)
             val fragment = Text()
             fragment.arguments = args
             return fragment

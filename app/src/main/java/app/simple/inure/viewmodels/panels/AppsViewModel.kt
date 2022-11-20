@@ -8,14 +8,19 @@ import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
 import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
+import app.simple.inure.util.XMLUtils.formatXML
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.FileOutputStream
+import java.io.OutputStreamWriter
 import java.util.stream.Collectors
 
 class AppsViewModel(application: Application) : WrappedViewModel(application) {
@@ -26,12 +31,20 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    private val generatedAppDataPath: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
     val appLoaded: MutableLiveData<AppsEvent<Boolean>> by lazy {
         MutableLiveData<AppsEvent<Boolean>>()
     }
 
     fun getAppData(): LiveData<ArrayList<PackageInfo>> {
         return appData
+    }
+
+    fun getGeneratedAppData(): LiveData<String> {
+        return generatedAppDataPath
     }
 
     fun loadAppData() {
@@ -64,6 +77,43 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
 
             appData.postValue(apps as ArrayList<PackageInfo>?)
             appLoaded.postValue(AppsEvent(true))
+        }
+    }
+
+    fun generateAllAppsXMLFile() {
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(1000)
+            val apps = appData.value
+            val path = applicationContext().cacheDir.absolutePath + "/all_apps_generated_data.xml"
+
+            if (apps != null) {
+                val stringBuilder = StringBuilder()
+
+                stringBuilder.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
+                stringBuilder.append("<resources>\n")
+
+                for (i in apps.indices) {
+                    // XML Array
+                    stringBuilder.append("\t<string-array name=\"${apps[i].packageName}\">\n")
+                    stringBuilder.append("\t\t<item>${apps[i].applicationInfo.name}</item>\n")
+                    stringBuilder.append("\t\t<item>${apps[i].packageName}</item>\n")
+                    stringBuilder.append("\t\t<item>${apps[i].versionName}</item>\n")
+                    stringBuilder.append("\t</string-array>\n")
+                    stringBuilder.append("\n")
+                }
+
+                stringBuilder.append("</resources>")
+
+                FileOutputStream(path).use { fileOutputStream ->
+                    OutputStreamWriter(fileOutputStream).use {
+                        it.write(stringBuilder.toString().formatXML())
+                    }
+                }
+
+                generatedAppDataPath.postValue(path)
+            } else {
+                postWarning(getString(R.string.not_available))
+            }
         }
     }
 }

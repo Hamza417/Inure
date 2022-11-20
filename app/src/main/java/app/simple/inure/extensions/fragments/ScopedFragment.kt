@@ -261,10 +261,15 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    open fun showLoader() {
+    open fun showLoader(manualOverride: Boolean = false) {
         if (requireArguments().getBoolean(BundleConstants.loading)) {
             loader = Loader.newInstance()
             loader?.show(childFragmentManager, "loader")
+        } else {
+            if (manualOverride) {
+                loader = Loader.newInstance()
+                loader?.show(childFragmentManager, "loader")
+            }
         }
     }
 
