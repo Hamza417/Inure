@@ -8,6 +8,7 @@ import android.provider.DocumentsContract
 import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
+import app.simple.inure.constants.Extensions
 import java.io.*
 import java.util.*
 import java.util.zip.ZipEntry
@@ -128,5 +129,9 @@ object FileUtils {
             ex.printStackTrace()
             null
         }
+    }
+
+    fun String.isImageFile(): Boolean {
+        return Extensions.imageExtensions.contains(this.substring(this.lastIndexOf(".") + 1))
     }
 }

@@ -15,7 +15,6 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
-import app.simple.inure.popups.viewers.PopupExtrasFilter
 import app.simple.inure.popups.viewers.PopupExtrasMenu
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.util.NullSafety.isNull
@@ -24,7 +23,6 @@ import app.simple.inure.viewmodels.viewers.ExtrasViewModel
 class Extras : SearchBarScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var filter: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
     private lateinit var extrasViewModel: ExtrasViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -34,7 +32,6 @@ class Extras : SearchBarScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_extras, container, false)
 
         recyclerView = view.findViewById(R.id.extras_recycler_view)
-        filter = view.findViewById(R.id.extras_filter)
         options = view.findViewById(R.id.extras_options)
         search = view.findViewById(R.id.extras_search_btn)
         searchBox = view.findViewById(R.id.extras_search)
@@ -124,10 +121,6 @@ class Extras : SearchBarScopedFragment() {
 
         options.setOnClickListener {
             PopupExtrasMenu(it)
-        }
-
-        filter.setOnClickListener {
-            PopupExtrasFilter(it)
         }
 
         search.setOnClickListener {

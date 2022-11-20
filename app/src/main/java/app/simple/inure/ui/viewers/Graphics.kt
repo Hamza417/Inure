@@ -15,7 +15,6 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
-import app.simple.inure.popups.viewers.PopupGraphicsFilter
 import app.simple.inure.popups.viewers.PopupGraphicsMenu
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.GraphicsPreferences
@@ -26,7 +25,6 @@ class Graphics : SearchBarScopedFragment() {
 
     private lateinit var options: DynamicRippleImageButton
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var filter: DynamicRippleImageButton
     private var adapterGraphics: AdapterGraphics? = null
     private lateinit var graphicsViewModel: GraphicsViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -39,7 +37,6 @@ class Graphics : SearchBarScopedFragment() {
         search = view.findViewById(R.id.graphics_search_btn)
         searchBox = view.findViewById(R.id.graphics_search)
         title = view.findViewById(R.id.graphics_title)
-        filter = view.findViewById(R.id.graphics_filter)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
         graphicsViewModel = ViewModelProvider(this, packageInfoFactory)[GraphicsViewModel::class.java]
@@ -88,10 +85,6 @@ class Graphics : SearchBarScopedFragment() {
 
         graphicsViewModel.notFound.observe(viewLifecycleOwner) {
             showWarning(R.string.no_graphics_found)
-        }
-
-        filter.setOnClickListener {
-            PopupGraphicsFilter(it)
         }
 
         options.setOnClickListener {

@@ -1,24 +1,17 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
-import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.preferences.ExtrasPreferences
-import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
-
-    init {
-        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
-    }
+class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     var keyword: String = ""
         set(value) {
@@ -56,31 +49,5 @@ class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : 
                 }
             }
         }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            ExtrasPreferences.json,
-            ExtrasPreferences.html,
-            ExtrasPreferences.css,
-            ExtrasPreferences.properties,
-            ExtrasPreferences.js,
-            ExtrasPreferences.tsv,
-            ExtrasPreferences.txt,
-            ExtrasPreferences.proto,
-            ExtrasPreferences.java,
-            ExtrasPreferences.bin,
-            ExtrasPreferences.ttf,
-            ExtrasPreferences.md,
-            ExtrasPreferences.ini,
-            -> {
-                getExtrasData()
-            }
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 }

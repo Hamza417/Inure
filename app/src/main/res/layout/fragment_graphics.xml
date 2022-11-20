@@ -44,15 +44,6 @@
             app:textColorStyle="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/graphics_filter"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_filter"
-            app:buttonTintType="accent" />
-
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/graphics_options"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"

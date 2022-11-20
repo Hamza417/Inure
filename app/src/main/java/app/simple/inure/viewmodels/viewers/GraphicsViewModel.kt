@@ -1,24 +1,17 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
-import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.preferences.GraphicsPreferences
-import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
-
-    init {
-        getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
-    }
+class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     var keyword: String = ""
         set(value) {
@@ -56,24 +49,5 @@ class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) 
                 }
             }
         }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            GraphicsPreferences.png,
-            GraphicsPreferences.jpg,
-            GraphicsPreferences.jpeg,
-            GraphicsPreferences.gif,
-            GraphicsPreferences.webp,
-            GraphicsPreferences.svg,
-            -> {
-                getGraphicsData()
-            }
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
     }
 }

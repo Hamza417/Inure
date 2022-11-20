@@ -20,6 +20,7 @@
       <w>arsc</w>
       <w>attrib</w>
       <w>autorun</w>
+      <w>avif</w>
       <w>backaction</w>
       <w>baseband</w>
       <w>bdsw</w>
@@ -72,9 +73,12 @@
       <w>gogh</w>
       <w>halfffff</w>
       <w>heebo</w>
+      <w>heic</w>
       <w>homescreen</w>
       <w>hsiafan</w>
       <w>ime's</w>
+      <w>indd</w>
+      <w>indt</w>
       <w>instanceof</w>
       <w>inure's</w>
       <w>isnt</w>
@@ -138,6 +142,7 @@
       <w>privextra</w>
       <w>proc</w>
       <w>propname</w>
+      <w>pspimage</w>
       <w>pthread</w>
       <w>quickapps</w>
       <w>readystatechange</w>
@@ -165,6 +170,7 @@
       <w>statusbar</w>
       <w>stels</w>
       <w>sunilpaulmathew</w>
+      <w>svgz</w>
       <w>switchview</w>
       <w>termprop</w>
       <w>textview</w>
@@ -194,6 +200,7 @@
       <w>vterm</w>
       <w>waleedon</w>
       <w>wantarray</w>
+      <w>wbmp</w>
       <w>webview</w>
       <w>wellbeing</w>
       <w>wifilock</w>

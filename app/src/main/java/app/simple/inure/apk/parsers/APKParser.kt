@@ -5,8 +5,8 @@ import android.content.pm.ApplicationInfo
 import app.simple.inure.R
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.DexClassesNotFoundException
-import app.simple.inure.preferences.ExtrasPreferences
-import app.simple.inure.preferences.GraphicsPreferences
+import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileUtils.isImageFile
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.LocaleHelper
 import com.jaredrummler.apkparser.ApkParser
@@ -267,13 +267,6 @@ object APKParser {
      */
     fun getGraphicsFiles(path: String?, keyword: String): MutableList<String> {
 
-        val png = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.png)
-        val jpg = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.jpg)
-        val jpeg = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.jpeg)
-        val gif = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.gif)
-        val webp = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.webp)
-        val svg = GraphicsPreferences.isFilterAllowed(GraphicsPreferences.svg)
-
         val graphicsFiles: MutableList<String> = ArrayList()
         var zipFile: ZipFile? = null
         try {
@@ -285,13 +278,8 @@ object APKParser {
                 val name: String = entry!!.name
 
                 if (name.lowercase().contains(keyword.lowercase())) {
-                    when {
-                        name.endsWith(".png") -> if (png) graphicsFiles.add(name)
-                        name.endsWith(".jpg") -> if (jpg) graphicsFiles.add(name)
-                        name.endsWith(".jpeg") -> if (jpeg) graphicsFiles.add(name)
-                        name.endsWith(".gif") -> if (gif) graphicsFiles.add(name)
-                        name.endsWith(".webp") -> if (webp) graphicsFiles.add(name)
-                        name.endsWith(".svg") -> if (svg) graphicsFiles.add(name)
+                    if (name.isImageFile()) {
+                        graphicsFiles.add(name)
                     }
                 }
             }
@@ -314,21 +302,6 @@ object APKParser {
      */
     fun getExtraFiles(path: String?, keyword: String): MutableList<String> {
 
-        val json = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.json)
-        val css = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.css)
-        val html = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.html)
-        val properties = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.properties)
-        val js = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.js)
-        val tsv = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.tsv)
-        val txt = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.txt)
-        val proto = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.proto)
-        val java = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.java)
-        val bin = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.bin)
-        val ttf = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.ttf)
-        val md = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.md)
-        val ini = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.ini)
-        // val version = ExtrasPreferences.isFilterAllowed(ExtrasPreferences.version)
-
         val extraFiles: MutableList<String> = ArrayList()
         var zipFile: ZipFile? = null
 
@@ -340,21 +313,18 @@ object APKParser {
                 val name: String = entry!!.name
 
                 if (name.lowercase().contains(keyword.lowercase())) {
-                    when {
-                        name.endsWith(".json") -> if (json) extraFiles.add(name)
-                        name.endsWith(".css") -> if (css) extraFiles.add(name)
-                        name.endsWith(".html") -> if (html) extraFiles.add(name)
-                        name.endsWith(".properties") -> if (properties) extraFiles.add(name)
-                        name.endsWith(".js") -> if (js) extraFiles.add(name)
-                        name.endsWith(".tsv") -> if (tsv) extraFiles.add(name)
-                        name.endsWith(".txt") -> if (txt) extraFiles.add(name)
-                        name.endsWith(".proto") -> if (proto) extraFiles.add(name)
-                        name.endsWith(".java") -> if (java) extraFiles.add(name)
-                        name.endsWith(".bin") -> if (bin) extraFiles.add(name)
-                        name.endsWith(".ttf") -> if (ttf) extraFiles.add(name)
-                        name.endsWith(".md") -> if (md) extraFiles.add(name)
-                        name.endsWith(".ini") -> if (ini) extraFiles.add(name)
-                        // name.endsWith(".version") -> if (version) extraFiles.add(name)
+                    if (name.endsWith(".xml") ||
+                        name.endsWith(".so") ||
+                        name.endsWith(".dex") ||
+                        name.endsWith(".ttf") ||
+                        name.endsWith(".otf") ||
+                        name.endsWith(".arsc") ||
+                        name.contains("META-INF")) {
+                        continue
+                    } else {
+                        if (name.isImageFile().invert()) {
+                            extraFiles.add(name)
+                        }
                     }
                 }
             }
