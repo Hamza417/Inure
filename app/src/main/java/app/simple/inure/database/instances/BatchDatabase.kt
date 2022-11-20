@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import app.simple.inure.database.dao.BatchDao
 import app.simple.inure.models.BatchModel
-import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.ConditionUtils.invert
 
 @Database(entities = [BatchModel::class], exportSchema = true, version = 2)
 abstract class BatchDatabase : RoomDatabase() {
@@ -18,7 +18,13 @@ abstract class BatchDatabase : RoomDatabase() {
 
         @Synchronized
         fun getInstance(context: Context): BatchDatabase? {
-            if (instance.isNull()) {
+            kotlin.runCatching {
+                if (instance!!.isOpen.invert()) {
+                    instance = Room.databaseBuilder(context, BatchDatabase::class.java, db_name)
+                        .fallbackToDestructiveMigration()
+                        .build()
+                }
+            }.getOrElse {
                 instance = Room.databaseBuilder(context, BatchDatabase::class.java, db_name)
                     .fallbackToDestructiveMigration()
                     .build()

@@ -61,7 +61,9 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         clear = view.findViewById(R.id.search_view_clear_button);
         loader = view.findViewById(R.id.loader);
     
-        editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
+        if (!isInEditMode()) {
+            editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
+        }
         updateDeepSearchData();
         editText.setSaveEnabled(false); // ViewModel and SharedPreferences will handle the saved states
     
