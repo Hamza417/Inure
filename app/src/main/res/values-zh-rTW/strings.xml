@@ -596,4 +596,9 @@
     <string name="this_app_doesnt_require_any_permissions">這個應用程式不需要任何權限。</string>
     <string name="generate_apps_list">產生應用程式清單</string>
     <string name="generate_apps_list_desc">在產生應用程式資料前，請務必在主要清單中選取適當的過濾器。</string>
+    <string name="battery_optimization">電池效能最佳化</string>
+    <string name="optimized">已最佳化</string>
+    <string name="not_optimized">未最佳化</string>
+    <string name="optimize">最佳化</string>
+    <string name="dont_optimize">不要最佳化</string>
 </resources>
