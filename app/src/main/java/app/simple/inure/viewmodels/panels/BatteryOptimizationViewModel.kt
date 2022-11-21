@@ -117,7 +117,7 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
 
     fun setBatteryOptimization(batteryOptimizationModel: BatteryOptimizationModel, position: Int) {
         viewModelScope.launch(Dispatchers.Default) {
-            Shell.cmd("dumpsys deviceidle whitelist ${if (batteryOptimizationModel.isOptimized) "-" else "+"}${batteryOptimizationModel.packageInfo.packageName}").exec().let {
+            Shell.cmd("dumpsys deviceidle whitelist ${if (batteryOptimizationModel.isOptimized) "+" else "-"}${batteryOptimizationModel.packageInfo.packageName}").exec().let {
                 if (it.isSuccess) {
                     batteryOptimizationModel.isOptimized = !batteryOptimizationModel.isOptimized
                     batteryOptimizationUpdate.postValue(Pair(batteryOptimizationModel, position))
