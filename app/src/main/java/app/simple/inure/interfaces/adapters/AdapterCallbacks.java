@@ -68,4 +68,8 @@ public interface AdapterCallbacks {
     default void onBatteryOptimizationClicked(@NotNull View view, @NonNull BatteryOptimizationModel batteryOptimizationModel, int position) {
     
     }
+    
+    default void onGridClicked(@NonNull View view) {
+    
+    }
 }

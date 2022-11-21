@@ -11,7 +11,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.ui.AdapterAppsDetailed
+import app.simple.inure.adapters.ui.AdapterApps
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.apps.AllAppsMenu.Companion.newAppsMenuInstance
@@ -20,6 +20,7 @@ import app.simple.inure.dialogs.miscellaneous.GeneratedDataType
 import app.simple.inure.dialogs.miscellaneous.GeneratedDataType.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.popups.app.PopupGridSelection
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
@@ -30,7 +31,7 @@ import app.simple.inure.viewmodels.panels.AppsViewModel
 class Apps : ScopedFragment() {
 
     private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
-    private lateinit var adapter: AdapterAppsDetailed
+    private lateinit var adapter: AdapterApps
     private lateinit var model: AppsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -52,8 +53,10 @@ class Apps : ScopedFragment() {
             postponeEnterTransition()
             hideLoader()
 
-            adapter = AdapterAppsDetailed()
+            adapter = AdapterApps()
             adapter.apps = it
+
+
 
             appsListRecyclerView.adapter = adapter
 
@@ -77,6 +80,10 @@ class Apps : ScopedFragment() {
 
                 override fun onFilterPressed(view: View) {
                     PopupAppsCategory(view)
+                }
+
+                override fun onGridClicked(view: View) {
+                    PopupGridSelection(view, MainPreferences.gridType)
                 }
 
                 override fun onSortPressed(view: View) {

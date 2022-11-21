@@ -13,14 +13,16 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.GridImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.PackageListUtils.setAppInfo
 import app.simple.inure.util.RecyclerViewUtils
 import java.util.*
 
-class AdapterAppsDetailed : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
+class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
     var apps = arrayListOf<PackageInfo>()
     private lateinit var adapterCallbacks: AdapterCallbacks
@@ -81,7 +83,12 @@ class AdapterAppsDetailed : RecyclerView.Adapter<VerticalListViewHolder>(), Popu
                 adapterCallbacks.onSettingsPressed(it)
             }
 
+            holder.grid.setOnClickListener {
+                adapterCallbacks.onGridClicked(it)
+            }
+
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
+            holder.grid.setGridIcon(MainPreferences.getGridType(), false)
         }
     }
 
@@ -124,6 +131,7 @@ class AdapterAppsDetailed : RecyclerView.Adapter<VerticalListViewHolder>(), Popu
         val filter: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_filter_button)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
+        val grid: GridImageView = itemView.findViewById(R.id.adapter_header_grid_button)
     }
 
     override fun getPopupText(position: Int): String {

@@ -1,6 +1,8 @@
 package app.simple.inure.preferences
 
 import androidx.annotation.NonNull
+import app.simple.inure.constants.GridConstants
+import app.simple.inure.decorations.views.GridImageView
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort
@@ -18,6 +20,7 @@ object MainPreferences {
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
+    const val gridType = "apps_grid_type"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -32,7 +35,7 @@ object MainPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     // Day/Night Auto
-    fun setDayNight(@NotNull value: Boolean) {
+    fun setDayNight(value: Boolean) {
         getSharedPreferences().edit().putBoolean(dayNightMode, value).apply()
     }
 
@@ -42,7 +45,7 @@ object MainPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppLanguage(@NonNull locale: String) {
+    fun setAppLanguage(locale: String) {
         getSharedPreferences().edit().putString(appLanguage, locale).apply()
     }
 
@@ -52,7 +55,7 @@ object MainPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setSortStyle(@NonNull style: String) {
+    fun setSortStyle(style: String) {
         getSharedPreferences().edit().putString(sortStyle, style).apply()
     }
 
@@ -62,7 +65,7 @@ object MainPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setReverseSorting(@NotNull value: Boolean) {
+    fun setReverseSorting(value: Boolean) {
         getSharedPreferences().edit().putBoolean(isSortingReversed, value).apply()
     }
 
@@ -72,11 +75,21 @@ object MainPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppsCategory(@NonNull category: String) {
+    fun setAppsCategory(category: String) {
         getSharedPreferences().edit().putString(listAppsCategory, category).apply()
     }
 
     fun getAppsCategory(): String {
         return getSharedPreferences().getString(listAppsCategory, PopupAppsCategory.BOTH)!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setGridType(type: Int) {
+        getSharedPreferences().edit().putInt(gridType, type).apply()
+    }
+
+    fun getGridType(): Int {
+        return getSharedPreferences().getInt(gridType, GridConstants.grid1)
     }
 }
