@@ -277,9 +277,23 @@ object APKParser {
                 val entry: ZipEntry? = entries.nextElement()
                 val name: String = entry!!.name
 
-                if (name.lowercase().contains(keyword.lowercase())) {
-                    if (name.isImageFile()) {
-                        graphicsFiles.add(name)
+                if (keyword.lowercase().startsWith("$")) {
+                    if (name.lowercase().endsWith(keyword.lowercase().replace("$", ""))) {
+                        if (name.lowercase().isImageFile()) {
+                            graphicsFiles.add(name)
+                        }
+                    }
+                } else if (keyword.lowercase().endsWith("$")) {
+                    if (name.lowercase().startsWith(keyword.lowercase().replace("$", ""))) {
+                        if (name.lowercase().isImageFile()) {
+                            graphicsFiles.add(name)
+                        }
+                    }
+                } else {
+                    if (name.lowercase().contains(keyword.lowercase())) {
+                        if (name.lowercase().isImageFile()) {
+                            graphicsFiles.add(name)
+                        }
                     }
                 }
             }
@@ -312,22 +326,53 @@ object APKParser {
                 val entry: ZipEntry? = entries.nextElement()
                 val name: String = entry!!.name
 
-                if (name.lowercase().contains(keyword.lowercase())) {
-                    if (name.endsWith(".xml") ||
-                        name.endsWith(".so") ||
-                        name.endsWith(".dex") ||
-                        name.endsWith(".ttf") ||
-                        name.endsWith(".otf") ||
-                        name.endsWith(".arsc")) {
-                        continue
-                    } else {
-                        if (name.isImageFile().invert()) {
-                            extraFiles.add(name)
+                if (keyword.lowercase().startsWith("$")) {
+                    if (name.lowercase().endsWith(keyword.lowercase().replace("$", ""))) {
+                        if (name.endsWith(".xml") ||
+                            name.endsWith(".so") ||
+                            name.endsWith(".dex") ||
+                            name.endsWith(".ttf") ||
+                            name.endsWith(".otf") ||
+                            name.endsWith(".arsc")) {
+                            continue
+                        } else {
+                            if (name.isImageFile().invert()) {
+                                extraFiles.add(name)
+                            }
+                        }
+                    }
+                } else if (keyword.lowercase().endsWith("$")) {
+                    if (name.lowercase().startsWith(keyword.lowercase().replace("$", ""))) {
+                        if (name.endsWith(".xml") ||
+                            name.endsWith(".so") ||
+                            name.endsWith(".dex") ||
+                            name.endsWith(".ttf") ||
+                            name.endsWith(".otf") ||
+                            name.endsWith(".arsc")) {
+                            continue
+                        } else {
+                            if (name.isImageFile().invert()) {
+                                extraFiles.add(name)
+                            }
+                        }
+                    }
+                } else {
+                    if (name.lowercase().contains(keyword.lowercase())) {
+                        if (name.endsWith(".xml") ||
+                            name.endsWith(".so") ||
+                            name.endsWith(".dex") ||
+                            name.endsWith(".ttf") ||
+                            name.endsWith(".otf") ||
+                            name.endsWith(".arsc")) {
+                            continue
+                        } else {
+                            if (name.isImageFile().invert()) {
+                                extraFiles.add(name)
+                            }
                         }
                     }
                 }
             }
-
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
