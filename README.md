@@ -52,8 +52,9 @@ High priority features
 - [ ] APK browser for apps that are not yet installed
 - [ ] Modify Shared Prefs of other apps (root).
 - [ ] Modify SQLite databases of other apps (root).
-- [ ] Multiple user support.
-- [ ] Use app via ADB Shell instead of root?
+- [ ] Multiple user support (suspended).
+- [ ] Use app via ADB Shell instead of root? (suspended)
+- [x] Add battery optimisation manager for all apps
 
 Low priority features
 
