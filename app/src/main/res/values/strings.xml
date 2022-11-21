@@ -595,4 +595,7 @@
     <string name="this_app_doesnt_require_any_permissions">This app doesn\'t require any permissions.</string>
     <string name="generate_apps_list">Generate Apps List</string>
     <string name="generate_apps_list_desc">Make sure to select the appropriate filters in the main list before generating apps data.</string>
+    <string name="battery_optimization">Battery Optimization</string>
+    <string name="optimized">Optimized</string>
+    <string name="not_optimized">Not Optimized</string>
 </resources>

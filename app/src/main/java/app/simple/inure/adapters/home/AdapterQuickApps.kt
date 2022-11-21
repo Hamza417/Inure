@@ -22,7 +22,7 @@ class AdapterQuickApps(private val list: ArrayList<PackageInfo>) : RecyclerView.
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = list[position].packageName
-        holder.icon.loadAppIcon(list[position].packageName)
+        holder.icon.loadAppIcon(list[position].packageName, list[position].applicationInfo.enabled)
         holder.name.text = list[position].applicationInfo.name
 
         holder.name.setStrikeThru(list[position].applicationInfo.enabled)

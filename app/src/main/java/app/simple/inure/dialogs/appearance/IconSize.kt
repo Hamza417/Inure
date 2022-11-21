@@ -48,7 +48,7 @@ class IconSize : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iconPreview.loadAppIcon(BuildConfig.APPLICATION_ID)
+        iconPreview.loadAppIcon(BuildConfig.APPLICATION_ID, true)
         seekbar.progress = AppearancePreferences.getIconSize()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

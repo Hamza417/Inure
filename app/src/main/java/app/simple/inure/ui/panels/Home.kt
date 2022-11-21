@@ -33,6 +33,7 @@ import app.simple.inure.ui.music.Music
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
+import app.simple.inure.viewmodels.panels.BatteryOptimizationViewModel
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 
@@ -148,6 +149,9 @@ class Home : ScopedFragment() {
                         }
                         R.string.stacktraces -> {
                             openFragmentArc(StackTraces.newInstance(), icon, "stacktraces")
+                        }
+                        R.string.battery_optimization -> {
+                            openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
                         }
                     }
                 }

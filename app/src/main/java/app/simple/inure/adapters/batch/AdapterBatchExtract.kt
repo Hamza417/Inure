@@ -35,7 +35,7 @@ class AdapterBatchExtract(private val list: ArrayList<BatchPackageInfo>) : Recyc
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
         val position = position_ - 1
         if (holder is Holder) {
-            holder.icon.loadAppIcon(list[position].packageInfo.packageName)
+            holder.icon.loadAppIcon(list[position].packageInfo.packageName, list[position].packageInfo.applicationInfo.enabled)
             holder.name.text = list[position].packageInfo.applicationInfo.name
             holder.name.setStrikeThru(list[position].packageInfo.applicationInfo.enabled)
 

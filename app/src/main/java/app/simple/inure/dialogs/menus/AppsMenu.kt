@@ -107,7 +107,7 @@ class AppsMenu : ScopedDialogFragment() {
             window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 60F).toInt()
         }
 
-        icon.loadAppIcon(packageInfo.packageName)
+        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
 
         name.text = packageInfo.applicationInfo.name
         packageName.text = packageInfo.packageName

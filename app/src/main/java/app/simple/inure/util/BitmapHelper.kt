@@ -88,4 +88,21 @@ object BitmapHelper {
         draw(canvas)
         return bitmap
     }
+
+    /**
+     * Convert bitmap to grayscale
+     */
+    fun Bitmap.toGrayscale(): Bitmap {
+        val width = width
+        val height = height
+        val bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bmpGrayscale)
+        val paint = Paint()
+        val colorMatrix = ColorMatrix()
+        colorMatrix.setSaturation(0F)
+        val f = ColorMatrixColorFilter(colorMatrix)
+        paint.colorFilter = f
+        canvas.drawBitmap(this, 0F, 0F, paint)
+        return bmpGrayscale
+    }
 }

@@ -19,10 +19,10 @@ object ImageLoader {
      *
      * @param packageName is package id of the app whose icon needs to be loaded
      */
-    fun ImageView.loadAppIcon(packageName: String) {
+    fun ImageView.loadAppIcon(packageName: String, enabled: Boolean) {
         GlideApp.with(this)
             .asBitmap()
-            .load(AppIcon(this.context, packageName))
+            .load(AppIcon(this.context, packageName, enabled))
             .into(this)
     }
 

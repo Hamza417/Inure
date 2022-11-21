@@ -54,7 +54,7 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
 
         if (holder is Holder) {
             holder.icon.transitionName = list[position].packageInfo?.packageName
-            holder.icon.loadAppIcon(list[position].packageInfo!!.packageName)
+            holder.icon.loadAppIcon(list[position].packageInfo!!.packageName, list[position].packageInfo!!.applicationInfo.enabled)
             holder.name.text = list[position].packageInfo!!.applicationInfo.name
             holder.dataUp.text = list[position].mobileData?.tx?.toSize()
             holder.dataDown.text = list[position].mobileData?.rx?.toSize()

@@ -28,7 +28,8 @@
     <string name="x_509" translatable="false">X.509</string>
     <string name="hide_preferences_indicators" translatable="false">Hide Preferences Indicators</string>
     <string name="use_webview_xml_viewer" translatable="false"><strike>Use WebView Xml Viewer</strike></string>
-    <string name="material">Material</string>
-    <string name="android">Android</string>
-    <string name="wifi">Wi-Fi</string>
+    <string name="material" translatable="false">Material</string>
+    <string name="android" translatable="false">Android</string>
+    <string name="wifi" translatable="false">Wi-Fi</string>
+    <string name="system_excidle" translatable="false">System-Excidle</string>
 </resources>

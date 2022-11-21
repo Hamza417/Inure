@@ -31,7 +31,7 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<SearchModel>, priv
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = deepSearchInfo[position].packageInfo.packageName
-        holder.icon.loadAppIcon(deepSearchInfo[position].packageInfo.packageName)
+        holder.icon.loadAppIcon(deepSearchInfo[position].packageInfo.packageName, deepSearchInfo[position].packageInfo.applicationInfo.enabled)
         holder.name.text = deepSearchInfo[position].packageInfo.applicationInfo.name
         holder.packageId.text = deepSearchInfo[position].packageInfo.packageName
 

@@ -25,12 +25,10 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.viewmodels.panels.AppsViewModel
-import app.simple.inure.viewmodels.panels.HomeViewModel
-import app.simple.inure.viewmodels.panels.SearchViewModel
-import app.simple.inure.viewmodels.panels.UsageStatsViewModel
+import app.simple.inure.viewmodels.panels.*
 import app.simple.inure.viewmodels.viewers.SensorsViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -50,6 +48,7 @@ class SplashScreen : ScopedFragment() {
     private var isRecentlyInstalledLoaded = false
     private var isRecentlyUpdatedLoaded = false
     private var isFrequentlyUsedLoaded = false
+    private var isBatteryOptimizationLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -99,6 +98,12 @@ class SplashScreen : ScopedFragment() {
         val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
         val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
         val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
+
+        val batteryOptimizationViewModel = if (ConfigurationPreferences.isUsingRoot()) {
+            ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
+        } else {
+            null
+        }
 
         appsViewModel.getAppData().observe(viewLifecycleOwner) {
             isAppDataLoaded = true
@@ -150,6 +155,15 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
+        if (ConfigurationPreferences.isUsingRoot()) {
+            batteryOptimizationViewModel?.getBatteryOptimizationData()?.observe(viewLifecycleOwner) {
+                isBatteryOptimizationLoaded = true
+                openApp()
+            }
+        } else {
+            isBatteryOptimizationLoaded = true
+        }
+
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
             openFragmentArc(Home.newInstance(), icon)
         }
@@ -158,7 +172,8 @@ class SplashScreen : ScopedFragment() {
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
         if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded && isUninstalledPackagesLoaded &&
-            isDisabledPackagesLoaded && isFrequentlyUsedLoaded && isRecentlyUpdatedLoaded && isRecentlyInstalledLoaded) {
+            isDisabledPackagesLoaded && isFrequentlyUsedLoaded && isRecentlyUpdatedLoaded && isRecentlyInstalledLoaded &&
+            isBatteryOptimizationLoaded) {
             openFragmentArc(Home.newInstance(), icon)
         }
     }

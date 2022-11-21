@@ -45,7 +45,7 @@ class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
 
         if (holder is Holder) {
             holder.icon.transitionName = apps[position].packageInfo?.packageName
-            holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName)
+            holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.applicationInfo.enabled)
             holder.name.text = apps[position].packageInfo?.applicationInfo!!.name
             holder.packageId.text = apps[position].packageInfo?.packageName
 

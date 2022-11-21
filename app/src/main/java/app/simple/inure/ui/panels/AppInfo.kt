@@ -348,7 +348,7 @@ class AppInfo : ScopedFragment() {
         }
 
         icon.transitionName = requireArguments().getString("transition_name")
-        icon.loadAppIcon(packageInfo.packageName)
+        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
 
         name.text = packageInfo.applicationInfo.name
         packageId.text = PackageUtils.getApplicationVersion(requireContext(), packageInfo)

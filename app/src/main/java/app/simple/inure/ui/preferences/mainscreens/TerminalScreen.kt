@@ -76,7 +76,7 @@ class TerminalScreen : ScopedFragment() {
         setInputMethodText()
 
         if (requirePackageManager().isPackageInstalledAndEnabled("com.termux")) {
-            termuxAppIcon.loadAppIcon("com.termux")
+            termuxAppIcon.loadAppIcon("com.termux", enabled = true)
         } else {
             termuxContainer.gone()
         }
