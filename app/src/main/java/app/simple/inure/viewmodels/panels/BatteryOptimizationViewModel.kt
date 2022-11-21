@@ -2,17 +2,24 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.BatteryOptimizationModel
+import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.preferences.BatteryOptimizationPreferences
+import app.simple.inure.ui.panels.BatteryOptimization
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.SortBatteryOptimization.getSortedList
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.stream.Collectors
 
 class BatteryOptimizationViewModel(application: Application) : RootViewModel(application) {
 
@@ -26,13 +33,39 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
         MutableLiveData<ArrayList<BatteryOptimizationModel>>()
     }
 
+    private val batteryOptimizationUpdate: MutableLiveData<Pair<BatteryOptimizationModel, Int>> by lazy {
+        MutableLiveData<Pair<BatteryOptimizationModel, Int>>()
+    }
+
     fun getBatteryOptimizationData(): LiveData<ArrayList<BatteryOptimizationModel>> {
         return batteryOptimizationData
     }
 
+    fun getBatteryOptimizationUpdate(): LiveData<Pair<BatteryOptimizationModel, Int>> {
+        return batteryOptimizationUpdate
+    }
+
     private fun loadBatteryOptimization() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = packageManager.getInstalledPackages()
+            var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+            }
+
+            when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
+                PopupAppsCategory.SYSTEM -> {
+                    apps = apps.stream().filter { p ->
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+                }
+                PopupAppsCategory.USER -> {
+                    apps = apps.stream().filter { p ->
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+                }
+            }
 
             kotlin.runCatching {
                 Shell.cmd("dumpsys deviceidle whitelist").exec().let { result ->
@@ -45,12 +78,12 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
                             if (outData.isNotNull()) {
                                 val batteryOptimizationModel = BatteryOptimizationModel()
 
-                                val type = outData!!.substring(outData.indexOf(",")).trim()
+                                val type = outData!!.subSequence(0, endIndex = outData.indexOf(",")).trim()
                                 // val packageName = outData.subSequence(outData.indexOf(",").plus(1), outData.lastIndexOf(",")).trim()
                                 // val uid = outData.subSequence(outData.lastIndexOf(",").plus(1), outData.length).trim()
 
                                 batteryOptimizationModel.packageInfo = packageInfo
-                                batteryOptimizationModel.type = type
+                                batteryOptimizationModel.type = type.toString()
                                 batteryOptimizationModel.isOptimized = false // App is not optimized
                                 batteryOptimizationArrayList.add(batteryOptimizationModel)
                             } else {
@@ -72,6 +105,7 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
                             }
                         }
 
+                        batteryOptimizationArrayList.getSortedList()
                         batteryOptimizationData.postValue(batteryOptimizationArrayList)
                     }
                 }
@@ -81,16 +115,24 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
         }
     }
 
-    private fun setBatteryOptimization(packageName: String, state: Boolean) {
-        Shell.cmd("dumpsys deviceidle whitelist ${if (state) "+" else "-"}$packageName").exec().let {
-            if (it.isSuccess) {
-                loadBatteryOptimization()
+    fun setBatteryOptimization(batteryOptimizationModel: BatteryOptimizationModel, position: Int) {
+        viewModelScope.launch(Dispatchers.Default) {
+            Shell.cmd("dumpsys deviceidle whitelist ${if (batteryOptimizationModel.isOptimized) "-" else "+"}${batteryOptimizationModel.packageInfo.packageName}").exec().let {
+                if (it.isSuccess) {
+                    batteryOptimizationModel.isOptimized = !batteryOptimizationModel.isOptimized
+                    batteryOptimizationUpdate.postValue(Pair(batteryOptimizationModel, position))
+                }
             }
         }
     }
 
-    fun onBatteryOptimizationChange(packageName: String, state: Boolean) {
-        setBatteryOptimization(packageName, state)
+    fun refresh() {
+        batteryOptimizationArrayList.clear()
+        loadBatteryOptimization()
+    }
+
+    fun clearBatteryOptimizationAppData() {
+        batteryOptimizationUpdate.value = null
     }
 
     override fun onShellCreated(shell: Shell?) {

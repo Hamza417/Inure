@@ -4,8 +4,11 @@ import android.content.pm.PackageInfo;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.NonNull;
 import app.simple.inure.models.BatchPackageInfo;
+import app.simple.inure.models.BatteryOptimizationModel;
 import app.simple.inure.models.NotesPackageInfo;
 import app.simple.inure.models.StackTrace;
 
@@ -59,6 +62,10 @@ public interface AdapterCallbacks {
     }
     
     default void onStackTraceLongClicked(@NonNull StackTrace stackTrace, View view, int position) {
+    
+    }
+    
+    default void onBatteryOptimizationClicked(@NotNull View view, @NonNull BatteryOptimizationModel batteryOptimizationModel, int position) {
     
     }
 }

@@ -598,4 +598,6 @@
     <string name="battery_optimization">Battery Optimization</string>
     <string name="optimized">Optimized</string>
     <string name="not_optimized">Not Optimized</string>
+    <string name="optimize">Optimize</string>
+    <string name="dont_optimize">Don\'t Optimize</string>
 </resources>

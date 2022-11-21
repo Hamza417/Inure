@@ -19,7 +19,7 @@ import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimizationModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    private lateinit var adapterCallbacks: AdapterCallbacks
+    private var adapterCallbacks: AdapterCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -59,22 +59,30 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
             }
 
             holder.container.setOnClickListener {
-
+                adapterCallbacks?.onBatteryOptimizationClicked(it, apps[holder.bindingAdapterPosition.minus(1)], holder.bindingAdapterPosition.minus(1))
             }
 
             holder.container.setOnLongClickListener {
-                adapterCallbacks.onAppLongPressed(apps[position].packageInfo, holder.icon)
+                adapterCallbacks?.onAppLongPressed(apps[position].packageInfo, holder.icon)
                 true
             }
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
 
             holder.search.setOnClickListener {
-                adapterCallbacks.onSearchPressed(it)
+                adapterCallbacks?.onSearchPressed(it)
             }
 
             holder.settings.setOnClickListener {
-                adapterCallbacks.onSettingsPressed(it)
+                adapterCallbacks?.onSettingsPressed(it)
+            }
+
+            holder.sort.setOnClickListener {
+                adapterCallbacks?.onSortPressed(it)
+            }
+
+            holder.filter.setOnClickListener {
+                adapterCallbacks?.onFilterPressed(it)
             }
         }
     }
@@ -128,6 +136,11 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
         }
     }
 
+    fun updateItem(batteryOptimizationModel: BatteryOptimizationModel, position: Int) {
+        apps[position] = batteryOptimizationModel
+        notifyItemChanged(position.plus(1))
+    }
+
     fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {
         this.adapterCallbacks = adapterCallbacks
     }
@@ -144,5 +157,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
         val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
+        val filter: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_filter_button)
+        val sort: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_sort_button)
     }
 }
