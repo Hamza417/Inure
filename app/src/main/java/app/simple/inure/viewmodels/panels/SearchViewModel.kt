@@ -3,6 +3,8 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -69,7 +71,12 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
 
     private suspend fun loadSearchData(keywords: String) {
         searchJob?.join()
-        val apps = packageManager.getInstalledPackages()
+        val apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+        } else {
+            @Suppress("DEPRECATION")
+            packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+        }
 
         if (keywords.isEmpty()) {
             if (SearchPreferences.isDeepSearchEnabled()) {

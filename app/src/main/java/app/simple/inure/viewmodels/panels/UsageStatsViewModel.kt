@@ -5,6 +5,8 @@ import android.app.usage.UsageEvents
 import android.app.usage.UsageStats
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -95,7 +97,12 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
             usageStatsManager.queryUsageStats(StatisticsPreferences.getInterval(), startTime, endTime)
         }
 
-        var apps = packageManager.getInstalledPackages()
+        var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+        } else {
+            @Suppress("DEPRECATION")
+            packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+        }
 
         when (StatisticsPreferences.getAppsCategory()) {
             PopupAppsCategory.SYSTEM -> {

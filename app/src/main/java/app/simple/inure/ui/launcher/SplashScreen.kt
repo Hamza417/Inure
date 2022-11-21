@@ -102,6 +102,7 @@ class SplashScreen : ScopedFragment() {
         val batteryOptimizationViewModel = if (ConfigurationPreferences.isUsingRoot()) {
             ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
         } else {
+            isBatteryOptimizationLoaded = true
             null
         }
 
@@ -155,13 +156,9 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
-        if (ConfigurationPreferences.isUsingRoot()) {
-            batteryOptimizationViewModel?.getBatteryOptimizationData()?.observe(viewLifecycleOwner) {
-                isBatteryOptimizationLoaded = true
-                openApp()
-            }
-        } else {
+        batteryOptimizationViewModel?.getBatteryOptimizationData()?.observe(viewLifecycleOwner) {
             isBatteryOptimizationLoaded = true
+            openApp()
         }
 
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) {

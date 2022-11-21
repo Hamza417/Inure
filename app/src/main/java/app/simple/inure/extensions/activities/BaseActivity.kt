@@ -14,6 +14,7 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
@@ -78,6 +79,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         }
 
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setTheme()
         setContentView(R.layout.activity_main)
 

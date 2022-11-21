@@ -56,8 +56,6 @@ class Apps : ScopedFragment() {
             adapter = AdapterApps()
             adapter.apps = it
 
-
-
             appsListRecyclerView.adapter = adapter
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
