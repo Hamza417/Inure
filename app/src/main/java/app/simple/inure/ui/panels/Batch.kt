@@ -11,6 +11,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatch
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -25,6 +26,7 @@ import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.newSto
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.interfaces.menus.BottomMenuCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.batch.PopupBatchAppsCategory
 import app.simple.inure.popups.batch.PopupBatchSortingStyle
@@ -86,32 +88,31 @@ class Batch : ScopedFragment() {
                         .show(childFragmentManager, "apps_menu")
                 }
 
-                override fun onSearchPressed(view: View) {
-                    openFragmentSlide(Search.newInstance(true), "search")
-                }
-
-                override fun onSettingsPressed(view: View) {
-                    BatchMenu.newInstance()
-                        .show(childFragmentManager, "batch_menu")
-                }
-
                 override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
                     batchViewModel.updateBatchItem(batchPackageInfo)
                     batchMenuState(adapterBatch!!.getCurrentAppsList())
                 }
-
-                override fun onSortPressed(view: View) {
-                    PopupBatchSortingStyle(view)
-                }
-
-                override fun onFilterPressed(view: View) {
-                    PopupBatchAppsCategory(view)
-                }
             })
 
             recyclerView.adapter = adapterBatch
-            // recyclerView.itemAnimator = SlidingAnimator()
-            // (recyclerView.itemAnimator as SlidingAnimator).supportsChangeAnimations = true
+
+            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, view ->
+                when (id) {
+                    R.drawable.ic_sort -> {
+                        PopupBatchSortingStyle(view)
+                    }
+                    R.drawable.ic_filter -> {
+                        PopupBatchAppsCategory(view)
+                    }
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(true), "search")
+                    }
+                    R.drawable.ic_settings -> {
+                        BatchMenu.newInstance()
+                            .show(childFragmentManager, "batch_menu")
+                    }
+                }
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

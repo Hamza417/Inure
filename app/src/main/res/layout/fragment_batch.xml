@@ -6,16 +6,29 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-        android:id="@+id/batch_recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@android:color/white"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:layoutAnimation="@anim/list_animation_controller"
-        app:isFadingEdgeRequired="true" />
+        android:layout_weight="1">
+
+        <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+            android:id="@+id/batch_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/list_animation_controller"
+            app:isFadingEdgeRequired="true" />
+
+        <app.simple.inure.decorations.views.BottomMenuRecyclerView
+            android:id="@+id/bottom_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/popup_padding" />
+
+    </FrameLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:id="@+id/divider"
