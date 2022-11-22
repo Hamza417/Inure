@@ -72,10 +72,9 @@
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/total"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
             android:drawablePadding="5dp"
             android:layout_marginStart="5dp"
             android:gravity="center_vertical"
@@ -84,37 +83,13 @@
             app:drawableStartCompat="@drawable/ic_numbers_textview"
             app:drawableTintStyle="accent" />
 
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/shuffle"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="0dp"
+            android:layout_height="1px"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/search_button"
-            android:src="@drawable/shuffle"
-            android:transitionName="adapter_search_icon"
-            app:buttonTintType="regular" />
-
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/play"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/search_button"
-            android:src="@drawable/ic_play"
-            android:transitionName="adapter_search_icon"
-            app:buttonTintType="regular" />
-
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/search"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/search_button"
-            android:src="@drawable/ic_search"
-            android:transitionName="adapter_search_icon"
-            app:buttonTintType="regular" />
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
 

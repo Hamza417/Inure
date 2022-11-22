@@ -63,27 +63,6 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             }
         } else if (holder is Header) {
             holder.total.text = list.size.toString()
-
-            holder.search.setOnClickListener {
-                musicCallbacks?.onMusicSearchClicked()
-            }
-
-            holder.play.setOnClickListener {
-                for (i in list.indices) {
-                    if (id == list[i].id) {
-                        musicCallbacks?.onMusicPlayClicked(i)
-                        break
-                    }
-                }
-            }
-
-            holder.shuffle.setOnClickListener {
-                val randomPosition = list.indices.random()
-                MusicPreferences.setLastMusicId(list[randomPosition].id)
-                id = list[randomPosition].id
-                musicCallbacks?.onMusicClicked(Uri.parse(list[randomPosition].fileUri))
-                updateHighlightedSongState()
-            }
         }
     }
 
@@ -136,9 +115,6 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.total)
-        val search: DynamicRippleImageButton = itemView.findViewById(R.id.search)
-        val play: DynamicRippleImageButton = itemView.findViewById(R.id.play)
-        val shuffle: DynamicRippleImageButton = itemView.findViewById(R.id.shuffle)
     }
 
     companion object {

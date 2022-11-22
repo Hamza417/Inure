@@ -122,6 +122,13 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    fun shuffleSongs() {
+        viewModelScope.launch(Dispatchers.Default) {
+            globalList.shuffle()
+            songs.postValue(globalList)
+        }
+    }
+
     @Suppress("unused")
     companion object {
         @SuppressLint("InlinedApi")

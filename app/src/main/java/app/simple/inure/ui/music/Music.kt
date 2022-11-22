@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.adapters.ui.AdapterMusic
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.preferences.MusicPreferences
@@ -51,14 +52,35 @@ class Music : KeyboardScopedFragment() {
                 }
 
                 override fun onMusicPlayClicked(position: Int) {
-                    (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 150)
-                    val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                    intent.data = Uri.parse(it[position].fileUri)
-                    startActivity(intent)
+
                 }
             })
 
             recyclerView.adapter = adapterMusic
+
+            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
+                when (id) {
+                    R.drawable.shuffle -> {
+                        musicViewModel.shuffleSongs()
+                    }
+                    R.drawable.ic_play -> {
+                        for (position in it.indices) {
+                            if (MusicPreferences.getLastMusicId() == it[position].id) {
+                                if (position > 7) {
+                                    (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 150)
+                                }
+                                val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
+                                intent.data = Uri.parse(it[position].fileUri)
+                                startActivity(intent)
+                                break
+                            }
+                        }
+                    }
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(), "search_music")
+                    }
+                }
+            }
 
             startPostponedEnterTransition()
         }
