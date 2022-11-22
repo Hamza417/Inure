@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.theme.ThemeRecyclerView
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
@@ -20,7 +21,7 @@ import app.simple.inure.util.StatusBarHeight
  * Custom recycler view with nice layout animation and
  * smooth overscroll effect and various states retention
  */
-class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
+open class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) : ThemeRecyclerView(context, attrs) {
 
     private var isLandscape = false
 

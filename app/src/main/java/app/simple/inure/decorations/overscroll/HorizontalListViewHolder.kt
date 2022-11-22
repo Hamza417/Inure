@@ -1,12 +1,19 @@
 package app.simple.inure.decorations.overscroll
 
+import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.preferences.BehaviourPreferences
 
 open class HorizontalListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    fun getDrawable(resID: Int): Drawable {
+        return ContextCompat.getDrawable(itemView.context, resID)!!
+    }
+
     var currentVelocity = 0f
 
     /**

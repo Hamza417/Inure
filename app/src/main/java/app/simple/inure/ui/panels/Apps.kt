@@ -12,8 +12,10 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterApps
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.decorations.views.BottomMenuRecyclerView
 import app.simple.inure.dialogs.apps.AllAppsMenu.Companion.newAppsMenuInstance
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GeneratedDataType
@@ -30,6 +32,7 @@ import app.simple.inure.viewmodels.panels.AppsViewModel
 class Apps : ScopedFragment() {
 
     private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
+    private lateinit var appsBottomMenu: BottomMenuRecyclerView
     private lateinit var adapter: AdapterApps
     private lateinit var model: AppsViewModel
 
@@ -37,6 +40,7 @@ class Apps : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
 
         appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
+        appsBottomMenu = view.findViewById(R.id.all_apps_bottom_menu)
 
         model = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
 
@@ -70,42 +74,43 @@ class Apps : ScopedFragment() {
                     AppsMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }
+            })
 
-                override fun onSearchPressed(view: View) {
-                    openFragmentSlide(Search.newInstance(true), "search")
-                }
+            appsBottomMenu.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), appsListRecyclerView) { id, view ->
+                when (id) {
+                    R.drawable.ic_sort -> {
+                        PopupSortingStyle(view)
+                    }
+                    R.drawable.ic_filter -> {
+                        PopupAppsCategory(view)
+                    }
+                    R.drawable.ic_settings -> {
+                        childFragmentManager.newAppsMenuInstance().setOnGenerateListClicked {
+                            childFragmentManager.showGeneratedDataTypeSelector().setOnDataTypeSelected(object : GeneratedDataType.Companion.OnDataTypeSelected {
+                                override fun onDataTypeSelected(type: String) {
+                                    showLoader(manualOverride = true)
+                                    model.generateAllAppsTXTFile(type)
+                                }
+                            })
 
-                override fun onFilterPressed(view: View) {
-                    PopupAppsCategory(view)
-                }
-
-                override fun onSortPressed(view: View) {
-                    PopupSortingStyle(view)
-                }
-
-                override fun onSettingsPressed(view: View) {
-                    childFragmentManager.newAppsMenuInstance().setOnGenerateListClicked {
-                        childFragmentManager.showGeneratedDataTypeSelector().setOnDataTypeSelected(object : GeneratedDataType.Companion.OnDataTypeSelected {
-                            override fun onDataTypeSelected(type: String) {
-                                showLoader(manualOverride = true)
-                                model.generateAllAppsTXTFile(type)
-                            }
-                        })
-
-                        model.getGeneratedAppData().observe(viewLifecycleOwner) {
-                            if (it.isNotNull()) {
-                                hideLoader()
-                                openFragmentSlide(XMLViewerTextView
-                                                      .newInstance(packageInfo = PackageInfo(), /* Empty package info */
-                                                                   isManifest = false,
-                                                                   pathToXml = it,
-                                                                   isRaw = true), "xml_viewer")
-                                model.clearGeneratedAppsDataLiveData()
+                            model.getGeneratedAppData().observe(viewLifecycleOwner) {
+                                if (it.isNotNull()) {
+                                    hideLoader()
+                                    openFragmentSlide(XMLViewerTextView
+                                                          .newInstance(packageInfo = PackageInfo(), /* Empty package info */
+                                                                       isManifest = false,
+                                                                       pathToXml = it,
+                                                                       isRaw = true), "xml_viewer")
+                                    model.clearGeneratedAppsDataLiveData()
+                                }
                             }
                         }
                     }
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(true), "search")
+                    }
                 }
-            })
+            }
         }
 
         model.appLoaded.observe(viewLifecycleOwner) { appsEvent ->
