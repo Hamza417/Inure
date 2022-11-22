@@ -22,7 +22,7 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_settings_power"
+            app:srcCompat="@drawable/ic_settings_power"
             android:transitionName="@string/battery_optimization"
             app:tintType="accent" />
 

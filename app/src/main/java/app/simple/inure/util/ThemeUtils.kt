@@ -154,7 +154,7 @@ object ThemeUtils {
         }
     }
 
-    fun lightBars(window: Window) {
+    private fun lightBars(window: Window) {
         setStatusAndNavColors(window)
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = !AppearancePreferences.isAccentOnNavigationBar()

@@ -23,7 +23,7 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/disabled"
             app:tintType="accent"
-            android:src="@drawable/ic_apps_category_disabled"
+            app:srcCompat="@drawable/ic_apps_category_disabled"
             android:transitionName="@string/disabled" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

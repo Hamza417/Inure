@@ -22,7 +22,7 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/device_info"
-            android:src="@drawable/ic_memory"
+            app:srcCompat="@drawable/ic_memory"
             android:transitionName="@string/device_info" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

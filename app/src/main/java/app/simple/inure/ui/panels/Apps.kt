@@ -20,7 +20,6 @@ import app.simple.inure.dialogs.miscellaneous.GeneratedDataType
 import app.simple.inure.dialogs.miscellaneous.GeneratedDataType.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.popups.app.PopupGridSelection
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
@@ -78,10 +77,6 @@ class Apps : ScopedFragment() {
 
                 override fun onFilterPressed(view: View) {
                     PopupAppsCategory(view)
-                }
-
-                override fun onGridClicked(view: View) {
-                    PopupGridSelection(view, MainPreferences.gridType)
                 }
 
                 override fun onSortPressed(view: View) {

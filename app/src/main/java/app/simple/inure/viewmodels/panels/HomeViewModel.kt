@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PackageInfoFlags
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,6 +20,7 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
@@ -235,6 +237,8 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                     .filter { it.applicationInfo.enabled.invert() } as ArrayList<PackageInfo>
             }
 
+            println("Here are the disabled apps: $apps")
+
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
                     PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
@@ -251,33 +255,39 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
     private fun loadItems() {
         viewModelScope.launch(Dispatchers.Default) {
 
-            val list = arrayListOf(
-                    Pair(R.drawable.ic_app_icon, R.string.apps),
-                    Pair(R.drawable.ic_terminal, R.string.terminal),
-                    Pair(R.drawable.ic_stats, R.string.usage_statistics),
-                    // Pair(R.drawable.ic_memory, R.string.device_info),
-                    Pair(0, 0), // Divider
-                    Pair(R.drawable.ic_sensors, R.string.sensors),
-                    Pair(R.drawable.ic_layers, R.string.batch),
-                    Pair(R.drawable.ic_analytics, R.string.analytics),
-                    Pair(R.drawable.ic_notes, R.string.notes),
-                    // Pair(R.drawable.ic_music_note, R.string.music))
-                    Pair(0, 0), // Divider
-                    Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed),
-                    Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated),
-                    Pair(R.drawable.ic_apps_category_most_used, R.string.most_used),
-                    Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled),
-                    Pair(R.drawable.ic_apps_category_disabled, R.string.disabled),
-                    Pair(0, 0), // Divider
-                    Pair(R.drawable.ic_stacktrace, R.string.stacktraces)
-            )
+            val list = arrayListOf<Pair<Int, Int>>()
+
+            list.add(Pair(R.drawable.ic_app_icon, R.string.apps))
+            list.add(Pair(R.drawable.ic_terminal, R.string.terminal))
+            list.add(Pair(R.drawable.ic_stats, R.string.usage_statistics))
+            // list.add(Pair(R.drawable.ic_memory, R.string.device_info))
+            list.add(Pair(0, 0)) // Divider
+            list.add(Pair(R.drawable.ic_sensors, R.string.sensors))
+            list.add(Pair(R.drawable.ic_layers, R.string.batch))
+            list.add(Pair(R.drawable.ic_analytics, R.string.analytics))
+            list.add(Pair(R.drawable.ic_notes, R.string.notes))
+            // list.add(Pair(R.drawable.ic_music_note, R.string.music))
+            list.add(Pair(0, 0)) // Divider
+            list.add(Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed))
+            list.add(Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated))
+            list.add(Pair(R.drawable.ic_apps_category_most_used, R.string.most_used))
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                list.add(Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled))
+                list.add(Pair(R.drawable.ic_apps_category_disabled, R.string.disabled))
+            }
+
+            list.add(Pair(0, 0)) // Divider
+            list.add(Pair(R.drawable.ic_stacktrace, R.string.stacktraces))
 
             if (ConfigurationPreferences.isUsingRoot()) {
                 list.add(Pair(R.drawable.ic_settings_power, R.string.battery_optimization))
             }
 
             if (BuildConfig.DEBUG || DevelopmentPreferences.isDebugFeaturesEnabled()) {
-                list.add(Pair(R.drawable.ic_music_note, R.string.music))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    list.add(Pair(R.drawable.ic_music_note, R.string.music))
+                }
             }
 
             menuItems.postValue(list)

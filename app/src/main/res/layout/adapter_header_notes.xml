@@ -23,7 +23,7 @@
             app:tintType="accent"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_notes"
+            app:srcCompat="@drawable/ic_notes"
             android:transitionName="@string/notes" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

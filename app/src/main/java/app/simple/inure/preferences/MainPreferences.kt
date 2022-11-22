@@ -1,12 +1,8 @@
 package app.simple.inure.preferences
 
-import androidx.annotation.NonNull
-import app.simple.inure.constants.GridConstants
-import app.simple.inure.decorations.views.GridImageView
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort
-import org.jetbrains.annotations.NotNull
 
 /**
  * All app preferences
@@ -16,11 +12,9 @@ object MainPreferences {
     private const val launchCount = "launch_count"
     private const val dayNightMode = "is_day_night_mode"
     private const val appLanguage = "current_language_locale"
-    private const val storagePermissionUri = "storage_permission_uri"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
-    const val gridType = "apps_grid_type"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -81,15 +75,5 @@ object MainPreferences {
 
     fun getAppsCategory(): String {
         return getSharedPreferences().getString(listAppsCategory, PopupAppsCategory.BOTH)!!
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setGridType(type: Int) {
-        getSharedPreferences().edit().putInt(gridType, type).apply()
-    }
-
-    fun getGridType(): Int {
-        return getSharedPreferences().getInt(gridType, GridConstants.grid1)
     }
 }

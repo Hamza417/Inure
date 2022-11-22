@@ -22,7 +22,7 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/batch"
-            android:src="@drawable/ic_layers"
+            app:srcCompat="@drawable/ic_layers"
             app:tintType="accent"
             android:transitionName="@string/batch" />
 

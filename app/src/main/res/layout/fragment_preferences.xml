@@ -27,7 +27,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
-            android:src="@drawable/ic_app_icon_settings"
+            app:srcCompat="@drawable/ic_app_icon_settings"
             android:transitionName="@string/preferences"
             app:tintType="accent"
             tools:ignore="ContentDescription" />
@@ -54,7 +54,7 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/popup_padding"
-            android:src="@drawable/ic_memory"
+            app:srcCompat="@drawable/ic_memory"
             app:buttonTintType="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton

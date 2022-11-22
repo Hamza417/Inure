@@ -23,7 +23,7 @@
             app:tintType="accent"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/recently_updated"
-            android:src="@drawable/ic_apps_category_recently_updated"
+            app:srcCompat="@drawable/ic_apps_category_recently_updated"
             android:transitionName="@string/recently_updated" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

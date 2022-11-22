@@ -24,7 +24,7 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
             app:tintType="accent"
-            android:src="@drawable/ic_stats"
+            app:srcCompat="@drawable/ic_stats"
             android:transitionName="@string/usage_statistics" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

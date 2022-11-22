@@ -22,9 +22,9 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_app_icon"
-            app:tintType="accent"
-            android:transitionName="@string/apps" />
+            android:transitionName="@string/apps"
+            app:srcCompat="@drawable/ic_app_icon"
+            app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"
@@ -54,9 +54,9 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="@string/apps"
-            app:textColorStyle="primary"
             android:textSize="16sp"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_sort_button"
@@ -99,8 +99,8 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/search_button"
             android:src="@drawable/ic_search"
-            app:buttonTintType="regular"
-            android:transitionName="adapter_search_icon" />
+            android:transitionName="adapter_search_icon"
+            app:buttonTintType="regular" />
 
     </LinearLayout>
 

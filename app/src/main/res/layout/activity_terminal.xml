@@ -17,7 +17,7 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            android:src="@drawable/ic_terminal"
+            app:srcCompat="@drawable/ic_terminal"
             android:transitionName="@string/terminal"
             app:tintType="accent"
             tools:ignore="ContentDescription" />

@@ -41,7 +41,7 @@
                         android:layout_height="@dimen/adapter_header_icon_size"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/analytics"
-                        android:src="@drawable/ic_analytics"
+                        app:srcCompat="@drawable/ic_analytics"
                         android:transitionName="@string/analytics"
                         app:tintType="accent" />
 

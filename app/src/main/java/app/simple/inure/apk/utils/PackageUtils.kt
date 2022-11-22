@@ -68,8 +68,13 @@ object PackageUtils {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags))
             } else {
-                @Suppress("DEPRECATION")
-                getPackageInfo(packageName, flags.toInt())
+                try {
+                    @Suppress("DEPRECATION")
+                    getPackageInfo(packageName, flags.toInt())
+                } catch (e: RuntimeException) {
+                    @Suppress("DEPRECATION")
+                    getPackageInfo(packageName, PackageManager.GET_META_DATA)
+                }
             }
         } catch (e: NameNotFoundException) {
             e.printStackTrace()

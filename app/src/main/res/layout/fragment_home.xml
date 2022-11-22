@@ -24,9 +24,9 @@
             android:layout_height="50dp"
             android:contentDescription="@string/app_name"
             android:padding="5dp"
-            android:src="@drawable/ic_main_app_icon_big"
             android:transitionName="main_app_icon"
-            app:buttonTintType="accent" />
+            app:buttonTintType="accent"
+            app:srcCompat="@drawable/ic_main_app_icon_big" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"

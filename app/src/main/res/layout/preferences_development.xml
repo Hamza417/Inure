@@ -115,7 +115,7 @@
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/sc_preferences"
+                        app:srcCompat="@drawable/sc_preferences"
                         app:tintType="secondary" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView

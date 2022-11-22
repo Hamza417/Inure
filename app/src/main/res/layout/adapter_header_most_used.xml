@@ -22,7 +22,7 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/most_used"
-            android:src="@drawable/ic_apps_category_most_used"
+            app:srcCompat="@drawable/ic_apps_category_most_used"
             android:transitionName="@string/most_used"
             app:tintType="accent" />
 

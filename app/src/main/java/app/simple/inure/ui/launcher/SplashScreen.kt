@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Process
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,57 +107,80 @@ class SplashScreen : ScopedFragment() {
             null
         }
 
+        val startTime = System.currentTimeMillis()
+
         appsViewModel.getAppData().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Apps loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isAppDataLoaded = true
             openApp()
         }
 
         usageStatsData.usageData.observe(viewLifecycleOwner) {
+            Log.d(TAG, "Usage stats loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isUsageDataLoaded = true
             openApp()
         }
 
         sensorsViewModel.getSensorsData().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Sensors loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             areSensorsLoaded = true
             openApp()
         }
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Search data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isSearchLoaded = true
             openApp()
         }
 
         searchViewModel.getDeepSearchData().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Deep search data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isSearchLoaded = true
             openApp()
         }
 
         homeViewModel.getRecentlyInstalled().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Recently installed data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isRecentlyInstalledLoaded = true
             openApp()
         }
 
         homeViewModel.getRecentlyUpdated().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Recently updated data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isRecentlyUpdatedLoaded = true
             openApp()
         }
 
         homeViewModel.getMostUsed().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Most used data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isFrequentlyUsedLoaded = true
             openApp()
         }
 
-        homeViewModel.getDisabledApps().observe(viewLifecycleOwner) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            homeViewModel.getDisabledApps().observe(viewLifecycleOwner) {
+                Log.d(TAG, "Disabled apps data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
+                isDisabledPackagesLoaded = true
+                openApp()
+            }
+        } else {
             isDisabledPackagesLoaded = true
             openApp()
         }
 
-        homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
+                Log.d(TAG, "Uninstalled packages data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
+                isUninstalledPackagesLoaded = true
+                openApp()
+            }
+        } else {
             isUninstalledPackagesLoaded = true
             openApp()
         }
 
         batteryOptimizationViewModel?.getBatteryOptimizationData()?.observe(viewLifecycleOwner) {
+            Log.d(TAG, "Battery optimization data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isBatteryOptimizationLoaded = true
             openApp()
         }
@@ -201,5 +225,7 @@ class SplashScreen : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        private const val TAG = "Splash Screen"
     }
 }

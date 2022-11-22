@@ -1,6 +1,7 @@
 package app.simple.inure.viewmodels.preferences
 
 import android.app.Application
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -67,7 +68,9 @@ class ShortcutsViewModel(application: Application) : WrappedViewModel(applicatio
             )
 
             if (DevelopmentPreferences.isDebugFeaturesEnabled()) {
-                list.add(ShortcutModel(R.drawable.sc_music, MUSIC_ID, MUSIC_ACTION, R.string.music))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    list.add(ShortcutModel(R.drawable.sc_music, MUSIC_ID, MUSIC_ACTION, R.string.music))
+                }
             }
 
             list.sortBy {
