@@ -11,6 +11,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterUsageStats
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
@@ -18,6 +19,7 @@ import app.simple.inure.dialogs.usagestats.UsageStatsMenu
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.interfaces.menus.BottomMenuCallbacks
 import app.simple.inure.popups.usagestats.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatisticsPreferences
@@ -42,7 +44,6 @@ class Statistics : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         showLoader()
 
         if (!requireContext().checkForUsageAccessPermission()) {
@@ -73,26 +74,27 @@ class Statistics : ScopedFragment() {
                     AppsMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }
-
-                override fun onSortPressed(view: View) {
-                    PopupUsageStatsSorting(view)
-                }
-
-                override fun onFilterPressed(view: View) {
-                    PopupAppsCategory(view)
-                }
-
-                override fun onSettingsPressed(view: View) {
-                    UsageStatsMenu.newInstance()
-                        .show(childFragmentManager, "menu")
-                }
-
-                override fun onSearchPressed(view: View) {
-                    openFragmentSlide(Search.newInstance(true), "search")
-                }
             })
 
             recyclerView.adapter = adapterUsageStats
+
+            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, view ->
+                when (id) {
+                    R.drawable.ic_sort -> {
+                        PopupUsageStatsSorting(view)
+                    }
+                    R.drawable.ic_filter -> {
+                        PopupAppsCategory(view)
+                    }
+                    R.drawable.ic_settings -> {
+                        UsageStatsMenu.newInstance()
+                            .show(childFragmentManager, "menu")
+                    }
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(true), "search")
+                    }
+                }
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

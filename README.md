@@ -1,5 +1,5 @@
 ![Banner](assets/banner.png)
-  
+
 # Inure App Manager
 
 An elegant Android app manager, currently in development
@@ -88,3 +88,8 @@ Low priority features
 Designing of interface skeletons for Inure
 ![01](./assets/01.jpg)
 
+## License
+
+While the project is GPLv3 licensed, you're not allowed to publish any unofficial builds of the
+project on any app store or website. You can however, fork the project and make your own changes to
+it. You're also not allowed to use any of the assets of the app in any other projects.

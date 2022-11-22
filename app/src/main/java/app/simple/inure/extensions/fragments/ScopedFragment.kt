@@ -24,6 +24,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
+import app.simple.inure.decorations.views.BottomMenuRecyclerView
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
@@ -74,6 +75,8 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      */
     private var loader: Loader? = null
 
+    protected var bottomMenu: BottomMenuRecyclerView? = null
+
     /**
      * [postponeEnterTransition] here and initialize all the
      * views in [onCreateView] with proper transition names
@@ -85,6 +88,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
 
         postponeEnterTransition()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        kotlin.runCatching {
+            bottomMenu = requireActivity().findViewById(R.id.bottom_menu)
+        }
     }
 
     override fun onResume() {

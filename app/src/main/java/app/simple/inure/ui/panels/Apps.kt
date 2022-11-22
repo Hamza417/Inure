@@ -32,7 +32,6 @@ import app.simple.inure.viewmodels.panels.AppsViewModel
 class Apps : ScopedFragment() {
 
     private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
-    private lateinit var appsBottomMenu: BottomMenuRecyclerView
     private lateinit var adapter: AdapterApps
     private lateinit var model: AppsViewModel
 
@@ -40,7 +39,6 @@ class Apps : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
 
         appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
-        appsBottomMenu = view.findViewById(R.id.all_apps_bottom_menu)
 
         model = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
 
@@ -49,7 +47,6 @@ class Apps : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         showLoader()
 
         model.getAppData().observe(viewLifecycleOwner) { it ->
@@ -76,7 +73,7 @@ class Apps : ScopedFragment() {
                 }
             })
 
-            appsBottomMenu.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), appsListRecyclerView) { id, view ->
+            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), appsListRecyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_sort -> {
                         PopupSortingStyle(view)
