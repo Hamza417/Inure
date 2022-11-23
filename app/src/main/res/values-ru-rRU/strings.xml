@@ -604,4 +604,5 @@
     <string name="not_optimized">Оптимизация отключена</string>
     <string name="optimize">Включить оптимизацию</string>
     <string name="dont_optimize">Откл. оптимизацию</string>
+    <string name="no_tracker_found">Трекеры не найдены</string>
 </resources>
