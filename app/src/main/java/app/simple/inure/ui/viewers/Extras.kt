@@ -61,7 +61,7 @@ class Extras : SearchBarScopedFragment() {
                                 openFragmentSlide(Font.newInstance(packageInfo, path), "ttf_viewer")
                             }
                             path.endsWith(".html") -> {
-                                openFragmentSlide(HtmlViewer.newInstance(packageInfo, path), "html_viewer")
+                                openFragmentSlide(XMLViewerTextView.newInstance(packageInfo, false, path), "html_viewer")
                             }
                             path.endsWith(".java") -> {
                                 openFragmentSlide(Java.newInstance(packageInfo, path), "java_viewer")
