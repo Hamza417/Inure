@@ -75,7 +75,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
     fun organizeData() {
         if (isLoaded) {
             if (keyword.isNullOrEmpty()) {
-                if (TrackersPreferences.isFullClassesLis()) {
+                if (TrackersPreferences.isFullClassesList()) {
                     classesListData.postValue(classesListAll)
                 } else {
                     classesListData.postValue(classesList)
@@ -157,7 +157,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
         }
 
         // Post classes list to the UI Controller
-        if (TrackersPreferences.isFullClassesLis()) {
+        if (TrackersPreferences.isFullClassesList()) {
             classesListData.postValue(classesListAll)
         } else {
             classesListData.postValue(classesList)
@@ -169,7 +169,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
     private fun filterClasses() {
         val list = arrayListOf<String>()
 
-        val listOfAllClasses = if (TrackersPreferences.isFullClassesLis()) {
+        val listOfAllClasses = if (TrackersPreferences.isFullClassesList()) {
             classesListAll
         } else {
             classesList

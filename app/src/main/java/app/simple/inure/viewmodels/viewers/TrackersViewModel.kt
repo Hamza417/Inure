@@ -76,7 +76,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
     fun organizeData() {
         if (isLoaded) {
             if (keyword.isNullOrEmpty()) {
-                if (TrackersPreferences.isFullClassesLis()) {
+                if (TrackersPreferences.isFullClassesList()) {
                     classesListData.postValue(classesListAll)
                 } else {
                     classesListData.postValue(classesList)
@@ -170,7 +170,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
 
         // Post classes list to the UI Controller
-        if (TrackersPreferences.isFullClassesLis()) {
+        if (TrackersPreferences.isFullClassesList()) {
             classesListData.postValue(classesListAll)
         } else {
             classesListData.postValue(classesList)
@@ -182,7 +182,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
     private fun filterClasses() {
         val list = arrayListOf<String>()
 
-        val listOfAllClasses = if (TrackersPreferences.isFullClassesLis()) {
+        val listOfAllClasses = if (TrackersPreferences.isFullClassesList()) {
             classesListAll
         } else {
             classesList

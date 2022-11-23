@@ -9,7 +9,7 @@ object TrackersPreferences {
 
     /* ---------------------------------------------------------------------------------------------- */
 
-    fun isFullClassesLis(): Boolean {
+    fun isFullClassesList(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(isTrackersFullList, false)
     }
 

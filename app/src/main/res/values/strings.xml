@@ -600,4 +600,5 @@
     <string name="not_optimized">Not Optimized</string>
     <string name="optimize">Optimize</string>
     <string name="dont_optimize">Don\'t Optimize</string>
+    <string name="no_tracker_found">No Trackers Found</string>
 </resources>

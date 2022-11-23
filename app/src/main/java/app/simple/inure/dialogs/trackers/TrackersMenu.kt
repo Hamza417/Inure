@@ -29,11 +29,11 @@ class TrackersMenu : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showAllClasses.setChecked(TrackersPreferences.isFullClassesLis())
+        showAllClasses.setChecked(TrackersPreferences.isFullClassesList())
         trackersAnalyticsSwitch.setChecked(TrackersPreferences.isMessageShownAutomatically())
 
         showAllClasses.setOnSwitchCheckedChangeListener {
-            TrackersPreferences.setFullClassesList(!TrackersPreferences.isFullClassesLis())
+            TrackersPreferences.setFullClassesList(!TrackersPreferences.isFullClassesList())
         }
 
         trackersAnalyticsSwitch.setOnSwitchCheckedChangeListener {

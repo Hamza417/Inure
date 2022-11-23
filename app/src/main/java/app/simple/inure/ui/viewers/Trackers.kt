@@ -61,31 +61,35 @@ class Trackers : SearchBarScopedFragment() {
 
         trackersViewModel.getClassesList().observe(viewLifecycleOwner) {
             progress.gone(true)
-            val adapterTrackers = AdapterTrackers(it, trackersViewModel.keyword ?: "")
+            if (it.isNotEmpty() || TrackersPreferences.isFullClassesList()) {
+                val adapterTrackers = AdapterTrackers(it, trackersViewModel.keyword ?: "")
 
-            adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
-                override fun onTrackersClicked(className: String) {
-                    openFragmentSlide(TrackerSourceViewer.newInstance(className, packageInfo), "tracker_source_viewer")
+                adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
+                    override fun onTrackersClicked(className: String) {
+                        openFragmentSlide(TrackerSourceViewer.newInstance(className, packageInfo), "tracker_source_viewer")
+                    }
+
+                    override fun onTrackersLongClicked(className: String) {
+                        /* no-op */
+                    }
+                })
+
+                recyclerView.adapter = adapterTrackers
+
+                analytics.setOnClickListener {
+                    if (message.isNotNull()) {
+                        TrackersMessage.newInstance(message)
+                            .show(childFragmentManager, "tracker_message")
+                    }
                 }
 
-                override fun onTrackersLongClicked(className: String) {
-                    /* no-op */
+                searchBox.doOnTextChanged { text, _, _, _ ->
+                    if (searchBox.isFocused) {
+                        trackersViewModel.keyword = text.toString().trim()
+                    }
                 }
-            })
-
-            recyclerView.adapter = adapterTrackers
-
-            analytics.setOnClickListener {
-                if (message.isNotNull()) {
-                    TrackersMessage.newInstance(message)
-                        .show(childFragmentManager, "tracker_message")
-                }
-            }
-
-            searchBox.doOnTextChanged { text, _, _, _ ->
-                if (searchBox.isFocused) {
-                    trackersViewModel.keyword = text.toString().trim()
-                }
+            } else {
+                showWarning(R.string.no_tracker_found, goBack = false)
             }
         }
 

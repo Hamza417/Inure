@@ -295,9 +295,11 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    open fun showWarning(@StringRes warning: Int) {
+    open fun showWarning(@StringRes warning: Int, goBack: Boolean = true) {
         childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            if (goBack) {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
         }
     }
 
