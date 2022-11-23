@@ -30,7 +30,7 @@ class HeightDeferringInsetsAnimationCallback(private val view: View, val persist
     private var height = 0
 
     init {
-        view.onDimensions { width, height ->
+        view.onDimensions { _, height ->
             this.height = height
         }
         require(persistentInsetTypes and deferredInsetTypes == 0) {
@@ -55,7 +55,7 @@ class HeightDeferringInsetsAnimationCallback(private val view: View, val persist
 
         // The resulting `diff` insets contain the values for us to apply as a translation
         // to the view
-        val x = (diff.left - diff.right)
+        // val x = (diff.left - diff.right)
         val yBottom = (diff.top - diff.bottom)
 
         with(view) {

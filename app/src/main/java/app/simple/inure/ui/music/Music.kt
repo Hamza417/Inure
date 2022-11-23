@@ -58,7 +58,7 @@ class Music : KeyboardScopedFragment() {
 
             recyclerView.adapter = adapterMusic
 
-            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
+            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.shuffle -> {
                         musicViewModel.shuffleSongs()
