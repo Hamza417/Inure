@@ -19,7 +19,7 @@ class AllAppsMenu : ScopedBottomSheetFragment() {
     private var onGenerateListClicked: AllAppsMenuCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_all_apps_menu, container, false)
+        val view = inflater.inflate(R.layout.dialog_menu_all_apps, container, false)
 
         generateList = view.findViewById(R.id.dialog_export_app_list)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)

@@ -17,7 +17,7 @@ class PermissionsMenu : ScopedBottomSheetFragment() {
     private lateinit var appSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_permissions, container, false)
+        val view = inflater.inflate(R.layout.dialog_menu_permissions, container, false)
 
         labelType = view.findViewById(R.id.popup_label_type)
         appSettings = view.findViewById(R.id.dialog_open_apps_settings)

@@ -23,7 +23,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
     private lateinit var deepSearch: SwitchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_search_menu, container, false)
+        val view = inflater.inflate(R.layout.dialog_menu_search, container, false)
 
         appsCategory = view.findViewById(R.id.dialog_search_apps_category)
         sortingStyle = view.findViewById(R.id.dialog_search_apps_sorting)

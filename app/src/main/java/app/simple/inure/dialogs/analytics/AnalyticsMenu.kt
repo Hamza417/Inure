@@ -18,7 +18,7 @@ class AnalyticsMenu : ScopedBottomSheetFragment() {
     private lateinit var settings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_analytics_menu, container, false)
+        val view = inflater.inflate(R.layout.dialog_menu_analytics, container, false)
 
         sdkValue = view.findViewById(R.id.sdk_value)
         pieHoleRadius = view.findViewById(R.id.dialog_open_pie_hole)

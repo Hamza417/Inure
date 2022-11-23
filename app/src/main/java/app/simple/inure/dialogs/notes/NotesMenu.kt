@@ -16,7 +16,7 @@ class NotesMenu : ScopedBottomSheetFragment() {
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_notes_menu, container, false)
+        val view = inflater.inflate(R.layout.dialog_menu_notes, container, false)
 
         expandedNotes = view.findViewById(R.id.expanded_notes)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)

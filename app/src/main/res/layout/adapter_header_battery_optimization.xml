@@ -22,8 +22,8 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/ic_settings_power"
             android:transitionName="@string/battery_optimization"
+            app:srcCompat="@drawable/ic_settings_power"
             app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -56,9 +56,12 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
+            android:drawablePadding="@dimen/popup_padding"
             android:text="@string/apps"
             android:textSize="16sp"
             app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_numbers_textview"
+            app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

@@ -22,9 +22,9 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/disabled"
-            app:tintType="accent"
+            android:transitionName="@string/disabled"
             app:srcCompat="@drawable/ic_apps_category_disabled"
-            android:transitionName="@string/disabled" />
+            app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"
@@ -53,10 +53,13 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
+            android:drawablePadding="@dimen/popup_padding"
             android:text="@string/apps"
-            app:textColorStyle="primary"
             android:textSize="16sp"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_numbers_textview"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
 
     </LinearLayout>
 

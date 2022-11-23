@@ -16,7 +16,7 @@ class CodeViewerMenu : ScopedBottomSheetFragment() {
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_code_viewer_menu, container, false)
+        val view = inflater.inflate(R.layout.dialog_menu_code_viewer, container, false)
 
         showNumberOnEveryLine = view.findViewById(R.id.line_number_on_every_line)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)

@@ -10,7 +10,7 @@
     <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/white"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:elevation="@dimen/dialog_elevation"
@@ -18,6 +18,7 @@
         android:padding="@dimen/dialog_padding">
 
         <LinearLayout
+            android:id="@+id/dialog_interval_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -28,13 +29,13 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
-                android:text="@string/label_type"
+                android:text="@string/sdk_value"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/popup_label_type"
+                android:id="@+id/sdk_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -50,6 +51,20 @@
 
         </LinearLayout>
 
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/dialog_open_pie_hole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/pie_hole_radius"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
             android:layout_height="1px"
@@ -64,7 +79,7 @@
             android:layout_weight="1"
             android:padding="@dimen/dialog_padding"
             android:text="@string/open_application_settings"
-            android:textSize="6pt"
+            android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
             app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
             app:drawableTintStyle="accent"

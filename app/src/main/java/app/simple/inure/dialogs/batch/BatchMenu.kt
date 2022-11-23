@@ -17,7 +17,7 @@ class BatchMenu : ScopedBottomSheetFragment() {
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_batch_menu, container, false)
+        val view = inflater.inflate(R.layout.dialog_menu_batch, container, false)
 
         moveSelectionOnTop = view.findViewById(R.id.move_selection_on_top)
         highlightSelected = view.findViewById(R.id.highlight_selected)

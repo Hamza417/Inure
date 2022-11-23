@@ -17,7 +17,7 @@ class NotesEditorMenu : ScopedBottomSheetFragment() {
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_notes_editor_settings, container, false)
+        val view = inflater.inflate(R.layout.dialog_menu_notes_editor, container, false)
 
         jsonSpansSwitch = view.findViewById(R.id.html_spans)
         autoSave = view.findViewById(R.id.auto_save)

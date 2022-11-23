@@ -18,7 +18,6 @@
         android:padding="@dimen/dialog_padding">
 
         <LinearLayout
-            android:id="@+id/dialog_interval_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -29,41 +28,18 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
-                android:text="@string/sdk_value"
+                android:text="@string/expanded_notes"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
-            <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/sdk_value"
-                android:layout_width="wrap_content"
+            <app.simple.inure.decorations.switchview.SwitchView
+                android:id="@+id/expanded_notes"
+                android:layout_width="@dimen/switch_width"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:drawableEnd="@drawable/ani_ic_unfold_popup"
-                android:drawablePadding="10dp"
-                android:gravity="center_vertical"
-                android:padding="@dimen/dialog_padding"
-                android:textSize="5pt"
-                app:appFontStyle="regular"
-                app:drawableTintMode="src_in"
-                app:drawableTintStyle="accent"
-                app:textColorStyle="tertiary" />
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
-
-        <app.simple.inure.decorations.ripple.DynamicRippleTextView
-            android:id="@+id/dialog_open_pie_hole"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:padding="@dimen/dialog_padding"
-            android:text="@string/pie_hole_radius"
-            android:textSize="6pt"
-            app:appFontStyle="bold"
-            app:drawableEndCompat="@drawable/ic_dot_tiny"
-            app:drawableTintStyle="accent"
-            app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
@@ -79,7 +55,7 @@
             android:layout_weight="1"
             android:padding="@dimen/dialog_padding"
             android:text="@string/open_application_settings"
-            android:textSize="6pt"
+            android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
             app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
             app:drawableTintStyle="accent"

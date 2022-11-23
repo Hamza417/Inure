@@ -23,7 +23,7 @@
             android:padding="@dimen/dialog_padding"
             android:text="@string/open_application_settings"
             app:textColorStyle="primary"
-            android:textSize="6pt"
+            android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

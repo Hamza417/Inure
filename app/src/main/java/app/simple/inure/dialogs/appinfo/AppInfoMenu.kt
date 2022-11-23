@@ -17,7 +17,7 @@ class AppInfoMenu : ScopedBottomSheetFragment() {
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_app_info_menu, container, false)
+        val view = inflater.inflate(R.layout.dialog_menu_app_info, container, false)
 
         menuLayout = view.findViewById(R.id.popup_menu_layout)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)

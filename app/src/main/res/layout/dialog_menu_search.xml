@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:padding="@dimen/dialog_padding">
 
-    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:elevation="@dimen/dialog_elevation"
@@ -27,13 +27,13 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
-                android:text="@string/usage_statistics_engine"
+                android:text="@string/apps_category"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/popup_usage_engine"
+                android:id="@+id/dialog_search_apps_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -43,22 +43,16 @@
                 android:padding="@dimen/dialog_padding"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
+                app:drawableTint="?attr/colorAppAccent"
                 app:drawableTintMode="src_in"
-                app:drawableTintStyle="accent"
                 app:textColorStyle="tertiary" />
 
         </LinearLayout>
 
-        <app.simple.inure.decorations.theme.ThemeDivider
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginHorizontal="@dimen/dialog_padding"
-            android:layout_marginVertical="@dimen/dialog_padding" />
-
         <LinearLayout
-            android:id="@+id/dialog_interval_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
             android:orientation="horizontal">
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -67,13 +61,13 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
-                android:text="@string/data_interval"
+                android:text="@string/sorting_style"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/popup_interval"
+                android:id="@+id/dialog_search_apps_sorting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -83,8 +77,7 @@
                 android:padding="@dimen/dialog_padding"
                 android:textSize="5pt"
                 app:appFontStyle="regular"
-                app:drawableTintMode="src_in"
-                app:drawableTintStyle="accent"
+                app:drawableTint="?attr/colorAppAccent"
                 app:textColorStyle="tertiary" />
 
         </LinearLayout>
@@ -102,13 +95,13 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:padding="@dimen/dialog_padding"
-                android:text="@string/hide_unused_app"
+                android:text="@string/ignore_case"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.switchview.SwitchView
-                android:id="@+id/hide_unused_switch"
+                android:id="@+id/ignore_case"
                 android:layout_width="@dimen/switch_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -119,23 +112,41 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:clipToPadding="false"
             android:orientation="horizontal">
 
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:padding="@dimen/dialog_padding"
-                android:text="@string/limit_stats_to_hours"
-                android:textSize="@dimen/info_text_small"
-                app:appFontStyle="bold"
-                app:textColorStyle="primary" />
+                android:orientation="vertical"
+                android:padding="@dimen/dialog_padding">
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    android:text="@string/deep_search"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_warning_tiny"
+                    app:textColorStyle="primary"
+                    app:drawableTint="@color/indian_red" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/deep_search_desc"
+                    android:textSize="@dimen/desc_text_size"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="tertiary" />
+
+            </LinearLayout>
 
             <app.simple.inure.decorations.switchview.SwitchView
-                android:id="@+id/limit_hours_switch"
+                android:id="@+id/deep_search"
                 android:layout_width="@dimen/switch_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -157,12 +168,11 @@
             android:layout_weight="1"
             android:padding="@dimen/dialog_padding"
             android:text="@string/open_application_settings"
-            android:textSize="6pt"
+            android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
             app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
-
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
 </FrameLayout>
