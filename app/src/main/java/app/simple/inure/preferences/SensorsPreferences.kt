@@ -1,7 +1,7 @@
 package app.simple.inure.preferences
 
 import androidx.annotation.NonNull
-import app.simple.inure.util.SensorsSort
+import app.simple.inure.util.SortSensors
 import org.jetbrains.annotations.NotNull
 
 object SensorsPreferences {
@@ -16,7 +16,7 @@ object SensorsPreferences {
     }
 
     fun getSortStyle(): String {
-        return SharedPreferences.getSharedPreferences().getString(sortStyle, SensorsSort.NAME)!!
+        return SharedPreferences.getSharedPreferences().getString(sortStyle, SortSensors.NAME)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

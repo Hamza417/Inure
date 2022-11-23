@@ -30,21 +30,23 @@ class Sensors : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sensorsViewModel.getSensorsData().observe(viewLifecycleOwner, {
+        sensorsViewModel.getSensorsData().observe(viewLifecycleOwner) {
             adapterSensors = AdapterSensors(it)
-
-            adapterSensors.setOnAdapterSensorCallbackListener(object : AdapterSensors.Companion.AdapterSensorCallbacks {
-                override fun onSortPressed(view: View) {
-                    PopupSortingStyle(view)
-                }
-            })
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
             recyclerView.adapter = adapterSensors
-        })
+
+            bottomMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_sort), recyclerView) { id, view ->
+                when (id) {
+                    R.drawable.ic_sort -> {
+                        PopupSortingStyle(view)
+                    }
+                }
+            }
+        }
     }
 
     companion object {

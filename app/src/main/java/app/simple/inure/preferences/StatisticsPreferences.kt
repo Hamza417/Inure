@@ -33,7 +33,7 @@ object StatisticsPreferences {
     }
 
     fun getSortedBy(): String {
-        return getSharedPreferences().getString(statsSorting, SortUsageStats.TIME)!!
+        return getSharedPreferences().getString(statsSorting, SortUsageStats.TIME_USED)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

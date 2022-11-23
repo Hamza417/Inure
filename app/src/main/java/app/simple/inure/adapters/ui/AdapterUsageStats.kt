@@ -9,16 +9,17 @@ import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.PackageStats
+import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.RecyclerViewUtils
+import app.simple.inure.util.SortUsageStats
 import app.simple.inure.util.ViewUtils.visible
 import java.util.concurrent.TimeUnit
 
@@ -106,6 +107,49 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), list.size)
 
+            holder.category.text = when (StatisticsPreferences.getAppsCategory()) {
+                PopupAppsCategory.USER -> {
+                    holder.getString(R.string.user)
+                }
+                PopupAppsCategory.SYSTEM -> {
+                    holder.getString(R.string.system)
+                }
+                PopupAppsCategory.BOTH -> {
+                    with(StringBuilder()) {
+                        append(holder.getString(R.string.user))
+                        append(" | ")
+                        append(holder.getString(R.string.system))
+                    }
+                }
+                else -> {
+                    holder.getString(R.string.unknown)
+                }
+            }
+
+            holder.sort.text = when (StatisticsPreferences.getSortedBy()) {
+                SortUsageStats.NAME -> {
+                    holder.getString(R.string.name)
+                }
+                SortUsageStats.DATA_RECEIVED -> {
+                    holder.getString(R.string.data_received)
+                }
+                SortUsageStats.DATA_SENT -> {
+                    holder.getString(R.string.data_sent)
+                }
+                SortUsageStats.WIFI_RECEIVED -> {
+                    holder.getString(R.string.wifi_received)
+                }
+                SortUsageStats.WIFI_SENT -> {
+                    holder.getString(R.string.wifi_sent)
+                }
+                SortUsageStats.TIME_USED -> {
+                    holder.getString(R.string.time_used)
+                }
+                else -> {
+                    holder.getString(R.string.unknown)
+                }
+            }
+
             if (isLoader) holder.loader.visible(false)
         }
     }
@@ -159,6 +203,8 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+        val category: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_category)
+        val sort: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
         val loader: CustomProgressBar = itemView.findViewById(R.id.loader)
     }
 }

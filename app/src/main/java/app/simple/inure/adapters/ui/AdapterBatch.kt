@@ -15,11 +15,13 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.RecyclerViewUtils
+import app.simple.inure.util.Sort
 import java.util.stream.Collectors
 
 class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boolean = true) : RecyclerView.Adapter<VerticalListViewHolder>() {
@@ -108,6 +110,43 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
         if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
+
+            holder.category.text = when (BatchPreferences.getAppsCategory()) {
+                PopupAppsCategory.USER -> {
+                    holder.getString(R.string.user)
+                }
+                PopupAppsCategory.SYSTEM -> {
+                    holder.getString(R.string.system)
+                }
+                PopupAppsCategory.BOTH -> {
+                    with(StringBuilder()) {
+                        append(holder.getString(R.string.user))
+                        append(" | ")
+                        append(holder.getString(R.string.system))
+                    }
+                }
+                else -> {
+                    holder.getString(R.string.unknown)
+                }
+            }
+
+            holder.sorting.text = when (BatchPreferences.getSortStyle()) {
+                Sort.NAME -> {
+                    holder.getString(R.string.name)
+                }
+                Sort.PACKAGE_NAME -> {
+                    holder.getString(R.string.package_name)
+                }
+                Sort.INSTALL_DATE -> {
+                    holder.getString(R.string.install_date)
+                }
+                Sort.SIZE -> {
+                    holder.getString(R.string.app_size)
+                }
+                else -> {
+                    holder.getString(R.string.unknown)
+                }
+            }
         }
     }
 
@@ -198,5 +237,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+        val sorting: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
+        val category: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_category)
     }
 }

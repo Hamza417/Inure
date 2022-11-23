@@ -34,7 +34,7 @@ class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
         }
 
         time.setOnClickListener {
-            setOnClick(SortUsageStats.TIME)
+            setOnClick(SortUsageStats.TIME_USED)
         }
 
         dataSent.setOnClickListener {
@@ -55,7 +55,7 @@ class PopupUsageStatsSorting(view: View) : BasePopupWindow() {
 
         when (StatisticsPreferences.getSortedBy()) {
             SortUsageStats.NAME -> name.isSelected = true
-            SortUsageStats.TIME -> time.isSelected = true
+            SortUsageStats.TIME_USED -> time.isSelected = true
             SortUsageStats.DATA_SENT -> dataSent.isSelected = true
             SortUsageStats.DATA_RECEIVED -> dataReceived.isSelected = true
             SortUsageStats.WIFI_SENT -> wifiSent.isSelected = true

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -90,14 +89,6 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
         }
 
         if (holder is Header) {
-            holder.search.setOnClickListener {
-                adapterCallbacks?.onSearchPressed(it)
-            }
-
-            holder.settings.setOnClickListener {
-                adapterCallbacks?.onSettingsPressed(it)
-            }
-
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_notes), notes.size)
         }
     }
@@ -131,7 +122,6 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
     }
 
     fun removeItem(position: Int) {
-        println(position)
         notes.removeAt(position)
         notifyItemRemoved(position.plus(1))
         notifyItemChanged(0)
@@ -148,7 +138,5 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
-        val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
-        val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
     }
 }

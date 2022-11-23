@@ -9,6 +9,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatteryOptimization
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -76,6 +77,23 @@ class BatteryOptimization : ScopedFragment() {
             })
 
             recyclerView.adapter = adapterBatteryOptimization
+
+            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, view ->
+                when (id) {
+                    R.drawable.ic_filter -> {
+                        PopupBatteryOptimizationCategory(view)
+                    }
+                    R.drawable.ic_sort -> {
+                        PopupBatteryOptimizationSortingStyle(view)
+                    }
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(true), "search")
+                    }
+                    R.drawable.ic_settings -> {
+                        openFragmentSlide(Preferences.newInstance(), "preferences")
+                    }
+                }
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

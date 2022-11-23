@@ -43,10 +43,6 @@ class StackTraces : ScopedFragment() {
             val adapterStackTraces = AdapterStackTraces(it)
 
             adapterStackTraces.setOnItemClickListener(object : AdapterCallbacks {
-                override fun onSettingsPressed(view: View) {
-                    openFragmentSlide(Preferences.newInstance(), "preferences")
-                }
-
                 override fun onStackTraceClicked(stackTrace: StackTrace) {
                     val intent = Intent(context, CrashReporterActivity::class.java)
                     intent.putExtra(CrashReporterActivity.MODE_PREVIEW, stackTrace)
@@ -94,6 +90,14 @@ class StackTraces : ScopedFragment() {
             }
 
             recyclerView.adapter = adapterStackTraces
+
+            bottomMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings), recyclerView) { id, _ ->
+                when (id) {
+                    R.drawable.ic_settings -> {
+                        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+                    }
+                }
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

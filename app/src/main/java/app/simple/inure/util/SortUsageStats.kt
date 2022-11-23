@@ -5,7 +5,7 @@ import app.simple.inure.preferences.StatisticsPreferences
 import java.util.*
 
 object SortUsageStats {
-    const val TIME = "time"
+    const val TIME_USED = "time"
     const val DATA_SENT = "data_up"
     const val DATA_RECEIVED = "data_received"
     const val WIFI_SENT = "wifi_sent"
@@ -29,7 +29,7 @@ object SortUsageStats {
             WIFI_RECEIVED -> {
                 sortByWifiReceived()
             }
-            TIME -> {
+            TIME_USED -> {
                 sortByTime()
             }
             else -> {

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/notes_recycler_view"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:layoutAnimation="@anim/notes_list_controller"
-    app:isFadingEdgeRequired="true" />
+    android:layout_height="match_parent">
+
+    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/notes_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/notes_list_controller"
+        app:isFadingEdgeRequired="true" />
+
+    <app.simple.inure.decorations.views.BottomMenuRecyclerView
+        android:id="@+id/bottom_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/popup_padding" />
+
+</FrameLayout>

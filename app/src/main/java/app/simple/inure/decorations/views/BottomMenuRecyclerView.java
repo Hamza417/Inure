@@ -53,14 +53,18 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
     public void initBottomMenuWithRecyclerView(ArrayList <Integer> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
         initBottomMenu(bottomMenuItems, bottomMenuCallbacks);
-        
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                setTranslationY(dy);
+    
+        if (recyclerView.getAdapter() != null) {
+            if (recyclerView.getAdapter().getItemCount() > 10) {
+                recyclerView.addOnScrollListener(new OnScrollListener() {
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        setTranslationY(dy);
+                    }
+                });
             }
-        });
+        }
     }
     
     public void setTranslationY(int dy) {

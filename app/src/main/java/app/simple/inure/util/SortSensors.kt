@@ -4,7 +4,7 @@ import android.hardware.Sensor
 import app.simple.inure.preferences.SensorsPreferences
 import java.util.*
 
-object SensorsSort {
+object SortSensors {
 
     const val NAME = "NAME"
     const val POWER = "POWER"

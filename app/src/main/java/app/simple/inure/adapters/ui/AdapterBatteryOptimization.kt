@@ -9,13 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
+import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.util.RecyclerViewUtils
+import app.simple.inure.util.SortBatteryOptimization
 
 class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimizationModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -69,20 +71,41 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
 
-            holder.search.setOnClickListener {
-                adapterCallbacks?.onSearchPressed(it)
+            holder.category.text = when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
+                PopupAppsCategory.USER -> {
+                    holder.getString(R.string.user)
+                }
+                PopupAppsCategory.SYSTEM -> {
+                    holder.getString(R.string.system)
+                }
+                PopupAppsCategory.BOTH -> {
+                    with(StringBuilder()) {
+                        append(holder.getString(R.string.user))
+                        append(" | ")
+                        append(holder.getString(R.string.system))
+                    }
+                }
+                else -> {
+                    holder.getString(R.string.unknown)
+                }
             }
 
-            holder.settings.setOnClickListener {
-                adapterCallbacks?.onSettingsPressed(it)
-            }
-
-            holder.sort.setOnClickListener {
-                adapterCallbacks?.onSortPressed(it)
-            }
-
-            holder.filter.setOnClickListener {
-                adapterCallbacks?.onFilterPressed(it)
+            holder.sorting.text = when (BatteryOptimizationPreferences.getBatteryOptimizationSortStyle()) {
+                SortBatteryOptimization.NAME -> {
+                    holder.getString(R.string.name)
+                }
+                SortBatteryOptimization.PACKAGE_NAME -> {
+                    holder.getString(R.string.package_name)
+                }
+                SortBatteryOptimization.SIZE -> {
+                    holder.getString(R.string.app_size)
+                }
+                SortBatteryOptimization.INSTALL_DATE -> {
+                    holder.getString(R.string.install_date)
+                }
+                else -> {
+                    holder.getString(R.string.unknown)
+                }
             }
         }
     }
@@ -155,9 +178,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
-        val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
-        val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
-        val filter: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_filter_button)
-        val sort: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_sort_button)
+        val sorting: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
+        val category: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_category)
     }
 }

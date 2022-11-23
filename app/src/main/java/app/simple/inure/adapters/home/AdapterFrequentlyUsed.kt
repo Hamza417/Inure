@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -81,14 +80,6 @@ class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
-
-            holder.search.setOnClickListener {
-                adapterCallbacks.onSearchPressed(it)
-            }
-
-            holder.settings.setOnClickListener {
-                adapterCallbacks.onSettingsPressed(it)
-            }
         }
     }
 
@@ -127,7 +118,5 @@ class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
-        val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
-        val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
     }
 }

@@ -11,7 +11,11 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.SensorsPreferences
 import app.simple.inure.util.RecyclerViewUtils
+import app.simple.inure.util.Sort
+import app.simple.inure.util.SortSensors
 
 class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
@@ -59,8 +63,22 @@ class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Ad
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_sensors), sensors.size)
 
-            holder.sort.setOnClickListener {
-                adapterSensorCallbacks?.onSortPressed(it)
+            holder.sorting.text = when (SensorsPreferences.getSortStyle()) {
+                SortSensors.NAME -> {
+                    holder.getString(R.string.name)
+                }
+                SortSensors.POWER -> {
+                    holder.getString(R.string.power)
+                }
+                SortSensors.MAX_RANGE -> {
+                    holder.getString(R.string.maximum_range)
+                }
+                SortSensors.RESOLUTION -> {
+                    holder.getString(R.string.resolution)
+                }
+                else -> {
+                    holder.getString(R.string.unknown)
+                }
             }
         }
     }
@@ -85,7 +103,7 @@ class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Ad
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_sensors)
-        val sort: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_sort_button)
+        val sorting: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
     }
 
     override fun getPopupText(position: Int): String {

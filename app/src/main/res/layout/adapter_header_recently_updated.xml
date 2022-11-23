@@ -61,30 +61,6 @@
             android:textSize="16sp"
             app:appFontStyle="bold" />
 
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/adapter_header_configuration_button"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/configuration_button"
-            android:src="@drawable/ic_settings"
-            app:buttonTintType="regular" />
-
-        <app.simple.inure.decorations.theme.ThemeDivider
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="4dp" />
-
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/adapter_header_search_button"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/search_button"
-            android:src="@drawable/ic_search"
-            app:buttonTintType="regular"
-            android:transitionName="adapter_search_icon" />
-
     </LinearLayout>
 
 </LinearLayout>

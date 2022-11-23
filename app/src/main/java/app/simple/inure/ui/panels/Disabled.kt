@@ -55,15 +55,18 @@ class Disabled : ScopedFragment() {
                     AppsMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }
-
-                override fun onSearchPressed(view: View) {
-                    openFragmentSlide(Search.newInstance(true), "search")
-                }
-
-                override fun onSettingsPressed(view: View) {
-                    openFragmentSlide(Preferences.newInstance(), "prefs_screen")
-                }
             })
+
+            bottomMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings, -1, R.drawable.ic_search), recyclerView) { id, _ ->
+                when (id) {
+                    R.drawable.ic_settings -> {
+                        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+                    }
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(true), "search")
+                    }
+                }
+            }
         }
     }
 

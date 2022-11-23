@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.SensorsPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
-import app.simple.inure.util.SensorsSort.getSortedList
+import app.simple.inure.util.SortSensors.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

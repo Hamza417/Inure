@@ -69,15 +69,6 @@ class Notes : ScopedFragment() {
                         }
                     })
                 }
-
-                override fun onSearchPressed(view: View) {
-                    openFragmentSlide(Search.newInstance(true), "search")
-                }
-
-                override fun onSettingsPressed(view: View) {
-                    NotesMenu.newInstance()
-                        .show(childFragmentManager, "notes_menu")
-                }
             })
 
             notesViewModel.getDelete().observe(viewLifecycleOwner) {
@@ -85,6 +76,18 @@ class Notes : ScopedFragment() {
             }
 
             recyclerView.adapter = adapterNotes
+
+            bottomMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings, -1, R.drawable.ic_search), recyclerView) { id, view ->
+                when (id) {
+                    R.drawable.ic_settings -> {
+                        NotesMenu.newInstance()
+                            .show(childFragmentManager, "notes_menu")
+                    }
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(true), "search")
+                    }
+                }
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

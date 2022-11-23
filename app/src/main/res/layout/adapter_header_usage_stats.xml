@@ -23,20 +23,20 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
-            app:tintType="accent"
+            android:transitionName="@string/usage_statistics"
             app:srcCompat="@drawable/ic_stats"
-            android:transitionName="@string/usage_statistics" />
+            app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
             android:layout_gravity="center_vertical"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:singleLine="true"
             android:layout_marginHorizontal="@dimen/header_padding"
             android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
             android:text="@string/usage_statistics"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="light"
@@ -62,10 +62,11 @@
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/adapter_total_apps"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
+            android:layout_weight="1"
             android:drawablePadding="@dimen/popup_padding"
             android:text="@string/apps"
             android:textSize="16sp"
@@ -74,13 +75,31 @@
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
-        <app.simple.inure.decorations.theme.ThemeDivider
-            android:layout_width="0dp"
-            android:layout_height="1px"
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/adapter_header_sorting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="2dp"
-            android:layout_weight="1" />
+            android:layout_marginStart="8dp"
+            android:drawablePadding="@dimen/popup_padding"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="regular"
+            app:drawableStartCompat="@drawable/ic_sort_tiny"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="tertiary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/adapter_header_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:drawablePadding="@dimen/popup_padding"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="regular"
+            app:drawableStartCompat="@drawable/ic_filter_tiny"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="tertiary" />
 
     </LinearLayout>
 
