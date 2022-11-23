@@ -31,11 +31,11 @@ object LocaleHelper {
             // Auto detect language (default)
             Locales("autoSystemLanguageString" /* Placeholder */, "default"),
             // English (United States)
-            Locales("English (US)", "en"),
+            Locales("English (US)", "en-US"),
             // Traditional Chinese (Taiwan)
             Locales("漢語 (Traditional Chinese)", "zh-TW"),
             // Russian
-            Locales("Русский (Russian)", "ru"),
+            Locales("Русский (Russian)", "ru-RU"),
     )
 
     fun getAppLocale(): Locale {
