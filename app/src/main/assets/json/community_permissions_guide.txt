@@ -1,0 +1,19 @@
+/*
+ * GPL-3.0 License
+ */
+
+/**
+ * Community permissions descriptions of some OEM or Developer defined permissions
+ * for native framework or system apps whose details Android doesn't or cannot
+ * provide.
+ * <p>
+ * If you're a developer or someone who has information about some permissions and
+ * want to add their description to this list, you're most welcome to do so. Just
+ * add the relevant information make a pull request on GitHub, don't forget to
+ * add your name or username to the list of contributors above the permission details
+ * you've been contributed.
+ * <p>
+ * <p>
+ * Last updated: 2021-05-01 1:53 AM
+ * Contributors: @Hamza417
+ */

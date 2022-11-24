@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -41,6 +42,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                     kotlin.runCatching {
                         permissionInfo.permissionInfo = appPackageInfo.requestedPermissions[count].getPermissionInfo(context)
                         permissionInfo.label = permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
+                        Log.d("Permission", permissionInfo.label)
 
                         if (isKeywordMatched(keyword, appPackageInfo.requestedPermissions[count], permissionInfo.label)) {
                             if (appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
@@ -54,6 +56,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                     }.onFailure {
                         permissionInfo.permissionInfo = null
                         permissionInfo.label = appPackageInfo.requestedPermissions[count]
+                        Log.d("Permission", permissionInfo.label)
 
                         if (isKeywordMatched(keyword, appPackageInfo.requestedPermissions[count])) {
                             if (appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
