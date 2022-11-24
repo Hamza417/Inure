@@ -605,4 +605,10 @@
     <string name="optimize">Включить оптимизацию</string>
     <string name="dont_optimize">Откл. оптимизацию</string>
     <string name="no_tracker_found">Трекеры не найдены</string>
+    <string name="full_version_activated">Полная версия активирована!</string>
+    <string name="failed_to_activate_full_version">Не удалось активировать полную версию!</string>
+    <string name="full_version_already_activated">Полная версия уже активирована</string>
+    <string name="this_feature_is_only_available_in_full_version">Эта функция доступна только в полной версии.</string>
+    <string name="show_me">Показать</string>
+    <string name="days_trial_period_remaining">До конца пробного периода осталось %1$d дней.</string>
 </resources>
