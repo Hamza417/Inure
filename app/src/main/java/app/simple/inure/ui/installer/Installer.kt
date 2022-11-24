@@ -95,6 +95,7 @@ class Installer : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fullVersionCheck()
         loader.visible(animate = true)
 
         broadcastReceiver = object : BroadcastReceiver() {

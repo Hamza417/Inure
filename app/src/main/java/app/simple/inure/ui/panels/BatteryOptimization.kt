@@ -42,6 +42,8 @@ class BatteryOptimization : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
 
+        fullVersionCheck()
+
         batteryOptimizationViewModel.getBatteryOptimizationData().observe(viewLifecycleOwner) { batteryOptimizationModelArrayList ->
             adapterBatteryOptimization = AdapterBatteryOptimization(batteryOptimizationModelArrayList)
 

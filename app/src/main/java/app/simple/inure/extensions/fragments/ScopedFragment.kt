@@ -25,12 +25,14 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.views.BottomMenuRecyclerView
+import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
@@ -281,6 +283,17 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                 loader = Loader.newInstance()
                 loader?.show(childFragmentManager, "loader")
             }
+        }
+    }
+
+    open fun fullVersionCheck(): Boolean {
+        return if (MainPreferences.isAppFullVersionEnabled()) {
+            true
+        } else {
+            childFragmentManager.showFullVersion().setWarningCallbacks {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+            false
         }
     }
 

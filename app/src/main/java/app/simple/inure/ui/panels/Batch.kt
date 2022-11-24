@@ -31,8 +31,10 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.batch.PopupBatchAppsCategory
 import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.actions.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.ui.subpanels.BatchSelectedApps
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -70,6 +72,7 @@ class Batch : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fullVersionCheck()
         showLoader()
 
         batchViewModel.getAppData().observe(viewLifecycleOwner) {

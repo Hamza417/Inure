@@ -22,13 +22,16 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.constants.Misc
 import app.simple.inure.crash.CrashReporter
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.*
 import app.simple.inure.viewmodels.viewers.SensorsViewModel
 import kotlinx.coroutines.delay
@@ -39,6 +42,7 @@ class SplashScreen : ScopedFragment() {
 
     private lateinit var icon: ImageView
     private lateinit var loaderImageView: LoaderImageView
+    private lateinit var daysLeft: TypeFaceTextView
 
     private var isAppDataLoaded = false
     private var isUsageDataLoaded = false
@@ -62,6 +66,15 @@ class SplashScreen : ScopedFragment() {
 
         icon = view.findViewById(R.id.imageView)
         loaderImageView = view.findViewById(R.id.loader)
+        daysLeft = view.findViewById(R.id.days_left)
+
+        if (MainPreferences.isTrialPeriod()) {
+            if (MainPreferences.isFullVersion()) {
+                daysLeft.gone()
+            } else {
+                daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
+            }
+        }
 
         if (AccessibilityPreferences.isAnimationReduced().invert()) {
             icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))

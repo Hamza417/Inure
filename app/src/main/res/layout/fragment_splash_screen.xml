@@ -6,17 +6,31 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/days_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/days_trial_period_remaining"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="medium"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textColorStyle="secondary" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_gravity="center"
-        app:srcCompat="@drawable/ic_main_app_icon_big"
         android:transitionName="main_app_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_main_app_icon_big"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.views.LoaderImageView

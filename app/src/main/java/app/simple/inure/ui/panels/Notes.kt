@@ -41,6 +41,8 @@ class Notes : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fullVersionCheck()
+
         notesViewModel.getNotesData().observe(viewLifecycleOwner) { it ->
             adapterNotes = AdapterNotes(it)
 

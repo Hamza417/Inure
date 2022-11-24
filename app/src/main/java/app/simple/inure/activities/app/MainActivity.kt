@@ -48,6 +48,10 @@ class MainActivity : BaseActivity() {
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
         ThemeUtils.setAppTheme(resources)
 
+        if (MainPreferences.getLaunchCount() == 0) {
+            MainPreferences.setFirstLaunchDate(System.currentTimeMillis())
+        }
+
         if (savedInstanceState.isNull()) {
             when (intent.action) {
                 ShortcutConstants.ANALYTICS_ACTION -> {

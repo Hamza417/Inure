@@ -2,20 +2,25 @@ package app.simple.inure.preferences
 
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.Sort
+import java.util.*
 
 /**
  * All app preferences
  */
 object MainPreferences {
 
-    private const val launchCount = "launch_count"
+    private const val MAX_TRIAL_DAYS = 15
+
+    private const val launchCount = "app_launch_count"
     private const val dayNightMode = "is_day_night_mode"
     private const val appLanguage = "current_language_locale"
+    private const val firstLaunchDate = "first_launch_date"
+    private const val isAppFullVersionEnabled = "is_full_version_enabled"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
-    const val isAppFullVersionEnabled = "is_app_full_version_enabled"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -85,6 +90,31 @@ object MainPreferences {
     }
 
     fun isAppFullVersionEnabled(): Boolean {
+        return getSharedPreferences().getBoolean(isAppFullVersionEnabled, false) ||
+                CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
+    }
+
+    fun isTrialPeriod(): Boolean {
+        return CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
+    }
+
+    fun isFullVersion(): Boolean {
         return getSharedPreferences().getBoolean(isAppFullVersionEnabled, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setFirstLaunchDate(value: Long) {
+        getSharedPreferences().edit().putLong(firstLaunchDate, value).apply()
+    }
+
+    fun getFirstLaunchDate(): Long {
+        return getSharedPreferences().getLong(firstLaunchDate, -1)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun getDaysLeft(): Int {
+        return MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday())
     }
 }

@@ -71,8 +71,10 @@ class AppearanceScreen : ScopedFragment() {
         }
 
         iconSize.setOnClickListener {
-            IconSize.newInstance()
-                .show(childFragmentManager, "icon_size")
+            if (fullVersionCheck()) {
+                IconSize.newInstance()
+                    .show(childFragmentManager, "icon_size")
+            }
         }
 
         iconShadows.setOnSwitchCheckedChangeListener {

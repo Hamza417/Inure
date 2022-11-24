@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:maxHeight="@dimen/dialog_height">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_padding"
+        android:backgroundTint="@android:color/white"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="horizontal"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/force_stop_result"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:text="@string/this_feature_is_only_available_in_full_version"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="medium"
+            app:textColorStyle="tertiary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/show_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/button_padding"
+            android:text="@string/show_me"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

@@ -362,6 +362,13 @@ public class CalendarUtils {
     }
     
     /**
+     * Get today's date
+     */
+    public static Date getToday() {
+        return clearTime(new Date());
+    }
+    
+    /**
      * The maximum date possible.
      */
     public static Date MAX_DATE = new Date(Long.MAX_VALUE);

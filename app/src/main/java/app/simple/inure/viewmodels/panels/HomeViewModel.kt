@@ -8,7 +8,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PackageInfoFlags
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +19,6 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
@@ -236,8 +234,6 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                 packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
                     .filter { it.applicationInfo.enabled.invert() } as ArrayList<PackageInfo>
             }
-
-            println("Here are the disabled apps: $apps")
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =

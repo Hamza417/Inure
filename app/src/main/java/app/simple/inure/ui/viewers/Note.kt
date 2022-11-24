@@ -40,6 +40,8 @@ class Note : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
+        fullVersionCheck()
+
         name.text = packageInfo.applicationInfo.name
         packageId.text = packageInfo.packageName
 

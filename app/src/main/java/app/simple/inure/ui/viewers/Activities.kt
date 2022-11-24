@@ -42,7 +42,7 @@ class Activities : SearchBarScopedFragment() {
         title = view.findViewById(R.id.activities_title)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        activitiesViewModel = ViewModelProvider(this, packageInfoFactory).get(ActivitiesViewModel::class.java)
+        activitiesViewModel = ViewModelProvider(this, packageInfoFactory)[ActivitiesViewModel::class.java]
 
         searchBoxState(false, ActivitiesPreferences.isSearchVisible())
         startPostponedEnterTransition()
@@ -52,6 +52,7 @@ class Activities : SearchBarScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fullVersionCheck()
 
         activitiesViewModel.getActivities().observe(viewLifecycleOwner) { it ->
             adapterActivities = AdapterActivities(packageInfo, it, searchBox.text.toString().trim())

@@ -604,4 +604,7 @@
     <string name="full_version_activated">Full Version Activated!</string>
     <string name="failed_to_activate_full_version">Failed to activate full version!</string>
     <string name="full_version_already_activated">Full version already activated</string>
+    <string name="this_feature_is_only_available_in_full_version">This feature is only available in full version.</string>
+    <string name="show_me">Show Me</string>
+    <string name="days_trial_period_remaining">%1$d days left in trial period.</string>
 </resources>

@@ -56,6 +56,7 @@ class Trackers : SearchBarScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fullVersionCheck()
         searchBoxState(animate = false, TrackersPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
