@@ -8,12 +8,12 @@
         {
             "id": "com.sec.android.provider.badge.permission.READ",
             "label": "com.sec.android.provider.badge.permission.READ",
-            "description": "null"
+            "description": "Allows an application to read to the Badges content provider."
         },
         {
             "id": "com.sec.android.provider.badge.permission.WRITE",
             "label": "com.sec.android.provider.badge.permission.WRITE",
-            "description": "null"
+            "description": "Allows an application to write to the Badges content provider"
         },
         {
             "id": "com.reddit.frontpage.permission.C2D_MESSAGE",

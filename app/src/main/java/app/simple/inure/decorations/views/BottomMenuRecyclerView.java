@@ -3,6 +3,7 @@ package app.simple.inure.decorations.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 
 import java.util.ArrayList;
 
@@ -42,8 +43,8 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     public void initBottomMenu(ArrayList <Integer> bottomMenuItems, BottomMenuCallbacks bottomMenuCallbacks) {
         AdapterBottomMenu adapterBottomMenu = new AdapterBottomMenu(bottomMenuItems);
         adapterBottomMenu.setBottomMenuCallbacks(bottomMenuCallbacks);
+        setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_animation_controller));
         setAdapter(adapterBottomMenu);
-        requestLayout();
         
         post(() -> {
             ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
@@ -57,9 +58,15 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         });
     }
     
+    @Override
+    public void setAdapter(@Nullable Adapter adapter) {
+        super.setAdapter(adapter);
+        scheduleLayoutAnimation();
+    }
+    
     public void initBottomMenuWithRecyclerView(ArrayList <Integer> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
         initBottomMenu(bottomMenuItems, bottomMenuCallbacks);
-    
+        
         if (recyclerView.getAdapter() != null) {
             if (recyclerView.getAdapter().getItemCount() > 10) {
                 recyclerView.addOnScrollListener(new OnScrollListener() {
