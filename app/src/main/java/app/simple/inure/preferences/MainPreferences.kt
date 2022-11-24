@@ -15,6 +15,7 @@ object MainPreferences {
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
+    const val isAppFullVersionEnabled = "is_app_full_version_enabled"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -75,5 +76,15 @@ object MainPreferences {
 
     fun getAppsCategory(): String {
         return getSharedPreferences().getString(listAppsCategory, PopupAppsCategory.BOTH)!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setAppFullVersionEnabled(value: Boolean): Boolean {
+        return getSharedPreferences().edit().putBoolean(isAppFullVersionEnabled, value).commit()
+    }
+
+    fun isAppFullVersionEnabled(): Boolean {
+        return getSharedPreferences().getBoolean(isAppFullVersionEnabled, false)
     }
 }

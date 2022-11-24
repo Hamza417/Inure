@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.Toast
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.constants.IntentConstants
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.crash.CrashReporter
@@ -16,6 +18,7 @@ import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
@@ -115,6 +118,29 @@ class MainActivity : BaseActivity() {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.app_container, DeviceInformation.newInstance(), "device_info")
                         .commit()
+                }
+                IntentConstants.ACTION_UNLOCK -> {
+                    if (packageManager.isPackageInstalled("app.simple.inureunlock")) {
+                        if (MainPreferences.isAppFullVersionEnabled()) {
+                            showWarning(R.string.full_version_already_activated, goBack = false)
+
+                            supportFragmentManager.beginTransaction()
+                                .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                                .commit()
+                        } else {
+                            if (MainPreferences.setAppFullVersionEnabled(value = true)) {
+                                showWarning(R.string.full_version_activated, goBack = false)
+
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                                    .commit()
+                            } else {
+                                showWarning(R.string.failed_to_activate_full_version, goBack = false)
+                            }
+                        }
+                    } else {
+                        showWarning(R.string.failed_to_activate_full_version, goBack = false)
+                    }
                 }
                 else -> {
                     supportFragmentManager.beginTransaction()

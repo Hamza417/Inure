@@ -601,4 +601,7 @@
     <string name="optimize">Optimize</string>
     <string name="dont_optimize">Don\'t Optimize</string>
     <string name="no_tracker_found">No Trackers Found</string>
+    <string name="full_version_activated">Full Version Activated!</string>
+    <string name="failed_to_activate_full_version">Failed to activate full version!</string>
+    <string name="full_version_already_activated">Full version already activated</string>
 </resources>
