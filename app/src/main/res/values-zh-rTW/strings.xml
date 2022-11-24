@@ -601,4 +601,5 @@
     <string name="not_optimized">未最佳化</string>
     <string name="optimize">最佳化</string>
     <string name="dont_optimize">不要最佳化</string>
+    <string name="no_tracker_found">沒有找到追蹤器</string>
 </resources>
