@@ -39,7 +39,8 @@ theme color modes.
 
 Currently, the app is in beta testing stage. You can join app's early beta testing
 from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure) and
-its [Telegram Channel](https://t.me/inure_app) for development related updates and discussions.
+its [Telegram Group](https://t.me/inure_app_manager) for development related updates
+and discussions.
 
 ## Development Status
 
