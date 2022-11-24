@@ -9,7 +9,6 @@ import app.simple.inure.decorations.overscroll.HorizontalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks
 import app.simple.inure.util.RecyclerViewUtils
-import com.google.android.material.transition.Hold
 
 class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Int>) : RecyclerView.Adapter<HorizontalListViewHolder>() {
 
@@ -57,6 +56,16 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Int>) : RecyclerV
 
     fun setBottomMenuCallbacks(bottomMenuCallbacks: BottomMenuCallbacks) {
         this.bottomMenuCallbacks = bottomMenuCallbacks
+    }
+
+    fun updateMenu(bottomMenuItems: java.util.ArrayList<Int>) {
+        if (this.bottomMenuItems.size != bottomMenuItems.size) {
+            val currentSize = this.bottomMenuItems.size
+            this.bottomMenuItems.clear()
+            notifyItemRangeRemoved(0, currentSize)
+            this.bottomMenuItems.addAll(bottomMenuItems)
+            notifyItemRangeInserted(0, this.bottomMenuItems.size)
+        }
     }
 
     inner class Holder(itemView: View) : HorizontalListViewHolder(itemView) {

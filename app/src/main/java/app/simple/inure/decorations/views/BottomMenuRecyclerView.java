@@ -2,6 +2,7 @@ package app.simple.inure.decorations.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 
@@ -21,6 +22,7 @@ import kotlin.ranges.RangesKt;
 public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
     private int containerHeight;
+    private int displayWidth;
     
     public BottomMenuRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -31,6 +33,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         if (isInEditMode()) {
             return;
         }
+        displayWidth = new DisplayMetrics().widthPixels;
         int padding = getResources().getDimensionPixelOffset(R.dimen.popup_padding);
         setPadding(padding, padding, padding, padding);
         setElevation(getResources().getDimensionPixelOffset(R.dimen.app_views_elevation));
@@ -43,17 +46,21 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     public void initBottomMenu(ArrayList <Integer> bottomMenuItems, BottomMenuCallbacks bottomMenuCallbacks) {
         AdapterBottomMenu adapterBottomMenu = new AdapterBottomMenu(bottomMenuItems);
         adapterBottomMenu.setBottomMenuCallbacks(bottomMenuCallbacks);
-        setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_animation_controller));
+        if (getAdapter() == null) {
+            setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_animation_controller));
+        } else {
+            setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.grid_list_animation_controller));
+        }
         setAdapter(adapterBottomMenu);
-        
+    
         post(() -> {
             ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
-    
+        
             layoutParams.topMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.leftMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.rightMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
-    
+        
             containerHeight = getHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
         });
     }
@@ -62,6 +69,16 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     public void setAdapter(@Nullable Adapter adapter) {
         super.setAdapter(adapter);
         scheduleLayoutAnimation();
+    }
+    
+    @Override
+    protected void onMeasure(int widthSpec, int heightSpec) {
+        int width = Math.min(widthSpec, displayWidth);
+        super.onMeasure(width, heightSpec);
+    }
+    
+    public AdapterBottomMenu getMenuAdapter() {
+        return (AdapterBottomMenu) super.getAdapter();
     }
     
     public void initBottomMenuWithRecyclerView(ArrayList <Integer> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
@@ -78,6 +95,11 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                 });
             }
         }
+    }
+    
+    public void updateBottomMenu(ArrayList <Integer> bottomMenuItems) {
+        getMenuAdapter().updateMenu(bottomMenuItems);
+        requestLayout();
     }
     
     public void setTranslationY(int dy) {
