@@ -1,4 +1,4 @@
-![Banner](assets/banner.png)
+![Banner](assets/winter_banner.png)
 
 # Inure App Manager
 
