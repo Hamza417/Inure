@@ -10,10 +10,6 @@ import android.os.Build
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
 import app.simple.inure.popups.apps.PopupAppsCategory
@@ -66,7 +62,7 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
             }
 
             for (app in list) {
-                app.packageInfo!!.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageInfo!!.applicationInfo)
+                app.packageInfo!!.applicationInfo.name = getApplicationName(applicationContext(), app.packageInfo!!.applicationInfo)
             }
 
             if (StatisticsPreferences.areUnusedAppHidden()) {

@@ -20,7 +20,7 @@ import app.simple.inure.util.UsageInterval
 import dev.rikka.tools.refine.Refine
 import java.util.*
 
-open class UsageStatsViewModel(application: Application) : WrappedViewModel(application) {
+open class UsageStatsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     @Retention(AnnotationRetention.SOURCE)
     @IntDef(value = [NetworkCapabilities.TRANSPORT_CELLULAR, NetworkCapabilities.TRANSPORT_WIFI])
