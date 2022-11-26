@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.FrameLayout
 import android.widget.Toast
 import app.simple.inure.R
@@ -26,6 +27,7 @@ import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*
 import app.simple.inure.util.CalendarUtils
+import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ThemeUtils
 import java.time.ZonedDateTime
@@ -48,9 +50,12 @@ class MainActivity : BaseActivity() {
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
         ThemeUtils.setAppTheme(resources)
 
-        if (MainPreferences.getLaunchCount() == 0) {
+        if (MainPreferences.getLaunchCount().isZero()) {
             MainPreferences.setFirstLaunchDate(System.currentTimeMillis())
         }
+
+        MainPreferences.incrementLaunchCount()
+        Log.d("MainActivity", "Launch count: ${MainPreferences.getLaunchCount()}")
 
         if (savedInstanceState.isNull()) {
             when (intent.action) {

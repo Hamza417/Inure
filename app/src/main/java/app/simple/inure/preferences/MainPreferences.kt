@@ -13,7 +13,7 @@ object MainPreferences {
 
     private const val MAX_TRIAL_DAYS = 15
 
-    private const val launchCount = "app_launch_count"
+    private const val launchCount = "main_app_launch_count"
     private const val dayNightMode = "is_day_night_mode"
     private const val appLanguage = "current_language_locale"
     private const val firstLaunchDate = "first_launch_date"
@@ -30,6 +30,10 @@ object MainPreferences {
 
     fun getLaunchCount(): Int {
         return getSharedPreferences().getInt(launchCount, 0)
+    }
+
+    fun incrementLaunchCount() {
+        setLaunchCount(getLaunchCount() + 1)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -116,5 +120,6 @@ object MainPreferences {
 
     fun getDaysLeft(): Int {
         return MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday())
+            .coerceAtLeast(0)
     }
 }
