@@ -176,8 +176,10 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
 
     fun setStrikeThru(boolean: Boolean) {
         paintFlags = if (boolean) {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         } else {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tiny, 0)
             paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
     }
