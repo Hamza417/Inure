@@ -21,6 +21,7 @@ An elegant Android app manager, currently in development
 - [Top 5 Android Apps of the Week - NextPit](https://www.nextpit.com/apps-of-the-week-51-2021)
 - [Top 4 App in User's Choice on PDALife.com](https://pdalife.com/android/sistemnye/sort-by/popular/) _(
   27 July, 2022)_ 💀
+- [Inure - A intuitive and feature rich Android app manager is here.](https://www.techtracker.in/2022/11/inure-intuitive-and-feature-rich.html)
 
 ## About
 
@@ -42,7 +43,7 @@ from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure
 its [Telegram Group](https://t.me/inure_app_manager) for development related updates
 and discussions.
 
-If you've tried the app, you can write your user/developer feedbacks ![here](https://github.com/Hamza417/Inure/discussions/48).
+If you've tried the app, you can write your user/developer feedbacks [here](https://github.com/Hamza417/Inure/discussions/48).
 
 ## Development Status
 
