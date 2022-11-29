@@ -196,13 +196,20 @@ class BlurShadow(private val context: Context) : BitmapTransformation() {
 
     override fun equals(other: Any?): Boolean {
         if (other is BlurShadow) {
-            return blurRadius == other.blurRadius && elevation == other.elevation && angle == other.angle && colour == other.colour
+            return blurRadius == other.blurRadius
+                    && elevation == other.elevation
+                    && angle == other.angle
+                    && colour == other.colour
         }
         return false
     }
 
     override fun hashCode(): Int {
-        return Util.hashCode(ID.hashCode(), Util.hashCode(blurRadius, Util.hashCode(elevation, Util.hashCode(angle, Util.hashCode(colour)))))
+        return Util.hashCode(ID.hashCode(),
+                             Util.hashCode(blurRadius,
+                                           Util.hashCode(elevation,
+                                                         Util.hashCode(angle,
+                                                                       Util.hashCode(colour)))))
     }
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {

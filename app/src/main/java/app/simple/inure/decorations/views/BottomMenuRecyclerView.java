@@ -83,6 +83,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
     public void initBottomMenuWithRecyclerView(ArrayList <Integer> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
         initBottomMenu(bottomMenuItems, bottomMenuCallbacks);
+        recyclerView.clearOnScrollListeners();
         
         if (recyclerView.getAdapter() != null) {
             if (recyclerView.getAdapter().getItemCount() > 10) {
