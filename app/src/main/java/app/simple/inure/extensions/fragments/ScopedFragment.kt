@@ -39,8 +39,11 @@ import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreference
 import app.simple.inure.ui.panels.AppInfo
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
+import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ParcelUtils.parcelable
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import com.google.android.material.transition.*
 import kotlinx.coroutines.CoroutineScope
 
@@ -102,7 +105,20 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     override fun onResume() {
         super.onResume()
+        bottomMenu?.let {
+            if (it.translationY.isZero()) {
+                it.visible(animate = true)
+            } else {
+                it.visible(animate = false)
+            }
+        }
         registerSharedPreferenceChangeListener()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        bottomMenu?.clearAnimation()
+        bottomMenu?.gone()
     }
 
     override fun onDestroy() {
@@ -137,7 +153,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         exitTransition = null
     }
 
-    internal fun clearEnterTransition() {
+    private fun clearEnterTransition() {
         enterTransition = null
     }
 

@@ -103,6 +103,14 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         requestLayout();
     }
     
+    @Override
+    public void setVisibility(int visibility) {
+        super.setVisibility(visibility);
+        if (visibility == VISIBLE) {
+            scheduleLayoutAnimation();
+        }
+    }
+    
     public void setTranslationY(int dy) {
         if (dy > 0) {
             if (getTranslationY() < containerHeight) {
