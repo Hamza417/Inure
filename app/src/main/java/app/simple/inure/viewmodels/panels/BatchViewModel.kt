@@ -23,7 +23,7 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
 
     private var batchDatabase: BatchDatabase? = null
 
-    private val appData: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
+    private val batchData: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
         MutableLiveData<ArrayList<BatchPackageInfo>>().also {
             loadAppData()
         }
@@ -35,8 +35,8 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
-    fun getAppData(): LiveData<ArrayList<BatchPackageInfo>> {
-        return appData
+    fun getBatchData(): LiveData<ArrayList<BatchPackageInfo>> {
+        return batchData
     }
 
     fun getSelectedApps(): LiveData<ArrayList<BatchPackageInfo>> {
@@ -67,7 +67,7 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
 
             apps.getSortedList(BatchPreferences.getSortStyle(), BatchPreferences.isReverseSorting())
 
-            appData.postValue(getBatchStateData(apps))
+            batchData.postValue(getBatchStateData(apps))
         }
     }
 

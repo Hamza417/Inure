@@ -55,7 +55,7 @@ class Batch : ScopedFragment() {
         fullVersionCheck()
         showLoader()
 
-        batchViewModel.getAppData().observe(viewLifecycleOwner) {
+        batchViewModel.getBatchData().observe(viewLifecycleOwner) {
             adapterBatch = AdapterBatch(it)
 
             hideLoader()

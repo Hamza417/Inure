@@ -45,6 +45,7 @@ class SplashScreen : ScopedFragment() {
     private lateinit var daysLeft: TypeFaceTextView
 
     private var isAppDataLoaded = false
+    private var isBatchLoaded = false
     private var isUsageDataLoaded = false
     private var areSensorsLoaded = false
     private var isSearchLoaded = false
@@ -112,6 +113,7 @@ class SplashScreen : ScopedFragment() {
         val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
         val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
         val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
+        val batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
 
         val batteryOptimizationViewModel = if (ConfigurationPreferences.isUsingRoot()) {
             ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
@@ -125,6 +127,12 @@ class SplashScreen : ScopedFragment() {
         appsViewModel.getAppData().observe(viewLifecycleOwner) {
             Log.d(TAG, "Apps loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isAppDataLoaded = true
+            openApp()
+        }
+
+        batchViewModel.getBatchData().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Batch loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
+            isBatchLoaded = true
             openApp()
         }
 
@@ -205,11 +213,23 @@ class SplashScreen : ScopedFragment() {
 
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
-        if (isAppDataLoaded && isUsageDataLoaded && areSensorsLoaded && isSearchLoaded && isUninstalledPackagesLoaded &&
-            isDisabledPackagesLoaded && isFrequentlyUsedLoaded && isRecentlyUpdatedLoaded && isRecentlyInstalledLoaded &&
-            isBatteryOptimizationLoaded) {
+        if (isEverythingLoaded()) {
             openFragmentArc(Home.newInstance(), icon)
         }
+    }
+
+    private fun isEverythingLoaded(): Boolean {
+        return isAppDataLoaded &&
+                isUsageDataLoaded &&
+                areSensorsLoaded &&
+                isSearchLoaded &&
+                isUninstalledPackagesLoaded &&
+                isDisabledPackagesLoaded &&
+                isFrequentlyUsedLoaded &&
+                isRecentlyUpdatedLoaded &&
+                isRecentlyInstalledLoaded &&
+                isBatteryOptimizationLoaded &&
+                isBatchLoaded
     }
 
     private fun checkForPermission(): Boolean {
