@@ -100,7 +100,7 @@ project on any app store or website. You can however, fork the project and make 
 it. 
 
 The assets used in the app are created using Adobe Photoshop and Adobe Illustrator and despite the
-project being GPLv3, these assets does not fall under the purview of any license. Therefore, you're
-also not allowed to use any asset of the app in any _other_ projects. However, the app uses icons
+project being GPLv3, these assets do not fall under the purview of any license. Therefore, you're
+also, not allowed to use any asset of the app in any _other_ projects. However, the app uses icons
 available on [Material Icons Library](https://fonts.google.com/icons?icon.style=Rounded&icon.set=Material+Icons)
 which are available under various open source licenses, so if need be, they can be downloaded from there.
