@@ -23,6 +23,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
     private int containerHeight;
     private int displayWidth;
+    private boolean isScrollListenerAdded = false;
     
     public BottomMenuRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -83,17 +84,28 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
     public void initBottomMenuWithRecyclerView(ArrayList <Integer> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
         initBottomMenu(bottomMenuItems, bottomMenuCallbacks);
-        recyclerView.clearOnScrollListeners();
-        
+    
+        /*
+         * Rather than clearing all scroll listeners at once, which will break other
+         * features of the app such as Fast Scroller, we will use a boolean to check
+         * if the scroll listener has been added or not and then add it. This should
+         * be valid till the lifecycle of the BottomMenuRecyclerView.
+         */
+        // recyclerView.clearOnScrollListeners();
+    
         if (recyclerView.getAdapter() != null) {
             if (recyclerView.getAdapter().getItemCount() > 10) {
-                recyclerView.addOnScrollListener(new OnScrollListener() {
-                    @Override
-                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                        super.onScrolled(recyclerView, dx, dy);
-                        setTranslationY(dy);
-                    }
-                });
+                if (!isScrollListenerAdded) {
+                    recyclerView.addOnScrollListener(new OnScrollListener() {
+                        @Override
+                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                            super.onScrolled(recyclerView, dx, dy);
+                            setTranslationY(dy);
+                        }
+                    });
+                
+                    isScrollListenerAdded = true;
+                }
             }
         }
     }
