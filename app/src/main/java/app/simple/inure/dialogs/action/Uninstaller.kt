@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.IntentConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
@@ -53,6 +54,7 @@ class Uninstaller : ScopedBottomSheetFragment() {
                 getSuccessStatus().observe(viewLifecycleOwner) {
                     when (it) {
                         "Done" -> {
+                            sendUninstalledBroadcast()
                             loader.loaded()
                             status.setText(R.string.uninstalled)
                             listener?.invoke()
@@ -70,6 +72,7 @@ class Uninstaller : ScopedBottomSheetFragment() {
             appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 when (result.resultCode) {
                     Activity.RESULT_OK -> {
+                        sendUninstalledBroadcast()
                         loader.loaded()
                         status.setText(R.string.uninstalled)
                         listener?.invoke()
@@ -86,14 +89,8 @@ class Uninstaller : ScopedBottomSheetFragment() {
     }
 
     private fun sendUninstalledBroadcast() {
-        val intent = Intent(Intent.ACTION_PACKAGE_REMOVED)
+        val intent = Intent(IntentConstants.ACTION_APP_UNINSTALLED)
         intent.data = Uri.parse("package:${packageInfo.packageName}")
-        intent.putExtra(Intent.EXTRA_REPLACING, false)
-        intent.putExtra(Intent.EXTRA_DATA_REMOVED, true)
-        intent.putExtra(Intent.EXTRA_UID, packageInfo.applicationInfo.uid)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.putExtra(Intent.EXTRA_USER, UserHandle.getUserHandleForUid(packageInfo.applicationInfo.uid))
-        }
         requireContext().sendBroadcast(intent)
     }
 

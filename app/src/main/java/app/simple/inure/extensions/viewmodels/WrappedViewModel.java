@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 
 import java.util.List;
 
@@ -33,7 +34,10 @@ public class WrappedViewModel extends AndroidViewModel {
         super(application);
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_PACKAGE_REMOVED);
         getApplication().getApplicationContext().registerReceiver(appUninstallBroadcastReceiver, intentFilter);
-        appUninstallBroadcastReceiver.setAppUninstallCallbacks(this :: onAppUninstalled);
+        appUninstallBroadcastReceiver.setAppUninstallCallbacks(packageName -> {
+            onAppUninstalled(packageName);
+            Log.d("AppUninstalled", packageName);
+        });
     }
     
     public final Context getContext() {

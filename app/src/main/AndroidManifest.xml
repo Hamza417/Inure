@@ -611,6 +611,8 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="app.simple.inure.action.APP_UNINSTALLED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
