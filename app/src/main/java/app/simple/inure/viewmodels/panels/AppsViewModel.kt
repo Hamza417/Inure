@@ -51,6 +51,10 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
         return generatedAppDataPath
     }
 
+    fun isAppDataEmpty(): Boolean {
+        return appData.value.isNullOrEmpty()
+    }
+
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

@@ -15,7 +15,6 @@ import app.simple.inure.adapters.ui.AdapterApps
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.views.BottomMenuRecyclerView
 import app.simple.inure.dialogs.apps.AllAppsMenu.Companion.newAppsMenuInstance
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GeneratedDataType
@@ -33,23 +32,27 @@ class Apps : ScopedFragment() {
 
     private lateinit var appsListRecyclerView: CustomVerticalRecyclerView
     private lateinit var adapter: AdapterApps
-    private lateinit var model: AppsViewModel
+    private lateinit var appsViewModel: AppsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
 
         appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
 
-        model = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
+        appsViewModel = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
 
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showLoader()
 
-        model.getAppData().observe(viewLifecycleOwner) { it ->
+        if (appsViewModel.isAppDataEmpty()) {
+            showLoader()
+            startPostponedEnterTransition()
+        }
+
+        appsViewModel.getAppData().observe(viewLifecycleOwner) { it ->
             postponeEnterTransition()
             hideLoader()
 
@@ -86,11 +89,11 @@ class Apps : ScopedFragment() {
                             childFragmentManager.showGeneratedDataTypeSelector().setOnDataTypeSelected(object : GeneratedDataType.Companion.OnDataTypeSelected {
                                 override fun onDataTypeSelected(type: String) {
                                     showLoader(manualOverride = true)
-                                    model.generateAllAppsTXTFile(type)
+                                    appsViewModel.generateAllAppsTXTFile(type)
                                 }
                             })
 
-                            model.getGeneratedAppData().observe(viewLifecycleOwner) {
+                            appsViewModel.getGeneratedAppData().observe(viewLifecycleOwner) {
                                 if (it.isNotNull()) {
                                     hideLoader()
                                     openFragmentSlide(XMLViewerTextView
@@ -98,7 +101,7 @@ class Apps : ScopedFragment() {
                                                                        isManifest = false,
                                                                        pathToXml = it,
                                                                        isRaw = true), "xml_viewer")
-                                    model.clearGeneratedAppsDataLiveData()
+                                    appsViewModel.clearGeneratedAppsDataLiveData()
                                 }
                             }
                         }
@@ -110,7 +113,7 @@ class Apps : ScopedFragment() {
             }
         }
 
-        model.appLoaded.observe(viewLifecycleOwner) { appsEvent ->
+        appsViewModel.appLoaded.observe(viewLifecycleOwner) { appsEvent ->
             appsEvent.getContentIfNotHandledOrReturnNull()?.let {
                 Log.d("Apps", if (it) "Apps Loaded" else "Failed")
             }
@@ -122,7 +125,7 @@ class Apps : ScopedFragment() {
             MainPreferences.sortStyle,
             MainPreferences.isSortingReversed,
             MainPreferences.listAppsCategory -> {
-                model.loadAppData()
+                appsViewModel.loadAppData()
             }
         }
     }
