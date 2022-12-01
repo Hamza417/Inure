@@ -3,7 +3,10 @@ package app.simple.inure.dialogs.action
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageInfo
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.UserHandle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,6 +83,18 @@ class Uninstaller : ScopedBottomSheetFragment() {
 
             packageInfo.uninstallThisPackage(appUninstallObserver)
         }
+    }
+
+    private fun sendUninstalledBroadcast() {
+        val intent = Intent(Intent.ACTION_PACKAGE_REMOVED)
+        intent.data = Uri.parse("package:${packageInfo.packageName}")
+        intent.putExtra(Intent.EXTRA_REPLACING, false)
+        intent.putExtra(Intent.EXTRA_DATA_REMOVED, true)
+        intent.putExtra(Intent.EXTRA_UID, packageInfo.applicationInfo.uid)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.putExtra(Intent.EXTRA_USER, UserHandle.getUserHandleForUid(packageInfo.applicationInfo.uid))
+        }
+        requireContext().sendBroadcast(intent)
     }
 
     companion object {

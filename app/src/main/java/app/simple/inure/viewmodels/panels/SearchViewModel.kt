@@ -11,7 +11,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PackageUtils.getApplicationName
-import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
@@ -215,5 +214,10 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         }
 
         return c
+    }
+
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        initiateSearch(SearchPreferences.getLastSearchKeyword())
     }
 }

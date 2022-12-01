@@ -138,4 +138,9 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
     override fun onShellCreated(shell: Shell?) {
         loadBatteryOptimization()
     }
+
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        loadBatteryOptimization()
+    }
 }

@@ -248,4 +248,9 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
         }
         return screenTimeList
     }
+
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        loadAppStats()
+    }
 }

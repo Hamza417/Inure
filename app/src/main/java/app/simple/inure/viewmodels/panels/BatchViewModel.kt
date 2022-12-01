@@ -166,6 +166,11 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        loadAppData()
+    }
+
     fun refresh() {
         loadAppData()
     }

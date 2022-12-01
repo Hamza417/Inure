@@ -58,4 +58,13 @@ object ArrayUtils {
             }
         } as ArrayList<T>
     }
+
+    fun <T> List<T>.toArrayList(): ArrayList<T> {
+        return this as ArrayList<T>
+    }
+
+    fun <T> List<T>.clone(): ArrayList<T> {
+        @Suppress("UNCHECKED_CAST")
+        return this.toArrayList().clone() as ArrayList<T>
+    }
 }

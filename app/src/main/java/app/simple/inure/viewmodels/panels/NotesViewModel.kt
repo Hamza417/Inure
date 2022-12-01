@@ -98,6 +98,11 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        loadNotesData()
+    }
+
     fun refreshNotes() {
         loadNotesData()
     }

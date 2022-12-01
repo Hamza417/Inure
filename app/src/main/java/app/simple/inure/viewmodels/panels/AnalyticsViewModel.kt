@@ -138,4 +138,9 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
         }
         loadTargetOsData()
     }
+
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        refresh()
+    }
 }

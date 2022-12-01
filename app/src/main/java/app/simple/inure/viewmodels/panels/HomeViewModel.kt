@@ -290,9 +290,18 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        refresh()
+    }
+
     fun refresh() {
         loadRecentlyInstalledAppData()
         loadMostUsed()
         loadRecentlyUpdatedAppData()
+        loadDisabledApps()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            loadDeletedApps()
+        }
     }
 }

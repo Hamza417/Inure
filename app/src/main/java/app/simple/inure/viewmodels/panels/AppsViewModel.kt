@@ -158,6 +158,11 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        loadAppData()
+    }
+
     fun clearGeneratedAppsDataLiveData() {
         generatedAppDataPath.postValue(null)
     }

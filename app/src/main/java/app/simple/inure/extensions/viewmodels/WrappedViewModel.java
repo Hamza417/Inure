@@ -3,6 +3,8 @@ package app.simple.inure.extensions.viewmodels;
 import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -16,6 +18,7 @@ import androidx.lifecycle.MutableLiveData;
 import app.simple.inure.database.instances.StackTraceDatabase;
 import app.simple.inure.extensions.livedata.ErrorLiveData;
 import app.simple.inure.preferences.ConfigurationPreferences;
+import app.simple.inure.receivers.AppUninstalledBroadcastReceiver;
 import app.simple.inure.util.ContextUtils;
 
 public class WrappedViewModel extends AndroidViewModel {
@@ -24,8 +27,13 @@ public class WrappedViewModel extends AndroidViewModel {
     public final MutableLiveData <String> warning = new MutableLiveData <>();
     public final MutableLiveData <Integer> notFound = new MutableLiveData <>();
     
+    private final AppUninstalledBroadcastReceiver appUninstallBroadcastReceiver = new AppUninstalledBroadcastReceiver();
+    
     public WrappedViewModel(@NonNull Application application) {
         super(application);
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_PACKAGE_REMOVED);
+        getApplication().getApplicationContext().registerReceiver(appUninstallBroadcastReceiver, intentFilter);
+        appUninstallBroadcastReceiver.setAppUninstallCallbacks(this :: onAppUninstalled);
     }
     
     public final Context getContext() {
@@ -81,12 +89,22 @@ public class WrappedViewModel extends AndroidViewModel {
         error.postError(throwable, getApplication());
     }
     
+    protected void onAppUninstalled(String packageName) {
+    
+    }
+    
     @Override
     protected void onCleared() {
         super.onCleared();
         try {
             StackTraceDatabase.Companion.getInstance().close();
         } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            getApplication().getApplicationContext().unregisterReceiver(appUninstallBroadcastReceiver);
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
     }

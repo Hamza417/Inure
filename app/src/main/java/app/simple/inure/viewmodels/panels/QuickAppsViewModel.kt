@@ -84,6 +84,11 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
         }
     }
 
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        loadQuickApps()
+    }
+
     override fun onCleared() {
         super.onCleared()
         db?.close()
