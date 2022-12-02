@@ -27,7 +27,7 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.batch.PopupBatchAppsCategory
 import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
-import app.simple.inure.ui.actions.BatchExtract.Companion.showBatchExtract
+import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.viewmodels.panels.BatchViewModel

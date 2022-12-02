@@ -1,4 +1,4 @@
-package app.simple.inure.ui.actions
+package app.simple.inure.dialogs.batch
 
 import android.content.*
 import android.os.*
@@ -19,7 +19,6 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.services.BatchExtractService
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BatchExtract : ScopedBottomSheetFragment() {
@@ -33,6 +32,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
     private var vibratorManager: VibratorManager? = null
 
     private var serviceBound = false
+    private var disableRepeat = -1
     private val vibratePattern = longArrayOf(500, 500)
 
     private lateinit var count: TypeFaceTextView
@@ -127,14 +127,13 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         progress.animateProgress(progress.max)
                     }
                     ServiceConstants.actionExtractDone -> {
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            delay(1000)
+                        viewLifecycleOwner.lifecycleScope.launch { // Unnecessary scope, too lazy to clean
                             cancel.callOnClick()
                             if (Build.VERSION.SDK_INT >= 26) {
-                                vibrator?.vibrate(VibrationEffect.createWaveform(vibratePattern, 0))
+                                vibrator?.vibrate(VibrationEffect.createWaveform(vibratePattern, disableRepeat))
                             } else {
                                 @Suppress("DEPRECATION")
-                                vibrator?.vibrate(vibratePattern, 0)
+                                vibrator?.vibrate(vibratePattern, disableRepeat)
                             }
                             dismiss()
                         }
