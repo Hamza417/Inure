@@ -16,7 +16,7 @@ class UriCoverFetcher internal constructor(private val uriCoverModel: UriCoverMo
             uriCoverModel.context.contentResolver.openInputStream(uriCoverModel.artUri).use {
                 callback.onDataReady(BitmapFactory.decodeStream(it))
             }
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
         } catch (e: FileNotFoundException) {
             callback.onDataReady(R.drawable.ic_app_icon.toBitmap(uriCoverModel.context, AppearancePreferences.getIconSize()))
         }

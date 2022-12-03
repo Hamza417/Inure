@@ -23,7 +23,7 @@ import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
-import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedAudioPlayerDialogFragment
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.services.AudioService
@@ -33,7 +33,7 @@ import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
 
-class AudioPlayer : ScopedBottomSheetFragment() {
+class AudioPlayer : ScopedAudioPlayerDialogFragment() {
 
     private lateinit var art: ImageView
     private lateinit var playPause: DynamicRippleImageButton

@@ -49,8 +49,10 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     }
     
     private void init() {
-        setThumb();
-        setColors();
+        if (!isInEditMode()) {
+            setThumb();
+            setColors();
+        }
     
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             setMaxHeight(getResources().getDimensionPixelOffset(R.dimen.seekbar_max_height));
@@ -60,8 +62,10 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        ThemeManager.INSTANCE.addListener(this);
+        if (!isInEditMode()) {
+            app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+            ThemeManager.INSTANCE.addListener(this);
+        }
     }
     
     @Override
@@ -78,15 +82,17 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     }
     
     private void setThumb() {
-        setThumb(new DrawableBuilder()
-                .oval()
-                .width(getResources().getDimensionPixelOffset(R.dimen.seekbar_thumb_size))
-                .height(getResources().getDimensionPixelOffset(R.dimen.seekbar_thumb_size))
-                .ripple(false)
-                .strokeColor(AppearancePreferences.INSTANCE.getAccentColor())
-                .strokeWidth(getResources().getDimensionPixelOffset(R.dimen.seekbar_stroke_size))
-                .solidColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground())
-                .build());
+        if (!isInEditMode()) {
+            setThumb(new DrawableBuilder()
+                    .oval()
+                    .width(getResources().getDimensionPixelOffset(R.dimen.seekbar_thumb_size))
+                    .height(getResources().getDimensionPixelOffset(R.dimen.seekbar_thumb_size))
+                    .ripple(false)
+                    .strokeColor(AppearancePreferences.INSTANCE.getAccentColor())
+                    .strokeWidth(getResources().getDimensionPixelOffset(R.dimen.seekbar_stroke_size))
+                    .solidColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground())
+                    .build());
+        }
     }
     
     @SuppressWarnings ("unused")
@@ -139,7 +145,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
          */
         GradientDrawable.Orientation fgGradDirection = GradientDrawable.Orientation.TOP_BOTTOM;
         GradientDrawable.Orientation bgGradDirection = GradientDrawable.Orientation.TOP_BOTTOM;
-        
+    
         //Background
         float r = 20;
         ShapeDrawable backgroundShape = new ShapeDrawable();
@@ -148,13 +154,15 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         backgroundShape.getPaint().setStrokeWidth(4);
         backgroundShape.getPaint().setStrokeCap(Paint.Cap.ROUND);
         backgroundShape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
-        
-        if (BehaviourPreferences.INSTANCE.areColoredShadowsOn()) {
-            backgroundShape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 232));
-        } else {
-            backgroundShape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(Color.GRAY, 216));
+    
+        if (!isInEditMode()) {
+            if (BehaviourPreferences.INSTANCE.areColoredShadowsOn()) {
+                backgroundShape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 232));
+            } else {
+                backgroundShape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(Color.GRAY, 216));
+            }
         }
-        
+    
         /*
          * This code block isn't being due to its limited customization
          * abilities, however it's left here for revision and reference
@@ -164,10 +172,12 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
                 ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground(),
                 ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()});
         bgGradDrawable.setShape(GradientDrawable.RECTANGLE);
-        bgGradDrawable.setCornerRadius(AppearancePreferences.INSTANCE.getCornerRadius() / 5);
+        if (!isInEditMode()) {
+            bgGradDrawable.setCornerRadius(AppearancePreferences.INSTANCE.getCornerRadius() / 5);
+        }
         ClipDrawable backgroundClip = new ClipDrawable(bgGradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
         backgroundClip.setLevel(10000);
-        
+    
         //SecondaryProgress
         GradientDrawable fg2GradDrawable = new GradientDrawable(fgGradDirection, new int[] {
                 ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 96),
