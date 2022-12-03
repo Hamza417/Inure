@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -27,6 +26,7 @@ import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ParcelUtils.parcelableArrayList
 import app.simple.inure.viewmodels.panels.BatchUninstallerViewModel
+import app.simple.inure.viewmodels.panels.BatchViewModel
 
 class BatchUninstaller : ScopedBottomSheetFragment() {
 
@@ -39,6 +39,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
     private var appList = arrayListOf<BatchPackageInfo>()
 
     private var batchUninstallerViewModel: BatchUninstallerViewModel? = null
+    private var batchViewModel: BatchViewModel? = null
     private var batchUninstallerProgressStateModel = BatchUninstallerProgressStateModel()
 
     private var appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -61,7 +62,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
                 setState(batchUninstallerProgressStateModel)
                 kotlin.runCatching {
                     val packageName = result.data?.getStringExtra(IntentConstants.EXTRA_PACKAGE_NAME)!!
-                    setName(packageName, done = true)
+                    setName(packageName, done = false)
                     Log.d("BatchUninstaller", "Failed to uninstall -> $packageName")
                 }.getOrElse {
                     Log.d("BatchUninstaller", "Failed to uninstall -> ${it.message}")
@@ -80,6 +81,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
         cancel = view.findViewById(R.id.cancel)
 
         appList = requireArguments().parcelableArrayList(BundleConstants.selectedBatchApps)!!
+        batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
 
         if (ConfigurationPreferences.isUsingRoot().invert()) {
             batchUninstallerProgressStateModel.count = appList.size
@@ -112,13 +114,15 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
             cancel.setText(R.string.close)
         }
 
-        if (savedInstanceState.isNull()) {
-            for (app in appList) {
-                val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
-                intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
-                intent.putExtra(IntentConstants.EXTRA_PACKAGE_NAME, app.packageInfo.packageName)
-                intent.data = Uri.parse("package:${app.packageInfo.packageName}")
-                appUninstallObserver.launch(intent)
+        if (ConfigurationPreferences.isUsingRoot().invert()) {
+            if (savedInstanceState.isNull()) {
+                for (app in appList) {
+                    val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
+                    intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
+                    intent.putExtra(IntentConstants.EXTRA_PACKAGE_NAME, app.packageInfo.packageName)
+                    intent.data = Uri.parse("package:${app.packageInfo.packageName}")
+                    appUninstallObserver.launch(intent)
+                }
             }
         }
 
@@ -138,6 +142,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
             append(getString(R.string.count_queued, state.queued))
             this@BatchUninstaller.state.text = toString()
             progress.animateProgress(((state.count - state.queued) / appList.size * 100F).toInt(), animate = true)
+            batchViewModel?.refresh()
         }
     }
 
