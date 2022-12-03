@@ -50,14 +50,14 @@ class MainActivity : BaseActivity() {
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
         ThemeUtils.setAppTheme(resources)
 
-        if (MainPreferences.getLaunchCount().isZero()) {
-            MainPreferences.setFirstLaunchDate(System.currentTimeMillis())
-        }
-
-        MainPreferences.incrementLaunchCount()
-        Log.d("MainActivity", "Launch count: ${MainPreferences.getLaunchCount()}")
-
         if (savedInstanceState.isNull()) {
+            if (MainPreferences.getLaunchCount().isZero()) {
+                MainPreferences.setFirstLaunchDate(System.currentTimeMillis())
+            }
+
+            MainPreferences.incrementLaunchCount()
+            Log.d("MainActivity", "Launch count: ${MainPreferences.getLaunchCount()}")
+
             when (intent.action) {
                 ShortcutConstants.ANALYTICS_ACTION -> {
                     supportFragmentManager.beginTransaction()

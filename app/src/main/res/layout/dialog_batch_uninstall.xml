@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dialog_padding"
-            android:textSize="@dimen/app_name_text_size"
+            android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
@@ -58,7 +58,7 @@
             android:layout_marginTop="@dimen/popup_padding"
             android:textSize="@dimen/app_package_text_size"
             app:appFontStyle="regular"
-            app:textColorStyle="secondary" />
+            app:textColorStyle="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/cancel"

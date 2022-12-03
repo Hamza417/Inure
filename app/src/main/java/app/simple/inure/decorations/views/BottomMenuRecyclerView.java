@@ -47,6 +47,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     public void initBottomMenu(ArrayList <Integer> bottomMenuItems, BottomMenuCallbacks bottomMenuCallbacks) {
         AdapterBottomMenu adapterBottomMenu = new AdapterBottomMenu(bottomMenuItems);
         adapterBottomMenu.setBottomMenuCallbacks(bottomMenuCallbacks);
+    
         if (getAdapter() == null) {
             setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_animation_controller));
         } else {
