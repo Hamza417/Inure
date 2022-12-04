@@ -72,9 +72,9 @@ class SplashScreen : ScopedFragment() {
         if (MainPreferences.isTrialPeriod()) {
             if (MainPreferences.isFullVersion()) {
                 daysLeft.gone()
-            } else {
-                daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
             }
+
+            daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
         }
 
         if (AccessibilityPreferences.isAnimationReduced().invert()) {

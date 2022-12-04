@@ -7,9 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.database.instances.BatchDatabase
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.BatchModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.apps.PopupAppsCategory
@@ -19,14 +18,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class BatchViewModel(application: Application) : WrappedViewModel(application) {
+class BatchViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var batchDatabase: BatchDatabase? = null
 
     private val batchData: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
-        MutableLiveData<ArrayList<BatchPackageInfo>>().also {
-            loadAppData()
-        }
+        MutableLiveData<ArrayList<BatchPackageInfo>>()
     }
 
     private val selectedApps: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
@@ -45,7 +42,7 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = packageManager.getInstalledPackages()
+            var apps = getInstalledApps()
 
             when (BatchPreferences.getAppsCategory()) {
                 PopupAppsCategory.SYSTEM -> {
@@ -172,6 +169,10 @@ class BatchViewModel(application: Application) : WrappedViewModel(application) {
     }
 
     fun refresh() {
+        loadAppData()
+    }
+
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
         loadAppData()
     }
 

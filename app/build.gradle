@@ -55,6 +55,18 @@ android {
         }
     }
 
+    flavorDimensions "version"
+    productFlavors {
+        github { // GitHub build
+            dimension "version"
+            versionNameSuffix "-github"
+        }
+        play { // Play Store build
+            dimension "version"
+            versionNameSuffix "-play"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

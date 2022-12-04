@@ -32,8 +32,5 @@
     <string name="android" translatable="false">Android</string>
     <string name="wifi" translatable="false">Wi-Fi</string>
     <string name="system_excidle" translatable="false">System-Excidle</string>
-    <string name="grid_1">1</string>
-    <string name="grid_2">2</string>
-    <string name="grid_3">3</string>
-    <string name="grid_4">4</string>
+    <string name="gumroad_link" translatable="false">"https://hamza417.gumroad.com/l/inure_unlocker"</string>
 </resources>

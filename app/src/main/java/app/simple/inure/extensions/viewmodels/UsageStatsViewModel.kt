@@ -7,6 +7,7 @@ import android.app.usage.NetworkStats
 import android.app.usage.NetworkStatsManager
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.pm.PackageInfo
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.RemoteException
@@ -19,6 +20,7 @@ import app.simple.inure.util.PermissionUtils
 import app.simple.inure.util.UsageInterval
 import dev.rikka.tools.refine.Refine
 import java.util.*
+import kotlin.collections.ArrayList
 
 open class UsageStatsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
@@ -100,5 +102,9 @@ open class UsageStatsViewModel(application: Application) : PackageUtilsViewModel
             Collections.singletonList(null)
         }
         // FIXME: 24/4/21 Consider using Binder to fetch subscriber info
+    }
+
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+
     }
 }

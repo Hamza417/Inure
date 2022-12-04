@@ -2,6 +2,8 @@ package app.simple.inure.util
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 object IntentHelper {
@@ -45,5 +47,20 @@ object IntentHelper {
             intent.putExtra(INT_EXTRA, extra)
             LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
         }
+    }
+
+    fun String?.asUri(): Uri? {
+        return try {
+            Uri.parse(this)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun Uri?.openInBrowser(context: Context) {
+        this ?: return // Do nothing if uri is null
+
+        val browserIntent = Intent(Intent.ACTION_VIEW, this)
+        ContextCompat.startActivity(context, browserIntent, null)
     }
 }

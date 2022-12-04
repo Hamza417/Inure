@@ -6,14 +6,68 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.util.ArrayUtils
-import java.util.ArrayList
+import app.simple.inure.util.ArrayUtils.clone
+import app.simple.inure.util.ArrayUtils.toArrayList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-open class PackageUtilsViewModel(application: Application) : WrappedViewModel(application) {
+abstract class PackageUtilsViewModel(application: Application) : WrappedViewModel(application) {
+
+    private var apps: ArrayList<PackageInfo> = arrayListOf()
+    private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            loadPackageData()
+        }
+    }
+
+    fun getInstalledApps(): ArrayList<PackageInfo> {
+        @Suppress("UNCHECKED_CAST")
+        return apps.clone() as ArrayList<PackageInfo>
+    }
+
+    fun getUninstalledApps(): ArrayList<PackageInfo> {
+        @Suppress("UNCHECKED_CAST")
+        return uninstalledApps.clone() as ArrayList<PackageInfo>
+    }
+
+    private fun loadPackageData() {
+        apps = loadInstalledApps().clone()
+        uninstalledApps = loadUninstalledApps().clone()
+        onAppsLoaded(apps.toArrayList())
+        onUninstalledAppsLoaded(uninstalledApps.toArrayList())
+    }
+
+    protected fun loadInstalledApps(): MutableList<PackageInfo> {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+        } else {
+            @Suppress("DEPRECATION")
+            packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+        }
+    }
+
+    protected fun loadUninstalledApps(): MutableList<PackageInfo> {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
+                                                    .of((PackageManager.GET_META_DATA
+                                                            or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong()))
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                @Suppress("DEPRECATION")
+                packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES)
+            }
+        }
+    }
 
     protected fun PackageManager.isPackageInstalled(packageName: String): Boolean {
         return try {
@@ -103,5 +157,13 @@ open class PackageUtilsViewModel(application: Application) : WrappedViewModel(ap
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
         }
+    }
+
+    open fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {
+        Log.d("PackageUtilsViewModel", "onUninstalledAppsLoaded: ${uninstalledApps.size}")
+    }
+
+    open fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        Log.d("PackageUtilsViewModel", "onAppsLoaded: ${apps.size}")
     }
 }

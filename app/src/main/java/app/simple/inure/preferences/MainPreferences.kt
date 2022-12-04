@@ -119,7 +119,7 @@ object MainPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun getDaysLeft(): Int {
-        return MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday())
+        return (MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()))
             .coerceAtLeast(0)
     }
 }

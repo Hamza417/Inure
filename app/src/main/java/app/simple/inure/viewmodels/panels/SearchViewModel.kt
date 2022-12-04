@@ -3,15 +3,12 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.apk.utils.PackageUtils.getApplicationName
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
@@ -19,7 +16,7 @@ import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.*
 import java.util.stream.Collectors
 
-class SearchViewModel(application: Application) : WrappedViewModel(application) {
+class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var searchJob: Job? = null
 
@@ -70,12 +67,7 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
 
     private suspend fun loadSearchData(keywords: String) {
         searchJob?.join()
-        val apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
-        } else {
-            @Suppress("DEPRECATION")
-            packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-        }
+        val apps = getInstalledApps()
 
         if (keywords.isEmpty()) {
             if (SearchPreferences.isDeepSearchEnabled()) {
@@ -214,6 +206,10 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         }
 
         return c
+    }
+
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        initiateSearch(SearchPreferences.getLastSearchKeyword())
     }
 
     override fun onAppUninstalled(packageName: String?) {

@@ -21,21 +21,28 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:text="@string/this_feature_is_only_available_in_full_version"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="medium"
-            app:textColorStyle="tertiary" />
+            app:textColorStyle="secondary" />
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/dialog_padding" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
-            android:id="@+id/show_me"
+            android:id="@+id/purchase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
             android:padding="@dimen/button_padding"
-            android:text="@string/show_me"
+            android:text="@string/purchase"
             app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
             app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

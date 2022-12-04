@@ -10,17 +10,20 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.fragments.WarningCallbacks
+import app.simple.inure.util.BuildUtils
+import app.simple.inure.util.IntentHelper.asUri
+import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.MarketUtils
 
 class FullVersion : ScopedBottomSheetFragment() {
 
-    private lateinit var showMe: DynamicRippleTextView
+    private lateinit var purchase: DynamicRippleTextView
     private var warningCallbacks: WarningCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_full_version, container, false)
 
-        showMe = view.findViewById(R.id.show_me)
+        purchase = view.findViewById(R.id.purchase)
 
         return view
     }
@@ -29,8 +32,13 @@ class FullVersion : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        showMe.setOnClickListener {
-            MarketUtils.openAppOnPlayStore(requireContext(), "app.simple.inureunlocker")
+        purchase.setOnClickListener {
+            if (BuildUtils.isPlayFlavor()) {
+                MarketUtils.openAppOnPlayStore(requireContext(), "app.simple.inureunlocker")
+            } else if (BuildUtils.isGithubFlavor()) {
+                // Open GumRoad link in Browser
+                getString(R.string.gumroad_link).asUri().openInBrowser(requireContext())
+            }
         }
     }
 

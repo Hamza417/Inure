@@ -3,18 +3,15 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.getApplicationName
 import app.simple.inure.constants.Misc
 import app.simple.inure.dialogs.miscellaneous.GeneratedDataType
 import app.simple.inure.events.AppsEvent
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.DateUtils.toDate
@@ -27,7 +24,7 @@ import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 import java.util.stream.Collectors
 
-class AppsViewModel(application: Application) : WrappedViewModel(application) {
+class AppsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {
@@ -57,12 +54,7 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
 
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-            }
+            var apps = getInstalledApps()
 
             when (MainPreferences.getAppsCategory()) {
                 PopupAppsCategory.SYSTEM -> {
@@ -156,6 +148,11 @@ class AppsViewModel(application: Application) : WrappedViewModel(application) {
                 postWarning(getString(R.string.not_available))
             }
         }
+    }
+
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        Log.d("AppsViewModel", "onAppsLoaded: ${apps.size}")
+        loadAppData()
     }
 
     override fun onAppUninstalled(packageName: String?) {

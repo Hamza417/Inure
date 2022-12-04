@@ -5,12 +5,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.util.Log;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -74,15 +70,6 @@ public class WrappedViewModel extends AndroidViewModel {
     
     public final PackageManager getPackageManager() {
         return getContext().getPackageManager();
-    }
-    
-    protected List <ApplicationInfo> getApps() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            return getPackageManager().getInstalledApplications(PackageManager.ApplicationInfoFlags.of(0));
-        } else {
-            //noinspection deprecation
-            return getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA);
-        }
     }
     
     protected void postWarning(String string) {

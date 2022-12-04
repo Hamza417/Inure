@@ -124,12 +124,12 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
     @Suppress("unused")
     private fun loadTotalAppSize() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = apps
+            val apps = getInstalledApps()
 
             var size = 0L
 
             for (i in apps.indices) {
-                size += apps[i].sourceDir.getDirectoryLength()
+                size += apps[i].applicationInfo.sourceDir.getDirectoryLength()
             }
         }
     }

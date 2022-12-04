@@ -5,17 +5,14 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.content.pm.PackageManager.PackageInfoFlags
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -25,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class HomeViewModel(application: Application) : WrappedViewModel(application) {
+class HomeViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private val oneMonth = 2592000000 // 30 days
 
@@ -33,37 +30,23 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
     private val recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadRecentlyInstalledAppData()
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadRecentlyUpdatedAppData()
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> by lazy {
-        MutableLiveData<ArrayList<PackageStats>>().also {
-            loadMostUsed()
-        }
+        MutableLiveData<ArrayList<PackageStats>>()
     }
 
     private val uninstalled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                loadDeletedApps()
-            }
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val disabled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                loadDisabledApps()
-            }
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
@@ -98,16 +81,9 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
-                    .stream()
-                    .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
-                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-                    .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth } as ArrayList<PackageInfo>
-            }
+            val apps = getInstalledApps().stream()
+                .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
@@ -123,18 +99,9 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadRecentlyUpdatedAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
-                    .stream()
-                    .filter { it.lastUpdateTime > System.currentTimeMillis() - oneMonth }
-                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-                    .stream()
-                    .filter { it.lastUpdateTime > System.currentTimeMillis() - oneMonth }
-                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
-            }
+            val apps = getInstalledApps().stream()
+                .filter { it.lastUpdateTime > System.currentTimeMillis() - oneMonth }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
@@ -155,16 +122,9 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
                 usageStatsManager.queryAndAggregateUsageStats(startTime, endTime)
             }
 
-            val apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
-                    .stream()
-                    .filter { stats.containsKey(it.packageName) }
-                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-                    .filter { stats.containsKey(it.packageName) } as ArrayList<PackageInfo>
-            }
+            val apps = getInstalledApps().stream()
+                .filter { stats.containsKey(it.packageName) }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             var list = arrayListOf<PackageStats>()
 
@@ -195,19 +155,11 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun loadDeletedApps() {
+    private fun loadDeletedApps() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageInfoFlags.of(PackageManager.MATCH_UNINSTALLED_PACKAGES.toLong()))
-                    .stream()
-                    .filter { it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0 }
-                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.MATCH_UNINSTALLED_PACKAGES)
-                    .filter { it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0 } as ArrayList<PackageInfo>
-            }
+            val apps = getUninstalledApps().stream()
+                .filter { it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0 }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
@@ -224,16 +176,9 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadDisabledApps() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageInfoFlags.of((PackageManager.GET_META_DATA).toLong()))
-                    .stream()
-                    .filter { it.applicationInfo.enabled.invert() }
-                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-                    .filter { it.applicationInfo.enabled.invert() } as ArrayList<PackageInfo>
-            }
+            val apps = getInstalledApps().stream()
+                .filter { it.applicationInfo.enabled.invert() }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
@@ -267,11 +212,8 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
             list.add(Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed))
             list.add(Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated))
             list.add(Pair(R.drawable.ic_apps_category_most_used, R.string.most_used))
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                list.add(Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled))
-                list.add(Pair(R.drawable.ic_apps_category_disabled, R.string.disabled))
-            }
+            list.add(Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled))
+            list.add(Pair(R.drawable.ic_apps_category_disabled, R.string.disabled))
 
             list.add(Pair(0, 0)) // Divider
             list.add(Pair(R.drawable.ic_stacktrace, R.string.stacktraces))
@@ -295,13 +237,24 @@ class HomeViewModel(application: Application) : WrappedViewModel(application) {
         refresh()
     }
 
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        super.onAppsLoaded(apps)
+        loadRecentlyInstalledAppData()
+        loadMostUsed()
+        loadRecentlyUpdatedAppData()
+        loadDisabledApps()
+    }
+
+    override fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {
+        super.onUninstalledAppsLoaded(uninstalledApps)
+        loadDeletedApps()
+    }
+
     fun refresh() {
         loadRecentlyInstalledAppData()
         loadMostUsed()
         loadRecentlyUpdatedAppData()
         loadDisabledApps()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            loadDeletedApps()
-        }
+        loadDeletedApps()
     }
 }
