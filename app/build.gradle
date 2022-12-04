@@ -8,7 +8,7 @@ plugins {
 android {
     compileSdkVersion 33
 
-    def appVersionCode = 49
+    def appVersionCode = 50
     def appVersionName = "build_$appVersionCode (alpha)"
 
     buildFeatures {

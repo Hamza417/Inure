@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/github/release/
+/app/play/release/
