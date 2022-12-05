@@ -608,4 +608,5 @@
     <string name="this_feature_is_only_available_in_full_version">此功能僅可在完整版中使用。</string>
     <string name="show_me">讓我看看</string>
     <string name="days_trial_period_remaining">還剩 %1$d 天免費試用。</string>
+    <string name="purchase">購買</string>
 </resources>
