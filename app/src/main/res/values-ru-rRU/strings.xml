@@ -611,4 +611,5 @@
     <string name="this_feature_is_only_available_in_full_version">Эта функция доступна только в полной версии.</string>
     <string name="show_me">Показать</string>
     <string name="days_trial_period_remaining">До конца пробного периода осталось %1$d дней.</string>
+    <string name="purchase">Покупка</string>
 </resources>
