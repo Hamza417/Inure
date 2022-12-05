@@ -10,7 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.fragments.WarningCallbacks
-import app.simple.inure.util.BuildUtils
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.MarketUtils
@@ -33,9 +33,9 @@ class FullVersion : ScopedBottomSheetFragment() {
         startPostponedEnterTransition()
 
         purchase.setOnClickListener {
-            if (BuildUtils.isPlayFlavor()) {
-                MarketUtils.openAppOnPlayStore(requireContext(), "app.simple.inureunlocker")
-            } else if (BuildUtils.isGithubFlavor()) {
+            if (AppUtils.isPlayFlavor()) {
+                MarketUtils.openAppOnPlayStore(requireContext(), AppUtils.unlockerPackageName)
+            } else if (AppUtils.isGithubFlavor()) {
                 // Open GumRoad link in Browser
                 getString(R.string.gumroad_link).asUri().openInBrowser(requireContext())
             }

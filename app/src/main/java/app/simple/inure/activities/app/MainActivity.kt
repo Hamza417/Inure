@@ -14,6 +14,7 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.IntentConstants
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
@@ -26,6 +27,7 @@ import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.NullSafety.isNull
@@ -129,15 +131,15 @@ class MainActivity : BaseActivity() {
                         .commit()
                 }
                 IntentConstants.ACTION_UNLOCK -> {
-                    if (packageManager.isPackageInstalled("app.simple.inureunlock")) {
-                        if (MainPreferences.isAppFullVersionEnabled()) {
+                    if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
+                        if (MainPreferences.isFullVersion()) {
                             showWarning(R.string.full_version_already_activated, goBack = false)
 
                             supportFragmentManager.beginTransaction()
                                 .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
                                 .commit()
                         } else {
-                            if (MainPreferences.setAppFullVersionEnabled(value = true)) {
+                            if (MainPreferences.setFullVersion(value = true)) {
                                 showWarning(R.string.full_version_activated, goBack = false)
 
                                 supportFragmentManager.beginTransaction()
@@ -145,10 +147,18 @@ class MainActivity : BaseActivity() {
                                     .commit()
                             } else {
                                 showWarning(R.string.failed_to_activate_full_version, goBack = false)
+
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                                    .commit()
                             }
                         }
                     } else {
-                        showWarning(R.string.failed_to_activate_full_version, goBack = false)
+                        showWarning(Warnings.getInureWarning03(), goBack = false)
+
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                            .commit()
                     }
                 }
                 else -> {

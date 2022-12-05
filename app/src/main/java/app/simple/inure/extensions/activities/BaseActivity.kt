@@ -290,9 +290,11 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         }
     }
 
-    open fun showWarning(warning: String) {
+    open fun showWarning(warning: String, goBack: Boolean = true) {
         supportFragmentManager.showWarning(warning).setOnWarningCallbackListener {
-            onBackPressedDispatcher.onBackPressed()
+            if (goBack) {
+                onBackPressedDispatcher.onBackPressed()
+            }
         }
     }
 

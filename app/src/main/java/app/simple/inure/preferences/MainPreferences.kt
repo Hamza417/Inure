@@ -89,7 +89,7 @@ object MainPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppFullVersionEnabled(value: Boolean): Boolean {
+    fun setFullVersion(value: Boolean): Boolean {
         return getSharedPreferences().edit().putBoolean(isAppFullVersionEnabled, value).commit()
     }
 
