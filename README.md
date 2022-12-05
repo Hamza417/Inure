@@ -9,11 +9,17 @@ An elegant Android app manager, currently in development
 ![](https://img.shields.io/tokei/lines/github/Hamza417/Inure?color=orange&label=Total%20Lines&logo=kotlin&logoColor=white)
 ![](https://img.shields.io/github/downloads/Hamza417/inure/total?color=orange&label=Total%20Downloads&logo=github&logoColor=white)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FHamza417%2FInure&count_bg=%239A3DC8&title_bg=%23555555&icon=tencentweibo.svg&icon_color=%23E7E7E7&title=Total+Visits&edge_flat=false)](https://hits.seeyoufarm.com)
-[![](https://img.shields.io/badge/Unlocker%20(GumRoad)-Buy-important?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker)
-[![](https://img.shields.io/badge/Unlocker%20(Play%20Store)-Buy-important?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
 ![](https://img.shields.io/github/languages/count/Hamza417/Inure?color=white&label=Languages)
 ![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License)
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
+
+## Full Version
+
+[![](https://img.shields.io/badge/Unlocker%20(GumRoad)-Buy-important?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker)
+[![](https://img.shields.io/badge/Unlocker%20(Play%20Store)-Buy-important?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
+
+Tiny promotion for GumRoad users,
+Use code `FIRSTSALE50` on GumRoad to get 50% off on total price of the unlocker app.
 
 ## Featured
 
