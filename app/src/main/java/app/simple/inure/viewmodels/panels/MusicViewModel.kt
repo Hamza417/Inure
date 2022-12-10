@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.MusicPreferences
+import app.simple.inure.util.SortMusic.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -41,7 +42,7 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadData() {
         viewModelScope.launch(Dispatchers.Default) {
-            globalList = getAllAudioFiles(externalContentUri)
+            globalList = getAllAudioFiles(externalContentUri).getSortedList()
             songs.postValue(globalList)
             loadSearched(MusicPreferences.getSearchKeyword())
         }
@@ -125,6 +126,13 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
     fun shuffleSongs() {
         viewModelScope.launch(Dispatchers.Default) {
             globalList.shuffle()
+            songs.postValue(globalList)
+        }
+    }
+
+    fun sortSongs() {
+        viewModelScope.launch(Dispatchers.Default) {
+            globalList = globalList.getSortedList()
             songs.postValue(globalList)
         }
     }

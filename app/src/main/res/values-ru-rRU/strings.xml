@@ -12,7 +12,7 @@
     <string name="name">Имя</string>
     <string name="package_name">Имя пакета</string>
     <string name="app_size">Размер приложения</string>
-    <string name="descending">По убыванию</string>
+    <string name="reversed">По убыванию</string>
     <string name="apps_category">Категории приложений</string>
     <string name="system">Системные</string>
     <string name="user">Пользовательские</string>

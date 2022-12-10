@@ -1,9 +1,13 @@
 package app.simple.inure.preferences
 
+import app.simple.inure.util.SortMusic
+
 object MusicPreferences {
 
     const val searchKeyword = "music_search_keyword"
     const val lastMusicId = "last_music_id"
+    const val musicSort = "music_sort"
+    const val musicSortReverse = "music_sort_reverse"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -23,5 +27,25 @@ object MusicPreferences {
 
     fun getLastMusicId(): Long {
         return SharedPreferences.getSharedPreferences().getLong(lastMusicId, 0)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setMusicSort(value: String) {
+        SharedPreferences.getSharedPreferences().edit().putString(musicSort, value).apply()
+    }
+
+    fun getMusicSort(): String {
+        return SharedPreferences.getSharedPreferences().getString(musicSort, SortMusic.NAME) ?: SortMusic.NAME
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setMusicSortReverse(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(musicSortReverse, value).apply()
+    }
+
+    fun getMusicSortReverse(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(musicSortReverse, false)
     }
 }

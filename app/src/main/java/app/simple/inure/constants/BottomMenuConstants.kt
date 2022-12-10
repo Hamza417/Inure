@@ -12,6 +12,8 @@ object BottomMenuConstants {
     )
 
     private val musicBottomMenuItems = arrayListOf(
+            R.drawable.ic_sort,
+            -1,
             R.drawable.shuffle,
             R.drawable.ic_play,
             -1,

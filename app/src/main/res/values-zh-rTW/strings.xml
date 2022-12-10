@@ -12,7 +12,7 @@
     <string name="name">名稱</string>
     <string name="package_name">套件名稱</string>
     <string name="app_size">應用程式大小</string>
-    <string name="descending">遞減</string>
+    <string name="reversed">遞減</string>
     <string name="apps_category">應用程式類別</string>
     <string name="system">系统</string>
     <string name="user">使用者</string>

@@ -15,6 +15,7 @@ import app.simple.inure.adapters.ui.AdapterMusic
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
+import app.simple.inure.popups.music.PopupMusicSort
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
@@ -58,8 +59,11 @@ class Music : KeyboardScopedFragment() {
 
             recyclerView.adapter = adapterMusic
 
-            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, _ ->
+            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
                 when (id) {
+                    R.drawable.ic_sort -> {
+                        PopupMusicSort(view)
+                    }
                     R.drawable.shuffle -> {
                         musicViewModel.shuffleSongs()
                     }
@@ -90,6 +94,10 @@ class Music : KeyboardScopedFragment() {
         when (key) {
             MusicPreferences.lastMusicId -> {
                 adapterMusic?.updateHighlightedSongState()
+            }
+            MusicPreferences.musicSort,
+            MusicPreferences.musicSortReverse -> {
+                musicViewModel.sortSongs()
             }
         }
     }

@@ -11,7 +11,7 @@
     <string name="name">Name</string>
     <string name="package_name">Package Name</string>
     <string name="app_size">App Size</string>
-    <string name="descending">Descending</string>
+    <string name="reversed">Reversed</string>
     <string name="apps_category">Apps Category</string>
     <string name="system">System</string>
     <string name="user">User</string>
@@ -608,4 +608,5 @@
     <string name="show_me">Show Me</string>
     <string name="days_trial_period_remaining">%1$d days left in trial period.</string>
     <string name="purchase">Purchase</string>
+    <string name="recently_added">Recently Added</string>
 </resources>
