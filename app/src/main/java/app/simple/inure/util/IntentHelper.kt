@@ -61,6 +61,7 @@ object IntentHelper {
         this ?: return // Do nothing if uri is null
 
         val browserIntent = Intent(Intent.ACTION_VIEW, this)
+        browserIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         ContextCompat.startActivity(context, browserIntent, null)
     }
 }

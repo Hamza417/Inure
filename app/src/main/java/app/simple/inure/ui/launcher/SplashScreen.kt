@@ -55,6 +55,7 @@ class SplashScreen : ScopedFragment() {
     private var isRecentlyUpdatedLoaded = false
     private var isFrequentlyUsedLoaded = false
     private var isBatteryOptimizationLoaded = false
+    private var isBootManagerLoaded = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -122,6 +123,13 @@ class SplashScreen : ScopedFragment() {
             null
         }
 
+        val bootManagerViewModel = if (ConfigurationPreferences.isUsingRoot()) {
+            ViewModelProvider(requireActivity())[BootManagerViewModel::class.java]
+        } else {
+            isBootManagerLoaded = true
+            null
+        }
+
         val startTime = System.currentTimeMillis()
 
         appsViewModel.getAppData().observe(viewLifecycleOwner) {
@@ -178,24 +186,14 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            homeViewModel.getDisabledApps().observe(viewLifecycleOwner) {
-                Log.d(TAG, "Disabled apps data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
-                isDisabledPackagesLoaded = true
-                openApp()
-            }
-        } else {
+        homeViewModel.getDisabledApps().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Disabled apps data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isDisabledPackagesLoaded = true
             openApp()
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
-                Log.d(TAG, "Uninstalled packages data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
-                isUninstalledPackagesLoaded = true
-                openApp()
-            }
-        } else {
+        homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Uninstalled packages data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isUninstalledPackagesLoaded = true
             openApp()
         }
@@ -203,6 +201,12 @@ class SplashScreen : ScopedFragment() {
         batteryOptimizationViewModel?.getBatteryOptimizationData()?.observe(viewLifecycleOwner) {
             Log.d(TAG, "Battery optimization data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isBatteryOptimizationLoaded = true
+            openApp()
+        }
+
+        bootManagerViewModel?.getBootComponentData()?.observe(viewLifecycleOwner) {
+            Log.d(TAG, "Boot manager data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
+            isBootManagerLoaded = true
             openApp()
         }
 
@@ -229,7 +233,8 @@ class SplashScreen : ScopedFragment() {
                 isRecentlyUpdatedLoaded &&
                 isRecentlyInstalledLoaded &&
                 isBatteryOptimizationLoaded &&
-                isBatchLoaded
+                isBatchLoaded &&
+                isBootManagerLoaded
     }
 
     private fun checkForPermission(): Boolean {

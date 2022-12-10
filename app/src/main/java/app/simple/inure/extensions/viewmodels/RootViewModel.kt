@@ -1,6 +1,7 @@
 package app.simple.inure.extensions.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig

@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import androidx.annotation.NonNull;
 import app.simple.inure.models.BatchPackageInfo;
 import app.simple.inure.models.BatteryOptimizationModel;
+import app.simple.inure.models.BootManagerModel;
 import app.simple.inure.models.NotesPackageInfo;
 import app.simple.inure.models.StackTrace;
 
@@ -67,6 +68,10 @@ public interface AdapterCallbacks {
     
     default void onBatteryOptimizationClicked(@NotNull View view, @NonNull BatteryOptimizationModel batteryOptimizationModel, int position) {
     
+    }
+    
+    default void onBootComponentClicked(@NonNull View view, @NonNull BootManagerModel bootManagerModel, int position) {
+        
     }
     
     default void onGridClicked(@NonNull View view) {

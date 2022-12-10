@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:padding="@dimen/header_item_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/header_item_margin"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal">
+
+        <app.simple.inure.decorations.theme.ThemeIcon
+            android:id="@+id/imageView4"
+            android:layout_width="@dimen/adapter_header_icon_size"
+            android:layout_height="@dimen/adapter_header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_name"
+            android:transitionName="@string/boot_manager"
+            app:srcCompat="@drawable/ic_power_off"
+            app:tintType="accent" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView02"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="@string/boot_manager"
+            android:textSize="@dimen/header_font_size"
+            app:appFontStyle="light"
+            app:textColorStyle="heading" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/header_item_margin"
+        android:orientation="horizontal">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/adapter_total_apps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/popup_padding"
+            android:text="@string/apps"
+            android:textSize="16sp"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_numbers_textview"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/adapter_header_sorting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:drawablePadding="@dimen/popup_padding"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="regular"
+            android:visibility="gone"
+            app:drawableStartCompat="@drawable/ic_sort_tiny"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="tertiary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/adapter_header_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:drawablePadding="@dimen/popup_padding"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="regular"
+            android:visibility="gone"
+            app:drawableStartCompat="@drawable/ic_filter_tiny"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="tertiary" />
+
+    </LinearLayout>
+
+</LinearLayout>

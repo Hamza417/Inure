@@ -145,6 +145,8 @@
     <string name="host">Host</string>
     <string name="intent_actions">Intent Actions</string>
     <string name="intent_categories">Intent Categories</string>
+    <string name="n_enabled">%d Enabled</string>
+    <string name="n_disabled">%d Disabled</string>
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
     <string name="enable">Enable</string>
@@ -609,4 +611,7 @@
     <string name="days_trial_period_remaining">%1$d days left in trial period.</string>
     <string name="purchase">Purchase</string>
     <string name="recently_added">Recently Added</string>
+    <string name="boot_manager">Boot Manager</string>
+    <string name="disable_all">Disable All</string>
+    <string name="enable_all">Enable All</string>
 </resources>
