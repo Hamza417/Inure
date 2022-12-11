@@ -13,14 +13,6 @@ An elegant Android app manager, currently in development
 ![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License)
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
 
-## Full Version
-
-[![](https://img.shields.io/badge/Unlocker%20(GumRoad)-Buy-important?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker)
-[![](https://img.shields.io/badge/Unlocker%20(Play%20Store)-Buy-important?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
-
-Tiny promotion for GumRoad users,
-Use code `FIRSTSALE50` on GumRoad to get 50% off on total price of the unlocker app.
-
 ## Featured
 
 - [Android Weekly Issue #465](https://androidweekly.net/issues/issue-465)
