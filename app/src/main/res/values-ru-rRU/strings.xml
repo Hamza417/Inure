@@ -146,6 +146,8 @@
     <string name="host">Хост</string>
     <string name="intent_actions">Intent действия</string>
     <string name="intent_categories">Intent категории</string>
+    <string name="n_enabled">%d включено</string>
+    <string name="n_disabled">%d отключено</string>
     <string name="enabled">Включено</string>
     <string name="disabled">Отключенные</string>
     <string name="enable">Включить</string>
@@ -612,4 +614,8 @@
     <string name="show_me">Показать</string>
     <string name="days_trial_period_remaining">До конца пробного периода осталось %1$d дней.</string>
     <string name="purchase">Покупка</string>
+    <string name="recently_added">Недавно добавленные</string>
+    <string name="boot_manager">Управление автозапуском</string>
+    <string name="disable_all">Отключить все</string>
+    <string name="enable_all">Включить все</string>
 </resources>
