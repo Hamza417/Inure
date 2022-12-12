@@ -24,6 +24,7 @@ import app.simple.inure.constants.Misc
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
+import app.simple.inure.dialogs.app.FullVersionReminder.Companion.showFullVersionReminder
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.BehaviourPreferences
@@ -75,12 +76,20 @@ class SplashScreen : ScopedFragment() {
                 daysLeft.gone()
             } else {
                 daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
+
+                if (MainPreferences.getLaunchCount() % 5 == 0) {
+                    childFragmentManager.showFullVersionReminder()
+                }
             }
         } else if (MainPreferences.isFullVersion()) {
             daysLeft.gone()
         } else {
             // Should always be 0
             daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
+
+            if (MainPreferences.getLaunchCount() % 5 == 0) {
+                childFragmentManager.showFullVersionReminder()
+            }
         }
 
         if (AccessibilityPreferences.isAnimationReduced().invert()) {
