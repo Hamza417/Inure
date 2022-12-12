@@ -67,7 +67,9 @@ class AppearanceScreen : ScopedFragment() {
         }
 
         roundedCorner.setOnClickListener {
-            RoundedCorner.newInstance().show(childFragmentManager, "rounded_corner")
+            if (fullVersionCheck()) {
+                RoundedCorner.newInstance().show(childFragmentManager, "rounded_corner")
+            }
         }
 
         iconSize.setOnClickListener {
@@ -82,7 +84,9 @@ class AppearanceScreen : ScopedFragment() {
         }
 
         coloredIconShadows.setOnSwitchCheckedChangeListener {
-            AppearancePreferences.setColoredIconShadowsState(it)
+            if (fullVersionCheck()) {
+                AppearancePreferences.setColoredIconShadowsState(it)
+            }
         }
 
         accentOnNav.setOnSwitchCheckedChangeListener {

@@ -306,7 +306,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         return if (MainPreferences.isAppFullVersionEnabled()) {
             true
         } else {
-            childFragmentManager.showFullVersion().setWarningCallbacks {
+            childFragmentManager.showFullVersion().setFullVersionCallbacks {
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
             false

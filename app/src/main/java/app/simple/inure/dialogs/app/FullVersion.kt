@@ -42,7 +42,7 @@ class FullVersion : ScopedBottomSheetFragment() {
         }
     }
 
-    fun setWarningCallbacks(warningCallbacks: WarningCallbacks) {
+    fun setFullVersionCallbacks(warningCallbacks: WarningCallbacks) {
         this.warningCallbacks = warningCallbacks
     }
 

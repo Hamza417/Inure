@@ -70,11 +70,16 @@ class SplashScreen : ScopedFragment() {
         loaderImageView = view.findViewById(R.id.loader)
         daysLeft = view.findViewById(R.id.days_left)
 
-        if (MainPreferences.isTrialPeriod()) {
+        if (MainPreferences.isWithinTrialPeriod()) {
             if (MainPreferences.isFullVersion()) {
                 daysLeft.gone()
+            } else {
+                daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
             }
-
+        } else if (MainPreferences.isFullVersion()) {
+            daysLeft.gone()
+        } else {
+            // Should always be 0
             daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
         }
 

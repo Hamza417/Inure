@@ -98,8 +98,13 @@ object MainPreferences {
                 CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
     }
 
-    fun isTrialPeriod(): Boolean {
+    fun isWithinTrialPeriod(): Boolean {
         return CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
+    }
+
+    fun isTrialWithoutFull(): Boolean {
+        return CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
+                && !isAppFullVersionEnabled()
     }
 
     fun isFullVersion(): Boolean {
