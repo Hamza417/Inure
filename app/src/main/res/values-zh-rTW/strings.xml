@@ -146,6 +146,8 @@
     <string name="host">主機</string>
     <string name="intent_actions">意圖動作</string>
     <string name="intent_categories">意圖類別</string>
+    <string name="n_enabled">%d 已啟用</string>
+    <string name="n_disabled">%d 已停用</string>
     <string name="enabled">已啟用</string>
     <string name="disabled">已停用</string>
     <string name="enable">啟用</string>
@@ -609,4 +611,8 @@
     <string name="show_me">讓我看看</string>
     <string name="days_trial_period_remaining">還剩 %1$d 天免費試用。</string>
     <string name="purchase">購買</string>
+    <string name="recently_added">最近新增</string>
+    <string name="boot_manager">開機管理員</string>
+    <string name="disable_all">全部停用</string>
+    <string name="enable_all">全部啟用</string>
 </resources>
