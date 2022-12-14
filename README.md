@@ -88,9 +88,10 @@ Low priority features
 |                                   C                                   |                                   D                                   |                                   E                                   |                                   F                                   |
 
 ## Behind The Scenes
+| ![01](./assets/01.jpg) |
+|:-----------------------:|
+| Designing of interface skeletons for Inure |
 
-Designing of interface skeletons for Inure
-![01](./assets/01.jpg)
 
 ## License
 
