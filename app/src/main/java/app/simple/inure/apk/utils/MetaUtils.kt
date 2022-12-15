@@ -40,7 +40,7 @@ object MetaUtils {
         }
     }
 
-    @Suppress("deprecation")
+    @Suppress("deprecation", "KotlinConstantConditions")
     fun getSoftInputMode(flag: Int, context: Context): String {
         val builder = StringBuilder()
 

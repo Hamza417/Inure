@@ -12,6 +12,13 @@ An elegant Android app manager, currently in development
 ![](https://img.shields.io/github/languages/count/Hamza417/Inure?color=white&label=Languages)
 ![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License)
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
+[![Telegram Group](https://img.shields.io/badge/Telegram%20Group-blue?logo=telegram)](https://t.me/inure_app_manager)
+
+## Download
+
+[![](https://img.shields.io/badge/Play%20Store-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inure)
+[![](https://img.shields.io/badge/IzzyOnDroid-4AB495?logo=izzyondroid)](https://apt.izzysoft.de/fdroid/index/apk/app.simple.inure)
+[![](https://img.shields.io/badge/GitHub%20Releases-181717?logo=github)](https://github.com/Hamza417/Inure/releases/latest)
 
 ## Featured
 
