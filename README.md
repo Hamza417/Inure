@@ -17,17 +17,19 @@ An elegant Android app manager, currently in development
 ## Download
 
 [![](https://img.shields.io/badge/Play%20Store-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inure)
-[![](https://img.shields.io/badge/IzzyOnDroid-4AB495?logo=izzyondroid)](https://apt.izzysoft.de/fdroid/index/apk/app.simple.inure)
+[![](https://img.shields.io/badge/IzzyOnDroid-4AB495?logo=fdroid)](https://apt.izzysoft.de/fdroid/index/apk/app.simple.inure)
 [![](https://img.shields.io/badge/GitHub%20Releases-181717?logo=github)](https://github.com/Hamza417/Inure/releases/latest)
+
+## Buy
+
+[![](https://img.shields.io/badge/GumRoad-$4.99-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
+[![](https://img.shields.io/badge/Play%20Store-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
 
 ## Featured
 
 - [Android Weekly Issue #465](https://androidweekly.net/issues/issue-465)
 - ["Inure, a beautifully animated Android App Manager." - Android Dev Notes](https://twitter.com/androiddevnotes/status/1389111968670179340)
 - [Top 5 Android Apps of the Week - NextPit](https://www.nextpit.com/apps-of-the-week-51-2021)
-- [Top 4 App in User's Choice on PDALife.com](https://pdalife.com/android/sistemnye/sort-by/popular/) _(
-  27 July, 2022)_ 💀
-- [Inure - A intuitive and feature rich Android app manager is here.](https://www.techtracker.in/2022/11/inure-intuitive-and-feature-rich.html)
 
 ## About
 
