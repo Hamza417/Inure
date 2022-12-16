@@ -105,9 +105,10 @@ Low priority features
 
 ## License
 
-While the project is GPLv3 licensed, you're not allowed to publish any unofficial builds of the
-project on any app store or website. You can however, fork the project and make your own changes to
-it. 
+**Inure App Manager** Copyright © 2022 - Hamza Rizwan
+
+**Inure App Manager** is released as open source software under the [GPL v3](https://opensource.org/licenses/gpl-3.0.html) 
+license, see the [LICENSE](./LICENSE) file in the project root for the full license text.
 
 The assets used in the app are created using Adobe Photoshop and Adobe Illustrator and despite the
 project being GPLv3, these assets do not fall under the purview of any license. Therefore, you're
