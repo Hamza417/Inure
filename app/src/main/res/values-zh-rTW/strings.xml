@@ -615,4 +615,5 @@
     <string name="boot_manager">開機管理員</string>
     <string name="disable_all">全部停用</string>
     <string name="enable_all">全部啟用</string>
+    <string name="would_you_full_version">您現在正在使用試用版，要購買並解鎖此應用程式的完整功能嗎？</string>
 </resources>
