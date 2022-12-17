@@ -76,7 +76,9 @@ Low priority features
 - [x] ImageViewer scalable zoom support
 - [ ] APK data extraction
 
-*This list will be updated as the development progresses*
+*This list will be updated as the development progresses.*
+
+<b>NOTE:</b> Inure is currently not expecting any feature requests or suggestions.
 
 ## Screenshots
 
