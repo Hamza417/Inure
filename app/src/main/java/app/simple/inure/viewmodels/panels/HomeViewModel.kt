@@ -231,6 +231,9 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 }
             }
 
+            // Add a last divider
+            list.add(Pair(0, 0))
+
             menuItems.postValue(list)
         }
     }

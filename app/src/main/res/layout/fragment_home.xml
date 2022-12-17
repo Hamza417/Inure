@@ -107,20 +107,6 @@
                     android:layout_height="wrap_content"
                     android:overScrollMode="never" />
 
-                <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                    android:id="@+id/quick_apps_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/popup_padding"
-                    android:layout_marginTop="@dimen/popup_padding"
-                    android:paddingHorizontal="@dimen/dialog_padding"
-                    android:paddingVertical="@dimen/header_padding"
-                    android:text="@string/quick_apps"
-                    android:textSize="@dimen/info_text_large"
-                    android:visibility="gone"
-                    app:appFontStyle="bold"
-                    app:textColorStyle="primary" />
-
                 <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
                     android:id="@+id/quick_app_recycler_view"
                     android:layout_width="match_parent"

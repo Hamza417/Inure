@@ -41,7 +41,6 @@ class Home : ScopedFragment() {
     private lateinit var scrollView: EdgeEffectNestedScrollView
     private lateinit var header: PaddingAwareLinearLayout
     private lateinit var navigationRecyclerView: RecyclerView
-    private lateinit var quickAppsHeader: TypeFaceTextView
     private lateinit var quickAppsRecyclerView: CustomHorizontalRecyclerView
     private lateinit var icon: DynamicRippleImageButton
     private lateinit var search: DynamicRippleImageButton
@@ -55,7 +54,6 @@ class Home : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         scrollView = view.findViewById(R.id.home_scroll_view)
-        quickAppsHeader = view.findViewById(R.id.quick_apps_tv)
         quickAppsRecyclerView = view.findViewById(R.id.quick_app_recycler_view)
         navigationRecyclerView = view.findViewById(R.id.home_menu)
 
@@ -169,10 +167,8 @@ class Home : ScopedFragment() {
 
         quickAppViewModel.getQuickApps().observe(viewLifecycleOwner) {
             if (it.size.isZero()) {
-                quickAppsHeader.invisible(false)
                 quickAppsRecyclerView.invisible(false)
             } else {
-                quickAppsHeader.visible(false)
                 quickAppsRecyclerView.visible(false)
             }
 
