@@ -55,7 +55,7 @@ If you've tried the app, you can write your user/developer feedbacks [here](http
 
 ## Development Status
 
-High priority features
+### High priority features
 
 - [x] Apps Backup feature
 - [x] Dedicated app installer
@@ -69,7 +69,7 @@ High priority features
 - [ ] Use app via ADB Shell instead of root? (suspended)
 - [x] Add battery optimisation manager for all apps
 
-Low priority features
+### Low priority features
 
 - [ ] Code highlights for all languages an Android app possibly contains
 - [x] Dedicated TextEditor
