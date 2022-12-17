@@ -21,16 +21,18 @@ import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.dialogs.app.FullVersionReminder.Companion.showFullVersionReminder
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.music.Music
 import app.simple.inure.util.ConditionUtils.isZero
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.HomeViewModel
@@ -46,6 +48,7 @@ class Home : ScopedFragment() {
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
+    private lateinit var purchase: DynamicRippleImageButton
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var quickAppViewModel: QuickAppsViewModel
@@ -62,6 +65,7 @@ class Home : ScopedFragment() {
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
         options = view.findViewById(R.id.home_header_option_button)
+        purchase = view.findViewById(R.id.home_purchase)
 
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         quickAppViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
@@ -71,6 +75,10 @@ class Home : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (MainPreferences.isFullVersion()) {
+            purchase.gone(animate = false)
+        }
 
         homeViewModel.getMenuItems().observe(viewLifecycleOwner) {
             postponeEnterTransition()
@@ -217,6 +225,10 @@ class Home : ScopedFragment() {
                     }
                 }
             })
+        }
+
+        purchase.setOnClickListener {
+            childFragmentManager.showFullVersionReminder()
         }
     }
 

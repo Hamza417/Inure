@@ -17,12 +17,17 @@ class FullVersionReminder : ScopedBottomSheetFragment() {
 
     private lateinit var purchase: DynamicRippleTextView
     private lateinit var close: DynamicRippleTextView
+    private var playStore: DynamicRippleTextView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_full_version_reminder, container, false)
 
         purchase = view.findViewById(R.id.purchase)
         close = view.findViewById(R.id.close)
+
+        kotlin.runCatching {
+            playStore = view.findViewById(R.id.play_store)
+        }
 
         return view
     }
@@ -37,6 +42,10 @@ class FullVersionReminder : ScopedBottomSheetFragment() {
                 // Open GumRoad link in Browser
                 getString(R.string.gumroad_link).asUri().openInBrowser(requireContext())
             }
+        }
+
+        playStore?.setOnClickListener {
+            MarketUtils.openAppOnPlayStore(requireContext(), AppUtils.unlockerPackageName)
         }
 
         close.setOnClickListener {

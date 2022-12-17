@@ -33,4 +33,5 @@
     <string name="wifi" translatable="false">Wi-Fi</string>
     <string name="system_excidle" translatable="false">System-Excidle</string>
     <string name="gumroad_link" translatable="false">"https://hamza417.gumroad.com/l/inure_unlocker"</string>
+    <string name="gumroad">GumRoad</string>
 </resources>
