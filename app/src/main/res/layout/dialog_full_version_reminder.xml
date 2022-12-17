@@ -48,6 +48,22 @@
                 app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/play_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="10dp"
+                android:drawablePadding="@dimen/popup_padding"
+                android:gravity="center"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/play_store"
+                android:textSize="@dimen/info_text_small"
+                android:visibility="gone"
+                app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/purchase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
