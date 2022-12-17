@@ -2,6 +2,7 @@ package app.simple.inure.dialogs.batch
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageInstaller
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -13,9 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.IntentConstants
-import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.panels.BatchViewModelFactory
 import app.simple.inure.models.BatchPackageInfo
@@ -30,11 +29,7 @@ import app.simple.inure.viewmodels.panels.BatchViewModel
 
 class BatchUninstaller : ScopedBottomSheetFragment() {
 
-    private lateinit var count: TypeFaceTextView
-    private lateinit var name: TypeFaceTextView
     private lateinit var state: TypeFaceTextView
-    private lateinit var progress: CustomProgressBar
-    private lateinit var cancel: DynamicRippleTextView
 
     private var appList = arrayListOf<BatchPackageInfo>()
 
@@ -50,7 +45,6 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
                 setState(batchUninstallerProgressStateModel)
                 kotlin.runCatching {
                     val packageName = result.data?.getStringExtra(IntentConstants.EXTRA_PACKAGE_NAME)!!
-                    setName(packageName, done = true)
                     Log.d("BatchUninstaller", "Uninstalled -> $packageName")
                 }.getOrElse {
                     Log.d("BatchUninstaller", "Failed to uninstall -> ${it.message}")
@@ -62,7 +56,6 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
                 setState(batchUninstallerProgressStateModel)
                 kotlin.runCatching {
                     val packageName = result.data?.getStringExtra(IntentConstants.EXTRA_PACKAGE_NAME)!!
-                    setName(packageName, done = false)
                     Log.d("BatchUninstaller", "Failed to uninstall -> $packageName")
                 }.getOrElse {
                     Log.d("BatchUninstaller", "Failed to uninstall -> ${it.message}")
@@ -74,11 +67,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_batch_uninstall, container, false)
 
-        count = view.findViewById(R.id.progress_count)
-        name = view.findViewById(R.id.name)
         state = view.findViewById(R.id.progress_state)
-        progress = view.findViewById(R.id.progress)
-        cancel = view.findViewById(R.id.cancel)
 
         appList = requireArguments().parcelableArrayList(BundleConstants.selectedBatchApps)!!
         batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
@@ -100,8 +89,6 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        progress.max = appList.size
-
         batchUninstallerViewModel?.getDone()?.observe(viewLifecycleOwner) {
             // progress.animateProgress(it, animate = true)
         }
@@ -111,7 +98,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
         }
 
         batchUninstallerViewModel?.getDone()?.observe(viewLifecycleOwner) {
-            cancel.setText(R.string.close)
+            Log.d("BatchUninstaller", "Done -> $it")
         }
 
         if (ConfigurationPreferences.isUsingRoot().invert()) {
@@ -125,10 +112,6 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
                 }
             }
         }
-
-        cancel.setOnClickListener {
-            dismiss()
-        }
     }
 
     private fun setState(state: BatchUninstallerProgressStateModel) {
@@ -141,24 +124,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
             append(" | ")
             append(getString(R.string.count_queued, state.queued))
             this@BatchUninstaller.state.text = toString()
-            progress.animateProgress(((state.count - state.queued) / appList.size * 100F).toInt(), animate = true)
             batchViewModel?.refresh()
-        }
-    }
-
-    private fun setName(packageName: String, done: Boolean) {
-        if (name.text.isNotEmpty()) {
-            name.append(System.lineSeparator())
-        }
-
-        name.append(packageName)
-        name.append(" -> ")
-        name.append(getString(R.string.done))
-
-        if (done) {
-            name.append(getString(R.string.done))
-        } else {
-            name.setText(R.string.failed)
         }
     }
 

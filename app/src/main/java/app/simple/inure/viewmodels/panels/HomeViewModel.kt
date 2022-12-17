@@ -220,7 +220,9 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             if (ConfigurationPreferences.isUsingRoot()) {
                 list.add(Pair(R.drawable.ic_settings_power, R.string.battery_optimization))
-                list.add(Pair(R.drawable.ic_power_off, R.string.boot_manager))
+                if (BuildConfig.DEBUG) {
+                    list.add(Pair(R.drawable.ic_power_off, R.string.boot_manager))
+                }
             }
 
             if (BuildConfig.DEBUG || DevelopmentPreferences.isDebugFeaturesEnabled()) {

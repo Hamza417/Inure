@@ -17,61 +17,16 @@
         android:padding="@dimen/dialog_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/progress_count"
+            android:id="@+id/progress_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:drawablePadding="@dimen/dialog_padding"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/info_text_large"
-            app:appFontStyle="bold"
+            android:text="@string/progress"
+            android:textSize="@dimen/popup_text_size"
+            app:appFontStyle="medium"
             app:drawableStartCompat="@drawable/ic_delete"
             app:drawableTintStyle="accent"
-            app:textColorStyle="accent" />
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dialog_padding"
-            android:textSize="@dimen/info_text_small"
-            app:appFontStyle="bold"
             app:textColorStyle="primary" />
-
-        <app.simple.inure.decorations.views.CustomProgressBar
-            android:id="@+id/progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/dialog_padding"
-            android:layout_weight="1"
-            android:max="100"
-            android:maxHeight="10dp" />
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/progress_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="@string/progress"
-            android:layout_marginTop="@dimen/popup_padding"
-            android:textSize="@dimen/app_package_text_size"
-            app:appFontStyle="regular"
-            app:textColorStyle="accent" />
-
-        <app.simple.inure.decorations.ripple.DynamicRippleTextView
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/dialog_padding"
-            android:gravity="center"
-            android:padding="@dimen/dialog_padding"
-            android:text="@string/cancel"
-            android:textSize="@dimen/info_text_small"
-            app:appFontStyle="bold"
-            app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
