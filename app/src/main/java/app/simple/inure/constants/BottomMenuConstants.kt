@@ -30,7 +30,7 @@ object BottomMenuConstants {
 
     private val batchMenu = arrayListOf(
             R.drawable.ic_delete,
-            R.drawable.ic_send,
+            // R.drawable.ic_send,
             R.drawable.ic_downloading,
             R.drawable.ic_checklist,
             -1,
