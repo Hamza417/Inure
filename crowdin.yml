@@ -3,3 +3,7 @@ files:
     translation: /app/src/main/res/values-%android_code%/%original_file_name%
     translate_content: 0
     translate_attributes: 0
+  - source: /app/src/main/res/values/term_strings.xml
+    translation: /app/src/main/res/values-%android_code%/%original_file_name%
+    translate_content: 0
+    translate_attributes: 0
