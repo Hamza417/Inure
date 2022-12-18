@@ -178,7 +178,7 @@ class AppsMenu : ScopedDialogFragment() {
             if (it.size.isNotZero()) {
                 for (i in it) {
                     if (i.packageName == packageInfo.packageName) {
-                        toQuickApp.setText(R.string.remove_from_quick_apps)
+                        toQuickApp.setText(R.string.remove_from_home_screen)
                         isAlreadyInQuickApp = true
                         break
                     } else {
@@ -190,7 +190,7 @@ class AppsMenu : ScopedDialogFragment() {
             }
 
             if (!isAlreadyInQuickApp) {
-                toQuickApp.setText(R.string.add_to_quick_apps)
+                toQuickApp.setText(R.string.pin_to_home_panel)
                 isAlreadyInQuickApp = false
             }
         }

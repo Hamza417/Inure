@@ -228,7 +228,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
-                android:text="@string/add_to_quick_apps"
+                android:text="@string/pin_to_home_panel"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
                 app:textColorStyle="secondary" />
