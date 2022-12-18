@@ -11,6 +11,7 @@ class PopupBootManager(view: View) : BasePopupWindow() {
 
     private val enableAll: DynamicRippleTextView
     private val disableAll: DynamicRippleTextView
+    private val open: DynamicRippleTextView
     private var popupBootManagerCallbacks: PopupBootManagerCallbacks? = null
 
     init {
@@ -19,6 +20,7 @@ class PopupBootManager(view: View) : BasePopupWindow() {
         contentView.apply {
             enableAll = findViewById(R.id.popup_enable_all)
             disableAll = findViewById(R.id.popup_disable_all)
+            open = findViewById(R.id.popup_open)
         }
 
         enableAll.setOnClickListener {
@@ -28,6 +30,11 @@ class PopupBootManager(view: View) : BasePopupWindow() {
 
         disableAll.setOnClickListener {
             popupBootManagerCallbacks?.onDisableAllClicked()
+            dismiss()
+        }
+
+        open.setOnClickListener {
+            popupBootManagerCallbacks?.onOpenClicked()
             dismiss()
         }
 
@@ -42,6 +49,7 @@ class PopupBootManager(view: View) : BasePopupWindow() {
         interface PopupBootManagerCallbacks {
             fun onEnableAllClicked()
             fun onDisableAllClicked()
+            fun onOpenClicked()
         }
     }
 }

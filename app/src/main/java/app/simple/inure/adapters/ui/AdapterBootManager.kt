@@ -61,12 +61,17 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
             }
 
             holder.container.setOnClickListener {
-                adapterCallbacks?.onBootComponentClicked(it, components[holder.bindingAdapterPosition.minus(1)],
-                                                         holder.bindingAdapterPosition.minus(1))
+                adapterCallbacks?.onBootComponentClicked(it,
+                                                         components[holder.bindingAdapterPosition.minus(1)],
+                                                         holder.bindingAdapterPosition.minus(1),
+                                                         holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                // adapterCallbacks?.onAppLongPressed(components[position].packageInfo, holder.icon)
+                adapterCallbacks?.onBootComponentLongClicked(it,
+                                                             components[holder.bindingAdapterPosition.minus(1)],
+                                                             holder.bindingAdapterPosition.minus(1),
+                                                             holder.icon)
                 true
             }
         } else if (holder is Header) {

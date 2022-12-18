@@ -35,7 +35,25 @@
 <ul>
     <li>Fixed <b>Home</b> panel not updating after preferences are changed.</li>
     <li>Fixed a huge frame drop during loading when <i>Root Methods</i> is on.</li>
-    <li>Fixed <i>Root Method</i> button animation issue.</li>
+    <li>Fixed <i>Root Methods</i> button animation issue.</li>
+    <li>Fixed missing translated string for <i>Terminal</i> in the app.</li>
+</ul>
+
+<h4>Boot Manager</h4>
+
+<ul>
+    <li>Fixed various issues with the <b>Boot Manager</b>.</li>
+    <li>Implemented a new framework for boot component that requests for data from system for
+        various matching boot flags replacing the old direct component query approach using system
+        shell.
+        <br>
+        <small>
+            <b>Boot Manager</b> can now show all boot components that are available in the system
+                                without root access however changing their states still requires
+                                root. I'll also be implementing an <i>AppOps</i> approach to do the
+                                same and it should make the framework more robust.
+        </small>
+    </li>
 </ul>
 
 <br>

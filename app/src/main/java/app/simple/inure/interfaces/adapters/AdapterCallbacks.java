@@ -70,8 +70,12 @@ public interface AdapterCallbacks {
     
     }
     
-    default void onBootComponentClicked(@NonNull View view, @NonNull BootManagerModel bootManagerModel, int position) {
+    default void onBootComponentClicked(@NonNull View view, @NonNull BootManagerModel bootManagerModel, int position, @NotNull ImageView icon) {
         
+    }
+    
+    default void onBootComponentLongClicked(@NonNull View view, @NonNull BootManagerModel bootManagerModel, int position, @NotNull ImageView icon) {
+    
     }
     
     default void onGridClicked(@NonNull View view) {

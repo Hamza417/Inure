@@ -38,7 +38,7 @@
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/popup_component_state_toggle"
+        android:id="@+id/popup_open"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"

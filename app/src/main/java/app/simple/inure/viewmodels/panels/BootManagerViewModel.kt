@@ -170,11 +170,11 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
     fun disableAllComponents(bootManagerModel: BootManagerModel, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             (bootManagerModel.enabledComponents + bootManagerModel.disabledComponents).forEach { component ->
-                Shell.cmd("pm disable ${bootManagerModel.packageName}/$component").submit {
-                    if (it.isSuccess) {
+                Shell.cmd("pm disable ${bootManagerModel.packageName}/$component").exec().let { result ->
+                    if (result.isSuccess) {
                         Log.d("BootManagerViewModel", "disabledComponent: $component")
                     } else {
-                        Log.e("BootManagerViewModel", "disabledComponent: ${it.err}")
+                        Log.e("BootManagerViewModel", "disabledComponent: ${result.err}")
                     }
                 }
             }

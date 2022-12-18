@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.adapters.ui.AdapterBootManager
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.popups.bootmanager.PopupBootManager
-import app.simple.inure.util.ConditionUtils.isNotNull
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.panels.BootManagerViewModel
 
 class BootManager : ScopedFragment() {
@@ -36,11 +39,11 @@ class BootManager : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         fullVersionCheck()
 
-        bootManagerViewModel?.getBootComponentData()?.observe(viewLifecycleOwner) { bootManagerModels ->
-            adapterBootManager = AdapterBootManager(bootManagerModels)
+        bootManagerViewModel?.getBootComponentData()?.observe(viewLifecycleOwner) { bootComponentData ->
+            adapterBootManager = AdapterBootManager(bootComponentData)
 
             adapterBootManager?.setOnItemClickListener(object : AdapterCallbacks {
-                override fun onBootComponentClicked(view: View, bootManagerModel: BootManagerModel, position: Int) {
+                override fun onBootComponentClicked(view: View, bootManagerModel: BootManagerModel, position: Int, icon: ImageView) {
                     PopupBootManager(view).setOnPopupBootManagerCallbacks(object : PopupBootManager.Companion.PopupBootManagerCallbacks {
                         override fun onEnableAllClicked() {
                             showLoader(manualOverride = true).also {
@@ -53,7 +56,17 @@ class BootManager : ScopedFragment() {
                                 bootManagerViewModel?.disableAllComponents(bootManagerModel.copy(), position)
                             }
                         }
+
+                        override fun onOpenClicked() {
+                            openFragmentArc(AppInfo.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageName)!!,
+                                                                icon.transitionName), icon, "app_info")
+                        }
                     })
+                }
+
+                override fun onBootComponentLongClicked(view: View, bootManagerModel: BootManagerModel, position: Int, icon: ImageView) {
+                    AppsMenu.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageName)!!)
+                        .show(childFragmentManager, "apps_menu")
                 }
             })
 
@@ -65,9 +78,11 @@ class BootManager : ScopedFragment() {
         }
 
         bootManagerViewModel?.getBootManagerModelData()?.observe(viewLifecycleOwner) {
-            adapterBootManager?.updateItem(it.first, it.second)
-            bootManagerViewModel?.clearBootManagerModelData()
-            hideLoader()
+            if (it.isNotNull()) {
+                adapterBootManager?.updateItem(it.first, it.second)
+                bootManagerViewModel?.clearBootManagerModelData()
+                hideLoader()
+            }
         }
     }
 
