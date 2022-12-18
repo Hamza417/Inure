@@ -46,7 +46,7 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
 
     private fun loadBootComponents() {
         viewModelScope.launch(Dispatchers.IO) {
-            Shell.cmd(command).submit { result ->
+            Shell.cmd(command).exec().let { result ->
                 if (result.isSuccess) {
                     val packageNames = result.out.map { it.split("/")[0] }.stream().distinct().collect(Collectors.toList())
 
@@ -68,7 +68,6 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
                             }
                         }
 
-                        Log.d("BootManagerViewModel", "loadBootComponents: $bootManagerModel")
                         bootManagerModelArrayList.add(bootManagerModel)
                     }
 

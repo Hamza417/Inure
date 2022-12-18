@@ -46,7 +46,7 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
     }
 
     private fun loadBatteryOptimization() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
             } else {
@@ -116,7 +116,7 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
     }
 
     fun setBatteryOptimization(batteryOptimizationModel: BatteryOptimizationModel, position: Int) {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             Shell.cmd("dumpsys deviceidle whitelist ${if (batteryOptimizationModel.isOptimized) "+" else "-"}${batteryOptimizationModel.packageInfo.packageName}").exec().let {
                 if (it.isSuccess) {
                     batteryOptimizationModel.isOptimized = !batteryOptimizationModel.isOptimized
