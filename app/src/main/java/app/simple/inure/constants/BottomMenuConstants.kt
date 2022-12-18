@@ -3,9 +3,18 @@ package app.simple.inure.constants
 import app.simple.inure.R
 
 object BottomMenuConstants {
+
     private val allAppsBottomMenuItems = arrayListOf(
             R.drawable.ic_sort,
             R.drawable.ic_filter,
+            R.drawable.ic_settings,
+            -1,
+            R.drawable.ic_search
+    )
+
+    private val bootManagerBottomMenuItems = arrayListOf(
+            // R.drawable.ic_sort,
+            // R.drawable.ic_filter,
             R.drawable.ic_settings,
             -1,
             R.drawable.ic_search
@@ -44,6 +53,11 @@ object BottomMenuConstants {
     @Suppress("UNCHECKED_CAST")
     fun getAllAppsBottomMenuItems(): ArrayList<Int> {
         return allAppsBottomMenuItems.clone() as ArrayList<Int>
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun getBootManagerBottomMenuItems(): ArrayList<Int> {
+        return bootManagerBottomMenuItems.clone() as ArrayList<Int>
     }
 
     @Suppress("UNCHECKED_CAST")

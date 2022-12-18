@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBootManager
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -26,9 +28,9 @@ class BootManager : ScopedFragment() {
     private var bootManagerViewModel: BootManagerViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(app.simple.inure.R.layout.fragment_boot_manager, container, false)
+        val view = inflater.inflate(R.layout.fragment_boot_manager, container, false)
 
-        recyclerView = view.findViewById(app.simple.inure.R.id.boot_manager_recycler_view)
+        recyclerView = view.findViewById(R.id.boot_manager_recycler_view)
 
         bootManagerViewModel = ViewModelProvider(requireActivity())[BootManagerViewModel::class.java]
 
@@ -40,6 +42,8 @@ class BootManager : ScopedFragment() {
         fullVersionCheck()
 
         bootManagerViewModel?.getBootComponentData()?.observe(viewLifecycleOwner) { bootComponentData ->
+            postponeEnterTransition()
+
             adapterBootManager = AdapterBootManager(bootComponentData)
 
             adapterBootManager?.setOnItemClickListener(object : AdapterCallbacks {
@@ -74,6 +78,17 @@ class BootManager : ScopedFragment() {
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
+            }
+
+            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getBootManagerBottomMenuItems(), recyclerView) { id, view ->
+                when (id) {
+                    R.drawable.ic_settings -> {
+                        openFragmentSlide(Preferences.newInstance(), "preferences")
+                    }
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
+                    }
+                }
             }
         }
 
