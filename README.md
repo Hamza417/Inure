@@ -68,6 +68,7 @@ If you've tried the app, you can write your user/developer feedbacks [here](http
 - [ ] Multiple user support (suspended).
 - [ ] Use app via ADB Shell instead of root? (suspended)
 - [x] Add battery optimisation manager for all apps
+- [x] Boot manager for all apps
 
 ### Low priority features
 
