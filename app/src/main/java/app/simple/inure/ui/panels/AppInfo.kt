@@ -145,7 +145,7 @@ class AppInfo : ScopedFragment() {
                 override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.manifest -> {
-                            if (DevelopmentPreferences.isWebViewXmlViewer()) {
+                            if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
                                 openFragmentArc(XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             } else {
                                 openFragmentArc(XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")

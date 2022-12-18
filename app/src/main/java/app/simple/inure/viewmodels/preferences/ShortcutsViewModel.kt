@@ -67,7 +67,7 @@ class ShortcutsViewModel(application: Application) : WrappedViewModel(applicatio
                     ShortcutModel(R.drawable.sc_search, SEARCH_ID, SEARCH_ACTION, R.string.search)
             )
 
-            if (DevelopmentPreferences.isDebugFeaturesEnabled()) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     list.add(ShortcutModel(R.drawable.sc_music, MUSIC_ID, MUSIC_ACTION, R.string.music))
                 }

@@ -11,7 +11,7 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.activities.app.MainActivity
-import app.simple.inure.decorations.checkbox.CheckBox
+import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
@@ -98,7 +98,7 @@ class AdapterShortcuts(private val list: List<ShortcutModel>, private val shortc
         val name: TypeFaceTextView = itemView.findViewById(R.id.shortcut_name)
         val id: TypeFaceTextView = itemView.findViewById(R.id.shortcut_id)
         val action: TypeFaceTextView = itemView.findViewById(R.id.shortcut_action)
-        val checkBox: CheckBox = itemView.findViewById(R.id.shortcut_checkbox)
+        val checkBox: InureCheckBox = itemView.findViewById(R.id.shortcut_checkbox)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.shortcut_container)
     }
 

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.CheckBox
+import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.AppOpsModel
@@ -48,7 +48,7 @@ class AdapterOperations(private val ops: ArrayList<AppOpsModel>, val keyword: St
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_name)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_desc)
-        val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
+        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkBox)
     }
 
     companion object {

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.CheckBox
+import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
@@ -18,7 +18,7 @@ class PopupSortingStyle(view: View) : BasePopupWindow() {
     private val maximumRange: DynamicRippleTextView
     private val resolution: DynamicRippleTextView
 
-    private val descCheckBox: CheckBox
+    private val descCheckBox: InureCheckBox
 
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_sensors_sort, PopupLinearLayout(view.context))

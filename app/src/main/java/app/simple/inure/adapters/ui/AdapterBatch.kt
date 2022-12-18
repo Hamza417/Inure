@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.CheckBox
+import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -98,7 +98,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             }
 
             holder.container.setOnClickListener {
-                holder.checkBox.invertCheckedStatus()
+                holder.checkBox.toggle()
                 // appsAdapterCallbacks?.onAppClicked(apps[position].packageInfo, holder.icon)
             }
 
@@ -231,7 +231,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_batch_app_name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_batch_app_package_id)
         val date: TypeFaceTextView = itemView.findViewById(R.id.adapter_batch_date)
-        val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
+        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkBox)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_batch_app_container)
     }
 

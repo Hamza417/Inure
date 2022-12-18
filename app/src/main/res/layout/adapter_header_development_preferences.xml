@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/popup_padding"
+        android:drawablePadding="@dimen/header_padding"
+        android:padding="@dimen/header_padding"
+        android:text="@string/desc_development_prefs"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_error"
+        app:drawableTintStyle="accent"
+        app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+</LinearLayout>

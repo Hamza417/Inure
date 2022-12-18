@@ -18,7 +18,7 @@ import app.simple.inure.util.AdapterUtils
 class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Holder>() {
 
     private var preferencesCallbacks: PreferencesCallbacks? = null
-    private var isDrawableHidden = DevelopmentPreferences.isPreferencesIndicatorHidden()
+    private var isDrawableHidden = DevelopmentPreferences.get(DevelopmentPreferences.preferencesIndicator)
 
     var keyword: String? = null
         set(value) {

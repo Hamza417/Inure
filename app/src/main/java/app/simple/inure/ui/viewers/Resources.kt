@@ -54,7 +54,7 @@ class Resources : SearchBarScopedFragment() {
 
             adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
                 override fun onResourceClicked(path: String) {
-                    if (DevelopmentPreferences.isWebViewXmlViewer()) {
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
                         openFragmentSlide(XMLViewerWebView.newInstance(packageInfo, false, path), "wv_xml")
                     } else {
                         openFragmentSlide(XMLViewerTextView.newInstance(packageInfo, false, path), "tv_xml")

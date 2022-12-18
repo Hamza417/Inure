@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.CheckBox
+import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
@@ -29,7 +29,7 @@ class PopupBatchSortingStyle(view: View) : BasePopupWindow() {
         packageName = contentView.findViewById(R.id.sort_package_name)
         size = contentView.findViewById(R.id.sort_app_size)
         installDate = contentView.findViewById(R.id.sort_install_date)
-        val reversedCheckBox = contentView.findViewById<CheckBox>(R.id.sort_reversed_checkbox)
+        val reversedCheckBox = contentView.findViewById<InureCheckBox>(R.id.sort_reversed_checkbox)
 
         name.onClick(Sort.NAME)
         packageName.onClick(Sort.PACKAGE_NAME)
@@ -46,7 +46,7 @@ class PopupBatchSortingStyle(view: View) : BasePopupWindow() {
         reversedCheckBox.setChecked(BatchPreferences.isReverseSorting())
 
         contentView.findViewById<DynamicRippleTextView>(R.id.sort_reversed).setOnClickListener {
-            reversedCheckBox.invertCheckedStatus()
+            reversedCheckBox.toggle()
         }
 
         reversedCheckBox.setOnCheckedChangeListener { isChecked ->

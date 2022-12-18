@@ -26,7 +26,7 @@
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
-        <app.simple.inure.decorations.checkbox.CheckBox
+        <app.simple.inure.decorations.checkbox.InureCheckBox
             android:id="@+id/graphics_highlight_checkbox"
             android:layout_width="@dimen/checkbox_dimensions"
             android:layout_height="@dimen/checkbox_dimensions"

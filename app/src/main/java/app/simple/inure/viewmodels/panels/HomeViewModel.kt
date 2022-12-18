@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
@@ -16,13 +17,19 @@ import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
+import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class HomeViewModel(application: Application) : PackageUtilsViewModel(application) {
+class HomeViewModel(application: Application) : PackageUtilsViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    init {
+        registerSharedPreferenceChangeListener()
+    }
 
     private val oneMonth = 2592000000 // 30 days
 
@@ -225,7 +232,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 }
             }
 
-            if (BuildConfig.DEBUG || DevelopmentPreferences.isDebugFeaturesEnabled()) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     list.add(Pair(R.drawable.ic_music_note, R.string.music))
                 }
@@ -262,5 +269,19 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         loadRecentlyUpdatedAppData()
         loadDisabledApps()
         loadDeletedApps()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        when (key) {
+            DevelopmentPreferences.music,
+            ConfigurationPreferences.isUsingRoot -> {
+                loadItems()
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        unregisterSharedPreferenceChangeListener()
     }
 }

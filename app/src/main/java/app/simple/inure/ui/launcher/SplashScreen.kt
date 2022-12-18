@@ -26,10 +26,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.dialogs.app.FullVersionReminder.Companion.showFullVersionReminder
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.preferences.AccessibilityPreferences
-import app.simple.inure.preferences.BehaviourPreferences
-import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.*
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
@@ -106,7 +103,9 @@ class SplashScreen : ScopedFragment() {
             delay(Misc.delay)
 
             // Initialize native crash handler
-            CrashReporter(requireContext()).initialize()
+            if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler)) {
+                CrashReporter(requireContext()).initialize()
+            }
 
             when {
                 requireArguments().getBoolean("skip") -> {

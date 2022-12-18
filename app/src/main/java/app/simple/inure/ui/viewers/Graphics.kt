@@ -61,7 +61,7 @@ class Graphics : SearchBarScopedFragment() {
                     }
 
                     override fun onGraphicsLongPressed(filePath: String) {
-                        if (DevelopmentPreferences.isWebViewXmlViewer()) {
+                        if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
                             openFragmentSlide(XMLViewerWebView.newInstance(packageInfo, false, filePath), "wv_xml")
                         } else {
                             openFragmentSlide(XMLViewerTextView.newInstance(packageInfo, false, filePath), "tv_xml")

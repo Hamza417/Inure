@@ -1,0 +1,56 @@
+<app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_development_preferences_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/popup_padding"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="15dp">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_development_preferences_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:textSize="@dimen/preferences_title_text_size"
+        app:appFontStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_development_preferences_description"
+        app:layout_constraintEnd_toStartOf="@+id/adapter_development_preferences_checkbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textColorStyle="primary"
+        tools:ignore="HardcodedText" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_development_preferences_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="48dp"
+        android:layout_weight="1"
+        android:textSize="@dimen/preferences_description_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/adapter_development_preferences_checkbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adapter_development_preferences_title"
+        app:textColorStyle="tertiary"
+        tools:ignore="HardcodedText" />
+
+    <app.simple.inure.decorations.checkbox.InureCheckBox
+        android:id="@+id/adapter_development_preferences_checkbox"
+        android:layout_width="@dimen/checkbox_dimensions"
+        android:layout_height="@dimen/checkbox_dimensions"
+        android:layout_gravity="center_vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

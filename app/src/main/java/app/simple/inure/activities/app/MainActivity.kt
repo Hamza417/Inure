@@ -204,7 +204,7 @@ class MainActivity : BaseActivity() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             DevelopmentPreferences.crashHandler -> {
-                if (DevelopmentPreferences.isUsingNativeCrashHandler()) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler)) {
                     CrashReporter(applicationContext).initialize()
                 }
             }

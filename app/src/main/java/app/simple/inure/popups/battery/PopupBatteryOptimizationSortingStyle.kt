@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.CheckBox
+import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
-import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort
@@ -19,7 +18,7 @@ class PopupBatteryOptimizationSortingStyle(view: View) : BasePopupWindow() {
     private val packageName: DynamicRippleTextView
     private val size: DynamicRippleTextView
     private val installDate: DynamicRippleTextView
-    private val reversedCheckBox: CheckBox
+    private val reversedCheckBox: InureCheckBox
 
     init {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_sorting_style, PopupLinearLayout(view.context))
@@ -46,7 +45,7 @@ class PopupBatteryOptimizationSortingStyle(view: View) : BasePopupWindow() {
         reversedCheckBox.setChecked(MainPreferences.isReverseSorting())
 
         contentView.findViewById<DynamicRippleTextView>(R.id.sort_reversed).setOnClickListener {
-            reversedCheckBox.invertCheckedStatus()
+            reversedCheckBox.toggle()
         }
 
         reversedCheckBox.setOnCheckedChangeListener { isChecked ->

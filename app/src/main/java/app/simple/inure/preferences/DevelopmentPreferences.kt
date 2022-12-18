@@ -1,50 +1,45 @@
 package app.simple.inure.preferences
 
+import app.simple.inure.models.DevelopmentPreferencesModel
+
 object DevelopmentPreferences {
 
-    private const val isWebViewXmlViewer = "is_xml_viewer_web_view"
-    private const val preferencesIndicator = "is_preferences_indicator_hidden"
-    private const val debugFeatures = "is_debug_features_enabled"
-
+    const val isWebViewXmlViewer = "is_xml_viewer_web_view"
+    const val preferencesIndicator = "is_preferences_indicator_hidden"
     const val crashHandler = "is_using_native_crash_handler"
+    const val music = "is_music_enabled"
+
+    val developmentPreferences = listOf(
+            DevelopmentPreferencesModel("Use WebView for XML Preview",
+                                        "Use WebView for XML Preview instead of TextView.",
+                                        isWebViewXmlViewer,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Hide Preferences Indicator",
+                                        "Hides the indicators in the settings and dialogs.",
+                                        preferencesIndicator,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Enable Music",
+                                        "Enable music player in the app.",
+                                        music,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Use Native Crash Handler",
+                                        "Use native crash handler to catch crashes.",
+                                        crashHandler,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+    )
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setWebViewXmlViewer(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(isWebViewXmlViewer, value).apply()
+    fun get(key: String): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(key, false)
     }
 
-    fun isWebViewXmlViewer(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(isWebViewXmlViewer, false)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setHidePreferencesIndicator(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(preferencesIndicator, value).apply()
-    }
-
-    fun isPreferencesIndicatorHidden(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(preferencesIndicator, false)
+    fun set(key: String, value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(key, value).apply()
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setDebugFeaturesState(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(debugFeatures, value).apply()
-    }
-
-    fun isDebugFeaturesEnabled(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(debugFeatures, false)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setNativeCrashHandler(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(crashHandler, value).apply()
-    }
-
-    fun isUsingNativeCrashHandler(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(crashHandler, true)
-    }
 }

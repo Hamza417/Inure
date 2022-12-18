@@ -23,7 +23,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils
 
 @SuppressLint("ClickableViewAccessibility")
-class CheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+class InureCheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CheckBoxFrameLayout(context, attrs, defStyleAttr), ThemeChangedListener {
 
     private var thumb: ImageView
@@ -170,7 +170,7 @@ class CheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
      * Inverts the switch's checked status. If the switch is checked then
      * it will be unchecked and vice-versa
      */
-    fun invertCheckedStatus() {
+    fun toggle() {
         isChecked = if (isChecked) {
             animateUnchecked()
             switchCallbacks?.onCheckedChanged(false)

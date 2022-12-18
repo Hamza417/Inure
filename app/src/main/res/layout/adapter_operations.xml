@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@id/adapter_ops_name"
         app:textColorStyle="secondary" />
 
-    <app.simple.inure.decorations.checkbox.CheckBox
+    <app.simple.inure.decorations.checkbox.InureCheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
