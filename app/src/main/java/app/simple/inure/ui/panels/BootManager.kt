@@ -43,20 +43,17 @@ class BootManager : ScopedFragment() {
                 override fun onBootComponentClicked(view: View, bootManagerModel: BootManagerModel, position: Int) {
                     PopupBootManager(view).setOnPopupBootManagerCallbacks(object : PopupBootManager.Companion.PopupBootManagerCallbacks {
                         override fun onEnableAllClicked() {
-                            bootManagerViewModel?.enableAllComponents(bootManagerModel, position)
+                            showLoader(manualOverride = true).also {
+                                bootManagerViewModel?.enableAllComponents(bootManagerModel.copy(), position)
+                            }
                         }
 
                         override fun onDisableAllClicked() {
-                            bootManagerViewModel?.disableAllComponents(bootManagerModel, position)
-                        }
-                    }).also {
-                        bootManagerViewModel?.getBootManagerModelData()?.observe(viewLifecycleOwner) {
-                            if (it.isNotNull()) {
-                                adapterBootManager?.updateItem(it.first, it.second)
-                                bootManagerViewModel?.clearBootManagerModelData()
+                            showLoader(manualOverride = true).also {
+                                bootManagerViewModel?.disableAllComponents(bootManagerModel.copy(), position)
                             }
                         }
-                    }
+                    })
                 }
             })
 
@@ -65,6 +62,12 @@ class BootManager : ScopedFragment() {
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
+        }
+
+        bootManagerViewModel?.getBootManagerModelData()?.observe(viewLifecycleOwner) {
+            adapterBootManager?.updateItem(it.first, it.second)
+            bootManagerViewModel?.clearBootManagerModelData()
+            hideLoader()
         }
     }
 

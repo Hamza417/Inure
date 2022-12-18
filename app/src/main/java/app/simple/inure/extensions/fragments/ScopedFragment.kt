@@ -290,6 +290,9 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
+    /**
+     * @param manualOverride if true, loader can be shown from anywhere
+     */
     open fun showLoader(manualOverride: Boolean = false) {
         if (requireArguments().getBoolean(BundleConstants.loading)) {
             loader = Loader.newInstance()

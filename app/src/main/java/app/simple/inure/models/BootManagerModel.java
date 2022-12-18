@@ -1,19 +1,18 @@
 package app.simple.inure.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.util.ArraySet;
 
-import java.util.ArrayList;
+import app.simple.inure.interfaces.utils.Copyable;
 
-public class BootManagerModel implements Parcelable {
+public class BootManagerModel implements Copyable <BootManagerModel> {
     
     private String packageName;
-    private ArrayList <String> disabledComponents = new ArrayList <>();
-    private ArrayList <String> enabledComponents = new ArrayList <>();
+    private ArraySet <String> disabledComponents = new ArraySet <>();
+    private ArraySet <String> enabledComponents = new ArraySet <>();
     private String name;
     private boolean enabled;
     
-    public BootManagerModel(String packageName, ArrayList <String> disabledComponents, ArrayList <String> enabledComponents, String name, boolean enabled) {
+    public BootManagerModel(String packageName, ArraySet <String> disabledComponents, ArraySet <String> enabledComponents, String name, boolean enabled) {
         this.packageName = packageName;
         this.disabledComponents = disabledComponents;
         this.enabledComponents = enabledComponents;
@@ -24,40 +23,6 @@ public class BootManagerModel implements Parcelable {
     public BootManagerModel() {
     }
     
-    protected BootManagerModel(Parcel in) {
-        packageName = in.readString();
-        disabledComponents = in.createStringArrayList();
-        enabledComponents = in.createStringArrayList();
-        name = in.readString();
-        enabled = in.readByte() != 0;
-    }
-    
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(packageName);
-        dest.writeStringList(disabledComponents);
-        dest.writeStringList(enabledComponents);
-        dest.writeString(name);
-        dest.writeByte((byte) (enabled ? 1 : 0));
-    }
-    
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-    
-    public static final Creator <BootManagerModel> CREATOR = new Creator <>() {
-        @Override
-        public BootManagerModel createFromParcel(Parcel in) {
-            return new BootManagerModel(in);
-        }
-        
-        @Override
-        public BootManagerModel[] newArray(int size) {
-            return new BootManagerModel[size];
-        }
-    };
-    
     public String getPackageName() {
         return packageName;
     }
@@ -66,11 +31,11 @@ public class BootManagerModel implements Parcelable {
         this.packageName = packageName;
     }
     
-    public ArrayList <String> getDisabledComponents() {
+    public ArraySet <String> getDisabledComponents() {
         return disabledComponents;
     }
     
-    public void setDisabledComponents(ArrayList <String> disabledComponents) {
+    public void setDisabledComponents(ArraySet <String> disabledComponents) {
         this.disabledComponents = disabledComponents;
     }
     
@@ -78,16 +43,16 @@ public class BootManagerModel implements Parcelable {
         try {
             this.disabledComponents.add(disabledComponent);
         } catch (NullPointerException e) {
-            this.disabledComponents = new ArrayList <>();
+            this.disabledComponents = new ArraySet <>();
             this.disabledComponents.add(disabledComponent);
         }
     }
     
-    public ArrayList <String> getEnabledComponents() {
+    public ArraySet <String> getEnabledComponents() {
         return enabledComponents;
     }
     
-    public void setEnabledComponents(ArrayList <String> enabledComponents) {
+    public void setEnabledComponents(ArraySet <String> enabledComponents) {
         this.enabledComponents = enabledComponents;
     }
     
@@ -95,7 +60,7 @@ public class BootManagerModel implements Parcelable {
         try {
             this.enabledComponents.add(component);
         } catch (NullPointerException e) {
-            this.enabledComponents = new ArrayList <>();
+            this.enabledComponents = new ArraySet <>();
             this.enabledComponents.add(component);
         }
     }
@@ -125,5 +90,24 @@ public class BootManagerModel implements Parcelable {
     
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+    @Override
+    public BootManagerModel copy() {
+        return new BootManagerModel(packageName, disabledComponents, enabledComponents, name, enabled);
+    }
+    
+    @Override
+    public BootManagerModel createForCopy() {
+        return new BootManagerModel();
+    }
+    
+    @Override
+    public void copyTo(BootManagerModel dest) {
+        dest.setPackageName(packageName);
+        dest.setDisabledComponents(disabledComponents);
+        dest.setEnabledComponents(enabledComponents);
+        dest.setName(name);
+        dest.setEnabled(enabled);
     }
 }

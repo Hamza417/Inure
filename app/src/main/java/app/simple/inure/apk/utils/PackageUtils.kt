@@ -334,4 +334,8 @@ object PackageUtils {
         }
         return ArrayUtils.deepCopy(packageInfoList)
     }
+
+    fun getIntentFilter(s: String): Intent {
+        return Intent(s)
+    }
 }
