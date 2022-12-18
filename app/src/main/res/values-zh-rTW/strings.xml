@@ -469,9 +469,8 @@
     <string name="ok">確定</string>
     <string name="share">分享</string>
     <string name="favourite_commands">最愛命令</string>
-    <string name="quick_apps">快速應用程式</string>
-    <string name="pin_to_home_panel">新增至快速應用程式</string>
-    <string name="remove_from_home_screen">從快速應用程式中移除</string>
+    <string name="pin_to_home_panel">釘選至主面板</string>
+    <string name="remove_from_home_screen">從主面板中移除</string>
     <string name="limit_stats_to_hours">限制統計資料時長</string>
     <string name="sure">沒問題</string>
     <string name="editor">編輯器</string>
