@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<resources>
+    <string name="new_window">新視窗</string>
+    <string name="close_window">關閉視窗</string>
+    <string name="window_list">視窗</string>
+    <string name="prev_window">上一視窗</string>
+    <string name="next_window">下一視窗</string>
+    <string name="special_keys">特殊金鑰</string>
+    <string name="toggle_soft_keyboard">切換軟體鍵盤</string>
+    <string name="reset_toast_notification">此視窗的終端機狀態已重設。</string>
+    <string name="enable_wakelock">啟用喚醒鎖定</string>
+    <string name="disable_wakelock">停用喚醒鎖定</string>
+    <string name="enable_wifilock">啟用 WiFi 鎖定</string>
+    <string name="disable_wifilock">停用 WiFi 鎖定</string>
+    <string name="select_text">選取文字</string>
+    <string name="copy_all">全部複製</string>
+    <string name="paste">貼上</string>
+    <string name="send_control_key">傳送 Ctrl 鍵</string>
+    <string name="send_fn_key">傳送 Fn 鍵</string>
+    <string name="window_title">視窗 %1$d</string>
+    <string name="service_notify_text">終端機工作階段正在執行</string>
+    <string name="process_exit_message">終端機工作階段已完成</string>
+    <!-- Preference dialog -->
+    <string name="screen_preferences">螢幕</string>
+    <string name="title_cursorblink_preference">游標閃爍</string>
+    <string name="summary_cursorblink_preference">在終端機視窗中定期閃爍游標</string>
+    <string name="text_preferences">文字</string>
+    <string name="title_utf8_by_default_preference">預設為 UTF-8</string>
+    <string name="summary_utf8_by_default_preference">預設是否啟用 UTF-8</string>
+    <string name="title_fontsize_preference">字型大小</string>
+    <string name="summary_fontsize_preference">選擇字元高度 (點)</string>
+    <string name="dialog_title_fontsize_preference">字型大小</string>
+    <string name="title_color_preference">色彩</string>
+    <string name="summary_color_preference">選擇文字色彩</string>
+    <string name="dialog_title_color_preference">文字色彩</string>
+    <string name="keyboard_preferences">鍵盤</string>
+    <string name="title_backaction_preference">返回按鈕行為</string>
+    <string name="summary_backaction_preference">選擇按下返回按鈕動作</string>
+    <string name="title_controlkey_preference">Ctrl 按鍵</string>
+    <string name="summary_controlkey_preference">選擇 Ctrl 按鍵。</string>
+    <string name="title_fnkey_preference">Fn 按鍵</string>
+    <string name="summary_fnkey_preference">選擇 Fn 按鍵。</string>
+    <string name="title_ime_preference">輸入法</string>
+    <string name="summary_ime_preference">選擇軟體鍵盤輸入法。</string>
+    <string name="title_shell_preference">命令列</string>
+    <string name="summary_shell_preference">指定殼層命令列</string>
+    <string name="title_initialcommand_preference">初始命令</string>
+    <string name="summary_initialcommand_preference">啟動時傳送至殼層</string>
+    <string name="title_termtype_preference">終端機類型</string>
+    <string name="summary_termtype_preference">回報至殼層的終端機類型</string>
+    <string name="title_close_window_on_process_exit_preference">離開時關閉視窗</string>
+    <string name="summary_close_window_on_process_exit_preference">殼層結束時是否關閉視窗</string>
+    <string name="title_verify_path_preference">驗證「路徑」項目</string>
+    <string name="summary_verify_path_preference">無法存取的目錄是否從「路徑」中移除</string>
+    <string name="title_do_path_extensions_preference">允許「路徑」副檔名</string>
+    <string name="summary_do_path_extensions_preference">其他應用程式是否被允許提供額外命令 (新增至「路徑」)</string>
+    <string name="title_allow_prepend_path_preference">允許在「路徑」前加上</string>
+    <string name="summary_allow_prepend_path_preference">其他應用程式是否被允許覆寫已存在的命令 (新增至「路徑」開頭)</string>
+    <string name="title_home_path_preference">「主要」資料夾</string>
+    <string name="summary_home_path_preference">可寫入資料夾被用作「主要」</string>
+    <string name="control_key_dialog_title">Ctrl 和 Fn 按鍵</string>
+    <!-- The word CTRLKEY should be left un-translated. It will be replaced at run-time with the
+         actual control key key name. -->
+    <string name="control_key_dialog_control_text">CTRLKEY Space : Control-@ (NUL)\nCTRLKEY A..Z : Control-A..Z\nCTRLKEY 5 : Control-]\nCTRLKEY 6 : Control-^\nCTRLKEY 7 : Control-_\nCTRLKEY 9 : F11\nCTRLKEY 0 : F12</string>
+    <string name="control_key_dialog_control_disabled_text">未設定 Ctrl 按鍵。</string>
+    <!-- The word FNKEY should be left un-translated. It will be replaced at run-time with the
+         actual function key key name. -->
+    <string name="control_key_dialog_fn_text">FNKEY 1..9 : F1-F9\nFNKEY 0 : F10\nFNKEY W : Up\nFNKEY A : Left\nFNKEY S : Down\nFNKEY D : Right\nFNKEY P : PageUp\nFNKEY N : PageDown\nFNKEY T : Tab\nFNKEY L : | (pipe)\nFNKEY U : _ (underscore)\nFNKEY E : Control-[ (ESC)\nFNKEY X : Delete\nFNKEY I : Insert\nFNKEY H : Home\nFNKEY F : End\nFNKEY . : Control-\\</string>
+    <string name="control_key_dialog_fn_disabled_text">未設定 Fn 按鍵。</string>
+    <string name="confirm_window_close_message">關閉此視窗？</string>
+    <string name="perm_run_script">在終端機仿真器中執行任意命令</string>
+    <string name="permdesc_run_script">允許應用程式在 Android 終端機中開啟新視窗，並在這些視窗中執行命令，具有終端機仿真器的所有權限，包括存取網際網路和你的 SD 卡。</string>
+    <string name="perm_append_to_path">新增命令至終端機仿真器</string>
+    <string name="permdesc_append_to_path">允許應用程式為終端機仿真器提供額外命令 (新增目錄至「路徑」)</string>
+    <string name="perm_prepend_to_path">覆寫終端機仿真器命令</string>
+    <string name="permdesc_prepend_to_path">允許應用程式在終端機仿真器中使用自己的版本覆寫已存在的命令 (在「路徑」前加上目錄)</string>
+    <string name="email_transcript_chooser_title">郵寄文字記錄使用：</string>
+    <string name="email_transcript_no_email_activity_found">無法選擇郵件活動以傳送文字記錄。</string>
+    <string name="alt_sends_esc">Alt 按鍵傳送 ESC</string>
+    <string name="title_mouse_tracking_preference">傳送滑鼠活動</string>
+    <string name="summary_mouse_tracking_preference">輕觸和捲動活動是否應該被作為逸出序列傳送至終端機</string>
+    <string name="title_use_keyboard_shortcuts">使用鍵盤快速鍵</string>
+    <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab：循環顯示視窗\nCtrl-Shift-N：新視窗\nCtrl-Shift-V：貼上</string>
+    <string name="help">說明</string>
+    <string name="activity_term_here_title">詞彙</string>
+    <!-- BEGIN SHORTCUT RELATED STRINGS -->
+    <!-- AndroidManifest.xml -->
+    <string name="activity_shortcut_create">"詞彙捷徑"</string>
+    <!-- FSNavigator.java -->
+    <string name="fsnavigator_title">檔案選取器</string>
+    <string name="fsnavigator_no_external_storage">外部儲存空間無法使用</string>
+    <string name="fsnavigator_optional_enter_path">或在此輸入路徑</string>
+    <string name="fsnavigator_change_theme">變更主題</string>
+    <!-- AddShortcut.java -->
+    <string name="addshortcut_command_hint">命令</string>
+    <string name="addshortcut_example_hint">--example=\"\"a\"</string>
+    <string name="addshortcut_button_find_command">尋找命令</string>
+    <string name="addshortcut_navigator_title">選取捷徑目標</string>
+    <string name="addshortcut_command_window_instructions">命令視窗需要完整路徑，無需引數。其它命令則使用引數視窗 (如：cd /sdcard)</string>
+    <string name="addshortcut_arguments_label">引數\:</string>
+    <string name="addshortcut_shortcut_label">捷徑標籤\:</string>
+    <string name="addshortcut_button_text_icon">詞彙圖示</string>
+    <string name="addshortcut_make_text_icon">製作文字圖示</string>
+    <string name="addshortcut_title">詞彙捷徑</string>
+    <!-- ColorValue.java -->
+    <string name="colorvalue_letter_alpha">α</string>
+    <string name="colorvalue_letter_red">R</string>
+    <string name="colorvalue_letter_green">G</string>
+    <string name="colorvalue_letter_blue">B</string>
+    <string name="colorvalue_label_lock_button_column">鎖定</string>
+    <string name="colorvalue_icon_text_entry_hint">輸入圖示文字</string>
+    <!-- END SHORTCUT RELATED STRINGS -->
+</resources>
