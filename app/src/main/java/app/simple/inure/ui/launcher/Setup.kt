@@ -126,7 +126,7 @@ class Setup : ScopedFragment() {
             openFragmentSlide(AppearanceTypeFace.newInstance(), "app_typeface")
         }
 
-        rootSwitchView.setOnSwitchCheckedChangeListener {
+        rootSwitchView.setOnSwitchCheckedChangeListener { it ->
             if (it) {
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                     kotlin.runCatching {
@@ -144,20 +144,11 @@ class Setup : ScopedFragment() {
 
                     if (Shell.isAppGrantedRoot() == true) {
                         ConfigurationPreferences.setUsingRoot(true)
-
-                        withContext(Dispatchers.Main) {
-                            rootSwitchView.setChecked(true)
-                        }
                     } else {
                         ConfigurationPreferences.setUsingRoot(false)
-
-                        withContext(Dispatchers.Main) {
-                            rootSwitchView.setChecked(false)
-                        }
                     }
                 }
             } else {
-                rootSwitchView.setChecked(checked = false)
                 ConfigurationPreferences.setUsingRoot(false)
             }
         }

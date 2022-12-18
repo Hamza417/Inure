@@ -81,20 +81,11 @@ class ConfigurationScreen : ScopedFragment() {
 
                     if (Shell.isAppGrantedRoot() == true) {
                         ConfigurationPreferences.setUsingRoot(true)
-
-                        withContext(Dispatchers.Main) {
-                            rootSwitchView.setChecked(true)
-                        }
                     } else {
                         ConfigurationPreferences.setUsingRoot(false)
-
-                        withContext(Dispatchers.Main) {
-                            rootSwitchView.setChecked(false)
-                        }
                     }
                 }
             } else {
-                rootSwitchView.setChecked(checked = false)
                 ConfigurationPreferences.setUsingRoot(false)
             }
         }
