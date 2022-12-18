@@ -7,6 +7,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -92,6 +93,12 @@ class UsageStatsPermission : ScopedBottomSheetFragment() {
             val fragment = UsageStatsPermission()
             fragment.arguments = args
             return fragment
+        }
+
+        fun FragmentManager.showUsageStatsPermissionDialog(): UsageStatsPermission {
+            val dialog = newInstance()
+            dialog.show(this, "usage_stats_permission")
+            return dialog
         }
 
         interface UsageStatsPermissionCallbacks {

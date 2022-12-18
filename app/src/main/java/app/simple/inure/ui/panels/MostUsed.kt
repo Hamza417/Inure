@@ -8,14 +8,20 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterFrequentlyUsed
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
+import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission.Companion.showUsageStatsPermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.viewmodels.panels.HomeViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MostUsed : ScopedFragment() {
 
@@ -37,8 +43,16 @@ class MostUsed : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         showLoader()
+
+        if (!requireContext().checkForUsageAccessPermission()) {
+            childFragmentManager.showUsageStatsPermissionDialog().setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
+                override fun onClosedAfterGrant() {
+                    showLoader(manualOverride = true)
+                    homeViewModel.refreshMostUsed()
+                }
+            })
+        }
 
         homeViewModel.getMostUsed().observe(viewLifecycleOwner) {
             postponeEnterTransition()

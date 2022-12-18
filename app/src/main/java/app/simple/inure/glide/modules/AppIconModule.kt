@@ -8,6 +8,7 @@ import app.simple.inure.glide.icon.AppIcon
 import app.simple.inure.glide.icon.AppIconLoader
 import app.simple.inure.glide.transformation.BlurShadow
 import app.simple.inure.glide.transformation.Padding
+import app.simple.inure.preferences.DevelopmentPreferences
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -31,10 +32,15 @@ class AppIconModule : AppGlideModule() {
         val requestOptions = RequestOptions()
 
         requestOptions.format(DecodeFormat.PREFER_ARGB_8888)
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE)
+
+        if (DevelopmentPreferences.get(DevelopmentPreferences.imageCaching)) {
+            requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE)
+        } else {
+            requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        }
+
         requestOptions.fallback(R.drawable.ic_app_icon)
         requestOptions.error(R.drawable.ic_app_icon)
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
 
         requestOptions.transform(
                 Padding(BlurShadow.MAX_BLUR_RADIUS.toInt()),

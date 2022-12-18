@@ -17,6 +17,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.usagestats.UsageStatsMenu
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
+import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission.Companion.showUsageStatsPermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks
@@ -47,16 +48,12 @@ class Statistics : ScopedFragment() {
         showLoader()
 
         if (!requireContext().checkForUsageAccessPermission()) {
-            val dialog = UsageStatsPermission.newInstance()
-
-            dialog.setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
+            childFragmentManager.showUsageStatsPermissionDialog().setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
                 override fun onClosedAfterGrant() {
                     adapterUsageStats?.enableLoader()
                     usageStatsViewModel.loadAppStats()
                 }
             })
-
-            dialog.show(childFragmentManager, "usage_stats_permission")
         }
 
         usageStatsViewModel.usageData.observe(viewLifecycleOwner) {

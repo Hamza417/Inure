@@ -269,6 +269,10 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         loadDeletedApps()
     }
 
+    fun refreshMostUsed() {
+        loadMostUsed()
+    }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             DevelopmentPreferences.music,

@@ -75,7 +75,7 @@ class SplashScreen : ScopedFragment() {
                 daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
 
                 if (MainPreferences.getLaunchCount() % 5 == 0) {
-                    childFragmentManager.showFullVersionReminder()
+                    parentFragmentManager.showFullVersionReminder()
                 }
             }
         } else if (MainPreferences.isFullVersion()) {
@@ -85,7 +85,7 @@ class SplashScreen : ScopedFragment() {
             daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
 
             if (MainPreferences.getLaunchCount() % 5 == 0) {
-                childFragmentManager.showFullVersionReminder()
+                parentFragmentManager.showFullVersionReminder()
             }
         }
 
