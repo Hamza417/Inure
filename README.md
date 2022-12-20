@@ -53,6 +53,18 @@ and discussions.
 
 If you've tried the app, you can write your user/developer feedbacks [here](https://github.com/Hamza417/Inure/discussions/48).
 
+## Future
+
+The new [Build53](https://github.com/Hamza417/Inure/releases/tag/Build53) is live for everyone to update. I have finalized the Boot Manager and it should work as expected now. As of now it only supports complete enable or disable mode for an app. In the future, I'm expected to add a component management in Boot Manager so that you can allow some components to run while stop the others from running.
+
+And, I have revamped the Development Preferences panel, it should be more stable to use now. I'm hoping to fix all the Preferences panel issue if time allows for that but I think it's stable as it is. Also, due to changes in Development, you might have to re-enable some settings.
+
+I added option to disable image caching. You can use that to prevent app from taking up a lot of space in the storage. Disabling it shouldn't be affecting the app performance, in my tests the app continued to perform same under both conditions.
+
+This build also finalizes the app's development and I have added almost everything I had planned for the app. Any new features might not be added anymore however I'll keep tweaking the app to make it more usable and stable as the time progresses and keep on improving all the existing features and everyone can expect one or two updates every month. You can however keep reporting the bugs and issues and I'll keep fixing them too.
+
+That's all.
+
 ## Development Status
 
 ### High priority features
