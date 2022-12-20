@@ -81,14 +81,15 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                         listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
                         files.postValue(listOfFiles)
                     } else {
-                        postWarning("Zip file does not contain apk files")
+                        postWarning("Zip file is not a valid split apk")
                         return@runCatching
                     }
                 } else if (name.name!!.endsWith(".apk")) {
                     listOfFiles = arrayListOf(sourceFile)
                     this.files.postValue(listOfFiles)
                 } else {
-                    throw UnsupportedOperationException("File type not supported")
+                    postWarning("File is not a valid apk")
+                    return@runCatching
                 }
 
                 postPackageInfo()

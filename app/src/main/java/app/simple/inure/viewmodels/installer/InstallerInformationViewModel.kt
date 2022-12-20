@@ -85,7 +85,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getVersion(): Pair<Int, Spannable> {
         return Pair(R.string.version,
-                    apkFile!!.apkMeta.versionName.applySecondaryTextColor())
+                    apkFile?.apkMeta?.versionName?.applySecondaryTextColor() ?: "N/A".applySecondaryTextColor())
     }
 
     private fun getVersionCode(): Pair<Int, Spannable> {
