@@ -26,6 +26,7 @@ import app.simple.inure.decorations.pinchandzoom.ZoomingRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
 import app.simple.inure.dialogs.app.Sure
@@ -58,9 +59,9 @@ class AppInfo : ScopedFragment() {
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var usageStatistics: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
-    private lateinit var meta: ZoomingRecyclerView
-    private lateinit var actions: RecyclerView
-    private lateinit var miscellaneous: RecyclerView
+    private lateinit var meta: GridRecyclerView
+    private lateinit var actions: GridRecyclerView
+    private lateinit var miscellaneous: GridRecyclerView
 
     private lateinit var foldMetaDataMenu: DynamicRippleImageButton
     private lateinit var foldActionsMenu: DynamicRippleImageButton
@@ -129,13 +130,6 @@ class AppInfo : ScopedFragment() {
 
             meta.adapter = metaAdapter
             meta.scheduleLayoutAnimation()
-
-            if (meta.layoutManager is GridLayoutManager) {
-                val itemAnimator = ZoomItemAnimator()
-                itemAnimator.setup(meta)
-            } else {
-                meta.itemAnimator = DefaultItemAnimator()
-            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

@@ -121,7 +121,7 @@
         android:clipToPadding="true"
         android:fadingEdge="horizontal"
         android:fadingEdgeLength="25dp"
-        android:layoutAnimation="@anim/grid_list_animation_controller"
+        android:layoutAnimation="@anim/list_animation_controller"
         android:paddingHorizontal="@dimen/panel_item_padding"
         android:paddingVertical="5dp"
         android:requiresFadingEdge="horizontal"

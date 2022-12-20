@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layoutAnimation xmlns:android="http://schemas.android.com/apk/res/android"
+<gridLayoutAnimation xmlns:android="http://schemas.android.com/apk/res/android"
     android:animation="@anim/grid_list_animation"
     android:animationOrder="normal"
-    android:delay="7.5%" />
+    android:columnDelay="15%"
+    android:delay="7.5%"
+    android:direction="top_to_bottom|left_to_right"
+    android:rowDelay="15%" />

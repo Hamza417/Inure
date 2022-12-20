@@ -42,7 +42,7 @@
 
         </LinearLayout>
 
-        <app.simple.inure.decorations.pinchandzoom.ZoomingRecyclerView
+        <app.simple.inure.decorations.views.GridRecyclerView
             android:id="@+id/app_info_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <app.simple.inure.decorations.views.GridRecyclerView
             android:id="@+id/app_info_options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <app.simple.inure.decorations.views.GridRecyclerView
             android:id="@+id/app_info_miscellaneous"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
