@@ -270,6 +270,13 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apks" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apks" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\.zip" />
+                <data android:pathPattern=".*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.zip" />
                 <!--                <data android:pathPattern=".*\\.xapk" />-->
                 <!--                <data android:pathPattern=".*\\..*\\.xapk" />-->
                 <!--                <data android:pathPattern=".*\\..*\\..*\\.xapk" />-->

@@ -13,53 +13,87 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build53</h2>
+<h2>Build54</h2>
 
 <!-- Write change logs here -->
-
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added new framework for managing <b>Development</b> preferences.
-        <br>
-        <small>
-            This should be done for the whole preferences framework of the app but it's a start.
-            Doing so will allow a much robust management and quick implementations for any new
-            preferences and will reduce a significant development time.
-        </small>
-    </li>
-    <li>Added option to disable image caching in <b>Development Preferences</b>.</li>
-    <li>Added usage stats permission check in <b>Most Used</b> panel.</li>
-</ul>
 
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed <b>Home</b> panel not updating after preferences are changed.</li>
-    <li>Fixed a huge frame drop during loading when <i>Root Methods</i> is on.</li>
-    <li>Fixed <i>Root Methods</i> button animation issue.</li>
-    <li>Fixed missing translated string for <i>Terminal</i> in the app.</li>
+    <li>Fixed few crashes on <b>Installer</b> panel.</li>
 </ul>
 
-<h4>Boot Manager</h4>
+<h4>Installer</h4>
 
 <ul>
-    <li>Fixed various issues with the <b>Boot Manager</b>.</li>
-    <li>Added bottom menu in <b>Boot Manager</b>.</li>
-    <li>Implemented a new framework for boot component that requests for data from system for
-        various matching boot flags replacing the old direct component query approach using system
-        shell.
+    <li>Improved checks for split apk files.</li>
+    <li>Removed .XAPK support.
         <br>
         <small>
-            <b>Boot Manager</b> can now show all boot components that are available in the system
-                                without root access however changing their states still requires
-                                root. I'll also be implementing an <i>AppOps</i> approach to do the
-                                same and it should make the framework more robust.
+            .XAPK files aren't split apk files rather a bundle of various apk and data. So, it's not
+            possible to install them at the moment.
         </small>
     </li>
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input id="build_53" class="toggle" type="checkbox">
+    <label for="build_53" class="lbl-toggle">Build53</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added new framework for managing <b>Development</b> preferences.
+                    <br>
+                    <small>
+                        This should be done for the whole preferences framework of the app but it's
+                        a start.
+                        Doing so will allow a much robust management and quick implementations for
+                        any new
+                        preferences and will reduce a significant development time.
+                    </small>
+                </li>
+                <li>Added option to disable image caching in <b>Development Preferences</b>.</li>
+                <li>Added usage stats permission check in <b>Most Used</b> panel.</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed <b>Home</b> panel not updating after preferences are changed.</li>
+                <li>Fixed a huge frame drop during loading when <i>Root Methods</i> is on.</li>
+                <li>Fixed <i>Root Methods</i> button animation issue.</li>
+                <li>Fixed missing translated string for <i>Terminal</i> in the app.</li>
+            </ul>
+
+            <h4>Boot Manager</h4>
+
+            <ul>
+                <li>Fixed various issues with the <b>Boot Manager</b>.</li>
+                <li>Added bottom menu in <b>Boot Manager</b>.</li>
+                <li>Implemented a new framework for boot component that requests for data from
+                    system for
+                    various matching boot flags replacing the old direct component query approach
+                    using system
+                    shell.
+                    <br>
+                    <small>
+                        <b>Boot Manager</b> can now show all boot components that are available in
+                                            the system
+                                            without root access however changing their states still
+                                            requires
+                                            root. I'll also be implementing an <i>AppOps</i>
+                                            approach to do the
+                                            same and it should make the framework more robust.
+                    </small>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input id="build_52" class="toggle" type="checkbox">
@@ -126,7 +160,7 @@
     </div>
 </div>
 <br>
-<p>The app is moved to beta stage from here.</p>
+<p>The app was moved to beta stage from here.</p>
 <br>
 <div class="wrap-collapsible">
     <input id="build_51" class="toggle" type="checkbox">
@@ -426,7 +460,7 @@
 </div>
 <br>
 
-<p>The app is released on GitHub and FDroid from here.</p>
+<p>The app was released on GitHub and IzzyOnDroid from here.</p>
 
 <br>
 

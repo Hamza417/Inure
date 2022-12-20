@@ -216,6 +216,10 @@ class Installer : ScopedFragment() {
             showError(it)
         }
 
+        installerViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
+        }
+
         cancel.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }

@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -66,10 +67,23 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                     }
                 }
 
-                if (name.name!!.endsWith(".apkm") || name.name!!.endsWith(".apks") || name.name!!.endsWith(".zip")) {
+                if (name.name!!.endsWith(".apkm") || name.name!!.endsWith(".apks")) {
                     ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
                     listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
                     files.postValue(listOfFiles)
+                } else if (name.name!!.endsWith("zip")) {
+                    // Verify if zip file has only apk files
+                    val hasApk = ZipFile(sourceFile.path).fileHeaders.all { it.fileName.endsWith(".apk") }
+                    val hasBaseApk = ZipFile(sourceFile.path).fileHeaders.any { it.fileName.endsWith("base.apk") }
+
+                    if (hasApk && hasBaseApk) {
+                        ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
+                        listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+                        files.postValue(listOfFiles)
+                    } else {
+                        postWarning("Zip file does not contain apk files")
+                        return@runCatching
+                    }
                 } else if (name.name!!.endsWith(".apk")) {
                     listOfFiles = arrayListOf(sourceFile)
                     this.files.postValue(listOfFiles)
@@ -117,9 +131,9 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
 
     @Suppress("RedundantOverride")
     override fun onCleared() {
-        // if (File(applicationContext().cacheDir.path + "/installer_cache/").deleteRecursively()) {
-        //    Log.d(javaClass.name, "Installer cache cleared")
-        // }
+        if (File(applicationContext().cacheDir.path + "/installer_cache/").deleteRecursively()) {
+            Log.d(javaClass.name, "Installer cache cleared")
+        }
         // TODO - think about it
         super.onCleared()
     }
