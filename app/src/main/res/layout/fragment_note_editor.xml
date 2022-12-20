@@ -110,22 +110,11 @@
         app:appFontStyle="regular"
         app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.theme.ThemeDivider
-        android:layout_width="match_parent"
-        android:layout_height="1px" />
-
-    <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
-        android:id="@+id/formatting_strip_rv"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:clipToPadding="true"
-        android:fadingEdge="horizontal"
-        android:fadingEdgeLength="25dp"
-        android:layoutAnimation="@anim/list_animation_controller"
-        android:paddingHorizontal="@dimen/panel_item_padding"
-        android:paddingVertical="5dp"
-        android:requiresFadingEdge="horizontal"
-        app:isEdgeColorRequired="false"
-        app:statusBarPaddingRequired="false" />
+    <app.simple.inure.decorations.views.BottomMenuRecyclerView
+        android:id="@+id/bottom_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/popup_padding" />
 
 </app.simple.inure.decorations.ime.InsetsAnimationLinearLayout>

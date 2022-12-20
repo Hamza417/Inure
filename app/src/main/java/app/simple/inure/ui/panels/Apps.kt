@@ -76,7 +76,7 @@ class Apps : ScopedFragment() {
                 }
             })
 
-            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), appsListRecyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), appsListRecyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_sort -> {
                         PopupSortingStyle(view)

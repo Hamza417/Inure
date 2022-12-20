@@ -57,7 +57,7 @@ class Disabled : ScopedFragment() {
                 }
             })
 
-            bottomMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings, -1, R.drawable.ic_search), recyclerView) { id, _ ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings, -1, R.drawable.ic_search), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "prefs_screen")

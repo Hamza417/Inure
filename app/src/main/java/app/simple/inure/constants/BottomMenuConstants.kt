@@ -50,6 +50,18 @@ object BottomMenuConstants {
             R.drawable.ic_search
     )
 
+    private val notesFunctionMenu = arrayListOf(
+            R.drawable.ic_format_bold,
+            R.drawable.ic_format_italic,
+            R.drawable.ic_format_underlined,
+            R.drawable.ic_format_strikethrough,
+            -1,
+            R.drawable.ic_format_superscript,
+            R.drawable.ic_format_subscript,
+            -1,
+            R.drawable.ic_format_paint,
+    )
+
     @Suppress("UNCHECKED_CAST")
     fun getAllAppsBottomMenuItems(): ArrayList<Int> {
         return allAppsBottomMenuItems.clone() as ArrayList<Int>
@@ -73,5 +85,10 @@ object BottomMenuConstants {
     @Suppress("UNCHECKED_CAST")
     fun getBatchMenu(): ArrayList<Int> {
         return batchMenu.clone() as ArrayList<Int>
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun getNotesFunctionMenu(): ArrayList<Int> {
+        return notesFunctionMenu.clone() as ArrayList<Int>
     }
 }

@@ -80,7 +80,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      */
     private var loader: Loader? = null
 
-    protected var bottomMenu: BottomMenuRecyclerView? = null
+    protected var bottomRightCornerMenu: BottomMenuRecyclerView? = null
 
     /**
      * [postponeEnterTransition] here and initialize all the
@@ -99,13 +99,13 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         super.onViewCreated(view, savedInstanceState)
 
         kotlin.runCatching {
-            bottomMenu = requireActivity().findViewById(R.id.bottom_menu)
+            bottomRightCornerMenu = requireActivity().findViewById(R.id.bottom_menu)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        bottomMenu?.let {
+        bottomRightCornerMenu?.let {
             if (it.translationY.isZero()) {
                 it.visible(animate = true)
             } else {
@@ -117,8 +117,8 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     override fun onStop() {
         super.onStop()
-        bottomMenu?.clearAnimation()
-        bottomMenu?.gone()
+        bottomRightCornerMenu?.clearAnimation()
+        bottomRightCornerMenu?.gone()
     }
 
     override fun onDestroy() {

@@ -91,7 +91,7 @@ class StackTraces : ScopedFragment() {
 
             recyclerView.adapter = adapterStackTraces
 
-            bottomMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings), recyclerView) { id, _ ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "prefs_screen")

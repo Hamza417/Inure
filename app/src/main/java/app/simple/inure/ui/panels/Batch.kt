@@ -86,8 +86,8 @@ class Batch : ScopedFragment() {
     }
 
     private fun setupBottomMenu() {
-        if (bottomMenu?.menuAdapter?.itemCount == getBatchMenuItems().size) return
-        bottomMenu?.initBottomMenuWithRecyclerView(getBatchMenuItems(), recyclerView) { id, view ->
+        if (bottomRightCornerMenu?.menuAdapter?.itemCount == getBatchMenuItems().size) return
+        bottomRightCornerMenu?.initBottomMenuWithRecyclerView(getBatchMenuItems(), recyclerView) { id, view ->
             when (id) {
                 R.drawable.ic_sort -> {
                     PopupBatchSortingStyle(view)

@@ -59,7 +59,7 @@ class Music : KeyboardScopedFragment() {
 
             recyclerView.adapter = adapterMusic
 
-            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_sort -> {
                         PopupMusicSort(view)

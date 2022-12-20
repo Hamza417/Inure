@@ -39,7 +39,7 @@ class Sensors : ScopedFragment() {
 
             recyclerView.adapter = adapterSensors
 
-            bottomMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_sort), recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_sort), recyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_sort -> {
                         PopupSortingStyle(view)

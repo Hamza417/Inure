@@ -20,7 +20,6 @@ import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission.Companion.showUsageStatsPermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.interfaces.menus.BottomMenuCallbacks
 import app.simple.inure.popups.usagestats.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatisticsPreferences
@@ -75,7 +74,7 @@ class Statistics : ScopedFragment() {
 
             recyclerView.adapter = adapterUsageStats
 
-            bottomMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_sort -> {
                         PopupUsageStatsSorting(view)

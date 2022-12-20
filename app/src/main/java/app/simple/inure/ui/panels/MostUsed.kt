@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterFrequentlyUsed
 import app.simple.inure.constants.BundleConstants
@@ -20,8 +19,6 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.viewmodels.panels.HomeViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MostUsed : ScopedFragment() {
 
@@ -76,7 +73,7 @@ class MostUsed : ScopedFragment() {
                 }
             })
 
-            bottomMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings, -1, R.drawable.ic_search), recyclerView) { id, _ ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings, -1, R.drawable.ic_search), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "prefs_screen")

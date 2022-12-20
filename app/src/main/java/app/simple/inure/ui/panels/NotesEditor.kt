@@ -13,9 +13,8 @@ import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.details.AdapterFormattingStrip
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -25,11 +24,7 @@ import app.simple.inure.factories.panels.NotesViewModelFactory
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.popups.notes.PopupBackgroundSpan
 import app.simple.inure.preferences.NotesPreferences
-import app.simple.inure.text.EditTextHelper.addBullet
-import app.simple.inure.text.EditTextHelper.blur
-import app.simple.inure.text.EditTextHelper.decreaseTextSize
 import app.simple.inure.text.EditTextHelper.highlightText
-import app.simple.inure.text.EditTextHelper.increaseTextSize
 import app.simple.inure.text.EditTextHelper.toBold
 import app.simple.inure.text.EditTextHelper.toItalics
 import app.simple.inure.text.EditTextHelper.toQuote
@@ -58,25 +53,11 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var redo: DynamicRippleImageButton
     private lateinit var save: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
-    private lateinit var formattingStrip: CustomHorizontalRecyclerView
 
     private lateinit var notesViewModel: NotesViewModel
     private lateinit var notesEditorViewModel: NotesEditorViewModel
     private var notesPackageInfo: NotesPackageInfo? = null
     private var textViewUndoRedo: TextViewUndoRedo? = null
-
-    private val bold = 1
-    private val italics = 2
-    private val underline = 3
-    private val strikethrough = 4
-    private val decrease = 5
-    private val increase = 6
-    private val bullet = 7
-    private val superscript = 8
-    private val subscripts = 9
-    private val backgroundSpan = 10
-    private val quote = 11
-    private val blur = 12
 
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
@@ -95,7 +76,6 @@ class NotesEditor : KeyboardScopedFragment() {
         redo = view.findViewById(R.id.redo)
         save = view.findViewById(R.id.save)
         settings = view.findViewById(R.id.settings)
-        formattingStrip = view.findViewById(R.id.formatting_strip_rv)
 
         val factory = NotesViewModelFactory(packageInfo)
         notesEditorViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
@@ -135,69 +115,49 @@ class NotesEditor : KeyboardScopedFragment() {
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
 
-        notesEditorViewModel.getFormattingStrip().observe(viewLifecycleOwner) { list ->
-            val adapterFormattingStrip = AdapterFormattingStrip(list)
-            adapterFormattingStrip.setOnFormattingStripCallbackListener(object : AdapterFormattingStrip.Companion.FormattingStripCallbacks {
-                override fun onFormattingButtonClicked(position: Int, view: View) {
-                    kotlin.runCatching {
-                        val start = noteEditText.selectionStart
-                        val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
-
-                        when (position) {
-                            bold -> {
-                                noteEditText.toBold()
-                            }
-                            italics -> {
-                                noteEditText.toItalics()
-                            }
-                            underline -> {
-                                noteEditText.toUnderline()
-                            }
-                            strikethrough -> {
-                                noteEditText.toStrikethrough()
-                            }
-                            decrease -> {
-                                noteEditText.decreaseTextSize()
-                            }
-                            increase -> {
-                                noteEditText.increaseTextSize()
-                            }
-                            bullet -> {
-                                noteEditText.addBullet()
-                            }
-                            superscript -> {
-                                noteEditText.toSuperscript()
-                            }
-                            subscripts -> {
-                                noteEditText.toSubscript()
-                            }
-                            quote -> {
-                                noteEditText.toQuote()
-                            }
-                            backgroundSpan -> {
-                                PopupBackgroundSpan(view).setOnPopupBackgroundCallbackListener(
-                                        object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
-                                            override fun onColorClicked(color: Int) {
-                                                noteEditText.highlightText(color)
-                                            }
-                                        })
-                            }
-                            blur -> {
-                                noteEditText.blur()
-                            }
-                        }
-
-                        val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
-
-                        textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
-                        undoRedoButtonState()
-                    }.getOrElse {
-                        showError(it)
-                    }
+        /**
+         * It could be null, I mean why not :P
+         */
+        bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getNotesFunctionMenu(),
+                                                              null /* We don't do that here*/) { id, view ->
+            val start = noteEditText.selectionStart
+            val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+            when (id) {
+                R.drawable.ic_format_bold -> {
+                    noteEditText.toBold()
                 }
-            })
+                R.drawable.ic_format_italic -> {
+                    noteEditText.toItalics()
+                }
+                R.drawable.ic_format_underlined -> {
+                    noteEditText.toUnderline()
+                }
+                R.drawable.ic_format_strikethrough -> {
+                    noteEditText.toStrikethrough()
+                }
+                R.drawable.ic_format_superscript -> {
+                    noteEditText.toSuperscript()
+                }
+                R.drawable.ic_format_subscript -> {
+                    noteEditText.toSubscript()
+                }
+                R.drawable.ic_format_quote -> {
+                    noteEditText.toQuote()
+                }
+                R.drawable.ic_format_paint -> {
+                    PopupBackgroundSpan(view).setOnPopupBackgroundCallbackListener(
+                            object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
+                                override fun onColorClicked(color: Int) {
+                                    noteEditText.highlightText(color)
+                                }
+                            })
+                }
+            }
 
-            formattingStrip.adapter = adapterFormattingStrip
+            val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+
+            textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
+            undoRedoButtonState()
         }
 
         notesEditorViewModel.getSavedState().observe(viewLifecycleOwner) {
@@ -269,9 +229,9 @@ class NotesEditor : KeyboardScopedFragment() {
 
     private fun handleFormattingState() {
         if (NotesPreferences.areJSONSpans()) {
-            formattingStrip.gone()
+            bottomRightCornerMenu?.gone()
         } else {
-            formattingStrip.visible(false)
+            bottomRightCornerMenu?.visible(false)
         }
     }
 
