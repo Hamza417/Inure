@@ -223,38 +223,6 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
         if (!manuallyAnimated && isInEditMode.invert()) {
             if (!AccessibilityPreferences.isAnimationReduced()) {
                 scheduleLayoutAnimation()
-
-                layoutAnimationListener = object : Animation.AnimationListener {
-                    override fun onAnimationStart(animation: Animation?) {
-                        if (RecyclerViewPreferences.getViewTag().equals(parentViewTag)) {
-                            kotlin.runCatching {
-                                for (view in (layoutManager?.findViewByPosition(RecyclerViewPreferences.getViewPosition()) as ViewGroup).children) {
-                                    if (view is ImageView) {
-                                        if (view.transitionName.isNotEmpty()) {
-                                            // view.animation.cancel()
-                                            // view.clearAnimation()
-                                        }
-                                    }
-                                }
-                            }.getOrElse {
-                                it.printStackTrace()
-                            }
-
-                            layoutManager?.findViewByPosition(RecyclerViewPreferences.getViewPosition())?.apply {
-                                // clearAnimation()
-                                // startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_in))
-                            }
-                        }
-                    }
-
-                    override fun onAnimationEnd(animation: Animation?) {
-                        /* no-op */
-                    }
-
-                    override fun onAnimationRepeat(animation: Animation?) {
-                        /* no-op */
-                    }
-                }
             }
         }
 

@@ -39,8 +39,12 @@ class SharedPreferencesViewModel(packageInfo: PackageInfo, application: Applicat
                     }
 
                     with(fileSystemManager?.getFile(path)) {
-                        val list = this?.list()?.toList() as ArrayList<String>?
-                        sharedPrefsFiles.postValue(list!!)
+                        kotlin.runCatching {
+                            val list = this?.list()?.toList() as ArrayList<String>?
+                            sharedPrefsFiles.postValue(list!!)
+                        }.getOrElse {
+                            sharedPrefsFiles.postValue(arrayListOf())
+                        }
                     }
                 }.getOrElse {
                     postError(it)
