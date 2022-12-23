@@ -614,4 +614,6 @@
     <string name="disable_all">Disable All</string>
     <string name="enable_all">Enable All</string>
     <string name="would_you_full_version">You\'re currently using trial version. Would you like to purchase and unlock full features of the app?</string>
+    <string name="zip_is_not_valid">Zip is not a valid split apk file.</string>
+    <string name="invalid_apk_file">Invalid APK file.</string>
 </resources>

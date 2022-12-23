@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -115,6 +117,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/popup_padding" />
+        android:layout_margin="@dimen/popup_padding"
+        android:clipToPadding="false"
+        android:clipChildren="false" />
 
 </app.simple.inure.decorations.ime.InsetsAnimationLinearLayout>

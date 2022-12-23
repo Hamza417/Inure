@@ -10,6 +10,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.R
 import app.simple.inure.apk.installer.InstallerUtils
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
@@ -81,14 +82,14 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
                         listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
                         files.postValue(listOfFiles)
                     } else {
-                        postWarning("Zip file is not a valid split apk")
+                        postWarning(context.getString(R.string.zip_is_not_valid))
                         return@runCatching
                     }
                 } else if (name.name!!.endsWith(".apk")) {
                     listOfFiles = arrayListOf(sourceFile)
                     this.files.postValue(listOfFiles)
                 } else {
-                    postWarning("File is not a valid apk")
+                    postWarning(context.getString(R.string.invalid_apk_file))
                     return@runCatching
                 }
 
