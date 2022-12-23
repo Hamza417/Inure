@@ -30,14 +30,16 @@ public class CrashReporter implements Thread.UncaughtExceptionHandler {
     }
     
     public void uncaughtException(@NonNull Thread thread, Throwable throwable) {
+        final long crashTimeStamp = System.currentTimeMillis();
         final Writer result = new StringWriter();
         final PrintWriter printWriter = new PrintWriter(result);
+    
         throwable.printStackTrace(printWriter);
         String stacktrace = result.toString();
         printWriter.close();
     
-        Utils.create(stacktrace, new File(context.getExternalFilesDir("logs"), "crashLog_" + System.currentTimeMillis()));
-        CrashPreferences.INSTANCE.saveCrashLog(System.currentTimeMillis());
+        Utils.create(stacktrace, new File(context.getExternalFilesDir("logs"), "crashLog_" + crashTimeStamp));
+        CrashPreferences.INSTANCE.saveCrashLog(crashTimeStamp);
         CrashPreferences.INSTANCE.saveMessage(throwable.toString());
         CrashPreferences.INSTANCE.saveCause(Utils.getCause(throwable).toString());
     
@@ -50,6 +52,8 @@ public class CrashReporter implements Thread.UncaughtExceptionHandler {
     
     public void initialize() {
         long timeStamp = CrashPreferences.INSTANCE.getCrashLog();
+        Log.d(TAG, "initialize: " + timeStamp);
+        Log.d(TAG, "initialize: " + CrashPreferences.INSTANCE.getMessage());
         if (timeStamp != CrashPreferences.crashTimestampEmptyDefault) {
             String stack = Utils.read(new File(context.getExternalFilesDir("logs"), "crashLog_" + timeStamp));
             Intent intent = new Intent(context, CrashReporterActivity.class);

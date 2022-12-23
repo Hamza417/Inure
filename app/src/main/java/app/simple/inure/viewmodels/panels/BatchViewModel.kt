@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -43,6 +44,10 @@ class BatchViewModel(application: Application) : PackageUtilsViewModel(applicati
     private fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = getInstalledApps()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                apps.removeIf { it.packageName == applicationContext().packageName }
+            }
 
             when (BatchPreferences.getAppsCategory()) {
                 PopupAppsCategory.SYSTEM -> {
