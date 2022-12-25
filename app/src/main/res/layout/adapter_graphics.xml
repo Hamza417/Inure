@@ -19,9 +19,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="15dp"
-        app:textColorStyle="primary"
-        android:textSize="16sp"
-        app:appFontStyle="bold" />
+        android:layout_marginHorizontal="@dimen/dialog_padding"
+        android:ellipsize="middle"
+        android:maxLines="1"
+        android:textSize="@dimen/resource_name_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

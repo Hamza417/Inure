@@ -29,12 +29,8 @@ import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
-import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.BehaviourPreferences
-import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.SharedPreferences
+import app.simple.inure.preferences.*
 import app.simple.inure.preferences.ShellPreferences.getHomePath
-import app.simple.inure.preferences.ShellPreferences.setHomePath
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
 import app.simple.inure.themes.interfaces.ThemeChangedListener
@@ -111,7 +107,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         // Terminal home path
         val defValue = getDir("HOME", MODE_PRIVATE).absolutePath
         val homePath = getHomePath(defValue)
-        setHomePath(homePath!!)
+        ShellPreferences.setHomePath(homePath!!)
     }
 
     @Suppress("unused")
