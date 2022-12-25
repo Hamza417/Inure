@@ -10,7 +10,6 @@ import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
@@ -89,19 +88,24 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            val apps = getInstalledApps().stream()
-                .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
-                .collect(Collectors.toList()) as ArrayList<PackageInfo>
+            kotlin.runCatching {
+                val apps = getInstalledApps().stream()
+                    .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
+                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
-            for (i in apps.indices) {
-                apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                for (i in apps.indices) {
+                    apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                }
+
+                apps.sortByDescending {
+                    it.firstInstallTime
+                }
+
+                recentlyInstalledAppData.postValue(apps)
+            }.onFailure {
+                recentlyInstalledAppData.postValue(ArrayList())
+                postError(it)
             }
-
-            apps.sortByDescending {
-                it.firstInstallTime
-            }
-
-            recentlyInstalledAppData.postValue(apps)
         }
     }
 

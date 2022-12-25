@@ -13,6 +13,7 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.util.ArrayUtils
 import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ArrayUtils.toArrayList
+import app.simple.inure.util.NullSafety.isNotNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -28,8 +29,13 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
-        @Suppress("UNCHECKED_CAST")
-        return apps.clone() as ArrayList<PackageInfo>
+        if (apps.isNotNull() && apps.isNotEmpty()) {
+            @Suppress("UNCHECKED_CAST")
+            return apps.clone() as ArrayList<PackageInfo>
+        } else {
+            loadPackageData()
+            return getInstalledApps()
+        }
     }
 
     fun getUninstalledApps(): ArrayList<PackageInfo> {

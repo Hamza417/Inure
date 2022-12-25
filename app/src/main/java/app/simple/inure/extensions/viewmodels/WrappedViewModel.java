@@ -84,6 +84,10 @@ public class WrappedViewModel extends AndroidViewModel {
     
     }
     
+    public void cleanErrorStack() {
+        error.postValue(null);
+    }
+    
     @Override
     protected void onCleared() {
         super.onCleared();
