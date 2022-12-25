@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import app.simple.inure.R
@@ -216,6 +215,8 @@ class MainActivity : BaseActivity() {
 
     /**
      * Useless test although a nice one ;)
+     *
+     * Won't work!!!!!!!!
      */
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (event?.action == KeyEvent.ACTION_DOWN) {
@@ -236,12 +237,6 @@ class MainActivity : BaseActivity() {
         }
 
         return super.onKeyDown(keyCode, event)
-    }
-
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        Log.d("Touch:", ev.toString())
-        Log.d("Touch Action:", ev?.action.toString())
-        return super.dispatchTouchEvent(ev)
     }
 
     override fun onDestroy() {
