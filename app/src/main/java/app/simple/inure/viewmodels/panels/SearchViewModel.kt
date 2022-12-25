@@ -3,7 +3,6 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,12 +12,13 @@ import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort.getSortedList
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import java.util.stream.Collectors
 
 class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
-
-    private var searchJob: Job? = null
 
     private val searchKeywords: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
@@ -55,18 +55,13 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     fun initiateSearch(keywords: String) {
-        searchJob?.cancel(CancellationException("new search data requested"))
-        if (searchJob?.isActive == true) {
-            Log.e("SearchViewModel", "loadSearchData: job is still active")
-        }
-
         viewModelScope.launch(Dispatchers.IO) {
             loadSearchData(keywords)
+            this.coroutineContext.job.join()
         }
     }
 
     private suspend fun loadSearchData(keywords: String) {
-        searchJob?.join()
         val apps = getInstalledApps()
 
         if (keywords.isEmpty()) {
@@ -107,7 +102,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         if (SearchPreferences.isDeepSearchEnabled()) {
             loadDeepSearchData(keywords, filtered)
         } else {
-            yield()
             searchData.postValue(filtered)
         }
     }

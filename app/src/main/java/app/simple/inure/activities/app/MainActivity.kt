@@ -226,9 +226,9 @@ class MainActivity : BaseActivity() {
                     println(getTopFragment()?.javaClass?.simpleName)
                     if (getTopFragment() is Home) {
                         Log.d("Inure", "KEYCODE_FORWARD: Home")
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, Apps.newInstance(loading = true), "apps")
-                            .commit()
+                        //                        supportFragmentManager.beginTransaction()
+                        //                            .replace(R.id.app_container, Apps.newInstance(loading = true), "apps")
+                        //                            .commit()
                     }
 
                     return true
