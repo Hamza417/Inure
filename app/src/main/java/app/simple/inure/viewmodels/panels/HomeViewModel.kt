@@ -29,6 +29,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     init {
         registerSharedPreferenceChangeListener()
+        loadUninstalledApps()
     }
 
     private val oneMonth = 2592000000 // 30 days

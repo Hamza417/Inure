@@ -39,9 +39,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     private fun loadPackageData() {
         apps = loadInstalledApps().clone()
-        uninstalledApps = loadUninstalledApps().clone()
         onAppsLoaded(apps.toArrayList())
-        onUninstalledAppsLoaded(uninstalledApps.toArrayList())
     }
 
     protected fun loadInstalledApps(): MutableList<PackageInfo> {
@@ -53,8 +51,8 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         }
     }
 
-    protected fun loadUninstalledApps(): MutableList<PackageInfo> {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    protected fun loadUninstalledApps() {
+        uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
                                                     .of((PackageManager.GET_META_DATA
                                                             or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong()))
@@ -66,7 +64,10 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
                 @Suppress("DEPRECATION")
                 packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES)
             }
-        }
+        }.toArrayList()
+
+        @Suppress("UNCHECKED_CAST")
+        onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)
     }
 
     protected fun PackageManager.isPackageInstalled(packageName: String): Boolean {
