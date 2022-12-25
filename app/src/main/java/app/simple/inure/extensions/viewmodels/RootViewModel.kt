@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.constants.Warnings
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +27,7 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
                         return@launch
                     }
 
-                    Shell.enableVerboseLogging = BuildConfig.DEBUG
+                    Shell.enableVerboseLogging = DevelopmentPreferences.get(DevelopmentPreferences.debugMessages)
 
                     kotlin.runCatching {
                         Shell.setDefaultBuilder(
