@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -61,5 +62,10 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
 
     override fun onShellCreated(shell: Shell?) {
         runCommand()
+    }
+
+    override fun onShellDenied() {
+        warning.postValue(Warnings.getInureWarning01())
+        success.postValue("Failed")
     }
 }

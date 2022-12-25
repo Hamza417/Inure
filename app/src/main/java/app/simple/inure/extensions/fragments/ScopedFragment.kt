@@ -321,14 +321,16 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         loader?.dismiss()
     }
 
-    open fun showWarning(warning: String) {
-        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+    open fun showWarning(warning: String, goBack: Boolean = true) {
+        parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+            if (goBack) {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
         }
     }
 
     open fun showWarning(@StringRes warning: Int, goBack: Boolean = true) {
-        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+        parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
             if (goBack) {
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }

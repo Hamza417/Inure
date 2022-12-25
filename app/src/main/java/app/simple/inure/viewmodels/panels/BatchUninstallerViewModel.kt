@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.BatchUninstallerProgressStateModel
@@ -67,5 +68,9 @@ class BatchUninstallerViewModel(application: Application, val list: ArrayList<Ba
         } else {
             "pm uninstall $packageName"
         }
+    }
+
+    override fun onShellDenied() {
+        warning.postValue(Warnings.getInureWarning01())
     }
 }

@@ -1,11 +1,12 @@
 package app.simple.inure.extensions.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
+import app.simple.inure.constants.Warnings
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +20,12 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
         viewModelScope.launch(Dispatchers.IO) {
             if (ConfigurationPreferences.isUsingRoot()) {
                 kotlin.runCatching {
+                    if (Shell.getShell().isRoot.invert()) {
+                        onShellDenied()
+                        warning.postValue(Warnings.getInureWarning01())
+                        return@launch
+                    }
+
                     Shell.enableVerboseLogging = BuildConfig.DEBUG
 
                     kotlin.runCatching {
@@ -63,4 +70,5 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
     }
 
     abstract fun onShellCreated(shell: Shell?)
+    abstract fun onShellDenied()
 }

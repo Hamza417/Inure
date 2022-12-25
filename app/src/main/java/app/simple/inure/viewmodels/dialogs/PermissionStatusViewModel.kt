@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.PermissionInfo
@@ -73,5 +74,10 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
 
     override fun onShellCreated(shell: Shell?) {
         runCommand()
+    }
+
+    override fun onShellDenied() {
+        warning.postValue(Warnings.getInureWarning01())
+        success.postValue("Failed")
     }
 }

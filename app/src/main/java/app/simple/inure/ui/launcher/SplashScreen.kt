@@ -217,6 +217,14 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
+        /**
+         * One shell warning is enough, I guess!!
+         * Skip the boot manager ones if the user has already seen the warning
+         */
+        batteryOptimizationViewModel?.warning?.observe(viewLifecycleOwner) {
+            showWarning(it, goBack = false)
+        }
+
         bootManagerViewModel?.getBootComponentData()?.observe(viewLifecycleOwner) {
             Log.d(TAG, "Boot manager data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isBootManagerLoaded = true

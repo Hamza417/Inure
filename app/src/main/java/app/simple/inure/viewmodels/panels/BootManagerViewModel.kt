@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.ReceiversUtils
+import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.BootManagerModel
 import com.topjohnwu.superuser.Shell
@@ -55,6 +56,11 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
     override fun onShellCreated(shell: Shell?) {
         Log.d("BootManagerViewModel", "onShellCreated: SHELL CREATED")
         loadBootComponents()
+    }
+
+    override fun onShellDenied() {
+        warning.postValue(Warnings.getInureWarning01())
+        bootComponentData.postValue(ArrayList())
     }
 
     private fun loadBootComponents() {

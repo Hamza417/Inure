@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.constants.Misc
+import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import com.topjohnwu.superuser.Shell
@@ -87,5 +88,10 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
 
     override fun onShellCreated(shell: Shell?) {
         runCommand()
+    }
+
+    override fun onShellDenied() {
+        warning.postValue(Warnings.getInureWarning01())
+        success.postValue("Failed")
     }
 }

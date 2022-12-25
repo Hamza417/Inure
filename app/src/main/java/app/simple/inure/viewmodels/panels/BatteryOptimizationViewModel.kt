@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.popups.apps.PopupAppsCategory
@@ -137,6 +138,11 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
 
     override fun onShellCreated(shell: Shell?) {
         loadBatteryOptimization()
+    }
+
+    override fun onShellDenied() {
+        warning.postValue(Warnings.getInureWarning01())
+        batteryOptimizationData.postValue(ArrayList())
     }
 
     override fun onAppUninstalled(packageName: String?) {
