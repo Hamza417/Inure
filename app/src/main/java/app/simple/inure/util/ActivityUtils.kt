@@ -6,9 +6,10 @@ import android.content.Intent
 import android.content.pm.ComponentInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.Fragment
 import app.simple.inure.util.NullSafety.isNotNull
-
 
 object ActivityUtils {
     /**
@@ -120,6 +121,15 @@ object ActivityUtils {
                     // the package isn't installed on the device
                     false
                 }
+            }
+        }
+    }
+
+    fun AppCompatActivity.getTopFragment(): Fragment? {
+        supportFragmentManager.run {
+            return when (backStackEntryCount) {
+                0 -> null
+                else -> findFragmentByTag(getBackStackEntryAt(backStackEntryCount - 1).name)
             }
         }
     }

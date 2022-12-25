@@ -1,10 +1,12 @@
 package app.simple.inure.decorations.ripple;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import java.util.Objects;
 
@@ -49,11 +51,39 @@ public class DynamicRippleConstraintLayout extends ConstraintLayout implements S
             setBackgroundTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.changeAlpha(
                     ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent),
                     25)));
-        
+    
             LayoutBackground.setBackground(getContext(), this, null);
         } else {
             setBackground(null);
             setBackground(Utils.getRippleDrawable(getBackground()));
+        }
+    }
+    
+    @SuppressLint ("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        try {
+            if (event.getToolType(0) == MotionEvent.TOOL_TYPE_MOUSE) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (isLongClickable()) {
+                        if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                            performLongClick();
+                            return true;
+                        } else {
+                            return super.onTouchEvent(event);
+                        }
+                    } else {
+                        return super.onTouchEvent(event);
+                    }
+                } else {
+                    return super.onTouchEvent(event);
+                }
+            } else {
+                return super.onTouchEvent(event);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return super.onTouchEvent(event);
         }
     }
     

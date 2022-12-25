@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import app.simple.inure.R
@@ -27,6 +29,7 @@ import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*
+import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.ConditionUtils.isZero
@@ -209,6 +212,36 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    /**
+     * Useless test although a nice one ;)
+     */
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (event?.action == KeyEvent.ACTION_DOWN) {
+            when (keyCode) {
+                KeyEvent.KEYCODE_FORWARD -> {
+                    Log.d("Inure", "KEYCODE_FORWARD")
+                    println(getTopFragment()?.javaClass?.simpleName)
+                    if (getTopFragment() is Home) {
+                        Log.d("Inure", "KEYCODE_FORWARD: Home")
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.app_container, Apps.newInstance(loading = true), "apps")
+                            .commit()
+                    }
+
+                    return true
+                }
+            }
+        }
+
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        Log.d("Touch:", ev.toString())
+        Log.d("Touch Action:", ev?.action.toString())
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onDestroy() {

@@ -52,8 +52,7 @@ public class CrashReporter implements Thread.UncaughtExceptionHandler {
     
     public void initialize() {
         long timeStamp = CrashPreferences.INSTANCE.getCrashLog();
-        Log.d(TAG, "initialize: " + timeStamp);
-        Log.d(TAG, "initialize: " + CrashPreferences.INSTANCE.getMessage());
+    
         if (timeStamp != CrashPreferences.crashTimestampEmptyDefault) {
             String stack = Utils.read(new File(context.getExternalFilesDir("logs"), "crashLog_" + timeStamp));
             Intent intent = new Intent(context, CrashReporterActivity.class);
@@ -61,6 +60,7 @@ public class CrashReporter implements Thread.UncaughtExceptionHandler {
             intent.putExtra(CrashReporterActivity.MODE_NORMAL, stack);
             context.startActivity(intent);
         }
+    
         Thread.setDefaultUncaughtExceptionHandler(new CrashReporter(context));
     }
     

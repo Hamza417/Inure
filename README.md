@@ -41,27 +41,41 @@ are waiting to be implemented as well.
 Inure's development was started as an independent learning project which later has become one of the
 most ambitious and intuitive Android apps developed by a single person and is based 100% on custom
 UI APIs developed to be used only in this app with its own native theme engine, crash handler, image
-renderer and a beautiful animation framework.
+renderer and a beautiful animation framework. There's also an implementation for PC like mouse hover
+effects and click interactions for tablet and PC users.
 
 Along with it own UI perks, Inure also supports dynamic Material You colors with split accent and
 theme color modes.
 
-Currently, the app is in beta testing stage. You can join app's early beta testing
+Currently, the app is in stable beta testing stage. You can join app's early beta testing
 from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure) and
-its [Telegram Group](https://t.me/inure_app_manager) for development related updates
-and discussions.
+its [Telegram Group](https://t.me/inure_app_manager) for development related updates and
+discussions.
 
-If you've tried the app, you can write your user/developer feedbacks [here](https://github.com/Hamza417/Inure/discussions/48).
+If you've tried the app, you can write your user/developer
+feedbacks [here](https://github.com/Hamza417/Inure/discussions/48).
 
 ## Future
 
-The new [Build53](https://github.com/Hamza417/Inure/releases/tag/Build53) is live for everyone to update. I have finalized the Boot Manager and it should work as expected now. As of now it only supports complete enable or disable mode for an app. In the future, I'm expected to add a component management in Boot Manager so that you can allow some components to run while stop the others from running.
+The new [Build53](https://github.com/Hamza417/Inure/releases/tag/Build53) is live for everyone to
+update. I have finalized the Boot Manager and it should work as expected now. As of now it only
+supports complete enable or disable mode for an app. In the future, I'm expected to add a component
+management in Boot Manager so that you can allow some components to run while stop the others from
+running.
 
-And, I have revamped the Development Preferences panel, it should be more stable to use now. I'm hoping to fix all the Preferences panel issue if time allows for that but I think it's stable as it is. Also, due to changes in Development, you might have to re-enable some settings.
+And, I have revamped the Development Preferences panel, it should be more stable to use now. I'm
+hoping to fix all the Preferences panel issue if time allows for that but I think it's stable as it
+is. Also, due to changes in Development, you might have to re-enable some settings.
 
-I added option to disable image caching. You can use that to prevent app from taking up a lot of space in the storage. Disabling it shouldn't be affecting the app performance, in my tests the app continued to perform same under both conditions.
+I added option to disable image caching. You can use that to prevent app from taking up a lot of
+space in the storage. Disabling it shouldn't be affecting the app performance, in my tests the app
+continued to perform same under both conditions.
 
-This build also finalizes the app's development and I have added almost everything I had planned for the app. Any new features might not be added anymore however I'll keep tweaking the app to make it more usable and stable as the time progresses and keep on improving all the existing features and everyone can expect one or two updates every month. You can however keep reporting the bugs and issues and I'll keep fixing them too.
+This build also finalizes the app's development and I have added almost everything I had planned for
+the app. Any new features might not be added anymore however I'll keep tweaking the app to make it
+more usable and stable as the time progresses and keep on improving all the existing features and
+everyone can expect one or two updates every month. You can however keep reporting the bugs and
+issues and I'll keep fixing them too.
 
 That's all.
 
@@ -112,26 +126,29 @@ That's all.
 |                                   C                                   |                                   D                                   |                                   E                                   |                                   F                                   |
 
 ## Behind The Scenes
-| ![01](./assets/01.jpg) |
-|:-----------------------:|
-| Designing of interface skeletons for Inure |
 
+|           ![01](./assets/01.jpg)           |
+|:------------------------------------------:|
+| Designing of interface skeletons for Inure |
 
 ## License
 
 **Inure App Manager** Copyright © 2022 - Hamza Rizwan
 
-**Inure App Manager** is released as open source software under the [GPL v3](https://opensource.org/licenses/gpl-3.0.html) 
+**Inure App Manager** is released as open source software under
+the [GPL v3](https://opensource.org/licenses/gpl-3.0.html)
 license, see the [LICENSE](./LICENSE) file in the project root for the full license text.
 
 ## Licence Limitations
 
 The assets used in the app are created using Adobe Photoshop and Adobe Illustrator and despite the
-project being GPLv3, these assets do not fall under the purview of any license. Therefore, you're not allowed 
-to use any asset of the app in any _other_ projects. However, the app uses icons
-available on [Material Icons Library](https://fonts.google.com/icons?icon.style=Rounded&icon.set=Material+Icons)
-which are available under various open source licenses, so if need be, they can be downloaded from there.
+project being GPLv3, these assets do not fall under the purview of any license. Therefore, you're
+not allowed to use any asset of the app in any _other_ projects. However, the app uses icons
+available
+on [Material Icons Library](https://fonts.google.com/icons?icon.style=Rounded&icon.set=Material+Icons)
+which are available under various open source licenses, so if need be, they can be downloaded from
+there.
 
-Assets here refers to any graphics in both raster and vector form that are unique to Inure or represents
-app's identity in some way including icons and animated vector files mustn't be replicated to other projects
-without any prior permission. Any "Fair Use" is permissible/allowed.
+Assets here refers to any graphics in both raster and vector form that are unique to Inure or
+represents app's identity in some way including icons and animated vector files mustn't be
+replicated to other projects without any prior permission. Any "Fair Use" is permissible/allowed.

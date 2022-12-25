@@ -48,7 +48,30 @@ public class DynamicRippleImageButtonNoFactor extends ThemeButton {
                             .setDuration(getResources().getInteger(R.integer.animation_duration))
                             .start();
                 }
-                break;
+    
+                try {
+                    if (event.getToolType(0) == MotionEvent.TOOL_TYPE_MOUSE) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            if (isLongClickable()) {
+                                if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                                    performLongClick();
+                                    return true;
+                                } else {
+                                    return super.onTouchEvent(event);
+                                }
+                            } else {
+                                return super.onTouchEvent(event);
+                            }
+                        } else {
+                            return super.onTouchEvent(event);
+                        }
+                    } else {
+                        return super.onTouchEvent(event);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return super.onTouchEvent(event);
+                }
             }
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_CANCEL:

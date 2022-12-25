@@ -9,7 +9,7 @@ android {
     compileSdkVersion 33
 
     def appVersionCode = 53
-    def appVersionName = "build_$appVersionCode (alpha)"
+    def appVersionName = "build_$appVersionCode (beta)"
 
     buildFeatures {
         viewBinding false

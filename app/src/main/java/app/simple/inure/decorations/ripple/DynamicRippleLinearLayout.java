@@ -1,9 +1,11 @@
 package app.simple.inure.decorations.ripple;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
 import java.util.Objects;
@@ -46,6 +48,34 @@ public class DynamicRippleLinearLayout extends LinearLayout implements SharedPre
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Objects.equals(key, AppearancePreferences.accentColor)) {
             init();
+        }
+    }
+    
+    @SuppressLint ("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        try {
+            if (event.getToolType(0) == MotionEvent.TOOL_TYPE_MOUSE) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (isLongClickable()) {
+                        if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                            performLongClick();
+                            return true;
+                        } else {
+                            return super.onTouchEvent(event);
+                        }
+                    } else {
+                        return super.onTouchEvent(event);
+                    }
+                } else {
+                    return super.onTouchEvent(event);
+                }
+            } else {
+                return super.onTouchEvent(event);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return super.onTouchEvent(event);
         }
     }
 }

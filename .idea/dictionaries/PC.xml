@@ -61,7 +61,9 @@
       <w>doesnt</w>
       <w>dont</w>
       <w>duan</w>
+      <w>eisu</w>
       <w>elif</w>
+      <w>endcall</w>
       <w>entaytion</w>
       <w>esac</w>
       <w>excidle</w>
@@ -81,8 +83,11 @@
       <w>gogh</w>
       <w>gumroad</w>
       <w>halfffff</w>
+      <w>hankaku</w>
+      <w>headsethook</w>
       <w>heebo</w>
       <w>heic</w>
+      <w>henkan</w>
       <w>homescreen</w>
       <w>hsiafan</w>
       <w>ime's</w>
@@ -118,14 +123,17 @@
       <w>mittsu</w>
       <w>msie</w>
       <w>msword</w>
+      <w>muhenkan</w>
       <w>multiwindow</w>
       <w>musenkishi</w>
+      <w>mustn</w>
       <w>mxmf</w>
       <w>nemi</w>
       <w>nocase</w>
       <w>nocode</w>
       <w>nonlocal</w>
       <w>nthml</w>
+      <w>numpad</w>
       <w>nunito</w>
       <w>odex</w>
       <w>officedocument</w>
@@ -155,6 +163,7 @@
       <w>privextra</w>
       <w>proc</w>
       <w>profm</w>
+      <w>prog</w>
       <w>propname</w>
       <w>pspimage</w>
       <w>pthread</w>
@@ -164,6 +173,7 @@
       <w>rects</w>
       <w>reforma</w>
       <w>reparenting</w>
+      <w>rizwan</w>
       <w>română</w>
       <w>rtttl</w>
       <w>rummler</w>
@@ -188,11 +198,14 @@
       <w>sunilpaulmathew</w>
       <w>svgz</w>
       <w>switchview</w>
+      <w>sysrq</w>
       <w>termprop</w>
       <w>textview</w>
       <w>textviews</w>
       <w>textwatcher</w>
       <w>thru</w>
+      <w>thumbl</w>
+      <w>thumbr</w>
       <w>tidelift</w>
       <w>timedlock</w>
       <w>toml</w>
@@ -227,6 +240,7 @@
       <w>wowo</w>
       <w>xapk</w>
       <w>yessica</w>
+      <w>zenkaku</w>
       <w>ziad</w>
       <w>čeština</w>
       <w>εxodus</w>
