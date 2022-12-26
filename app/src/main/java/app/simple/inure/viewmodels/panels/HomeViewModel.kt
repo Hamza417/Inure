@@ -36,25 +36,11 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     private var usageStatsManager: UsageStatsManager = getApplication<Application>()
         .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
-    private val recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>()
-    }
-
-    private val recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>()
-    }
-
-    private val mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> by lazy {
-        MutableLiveData<ArrayList<PackageStats>>()
-    }
-
-    private val uninstalled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>()
-    }
-
-    private val disabled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>()
-    }
+    private val recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+    private val recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+    private val mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> = MutableLiveData<ArrayList<PackageStats>>()
+    private val uninstalled: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+    private val disabled: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
 
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
         MutableLiveData<List<Pair<Int, Int>>>().also {
@@ -88,24 +74,19 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                val apps = getInstalledApps().stream()
-                    .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
-                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
+            val apps = getInstalledApps().stream()
+                .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
-                for (i in apps.indices) {
-                    apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
-                }
-
-                apps.sortByDescending {
-                    it.firstInstallTime
-                }
-
-                recentlyInstalledAppData.postValue(apps)
-            }.onFailure {
-                recentlyInstalledAppData.postValue(ArrayList())
-                postError(it)
+            for (i in apps.indices) {
+                apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
+
+            apps.sortByDescending {
+                it.firstInstallTime
+            }
+
+            recentlyInstalledAppData.postValue(apps)
         }
     }
 
