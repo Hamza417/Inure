@@ -33,9 +33,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     private val oneMonth = 2592000000 // 30 days
 
-    private var usageStatsManager: UsageStatsManager = getApplication<Application>()
-        .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-
     private val recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
     private val recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
     private val mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> = MutableLiveData<ArrayList<PackageStats>>()
@@ -112,7 +109,9 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     private fun loadMostUsed() {
         viewModelScope.launch(Dispatchers.Default) {
             val stats = with(UsageInterval.getTimeInterval()) {
-                usageStatsManager.queryAndAggregateUsageStats(startTime, endTime)
+                (getApplication<Application>()
+                    .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager)
+                    .queryAndAggregateUsageStats(startTime, endTime)
             }
 
             val apps = getInstalledApps().stream()

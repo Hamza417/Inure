@@ -69,6 +69,7 @@ hr {
 code {
     border: 1px solid #f6f6f6;
     display: block;
+    background: #f6f6f6;
     padding: 20px;
     width: auto;
 }

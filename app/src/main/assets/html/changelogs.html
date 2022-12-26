@@ -46,6 +46,11 @@
     <li>Fixed loader stuck on <i>Splash Screen</i> if root is denied while root methods are on in
         <i>Configuration</i>.
     </li>
+    <li>Fixed error.
+        <br>
+        <code>java.lang.NullPointerException: Attempt to invoke interface method
+              'java.lang.Object kotlin.Lazy.getValue()' on a null object reference</code>
+    </li>
 </ul>
 
 <h4>Removed</h4>
@@ -1271,10 +1276,12 @@
                                    The codebase is left inside the app so it can still be launched
                                    by using this
                                    command in the terminal emulator or ADB Shell.
+                <br>
+                <code>am start -n
+                      app.simple.inure/app.simple.inure.activities.app.MainActivity
+                      -a
+                      "open_device_info"</code>
             </p>
-            <pre>
-                <code>am start -n app.simple.inure/app.simple.inure.activities.app.MainActivity -a "open_device_info"</code>
-            </pre>
         </div>
     </div>
 </div>
