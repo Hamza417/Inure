@@ -15,6 +15,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import app.simple.inure.R
@@ -361,8 +362,12 @@ class AudioService : Service(),
     }
 
     internal fun seek(to: Int) {
-        mediaPlayer.seekTo(to)
-        setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+        try {
+            mediaPlayer.seekTo(to)
+            setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+        } catch (e: IllegalStateException) {
+            Log.d("AudioService", "IllegalStateException: ${e.message}")
+        }
     }
 
     internal fun changePlayerState(): Boolean {

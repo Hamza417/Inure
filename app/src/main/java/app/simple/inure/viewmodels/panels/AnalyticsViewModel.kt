@@ -8,35 +8,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.SDKHelper
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AnalyticsViewModel(application: Application) : WrappedViewModel(application) {
+class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
-    private val minimumOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
-        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                loadMinimumOsData()
-            }
-        }
-    }
-
-    private val targetOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
-        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
-            loadTargetOsData()
-        }
-    }
-
-    private val installLocationData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
-        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
-            loadInstallLocationData()
-        }
-    }
+    private val minimumOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> = MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
+    private val targetOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> = MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
+    private val installLocationData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> = MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
 
     fun getMinimumOsData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
         return minimumOsData
@@ -53,7 +36,7 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
     @RequiresApi(Build.VERSION_CODES.N)
     private fun loadMinimumOsData() {
         viewModelScope.launch(Dispatchers.IO) {
-            val apps = packageManager.getInstalledPackages()
+            val apps = getInstalledApps()
             val data = arrayListOf<PieEntry>()
             val colors = arrayListOf<Int>()
 
@@ -79,7 +62,7 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
 
     private fun loadTargetOsData() {
         viewModelScope.launch(Dispatchers.IO) {
-            val apps = packageManager.getInstalledPackages()
+            val apps = getInstalledApps()
             val data = arrayListOf<PieEntry>()
             val colors = arrayListOf<Int>()
 
@@ -105,7 +88,7 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
 
     private fun loadInstallLocationData() {
         viewModelScope.launch(Dispatchers.IO) {
-            val apps = packageManager.getInstalledPackages()
+            val apps = getInstalledApps()
             val data = arrayListOf<PieEntry>()
             val colors = arrayListOf<Int>()
 
@@ -137,6 +120,11 @@ class AnalyticsViewModel(application: Application) : WrappedViewModel(applicatio
             loadMinimumOsData()
         }
         loadTargetOsData()
+        loadInstallLocationData()
+    }
+
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        refresh()
     }
 
     override fun onAppUninstalled(packageName: String?) {

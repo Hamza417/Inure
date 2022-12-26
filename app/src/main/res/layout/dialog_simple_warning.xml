@@ -18,6 +18,7 @@
         <app.simple.inure.decorations.theme.ThemeIcon
             android:layout_width="@dimen/loader_size"
             android:layout_height="@dimen/loader_size"
+            android:layout_gravity="center_vertical"
             android:scaleType="center"
             android:src="@drawable/ic_error"
             app:tintType="secondary" />
