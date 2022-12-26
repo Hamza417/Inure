@@ -4,10 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.view.animation.GridLayoutAnimationController;
+import android.view.animation.LayoutAnimationController;
 
+import androidx.annotation.AnimRes;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import app.simple.inure.R;
 
 /**
  * An extension of RecyclerView, focused more on resembling a GridView.
@@ -16,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * {@link androidx.recyclerview.widget.GridLayoutManager} in
  * {@code setLayoutManager(LayoutManager layout)}.
  * <p>
- * Created by Freddie (Musenkishi) Lust-Hed.
+ * Created by Freddie (Musenkishi) Lust-Hed, Hamza417.
  */
 public class GridRecyclerView extends RecyclerView {
     
@@ -33,19 +37,8 @@ public class GridRecyclerView extends RecyclerView {
     }
     
     @Override
-    public void setLayoutManager(LayoutManager layout) {
-        if (layout instanceof GridLayoutManager) {
-            super.setLayoutManager(layout);
-        } else {
-            throw new ClassCastException("You should only use a GridLayoutManager with GridRecyclerView.");
-        }
-    }
-    
-    @Override
     protected void attachLayoutAnimationParameters(View child, ViewGroup.LayoutParams params, int index, int count) {
-        
         if (getAdapter() != null && getLayoutManager() instanceof GridLayoutManager) {
-            
             GridLayoutAnimationController.AnimationParameters animationParams =
                     (GridLayoutAnimationController.AnimationParameters) params.layoutAnimationParameters;
             
@@ -60,13 +53,23 @@ public class GridRecyclerView extends RecyclerView {
             animationParams.index = index;
             animationParams.columnsCount = columns;
             animationParams.rowsCount = count / columns;
-            
+    
             final int invertedIndex = count - 1 - index;
             animationParams.column = columns - 1 - (invertedIndex % columns);
             animationParams.row = animationParams.rowsCount - 1 - invertedIndex / columns;
-            
         } else {
+            setLayoutControllerAnimation(R.anim.list_pop_in_animation_controller);
             super.attachLayoutAnimationParameters(child, params, index, count);
         }
+    }
+    
+    public void setLayoutControllerAnimation(@AnimRes int animationController) {
+        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getContext(), animationController);
+        setLayoutAnimation(controller);
+    }
+    
+    public void setLayoutControllerAnimation(@AnimRes int animationController, float delay) {
+        LayoutAnimationController controller = new LayoutAnimationController(AnimationUtils.loadAnimation(getContext(), animationController), delay);
+        setLayoutAnimation(controller);
     }
 }
