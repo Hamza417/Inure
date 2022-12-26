@@ -51,8 +51,9 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         if (getAdapter() == null) {
             setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_animation_controller));
         } else {
-            setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.grid_list_animation_controller));
+            setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_pop_in_animation_controller));
         }
+    
         setAdapter(adapterBottomMenu);
     
         post(() -> {

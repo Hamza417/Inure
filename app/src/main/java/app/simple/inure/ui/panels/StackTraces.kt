@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.activities.app.CrashReporterActivity
 import app.simple.inure.adapters.ui.AdapterStackTraces
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -91,10 +92,24 @@ class StackTraces : ScopedFragment() {
 
             recyclerView.adapter = adapterStackTraces
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings), recyclerView) { id, _ ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getStackTracesBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+                    }
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(firstLaunch = true), "search_screen")
+                    }
+                    R.drawable.ic_delete -> {
+                        childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                            override fun onSure() {
+                                stackTraceViewModel.deleteAllStackTraces()
+                            }
+
+                            override fun onCancel() {
+                                // do nothing
+                            }
+                        })
                     }
                 }
             }

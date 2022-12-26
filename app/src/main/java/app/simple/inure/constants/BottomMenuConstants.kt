@@ -20,6 +20,14 @@ object BottomMenuConstants {
             R.drawable.ic_search
     )
 
+    private val stackTracesBottomMenuItems = arrayListOf(
+            R.drawable.ic_delete,
+            -1,
+            R.drawable.ic_settings,
+            -1,
+            R.drawable.ic_search
+    )
+
     private val musicBottomMenuItems = arrayListOf(
             R.drawable.ic_sort,
             -1,
@@ -90,5 +98,10 @@ object BottomMenuConstants {
     @Suppress("UNCHECKED_CAST")
     fun getNotesFunctionMenu(): ArrayList<Int> {
         return notesFunctionMenu.clone() as ArrayList<Int>
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun getStackTracesBottomMenuItems(): ArrayList<Int> {
+        return stackTracesBottomMenuItems.clone() as ArrayList<Int>
     }
 }

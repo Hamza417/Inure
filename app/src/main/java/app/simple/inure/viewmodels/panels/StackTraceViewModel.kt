@@ -50,4 +50,16 @@ class StackTraceViewModel(application: Application) : WrappedViewModel(applicati
             }
         }
     }
+
+    fun deleteAllStackTraces() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val db = StackTraceDatabase.getInstance(applicationContext())
+                db?.stackTraceDao()?.nukeTable()
+                stackTraces.postValue(arrayListOf()) // clear the list
+            }.getOrElse {
+                postError(it)
+            }
+        }
+    }
 }
