@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.Misc
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -28,6 +29,7 @@ import app.simple.inure.dialogs.app.FullVersionReminder.Companion.showFullVersio
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.*
 import app.simple.inure.ui.panels.Home
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.*
@@ -68,26 +70,7 @@ class SplashScreen : ScopedFragment() {
         loaderImageView = view.findViewById(R.id.loader)
         daysLeft = view.findViewById(R.id.days_left)
 
-        if (MainPreferences.isWithinTrialPeriod()) {
-            if (MainPreferences.isFullVersion()) {
-                daysLeft.gone()
-            } else {
-                daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
-
-                if (MainPreferences.getLaunchCount() % 5 == 0) {
-                    parentFragmentManager.showFullVersionReminder()
-                }
-            }
-        } else if (MainPreferences.isFullVersion()) {
-            daysLeft.gone()
-        } else {
-            // Should always be 0
-            daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
-
-            if (MainPreferences.getLaunchCount() % 5 == 0) {
-                parentFragmentManager.showFullVersionReminder()
-            }
-        }
+        unlockStateChecker()
 
         if (AccessibilityPreferences.isAnimationReduced().invert()) {
             icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))
@@ -273,6 +256,41 @@ class SplashScreen : ScopedFragment() {
             mode == AppOpsManagerCompat.MODE_ALLOWED &&
                     (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+        }
+    }
+
+    private fun unlockStateChecker() {
+        if (MainPreferences.isWithinTrialPeriod()) {
+            if (MainPreferences.isFullVersion()) {
+                daysLeft.gone()
+            } else {
+                daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
+
+                if (MainPreferences.getLaunchCount() % 5 == 0) {
+                    parentFragmentManager.showFullVersionReminder()
+                }
+            }
+        } else if (MainPreferences.isFullVersion()) {
+            if (requirePackageManager().isPackageInstalled(AppUtils.unlockerPackageName)) {
+                daysLeft.gone()
+            } else {
+                if (MainPreferences.getUnlockerWarningCount() < 3) {
+                    daysLeft.text = getString(R.string.unlocker_not_installed)
+                    MainPreferences.incrementUnlockerWarningCount()
+                    daysLeft.gone()
+                } else {
+                    showWarning(R.string.full_version_deactivated)
+                    MainPreferences.setFullVersion(false)
+                    daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
+                }
+            }
+        } else {
+            // Should always be 0
+            daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
+
+            if (MainPreferences.getLaunchCount() % 5 == 0) {
+                parentFragmentManager.showFullVersionReminder()
+            }
         }
     }
 

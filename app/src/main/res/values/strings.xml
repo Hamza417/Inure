@@ -616,4 +616,6 @@
     <string name="would_you_full_version">You\'re currently using trial version. Would you like to purchase and unlock full features of the app?</string>
     <string name="zip_is_not_valid">Zip is not a valid split apk file.</string>
     <string name="invalid_apk_file">Invalid APK file.</string>
+    <string name="unlocker_not_installed">Failed to detect the Unlocker package.</string>
+    <string name="full_version_deactivated">Full version deactivated</string>
 </resources>

@@ -17,66 +17,94 @@
 
 <!-- Write change logs here -->
 
-<h4>User Interface</h4>
+<h4>Unlocker</h4>
 
 <ul>
-    <li>Added bottom menu for formatting strip in notes panel.</li>
-    <li>Added improved mouse keys support in Inure Motion Event framework.
+    <li>Keeping the unlocker package installed is now a requirement to keep the full version
+        activated.
         <br>
         <small>
-            This feature is useful for people who use their Android devices with a mouse. Using
-            right click on any item will open the context menu and using left click will perform
-            the click action. This will streamline the mouse behaviour with Inure and as used in
-            other OS's.
+            An option to hide the unlocker from the launcher has also been added in the Unlocker
+            settings.
         </small>
     </li>
-    <li>Added option to enable debug messages in <b>Development</b> preferences.</li>
-    <li>Single line ellipsized labels in <b>Graphics</b> panel.</li>
-    <li>Added delete all option in <b>StackTraces</b> panel.</li>
 </ul>
 
-<h4>Bug Fixes</h4>
-
-<ul>
-    <li>Fixed few crashes on <b>Installer</b> panel.</li>
-    <li>Fixed a lot of crashes in many devices.</li>
-    <li>Fixed crashes in <b>Shared Preferences</b> panel.</li>
-    <li>Fixed grid animation issues with app's arc animation on grid layout.</li>
-    <li>Fixed empty crash report issue after the app had crashed and restarted.</li>
-    <li>Fixed a few more instances of DeadObject error.</li>
-    <li>Fixed <b>Search</b> panel result issues.</li>
-    <li>Fixed loader stuck on <i>Splash Screen</i> if root is denied while root methods are on in
-        <i>Configuration</i>.
-    </li>
-    <li>Fixed some crashes caused by reloading the data when system has triggered low memory.</li>
-</ul>
-
-<h4>Removed</h4>
-
-<ul>
-    <li>Removed classic formatting strip from notes panel.</li>
-</ul>
-
-<h4>Installer</h4>
-
-<ul>
-    <li>Improved checks for split apk files.</li>
-    <li>Removed .XAPK support.
-        <br>
-        <small>
-            .XAPK files aren't split apk files rather a bundle of various apk and data. So, it's not
-            possible to install them at the moment.
-        </small>
-    </li>
-    <li>ZIP based split APK file support.</li>
-    <li>Improved split APK detection and file verification framework.</li>
-    <li>Added wider intent receiver to support firing installer window from many other places in the
-        device such as browsers, universal intents, etc.
-    </li>
-</ul>
 <br>
 <br>
+<div class="wrap-collapsible">
+    <input id="build_54" class="toggle" type="checkbox">
+    <label for="build_54" class="lbl-toggle">Build54</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
 
+            <ul>
+                <li>Added bottom menu for formatting strip in notes panel.</li>
+                <li>Added improved mouse keys support in Inure Motion Event framework.
+                    <br>
+                    <small>
+                        This feature is useful for people who use their Android devices with a
+                        mouse. Using
+                        right click on any item will open the context menu and using left click will
+                        perform
+                        the click action. This will streamline the mouse behaviour with Inure and as
+                        used in
+                        other OS's.
+                    </small>
+                </li>
+                <li>Added option to enable debug messages in <b>Development</b> preferences.</li>
+                <li>Single line ellipsized labels in <b>Graphics</b> panel.</li>
+                <li>Added delete all option in <b>StackTraces</b> panel.</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed few crashes on <b>Installer</b> panel.</li>
+                <li>Fixed a lot of crashes in many devices.</li>
+                <li>Fixed crashes in <b>Shared Preferences</b> panel.</li>
+                <li>Fixed grid animation issues with app's arc animation on grid layout.</li>
+                <li>Fixed empty crash report issue after the app had crashed and restarted.</li>
+                <li>Fixed a few more instances of DeadObject error.</li>
+                <li>Fixed <b>Search</b> panel result issues.</li>
+                <li>Fixed loader stuck on <i>Splash Screen</i> if root is denied while root methods
+                    are on in
+                    <i>Configuration</i>.
+                </li>
+                <li>Fixed some crashes caused by reloading the data when system has triggered low
+                    memory.
+                </li>
+            </ul>
+
+            <h4>Removed</h4>
+
+            <ul>
+                <li>Removed classic formatting strip from notes panel.</li>
+            </ul>
+
+            <h4>Installer</h4>
+
+            <ul>
+                <li>Improved checks for split apk files.</li>
+                <li>Removed .XAPK support.
+                    <br>
+                    <small>
+                        .XAPK files aren't split apk files rather a bundle of various apk and data.
+                        So, it's not
+                        possible to install them at the moment.
+                    </small>
+                </li>
+                <li>ZIP based split APK file support.</li>
+                <li>Improved split APK detection and file verification framework.</li>
+                <li>Added wider intent receiver to support firing installer window from many other
+                    places in the
+                    device such as browsers, universal intents, etc.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <p>Build54 was retracted due to serious issues in production.</p>
 <br>

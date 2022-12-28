@@ -18,6 +18,7 @@ object MainPreferences {
     private const val appLanguage = "current_language_locale"
     private const val firstLaunchDate = "first_launch_date"
     private const val isAppFullVersionEnabled = "is_full_version_enabled"
+    private const val unlockerWarningCount = "unlocker_warning_count"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
@@ -109,6 +110,20 @@ object MainPreferences {
 
     fun isFullVersion(): Boolean {
         return getSharedPreferences().getBoolean(isAppFullVersionEnabled, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setUnlockerWarningCount(value: Int) {
+        getSharedPreferences().edit().putInt(unlockerWarningCount, value).apply()
+    }
+
+    fun getUnlockerWarningCount(): Int {
+        return getSharedPreferences().getInt(unlockerWarningCount, 0)
+    }
+
+    fun incrementUnlockerWarningCount() {
+        setUnlockerWarningCount(getUnlockerWarningCount() + 1)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
