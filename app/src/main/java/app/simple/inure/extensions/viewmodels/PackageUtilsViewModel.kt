@@ -33,6 +33,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             @Suppress("UNCHECKED_CAST")
             return apps.clone() as ArrayList<PackageInfo>
         } else {
+            Log.d("PackageUtilsViewModel", "getInstalledApps: apps is null or empty, reloading")
             loadPackageData()
             return getInstalledApps()
         }

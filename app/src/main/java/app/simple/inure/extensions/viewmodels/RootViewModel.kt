@@ -3,7 +3,6 @@ package app.simple.inure.extensions.viewmodels
 import android.app.Application
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.BuildConfig
 import app.simple.inure.constants.Warnings
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -40,7 +39,7 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
                          * Block crashed deliberately,
                          * get the traces and ignore the warning
                          */
-                        it.printStackTrace()
+                        // it.printStackTrace()
                     }
 
                     Shell.getShell(this@RootViewModel)

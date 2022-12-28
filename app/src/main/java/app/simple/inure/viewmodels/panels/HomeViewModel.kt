@@ -105,7 +105,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private fun loadRecentlyInstalledAppData() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             val apps = getInstalledApps().stream()
                 .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
@@ -123,7 +123,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private fun loadRecentlyUpdatedAppData() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             val apps = getInstalledApps().stream()
                 .filter { it.lastUpdateTime > System.currentTimeMillis() - oneMonth }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
@@ -142,7 +142,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private fun loadMostUsed() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             val stats = with(UsageInterval.getTimeInterval()) {
                 (getApplication<Application>()
                     .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager)
@@ -183,7 +183,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private fun loadDeletedApps() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             val apps = getUninstalledApps().stream()
                 .filter { it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0 }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
@@ -202,7 +202,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private fun loadDisabledApps() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             val apps = getInstalledApps().stream()
                 .filter { it.applicationInfo.enabled.invert() }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
@@ -221,8 +221,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private fun loadItems() {
-        viewModelScope.launch(Dispatchers.Default) {
-
+        viewModelScope.launch(Dispatchers.IO) {
             val list = arrayListOf<Pair<Int, Int>>()
 
             list.add(Pair(R.drawable.ic_app_icon, R.string.apps))
@@ -269,7 +268,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
-        super.onAppsLoaded(apps)
         loadRecentlyInstalledAppData()
         loadMostUsed()
         loadRecentlyUpdatedAppData()
@@ -277,7 +275,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     override fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {
-        super.onUninstalledAppsLoaded(uninstalledApps)
         loadDeletedApps()
     }
 

@@ -20,14 +20,14 @@ import app.simple.inure.viewmodels.panels.HomeViewModel
 class RecentlyInstalled : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private var appsAdapterSmall: AdapterRecentlyInstalled? = null
+    private var adapterRecentlyInstalled: AdapterRecentlyInstalled? = null
     private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_recently_installed, container, false)
 
         recyclerView = view.findViewById(R.id.recently_installed_recycler_view)
-        appsAdapterSmall = AdapterRecentlyInstalled()
+        adapterRecentlyInstalled = AdapterRecentlyInstalled()
 
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
@@ -43,14 +43,14 @@ class RecentlyInstalled : ScopedFragment() {
             postponeEnterTransition()
             hideLoader()
 
-            appsAdapterSmall?.apps = it
-            recyclerView.adapter = appsAdapterSmall
+            adapterRecentlyInstalled?.apps = it
+            recyclerView.adapter = adapterRecentlyInstalled
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
-            appsAdapterSmall?.setOnItemClickListener(object : AdapterCallbacks {
+            adapterRecentlyInstalled?.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }

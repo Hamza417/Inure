@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Typeface
 import androidx.core.content.res.ResourcesCompat
 import app.simple.inure.R
+import app.simple.inure.preferences.AppearancePreferences
 
 object TypeFace {
 
@@ -497,6 +498,22 @@ object TypeFace {
         }
 
         return typeface
+    }
+
+    fun getBoldTypeFace(context: Context): Typeface? {
+        return getTypeFace(AppearancePreferences.getAppFont(), TypefaceStyle.BOLD.style, context)
+    }
+
+    fun getRegularTypeFace(context: Context): Typeface? {
+        return getTypeFace(AppearancePreferences.getAppFont(), TypefaceStyle.REGULAR.style, context)
+    }
+
+    fun getMediumTypeFace(context: Context): Typeface? {
+        return getTypeFace(AppearancePreferences.getAppFont(), TypefaceStyle.MEDIUM.style, context)
+    }
+
+    fun getLightTypeFace(context: Context): Typeface? {
+        return getTypeFace(AppearancePreferences.getAppFont(), TypefaceStyle.LIGHT.style, context)
     }
 
     /**

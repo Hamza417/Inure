@@ -14,11 +14,11 @@ import com.github.mikephil.charting.components.Legend;
 import androidx.annotation.NonNull;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AnalyticsPreferences;
-import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.NullSafety;
+import app.simple.inure.util.StatusBarHeight;
 import app.simple.inure.util.TypeFace;
 
 public class ThemePieChart extends PieChart implements SharedPreferences.OnSharedPreferenceChangeListener, ThemeChangedListener {
@@ -53,9 +53,15 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
         setDragDecelerationFrictionCoef(0.95F);
         setHighlightPerTapEnabled(true);
         getDescription().setEnabled(false);
-        setExtraOffsets(chartOffset, chartOffset, chartOffset, chartOffset);
         setDrawCenterText(false);
-        
+    
+        if (StatusBarHeight.isLandscape(getContext())) {
+            setExtraOffsets(chartOffset * 2F, chartOffset * 2F, chartOffset * 2F, chartOffset * 2F);
+            setExtraRightOffset(chartOffset * 4F);
+        } else {
+            setExtraOffsets(chartOffset, chartOffset, chartOffset, chartOffset);
+        }
+    
         /*
          * Legend's props
          */
@@ -66,11 +72,19 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
         getLegend().setTextColor(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getSecondaryTextColor());
         getLegend().setXEntrySpace(20F);
         getLegend().setYEntrySpace(5F);
-        getLegend().setTypeface(TypeFace.INSTANCE.getTypeFace(AppearancePreferences.INSTANCE.getAppFont(), TypeFace.TypefaceStyle.MEDIUM.getStyle(), getContext()));
+        getLegend().setTypeface(TypeFace.INSTANCE.getMediumTypeFace(getContext()));
         getLegend().setWordWrapEnabled(true);
-        getLegend().setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+    
+        if (StatusBarHeight.isLandscape(getContext())) {
+            getLegend().setXOffset(chartOffset * 3F);
+            getLegend().setOrientation(Legend.LegendOrientation.VERTICAL);
+            getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
+            getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        } else {
+            getLegend().setOrientation(Legend.LegendOrientation.HORIZONTAL);
+            getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+            getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        }
     }
     
     public void startAnimation() {

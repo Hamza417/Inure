@@ -266,7 +266,7 @@ class SplashScreen : ScopedFragment() {
             } else {
                 daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
 
-                if (MainPreferences.getLaunchCount() % 5 == 0) {
+                if (MainPreferences.getLaunchCount() % 10 == 0) {
                     parentFragmentManager.showFullVersionReminder()
                 }
             }
