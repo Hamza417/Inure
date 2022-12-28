@@ -44,7 +44,9 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     }
 
     private fun loadPackageData() {
-        apps = loadInstalledApps().clone()
+        if (apps.isEmpty()) {
+            apps = loadInstalledApps().clone()
+        }
         onAppsLoaded(apps.toArrayList())
     }
 
@@ -58,19 +60,21 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     }
 
     protected fun loadUninstalledApps() {
-        uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
-                                                    .of((PackageManager.GET_META_DATA
-                                                            or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong()))
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+        if (uninstalledApps.isEmpty()) {
+            uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
+                                                        .of((PackageManager.GET_META_DATA
+                                                                or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong()))
             } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES)
-            }
-        }.toArrayList()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    @Suppress("DEPRECATION")
+                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                } else {
+                    @Suppress("DEPRECATION")
+                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES)
+                }
+            }.toArrayList()
+        }
 
         @Suppress("UNCHECKED_CAST")
         onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)

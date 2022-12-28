@@ -14,6 +14,7 @@ import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.ConditionUtils.isNull
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -26,11 +27,14 @@ import java.util.stream.Collectors
 
 class AppsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
-    private val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadAppData()
+    private var appData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+        get() {
+            if (field.isNull()) {
+                field = MutableLiveData<ArrayList<PackageInfo>>()
+            }
+
+            return field
         }
-    }
 
     private val generatedAppDataPath: MutableLiveData<String> by lazy {
         MutableLiveData<String>()

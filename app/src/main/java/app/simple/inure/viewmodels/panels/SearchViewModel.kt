@@ -11,6 +11,7 @@ import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.job
@@ -26,15 +27,23 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         }
     }
 
-    private val searchData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            initiateSearch(SearchPreferences.getLastSearchKeyword())
-        }
-    }
+    private var searchData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+        get() {
+            if (field.isNull()) {
+                field = MutableLiveData<ArrayList<PackageInfo>>()
+            }
 
-    private val deepSearchData: MutableLiveData<ArrayList<SearchModel>> by lazy {
-        MutableLiveData<ArrayList<SearchModel>>()
-    }
+            return field
+        }
+
+    private var deepSearchData: MutableLiveData<ArrayList<SearchModel>> = MutableLiveData<ArrayList<SearchModel>>()
+        get() {
+            if (field.isNull()) {
+                field = MutableLiveData<ArrayList<SearchModel>>()
+            }
+
+            return field
+        }
 
     fun getSearchKeywords(): LiveData<String> {
         return searchKeywords
@@ -127,79 +136,85 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     private fun getPermissionCount(keyword: String, app: PackageInfo): Int {
-        var c = 0
+        var count = 0
+
         kotlin.runCatching {
-            for (count in app.requestedPermissions.indices) {
-                if (app.requestedPermissions[count].lowercase().contains(keyword.lowercase())) {
-                    c += 1
+            for (index in app.requestedPermissions.indices) {
+                if (app.requestedPermissions[index].lowercase().contains(keyword.lowercase())) {
+                    count += 1
                 }
             }
         }
 
-        return c
+        return count
     }
 
     private fun getActivitiesCount(keywords: String, app: PackageInfo): Int {
-        var c = 0
+        var count = 0
+
         kotlin.runCatching {
             for (i in app.activities) {
                 if (i.name.lowercase().contains(keywords.lowercase())) {
-                    c += 1
+                    count += 1
                 }
             }
         }
 
-        return c
+        return count
     }
 
     private fun getServicesCount(keywords: String, app: PackageInfo): Int {
-        var c = 0
+        var count = 0
+
         kotlin.runCatching {
             for (i in app.services) {
                 if (i.name.lowercase().contains(keywords.lowercase())) {
-                    c += 1
+                    count += 1
                 }
             }
         }
 
-        return c
+        return count
     }
 
     private fun getReceiversCount(keywords: String, app: PackageInfo): Int {
-        var c = 0
+        var count = 0
+
         kotlin.runCatching {
             for (i in app.receivers) {
                 if (i.name.lowercase().contains(keywords.lowercase())) {
-                    c += 1
+                    count += 1
                 }
             }
         }
 
-        return c
+        return count
     }
 
     private fun getProvidersCount(keywords: String, app: PackageInfo): Int {
-        var c = 0
+        var count = 0
+
         kotlin.runCatching {
             for (i in app.providers) {
                 if (i.name.lowercase().contains(keywords.lowercase())) {
-                    c += 1
+                    count += 1
                 }
             }
         }
 
-        return c
+        return count
     }
 
     private fun getResourcesCount(keywords: String, app: PackageInfo): Int {
-        var c = 0
+        var count = 0
+
         kotlin.runCatching {
             with(APKParser.getXmlFiles(app.applicationInfo.sourceDir, keywords)) {
-                c = count()
+                count = count()
             }
         }
 
-        return c
+        return count
     }
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {

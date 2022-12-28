@@ -19,6 +19,7 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,11 +34,45 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     private val oneMonth = 2592000000 // 30 days
 
-    private val recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
-    private val recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
-    private val mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> = MutableLiveData<ArrayList<PackageStats>>()
-    private val uninstalled: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
-    private val disabled: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+    private var recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+        get() {
+            if (field.isNull()) {
+                field = MutableLiveData<ArrayList<PackageInfo>>()
+            }
+            return field
+        }
+
+    private var recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+        get() {
+            if (field.isNull()) {
+                field = MutableLiveData<ArrayList<PackageInfo>>()
+            }
+            return field
+        }
+
+    private var mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> = MutableLiveData<ArrayList<PackageStats>>()
+        get() {
+            if (field.isNull()) {
+                field = MutableLiveData<ArrayList<PackageStats>>()
+            }
+            return field
+        }
+
+    private var uninstalled: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+        get() {
+            if (field.isNull()) {
+                field = MutableLiveData<ArrayList<PackageInfo>>()
+            }
+            return field
+        }
+
+    private var disabled: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
+        get() {
+            if (field.isNull()) {
+                field = MutableLiveData<ArrayList<PackageInfo>>()
+            }
+            return field
+        }
 
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
         MutableLiveData<List<Pair<Int, Int>>>().also {
