@@ -45,6 +45,9 @@ class FullVersion : ScopedBottomSheetFragment() {
 
         close.setOnClickListener {
             dismiss()
+            if (!requireActivity().isDestroyed) {
+                warningCallbacks?.onWarningDismissed()
+            }
         }
     }
 
@@ -52,8 +55,8 @@ class FullVersion : ScopedBottomSheetFragment() {
         this.warningCallbacks = warningCallbacks
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
         if (!requireActivity().isDestroyed) {
             warningCallbacks?.onWarningDismissed()
         }

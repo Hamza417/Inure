@@ -233,7 +233,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(Pair(R.drawable.ic_layers, R.string.batch))
             list.add(Pair(R.drawable.ic_analytics, R.string.analytics))
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
-            // list.add(Pair(R.drawable.ic_music_note, R.string.music))
             list.add(Pair(0, 0)) // Divider
             list.add(Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed))
             list.add(Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated))
