@@ -366,13 +366,17 @@ public class FastScroller {
         return mViewHelper.getScrollRange() - mView.getHeight();
     }
     
+    private int getScrollOffsetRange(int position) {
+        return mViewHelper.getScrollRange() - mView.getHeight();
+    }
+    
     private int getThumbOffsetRange() {
         Rect padding = getPadding();
         return mView.getHeight() - padding.top - padding.bottom - mThumbHeight;
     }
     
     private void setDragging(boolean dragging) {
-    
+        
         /*
          * This will prevent the loading of images when scroller
          * is being dragged to allow room for smoother scrolling

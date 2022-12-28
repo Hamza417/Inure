@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 class RecyclerViewHelper implements FastScroller.ViewHelper {
     
     @NonNull
-    private final RecyclerView mView;
+    private final RecyclerView recyclerView;
     @Nullable
     private final PopupTextProvider mPopupTextProvider;
     
@@ -39,13 +39,13 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
     
     public RecyclerViewHelper(@NonNull RecyclerView view,
             @Nullable PopupTextProvider popupTextProvider) {
-        mView = view;
+        recyclerView = view;
         mPopupTextProvider = popupTextProvider;
     }
     
     @Override
     public void addOnPreDrawListener(@NonNull Runnable onPreDraw) {
-        mView.addItemDecoration(new RecyclerView.ItemDecoration() {
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void onDraw(@NonNull Canvas canvas, @NonNull RecyclerView parent,
                     @NonNull RecyclerView.State state) {
@@ -56,7 +56,7 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
     
     @Override
     public void addOnScrollChangedListener(@NonNull Runnable onScrollChanged) {
-        mView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 onScrollChanged.run();
@@ -66,13 +66,13 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
     
     @Override
     public void addOnTouchEventListener(@NonNull Predicate <MotionEvent> onTouchEvent) {
-        mView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView,
                     @NonNull MotionEvent event) {
                 return onTouchEvent.test(event);
             }
-            
+        
             @Override
             public void onTouchEvent(@NonNull RecyclerView recyclerView,
                     @NonNull MotionEvent event) {
@@ -91,7 +91,7 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
         if (itemHeight == 0) {
             return 0;
         }
-        return mView.getPaddingTop() + itemCount * itemHeight + mView.getPaddingBottom();
+        return recyclerView.getPaddingTop() + itemCount * itemHeight + recyclerView.getPaddingBottom();
     }
     
     @Override
@@ -102,14 +102,14 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
         }
         int itemHeight = getItemHeight();
         int firstItemTop = getFirstItemOffset();
-        return mView.getPaddingTop() + firstItemPosition * itemHeight - firstItemTop;
+        return recyclerView.getPaddingTop() + firstItemPosition * itemHeight - firstItemTop;
     }
     
     @Override
     public void scrollTo(int offset) {
         // Stop any scroll in progress for RecyclerView.
-        mView.stopScroll();
-        offset -= mView.getPaddingTop();
+        recyclerView.stopScroll();
+        offset -= recyclerView.getPaddingTop();
         int itemHeight = getItemHeight();
         // firstItemPosition should be non-negative even if paddingTop is greater than item height.
         int firstItemPosition = Math.max(0, offset / itemHeight);
@@ -122,7 +122,7 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
     public String getPopupText() {
         PopupTextProvider popupTextProvider = mPopupTextProvider;
         if (popupTextProvider == null) {
-            RecyclerView.Adapter <?> adapter = mView.getAdapter();
+            RecyclerView.Adapter <?> adapter = recyclerView.getAdapter();
             if (adapter instanceof PopupTextProvider) {
                 popupTextProvider = (PopupTextProvider) adapter;
             }
@@ -159,11 +159,11 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
     }
     
     private int getItemHeight() {
-        if (mView.getChildCount() == 0) {
+        if (recyclerView.getChildCount() == 0) {
             return 0;
         }
-        View itemView = mView.getChildAt(0);
-        mView.getDecoratedBoundsWithMargins(itemView, mTempRect);
+        View itemView = recyclerView.getChildAt(0);
+        recyclerView.getDecoratedBoundsWithMargins(itemView, mTempRect);
         return mTempRect.height();
     }
     
@@ -181,10 +181,10 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
     }
     
     private int getFirstItemAdapterPosition() {
-        if (mView.getChildCount() == 0) {
+        if (recyclerView.getChildCount() == 0) {
             return RecyclerView.NO_POSITION;
         }
-        View itemView = mView.getChildAt(0);
+        View itemView = recyclerView.getChildAt(0);
         LinearLayoutManager linearLayoutManager = getVerticalLinearLayoutManager();
         if (linearLayoutManager == null) {
             return RecyclerView.NO_POSITION;
@@ -193,11 +193,11 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
     }
     
     private int getFirstItemOffset() {
-        if (mView.getChildCount() == 0) {
+        if (recyclerView.getChildCount() == 0) {
             return RecyclerView.NO_POSITION;
         }
-        View itemView = mView.getChildAt(0);
-        mView.getDecoratedBoundsWithMargins(itemView, mTempRect);
+        View itemView = recyclerView.getChildAt(0);
+        recyclerView.getDecoratedBoundsWithMargins(itemView, mTempRect);
         return mTempRect.top;
     }
     
@@ -211,13 +211,13 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
             position *= gridLayoutManager.getSpanCount();
         }
         // LinearLayoutManager actually takes offset from paddingTop instead of top of RecyclerView.
-        offset -= mView.getPaddingTop();
+        offset -= recyclerView.getPaddingTop();
         linearLayoutManager.scrollToPositionWithOffset(position, offset);
     }
     
     @Nullable
     private LinearLayoutManager getVerticalLinearLayoutManager() {
-        RecyclerView.LayoutManager layoutManager = mView.getLayoutManager();
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (!(layoutManager instanceof LinearLayoutManager)) {
             return null;
         }
