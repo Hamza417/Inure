@@ -156,16 +156,7 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
                         wasSongPlaying = true
                     }
                     ServiceConstants.actionQuitMusicService -> {
-                        if (wasSongPlaying) {
-                            requireActivity().finish()
-                        } else {
-                            kotlin.runCatching {
-                                throw IllegalStateException("Service closed unexpectedly on uri: ${uri.toString()}")
-                            }.getOrElse {
-                                it.printStackTrace()
-                                showError(it.stackTraceToString())
-                            }
-                        }
+                        requireActivity().finish()
                     }
                     ServiceConstants.actionPlay -> {
                         buttonStatus(true)
