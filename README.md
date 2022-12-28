@@ -96,6 +96,7 @@ That's all.
 - [x] Add battery optimisation manager for all apps
 - [x] Boot manager for all apps
 - [ ] Quick Apps Sync from different devices
+- [ ] Options to modify state of trackers of any app
 
 
 ### Low priority features
