@@ -95,6 +95,8 @@ That's all.
 - [ ] Use app via ADB Shell instead of root? (suspended)
 - [x] Add battery optimisation manager for all apps
 - [x] Boot manager for all apps
+- [ ] Quick Apps Sync from different devices
+
 
 ### Low priority features
 
