@@ -24,7 +24,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            loadPackageData()
+            loadPackageData() // TODO - bug here
         }
     }
 
