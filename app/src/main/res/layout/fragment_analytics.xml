@@ -41,8 +41,8 @@
                         android:layout_height="@dimen/adapter_header_icon_size"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/analytics"
-                        app:srcCompat="@drawable/ic_analytics"
                         android:transitionName="@string/analytics"
+                        app:srcCompat="@drawable/ic_analytics"
                         app:tintType="accent" />
 
                     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -111,10 +111,13 @@
                 android:id="@+id/min_sdk_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/panel_item_padding"
                 android:padding="@dimen/panel_item_padding"
                 android:text="@string/minimum_sdk"
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold"
+                app:drawableStartCompat="@drawable/ic_dot_tiny"
+                app:drawableTintStyle="accent"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.theme.ThemePieChart
@@ -125,10 +128,13 @@
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/panel_item_padding"
                 android:padding="@dimen/panel_item_padding"
                 android:text="@string/target_sdk"
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold"
+                app:drawableStartCompat="@drawable/ic_dot_tiny"
+                app:drawableTintStyle="accent"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.theme.ThemePieChart
@@ -139,10 +145,13 @@
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/panel_item_padding"
                 android:padding="@dimen/panel_item_padding"
                 android:text="@string/install_location"
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold"
+                app:drawableStartCompat="@drawable/ic_dot_tiny"
+                app:drawableTintStyle="accent"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.theme.ThemePieChart

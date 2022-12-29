@@ -47,7 +47,10 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
         /*
          * Chart props
          */
-        setHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
+        if (!isInEditMode()) {
+            setHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
+        }
+    
         setHoleColor(Color.TRANSPARENT);
         setUsePercentValues(false);
         setDragDecelerationFrictionCoef(0.95F);
@@ -72,7 +75,11 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
         getLegend().setTextColor(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getSecondaryTextColor());
         getLegend().setXEntrySpace(20F);
         getLegend().setYEntrySpace(5F);
-        getLegend().setTypeface(TypeFace.INSTANCE.getMediumTypeFace(getContext()));
+    
+        if (!isInEditMode()) {
+            getLegend().setTypeface(TypeFace.INSTANCE.getMediumTypeFace(getContext()));
+        }
+    
         getLegend().setWordWrapEnabled(true);
     
         if (StatusBarHeight.isLandscape(getContext())) {
@@ -110,7 +117,9 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        if (!isInEditMode()) {
+            app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
         ThemeManager.INSTANCE.addListener(this);
     }
     
