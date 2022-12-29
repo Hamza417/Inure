@@ -36,7 +36,7 @@ object BehaviourPreferences {
     }
 
     fun isBlurringOn(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(blurWindow, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(blurWindow, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -56,7 +56,7 @@ object BehaviourPreferences {
     }
 
     fun isTransitionOn(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(transition, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(transition, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
