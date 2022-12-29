@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -106,19 +107,28 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: started")
             val apps = getInstalledApps().stream()
                 .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
+
+            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: finished")
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
 
+            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: finished 2")
+
             apps.sortByDescending {
                 it.firstInstallTime
             }
 
+            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: finished 3")
+
             recentlyInstalledAppData.postValue(apps)
+
+            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: finished 4")
         }
     }
 
@@ -169,7 +179,8 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
                     list.add(packageStats)
                 }.getOrElse {
-                    it.printStackTrace()
+                    // The app or data proly got deleted
+                    // Move to next app
                 }
             }
 

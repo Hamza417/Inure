@@ -14,7 +14,6 @@ import app.simple.inure.adapters.ui.AdapterUsageStats
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission.Companion.showUsageStatsPermissionDialog
@@ -47,10 +46,6 @@ class Statistics : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         showLoader()
         fullVersionCheck()
-
-        childFragmentManager.showFullVersion().setFullVersionCallbacks {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
 
         if (!requireContext().checkForUsageAccessPermission()) {
             childFragmentManager.showUsageStatsPermissionDialog().setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
