@@ -25,6 +25,7 @@ import app.simple.inure.exceptions.InureMediaEngineException
 import app.simple.inure.loaders.MetadataHelper
 import app.simple.inure.models.AudioMetaData
 import app.simple.inure.receivers.MediaButtonIntentReceiver
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
@@ -364,8 +365,10 @@ class AudioService : Service(),
 
     internal fun seek(to: Int) {
         try {
-            mediaPlayer.seekTo(to)
-            setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+            if (hasReleased.invert()) {
+                mediaPlayer.seekTo(to)
+                setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+            }
         } catch (e: IllegalStateException) {
             Log.d("AudioService", "IllegalStateException: ${e.message}")
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.theme.ThemeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,23 +7,26 @@
     android:clipChildren="false"
     android:orientation="vertical">
 
-    <LinearLayout
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
         android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/header_padding"
         android:animateLayoutChanges="true"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal"
         android:translationZ="1dp">
 
-        <app.simple.inure.decorations.corners.DynamicCornerEditText
+        <app.simple.inure.decorations.typeface.TypeFaceEditText
             android:id="@+id/search_box"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:elevation="30dp"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/header_padding"
+            android:gravity="center_vertical"
+            android:hint="@string/search"
             android:padding="@dimen/header_padding"
             app:appFontStyle="bold" />
 
@@ -36,7 +39,11 @@
             android:src="@drawable/ic_close"
             android:visibility="visible" />
 
-    </LinearLayout>
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
 
     <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
         android:id="@+id/search_recycler_view"
@@ -46,6 +53,6 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         app:isEdgeColorRequired="true"
-        app:statusBarPaddingRequired="true" />
+        app:statusBarPaddingRequired="false" />
 
-</app.simple.inure.decorations.theme.ThemeFrameLayout>
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

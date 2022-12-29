@@ -142,18 +142,23 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
                         audioService?.seek(currentPosition)
                     }
                     ServiceConstants.actionMetaData -> {
-                        seekBar.max = audioService?.getDuration()!!
-                        duration.text = NumberUtils.getFormattedTime(audioService?.getDuration()?.toLong()!!)
-                        handler.post(progressRunnable)
-                        title.text = audioService?.metaData?.title
-                        artist.text = audioService?.metaData?.artists
-                        album.text = audioService?.metaData?.album
-                        fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
-                        art.loadFromFileDescriptor(uri!!)
-                        loader.gone(animate = true)
-                        playerContainer.isEnabled = true
-                        playPause.isEnabled = true
-                        wasSongPlaying = true
+                        try {
+                            seekBar.max = audioService?.getDuration()!!
+                            duration.text = NumberUtils.getFormattedTime(audioService?.getDuration()?.toLong()!!)
+                            handler.post(progressRunnable)
+                            title.text = audioService?.metaData?.title
+                            artist.text = audioService?.metaData?.artists
+                            album.text = audioService?.metaData?.album
+                            fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
+                            art.loadFromFileDescriptor(uri!!)
+                            loader.gone(animate = true)
+                            playerContainer.isEnabled = true
+                            playPause.isEnabled = true
+                            wasSongPlaying = true
+                        } catch (e: IllegalStateException) {
+                            e.printStackTrace()
+                            showError(e.stackTraceToString())
+                        }
                     }
                     ServiceConstants.actionQuitMusicService -> {
                         requireActivity().finish()

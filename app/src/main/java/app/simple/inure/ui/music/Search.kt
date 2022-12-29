@@ -13,20 +13,19 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.adapters.ui.AdapterMusic
-import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.decorations.typeface.TypeFaceEditText
+import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.preferences.MusicPreferences
-import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
-class Search : ScopedFragment() {
+class Search : KeyboardScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var searchBox: DynamicCornerEditText
+    private lateinit var searchBox: TypeFaceEditText
     private lateinit var clear: DynamicRippleImageButton
     private lateinit var searchContainer: LinearLayout
     private lateinit var musicViewModel: MusicViewModel
@@ -40,16 +39,16 @@ class Search : ScopedFragment() {
         searchContainer = view.findViewById(R.id.search_container)
         musicViewModel = ViewModelProvider(requireActivity())[MusicViewModel::class.java]
 
-        val params = searchContainer.layoutParams as ViewGroup.MarginLayoutParams
-        params.setMargins(params.leftMargin,
-                          StatusBarHeight.getStatusBarHeight(resources) + params.topMargin,
-                          params.rightMargin,
-                          params.bottomMargin)
-
-        recyclerView.setPadding(recyclerView.paddingLeft,
-                                recyclerView.paddingTop + params.topMargin + params.height + params.bottomMargin,
-                                recyclerView.paddingRight,
-                                recyclerView.paddingBottom)
+        //        val params = searchContainer.layoutParams as ViewGroup.MarginLayoutParams
+        //        params.setMargins(params.leftMargin,
+        //                          StatusBarHeight.getStatusBarHeight(resources) + params.topMargin,
+        //                          params.rightMargin,
+        //                          params.bottomMargin)
+        //
+        //        recyclerView.setPadding(recyclerView.paddingLeft,
+        //                                recyclerView.paddingTop + params.topMargin + params.height + params.bottomMargin,
+        //                                recyclerView.paddingRight,
+        //                                recyclerView.paddingBottom)
 
         return view
     }
@@ -57,7 +56,10 @@ class Search : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+
         searchBox.setText(MusicPreferences.getSearchKeyword())
+        searchBox.setWindowInsetsAnimationCallback()
+        searchBox.showInput()
         clearButtonState()
 
         searchBox.doOnTextChanged { text, _, _, _ ->
@@ -106,9 +108,9 @@ class Search : ScopedFragment() {
 
     private fun clearButtonState() {
         if (searchBox.text.isNullOrEmpty()) {
-            clear.gone(animate = true)
+            clear.gone(animate = false)
         } else {
-            clear.visible(animate = true)
+            clear.visible(animate = false)
         }
     }
 

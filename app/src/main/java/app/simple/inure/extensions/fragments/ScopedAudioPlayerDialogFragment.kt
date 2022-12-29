@@ -42,7 +42,7 @@ open class ScopedAudioPlayerDialogFragment : DialogFragment(), SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
         kotlin.runCatching {
             packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
         }
@@ -140,7 +140,7 @@ open class ScopedAudioPlayerDialogFragment : DialogFragment(), SharedPreferences
 
     protected fun showError(error: String) {
         childFragmentManager.showError(error).setOnErrorCallbackListener {
-            dismiss()
+            requireActivity().finishAndRemoveTask()
         }
     }
 }
