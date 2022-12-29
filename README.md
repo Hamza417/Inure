@@ -11,8 +11,8 @@ An elegant Android app manager, currently in development
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FHamza417%2FInure&count_bg=%239A3DC8&title_bg=%23555555&icon=tencentweibo.svg&icon_color=%23E7E7E7&title=Total+Visits&edge_flat=false)](https://hits.seeyoufarm.com)
 ![](https://img.shields.io/github/languages/count/Hamza417/Inure?color=white&label=Languages)
 ![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License)
-![](https://img.shields.io/badge/Minimum%20SDK-23%20(Marshmallow)-red?logo=android&logoColor=white)
-![](https://img.shields.io/badge/Target%20SDK-33%20(Android%2013)-red?logo=android&logoColor=white)
+![](https://img.shields.io/badge/Minimum%20SDK-23%20(Marshmallow)-839192?logo=android&logoColor=white)
+![](https://img.shields.io/badge/Target%20SDK-33%20(Android%2013)-566573?logo=android&logoColor=white)
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
 [![Telegram Group](https://img.shields.io/badge/Telegram%20Group-blue?logo=telegram)](https://t.me/inure_app_manager)
 
