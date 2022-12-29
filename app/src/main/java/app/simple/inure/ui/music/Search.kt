@@ -108,9 +108,9 @@ class Search : KeyboardScopedFragment() {
 
     private fun clearButtonState() {
         if (searchBox.text.isNullOrEmpty()) {
-            clear.gone(animate = false)
+            clear.gone(animate = true)
         } else {
-            clear.visible(animate = false)
+            clear.visible(animate = true)
         }
     }
 

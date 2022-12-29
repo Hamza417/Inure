@@ -11,7 +11,7 @@ import java.util.*
  */
 object MainPreferences {
 
-    private const val MAX_TRIAL_DAYS = 15 // 16 days, lol!!
+    private const val MAX_TRIAL_DAYS = 15
 
     private const val launchCount = "main_app_launch_count"
     private const val dayNightMode = "is_day_night_mode"
