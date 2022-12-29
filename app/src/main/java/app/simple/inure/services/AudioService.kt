@@ -65,12 +65,13 @@ class AudioService : Service(),
     private val notificationId = 54786214
 
     private var wasPlaying = false
+    private var hasReleased = false
 
     var metaData: AudioMetaData? = null
 
     var audioUri: Uri? = null
         set(value) {
-            if (field.isNull() || field != value) {
+            if (hasReleased || field.isNull() || field != value) {
                 field = value
                 audioPlayer(value!!)
             } else if (field == value) {
@@ -305,12 +306,12 @@ class AudioService : Service(),
                 // .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
                 .build()
 
-            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaData, applicationContext)
             setupMediaSession()
+            mediaSessionCompat?.setMetadata(mediaMetadataCompat)
             createNotificationChannel()
             showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
-            mediaSessionCompat?.setMetadata(mediaMetadataCompat)
             setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaData, applicationContext)
         }.getOrElse {
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaError, applicationContext, it.stackTraceToString())
         }
@@ -566,6 +567,7 @@ class AudioService : Service(),
         mediaPlayer.stop()
         mediaPlayer.reset()
         mediaPlayer.release()
+        hasReleased = true
         removeAudioFocus()
         unregisterReceiver(becomingNoisyReceiver)
         app.simple.inure.preferences.SharedPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
