@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.SDKHelper
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
@@ -18,32 +17,23 @@ import kotlinx.coroutines.launch
 
 class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
-    private var minimumOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> = MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
-            }
-
-            return field
+    private val minimumOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
+            loadPackageData()
         }
+    }
 
-    private var targetOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> = MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
-            }
-
-            return field
+    private val targetOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
+            loadPackageData()
         }
+    }
 
-    private var installLocationData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> = MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
-            }
-
-            return field
+    private val installLocationData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
+            loadPackageData()
         }
+    }
 
     fun getMinimumOsData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
         return minimumOsData

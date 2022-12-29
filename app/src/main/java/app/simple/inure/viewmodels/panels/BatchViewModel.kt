@@ -14,7 +14,6 @@ import app.simple.inure.models.BatchModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatchPreferences
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,14 +23,11 @@ class BatchViewModel(application: Application) : PackageUtilsViewModel(applicati
 
     private var batchDatabase: BatchDatabase? = null
 
-    private var batchData: MutableLiveData<ArrayList<BatchPackageInfo>> = MutableLiveData<ArrayList<BatchPackageInfo>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<ArrayList<BatchPackageInfo>>()
-            }
-
-            return field
+    private val batchData: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
+        MutableLiveData<ArrayList<BatchPackageInfo>>().also {
+            loadPackageData()
         }
+    }
 
     private val selectedApps: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
         MutableLiveData<ArrayList<BatchPackageInfo>>().also {

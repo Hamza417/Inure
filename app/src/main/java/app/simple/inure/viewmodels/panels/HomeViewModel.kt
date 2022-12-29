@@ -20,7 +20,6 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,50 +29,41 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     init {
         registerSharedPreferenceChangeListener()
-        loadUninstalledApps()
     }
 
     private val oneMonth = 2592000000 // 30 days
 
-    private var recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<ArrayList<PackageInfo>>()
-            }
-            return field
+    private val recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            loadPackageData()
         }
+    }
 
-    private var recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<ArrayList<PackageInfo>>()
-            }
-            return field
+    private val recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            loadPackageData()
         }
+    }
 
-    private var mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> = MutableLiveData<ArrayList<PackageStats>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<ArrayList<PackageStats>>()
-            }
-            return field
+    private val mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> by lazy {
+        MutableLiveData<ArrayList<PackageStats>>().also {
+            loadPackageData()
         }
+    }
 
-    private var uninstalled: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<ArrayList<PackageInfo>>()
+    private val uninstalled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            viewModelScope.launch(Dispatchers.IO) {
+                loadUninstalledApps()
             }
-            return field
         }
+    }
 
-    private var disabled: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<ArrayList<PackageInfo>>()
-            }
-            return field
+    private val disabled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            loadPackageData()
         }
+    }
 
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
         MutableLiveData<List<Pair<Int, Int>>>().also {
@@ -107,28 +97,23 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: started")
             val apps = getInstalledApps().stream()
                 .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
-
-            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: finished")
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
 
-            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: finished 2")
-
             apps.sortByDescending {
                 it.firstInstallTime
             }
 
-            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: finished 3")
-
-            recentlyInstalledAppData.postValue(apps)
-
-            Log.d("HomeViewModel", "loadRecentlyInstalledAppData: finished 4")
+            if (recentlyInstalledAppData.hasActiveObservers()) {
+                recentlyInstalledAppData.postValue(apps)
+            } else {
+                Log.d("HomeViewModel", "No observers")
+            }
         }
     }
 

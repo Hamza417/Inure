@@ -11,7 +11,6 @@ import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.job
@@ -27,23 +26,17 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         }
     }
 
-    private var searchData: MutableLiveData<ArrayList<PackageInfo>> = MutableLiveData<ArrayList<PackageInfo>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<ArrayList<PackageInfo>>()
-            }
-
-            return field
+    private val searchData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            loadPackageData()
         }
+    }
 
-    private var deepSearchData: MutableLiveData<ArrayList<SearchModel>> = MutableLiveData<ArrayList<SearchModel>>()
-        get() {
-            if (field.isNull()) {
-                field = MutableLiveData<ArrayList<SearchModel>>()
-            }
-
-            return field
+    private val deepSearchData: MutableLiveData<ArrayList<SearchModel>> by lazy {
+        MutableLiveData<ArrayList<SearchModel>>().also {
+            loadPackageData()
         }
+    }
 
     fun getSearchKeywords(): LiveData<String> {
         return searchKeywords

@@ -13,6 +13,7 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.util.ArrayUtils
 import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ArrayUtils.toArrayList
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,11 +23,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            loadPackageData() // TODO - bug here
-        }
-    }
+    private var areAppsLoadingStarted = false
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
         if (apps.isNotNull() && apps.isNotEmpty()) {
@@ -44,11 +41,17 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         return uninstalledApps.clone() as ArrayList<PackageInfo>
     }
 
-    private fun loadPackageData() {
-        if (apps.isEmpty()) {
-            apps = loadInstalledApps().clone()
+    protected fun loadPackageData() {
+        if (areAppsLoadingStarted.invert()) {
+            areAppsLoadingStarted = true
+
+            viewModelScope.launch(Dispatchers.IO) {
+                if (apps.isEmpty()) {
+                    apps = loadInstalledApps().clone()
+                }
+                onAppsLoaded(apps.toArrayList())
+            }
         }
-        onAppsLoaded(apps.toArrayList())
     }
 
     protected fun loadInstalledApps(): MutableList<PackageInfo> {
