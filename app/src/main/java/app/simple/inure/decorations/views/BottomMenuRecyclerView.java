@@ -58,13 +58,15 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
         post(() -> {
             ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
-        
+    
             layoutParams.topMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.leftMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.rightMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
-        
+    
             containerHeight = getHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
+    
+            setLayoutParams(layoutParams);
         });
     }
     
