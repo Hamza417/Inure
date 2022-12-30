@@ -85,28 +85,28 @@ That's all.
 
 ### High priority features
 
-- [x] Apps Backup feature
-- [x] Dedicated app installer
-- [x] External APK information
-- [x] Proper analytics panel
-- [x] App directories panel
-- [ ] APK browser for apps that are not yet installed
-- [ ] Modify Shared Prefs of other apps (root).
-- [ ] Modify SQLite databases of other apps (root).
-- [ ] Multiple user support (suspended).
-- [ ] Use app via ADB Shell instead of root? (suspended)
-- [x] Add battery optimisation manager for all apps
-- [x] Boot manager for all apps
-- [ ] Quick Apps Sync from different devices
-- [ ] Options to modify state of trackers of any app
+- [x] Apps Backup feature.
+- [x] Dedicated app installer.
+- [x] External APK information.
+- [x] Proper analytics panel.
+- [x] App directories panel.
+- [ ] APK browser for apps that are not yet installed.
+- [ ] Modify Shared Prefs of other apps _(root)_.
+- [ ] Modify SQLite databases of other apps _(root)_.
+- [ ] Multiple user support _(suspended)_.
+- [ ] Use app via ADB Shell instead of root? _(suspended)_.
+- [x] Add battery optimisation manager for all apps.
+- [x] Boot manager for all apps.
+- [ ] Quick Apps Sync from different devices.
+- [ ] Options to modify state of trackers of any app.
 
 
 ### Low priority features
 
-- [ ] Code highlights for all languages an Android app possibly contains
-- [x] Dedicated TextEditor
-- [x] ImageViewer scalable zoom support
-- [ ] APK data extraction
+- [ ] Code highlights for all languages an Android app possibly contains.
+- [x] Dedicated TextEditor.
+- [x] ImageViewer scalable zoom support.
+- [ ] APK data extraction.
 
 *This list will be updated as the development progresses.*
 
