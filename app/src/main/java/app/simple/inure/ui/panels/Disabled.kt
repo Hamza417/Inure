@@ -10,6 +10,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterDisabled
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -57,7 +58,7 @@ class Disabled : ScopedFragment() {
                 }
             })
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(arrayListOf(R.drawable.ic_settings, -1, R.drawable.ic_search), recyclerView) { id, _ ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getGenericBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "prefs_screen")

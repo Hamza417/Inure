@@ -618,4 +618,17 @@
     <string name="invalid_apk_file">Invalid APK file.</string>
     <string name="unlocker_not_installed">Failed to detect the Unlocker package.</string>
     <string name="full_version_deactivated">Full version deactivated</string>
+    <string name="sort">sort</string>
+    <string name="filter">Filter</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="play">Play</string>
+    <string name="checklist">Checklist</string>
+    <string name="bold">Bold</string>
+    <string name="italic">Italic</string>
+    <string name="underline">Underline</string>
+    <string name="strikethrough">Strikethrough</string>
+    <string name="subscript">Subscript</string>
+    <string name="superscript">Superscript</string>
+    <string name="highlight">Highlight</string>
+    <string name="info">Info</string>
 </resources>

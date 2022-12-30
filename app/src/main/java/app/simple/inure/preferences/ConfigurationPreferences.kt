@@ -1,14 +1,13 @@
 package app.simple.inure.preferences
 
-import org.jetbrains.annotations.NotNull
-
 object ConfigurationPreferences {
 
     private const val keepScreenOn = "keep_screen_on"
+    private const val bottomMenuContext = "bottom_menu_context"
     const val isUsingRoot = "is_using_root"
     const val language = "language_of_app"
 
-    fun setKeepScreenOn(@NotNull value: Boolean) {
+    fun setKeepScreenOn(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(keepScreenOn, value).apply()
     }
 
@@ -18,7 +17,7 @@ object ConfigurationPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setUsingRoot(@NotNull value: Boolean) {
+    fun setUsingRoot(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(isUsingRoot, value).apply()
     }
 
@@ -28,11 +27,21 @@ object ConfigurationPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppLanguage(@NotNull value: String) {
+    fun setAppLanguage(value: String) {
         SharedPreferences.getSharedPreferences().edit().putString(language, value).apply()
     }
 
     fun getAppLanguage(): String? {
         return SharedPreferences.getSharedPreferences().getString(language, "default")
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setBottomMenuContext(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(bottomMenuContext, value).apply()
+    }
+
+    fun isBottomMenuContext(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(bottomMenuContext, true)
     }
 }

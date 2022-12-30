@@ -15,6 +15,7 @@ import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
+import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.menus.AppsMenu
@@ -27,7 +28,6 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.batch.PopupBatchAppsCategory
 import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
-import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.viewmodels.panels.BatchViewModel
@@ -135,7 +135,7 @@ class Batch : ScopedFragment() {
         }
     }
 
-    private fun getBatchMenuItems(): ArrayList<Int> {
+    private fun getBatchMenuItems(): ArrayList<Pair<Int, Int>> {
         for (batch in adapterBatch?.getCurrentAppsList()!!) {
             if (batch.isSelected) {
                 return BottomMenuConstants.getBatchMenu()

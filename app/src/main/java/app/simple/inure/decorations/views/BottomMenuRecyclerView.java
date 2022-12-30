@@ -17,6 +17,7 @@ import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView;
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks;
 import app.simple.inure.util.ViewUtils;
+import kotlin.Pair;
 import kotlin.ranges.RangesKt;
 
 public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
@@ -44,28 +45,28 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         setClipChildren(true);
     }
     
-    public void initBottomMenu(ArrayList <Integer> bottomMenuItems, BottomMenuCallbacks bottomMenuCallbacks) {
+    public void initBottomMenu(ArrayList <Pair <Integer, Integer>> bottomMenuItems, BottomMenuCallbacks bottomMenuCallbacks) {
         AdapterBottomMenu adapterBottomMenu = new AdapterBottomMenu(bottomMenuItems);
         adapterBottomMenu.setBottomMenuCallbacks(bottomMenuCallbacks);
-    
+        
         if (getAdapter() == null) {
             setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_animation_controller));
         } else {
             setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_pop_in_animation_controller));
         }
-    
+        
         setAdapter(adapterBottomMenu);
-    
+        
         post(() -> {
             ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
-    
+            
             layoutParams.topMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.leftMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.rightMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
-    
+            
             containerHeight = getHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
-    
+            
             setLayoutParams(layoutParams);
         });
     }
@@ -86,9 +87,9 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         return (AdapterBottomMenu) super.getAdapter();
     }
     
-    public void initBottomMenuWithRecyclerView(ArrayList <Integer> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
+    public void initBottomMenuWithRecyclerView(ArrayList <Pair <Integer, Integer>> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
         initBottomMenu(bottomMenuItems, bottomMenuCallbacks);
-    
+        
         /*
          * Rather than clearing all scroll listeners at once, which will break other
          * features of the app such as Fast Scroller, we will use a boolean to check
@@ -96,7 +97,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
          * be valid till the lifecycle of the BottomMenuRecyclerView.
          */
         // recyclerView.clearOnScrollListeners();
-    
+        
         if (recyclerView != null) {
             if (recyclerView.getAdapter() != null) {
                 if (recyclerView.getAdapter().getItemCount() > 10) {
@@ -108,7 +109,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                                 setTranslationY(dy);
                             }
                         });
-                    
+    
                         isScrollListenerAdded = true;
                     }
                 }
@@ -116,7 +117,8 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         }
     }
     
-    public void updateBottomMenu(ArrayList <Integer> bottomMenuItems) {
+    @SuppressWarnings ("unused")
+    public void updateBottomMenu(ArrayList <Pair <Integer, Integer>> bottomMenuItems) {
         getMenuAdapter().updateMenu(bottomMenuItems);
         requestLayout();
     }
