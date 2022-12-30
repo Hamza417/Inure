@@ -100,7 +100,7 @@ class StackTraces : ScopedFragment() {
                     R.drawable.ic_search -> {
                         openFragmentSlide(Search.newInstance(firstLaunch = true), "search_screen")
                     }
-                    R.drawable.ic_delete -> {
+                    R.drawable.ic_clear_all -> {
                         childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                             override fun onSure() {
                                 stackTraceViewModel.deleteAllStackTraces()
