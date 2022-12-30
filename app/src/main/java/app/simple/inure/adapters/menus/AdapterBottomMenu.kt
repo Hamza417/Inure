@@ -11,13 +11,13 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks
-import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) : RecyclerView.Adapter<HorizontalListViewHolder>() {
 
     private var bottomMenuCallbacks: BottomMenuCallbacks? = null
-    private val isBottomMenuContext = ConfigurationPreferences.isBottomMenuContext()
+    private val isBottomMenuContext = AccessibilityPreferences.isBottomMenuContext()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalListViewHolder {
         return when (viewType) {

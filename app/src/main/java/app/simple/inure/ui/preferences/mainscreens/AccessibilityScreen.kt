@@ -19,6 +19,7 @@ class AccessibilityScreen : ScopedFragment() {
     private lateinit var stroke: SwitchView
     private lateinit var divider: SwitchView
     private lateinit var reduceAnimations: SwitchView
+    private lateinit var enableContexts: SwitchView
 
     private lateinit var strokeContainer: ConstraintLayout
     private lateinit var reduceAnimationsDesc: TypeFaceTextView
@@ -30,6 +31,7 @@ class AccessibilityScreen : ScopedFragment() {
         stroke = view.findViewById(R.id.highlight_stroke_switch)
         divider = view.findViewById(R.id.list_divider_switch)
         reduceAnimations = view.findViewById(R.id.reduce_animation_switch)
+        enableContexts = view.findViewById(R.id.enable_context_switch)
 
         strokeContainer = view.findViewById(R.id.stroke_container)
         reduceAnimationsDesc = view.findViewById(R.id.reduce_animation_desc)
@@ -47,6 +49,7 @@ class AccessibilityScreen : ScopedFragment() {
         stroke.setChecked(AccessibilityPreferences.isHighlightStroke())
         divider.setChecked(AccessibilityPreferences.isDividerEnabled())
         reduceAnimations.setChecked(AccessibilityPreferences.isAnimationReduced())
+        enableContexts.setChecked(AccessibilityPreferences.isBottomMenuContext())
 
         if (highlight.isChecked()) {
             strokeContainer.alpha = 1F
@@ -84,6 +87,10 @@ class AccessibilityScreen : ScopedFragment() {
 
         reduceAnimations.setOnSwitchCheckedChangeListener {
             AccessibilityPreferences.setReduceAnimations(it)
+        }
+
+        enableContexts.setOnSwitchCheckedChangeListener {
+            AccessibilityPreferences.setBottomMenuContext(it)
         }
 
         reduceAnimationsDesc.makeLinks(Pair(getString(R.string.behaviour), object : View.OnClickListener {

@@ -621,7 +621,7 @@
                         android:drawablePadding="10dp"
                         android:gravity="center_vertical"
                         android:padding="@dimen/dialog_padding"
-                        android:textSize="5pt"
+                        android:textSize="@dimen/info_text_small"
                         app:appFontStyle="regular"
                         app:drawableTintStyle="accent"
                         app:layout_constraintBottom_toBottomOf="parent"

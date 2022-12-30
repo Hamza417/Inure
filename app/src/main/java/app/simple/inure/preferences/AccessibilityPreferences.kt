@@ -6,6 +6,7 @@ object AccessibilityPreferences {
     private const val isHighlightStroke = "is_highlight_stroke_enabled"
     private const val isDividerEnabled = "is_divider_enabled"
     private const val reduceAnimations = "reduce_animations"
+    private const val bottomMenuContext = "bottom_menu_context"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -45,5 +46,15 @@ object AccessibilityPreferences {
 
     fun isAnimationReduced(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(reduceAnimations, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setBottomMenuContext(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(bottomMenuContext, value).apply()
+    }
+
+    fun isBottomMenuContext(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(bottomMenuContext, false)
     }
 }
