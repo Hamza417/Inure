@@ -596,7 +596,7 @@
     <string name="open">開啟</string>
     <string name="this_app_doesnt_require_any_permissions">這個應用程式不需要任何權限。</string>
     <string name="generate_apps_list">產生應用程式清單</string>
-    <string name="generate_apps_list_desc">在產生應用程式資料前，請務必在主要清單中選取適當的過濾器。</string>
+    <string name="generate_apps_list_desc">在產生應用程式資料前，請務必在主要清單中選取適當的篩選器。</string>
     <string name="battery_optimization">電池效能最佳化</string>
     <string name="optimized">已最佳化</string>
     <string name="not_optimized">未最佳化</string>
@@ -619,4 +619,20 @@
     <string name="invalid_apk_file">無效的 APK 檔案。</string>
     <string name="unlocker_not_installed">無法偵測到解鎖器套件。</string>
     <string name="full_version_deactivated">完整版已停用</string>
+    <string name="sort">排序</string>
+    <string name="filter">篩選器</string>
+    <string name="shuffle">隨機</string>
+    <string name="play">播放</string>
+    <string name="checklist">檢查清單</string>
+    <string name="bold">粗體</string>
+    <string name="italic">鞋底</string>
+    <string name="underline">底線</string>
+    <string name="strikethrough">刪除線</string>
+    <string name="subscript">下標</string>
+    <string name="superscript">上標</string>
+    <string name="highlight">標示</string>
+    <string name="info">資訊</string>
+    <string name="menus">選單</string>
+    <string name="contexts_in_bottom_menu">底部選單內容</string>
+    <string name="bottom_menu_context_desc">在底部選單圖示下方新增標籤，使其功能與內容更加清楚</string>
 </resources>
