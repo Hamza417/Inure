@@ -634,4 +634,5 @@
     <string name="menus">Menus</string>
     <string name="contexts_in_bottom_menu">Contexts in Bottom Menu</string>
     <string name="bottom_menu_context_desc">Add labels below the bottom menu icons to make their function and context clear.</string>
+    <string name="clear">Clear</string>
 </resources>

@@ -43,7 +43,7 @@ object BottomMenuConstants {
     )
 
     private val stackTracesBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
-            Pair(R.drawable.ic_filter, R.string.filter),
+            Pair(R.drawable.ic_delete, R.string.clear),
             divider,
             Pair(R.drawable.ic_settings, R.string.preferences),
             divider,
