@@ -43,7 +43,7 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
-                android:textSize="5pt"
+                android:textSize="@dimen/desc_text_size"
                 app:appFontStyle="regular"
                 app:drawableTintMode="src_in"
                 app:drawableTintStyle="accent"

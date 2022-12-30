@@ -41,7 +41,7 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
-                android:textSize="5pt"
+                android:textSize="@dimen/desc_text_size"
                 app:appFontStyle="regular"
                 app:drawableTint="?attr/colorAppAccent"
                 app:drawableTintMode="src_in"
@@ -75,7 +75,7 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
-                android:textSize="5pt"
+                android:textSize="@dimen/desc_text_size"
                 app:appFontStyle="regular"
                 app:drawableTint="?attr/colorAppAccent"
                 app:textColorStyle="tertiary" />
