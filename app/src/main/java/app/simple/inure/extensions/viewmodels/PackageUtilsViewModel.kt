@@ -31,7 +31,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             return apps.clone() as ArrayList<PackageInfo>
         } else {
             Log.d("PackageUtilsViewModel", "getInstalledApps: apps is null or empty, reloading")
-            loadPackageData()
+            apps = loadInstalledApps() as ArrayList<PackageInfo>
             return getInstalledApps()
         }
     }

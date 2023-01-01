@@ -7,7 +7,6 @@ import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -102,18 +101,15 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {
-                apps[i].applicationInfo.name = PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                apps[i].applicationInfo.name = PackageUtils.getApplicationName(
+                        getApplication<Application>().applicationContext, apps[i].applicationInfo)
             }
 
             apps.sortByDescending {
                 it.firstInstallTime
             }
 
-            if (recentlyInstalledAppData.hasActiveObservers()) {
-                recentlyInstalledAppData.postValue(apps)
-            } else {
-                Log.d("HomeViewModel", "No observers")
-            }
+            recentlyInstalledAppData.postValue(apps)
         }
     }
 
