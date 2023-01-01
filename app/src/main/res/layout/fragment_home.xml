@@ -99,7 +99,6 @@
             android:animateLayoutChanges="true"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/popup_padding"
             app:layout_behavior="@string/over_scroll_behavior">
 
             <LinearLayout
@@ -126,8 +125,7 @@
                     android:clipToPadding="false"
                     android:layoutAnimation="@anim/horizontal_list_controller"
                     android:nestedScrollingEnabled="false"
-                    android:paddingHorizontal="@dimen/dialog_padding"
-                    android:paddingVertical="@dimen/popup_padding"
+                    android:padding="@dimen/popup_padding"
                     android:visibility="gone"
                     app:statusBarPaddingRequired="false" />
 
