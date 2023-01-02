@@ -1,7 +1,6 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +9,9 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.isSystemApp
+import app.simple.inure.apk.utils.PackageUtils.isUpdateInstalled
+import app.simple.inure.apk.utils.PackageUtils.isUserApp
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ConditionUtils.invert
@@ -66,6 +68,12 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 if (isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
 
+                    if (packageInfo.isSystemApp()) {
+                        if (packageInfo.isUpdateInstalled()) {
+                            list.add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
+                        }
+                    }
+
                     if (packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
                         list.add(Pair(R.drawable.ic_disable, R.string.disable))
                     } else {
@@ -79,7 +87,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
                 list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
             } else {
-                if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
+                if (packageInfo.isUserApp()) {
                     if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {
                         list.add(Pair(R.drawable.ic_launch, R.string.launch))
                     }
@@ -93,7 +101,14 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                     if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName)) {
                         list.add(Pair(R.drawable.ic_launch, R.string.launch))
                     }
+
                     list.add(Pair(R.drawable.ic_send, R.string.send))
+
+                    if (isNotThisApp()) {
+                        if (packageInfo.isUpdateInstalled()) {
+                            list.add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
+                        }
+                    }
                 }
 
                 list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
@@ -101,6 +116,8 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
             if (isNotThisApp().invert()) {
                 list.add(Pair(R.drawable.ic_change_history, R.string.change_logs))
+                list.add(Pair(R.drawable.ic_credits, R.string.credits))
+                list.add(Pair(R.drawable.ic_translate, R.string.translate))
             }
 
             menuOptions.postValue(list)

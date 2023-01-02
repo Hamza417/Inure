@@ -283,6 +283,12 @@ class AppInfo : ScopedFragment() {
                         R.string.change_logs -> {
                             openFragmentSlide(WebPage.newInstance(getString(R.string.change_logs)), "change_logs")
                         }
+                        R.string.credits -> {
+                            openFragmentSlide(WebPage.newInstance(getString(R.string.credits)), "credits")
+                        }
+                        R.string.translate -> {
+                            openFragmentSlide(WebPage.newInstance(getString(R.string.translate)), "translate")
+                        }
                     }
                 }
             })

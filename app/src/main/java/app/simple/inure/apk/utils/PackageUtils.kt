@@ -10,6 +10,7 @@ import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
 import android.os.RemoteException
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
@@ -151,6 +152,41 @@ object PackageUtils {
         } catch (e: NullPointerException) {
             context.getString(R.string.unknown)
         }
+    }
+
+    /**
+     * Check if app is a system app
+     */
+    fun PackageInfo.isSystemApp(): Boolean {
+        return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+    }
+
+    /**
+     * Check if app is a user app
+     */
+    fun PackageInfo.isUserApp(): Boolean {
+        return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+    }
+
+    /**
+     * Check if an update is installed for a system app
+     */
+    fun PackageInfo.isUpdateInstalled(): Boolean {
+        return applicationInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP != 0
+    }
+
+    /**
+     * Clear cache of installed app using Android APIs
+     */
+    fun Context.clearCache(packageName: String) {
+        val ai = packageManager.getApplicationInfo(packageName)
+        val method = Class.forName("android.content.pm.PackageManager")
+            .getMethod("freeStorageAndNotify", Long::class.javaPrimitiveType, IPackageDataObserver::class.java)
+        method.invoke(packageManager, Long.MAX_VALUE, object : IPackageDataObserver.Stub() {
+            override fun onRemoveCompleted(packageName: String?, succeeded: Boolean) {
+                Log.d("PackageUtils", "Cache cleared for $packageName")
+            }
+        })
     }
 
     /**
