@@ -635,4 +635,5 @@
     <string name="menus">選單</string>
     <string name="contexts_in_bottom_menu">底部選單內容</string>
     <string name="bottom_menu_context_desc">在底部選單圖示下方新增標籤，使其功能與內容更加清楚</string>
+    <string name="clear">清除</string>
 </resources>
