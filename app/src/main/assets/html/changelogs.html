@@ -26,6 +26,21 @@
     </li>
     <li>Added option to uninstall only updates for system apps for both root and non-root modes.
     </li>
+    <li>Added back the option <i>Clear Caches</i> to clear any app's cache data.
+        <br>
+        <small>
+            Android's default SDK limits on how much control an can get over some system-level
+            functions such as clearing an app's cache data. This is why this option was disabled
+            earlier. I tried to add it back and implemented the interface to do that without root.
+            However, the permission <i>CLEAR_APP_CACHE</i> won't be granted to Inure unless it's
+            installed as a system app. So, this option is only available for root users and for
+            users who has installed Inure as a system app.
+            <br>
+            <br>
+            In case you want to use this feature without root, you can install Inure as a system
+            app or request your rom maintainer to add Inure into the build of the rom.
+        </small>
+    </li>
 </ul>
 
 <h4>Bug Fixes</h4>
