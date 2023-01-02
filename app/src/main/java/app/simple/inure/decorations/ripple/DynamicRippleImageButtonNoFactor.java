@@ -12,16 +12,23 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.dynamicanimation.animation.SpringForce;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
+import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.theme.ThemeButton;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 
 public class DynamicRippleImageButtonNoFactor extends ThemeButton {
+    
+    private SpringAnimation springAnimationX;
+    private SpringAnimation springAnimationY;
     
     public DynamicRippleImageButtonNoFactor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -93,6 +100,64 @@ public class DynamicRippleImageButtonNoFactor extends ThemeButton {
     }
     
     @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        // Animate the view on mouse hover
+        if (!AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
+            if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.hoverAnimation)) {
+                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
+                    if (springAnimationX != null) {
+                        springAnimationX.cancel();
+                    }
+                    
+                    if (springAnimationY != null) {
+                        springAnimationY.cancel();
+                    }
+                    
+                    springAnimationX = new SpringAnimation(this, SpringAnimation.SCALE_X)
+                            .setStartValue(getScaleX())
+                            .setSpring(new SpringForce(Misc.hoverAnimationScaleOnHover)
+                                    .setDampingRatio(Misc.hoverAnimationDampingRatio)
+                                    .setStiffness(Misc.hoverAnimationStiffness));
+                    
+                    springAnimationY = new SpringAnimation(this, SpringAnimation.SCALE_Y)
+                            .setStartValue(getScaleY())
+                            .setSpring(new SpringForce(Misc.hoverAnimationScaleOnHover)
+                                    .setDampingRatio(Misc.hoverAnimationDampingRatio)
+                                    .setStiffness(Misc.hoverAnimationStiffness));
+                    
+                    springAnimationX.start();
+                    springAnimationY.start();
+                } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
+                    if (springAnimationX != null) {
+                        springAnimationX.cancel();
+                    }
+                    
+                    if (springAnimationY != null) {
+                        springAnimationY.cancel();
+                    }
+                    
+                    springAnimationX = new SpringAnimation(this, SpringAnimation.SCALE_X)
+                            .setStartValue(getScaleX())
+                            .setSpring(new SpringForce(Misc.hoverAnimationScaleOnUnHover)
+                                    .setDampingRatio(Misc.hoverAnimationDampingRatio)
+                                    .setStiffness(Misc.hoverAnimationStiffness));
+                    
+                    springAnimationY = new SpringAnimation(this, SpringAnimation.SCALE_Y)
+                            .setStartValue(getScaleY())
+                            .setSpring(new SpringForce(Misc.hoverAnimationScaleOnUnHover)
+                                    .setDampingRatio(Misc.hoverAnimationDampingRatio)
+                                    .setStiffness(Misc.hoverAnimationStiffness));
+                    
+                    springAnimationX.start();
+                    springAnimationY.start();
+                }
+            }
+        }
+        
+        return super.onGenericMotionEvent(event);
+    }
+    
+    @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         if (isClickable()) {
             setHighlightBackgroundColor();
@@ -113,6 +178,21 @@ public class DynamicRippleImageButtonNoFactor extends ThemeButton {
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Objects.equals(key, AppearancePreferences.accentColor)) {
             setHighlightBackgroundColor();
+        }
+    }
+    
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        clearAnimation();
+        if (springAnimationX != null) {
+            springAnimationX.cancel();
+            setScaleX(1.0f);
+        }
+        
+        if (springAnimationY != null) {
+            springAnimationY.cancel();
+            setScaleY(1.0f);
         }
     }
 }

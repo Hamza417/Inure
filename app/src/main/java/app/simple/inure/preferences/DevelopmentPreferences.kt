@@ -10,6 +10,7 @@ object DevelopmentPreferences {
     const val music = "is_music_enabled"
     const val imageCaching = "is_image_caching_enabled"
     const val debugMessages = "is_debug_messages_enabled"
+    const val hoverAnimation = "is_hover_animation_enabled"
 
     val developmentPreferences = listOf(
             DevelopmentPreferencesModel("Use WebView for XML Preview",
@@ -40,6 +41,11 @@ object DevelopmentPreferences {
             DevelopmentPreferencesModel("Enable Debug Messages",
                                         "Enable debug messages in the app to help with debugging and finding bugs.",
                                         debugMessages,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Enable Hover Animation",
+                                        "Enable scale animation on hover on all views in the app.",
+                                        hoverAnimation,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN)
     )
 
