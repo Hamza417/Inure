@@ -164,7 +164,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
             while (i < sign!!.size) {
                 if (signB!![i]) {
                     if (!statsMsg.contains(names!![i])) {
-                        statsMsg += "*${names!![i]}".trimIndent()
+                        statsMsg += "\n*${names!![i]}"
                     }
 
                     statsMsg += "${signStat!![i]}${sign!![i]}".trimIndent()
@@ -173,7 +173,9 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
             }
         }
 
-        message.append("$i tested signatures on $classTotals classes ($totalTT)")
+        message.append(applicationContext().getString(R.string.trackers_message, i, classTotals))
+        message.append("\n")
+        message.append(applicationContext().getString(R.string.total, totalTT))
         message.append("\n\n")
         message.append(msg)
         message.append("\n")

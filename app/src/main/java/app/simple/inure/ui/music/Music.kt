@@ -37,6 +37,7 @@ class Music : KeyboardScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
+        fullVersionCheck()
 
         musicViewModel.getSongs().observe(viewLifecycleOwner) {
             adapterMusic = AdapterMusic(it, headerMode = true)

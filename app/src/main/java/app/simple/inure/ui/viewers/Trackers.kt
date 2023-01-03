@@ -90,7 +90,7 @@ class Trackers : SearchBarScopedFragment() {
                     }
                 }
             } else {
-                showWarning(R.string.no_tracker_found, goBack = false)
+                showWarning(R.string.no_tracker_found, goBack = true)
             }
         }
 

@@ -301,13 +301,15 @@ public class Term extends BaseActivity implements UpdateCallback,
         super.onCreate(bundle);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         getWindow().setStatusBarColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
-        
+    
+        fullVersionCheck();
+    
         mPrivateAlias = new ComponentName(this, RemoteInterface.PRIVACT_ACTIVITY_ALIAS);
-        
+    
         if (bundle == null) {
             onNewIntent(getIntent());
         }
-        
+    
         final SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mSettings = new TermSettings(getResources(), mPrefs);
         mPrefs.registerOnSharedPreferenceChangeListener(this);

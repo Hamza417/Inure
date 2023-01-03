@@ -25,6 +25,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
+import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
@@ -299,6 +300,17 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             if (goBack) {
                 onBackPressedDispatcher.onBackPressed()
             }
+        }
+    }
+
+    open fun fullVersionCheck(): Boolean {
+        return if (MainPreferences.isAppFullVersionEnabled()) {
+            true
+        } else {
+            supportFragmentManager.showFullVersion().setFullVersionCallbacks {
+                onBackPressedDispatcher.onBackPressed()
+            }
+            false
         }
     }
 
