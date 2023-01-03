@@ -1,5 +1,6 @@
 package app.simple.inure.preferences
 
+import app.simple.inure.BuildConfig
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.CalendarUtils
@@ -19,6 +20,7 @@ object MainPreferences {
     private const val firstLaunchDate = "first_launch_date"
     private const val isAppFullVersionEnabled = "is_full_version_enabled"
     private const val unlockerWarningCount = "unlocker_warning_count"
+    private const val changeLogReminder = "change_log_reminder"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
@@ -141,5 +143,19 @@ object MainPreferences {
     fun getDaysLeft(): Int {
         return (MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()))
             .coerceAtLeast(0)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setChangeLogReminder(value: Int) {
+        getSharedPreferences().edit().putInt(changeLogReminder, value).apply()
+    }
+
+    private fun getChangeLogReminder(): Int {
+        return getSharedPreferences().getInt(changeLogReminder, BuildConfig.VERSION_CODE)
+    }
+
+    fun shouldShowChangeLogReminder(): Boolean {
+        return getChangeLogReminder() < BuildConfig.VERSION_CODE
     }
 }

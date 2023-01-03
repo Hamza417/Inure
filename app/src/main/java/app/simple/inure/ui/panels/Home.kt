@@ -21,6 +21,7 @@ import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.dialogs.app.ChangesReminder
 import app.simple.inure.dialogs.app.FullVersionReminder.Companion.showFullVersionReminder
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -78,6 +79,11 @@ class Home : ScopedFragment() {
 
         if (MainPreferences.isFullVersion()) {
             purchase.gone(animate = false)
+        }
+
+        if (MainPreferences.shouldShowChangeLogReminder()) {
+            ChangesReminder.newInstance()
+                .show(childFragmentManager, "changes_reminder")
         }
 
         homeViewModel.getMenuItems().observe(viewLifecycleOwner) {

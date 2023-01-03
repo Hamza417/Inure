@@ -6,19 +6,19 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.TypedValue
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.view.WindowManager
+import android.view.*
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.R.dimen
 import app.simple.inure.constants.Misc
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 
 object ViewUtils {
     /**
@@ -274,6 +274,33 @@ object ViewUtils {
                 addOnLayoutChangeListener(onLayoutChangeListener)
             } else {
                 function(width, height)
+            }
+        }
+    }
+
+    /**
+     * Animate the view on mouse hover
+     */
+    fun View.triggerHover(event: MotionEvent) {
+        if (isClickable) {
+            if (!AccessibilityPreferences.isAnimationReduced()) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.hoverAnimation)) {
+                    if (event.action == MotionEvent.ACTION_HOVER_ENTER) {
+                        animate()
+                            .scaleX(Misc.hoverAnimationScaleOnHover)
+                            .scaleY(Misc.hoverAnimationScaleOnHover)
+                            .setDuration(Misc.hoverAnimationDuration)
+                            .setInterpolator(DecelerateInterpolator())
+                            .start()
+                    } else if (event.action == MotionEvent.ACTION_HOVER_EXIT) {
+                        animate()
+                            .scaleX(Misc.hoverAnimationScaleOnUnHover)
+                            .scaleY(Misc.hoverAnimationScaleOnUnHover)
+                            .setDuration(Misc.hoverAnimationDuration)
+                            .setInterpolator(DecelerateInterpolator())
+                            .start()
+                    }
+                }
             }
         }
     }

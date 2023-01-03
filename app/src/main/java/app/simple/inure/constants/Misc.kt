@@ -13,9 +13,9 @@ object Misc {
 
     // Hover props
     const val hoverAnimationDuration = 250L
-    const val hoverAnimationDampingRatio = SpringForce.DAMPING_RATIO_HIGH_BOUNCY
+    const val hoverAnimationDampingRatio = SpringForce.DAMPING_RATIO_NO_BOUNCY
     const val hoverAnimationStiffness = SpringForce.STIFFNESS_LOW
-    const val hoverAnimationScaleOnHover = 0.95F
+    const val hoverAnimationScaleOnHover = 0.90F
     const val hoverAnimationScaleOnUnHover = 1.0F
     const val hoverAnimationElevation = 10F
     const val hoverAnimationAlpha = 0.8F

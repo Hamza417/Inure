@@ -13,20 +13,13 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.dynamicanimation.animation.SpringAnimation;
-import androidx.dynamicanimation.animation.SpringForce;
 import app.simple.inure.R;
-import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
-import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
-import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.util.ColorUtils;
+import app.simple.inure.util.ViewUtils;
 
 public class DynamicRippleConstraintLayout extends ConstraintLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
-    
-    private SpringAnimation springAnimationX;
-    private SpringAnimation springAnimationY;
     
     public DynamicRippleConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -97,59 +90,7 @@ public class DynamicRippleConstraintLayout extends ConstraintLayout implements S
     
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-        // Animate the view on mouse hover
-        if (!AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
-            if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.hoverAnimation)) {
-                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
-                    if (springAnimationX != null) {
-                        springAnimationX.cancel();
-                    }
-                    
-                    if (springAnimationY != null) {
-                        springAnimationY.cancel();
-                    }
-                    
-                    springAnimationX = new SpringAnimation(this, SpringAnimation.SCALE_X)
-                            .setStartValue(getScaleX())
-                            .setSpring(new SpringForce(Misc.hoverAnimationScaleOnHover)
-                                    .setDampingRatio(Misc.hoverAnimationDampingRatio)
-                                    .setStiffness(Misc.hoverAnimationStiffness));
-                    
-                    springAnimationY = new SpringAnimation(this, SpringAnimation.SCALE_Y)
-                            .setStartValue(getScaleY())
-                            .setSpring(new SpringForce(Misc.hoverAnimationScaleOnHover)
-                                    .setDampingRatio(Misc.hoverAnimationDampingRatio)
-                                    .setStiffness(Misc.hoverAnimationStiffness));
-                    
-                    springAnimationX.start();
-                    springAnimationY.start();
-                } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-                    if (springAnimationX != null) {
-                        springAnimationX.cancel();
-                    }
-                    
-                    if (springAnimationY != null) {
-                        springAnimationY.cancel();
-                    }
-                    
-                    springAnimationX = new SpringAnimation(this, SpringAnimation.SCALE_X)
-                            .setStartValue(getScaleX())
-                            .setSpring(new SpringForce(Misc.hoverAnimationScaleOnUnHover)
-                                    .setDampingRatio(Misc.hoverAnimationDampingRatio)
-                                    .setStiffness(Misc.hoverAnimationStiffness));
-                    
-                    springAnimationY = new SpringAnimation(this, SpringAnimation.SCALE_Y)
-                            .setStartValue(getScaleY())
-                            .setSpring(new SpringForce(Misc.hoverAnimationScaleOnUnHover)
-                                    .setDampingRatio(Misc.hoverAnimationDampingRatio)
-                                    .setStiffness(Misc.hoverAnimationStiffness));
-                    
-                    springAnimationX.start();
-                    springAnimationY.start();
-                }
-            }
-        }
-        
+        ViewUtils.INSTANCE.triggerHover(this, event);
         return super.onGenericMotionEvent(event);
     }
     
@@ -166,16 +107,9 @@ public class DynamicRippleConstraintLayout extends ConstraintLayout implements S
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-        
-        if (springAnimationX != null) {
-            springAnimationX.cancel();
-            setScaleX(1.0f);
-        }
-        
-        if (springAnimationY != null) {
-            springAnimationY.cancel();
-            setScaleY(1.0f);
-        }
+        clearAnimation();
+        setScaleX(1);
+        setScaleY(1);
     }
     
     @Override
