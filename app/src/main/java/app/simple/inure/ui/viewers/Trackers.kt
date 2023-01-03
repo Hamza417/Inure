@@ -16,10 +16,13 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.trackers.TrackersMenu
 import app.simple.inure.dialogs.trackers.TrackersMessage
+import app.simple.inure.dialogs.trackers.TrackersMessage.Companion.showTrackersMessage
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.models.TrackersMessageModel
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.ui.subviewers.TrackerSourceViewer
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.TrackersViewModel
@@ -34,7 +37,7 @@ class Trackers : SearchBarScopedFragment() {
     private lateinit var trackersViewModel: TrackersViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
-    private var message: Pair<String, String>? = null
+    private var message: TrackersMessageModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_trackers, container, false)
@@ -62,44 +65,43 @@ class Trackers : SearchBarScopedFragment() {
 
         trackersViewModel.getClassesList().observe(viewLifecycleOwner) {
             progress.gone(true)
-            if (it.isNotEmpty() || TrackersPreferences.isFullClassesList()) {
-                val adapterTrackers = AdapterTrackers(it, trackersViewModel.keyword ?: "")
+            val adapterTrackers = AdapterTrackers(it, trackersViewModel.keyword ?: "")
 
-                adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
-                    override fun onTrackersClicked(className: String) {
-                        openFragmentSlide(TrackerSourceViewer.newInstance(className, packageInfo), "tracker_source_viewer")
-                    }
-
-                    override fun onTrackersLongClicked(className: String) {
-                        /* no-op */
-                    }
-                })
-
-                recyclerView.adapter = adapterTrackers
-
-                analytics.setOnClickListener {
-                    if (message.isNotNull()) {
-                        TrackersMessage.newInstance(message)
-                            .show(childFragmentManager, "tracker_message")
-                    }
+            adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
+                override fun onTrackersClicked(className: String) {
+                    openFragmentSlide(TrackerSourceViewer.newInstance(className, packageInfo), "tracker_source_viewer")
                 }
 
-                searchBox.doOnTextChanged { text, _, _, _ ->
-                    if (searchBox.isFocused) {
-                        trackersViewModel.keyword = text.toString().trim()
-                    }
+                override fun onTrackersLongClicked(className: String) {
+                    /* no-op */
                 }
-            } else {
-                showWarning(R.string.no_tracker_found, goBack = true)
+            })
+
+            recyclerView.adapter = adapterTrackers
+
+            analytics.setOnClickListener {
+                if (message.isNotNull()) {
+                    TrackersMessage.newInstance(message)
+                        .show(childFragmentManager, "tracker_message")
+                }
+            }
+
+            searchBox.doOnTextChanged { text, _, _, _ ->
+                if (searchBox.isFocused) {
+                    trackersViewModel.keyword = text.toString().trim()
+                }
             }
         }
 
         trackersViewModel.getMessage().observe(viewLifecycleOwner) {
             message = it
 
-            if (TrackersPreferences.isMessageShownAutomatically()) {
-                TrackersMessage.newInstance(message)
-                    .show(childFragmentManager, "tracker_message")
+            childFragmentManager.showTrackersMessage(message).setWarningCallbacks {
+                if (it.isNoTrackers) {
+                    if (TrackersPreferences.isFullClassesList().invert()) {
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                    }
+                }
             }
         }
 

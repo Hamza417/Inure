@@ -13,14 +13,12 @@ import app.simple.inure.preferences.TrackersPreferences
 class TrackersMenu : ScopedBottomSheetFragment() {
 
     private lateinit var showAllClasses: SwitchView
-    private lateinit var trackersAnalyticsSwitch: SwitchView
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_trackers_menu, container, false)
 
         showAllClasses = view.findViewById(R.id.all_classes_switch)
-        trackersAnalyticsSwitch = view.findViewById(R.id.trackers_analytics_auto_switch)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
         return view
@@ -30,14 +28,9 @@ class TrackersMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         showAllClasses.setChecked(TrackersPreferences.isFullClassesList())
-        trackersAnalyticsSwitch.setChecked(TrackersPreferences.isMessageShownAutomatically())
 
         showAllClasses.setOnSwitchCheckedChangeListener {
             TrackersPreferences.setFullClassesList(!TrackersPreferences.isFullClassesList())
-        }
-
-        trackersAnalyticsSwitch.setOnSwitchCheckedChangeListener {
-            TrackersPreferences.setAutomaticMessage(!TrackersPreferences.isMessageShownAutomatically())
         }
 
         openSettings.setOnClickListener {

@@ -35,6 +35,7 @@ object PreferencesSearchConstants {
     private const val viewers = R.string.viewers
     private const val legalNotes = R.string.legal_notes
     private const val contribute = R.string.contribute
+    private const val dexClasses = R.string.dex_classes
     private const val preferences = R.string.preferences
 
     // Panel
@@ -45,6 +46,7 @@ object PreferencesSearchConstants {
     private const val accessibility = R.string.accessibility
     private const val terminal = R.string.terminal
     private const val shell = R.string.shell
+    private const val trackers = R.string.trackers
     private const val batch = R.string.batch
     private const val development = R.string.development
     private const val about = R.string.about
@@ -117,6 +119,10 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_home, R.string.title_home_path_preference, R.string.summary_home_path_preference, popup, editor, shell),
     )
 
+    private val trackersData = arrayListOf(
+            PreferenceModel(R.drawable.ic_code, R.string.show_all_classes, R.string.show_all_classes_desc, toggleable, dexClasses, trackers),
+    )
+
     private val developmentData = arrayListOf(
             PreferenceModel(R.drawable.ic_main_app_icon_regular, R.string.setup, R.string.desc_not_available, none, none, development),
             PreferenceModel(R.drawable.ic_app_icon_preferences, R.string.preferences, R.string.desc_not_available, none, none, development),
@@ -146,6 +152,7 @@ object PreferencesSearchConstants {
                 accessibilityData +
                 terminalData +
                 shellData +
+                trackersData +
                 // developmentData +
                 aboutData
 

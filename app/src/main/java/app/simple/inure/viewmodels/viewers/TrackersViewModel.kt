@@ -12,9 +12,11 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.models.TrackersMessageModel
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.trackers.utils.PackageUtils.*
 import app.simple.inure.trackers.utils.UriUtils
+import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.IOUtils
 import dalvik.system.DexFile
 import kotlinx.coroutines.Dispatchers
@@ -55,15 +57,15 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
-    private val message: MutableLiveData<Pair<String, String>> by lazy {
-        MutableLiveData<Pair<String, String>>()
+    private val message: MutableLiveData<TrackersMessageModel> by lazy {
+        MutableLiveData<TrackersMessageModel>()
     }
 
     fun getClassesList(): LiveData<ArrayList<String>> {
         return classesListData
     }
 
-    fun getMessage(): LiveData<Pair<String, String>> {
+    fun getMessage(): LiveData<TrackersMessageModel> {
         return message
     }
 
@@ -237,9 +239,14 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         message.append("\n")
         message.append(sha256)
 
-        title = totals.toString() + " Trackers = " + classesList.size + " Classes"
+        title = applicationContext().getString(R.string.trackers_title, totals, classesList.size)
 
-        this.message.postValue(Pair(title, message.toString()))
+        with(TrackersMessageModel()) {
+            setTitle(title)
+            setMessage(message.toString())
+            isNoTrackers = classesList.size.isZero()
+            this@TrackersViewModel.message.postValue(this)
+        }
     }
 
     private fun createTrackersCacheDirectory(): File {

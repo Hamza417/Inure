@@ -96,6 +96,9 @@ class Preferences : SearchBarScopedFragment() {
                         R.string.shell -> {
                             openFragmentLinear(ShellScreen.newInstance(), imageView, "shell_prefs", duration)
                         }
+                        R.string.trackers -> {
+                            openFragmentLinear(TrackersScreen.newInstance(), imageView, "trackers_prefs", duration)
+                        }
                         R.string.accessibility -> {
                             openFragmentLinear(AccessibilityScreen.newInstance(), imageView, "accessibility_prefs", duration)
                         }

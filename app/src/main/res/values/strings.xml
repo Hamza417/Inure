@@ -513,7 +513,6 @@
     <string name="scan">Scan</string>
     <string name="show_all_classes">Show All Classes</string>
     <string name="show_all_classes_desc">Keep classes in the list that may or may not be related to tracking.</string>
-    <string name="show_trackers_analytics_automatically">Show Tracker Analytics Automatically</string>
     <string name="unpack">Unpack</string>
     <string name="menu_layout">Menu Layout</string>
     <string name="horizontal">Horizontal</string>
@@ -601,7 +600,6 @@
     <string name="not_optimized">Not Optimized</string>
     <string name="optimize">Optimize</string>
     <string name="dont_optimize">Don\'t Optimize</string>
-    <string name="no_tracker_found">No Trackers Found</string>
     <string name="full_version_activated">Full Version Activated!</string>
     <string name="failed_to_activate_full_version">Failed to activate full version!</string>
     <string name="full_version_already_activated">Full version already activated</string>
@@ -637,4 +635,5 @@
     <string name="clear">Clear</string>
     <string name="uninstall_updates">Uninstall Updates</string>
     <string name="trackers_message">%1$d Tested Signatures on %2$d Classes</string>
+    <string name="trackers_title">%1$d Trackers = %1$d Classes</string>
 </resources>
