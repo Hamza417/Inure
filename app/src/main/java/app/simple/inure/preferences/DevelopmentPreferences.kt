@@ -11,6 +11,7 @@ object DevelopmentPreferences {
     const val imageCaching = "is_image_caching_enabled"
     const val debugMessages = "is_debug_messages_enabled"
     const val hoverAnimation = "is_hover_animation_enabled"
+    const val centerBottomMenu = "is_center_bottom_menu_enabled"
 
     val developmentPreferences = listOf(
             DevelopmentPreferencesModel("Use WebView for XML Preview",
@@ -46,6 +47,11 @@ object DevelopmentPreferences {
             DevelopmentPreferencesModel("Enable Hover Animation",
                                         "Enable scale animation on hover on all views in the app.",
                                         hoverAnimation,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Center Bottom Menu",
+                                        "Center gravity for the bottom menus in the app.",
+                                        centerBottomMenu,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN)
     )
 

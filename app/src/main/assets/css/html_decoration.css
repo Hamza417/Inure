@@ -54,6 +54,10 @@ ul {
     color: rgb(32, 32, 32);
 }
 
+small {
+    color: rgb(120, 120, 120);
+}
+
 a:link {
 	color: rgb(52, 152, 219);
 	text-decoration: none;

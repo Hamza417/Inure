@@ -3,8 +3,10 @@ package app.simple.inure.decorations.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ import app.simple.inure.adapters.menus.AdapterBottomMenu;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView;
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.util.ViewUtils;
 import kotlin.Pair;
 import kotlin.ranges.RangesKt;
@@ -59,15 +62,21 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         
         post(() -> {
             ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
-            
+    
             layoutParams.topMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.leftMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.rightMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
-            
+    
             containerHeight = getHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
-            
+    
             setLayoutParams(layoutParams);
+    
+            if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.centerBottomMenu)) {
+                FrameLayout.LayoutParams layoutParams_ = ((FrameLayout.LayoutParams) getLayoutParams());
+                layoutParams_.gravity = Gravity.CENTER | Gravity.BOTTOM;
+                setLayoutParams(layoutParams_);
+            }
         });
     }
     
