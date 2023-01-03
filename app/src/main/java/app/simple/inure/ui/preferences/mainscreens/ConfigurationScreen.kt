@@ -77,16 +77,23 @@ class ConfigurationScreen : ScopedFragment() {
                         it.printStackTrace()
                     }
 
-                    Shell.getShell()
+                    Shell.getShell() // Request root access
 
                     if (Shell.isAppGrantedRoot() == true) {
-                        ConfigurationPreferences.setUsingRoot(true)
+                        withContext(Dispatchers.Main) {
+                            ConfigurationPreferences.setUsingRoot(true)
+                            rootSwitchView.setChecked(true)
+                        }
                     } else {
-                        ConfigurationPreferences.setUsingRoot(false)
+                        withContext(Dispatchers.Main) {
+                            ConfigurationPreferences.setUsingRoot(false)
+                            rootSwitchView.setChecked(false)
+                        }
                     }
                 }
             } else {
                 ConfigurationPreferences.setUsingRoot(false)
+                rootSwitchView.setChecked(false)
             }
         }
     }
@@ -94,7 +101,7 @@ class ConfigurationScreen : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             ConfigurationPreferences.isUsingRoot -> {
-                rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
+                // rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
             }
         }
     }
