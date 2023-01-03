@@ -256,4 +256,16 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
         return file
     }
+
+    private fun clearTrackersCacheDirectory() {
+        val file = File("${context.cacheDir}/trackers_cache/")
+        if (file.exists()) {
+            file.deleteRecursively()
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        clearTrackersCacheDirectory()
+    }
 }

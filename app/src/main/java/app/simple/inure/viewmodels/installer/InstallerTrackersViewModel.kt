@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.installer
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -10,7 +11,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.trackers.utils.PackageUtils
 import app.simple.inure.trackers.utils.UriUtils
 import app.simple.inure.util.IOUtils
@@ -19,23 +19,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import net.dongliu.apk.parser.ApkFile
 import java.io.File
 import java.io.IOException
 import java.security.MessageDigest
-import app.simple.inure.apk.utils.PackageUtils as PackageUtils1
 
 class InstallerTrackersViewModel(application: Application, private val apkFile: File) : WrappedViewModel(application) {
+
     private var sha256 = ""
     private var msg = "THIS IS LongPress:\n\n==>COMPLETE CLASS LIST"
 
-    var keyword: String? = null
-        set(value) {
-            field = value
-            organizeData()
-        }
+    private var packageInfo: PackageInfo? = null
 
-    private var isLoaded = false
     private var signs = 0
     private var totals = 0
     private var classTotals = 0
@@ -48,18 +42,10 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
     private var signStat: IntArray? = null
     private var signB: BooleanArray? = null
 
-    private val classesListData: MutableLiveData<ArrayList<String>> by lazy {
-        MutableLiveData<ArrayList<String>>().also {
+    private val message: MutableLiveData<Pair<String, String>> by lazy {
+        MutableLiveData<Pair<String, String>>().also {
             fetchClassesList()
         }
-    }
-
-    private val message: MutableLiveData<Pair<String, String>> by lazy {
-        MutableLiveData<Pair<String, String>>()
-    }
-
-    fun getClassesList(): LiveData<ArrayList<String>> {
-        return classesListData
     }
 
     fun getMessage(): LiveData<Pair<String, String>> {
@@ -72,24 +58,13 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
         }
     }
 
-    fun organizeData() {
-        if (isLoaded) {
-            if (keyword.isNullOrEmpty()) {
-                if (TrackersPreferences.isFullClassesList()) {
-                    classesListData.postValue(classesListAll)
-                } else {
-                    classesListData.postValue(classesList)
-                }
-            } else {
-                filterClasses()
-            }
-        } else {
-            kotlin.runCatching {
-                loadClasses()
-                subStats()
-            }.getOrElse {
-                postError(it)
-            }
+    private fun organizeData() {
+        kotlin.runCatching {
+            loadClasses()
+            subStats()
+        }.getOrElse {
+            postError(it)
+            message.postValue(Pair(getApplication<Application>().getString(R.string.error), it.stackTraceToString()))
         }
     }
 
@@ -97,6 +72,18 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
     @SuppressLint("PackageManagerGetSignatures")
     private fun loadClasses() {
         runBlocking {
+            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.PackageInfoFlags.of((PackageManager.GET_META_DATA or PackageManager.GET_SIGNING_CERTIFICATES).toLong()))
+                } else {
+                    @Suppress("DEPRECATION")
+                    packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.GET_META_DATA or PackageManager.GET_SIGNING_CERTIFICATES)
+                }
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.GET_META_DATA or PackageManager.GET_SIGNATURES)
+            }
+
             val uriStream = UriUtils.getStreamFromUri(context, Uri.fromFile(apkFile))
 
             try {
@@ -155,33 +142,6 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                 }
             }
         }
-
-        // Post classes list to the UI Controller
-        if (TrackersPreferences.isFullClassesList()) {
-            classesListData.postValue(classesListAll)
-        } else {
-            classesListData.postValue(classesList)
-        }
-
-        isLoaded = true
-    }
-
-    private fun filterClasses() {
-        val list = arrayListOf<String>()
-
-        val listOfAllClasses = if (TrackersPreferences.isFullClassesList()) {
-            classesListAll
-        } else {
-            classesList
-        }
-
-        for (classes in listOfAllClasses) {
-            if (classes.lowercase().contains(keyword!!.lowercase())) {
-                list.add(classes)
-            }
-        }
-
-        classesListData.postValue(list)
     }
 
     private fun sha(bytes: ByteArray) {
@@ -189,16 +149,6 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
             .toString() + "\nSHA1sum: " + PackageUtils.convertS(MessageDigest.getInstance("sha1").digest(bytes))
             .toString() + "\nSHA256sum: " + PackageUtils.convertS(MessageDigest.getInstance("sha256").digest(bytes))
 
-        val packageName = ApkFile(apkFile).use {
-            it.apkMeta.packageName
-        }
-
-        val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            packageManager.getPackageArchiveInfo(apkFile.path, PackageManager.PackageInfoFlags.of(PackageUtils1.flags))
-        } else {
-            @Suppress("DEPRECATION")
-            packageManager.getPackageArchiveInfo(apkFile.path, PackageUtils1.flags.toInt())
-        }
         if (Build.VERSION.SDK_INT >= 29) sha256 += PackageUtils.apkIsolatedZygote(packageInfo, getString(R.string.app_zygote).trimIndent())
         sha256 += PackageUtils.apkCert(packageInfo)
     }
@@ -251,5 +201,17 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
         }
 
         return file
+    }
+
+    private fun clearTrackersCacheDirectory() {
+        val file = File("${context.cacheDir}/trackers_cache/")
+        if (file.exists()) {
+            file.deleteRecursively()
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        clearTrackersCacheDirectory()
     }
 }

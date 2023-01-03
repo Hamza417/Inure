@@ -93,7 +93,7 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
                         permissionInfo.name = appPackageInfo.requestedPermissions[count]
                         permissions.add(permissionInfo)
 
-                        it.printStackTrace()
+                        // it.printStackTrace()
                     }
                 }
                 val requestedPermissions = appPackageInfo.requestedPermissions.toMutableList()

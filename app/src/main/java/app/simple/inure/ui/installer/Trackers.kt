@@ -38,9 +38,11 @@ class Trackers : ScopedFragment() {
         startPostponedEnterTransition()
 
         trackersViewModel.getMessage().observe(viewLifecycleOwner) {
-            Log.d("Trackers", "onViewCreated: ${it.first}")
-            Log.d("Trackers", "onViewCreated: ${it.second}")
+            Log.d("Trackers", "onViewCreated 1: ${it.first}")
+            Log.d("Trackers", "onViewCreated 2: ${it.second}")
             message.text = it.first
+            message.append("\n")
+            message.append(it.second)
         }
     }
 
