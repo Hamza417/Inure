@@ -111,7 +111,10 @@ class AppInfo : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         componentsViewModel.getMenuItems().observe(viewLifecycleOwner) {
-            if (AppInformationPreferences.isMetaMenuFolded()) return@observe
+            if (AppInformationPreferences.isMetaMenuFolded()) {
+                startPostponedEnterTransition()
+                return@observe
+            }
 
             metaAdapter = AdapterMenu(it)
             metaAdapter?.setHasStableIds(true)
