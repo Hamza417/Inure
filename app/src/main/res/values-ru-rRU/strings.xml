@@ -517,7 +517,6 @@
     <string name="scan">Сканирование</string>
     <string name="show_all_classes">Показать все классы</string>
     <string name="show_all_classes_desc">Сохранять классы в списке, которые могут или не связаны с отслеживанием.</string>
-    <string name="show_trackers_analytics_automatically">Показывать аналитику трекера автоматически</string>
     <string name="unpack">Распаковать</string>
     <string name="menu_layout">Разметка меню</string>
     <string name="horizontal">Горизонтально</string>
@@ -605,7 +604,6 @@
     <string name="not_optimized">Оптимизация отключена</string>
     <string name="optimize">Включить оптимизацию</string>
     <string name="dont_optimize">Откл. оптимизацию</string>
-    <string name="no_tracker_found">Трекеры не найдены</string>
     <string name="full_version_activated">Полная версия активирована!</string>
     <string name="failed_to_activate_full_version">Не удалось активировать полную версию!</string>
     <string name="full_version_already_activated">Полная версия уже активирована</string>
