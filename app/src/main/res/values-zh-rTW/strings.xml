@@ -514,7 +514,6 @@
     <string name="scan">掃描</string>
     <string name="show_all_classes">顯示所有類別</string>
     <string name="show_all_classes_desc">在清單中保留可能與追蹤有關或無關的類別。</string>
-    <string name="show_trackers_analytics_automatically">自動顯示追蹤器分析</string>
     <string name="unpack">解除封裝</string>
     <string name="menu_layout">選單版面配置</string>
     <string name="horizontal">水平</string>
@@ -602,7 +601,6 @@
     <string name="not_optimized">未最佳化</string>
     <string name="optimize">最佳化</string>
     <string name="dont_optimize">不要最佳化</string>
-    <string name="no_tracker_found">沒有找到追蹤器</string>
     <string name="full_version_activated">完整版已啟用！</string>
     <string name="failed_to_activate_full_version">無法啟用完整版！</string>
     <string name="full_version_already_activated">完整版已經啟用</string>
@@ -636,4 +634,8 @@
     <string name="contexts_in_bottom_menu">底部選單內容</string>
     <string name="bottom_menu_context_desc">在底部選單圖示下方新增標籤，使其功能與內容更加清楚</string>
     <string name="clear">清除</string>
+    <string name="uninstall_updates">解除安裝更新</string>
+    <string name="trackers_message">在 %2$d 個類別上測試了 %1$d 個簽章</string>
+    <string name="trackers_title">%1$d 個追蹤器 = %1$d 個類別</string>
+    <string name="inure_has_been_updated">Inure 已更新，要查看變更記錄嗎？</string>
 </resources>
