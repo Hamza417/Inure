@@ -277,7 +277,6 @@ class SplashScreen : ScopedFragment() {
                 if (MainPreferences.getUnlockerWarningCount() < 3) {
                     daysLeft.text = getString(R.string.unlocker_not_installed)
                     MainPreferences.incrementUnlockerWarningCount()
-                    daysLeft.gone()
                 } else {
                     showWarning(R.string.full_version_deactivated)
                     MainPreferences.setFullVersion(false)
