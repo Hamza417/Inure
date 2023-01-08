@@ -158,4 +158,8 @@ object MainPreferences {
     fun shouldShowChangeLogReminder(): Boolean {
         return getChangeLogReminder() < BuildConfig.VERSION_CODE
     }
+
+    fun resetUnlockerWarningCount() {
+        setUnlockerWarningCount(0)
+    }
 }

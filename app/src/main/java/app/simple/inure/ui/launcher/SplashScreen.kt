@@ -275,11 +275,13 @@ class SplashScreen : ScopedFragment() {
                 daysLeft.gone()
             } else {
                 if (MainPreferences.getUnlockerWarningCount() < 3) {
-                    daysLeft.text = getString(R.string.unlocker_not_installed)
+                    showWarning(R.string.unlocker_not_installed, goBack = false)
                     MainPreferences.incrementUnlockerWarningCount()
+                    daysLeft.gone()
                 } else {
-                    showWarning(R.string.full_version_deactivated)
+                    showWarning(R.string.full_version_deactivated, goBack = false)
                     MainPreferences.setFullVersion(false)
+                    MainPreferences.resetUnlockerWarningCount()
                     daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
                 }
             }

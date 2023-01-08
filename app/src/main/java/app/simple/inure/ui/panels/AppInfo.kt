@@ -219,9 +219,7 @@ class AppInfo : ScopedFragment() {
                             packageInfo.launchThisPackage(requireActivity())
                         }
                         R.string.uninstall -> {
-                            val sure = Sure.newInstance()
-
-                            sure.setOnSureCallbackListener(object : SureCallbacks {
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     val uninstaller = Uninstaller.newInstance(packageInfo)
 
@@ -232,8 +230,19 @@ class AppInfo : ScopedFragment() {
                                     uninstaller.show(childFragmentManager, "uninstaller")
                                 }
                             })
+                        }
+                        R.string.uninstall_updates -> {
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                override fun onSure() {
+                                    val updatesUninstaller = UpdatesUninstaller.newInstance(packageInfo)
 
-                            sure.show(childFragmentManager, "sure")
+                                    updatesUninstaller.listener = {
+                                        requireActivity().supportFragmentManager.popBackStackImmediate()
+                                    }
+
+                                    updatesUninstaller.show(childFragmentManager, "uninstaller")
+                                }
+                            })
                         }
                         R.string.send -> {
                             Preparing.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")
