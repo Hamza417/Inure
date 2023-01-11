@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.net.toUri
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -16,7 +17,12 @@ import app.simple.inure.adapters.ui.AdapterMusic
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
+import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
+import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.interfaces.menus.PopupMusicMenuCallbacks
+import app.simple.inure.models.AudioModel
+import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -80,12 +86,32 @@ class Search : KeyboardScopedFragment() {
                     startActivity(intent)
                 }
 
-                override fun onMusicSearchClicked() {
-                    /* no-op */
-                }
+                override fun onMusicLongClicked(audioModel: AudioModel, view: View, position: Int) {
+                    PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
+                        override fun onPlay(uri: Uri) {
+                            val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
+                            intent.data = uri
+                            startActivity(intent)
+                            MusicPreferences.setLastMusicId(audioModel.id)
+                            adapterMusic.id = audioModel.id
+                            adapterMusic.updateHighlightedSongState()
+                        }
 
-                override fun onMusicPlayClicked(position: Int) {
-                    /* no-op */
+                        override fun onDelete(uri: Uri) {
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                override fun onSure() {
+                                    musicViewModel.deleteSong(uri, position)
+                                }
+                            })
+                        }
+
+                        override fun onShare(uri: Uri) {
+                            val intent = Intent(Intent.ACTION_SEND)
+                            intent.type = "audio/*"
+                            intent.putExtra(Intent.EXTRA_STREAM, uri)
+                            startActivity(Intent.createChooser(intent, audioModel.title + " " + audioModel.artists))
+                        }
+                    })
                 }
             })
 

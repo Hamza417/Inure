@@ -2,6 +2,7 @@ package app.simple.inure.ui.viewers
 
 import android.annotation.SuppressLint
 import android.content.*
+import android.content.SharedPreferences
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
 import android.os.Build
@@ -26,6 +27,7 @@ import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.extensions.fragments.ScopedAudioPlayerDialogFragment
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioService
 import app.simple.inure.util.FileUtils.getMimeType
 import app.simple.inure.util.IntentHelper
@@ -36,6 +38,7 @@ import app.simple.inure.util.ViewUtils.gone
 class AudioPlayer : ScopedAudioPlayerDialogFragment() {
 
     private lateinit var art: ImageView
+    private lateinit var replay: DynamicRippleImageButton
     private lateinit var playPause: DynamicRippleImageButton
     private lateinit var close: DynamicRippleImageButton
     private lateinit var duration: TypeFaceTextView
@@ -72,6 +75,7 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
         val view = inflater.inflate(R.layout.dialog_audio_player, container, false)
 
         art = view.findViewById(R.id.album_art_mime)
+        replay = view.findViewById(R.id.mime_repeat_button)
         playPause = view.findViewById(R.id.mime_play_button)
         close = view.findViewById(R.id.mime_close_button)
         duration = view.findViewById(R.id.current_duration_mime)
@@ -107,6 +111,7 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
 
         playerContainer.radius = AppearancePreferences.getCornerRadius()
         ViewUtils.addShadow(playerContainer)
+        replayButtonStatus(animate = false)
 
         playerContainer.isEnabled = false
         playPause.isEnabled = false
@@ -230,6 +235,10 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
             }
         })
 
+        replay.setOnClickListener {
+            MusicPreferences.setMusicRepeat(!MusicPreferences.getMusicRepeat())
+        }
+
         playPause.setOnClickListener {
             audioService?.changePlayerState()!!
         }
@@ -250,6 +259,22 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
             playPause.setIcon(R.drawable.ic_pause, animate)
         } else {
             playPause.setIcon(R.drawable.ic_play, animate)
+        }
+    }
+
+    private fun replayButtonStatus(animate: Boolean = true) {
+        if (MusicPreferences.getMusicRepeat()) {
+            if (animate) {
+                replay.animate().alpha(1.0F).setDuration(resources.getInteger(R.integer.animation_duration).toLong()).start()
+            } else {
+                replay.alpha = 1.0F
+            }
+        } else {
+            if (animate) {
+                replay.animate().alpha(0.3F).setDuration(resources.getInteger(R.integer.animation_duration).toLong()).start()
+            } else {
+                replay.alpha = 0.3F
+            }
         }
     }
 
@@ -285,6 +310,14 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
                 serviceConnection?.let { requireContext().unbindService(it) }
             } catch (e: IllegalArgumentException) {
                 e.printStackTrace()
+            }
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            MusicPreferences.musicRepeat -> {
+                replayButtonStatus(animate = true)
             }
         }
     }

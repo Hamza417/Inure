@@ -32,12 +32,20 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
         MutableLiveData<ArrayList<AudioModel>>()
     }
 
+    private val deleted: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
+    }
+
     fun getSongs(): LiveData<ArrayList<AudioModel>> {
         return songs
     }
 
     fun getSearched(): LiveData<ArrayList<AudioModel>> {
         return searched
+    }
+
+    fun getDeleted(): LiveData<Int> {
+        return deleted
     }
 
     private fun loadData() {
@@ -134,6 +142,17 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
         viewModelScope.launch(Dispatchers.Default) {
             globalList = globalList.getSortedList()
             songs.postValue(globalList)
+        }
+    }
+
+    fun deleteSong(uri: Uri, position: Int) {
+        viewModelScope.launch(Dispatchers.Default) {
+            kotlin.runCatching {
+                context.contentResolver.delete(uri, null, null)
+                deleted.postValue(position)
+            }.getOrElse {
+                postError(it)
+            }
         }
     }
 

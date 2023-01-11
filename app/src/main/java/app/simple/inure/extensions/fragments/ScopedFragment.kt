@@ -336,15 +336,19 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    open fun showError(error: String) {
+    open fun showError(error: String, goBack: Boolean = true) {
         childFragmentManager.showError(error).setOnErrorCallbackListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            if (goBack) {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
         }
     }
 
-    open fun showError(error: Throwable) {
+    open fun showError(error: Throwable, goBack: Boolean = true) {
         childFragmentManager.showError(error.stackTraceToString()).setOnErrorCallbackListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            if (goBack) {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
         }
     }
 

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromUri
@@ -21,7 +20,8 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     private var musicCallbacks: MusicCallbacks? = null
     private var lastHighlightId = MusicPreferences.getLastMusicId()
-    private var id = MusicPreferences.getLastMusicId()
+
+    var id = MusicPreferences.getLastMusicId()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         if (headerMode) {
@@ -60,6 +60,11 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 id = list[position].id
                 musicCallbacks?.onMusicClicked(Uri.parse(list[position].fileUri))
                 updateHighlightedSongState()
+            }
+
+            holder.container.setOnLongClickListener {
+                musicCallbacks?.onMusicLongClicked(list[position], it, holder.bindingAdapterPosition)
+                true
             }
         } else if (holder is Header) {
             holder.total.text = list.size.toString()
@@ -105,6 +110,11 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
         lastHighlightId = id
     }
 
+    fun updateDeleted(position: Int) {
+        list.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val art: ImageView = itemView.findViewById(R.id.adapter_music_art)
         val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_music_name)
@@ -120,8 +130,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
     companion object {
         interface MusicCallbacks {
             fun onMusicClicked(uri: Uri)
-            fun onMusicSearchClicked()
-            fun onMusicPlayClicked(position: Int)
+            fun onMusicLongClicked(audioModel: AudioModel, view: View, position: Int)
         }
     }
 }

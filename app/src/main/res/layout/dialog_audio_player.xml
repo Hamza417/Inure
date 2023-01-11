@@ -188,14 +188,22 @@
                     android:layout_width="@dimen/loader_size"
                     android:layout_height="@dimen/loader_size"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="@dimen/popup_item_gap_length"
                     android:padding="5dp" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/mime_repeat_button"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_marginEnd="@dimen/popup_item_gap_length"
+                    android:src="@drawable/ic_repeat"
+                    app:buttonTintType="regular" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                     android:id="@+id/mime_play_button"
                     android:layout_width="@dimen/button_size"
                     android:layout_height="@dimen/button_size"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="@dimen/popup_item_gap_length"
                     android:src="@drawable/ic_pause"
                     app:buttonTintType="regular" />
 
@@ -203,7 +211,6 @@
                     android:id="@+id/mime_close_button"
                     android:layout_width="@dimen/button_size"
                     android:layout_height="@dimen/button_size"
-                    android:layout_marginEnd="5dp"
                     android:src="@drawable/ic_close"
                     app:buttonTintType="regular" />
 

@@ -24,6 +24,7 @@ import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.exceptions.InureMediaEngineException
 import app.simple.inure.loaders.MetadataHelper
 import app.simple.inure.models.AudioMetaData
+import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.receivers.MediaButtonIntentReceiver
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
@@ -182,8 +183,13 @@ class AudioService : Service(),
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
-        stopSelf()
+        if (MusicPreferences.getMusicRepeat()) {
+            seek(0)
+            play()
+        } else {
+            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
+            stopSelf()
+        }
     }
 
     override fun onPrepared(mp: MediaPlayer?) {
