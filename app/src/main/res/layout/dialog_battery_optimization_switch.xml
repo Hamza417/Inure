@@ -62,7 +62,7 @@
             android:layout_marginTop="@dimen/popup_item_gap_length"
             android:gravity="center"
             android:padding="@dimen/dialog_padding"
-            android:text="@string/done"
+            android:text="@string/set"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
             app:textColorStyle="accent" />
