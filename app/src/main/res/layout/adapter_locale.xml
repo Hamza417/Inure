@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_locale_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/header_padding"
+    android:orientation="horizontal"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_locale_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/header_padding"
+        android:layout_weight="1"
+        android:textSize="@dimen/adapter_typeface_normal_text_size"
+        app:appFontStyle="medium"
+        app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_locale_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/header_padding"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="regular"
+        app:textColorStyle="quaternary" />
+
+    <app.simple.inure.decorations.theme.ThemeIcon
+        android:id="@+id/adapter_locale_check_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_header_icon"
+        android:visibility="invisible"
+        app:tintType="accent"
+        tools:ignore="ContentDescription" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

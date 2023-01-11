@@ -28,7 +28,7 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_ITEM -> {
-                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_type_face, parent, false))
+                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_locale, parent, false))
             }
             RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_typeface, parent, false))
@@ -47,6 +47,7 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.container.isEnabled = list[position].localeCode != ConfigurationPreferences.getAppLanguage()
 
             holder.language.text = if (position == 0) holder.itemView.context.getString(R.string.auto) else list[position].language
+            holder.code.text = list[position].localeCode
 
             holder.container.setOnClickListener {
                 ConfigurationPreferences.setAppLanguage(list[position].localeCode)
@@ -70,7 +71,9 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return if (position.isZero()) {
             RecyclerViewUtils.TYPE_HEADER
-        } else RecyclerViewUtils.TYPE_ITEM
+        } else {
+            RecyclerViewUtils.TYPE_ITEM
+        }
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
@@ -79,8 +82,9 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_typeface_container)
-        val language: TypeFaceTextView = itemView.findViewById(R.id.adapter_typeface_textview)
-        val icon: ThemeIcon = itemView.findViewById(R.id.adapter_typeface_check_icon)
+        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_locale_container)
+        val language: TypeFaceTextView = itemView.findViewById(R.id.adapter_locale_name)
+        val code: TypeFaceTextView = itemView.findViewById(R.id.adapter_locale_code)
+        val icon: ThemeIcon = itemView.findViewById(R.id.adapter_locale_check_icon)
     }
 }
