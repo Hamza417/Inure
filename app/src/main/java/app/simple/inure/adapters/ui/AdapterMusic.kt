@@ -63,7 +63,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             }
 
             holder.container.setOnLongClickListener {
-                musicCallbacks?.onMusicLongClicked(list[position], it, holder.bindingAdapterPosition)
+                musicCallbacks?.onMusicLongClicked(list[holder.bindingAdapterPosition.minus(1)], it, holder.bindingAdapterPosition.minus(1))
                 true
             }
         } else if (holder is Header) {
@@ -112,7 +112,9 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     fun updateDeleted(position: Int) {
         list.removeAt(position)
-        notifyItemRemoved(position)
+        notifyItemChanged(0)
+        notifyItemRemoved(position.plus(1))
+        notifyItemRangeChanged(0, list.size)
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

@@ -23,6 +23,7 @@ import app.simple.inure.models.AudioModel
 import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.popups.music.PopupMusicSort
 import app.simple.inure.preferences.MusicPreferences
+import app.simple.inure.services.AudioService
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
 class Music : KeyboardScopedFragment() {
@@ -31,6 +32,8 @@ class Music : KeyboardScopedFragment() {
 
     private var adapterMusic: AdapterMusic? = null
     private val musicViewModel: MusicViewModel by viewModels()
+
+    private var deletedId = -1L
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_music, container, false)
@@ -69,6 +72,7 @@ class Music : KeyboardScopedFragment() {
                         override fun onDelete(uri: Uri) {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
+                                    deletedId = audioModel.id
                                     musicViewModel.deleteSong(uri, position)
                                 }
                             })
@@ -118,6 +122,14 @@ class Music : KeyboardScopedFragment() {
 
         musicViewModel.getDeleted().observe(viewLifecycleOwner) {
             adapterMusic?.updateDeleted(it)
+
+            if (deletedId == MusicPreferences.getLastMusicId()) {
+                try {
+                    requireContext().stopService(Intent(requireContext(), AudioService::class.java))
+                } catch (e: IllegalStateException) {
+                    e.printStackTrace()
+                }
+            }
         }
 
         musicViewModel.getError().observe(viewLifecycleOwner) {
