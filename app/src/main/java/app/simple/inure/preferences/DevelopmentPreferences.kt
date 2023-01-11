@@ -12,8 +12,9 @@ object DevelopmentPreferences {
     const val debugMessages = "is_debug_messages_enabled"
     const val hoverAnimation = "is_hover_animation_enabled"
     const val centerBottomMenu = "is_center_bottom_menu_enabled"
+    const val alternativeBatteryOptimizationSwitch = "is_alternative_battery_optimization_switch_enabled"
 
-    val developmentPreferences = listOf(
+    val developmentPreferences: List<DevelopmentPreferencesModel> = listOf(
             DevelopmentPreferencesModel("Use WebView for XML Preview",
                                         "Use WebView for XML Preview instead of TextView.",
                                         isWebViewXmlViewer,
@@ -52,8 +53,15 @@ object DevelopmentPreferences {
             DevelopmentPreferencesModel("Center Bottom Menu",
                                         "Center gravity for the bottom menus in the app.",
                                         centerBottomMenu,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Enable Alternative Battery Optimization Switch",
+                                        "Enable alternative battery optimization switcher popup in the app.",
+                                        alternativeBatteryOptimizationSwitch,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN)
-    )
+    ).sortedBy {
+        it.title
+    }
 
     // ---------------------------------------------------------------------------------------------------------- //
 

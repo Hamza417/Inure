@@ -13,11 +13,14 @@ import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.interfaces.dialog.BatteryOptimizationCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
+import app.simple.inure.models.BatteryOptimizationSwitch.Companion.showBatteryOptimizationSwitch
 import app.simple.inure.popups.battery.PopupBatteryOptimizationCategory
 import app.simple.inure.popups.battery.PopupBatteryOptimizationSortingStyle
 import app.simple.inure.popups.battery.PopupOptimizationSwitch
 import app.simple.inure.preferences.BatteryOptimizationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.panels.BatteryOptimizationViewModel
 
@@ -65,15 +68,30 @@ class BatteryOptimization : ScopedFragment() {
                 }
 
                 override fun onBatteryOptimizationClicked(view: View, batteryOptimizationModel: BatteryOptimizationModel, position: Int) {
-                    PopupOptimizationSwitch(view, batteryOptimizationModel).setOnOptimizeClicked {
-                        batteryOptimizationViewModel.getBatteryOptimizationUpdate().observe(viewLifecycleOwner) {
-                            if (it.isNotNull()) {
-                                adapterBatteryOptimization.updateItem(it.first, it.second)
-                                batteryOptimizationViewModel.clearBatteryOptimizationAppData()
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.alternativeBatteryOptimizationSwitch)) {
+                        PopupOptimizationSwitch(view, batteryOptimizationModel).setOnOptimizeClicked {
+                            batteryOptimizationViewModel.getBatteryOptimizationUpdate().observe(viewLifecycleOwner) {
+                                if (it.isNotNull()) {
+                                    adapterBatteryOptimization.updateItem(it.first, it.second)
+                                    batteryOptimizationViewModel.clearBatteryOptimizationAppData()
+                                }
                             }
-                        }
 
-                        batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
+                            batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
+                        }
+                    } else {
+                        childFragmentManager.showBatteryOptimizationSwitch(batteryOptimizationModel).setBatteryOptimizationCallbacks(object : BatteryOptimizationCallbacks {
+                            override fun onOptimizationSet(batteryOptimizationModel: BatteryOptimizationModel) {
+                                batteryOptimizationViewModel.getBatteryOptimizationUpdate().observe(viewLifecycleOwner) {
+                                    if (it.isNotNull()) {
+                                        adapterBatteryOptimization.updateItem(it.first, it.second)
+                                        batteryOptimizationViewModel.clearBatteryOptimizationAppData()
+                                    }
+                                }
+
+                                batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
+                            }
+                        })
                     }
                 }
             })
