@@ -28,6 +28,7 @@
         android:maxLines="1"
         android:textSize="@dimen/app_name_text_size"
         app:appFontStyle="bold"
+        app:drawableTintStyle="regular"
         app:layout_constraintBottom_toTopOf="@+id/adapter_recently_app_package_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/adapter_all_app_icon"

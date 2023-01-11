@@ -61,7 +61,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         if (isInEditMode) return
         typeface = TypeFace.getTypeFace(getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, BOLD), context)
         colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
-        drawableTintMode = typedArray.getInt(R.styleable.TypeFaceTextView_drawableTintStyle, 3)
+        drawableTintMode = typedArray.getInt(R.styleable.TypeFaceTextView_drawableTintStyle, 1)
         isDrawableHidden = typedArray.getBoolean(R.styleable.TypeFaceTextView_isDrawableHidden, true)
 
         hyphenationFrequency = Layout.HYPHENATION_FREQUENCY_NONE
