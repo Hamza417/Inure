@@ -234,10 +234,10 @@
     <string name="last_used_days">%1$s 天 %2$s 小時 %3$s 分鐘前</string>
     <string name="most_used">最常使用</string>
     <string name="time_used">使用時間</string>
-    <string name="data_sent">資料已傳送</string>
-    <string name="data_received">資料已接收</string>
-    <string name="wifi_received">WiFi 已接收</string>
-    <string name="wifi_sent">WiFi 已送出</string>
+    <string name="data_sent">數據傳送</string>
+    <string name="data_received">數據接收</string>
+    <string name="wifi_received">WiFi 接收</string>
+    <string name="wifi_sent">WiFi 傳送</string>
     <string name="data_interval">日期間隔</string>
     <string name="today">今天</string>
     <string name="weekly">每週</string>
