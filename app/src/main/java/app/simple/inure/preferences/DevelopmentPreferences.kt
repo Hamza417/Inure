@@ -29,8 +29,8 @@ object DevelopmentPreferences {
                                         music,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Use Native Crash Handler",
-                                        "Use native crash handler to catch crashes.",
+            DevelopmentPreferencesModel("Disable Native Crash Handler",
+                                        "Disable native crash handler of the app and let system handle crash reports.",
                                         crashHandler,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN),
 

@@ -19,6 +19,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
+import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
@@ -140,6 +141,12 @@ open class ScopedAudioPlayerDialogFragment : DialogFragment(), SharedPreferences
 
     protected fun showError(error: String) {
         childFragmentManager.showError(error).setOnErrorCallbackListener {
+            requireActivity().finishAndRemoveTask()
+        }
+    }
+
+    protected fun showWarning(warning: String) {
+        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
             requireActivity().finishAndRemoveTask()
         }
     }

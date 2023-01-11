@@ -31,6 +31,7 @@ import app.simple.inure.ui.panels.*
 import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.CalendarUtils
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ThemeUtils
@@ -206,7 +207,7 @@ class MainActivity : BaseActivity() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             DevelopmentPreferences.crashHandler -> {
-                if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler)) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
                     CrashReporter(applicationContext).initialize()
                 }
             }

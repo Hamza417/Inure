@@ -76,6 +76,7 @@ class AudioService : Service(),
                 field = value
                 audioPlayer(value!!)
             } else if (field == value) {
+                Log.d("AudioService", "AudioService: Already playing")
                 setupMetadata()
             }
         }
@@ -182,12 +183,7 @@ class AudioService : Service(),
 
     override fun onCompletion(mp: MediaPlayer?) {
         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            stopForeground(STOP_FOREGROUND_REMOVE)
-        } else {
-            @Suppress("DEPRECATION")
-            stopForeground(true)
-        }
+        stopSelf()
     }
 
     override fun onPrepared(mp: MediaPlayer?) {
@@ -574,5 +570,15 @@ class AudioService : Service(),
         removeAudioFocus()
         unregisterReceiver(becomingNoisyReceiver)
         app.simple.inure.preferences.SharedPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    fun isPlaying(): Boolean {
+        kotlin.runCatching {
+            return mediaPlayer.isPlaying
+        }.onFailure {
+            return false
+        }
+
+        return false
     }
 }

@@ -126,7 +126,7 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
                     }
                 }.getOrElse {
                     it.printStackTrace()
-                    showError(it.stackTraceToString())
+                    showWarning(it.message.toString())
                 }
             }
 
@@ -155,6 +155,7 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
                             playerContainer.isEnabled = true
                             playPause.isEnabled = true
                             wasSongPlaying = true
+                            buttonStatus(audioService?.isPlaying()!!, animate = false)
                         } catch (e: IllegalStateException) {
                             e.printStackTrace()
                             showError(e.stackTraceToString())
@@ -244,11 +245,11 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
         }
     }
 
-    private fun buttonStatus(isPlaying: Boolean) {
+    private fun buttonStatus(isPlaying: Boolean, animate: Boolean = true) {
         if (isPlaying) {
-            playPause.setIcon(R.drawable.ic_pause, true)
+            playPause.setIcon(R.drawable.ic_pause, animate)
         } else {
-            playPause.setIcon(R.drawable.ic_play, true)
+            playPause.setIcon(R.drawable.ic_play, animate)
         }
     }
 
