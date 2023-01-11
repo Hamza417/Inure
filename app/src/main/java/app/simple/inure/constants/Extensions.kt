@@ -238,6 +238,8 @@ object Extensions {
             "ear" to "#FF5252",
             "apk" to "#FF4081",
             "ipa" to "#E040FB",
-            "app" to "#7C4DFF",
+            "so" to "#448AFF",
+            "ttf" to "#40C4FF",
+            "otf" to "#18FFFF",
     )
 }

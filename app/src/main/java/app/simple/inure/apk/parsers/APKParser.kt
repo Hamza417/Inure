@@ -331,8 +331,6 @@ object APKParser {
                         if (name.endsWith(".xml") ||
                             name.endsWith(".so") ||
                             name.endsWith(".dex") ||
-                            name.endsWith(".ttf") ||
-                            name.endsWith(".otf") ||
                             name.endsWith(".arsc")) {
                             continue
                         } else {
@@ -346,8 +344,6 @@ object APKParser {
                         if (name.endsWith(".xml") ||
                             name.endsWith(".so") ||
                             name.endsWith(".dex") ||
-                            name.endsWith(".ttf") ||
-                            name.endsWith(".otf") ||
                             name.endsWith(".arsc")) {
                             continue
                         } else {
@@ -361,8 +357,6 @@ object APKParser {
                         if (name.endsWith(".xml") ||
                             name.endsWith(".so") ||
                             name.endsWith(".dex") ||
-                            name.endsWith(".ttf") ||
-                            name.endsWith(".otf") ||
                             name.endsWith(".arsc")) {
                             continue
                         } else {
