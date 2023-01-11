@@ -20,8 +20,8 @@
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/header_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
             android:contentDescription="@string/app_name"
             android:padding="5dp"
             android:transitionName="main_app_icon"

@@ -53,8 +53,8 @@
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/search_view_clear_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/clear_data"
         android:src="@drawable/ic_close"
@@ -67,8 +67,8 @@
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/search_view_menu_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/popup_padding"
         android:contentDescription="@string/configuration_button"
