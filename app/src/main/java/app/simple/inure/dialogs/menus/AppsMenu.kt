@@ -19,7 +19,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.action.Preparing
+import app.simple.inure.dialogs.action.Send
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
@@ -134,7 +134,7 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         send.setOnClickListener {
-            Preparing.newInstance(packageInfo)
+            Send.newInstance(packageInfo)
                 .show(childFragmentManager, "send")
         }
 

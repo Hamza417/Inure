@@ -116,7 +116,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     private fun loadRecentlyUpdatedAppData() {
         viewModelScope.launch(Dispatchers.IO) {
             val apps = getInstalledApps().stream()
-                .filter { it.lastUpdateTime > System.currentTimeMillis() - oneMonth }
+                .filter { it.lastUpdateTime > System.currentTimeMillis() - oneMonth && it.firstInstallTime < it.lastUpdateTime }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             for (i in apps.indices) {

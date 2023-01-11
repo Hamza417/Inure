@@ -18,7 +18,7 @@ import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.dialogs.ExtractViewModel
 
-class Preparing : ScopedBottomSheetFragment() {
+class Send : ScopedBottomSheetFragment() {
 
     private lateinit var loader: ImageView
     private lateinit var updates: TypeFaceTextView
@@ -71,10 +71,10 @@ class Preparing : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo): Preparing {
+        fun newInstance(packageInfo: PackageInfo): Send {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            val fragment = Preparing()
+            val fragment = Send()
             fragment.arguments = args
             return fragment
         }

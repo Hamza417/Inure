@@ -62,7 +62,7 @@ class Extract : ScopedBottomSheetFragment() {
         extractViewModel.getSuccess().observe(viewLifecycleOwner) {
             if (it) {
                 status.text = getString(R.string.done)
-                progress.invisible(true)
+                progress.invisible(animate = false)
                 loader.loaded()
                 share.visible(true)
             }

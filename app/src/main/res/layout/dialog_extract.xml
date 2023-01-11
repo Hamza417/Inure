@@ -17,9 +17,9 @@
 
         <app.simple.inure.decorations.views.LoaderImageView
             android:id="@+id/extract_loader_indicator"
-            android:layout_gravity="center_vertical"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
             android:padding="5dp"
             app:loaderStyle="rotary"
             tools:ignore="ContentDescription" />
@@ -48,15 +48,15 @@
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/share"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:gravity="center"
-            android:padding="@dimen/dialog_padding"
+            android:paddingHorizontal="@dimen/button_padding"
             android:text="@string/share"
             android:textSize="@dimen/info_text_small"
-            app:appFontStyle="bold"
             android:visibility="gone"
+            app:appFontStyle="bold"
             app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

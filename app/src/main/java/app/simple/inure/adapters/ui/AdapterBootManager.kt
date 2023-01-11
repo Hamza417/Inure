@@ -15,7 +15,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.popups.apps.PopupAppsCategory
-import app.simple.inure.preferences.BatteryOptimizationPreferences
+import app.simple.inure.preferences.BootManagerPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.RecyclerViewUtils
@@ -84,7 +84,7 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), components.size)
 
-            holder.category.text = when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
+            holder.category.text = when (BootManagerPreferences.getAppsCategory()) {
                 PopupAppsCategory.USER -> {
                     holder.getString(R.string.user)
                 }
@@ -103,7 +103,7 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
                 }
             }
 
-            holder.sorting.text = when (BatteryOptimizationPreferences.getBatteryOptimizationSortStyle()) {
+            holder.sorting.text = when (BootManagerPreferences.getSortingStyle()) {
                 SortBatteryOptimization.NAME -> {
                     holder.getString(R.string.name)
                 }
@@ -137,7 +137,9 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
             RecyclerViewUtils.TYPE_HEADER
-        } else RecyclerViewUtils.TYPE_ITEM
+        } else {
+            RecyclerViewUtils.TYPE_ITEM
+        }
     }
 
     override fun getItemId(position: Int): Long {

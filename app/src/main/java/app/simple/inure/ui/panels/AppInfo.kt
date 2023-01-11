@@ -245,7 +245,7 @@ class AppInfo : ScopedFragment() {
                             })
                         }
                         R.string.send -> {
-                            Preparing.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")
+                            Send.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")
                         }
                         R.string.clear_data -> {
                             val p = Sure.newInstance()
