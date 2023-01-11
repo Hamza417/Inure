@@ -1,6 +1,8 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
@@ -13,6 +15,9 @@ import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.BootManagerModel
+import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.preferences.BootManagerPreferences
+import app.simple.inure.util.SortBootManager.getSortedList
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -77,19 +82,19 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
                 packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
             }
 
-            val bootManagerModelArrayList = ArrayList<BootManagerModel>()
+            var bootManagerModelArrayList = ArrayList<BootManagerModel>()
             val packageNames = list.stream().map { it.activityInfo.packageName }.collect(Collectors.toList()).distinct()
 
             packageNames.forEach { packageName ->
                 val bootManagerModel = BootManagerModel()
-                bootManagerModel.packageName = packageName
-                bootManagerModel.name = PackageUtils.getApplicationName(applicationContext(), bootManagerModel.packageName)
-                bootManagerModel.isEnabled = packageManager.isPackageInstalledAndEnabled(bootManagerModel.packageName)
+                bootManagerModel.packageInfo = packageName.getPackageInfo()
+                bootManagerModel.packageInfo.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), packageName)
+                bootManagerModel.isEnabled = packageManager.isPackageInstalledAndEnabled(packageName)
 
                 list.forEach { resolveInfo ->
-                    if (resolveInfo.activityInfo.packageName.equals(bootManagerModel.packageName)) {
+                    if (resolveInfo.activityInfo.packageName.equals(packageName)) {
                         val componentName = resolveInfo.activityInfo.name
-                        if (ReceiversUtils.isEnabled(applicationContext(), bootManagerModel.packageName, componentName)) {
+                        if (ReceiversUtils.isEnabled(applicationContext(), packageName, componentName)) {
                             bootManagerModel.addEnabledComponent(componentName)
                         } else {
                             bootManagerModel.addDisabledComponent(componentName)
@@ -100,9 +105,20 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
                 bootManagerModelArrayList.add(bootManagerModel)
             }
 
-            bootManagerModelArrayList.sortBy {
-                it.name
+            when (BootManagerPreferences.getAppsCategory()) {
+                PopupAppsCategory.SYSTEM -> {
+                    bootManagerModelArrayList = bootManagerModelArrayList.stream().filter { p ->
+                        p.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    }.collect(Collectors.toList()) as ArrayList<BootManagerModel>
+                }
+                PopupAppsCategory.USER -> {
+                    bootManagerModelArrayList = bootManagerModelArrayList.stream().filter { p ->
+                        p.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    }.collect(Collectors.toList()) as ArrayList<BootManagerModel>
+                }
             }
+
+            bootManagerModelArrayList.getSortedList()
 
             bootComponentData.postValue(bootManagerModelArrayList)
 
@@ -148,7 +164,7 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
     fun enableAllComponents(bootManagerModel: BootManagerModel, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             (bootManagerModel.enabledComponents + bootManagerModel.disabledComponents).forEach { component ->
-                Shell.cmd("pm enable ${bootManagerModel.packageName}/$component").exec().let { result ->
+                Shell.cmd("pm enable ${bootManagerModel.packageInfo.packageName}/$component").exec().let { result ->
                     if (result.isSuccess) {
                         Log.d("BootManagerViewModel", "enableAllComponents: $component")
                     } else {
@@ -160,7 +176,7 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
             // Verify if all components are enabled ----------------------------------------------------------------------- |
 
             (bootManagerModel.enabledComponents + bootManagerModel.disabledComponents).forEach { component ->
-                if (ReceiversUtils.isEnabled(applicationContext(), bootManagerModel.packageName, component)) {
+                if (ReceiversUtils.isEnabled(applicationContext(), bootManagerModel.packageInfo.packageName, component)) {
                     bootManagerModel.addEnabledComponent(component)
                     bootManagerModel.disabledComponents.remove(component)
                 } else {
@@ -176,7 +192,7 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
     fun disableAllComponents(bootManagerModel: BootManagerModel, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             (bootManagerModel.enabledComponents + bootManagerModel.disabledComponents).forEach { component ->
-                Shell.cmd("pm disable ${bootManagerModel.packageName}/$component").exec().let { result ->
+                Shell.cmd("pm disable ${bootManagerModel.packageInfo.packageName}/$component").exec().let { result ->
                     if (result.isSuccess) {
                         Log.d("BootManagerViewModel", "disabledComponent: $component")
                     } else {
@@ -188,7 +204,7 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
             // Verify if all components are disabled ----------------------------------------------------------------------- |
 
             (bootManagerModel.enabledComponents + bootManagerModel.disabledComponents).forEach { component ->
-                if (ReceiversUtils.isEnabled(applicationContext(), bootManagerModel.packageName, component)) {
+                if (ReceiversUtils.isEnabled(applicationContext(), bootManagerModel.packageInfo.packageName, component)) {
                     bootManagerModel.addEnabledComponent(component)
                     bootManagerModel.disabledComponents.remove(component)
                 } else {
@@ -203,5 +219,27 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
 
     fun clearBootManagerModelData() {
         bootManagerModelData.value = null
+    }
+
+    private fun String.getPackageInfo(): PackageInfo? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getPackageInfo(this, PackageManager.PackageInfoFlags.of(PackageUtils.flags))
+        } else {
+            @Suppress("DEPRECATION")
+            packageManager.getPackageInfo(this, PackageUtils.flags.toInt())
+        }
+    }
+
+    fun reloadBootComponentData() {
+        loadBootComponents()
+    }
+
+    fun sortBootComponentData() {
+        viewModelScope.launch(Dispatchers.Default) {
+            bootComponentData.value?.let { bootManagerModelArrayList ->
+                bootManagerModelArrayList.getSortedList()
+                bootComponentData.postValue(bootManagerModelArrayList)
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,9 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.popups.bootmanager.PopupBootManager
+import app.simple.inure.popups.bootmanager.PopupBootManagerAppsCategory
+import app.simple.inure.popups.bootmanager.PopupBootManagerSortingStyle
+import app.simple.inure.preferences.BootManagerPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.panels.BootManagerViewModel
 
@@ -62,14 +66,14 @@ class BootManager : ScopedFragment() {
                         }
 
                         override fun onOpenClicked() {
-                            openFragmentArc(AppInfo.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageName)!!,
+                            openFragmentArc(AppInfo.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageInfo.packageName)!!,
                                                                 icon.transitionName), icon, "app_info")
                         }
                     })
                 }
 
                 override fun onBootComponentLongClicked(view: View, bootManagerModel: BootManagerModel, position: Int, icon: ImageView) {
-                    AppsMenu.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageName)!!)
+                    AppsMenu.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageInfo.packageName)!!)
                         .show(childFragmentManager, "apps_menu")
                 }
             })
@@ -88,6 +92,12 @@ class BootManager : ScopedFragment() {
                     R.drawable.ic_search -> {
                         openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
                     }
+                    R.drawable.ic_filter -> {
+                        PopupBootManagerAppsCategory(view)
+                    }
+                    R.drawable.ic_sort -> {
+                        PopupBootManagerSortingStyle(view)
+                    }
                 }
             }
         }
@@ -97,6 +107,17 @@ class BootManager : ScopedFragment() {
                 adapterBootManager?.updateItem(it.first, it.second)
                 bootManagerViewModel?.clearBootManagerModelData()
                 hideLoader()
+            }
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            BootManagerPreferences.appsCategory -> {
+                bootManagerViewModel?.reloadBootComponentData()
+            }
+            BootManagerPreferences.sortingStyle, BootManagerPreferences.sortingReversed -> {
+                bootManagerViewModel?.sortBootComponentData()
             }
         }
     }

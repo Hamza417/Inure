@@ -13,12 +13,14 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatteryOptimizationPreferences
+import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortBatteryOptimization
+import app.simple.inure.util.StatusBarHeight
 
 class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -27,8 +29,13 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_header_boot_manager, parent, false))
+                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_boot_manager_ru, parent, false))
+                } else {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_boot_manager, parent, false))
+                }
             }
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
@@ -45,10 +52,10 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
         val position = position_ - 1
 
         if (holder is Holder) {
-            holder.icon.transitionName = components[position].packageName
-            holder.icon.loadAppIcon(components[position].packageName, components[position].isEnabled)
-            holder.name.text = components[position].name
-            holder.packageId.text = components[position].packageName
+            holder.icon.transitionName = components[position].packageInfo.packageName
+            holder.icon.loadAppIcon(components[position].packageInfo.packageName, components[position].isEnabled)
+            holder.name.text = components[position].packageInfo.applicationInfo.name
+            holder.packageId.text = components[position].packageInfo.packageName
             holder.name.setStrikeThru(components[position].isEnabled)
 
             holder.data.text = with(StringBuilder()) {
@@ -135,23 +142,6 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
-    }
-
-    private fun getAppType(type: String): Int {
-        return when (type) {
-            BatteryOptimizationModel.TYPE_SYSTEM -> {
-                R.string.system
-            }
-            BatteryOptimizationModel.TYPE_USER -> {
-                R.string.user
-            }
-            BatteryOptimizationModel.TYPE_SYSTEM_EXCIDLE -> {
-                R.string.system_excidle
-            }
-            else -> {
-                R.string.unknown
-            }
-        }
     }
 
     fun updateItem(bootManagerModel: BootManagerModel, position: Int) {

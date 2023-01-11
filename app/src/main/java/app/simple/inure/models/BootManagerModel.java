@@ -1,34 +1,33 @@
 package app.simple.inure.models;
 
+import android.content.pm.PackageInfo;
 import android.util.ArraySet;
 
 import app.simple.inure.interfaces.utils.Copyable;
 
 public class BootManagerModel implements Copyable <BootManagerModel> {
     
-    private String packageName;
+    private PackageInfo packageInfo;
     private ArraySet <String> disabledComponents = new ArraySet <>();
     private ArraySet <String> enabledComponents = new ArraySet <>();
-    private String name;
     private boolean enabled;
     
-    public BootManagerModel(String packageName, ArraySet <String> disabledComponents, ArraySet <String> enabledComponents, String name, boolean enabled) {
-        this.packageName = packageName;
+    public BootManagerModel(PackageInfo packageInfo, ArraySet <String> disabledComponents, ArraySet <String> enabledComponents, boolean enabled) {
+        this.packageInfo = packageInfo;
         this.disabledComponents = disabledComponents;
         this.enabledComponents = enabledComponents;
-        this.name = name;
         this.enabled = enabled;
     }
     
     public BootManagerModel() {
     }
     
-    public String getPackageName() {
-        return packageName;
+    public PackageInfo getPackageInfo() {
+        return packageInfo;
     }
     
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
+    public void setPackageInfo(PackageInfo packageInfo) {
+        this.packageInfo = packageInfo;
     }
     
     public ArraySet <String> getDisabledComponents() {
@@ -76,14 +75,6 @@ public class BootManagerModel implements Copyable <BootManagerModel> {
         return stringBuilder.toString().trim();
     }
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
     public boolean isEnabled() {
         return enabled;
     }
@@ -94,7 +85,7 @@ public class BootManagerModel implements Copyable <BootManagerModel> {
     
     @Override
     public BootManagerModel copy() {
-        return new BootManagerModel(packageName, disabledComponents, enabledComponents, name, enabled);
+        return new BootManagerModel(packageInfo, disabledComponents, enabledComponents, enabled);
     }
     
     @Override
@@ -104,10 +95,8 @@ public class BootManagerModel implements Copyable <BootManagerModel> {
     
     @Override
     public void copyTo(BootManagerModel dest) {
-        dest.setPackageName(packageName);
         dest.setDisabledComponents(disabledComponents);
         dest.setEnabledComponents(enabledComponents);
-        dest.setName(name);
         dest.setEnabled(enabled);
     }
 }
