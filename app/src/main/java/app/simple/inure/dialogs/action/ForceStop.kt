@@ -48,6 +48,11 @@ class ForceStop : ScopedBottomSheetFragment() {
                     }
                 }
             }
+
+
+            getWarning().observe(viewLifecycleOwner) {
+                showWarning(it)
+            }
         }
     }
 

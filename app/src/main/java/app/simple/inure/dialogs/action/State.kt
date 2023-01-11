@@ -58,7 +58,7 @@ class State : ScopedBottomSheetFragment() {
                 }
             }
 
-            warning.observe(viewLifecycleOwner) {
+            getWarning().observe(viewLifecycleOwner) {
                 showWarning(it)
             }
         }

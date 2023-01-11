@@ -39,24 +39,29 @@ class UpdatesUninstaller : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        status.setText(R.string.waiting)
+        kotlin.runCatching {
+            status.setText(R.string.waiting)
 
-        appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-                    sendUninstalledBroadcast()
-                    loader.loaded()
-                    status.setText(R.string.uninstalled)
-                    listener?.invoke()
-                }
-                Activity.RESULT_CANCELED -> {
-                    loader.error()
-                    status.setText(R.string.cancelled)
+            appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                when (result.resultCode) {
+                    Activity.RESULT_OK -> {
+                        sendUninstalledBroadcast()
+                        loader.loaded()
+                        status.setText(R.string.uninstalled)
+                        listener?.invoke()
+                    }
+                    Activity.RESULT_CANCELED -> {
+                        loader.error()
+                        status.setText(R.string.cancelled)
+                    }
                 }
             }
-        }
 
-        packageInfo.uninstallThisPackage(appUninstallObserver)
+            packageInfo.uninstallThisPackage(appUninstallObserver)
+        }.onFailure {
+            loader.error()
+            status.setText(R.string.failed)
+        }
     }
 
     private fun sendUninstalledBroadcast() {

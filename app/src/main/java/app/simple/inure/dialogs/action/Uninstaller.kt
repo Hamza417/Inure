@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.UserHandle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,26 +63,36 @@ class Uninstaller : ScopedBottomSheetFragment() {
                         }
                     }
                 }
-            }
-        } else {
-            status.setText(R.string.waiting)
 
-            appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                when (result.resultCode) {
-                    Activity.RESULT_OK -> {
-                        sendUninstalledBroadcast()
-                        loader.loaded()
-                        status.setText(R.string.uninstalled)
-                        listener?.invoke()
-                    }
-                    Activity.RESULT_CANCELED -> {
-                        loader.error()
-                        status.setText(R.string.cancelled)
-                    }
+
+                getWarning().observe(viewLifecycleOwner) {
+                    showWarning(it)
                 }
             }
+        } else {
+            kotlin.runCatching {
+                status.setText(R.string.waiting)
 
-            packageInfo.uninstallThisPackage(appUninstallObserver)
+                appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                    when (result.resultCode) {
+                        Activity.RESULT_OK -> {
+                            sendUninstalledBroadcast()
+                            loader.loaded()
+                            status.setText(R.string.uninstalled)
+                            listener?.invoke()
+                        }
+                        Activity.RESULT_CANCELED -> {
+                            loader.error()
+                            status.setText(R.string.cancelled)
+                        }
+                    }
+                }
+
+                packageInfo.uninstallThisPackage(appUninstallObserver)
+            }.onFailure {
+                loader.error()
+                status.setText(R.string.failed)
+            }
         }
     }
 

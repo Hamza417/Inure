@@ -14,7 +14,6 @@ import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatteryOptimizationPreferences
-import app.simple.inure.ui.panels.BatteryOptimization
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.SortBatteryOptimization.getSortedList
 import com.topjohnwu.superuser.Shell
@@ -72,31 +71,33 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
                 Shell.cmd("dumpsys deviceidle whitelist").exec().let { result ->
                     if (result.isSuccess) {
                         apps.forEach { packageInfo ->
-                            val outData = result.out.find { out ->
-                                packageInfo.packageName == out.subSequence(out.indexOf(",").plus(1), out.lastIndexOf(",")).trim()
-                            }
-
-                            if (outData.isNotNull()) {
-                                val batteryOptimizationModel = BatteryOptimizationModel()
-
-                                val type = outData!!.subSequence(0, endIndex = outData.indexOf(",")).trim()
-                                // val packageName = outData.subSequence(outData.indexOf(",").plus(1), outData.lastIndexOf(",")).trim()
-                                // val uid = outData.subSequence(outData.lastIndexOf(",").plus(1), outData.length).trim()
-
-                                batteryOptimizationModel.packageInfo = packageInfo
-                                batteryOptimizationModel.type = type.toString()
-                                batteryOptimizationModel.isOptimized = false // App is not optimized
-                                batteryOptimizationArrayList.add(batteryOptimizationModel)
-                            } else {
-                                val batteryOptimizationModel = BatteryOptimizationModel()
-                                batteryOptimizationModel.packageInfo = packageInfo
-                                batteryOptimizationModel.isOptimized = true // App is optimized for better battery life
-                                if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
-                                    batteryOptimizationModel.type = BatteryOptimizationModel.TYPE_SYSTEM
-                                } else {
-                                    batteryOptimizationModel.type = BatteryOptimizationModel.TYPE_USER
+                            kotlin.runCatching {
+                                val outData = result.out.find { out ->
+                                    packageInfo.packageName == out.subSequence(out.indexOf(",").plus(1), out.lastIndexOf(",")).trim()
                                 }
-                                batteryOptimizationArrayList.add(batteryOptimizationModel)
+
+                                if (outData.isNotNull()) {
+                                    val batteryOptimizationModel = BatteryOptimizationModel()
+
+                                    val type = outData!!.subSequence(0, endIndex = outData.indexOf(",")).trim()
+                                    // val packageName = outData.subSequence(outData.indexOf(",").plus(1), outData.lastIndexOf(",")).trim()
+                                    // val uid = outData.subSequence(outData.lastIndexOf(",").plus(1), outData.length).trim()
+
+                                    batteryOptimizationModel.packageInfo = packageInfo
+                                    batteryOptimizationModel.type = type.toString()
+                                    batteryOptimizationModel.isOptimized = false // App is not optimized
+                                    batteryOptimizationArrayList.add(batteryOptimizationModel)
+                                } else {
+                                    val batteryOptimizationModel = BatteryOptimizationModel()
+                                    batteryOptimizationModel.packageInfo = packageInfo
+                                    batteryOptimizationModel.isOptimized = true // App is optimized for better battery life
+                                    if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+                                        batteryOptimizationModel.type = BatteryOptimizationModel.TYPE_SYSTEM
+                                    } else {
+                                        batteryOptimizationModel.type = BatteryOptimizationModel.TYPE_USER
+                                    }
+                                    batteryOptimizationArrayList.add(batteryOptimizationModel)
+                                }
                             }
                         }
 

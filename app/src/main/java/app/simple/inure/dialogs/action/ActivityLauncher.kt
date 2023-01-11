@@ -53,6 +53,10 @@ class ActivityLauncher : ScopedBottomSheetFragment() {
                 }
             }
         }
+
+        activityLauncherViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
+        }
     }
 
     companion object {

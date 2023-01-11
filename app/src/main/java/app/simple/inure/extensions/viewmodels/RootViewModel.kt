@@ -1,17 +1,19 @@
 package app.simple.inure.extensions.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.util.ConditionUtils.invert
+import com.topjohnwu.superuser.NoShellException
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 
-abstract class RootViewModel(application: Application) : WrappedViewModel(application), Shell.GetShellCallback {
+abstract class RootViewModel(application: Application) : WrappedViewModel(application) {
 
     private var shell: Shell? = null
 
@@ -20,43 +22,65 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
         viewModelScope.launch(Dispatchers.IO) {
             if (ConfigurationPreferences.isUsingRoot()) {
                 kotlin.runCatching {
-                    if (Shell.getShell().isRoot.invert()) {
-                        onShellDenied()
-                        warning.postValue(Warnings.getInureWarning01())
-                        return@launch
+                    // This is causing issues with the app
+                    //                    if (Shell.getShell().isRoot.invert()) {
+                    //                        onShellDenied()
+                    //                        warning.postValue(Warnings.getInureWarning01())
+                    //                        return@launch
+                    //                    }
+
+                    withTimeout(1) {
+                        Shell.enableVerboseLogging = DevelopmentPreferences.get(DevelopmentPreferences.debugMessages)
+
+                        kotlin.runCatching {
+                            Shell.setDefaultBuilder(
+                                    Shell.Builder
+                                        .create()
+                                        .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
+                                        .setTimeout(10))
+                        }.getOrElse {
+                            /**
+                             * Block crashed deliberately, shell already created
+                             * get the traces and ignore the warning
+                             */
+                            // it.printStackTrace()
+                        }
+
+                        Log.d("RootViewModel", "Shell initialization begins")
+
+                        Shell.cmd("su --mount-master").exec().let {
+                            if (it.isSuccess) {
+                                Log.d("RootViewModel", "Shell initialization successful")
+                                shell = Shell.getShell()
+                                onShellCreated(shell)
+                            } else {
+                                Log.d("RootViewModel", "Shell initialization failed")
+                                onShellDenied()
+                                warning.postValue(Warnings.getInureWarning01())
+                            }
+                        }
                     }
-
-                    Shell.enableVerboseLogging = DevelopmentPreferences.get(DevelopmentPreferences.debugMessages)
-
-                    kotlin.runCatching {
-                        Shell.setDefaultBuilder(
-                                Shell.Builder
-                                    .create()
-                                    .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                    .setTimeout(10))
-                    }.getOrElse {
-                        /**
-                         * Block crashed deliberately,
-                         * get the traces and ignore the warning
-                         */
-                        // it.printStackTrace()
-                    }
-
-                    Shell.getShell(this@RootViewModel)
                 }.onFailure {
-                    /**
-                     * Connection could not be established with the system shell
-                     * Show the warning to the user
-                     */
-                    warning.postValue(it.message)
+                    it.printStackTrace()
+
+                    if (it is NoShellException) {
+                        /**
+                         * Connection could not be established with the system shell
+                         * Show the warning to the user
+                         */
+                        warning.postValue(Warnings.getInureWarning01())
+                    } else {
+                        /**
+                         * Some other error occurred
+                         * Show the warning to the user
+                         */
+                        warning.postValue(it.message)
+                    }
+
+                    onShellDenied()
                 }
             }
         }
-    }
-
-    override fun onShell(shell: Shell) {
-        this.shell = shell
-        onShellCreated(shell)
     }
 
     override fun onCleared() {

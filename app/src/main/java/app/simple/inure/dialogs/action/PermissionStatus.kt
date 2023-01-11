@@ -72,6 +72,10 @@ class PermissionStatus : ScopedBottomSheetFragment() {
                 }
             }
         }
+
+        permissionStatusViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
+        }
     }
 
     fun setOnPermissionStatusCallbackListener(permissionStatusCallbacks: PermissionStatusCallbacks) {

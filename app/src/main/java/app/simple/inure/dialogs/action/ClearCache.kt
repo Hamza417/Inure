@@ -48,6 +48,10 @@ class ClearCache : ScopedBottomSheetFragment() {
                     }
                 }
             }
+
+            getWarning().observe(viewLifecycleOwner) {
+                showWarning(it)
+            }
         }
     }
 

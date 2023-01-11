@@ -63,6 +63,10 @@ class ComponentState : ScopedBottomSheetFragment() {
                 }
             }
         }
+
+        componentStateViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
+        }
     }
 
     fun setOnComponentStateChangeListener(componentStatusCallbacks: ComponentStatusCallbacks) {
