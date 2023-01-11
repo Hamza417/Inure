@@ -4,11 +4,17 @@ import android.content.res.Resources
 import android.os.Build
 import android.view.View
 import app.simple.inure.models.Locales
+import app.simple.inure.preferences.ConfigurationPreferences
 import java.util.*
 
 object LocaleHelper {
 
     private var appLocale = Locale.getDefault()
+
+    /**
+     * Code for russian locale
+     */
+    private const val russianLocale = "ru-RU"
 
     fun getSystemLanguageCode(): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -52,5 +58,9 @@ object LocaleHelper {
 
     fun Resources.isRTL(): Boolean {
         return configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+    }
+
+    fun isAppRussianLocale(): Boolean {
+        return ConfigurationPreferences.getAppLanguage() == russianLocale
     }
 }

@@ -17,9 +17,12 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.PackageListUtils.setAppInfo
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.Sort
+import app.simple.inure.util.StatusBarHeight
 import java.util.*
 
 class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
@@ -30,8 +33,13 @@ class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_header_all_apps, parent, false))
+                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_all_apps_ru, parent, false))
+                } else {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_all_apps, parent, false))
+                }
             }
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)

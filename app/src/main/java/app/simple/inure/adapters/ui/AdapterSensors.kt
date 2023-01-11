@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SensorsPreferences
+import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.RecyclerViewUtils
-import app.simple.inure.util.Sort
 import app.simple.inure.util.SortSensors
+import app.simple.inure.util.StatusBarHeight
 
 class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
@@ -24,8 +24,13 @@ class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Ad
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_header_sensors, parent, false))
+                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_sensors_ru, parent, false))
+                } else {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_sensors, parent, false))
+                }
             }
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)

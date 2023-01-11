@@ -45,13 +45,14 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/header_padding"
         android:layout_marginTop="@dimen/header_padding"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/adapter_total_sensors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
             android:drawablePadding="@dimen/popup_padding"
             android:text="@string/sensors"
             android:textSize="@dimen/popup_text_size"
@@ -66,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
             android:drawablePadding="@dimen/popup_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"

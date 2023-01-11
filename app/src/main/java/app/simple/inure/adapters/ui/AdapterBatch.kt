@@ -18,10 +18,9 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.*
 import app.simple.inure.util.ArrayUtils.move
-import app.simple.inure.util.DateUtils
-import app.simple.inure.util.RecyclerViewUtils
-import app.simple.inure.util.Sort
+import app.simple.inure.util.ConditionUtils.invert
 import java.util.stream.Collectors
 
 class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boolean = true) : RecyclerView.Adapter<VerticalListViewHolder>() {
@@ -33,8 +32,13 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_header_batch, parent, false))
+                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_batch_ru, parent, false))
+                } else {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_batch, parent, false))
+                }
             }
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
