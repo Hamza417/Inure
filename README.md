@@ -27,12 +27,15 @@ An elegant Android app manager, currently in development
 [![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-$5.99-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
 [![](https://img.shields.io/badge/Full%20Unlocker%20(Play%20Store)-~$5.99-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
 
+*NOTE:* GumRoad isn't available at the moment, I'm working on it. Meanwhile if you need to make a purchase outside Play Store, kindly contact me.
+
 ## Featured
 
 - [Android Weekly Issue #465](https://androidweekly.net/issues/issue-465)
 - ["Inure, a beautifully animated Android App Manager." - Android Dev Notes](https://twitter.com/androiddevnotes/status/1389111968670179340)
 - [Top 5 Android Apps of the Week - NextPit](https://www.nextpit.com/apps-of-the-week-51-2021)
 - [5 Super Useful OPENSOURCE Apps for Android - TechDoc](https://youtu.be/vlf0jEFHR74)
+
 ## About
 
 Inure is an Android application package manager irrespective of whether they're installed or not, it
