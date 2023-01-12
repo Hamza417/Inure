@@ -143,3 +143,63 @@ mark.red {
     color:#ff0000;
     background: none;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: rgb(245, 245, 245);
+  }
+
+  h3 {
+  	color: rgb(250, 250, 250);
+  }
+
+  h4 {
+  	color: rgb(250, 250, 250);
+  }
+
+  li {
+  	color: rgb(245, 245, 245);
+  	text-align: left;
+  }
+
+  li::marker {
+  	color: grey;
+  }
+
+  p {
+      color: rgb(245, 245, 245);
+      text-align: left;
+  }
+
+  sub {
+      color: rgb(245, 245, 245);
+  }
+
+  ul {
+      color: rgb(245, 245, 245);
+  }
+
+  small {
+      color: rgb(120, 120, 120);
+  }
+
+  a:link {
+  	color: rgb(52, 152, 219);
+  	text-decoration: none;
+  	background-color: transparent;
+  }
+
+  hr {
+      height: 0.5px;
+      border-width: 0px;
+      background-color: grey;
+  }
+
+  code {
+      border: 1px solid #222222;
+      display: block;
+      background: #222222;
+      padding: 20px;
+      width: auto;
+  }
+}

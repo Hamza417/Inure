@@ -2,6 +2,7 @@ package app.simple.inure.decorations.views
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -27,9 +28,21 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
 
         color = AppearancePreferences.getAccentColor().toHexColor()
 
-        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            if (ThemeUtils.isNightMode(resources)) {
-                WebSettingsCompat.setForceDark(this.settings, WebSettingsCompat.FORCE_DARK_ON)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
+                WebSettingsCompat.setAlgorithmicDarkeningAllowed(this.settings, ThemeUtils.isNightMode(resources))
+            } else if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                if (ThemeUtils.isNightMode(resources)) {
+                    @Suppress("DEPRECATION")
+                    WebSettingsCompat.setForceDark(this.settings, WebSettingsCompat.FORCE_DARK_ON)
+                }
+            }
+        } else {
+            if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                if (ThemeUtils.isNightMode(resources)) {
+                    @Suppress("DEPRECATION")
+                    WebSettingsCompat.setForceDark(this.settings, WebSettingsCompat.FORCE_DARK_ON)
+                }
             }
         }
 
