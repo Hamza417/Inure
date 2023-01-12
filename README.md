@@ -27,8 +27,6 @@ An elegant Android app manager, currently in development
 [![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-$5.99-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
 [![](https://img.shields.io/badge/Full%20Unlocker%20(Play%20Store)-~$5.99-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
 
-*NOTE:* GumRoad isn't available at the moment, I'm working on it. Meanwhile if you need to make a purchase outside Play Store, kindly contact me.
-
 ## Featured
 
 - [Android Weekly Issue #465](https://androidweekly.net/issues/issue-465)
