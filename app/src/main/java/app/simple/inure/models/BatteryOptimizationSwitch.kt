@@ -48,14 +48,14 @@ class BatteryOptimizationSwitch : ScopedDialogFragment() {
 
         optimizeRadioButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                batteryOptimizationModel?.isOptimized = true
+                batteryOptimizationModel?.isOptimized = false // This should be inverted in [BatteryOptimizationViewModel.setBatteryOptimization]
                 dontOptimizeRadioButton.isChecked = false
             }
         }
 
         dontOptimizeRadioButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                batteryOptimizationModel?.isOptimized = false
+                batteryOptimizationModel?.isOptimized = true // This should be inverted in [BatteryOptimizationViewModel.setBatteryOptimization]
                 optimizeRadioButton.isChecked = false
             }
         }

@@ -94,11 +94,11 @@ class AboutScreen : ScopedFragment() {
 
     private fun setAppVersionTag() {
         if (AppUtils.isGithubFlavor()) {
-            versionTag.append(" (Github)")
+            versionTag.append(" (Github/FOSS)")
             ForegroundColorSpan(ThemeManager.theme.textViewTheme.tertiaryTextColor).let { foregroundColorSpan ->
                 versionTag.text.toSpannable().let { spannable ->
                     spannable.setSpan(foregroundColorSpan, versionTag.text.indexOfFirst { it == '(' },
-                                      versionTag.text.lastIndex.plus(1),
+                                      versionTag.text.length,
                                       Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                     versionTag.text = spannable
                 }
@@ -108,7 +108,7 @@ class AboutScreen : ScopedFragment() {
             ForegroundColorSpan(ThemeManager.theme.textViewTheme.tertiaryTextColor).let { foregroundColorSpan ->
                 versionTag.text.toSpannable().let { spannable ->
                     spannable.setSpan(foregroundColorSpan, versionTag.text.indexOfFirst { it == '(' },
-                                      versionTag.text.lastIndex.plus(1),
+                                      versionTag.text.length,
                                       Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                     versionTag.text = spannable
                 }

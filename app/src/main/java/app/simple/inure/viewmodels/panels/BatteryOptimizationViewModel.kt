@@ -14,7 +14,6 @@ import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatteryOptimizationPreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.SortBatteryOptimization.getSortedList
 import com.topjohnwu.superuser.Shell
@@ -120,12 +119,11 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
 
     fun setBatteryOptimization(batteryOptimizationModel: BatteryOptimizationModel, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            Shell.cmd("dumpsys deviceidle whitelist ${if (batteryOptimizationModel.isOptimized) "+" else "-"}${batteryOptimizationModel.packageInfo.packageName}").exec().let {
+            Shell.cmd("dumpsys deviceidle whitelist ${if (batteryOptimizationModel.isOptimized) "+" else "-"}" +
+                              batteryOptimizationModel.packageInfo.packageName).exec().let {
                 if (it.isSuccess) {
-                    if (DevelopmentPreferences.get(DevelopmentPreferences.alternativeBatteryOptimizationSwitch)) {
-                        batteryOptimizationModel.isOptimized = !batteryOptimizationModel.isOptimized
-                    }
-
+                    // Invert the state here
+                    batteryOptimizationModel.isOptimized = !batteryOptimizationModel.isOptimized
                     batteryOptimizationUpdate.postValue(Pair(batteryOptimizationModel, position))
                 }
             }
