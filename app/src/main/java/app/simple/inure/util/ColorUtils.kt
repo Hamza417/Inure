@@ -14,11 +14,16 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Size
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.math.MathUtils
 import androidx.core.widget.TextViewCompat
 import app.simple.inure.R
 import com.google.android.material.animation.ArgbEvaluatorCompat
 
 object ColorUtils {
+
+    private const val DEFAULT_DESATURATION_AMOUNT = 0.75f
+    private const val DEFAULT_DESATURATION_THRESHOLD = 0.25f
+
     @ColorInt
     fun Context.resolveAttrColor(@AttrRes attr: Int): Int {
         val a = theme.obtainStyledAttributes(intArrayOf(attr))
@@ -123,6 +128,34 @@ object ColorUtils {
             b = hue2rgb(p, q, h - 1f / 3)
         }
         return Color.rgb((r * 255).toInt(), (g * 255).toInt(), (b * 255).toInt())
+    }
+
+    fun Int.desaturateColor(): Int {
+        return desaturate(this, DEFAULT_DESATURATION_AMOUNT, DEFAULT_DESATURATION_THRESHOLD)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun desaturate(@ColorInt color: Int, amount: Float, minDesaturation: Float): Int {
+        val originalAlpha = Color.alpha(color)
+        if (color == Color.TRANSPARENT || originalAlpha == 0) {
+            // can't desaturate transparent color
+            return color
+        }
+        val colorWithFullAlpha: Int = androidx.core.graphics.ColorUtils.setAlphaComponent(color, 255)
+        val hsl = FloatArray(3)
+        androidx.core.graphics.ColorUtils.colorToHSL(colorWithFullAlpha, hsl)
+        if (hsl[1] > minDesaturation) {
+            hsl[1] = MathUtils.clamp(
+                    hsl[1] - amount,
+                    minDesaturation,
+                    1f
+            )
+        }
+        val desaturatedColorWithFullAlpha: Int = androidx.core.graphics.ColorUtils.HSLToColor(hsl)
+        return androidx.core.graphics.ColorUtils.setAlphaComponent(
+                desaturatedColorWithFullAlpha,
+                originalAlpha
+        )
     }
 
     private fun hue2rgb(p: Float, q: Float, t: Float): Float {

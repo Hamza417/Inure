@@ -1,0 +1,4 @@
+• Fixed change logs reminder popup not closing.
+• Fixed dark webpage issue.
+• Fixed new battery optimization popup not working.
+• Added version flavor tag in About panel.
