@@ -6,10 +6,8 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
 
-    def appVersionCode = 58
-    def appVersionName = "build_${appVersionCode}_final (beta)"
+    compileSdkVersion 33
 
     buildFeatures {
         viewBinding false
@@ -19,8 +17,8 @@ android {
         applicationId "app.simple.inure"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode appVersionCode
-        versionName appVersionName
+        versionCode 59
+        versionName "build59_final (beta)"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -59,7 +57,7 @@ android {
     productFlavors {
         github { // GitHub build
             dimension "version"
-            versionNameSuffix "-github"
+            //   versionNameSuffix "-github"
         }
         play { // Play Store build
             dimension "version"
