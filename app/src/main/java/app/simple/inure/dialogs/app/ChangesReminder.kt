@@ -14,11 +14,13 @@ import app.simple.inure.ui.panels.WebPage
 class ChangesReminder : ScopedBottomSheetFragment() {
 
     private lateinit var sure: DynamicRippleTextView
+    private lateinit var cancel: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_changelogs_reminded, container, false)
 
         sure = view.findViewById(R.id.sure)
+        cancel = view.findViewById(R.id.cancel)
 
         return view
     }
@@ -30,6 +32,10 @@ class ChangesReminder : ScopedBottomSheetFragment() {
 
         sure.setOnClickListener {
             openFragmentSlide(WebPage.newInstance(getString(R.string.change_logs)), "changelogs")
+            dismiss()
+        }
+
+        cancel.setOnClickListener {
             dismiss()
         }
     }
