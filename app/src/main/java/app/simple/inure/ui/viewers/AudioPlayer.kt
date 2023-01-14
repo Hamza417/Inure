@@ -3,9 +3,9 @@ package app.simple.inure.ui.viewers
 import android.annotation.SuppressLint
 import android.content.*
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.view.LayoutInflater
@@ -15,27 +15,33 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
+import androidx.core.view.doOnPreDraw
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.theme.ThemeMaterialCardView
 import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
-import app.simple.inure.extensions.fragments.ScopedAudioPlayerDialogFragment
-import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
-import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
+import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioService
 import app.simple.inure.util.FileUtils.getMimeType
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NumberUtils
-import app.simple.inure.util.ViewUtils
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
-class AudioPlayer : ScopedAudioPlayerDialogFragment() {
+class AudioPlayer : ScopedFragment() {
 
     private lateinit var art: ImageView
     private lateinit var replay: DynamicRippleImageButton
@@ -47,7 +53,6 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
     private lateinit var artist: TypeFaceTextView
     private lateinit var album: TypeFaceTextView
     private lateinit var fileInfo: TypeFaceTextView
-    private lateinit var playerContainer: ThemeMaterialCardView
     private lateinit var seekBar: ThemeSeekBar
     private lateinit var loader: CustomProgressBar
 
@@ -59,6 +64,7 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
     private val audioIntentFilter = IntentFilter()
     private var serviceBound = false
     private var wasSongPlaying = false
+    private var fromActivity = false
 
     /**
      * [currentPosition] will keep the current position of the playback
@@ -86,14 +92,12 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
         album = view.findViewById(R.id.mime_album)
         seekBar = view.findViewById(R.id.seekbar_mime)
         loader = view.findViewById(R.id.loader)
-        playerContainer = view.findViewById(R.id.container)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            uri = requireArguments().getParcelable("uri", Uri::class.java)!!
-        } else {
-            @Suppress("DEPRECATION")
-            uri = requireArguments().getParcelable("uri")!!
-        }
+        uri = requireArguments().parcelable(BundleConstants.uri)
+        art.transitionName = uri.toString()
+        art.loadFromFileDescriptor(uri!!)
+
+        fromActivity = requireArguments().getBoolean(BundleConstants.fromActivity, false)
 
         audioIntentFilter.addAction(ServiceConstants.actionPrepared)
         audioIntentFilter.addAction(ServiceConstants.actionQuitMusicService)
@@ -109,11 +113,7 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        playerContainer.radius = AppearancePreferences.getCornerRadius()
-        ViewUtils.addShadow(playerContainer)
         replayButtonStatus(animate = false)
-
-        playerContainer.isEnabled = false
         playPause.isEnabled = false
 
         serviceConnection = object : ServiceConnection {
@@ -155,9 +155,7 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
                             artist.text = audioService?.metaData?.artists
                             album.text = audioService?.metaData?.album
                             fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
-                            art.loadFromFileDescriptor(uri!!)
                             loader.gone(animate = true)
-                            playerContainer.isEnabled = true
                             playPause.isEnabled = true
                             wasSongPlaying = true
                             buttonStatus(audioService?.isPlaying()!!, animate = false)
@@ -191,8 +189,8 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     art.animate()
-                        .scaleX(0.8F)
-                        .scaleY(0.8F)
+                        .scaleX(1.2F)
+                        .scaleY(1.2F)
                         .setInterpolator(DecelerateInterpolator(1.5F))
                         .start()
                 }
@@ -213,7 +211,7 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
                 }
             }
 
-            true
+            false
         }
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -243,14 +241,13 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
             audioService?.changePlayerState()!!
         }
 
-        playerContainer.setOnClickListener {
+        art.setOnClickListener {
             audioService?.changePlayerState()!!
         }
 
         close.setOnClickListener {
             handler.removeCallbacks(progressRunnable)
             stopService()
-            dismiss()
         }
     }
 
@@ -282,7 +279,11 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
         serviceBound = false
         requireContext().unbindService(serviceConnection!!)
         requireContext().stopService(Intent(requireContext(), AudioService::class.java))
-        requireActivity().finish()
+        if (fromActivity) {
+            requireActivity().finish()
+        } else {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
     private val progressRunnable: Runnable = object : Runnable {
@@ -322,20 +323,50 @@ class AudioPlayer : ScopedAudioPlayerDialogFragment() {
         }
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+    override fun onDestroy() {
+        super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!)
     }
 
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-        requireActivity().finish()
+    /**
+     * @param uri requires a valid file uri and not art uri else
+     * error 0x80000000 will be thrown by the MediaMetadataRetriever
+     *
+     * Asynchronously load Album Arts for song files from their URIs using file descriptor
+     */
+    fun ImageView.loadFromFileDescriptor(uri: Uri) {
+        postponeEnterTransition()
+
+        GlideApp.with(this)
+            .asBitmap()
+            .transform(CenterCrop())
+            .load(DescriptorCoverModel(this.context, uri))
+            .addListener(object : RequestListener<Bitmap> {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                    this@loadFromFileDescriptor.setImageResource(R.drawable.ani_ic_app_icon).also {
+                        (this@loadFromFileDescriptor.drawable as AnimatedVectorDrawable).start()
+                    }
+                    (view?.parent as? ViewGroup)?.doOnPreDraw {
+                        startPostponedEnterTransition()
+                    }
+                    return true
+                }
+
+                override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    (view?.parent as? ViewGroup)?.doOnPreDraw {
+                        startPostponedEnterTransition()
+                    }
+                    return false
+                }
+            })
+            .into(this)
     }
 
     companion object {
-        fun newInstance(uri: Uri): AudioPlayer {
+        fun newInstance(uri: Uri, fromActivity: Boolean = false): AudioPlayer {
             val args = Bundle()
-            args.putParcelable("uri", uri)
+            args.putParcelable(BundleConstants.uri, uri)
+            args.putBoolean(BundleConstants.fromActivity, fromActivity)
             val fragment = AudioPlayer()
             fragment.arguments = args
             return fragment

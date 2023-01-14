@@ -5,19 +5,21 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.net.toUri
-import app.simple.inure.extensions.activities.TransparentBaseActivity
+import app.simple.inure.R
+import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.ui.viewers.AudioPlayer
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ThemeUtils
 
-class AudioPlayerActivity : TransparentBaseActivity() {
+class AudioPlayerActivity : BaseActivity() {
 
     private var uri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        postponeEnterTransition()
 
         if (savedInstanceState.isNull()) {
             kotlin.runCatching {
@@ -29,10 +31,11 @@ class AudioPlayerActivity : TransparentBaseActivity() {
                     intent!!.data
                 }
 
-                val dialog = AudioPlayer.newInstance(uri!!)
-                dialog.show(supportFragmentManager, "audio_player")
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.app_container, AudioPlayer.newInstance(uri!!, fromActivity = true), "audio_player")
+                    .commit()
             }.getOrElse {
-                showError(it)
+                showError(it.stackTraceToString())
             }
         }
     }

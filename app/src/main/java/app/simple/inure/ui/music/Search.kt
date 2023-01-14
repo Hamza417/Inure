@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.net.toUri
 import androidx.core.widget.doOnTextChanged
@@ -80,7 +81,7 @@ class Search : KeyboardScopedFragment() {
             val adapterMusic = AdapterMusic(it, false)
 
             adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
-                override fun onMusicClicked(uri: Uri) {
+                override fun onMusicClicked(uri: Uri, art: ImageView) {
                     val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
                     intent.data = uri
                     startActivity(intent)

@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.net.toUri
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
@@ -24,6 +26,7 @@ import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.popups.music.PopupMusicSort
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioService
+import app.simple.inure.ui.viewers.AudioPlayer
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
 class Music : KeyboardScopedFragment() {
@@ -52,10 +55,19 @@ class Music : KeyboardScopedFragment() {
             adapterMusic = AdapterMusic(it, headerMode = true)
 
             adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
-                override fun onMusicClicked(uri: Uri) {
-                    val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                    intent.data = uri
-                    startActivity(intent)
+                override fun onMusicClicked(uri: Uri, art: ImageView) {
+                    //                    val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
+                    //                    intent.data = uri
+                    //
+                    //                    if (BehaviourPreferences.isArcAnimationOn()) {
+                    //                        Log.d("Music", art.transitionName)
+                    //                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), art, art.transitionName)
+                    //                        startActivity(intent, options.toBundle())
+                    //                    } else {
+                    //                        startActivity(intent)
+                    //                    }
+
+                    openFragmentArc(AudioPlayer.newInstance(uri), art, "audio_player")
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: View, position: Int) {
@@ -90,6 +102,10 @@ class Music : KeyboardScopedFragment() {
 
             recyclerView.adapter = adapterMusic
 
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_sort -> {
@@ -116,8 +132,6 @@ class Music : KeyboardScopedFragment() {
                     }
                 }
             }
-
-            startPostponedEnterTransition()
         }
 
         musicViewModel.getDeleted().observe(viewLifecycleOwner) {

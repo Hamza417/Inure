@@ -52,13 +52,14 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             holder.artists.text = list[position].artists
             holder.album.text = list[position].album
 
+            holder.art.transitionName = list[position].fileUri
             holder.art.loadFromUri(holder.context, Uri.parse(list[position].artUri))
             holder.container.setDefaultBackground(MusicPreferences.getLastMusicId() == list[position].id)
 
             holder.container.setOnClickListener {
                 MusicPreferences.setLastMusicId(list[position].id)
                 id = list[position].id
-                musicCallbacks?.onMusicClicked(Uri.parse(list[position].fileUri))
+                musicCallbacks?.onMusicClicked(Uri.parse(list[position].fileUri), holder.art)
                 updateHighlightedSongState()
             }
 
@@ -131,7 +132,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     companion object {
         interface MusicCallbacks {
-            fun onMusicClicked(uri: Uri)
+            fun onMusicClicked(uri: Uri, art: ImageView)
             fun onMusicLongClicked(audioModel: AudioModel, view: View, position: Int)
         }
     }

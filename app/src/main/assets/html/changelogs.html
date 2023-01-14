@@ -17,42 +17,67 @@
 
 <!-- Write change logs here -->
 
-<h4>Bug Fixes</h4>
+<h4>Music</h4>
 
 <ul>
-    <li>Fixed change logs reminder popup not closing on cancel click.</li>
-    <li>Workaround an issue where webpages continues to appear dark on dark themes causing
-        accessibility issues.
-        <br>
-        <small>The fix may still not work because WebView is only responding to system theme and
-               there's no way to set that except setting the theme to the entire app using Android
-               APIs. Inure cannot work like that, that's why it's breaking. I added a few
-               workarounds
-               and to some extent, the fix should be fine.
-            <br>
-               The fix will only work when the whole system is set to dark mode. App level dark mode
-               will still break the theme.
-        </small>
+    <li>New pretty cool interface redesign.</li>
+    <li>Added fluid animations between app and music panel.</li>
+    <li>Embedded music right into the app and won't require a new activity to run the music from the
+        app.
     </li>
-    <li>Fixed <i>Battery Optimization Switcher</i> dialog not setting the state properly.</li>
-</ul>
-
-<h4>Development</h4>
-
-<ul>
-    <li>Added <i>Version Tag</i> in <i>About</i> preferences section.</li>
-    <li>Using hard-coded strings for newer builds.</li>
-    <li>Removed flavor tags from the version codes.</li>
-</ul>
-
-<h4>Typeface</h4>
-
-<ul>
-    <li>Added <i>JetBrains Mono</i> font.</li>
-    <li>Added <i>Rajdhani</i> font.</li>
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input class="toggle" id="build_59" type="checkbox">
+    <label class="lbl-toggle" for="build_59">Build59</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed change logs reminder popup not closing on cancel click.</li>
+                <li>Workaround an issue where webpages continues to appear dark on dark themes
+                    causing
+                    accessibility issues.
+                    <br>
+                    <small>The fix may still not work because WebView is only responding to system
+                           theme and
+                           there's no way to set that except setting the theme to the entire app
+                           using Android
+                           APIs. Inure cannot work like that, that's why it's breaking. I added a
+                           few
+                           workarounds
+                           and to some extent, the fix should be fine.
+                        <br>
+                           The fix will only work when the whole system is set to dark mode. App
+                           level dark mode
+                           will still break the theme.
+                    </small>
+                </li>
+                <li>Fixed <i>Battery Optimization Switcher</i> dialog not setting the state
+                    properly.
+                </li>
+            </ul>
+
+            <h4>Development</h4>
+
+            <ul>
+                <li>Added <i>Version Tag</i> in <i>About</i> preferences section.</li>
+                <li>Using hard-coded strings for newer builds.</li>
+                <li>Removed flavor tags from the version codes.</li>
+            </ul>
+
+            <h4>Typeface</h4>
+
+            <ul>
+                <li>Added <i>JetBrains Mono</i> font.</li>
+                <li>Added <i>Rajdhani</i> font.</li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input class="toggle" id="build_58" type="checkbox">
