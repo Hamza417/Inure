@@ -638,4 +638,5 @@
     <string name="trackers_message">在 %2$d 個類別上測試了 %1$d 個簽章</string>
     <string name="trackers_title">%1$d 個追蹤器 = %1$d 個類別</string>
     <string name="inure_has_been_updated">Inure 已更新，要查看變更記錄嗎？</string>
+    <string name="refetching_data">重新擷取資料</string>
 </resources>
