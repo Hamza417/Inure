@@ -189,6 +189,7 @@ class MainActivity : BaseActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        Log.d("MainActivity", "onConfigurationChanged")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU) {
                 recreate()

@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
+import android.os.Build
+import android.util.Log
 import android.view.Window
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -40,6 +42,7 @@ object ThemeUtils {
                 ThemeManager.theme = Theme.HIGH_CONTRAST
             }
             ThemeConstants.FOLLOW_SYSTEM -> {
+                // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
                         when (AppearancePreferences.getLastDarkTheme()) {
@@ -195,12 +198,15 @@ object ThemeUtils {
             ThemeConstants.FOLLOW_SYSTEM -> {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
+                        Log.d("ThemeManager", "isNightMode: true")
                         return true
                     }
                     Configuration.UI_MODE_NIGHT_NO -> {
+                        Log.d("ThemeManager", "isNightMode: false")
                         return false
                     }
                     Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                        Log.d("ThemeManager", "Undefined night mode")
                         return false
                     }
                 }
@@ -216,6 +222,14 @@ object ThemeUtils {
         }
 
         return false
+    }
+
+    fun isFollowSystem(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AppearancePreferences.getTheme() == ThemeConstants.FOLLOW_SYSTEM || AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU
+        } else {
+            AppearancePreferences.getTheme() == ThemeConstants.FOLLOW_SYSTEM
+        }
     }
 
     fun updateNavAndStatusColors(resources: Resources, window: Window) {

@@ -62,7 +62,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             }
         }
 
-        ThemeUtils.setAppTheme(resources)
+        ThemeUtils.setAppTheme(baseContext.resources)
 
         with(window) {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
@@ -77,6 +77,22 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+
+        //        /**
+        //         * Workaround for webview dark page issue
+        //         */
+        //        if(ThemeUtils.isFollowSystem()) {
+        //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        //        } else {
+        //            if(ThemeUtils.isNightMode(resources)) {
+        //                Log.d("BaseActivity", "Night mode enabled")
+        //                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        //            } else {
+        //                Log.d("BaseActivity", "Night mode disabled")
+        //                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        //            }
+        //        }
+
         setTheme()
         setContentView(R.layout.activity_main)
 
