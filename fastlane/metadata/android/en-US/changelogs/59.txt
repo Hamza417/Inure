@@ -2,3 +2,4 @@
 - Fixed dark webpage issue.
 - Fixed new battery optimization popup not working.
 - Added version flavor tag in About panel.
+- Added two new fonts.

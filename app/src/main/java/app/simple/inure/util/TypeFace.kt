@@ -45,10 +45,12 @@ object TypeFace {
     private const val COMFORTAA = "comfortaa"
     private const val CHILLAX = "chillax"
     private const val BONNY = "bonny"
-    private const val SOURCE_SANS_PRO = "source_sans_pro"
+    private const val SOURCE_CODE_PRO = "source_code_pro"
     private const val FREDOKA = "fredoka"
     private const val HEEBO = "heebo"
     private const val MALI = "mali"
+    private const val RAJDHANI = "rajdhani"
+    private const val JETBRAINS_MONO = "jetbrains_mono"
 
     fun getTypeFace(appFont: String, style: Int, context: Context): Typeface? {
         var typeface: Typeface? = null
@@ -431,7 +433,7 @@ object TypeFace {
                     }
                 }
             }
-            SOURCE_SANS_PRO -> {
+            SOURCE_CODE_PRO -> {
                 when (style) {
                     0 -> {
                         typeface = ResourcesCompat.getFont(context, R.font.source_code_pro_light)
@@ -495,6 +497,48 @@ object TypeFace {
                     }
                 }
             }
+            RAJDHANI -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.rajdhani_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.rajdhani_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.rajdhani_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.rajdhani_bold)
+                    }
+                }
+            }
+            JETBRAINS_MONO -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.jetbrains_mono_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.jetbrains_mono_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.jetbrains_mono_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.jetbrains_mono_bold)
+                    }
+                }
+            }
+            else -> {
+                when (style) {
+                    0, 1 -> {
+                        typeface = Typeface.DEFAULT
+                    }
+                    2, 3 -> {
+                        typeface = Typeface.DEFAULT_BOLD
+                    }
+                }
+            }
         }
 
         return typeface
@@ -544,10 +588,12 @@ object TypeFace {
             TypeFaceModel("Comfortaa", R.font.comfortaa_bold, COMFORTAA),
             TypeFaceModel("Chillax", R.font.chillax_semi_bold, CHILLAX),
             TypeFaceModel("Bonny", R.font.bonny_bold, BONNY),
-            TypeFaceModel("SourceSans Pro", R.font.source_code_pro_bold, SOURCE_SANS_PRO),
+            TypeFaceModel("Source Code Pro", R.font.source_code_pro_bold, SOURCE_CODE_PRO),
             TypeFaceModel("Fredoka", R.font.fredoka_bold, FREDOKA),
             TypeFaceModel("Heebo", R.font.heebo_bold, HEEBO),
-            TypeFaceModel("Mali", R.font.mali_bold, MALI)
+            TypeFaceModel("Mali", R.font.mali_bold, MALI),
+            TypeFaceModel("Rajdhani", R.font.rajdhani_bold, RAJDHANI),
+            TypeFaceModel("JetBrains Mono", R.font.jetbrains_mono_bold, JETBRAINS_MONO)
     )
 
     class TypeFaceModel(
