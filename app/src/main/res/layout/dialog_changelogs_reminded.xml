@@ -42,7 +42,7 @@
                 android:layout_gravity="end|center_vertical"
                 android:gravity="center"
                 android:padding="@dimen/dialog_padding"
-                android:text="@string/cancel"
+                android:text="@string/close"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:textColorStyle="accent" />
