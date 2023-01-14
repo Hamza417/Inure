@@ -1,4 +1,4 @@
-package app.simple.inure.models
+package app.simple.inure.dialogs.batteryoptimizations
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.InureRadioButton
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.interfaces.dialog.BatteryOptimizationCallbacks
+import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.util.ParcelUtils.parcelable
 
 class BatteryOptimizationSwitch : ScopedDialogFragment() {

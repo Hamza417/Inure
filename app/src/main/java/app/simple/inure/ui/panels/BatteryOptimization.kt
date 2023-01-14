@@ -11,11 +11,11 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatteryOptimization
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.batteryoptimizations.BatteryOptimizationSwitch.Companion.showBatteryOptimizationSwitch
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.dialog.BatteryOptimizationCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
-import app.simple.inure.models.BatteryOptimizationSwitch.Companion.showBatteryOptimizationSwitch
 import app.simple.inure.popups.battery.PopupBatteryOptimizationCategory
 import app.simple.inure.popups.battery.PopupBatteryOptimizationSortingStyle
 import app.simple.inure.popups.battery.PopupOptimizationSwitch

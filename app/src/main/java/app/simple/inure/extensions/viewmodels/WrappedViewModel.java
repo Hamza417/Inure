@@ -80,7 +80,7 @@ public class WrappedViewModel extends AndroidViewModel {
         error.postError(throwable, getApplication());
     }
     
-    protected void onAppUninstalled(String packageName) {
+    public void onAppUninstalled(String packageName) {
     
     }
     

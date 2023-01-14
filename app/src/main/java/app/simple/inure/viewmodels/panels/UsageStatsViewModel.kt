@@ -243,7 +243,14 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
     }
 
     override fun onAppUninstalled(packageName: String?) {
-        super.onAppUninstalled(packageName)
-        loadAppStats()
+        viewModelScope.launch(Dispatchers.Default) {
+            val list = usageData.value
+
+            list?.removeAll { p ->
+                p.packageInfo?.packageName == packageName
+            }
+
+            usageData.postValue(list)
+        }
     }
 }

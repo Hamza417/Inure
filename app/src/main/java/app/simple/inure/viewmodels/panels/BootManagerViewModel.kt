@@ -161,6 +161,11 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
         }
     }
 
+    override fun onAppUninstalled(packageName: String?) {
+        super.onAppUninstalled(packageName)
+        reloadBootComponentData()
+    }
+
     fun enableAllComponents(bootManagerModel: BootManagerModel, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             (bootManagerModel.enabledComponents + bootManagerModel.disabledComponents).forEach { component ->

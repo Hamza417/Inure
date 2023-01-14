@@ -155,8 +155,20 @@ class AppsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     override fun onAppUninstalled(packageName: String?) {
-        super.onAppUninstalled(packageName)
-        loadAppData()
+        viewModelScope.launch(Dispatchers.Default) {
+            val apps = appData.value
+
+            if (apps != null) {
+                for (i in apps.indices) {
+                    if (apps[i].packageName == packageName) {
+                        apps.removeAt(i)
+                        break
+                    }
+                }
+
+                appData.postValue(apps)
+            }
+        }
     }
 
     fun clearGeneratedAppsDataLiveData() {
