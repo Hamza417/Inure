@@ -50,4 +50,4 @@ Inure is a powerful open source applications manager and analyzer with a good-lo
 
 <b>Note</b>
 
-Inure is currently in stable-beta stage and there maybe features that are not yet added, and the app may crash sometimes. I am actively developing this app and would love to hear feedback, ideas and general discussions about the app. You can submit your feedback on GitHub: https://bit.ly/inure_discussion or join Telegram group for the app (Recommended): https://t.me/inure_app_manager
+Inure is currently in stable-beta stage and there maybe features that are not yet added, and the app may crash sometimes. I am actively developing this app and would love to hear feedback, ideas and general discussions about the app. You can submit your feedback on <a href="https://github.com/Hamza417/Inure/discussions/48">GitHub Discussion</a> or join <a href="https://t.me/inure_app_manager">Telegram Group</a> for the app (Recommended).

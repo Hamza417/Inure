@@ -165,7 +165,7 @@ class AudioPlayer : ScopedFragment() {
                         }
                     }
                     ServiceConstants.actionQuitMusicService -> {
-                        requireActivity().finish()
+                        finish()
                     }
                     ServiceConstants.actionPlay -> {
                         buttonStatus(true)
@@ -279,6 +279,10 @@ class AudioPlayer : ScopedFragment() {
         serviceBound = false
         requireContext().unbindService(serviceConnection!!)
         requireContext().stopService(Intent(requireContext(), AudioService::class.java))
+        finish()
+    }
+
+    private fun finish() {
         if (fromActivity) {
             requireActivity().finish()
         } else {
