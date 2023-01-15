@@ -14,7 +14,7 @@ An elegant Android app manager, currently in development
 ![](https://img.shields.io/badge/Minimum%20SDK-23%20(Marshmallow)-839192?logo=android&logoColor=white)
 ![](https://img.shields.io/badge/Target%20SDK-33%20(Android%2013)-566573?logo=android&logoColor=white)
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
-[![Telegram Group](https://img.shields.io/badge/Telegram%20Group-blue?logo=telegram)](https://t.me/inure_app_manager)
+[![Telegram Channel](https://img.shields.io/badge/Telegram%20Channel-blue?logo=telegram)](https://t.me/inure_app_manager)
 
 ## Download
 
@@ -53,8 +53,7 @@ theme color modes.
 
 Currently, the app is in stable beta testing stage. You can join app's early beta testing
 from [Play Store](https://play.google.com/store/apps/details?id=app.simple.inure) and
-its [Telegram Group](https://t.me/inure_app_manager) for development related updates and
-discussions.
+its [Telegram Channel](https://t.me/inure_app_manager) for development related updates.
 
 If you've tried the app, you can write your user/developer
 feedbacks [here](https://github.com/Hamza417/Inure/discussions/48).
