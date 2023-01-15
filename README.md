@@ -116,6 +116,7 @@ That's all.
 
 ## Screenshots
 
+### App's Interface
 | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/01.png) | ![02](fastlane/metadata/android/en-US/images/phoneScreenshots/03.png) | ![03](fastlane/metadata/android/en-US/images/phoneScreenshots/04.png) | ![04](fastlane/metadata/android/en-US/images/phoneScreenshots/06.jpg) |
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                   1                                   |                                   2                                   |                                   3                                   |                                   4                                   |
@@ -132,11 +133,19 @@ That's all.
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                   C                                   |                                   D                                   |                                   E                                   |                                   F                                   |
 
+### Batch
+
+![](./assets/inure_batch.png)
+
 ## Behind The Scenes
 
 |           ![01](./assets/01.jpg)           |
 |:------------------------------------------:|
 | Designing of interface skeletons for Inure |
+
+|      ![01](./assets/inure_music.png)      |
+|:-----------------------------------------:|
+| Audio Player interface design (suspended) |
 
 ## License
 
