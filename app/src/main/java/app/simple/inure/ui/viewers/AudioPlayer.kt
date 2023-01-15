@@ -10,10 +10,8 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.view.doOnPreDraw
@@ -158,7 +156,15 @@ class AudioPlayer : ScopedFragment() {
                             fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
                             loader.gone(animate = true)
                             playPause.isEnabled = true
-                            art.loadFromFileDescriptor(uri!!)
+
+                            /**
+                             * This will solve the Glide and image size issues
+                             * after the layout has changed while.
+                             */
+                            art.requestLayout()
+                            art.post {
+                                art.loadFromFileDescriptor(uri!!)
+                            }
                             wasSongPlaying = true
                             buttonStatus(audioService?.isPlaying()!!, animate = false)
                         } catch (e: IllegalStateException) {
@@ -187,34 +193,34 @@ class AudioPlayer : ScopedFragment() {
             }
         }
 
-        art.setOnTouchListener { _, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    art.animate()
-                        .scaleX(1.2F)
-                        .scaleY(1.2F)
-                        .setInterpolator(DecelerateInterpolator(1.5F))
-                        .start()
-                }
-                MotionEvent.ACTION_UP -> {
-                    art.animate()
-                        .scaleX(1.0F)
-                        .scaleY(1.0F)
-                        .setInterpolator(DecelerateInterpolator(1.5F))
-                        .start()
-
-                    kotlin.runCatching {
-                        if (art.drawable is AnimatedVectorDrawable) {
-                            (art.drawable as AnimatedVectorDrawable).start()
-                        }
-                    }.getOrElse {
-                        it.printStackTrace()
-                    }
-                }
-            }
-
-            false
-        }
+        //        art.setOnTouchListener { _, event ->
+        //            when (event.action) {
+        //                MotionEvent.ACTION_DOWN -> {
+        //                    art.animate()
+        //                        .scaleX(1.2F)
+        //                        .scaleY(1.2F)
+        //                        .setInterpolator(DecelerateInterpolator(1.5F))
+        //                        .start()
+        //                }
+        //                MotionEvent.ACTION_UP -> {
+        //                    art.animate()
+        //                        .scaleX(1.0F)
+        //                        .scaleY(1.0F)
+        //                        .setInterpolator(DecelerateInterpolator(1.5F))
+        //                        .start()
+        //
+        //                    kotlin.runCatching {
+        //                        if (art.drawable is AnimatedVectorDrawable) {
+        //                            (art.drawable as AnimatedVectorDrawable).start()
+        //                        }
+        //                    }.getOrElse {
+        //                        it.printStackTrace()
+        //                    }
+        //                }
+        //            }
+        //
+        //            false
+        //        }
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -245,6 +251,12 @@ class AudioPlayer : ScopedFragment() {
 
         art.setOnClickListener {
             audioService?.changePlayerState()!!
+
+            kotlin.runCatching {
+                if (art.drawable is AnimatedVectorDrawable) {
+                    (art.drawable as AnimatedVectorDrawable).start()
+                }
+            }
         }
 
         close.setOnClickListener {
@@ -359,6 +371,7 @@ class AudioPlayer : ScopedFragment() {
                     (view?.parent as? ViewGroup)?.doOnPreDraw {
                         startPostponedEnterTransition()
                     }
+
                     return true
                 }
 

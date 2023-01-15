@@ -17,6 +17,10 @@
         android:layout_weight="1"
         tools:ignore="ContentDescription" />
 
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/mime_title"
         android:layout_width="match_parent"
@@ -172,9 +176,9 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/panel_item_padding"
+        android:layout_marginHorizontal="@dimen/dialog_padding"
         android:layout_marginTop="@dimen/dialog_padding"
-        android:layout_marginBottom="@dimen/panel_item_padding"
+        android:layout_marginBottom="@dimen/dialog_padding"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
