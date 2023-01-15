@@ -510,4 +510,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             }
         }
     }
+
+    protected fun goBack() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
+    }
+
+    protected fun popBackStack() {
+        requireActivity().supportFragmentManager.popBackStack()
+    }
 }

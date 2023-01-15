@@ -8,6 +8,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -16,6 +17,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
@@ -95,7 +97,6 @@ class AudioPlayer : ScopedFragment() {
 
         uri = requireArguments().parcelable(BundleConstants.uri)
         art.transitionName = uri.toString()
-        art.loadFromFileDescriptor(uri!!)
 
         fromActivity = requireArguments().getBoolean(BundleConstants.fromActivity, false)
 
@@ -157,6 +158,7 @@ class AudioPlayer : ScopedFragment() {
                             fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
                             loader.gone(animate = true)
                             playPause.isEnabled = true
+                            art.loadFromFileDescriptor(uri!!)
                             wasSongPlaying = true
                             buttonStatus(audioService?.isPlaying()!!, animate = false)
                         } catch (e: IllegalStateException) {
@@ -249,6 +251,8 @@ class AudioPlayer : ScopedFragment() {
             handler.removeCallbacks(progressRunnable)
             stopService()
         }
+
+        startService()
     }
 
     private fun buttonStatus(isPlaying: Boolean, animate: Boolean = true) {
@@ -286,7 +290,9 @@ class AudioPlayer : ScopedFragment() {
         if (fromActivity) {
             requireActivity().finish()
         } else {
-            requireActivity().supportFragmentManager.popBackStack()
+            lifecycleScope.launchWhenResumed {
+                popBackStack()
+            }
         }
     }
 
@@ -300,15 +306,11 @@ class AudioPlayer : ScopedFragment() {
     }
 
     private fun startService() {
+        Log.d("AudioPlayer", "startService")
         val intent = Intent(requireActivity(), AudioService::class.java)
         requireContext().startService(intent)
         serviceConnection?.let { requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE) }
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(audioBroadcastReceiver!!, audioIntentFilter)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        startService()
     }
 
     override fun onStop() {
