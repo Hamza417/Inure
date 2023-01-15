@@ -110,42 +110,42 @@ That's all.
 - [x] ImageViewer scalable zoom support.
 - [ ] APK data extraction.
 
-*This list will be updated as the development progresses and a concised task list is [here](https://github.com/Hamza417/Inure/issues/63).*
+*This list will be updated as the development progresses and a concised task list
+is [here](https://github.com/Hamza417/Inure/issues/63).*
 
 <b>NOTE:</b> Inure is currently not expecting any feature requests or suggestions.
 
 ## Screenshots
 
 ### App's Interface
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/01.png) | ![02](fastlane/metadata/android/en-US/images/phoneScreenshots/03.png) | ![03](fastlane/metadata/android/en-US/images/phoneScreenshots/04.png) | ![04](fastlane/metadata/android/en-US/images/phoneScreenshots/06.jpg) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                   1                                   |                                   2                                   |                                   3                                   |                                   4                                   |
 
-| ![15](fastlane/metadata/android/en-US/images/phoneScreenshots/15.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/07.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/05.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/08.jpg) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                   5                                   |                                   6                                   |                                   7                                   |                                   8                                   |
-
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/09.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/10.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/11.jpg) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                   9                                   |                                   0                                   |                                   A                                   |                                   B                                   |
-
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/12.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/13.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/00.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/14.png) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                   C                                   |                                   D                                   |                                   E                                   |                                   F                                   |
+|  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/01.png)  |  ![02](fastlane/metadata/android/en-US/images/phoneScreenshots/03.png)  |  ![03](fastlane/metadata/android/en-US/images/phoneScreenshots/04.png)  |  ![04](fastlane/metadata/android/en-US/images/phoneScreenshots/06.jpg)  |
+|:-----------------------------------------------------------------------:|:-----------------------------------------------------------------------:|:-----------------------------------------------------------------------:|:-----------------------------------------------------------------------:|
+|                                  0x01                                   |                                  0x02                                   |                                  0x03                                   |                                  0x04                                   |
+|  ![15](fastlane/metadata/android/en-US/images/phoneScreenshots/15.png)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/07.png)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/05.jpg)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/08.jpg)  |
+| :---------------------------------------------------------------------: | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
+|                                  0x05                                   |                                  0x06                                   |                                  0x07                                   |                                  0x08                                   |
+|  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/09.jpg)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/10.jpg)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/11.jpg)  |
+| :---------------------------------------------------------------------: | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
+|                                  0x09                                   |                                  0x00                                   |                                  0x0A                                   |                                  0x0B                                   |
+|  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/12.jpg)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/13.png)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/00.png)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/14.png)  |
+| :---------------------------------------------------------------------: | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
+|                                  0x0C                                   |                                  0x0D                                   |                                  0x0E                                   |                                  0x0F                                   |
+|  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/16.png)  |                        ![01](./assets/music.png)                        |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/17.png)  |  ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/18.png)  |
+| :---------------------------------------------------------------------: | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
+|                                  0x11                                   |                                  0x12                                   |                                  0x13                                   |                                  0x14                                   |
 
 ## Behind The Scenes
 
-|           ![01](./assets/01.jpg)           |
-|:------------------------------------------:|
-| Designing of interface skeletons for Inure |
-
-|        ![01](./assets/inure_music.png)        |
-|:---------------------------------------------:|
-| Audio Player interface design (later removed) |
-
-|     ![01](./assets/inure_batch.png)     |
-|:---------------------------------------:|
-| Presentation design for Batch interface |
+|             ![01](./assets/01.jpg)              |
+|:-----------------------------------------------:|
+|   Designing of interface skeletons for Inure    |
+|         ![01](./assets/inure_music.png)         |
+| :---------------------------------------------: |
+|  Audio Player interface design (later removed)  |
+|         ![01](./assets/inure_batch.png)         |
+|    :---------------------------------------:    |
+|     Presentation design for Batch interface     |
 
 ## License
 
