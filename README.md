@@ -133,19 +133,19 @@ That's all.
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                   C                                   |                                   D                                   |                                   E                                   |                                   F                                   |
 
-### Batch
-
-![](./assets/inure_batch.png)
-
 ## Behind The Scenes
 
 |           ![01](./assets/01.jpg)           |
 |:------------------------------------------:|
 | Designing of interface skeletons for Inure |
 
-|      ![01](./assets/inure_music.png)      |
-|:-----------------------------------------:|
-| Audio Player interface design (suspended) |
+|        ![01](./assets/inure_music.png)        |
+|:---------------------------------------------:|
+| Audio Player interface design (later removed) |
+
+|     ![01](./assets/inure_batch.png)     |
+|:---------------------------------------:|
+| Presentation design for Batch interface |
 
 ## License
 
