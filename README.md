@@ -135,7 +135,7 @@ is [here](https://github.com/Hamza417/Inure/issues/63).*
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x0C                                  |                                 0x0D                                  |                                 0x0E                                  |                                 0x0F                                  |
 
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/16.png) | ![01](./assets/music.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/17.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/18.png) |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/16.png) | ![01](./assets/music.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/17.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/18.png) |
 |:---------------------------------------------------------------------:|:-------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x11                                  |           0x12            |                                 0x13                                  |                                 0x14                                  |
 
