@@ -1,5 +1,8 @@
 name: "Fastlane Validation"
-on: [ push, pull_request ]
+on:
+  push:
+    paths:
+      - 'fastlane/**'
 
 jobs:
   validation:
