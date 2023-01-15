@@ -154,7 +154,7 @@ class Music : KeyboardScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             MusicPreferences.lastMusicId -> {
-                adapterMusic?.updateHighlightedSongState()
+                // adapterMusic?.updateHighlightedSongState()
             }
             MusicPreferences.musicSort,
             MusicPreferences.musicSortReverse -> {

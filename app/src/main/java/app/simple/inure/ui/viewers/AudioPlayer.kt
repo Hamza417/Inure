@@ -299,12 +299,16 @@ class AudioPlayer : ScopedFragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun startService() {
         val intent = Intent(requireActivity(), AudioService::class.java)
         requireContext().startService(intent)
         serviceConnection?.let { requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE) }
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(audioBroadcastReceiver!!, audioIntentFilter)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        startService()
     }
 
     override fun onStop() {

@@ -42,6 +42,8 @@ object LocaleHelper {
             Locales("漢語 (Traditional Chinese)", "zh-TW"),
             // Russian
             Locales("Русский (Russian)", "ru-RU"),
+            // Italian
+            Locales("Italiano (Italian)", "it-IT"),
     )
 
     fun getAppLocale(): Locale {

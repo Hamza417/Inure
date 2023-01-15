@@ -60,7 +60,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 MusicPreferences.setLastMusicId(list[position].id)
                 id = list[position].id
                 musicCallbacks?.onMusicClicked(Uri.parse(list[position].fileUri), holder.art)
-                updateHighlightedSongState()
+                // updateHighlightedSongState()
             }
 
             holder.container.setOnLongClickListener {
