@@ -144,12 +144,14 @@ is [here](https://github.com/Hamza417/Inure/issues/63).*
 |             ![01](./assets/01.jpg)              |
 |:-----------------------------------------------:|
 |   Designing of interface skeletons for Inure    |
-|         ![01](./assets/inure_music.png)         |
-| :---------------------------------------------: |
-|  Audio Player interface design (later removed)  |
-|         ![01](./assets/inure_batch.png)         |
-|    :---------------------------------------:    |
-|     Presentation design for Batch interface     |
+
+|        ![01](./assets/inure_music.png)        |
+|:---------------------------------------------:|
+| Audio Player interface design (later removed) |
+
+|     ![01](./assets/inure_batch.png)     |
+|:---------------------------------------:|
+| Presentation design for Batch interface |
 
 ## License
 
