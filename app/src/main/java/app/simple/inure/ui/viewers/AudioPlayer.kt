@@ -8,7 +8,6 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +29,7 @@ import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioService
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.getMimeType
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NumberUtils
@@ -65,6 +65,7 @@ class AudioPlayer : ScopedFragment() {
     private var serviceBound = false
     private var wasSongPlaying = false
     private var fromActivity = false
+    private var isFinished = false
 
     /**
      * [currentPosition] will keep the current position of the playback
@@ -78,7 +79,7 @@ class AudioPlayer : ScopedFragment() {
     private var currentPosition = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_audio_player, container, false)
+        val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
 
         art = view.findViewById(R.id.album_art_mime)
         replay = view.findViewById(R.id.mime_repeat_button)
@@ -263,8 +264,6 @@ class AudioPlayer : ScopedFragment() {
             handler.removeCallbacks(progressRunnable)
             stopService()
         }
-
-        startService()
     }
 
     private fun buttonStatus(isPlaying: Boolean, animate: Boolean = true) {
@@ -299,6 +298,7 @@ class AudioPlayer : ScopedFragment() {
     }
 
     private fun finish() {
+        isFinished = true
         if (fromActivity) {
             requireActivity().finish()
         } else {
@@ -318,11 +318,17 @@ class AudioPlayer : ScopedFragment() {
     }
 
     private fun startService() {
-        Log.d("AudioPlayer", "startService")
         val intent = Intent(requireActivity(), AudioService::class.java)
         requireContext().startService(intent)
         serviceConnection?.let { requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE) }
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(audioBroadcastReceiver!!, audioIntentFilter)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (isFinished.invert()) {
+            startService()
+        }
     }
 
     override fun onStop() {

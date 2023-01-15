@@ -25,7 +25,7 @@ class ActivityLauncher : ScopedBottomSheetFragment() {
     private var packageId: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dalog_activity_launcher, container, false)
+        val view = inflater.inflate(R.layout.dialog_activity_launcher, container, false)
 
         loader = view.findViewById(R.id.loader)
         status = view.findViewById(R.id.activity_launcher_result)
