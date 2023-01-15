@@ -12,7 +12,7 @@
     <string name="name">Nome</string>
     <string name="package_name">Nome pacchetto</string>
     <string name="app_size">Dimensione app</string>
-    <string name="reversed">Annullato</string>
+    <string name="reversed">Invertito</string>
     <string name="apps_category">Categoria app</string>
     <string name="system">Sistema</string>
     <string name="user">Utente</string>
@@ -28,7 +28,7 @@
     <string name="configuration_button">Pulsante di configurazione</string>
     <string name="search_button">Pulsante ricerca</string>
     <string name="sorting_style">Stile ordinamento</string>
-    <string name="open_application_settings">Apri impostazioni applicazione…</string>
+    <string name="open_application_settings">Apri impostazioni principali</string>
     <string name="preferences">Preferenze</string>
     <string name="about">Informazioni</string>
     <string name="app_icon">Icona dell\'app</string>
@@ -38,15 +38,15 @@
     <string name="set">Imposta</string>
     <string name="cancel">Annulla</string>
     <string name="color">Colore</string>
-    <string name="accent_colors">Colori accenti</string>
+    <string name="accent_colors">Colore accento</string>
     <string name="accent_color_desc">Colore secondario che appare insieme a vari elementi dell\'app come icone o effetti touch.</string>
     <string name="behaviour">Comportamento</string>
-    <string name="dim_windows_desc">Oscura le finestre sottostanti quando appare un popup sullo schermo.\n\nSpegnendolo può aiutare le ombre di elevazione a distinguersi di più, ma riduce il contrasto e viceversa.</string>
+    <string name="dim_windows_desc">Oscura le finestre sottostanti quando appare un popup sullo schermo.\n\nSpegnendolo può aiutare le ombre dei popup a distinguersi di più, ma riduce il contrasto e viceversa.</string>
     <string name="dim_windows">Oscura finestre</string>
     <string name="blur_windows">Sfoca finestre</string>
     <string name="blur_windows_desc">Sfoca le finestre sottostanti quando appare un popup sullo schermo.\n\nPuò influire sulle prestazioni dell\'app.</string>
     <string name="shadows_desc">Aggiunge le bellissime ombre ambientali colorate dall\'aspetto a varie viste elevate dell\'app.\n\nDisponibile solo in API 28 o superiore.</string>
-    <string name="show_colored_shadows">Mostra cmbre colorate</string>
+    <string name="show_colored_shadows">Mostra ombre colorate</string>
     <string name="configuration">Impostazioni</string>
     <string name="desc_application_theme">Cambia se l\'applicazione usa la modalità scura o chiara.</string>
     <string name="application_theme">Tema applicazione</string>
@@ -65,7 +65,7 @@
     <string name="version_name">Nome versione</string>
     <string name="install_location">Posizione di installazione</string>
     <string name="minimum_sdk">SDK minima</string>
-    <string name="target_sdk">Obbiettivo SDK</string>
+    <string name="target_sdk">SDK Target</string>
     <string name="uid">UID</string>
     <string name="install_date">Data Installazione</string>
     <string name="update_date">Data aggiornamento</string>
@@ -98,7 +98,7 @@
     <string name="saved_successfully">Salvato con successo</string>
     <string name="failed">Non riuscito!</string>
     <string name="app_info">Informazioni app</string>
-    <string name="uses_feature">Usa funzioni</string>
+    <string name="uses_feature">Utilizzo funzioni</string>
     <string name="gles_version">Versione GLES</string>
     <string name="error">Errore</string>
     <string name="required">Necessario</string>
@@ -158,7 +158,7 @@
     <string name="total">Totale %d</string>
     <string name="cache_dir">Creazione cartella cache</string>
     <string name="split_apk_detected">Split APK rilevato</string>
-    <string name="creating_split_package">Creazione pacchetto split ZIP</string>
+    <string name="creating_split_package">Creazione del pacchetto split</string>
     <string name="preparing_apk_file">Preparazione file APK</string>
     <string name="done">Fatto!</string>
     <string name="clear_data">Cancella dati</string>
@@ -207,7 +207,7 @@
     <string name="retail_demo">Demo retail</string>
     <string name="apex">Apex</string>
     <string name="auto">Auto</string>
-    <string name="internal">Interno</string>
+    <string name="internal">Interna</string>
     <string name="prefer_external">Esterno preferito</string>
     <string name="application_type">Tipo applicazione</string>
     <string name="transition_desc">Abilita l\'animazione di transizione dissolvenza tra i pannelli. Disattivarla è consigliata perché questo renderà le altre animazioni dell\'UI più veloci.\n\nQuesta opzione non si sostituisce se le animazioni sono disabilitate dal sistema stesso.</string>
@@ -459,7 +459,7 @@
     <string name="closes_activity_leaving_sessions_running">Chiude l\'attività, lasciando in esecuzione le sessioni</string>
     <string name="sends_esc_to_terminal">Invia ESC al terminale</string>
     <string name="sends_tab_to_terminal">Invia TAB al terminale</string>
-    <string name="character_based">Basato sul carattere</string>
+    <string name="character_based">Basato sui singoli caratteri</string>
     <string name="word_based">Basato su parole</string>
     <string name="skip_loading_on_app_start">Salta caricamento all\'avvio dell\'app</string>
     <string name="desc_skip_loading">Non carica i dati all\'avvio dell\'app e va direttamente alla schermata iniziale dell\'app.\n\nI dati saranno ancora caricati come al solito, ma tutte le attività verranno messe in background e il caricamento non bloccherà l\'avvio dell\'app, ma può aggiungere un ritardo alle azioni in-app se i dati non sono ancora disponibili.</string>
@@ -547,11 +547,11 @@
     <string name="news">Notizie</string>
     <string name="maps">Mappe</string>
     <string name="productivity">Produttività</string>
-    <string name="clear_trackers_data_title">Cancella tutti i dati della cache dei tracker.</string>
+    <string name="clear_trackers_data_title">Cancella tutti i dati cache dei tracker.</string>
     <string name="clear_trackers_cache">Cancella cache dei tracker</string>
     <string name="clear_images_data_title">Cancella tutti i dati della cache delle immagini.</string>
     <string name="clear_images_cache">Svuota cache immagini</string>
-    <string name="clear_trackers_data_desc">L\'app estrae le classi dex dall\'applicazione per scansionare il tracker. Questa opzione cancellerà tutti i dati memorizzati dai tracker.</string>
+    <string name="clear_trackers_data_desc">L\'app estrae le classi dex dell\'applicazione per scansionare il tracker. Questa opzione cancellerà tutti i dati memorizzati dei tracker.</string>
     <string name="clear_images_data_desc">Cancella tutti i dati della cache delle icone delle app e di altre grafiche create dal caricatore di immagini dell\'app.</string>
     <string name="language">Lingua</string>
     <string name="language_desc">Cambia la lingua dell\'app.</string>
@@ -594,8 +594,8 @@
     <string name="delete">Elimina</string>
     <string name="open">Apri</string>
     <string name="this_app_doesnt_require_any_permissions">Questa applicazione non richiede alcuna autorizzazione.</string>
-    <string name="generate_apps_list">Genera elenco applicazioni</string>
-    <string name="generate_apps_list_desc">Assicurarsi di selezionare i filtri appropriati nell\'elenco principale prima di generare i dati delle app.</string>
+    <string name="generate_apps_list">Esporta elenco applicazioni</string>
+    <string name="generate_apps_list_desc">Assicurati di selezionare i filtri appropriati nell\'elenco principale prima di esportare.</string>
     <string name="battery_optimization">Ottimizzazione batteria</string>
     <string name="optimized">Ottimizzato</string>
     <string name="not_optimized">Non ottimizzato</string>
@@ -611,7 +611,7 @@
     <string name="recently_added">Aggiunte di recente</string>
     <string name="boot_manager">Gestore avvio</string>
     <string name="disable_all">Disabilita tutto</string>
-    <string name="enable_all">Attiva tutto</string>
+    <string name="enable_all">Abilita tutto</string>
     <string name="would_you_full_version">Stai utilizzando la versione di prova. Vuoi acquistare e sbloccare tutte le funzionalità dell\'app?</string>
     <string name="zip_is_not_valid">Il zip non è un file apk split valido.</string>
     <string name="invalid_apk_file">File APK non valido.</string>
