@@ -55,7 +55,7 @@ class Music : KeyboardScopedFragment() {
             adapterMusic = AdapterMusic(audioModels, headerMode = true)
 
             adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
-                override fun onMusicClicked(audioModel: AudioModel, art: ImageView) {
+                override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
                     //                    val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
                     //                    intent.data = uri
                     //
@@ -67,7 +67,7 @@ class Music : KeyboardScopedFragment() {
                     //                        startActivity(intent)
                     //                    }
 
-                    openFragmentArc(AudioPlayer.newInstance(audioModel), art, "audio_player")
+                    openFragmentArc(AudioPlayer.newInstance(audioModels, position), art, "audio_player")
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {

@@ -3,21 +3,19 @@ package app.simple.inure.ui.viewers
 import android.annotation.SuppressLint
 import android.content.*
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SeekBar
-import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.viewpager2.widget.ViewPager2
 import app.simple.inure.R
+import app.simple.inure.adapters.music.AlbumArtAdapter
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -26,29 +24,18 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.models.AudioModel
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioService
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.FileUtils.getMimeType
 import app.simple.inure.util.IntentHelper
-import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.NumberUtils
-import app.simple.inure.util.ParcelUtils.parcelable
+import app.simple.inure.util.ParcelUtils.parcelableArrayList
 import app.simple.inure.util.ViewUtils.gone
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 
 class AudioPlayer : ScopedFragment() {
 
-    private lateinit var art: ImageView
+    private lateinit var artPager: ViewPager2
     private lateinit var replay: DynamicRippleImageButton
     private lateinit var playPause: DynamicRippleImageButton
     private lateinit var close: DynamicRippleImageButton
@@ -61,8 +48,7 @@ class AudioPlayer : ScopedFragment() {
     private lateinit var seekBar: ThemeSeekBar
     private lateinit var loader: CustomProgressBar
 
-    private var uri: Uri? = null
-    private var audioModel: AudioModel? = null
+    private var audioModels: ArrayList<AudioModel>? = null
     private var audioService: AudioService? = null
     private var serviceConnection: ServiceConnection? = null
     private var audioBroadcastReceiver: BroadcastReceiver? = null
@@ -72,7 +58,6 @@ class AudioPlayer : ScopedFragment() {
     private var wasSongPlaying = false
     private var fromActivity = false
     private var isFinished = false
-    private var isArtUri = false
 
     /**
      * [currentPosition] will keep the current position of the playback
@@ -88,7 +73,7 @@ class AudioPlayer : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
 
-        art = view.findViewById(R.id.album_art_mime)
+        artPager = view.findViewById(R.id.album_art_mime)
         replay = view.findViewById(R.id.mime_repeat_button)
         playPause = view.findViewById(R.id.mime_play_button)
         close = view.findViewById(R.id.mime_close_button)
@@ -101,16 +86,7 @@ class AudioPlayer : ScopedFragment() {
         seekBar = view.findViewById(R.id.seekbar_mime)
         loader = view.findViewById(R.id.loader)
 
-        kotlin.runCatching {
-            uri = requireArguments().parcelable(BundleConstants.uri)
-            if (uri.isNull()) throw NullPointerException("Uri is null")
-            art.transitionName = uri.toString()
-        }.onFailure {
-            // Probably the [AudioModel] mode
-            audioModel = requireArguments().parcelable(BundleConstants.audioModel)
-            art.transitionName = audioModel?.fileUri.toString()
-        }
-
+        audioModels = requireArguments().parcelableArrayList(BundleConstants.audioModel)
         fromActivity = requireArguments().getBoolean(BundleConstants.fromActivity, false)
 
         audioIntentFilter.addAction(ServiceConstants.actionPrepared)
@@ -126,81 +102,32 @@ class AudioPlayer : ScopedFragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
 
-        if (fromActivity) {
-            /**
-             * This will solve the Glide and image size issues
-             * after the layout has changed while.
-             */
-            art.requestLayout()
-            art.post {
-                art.loadFromFileDescriptor(uri!!)
-            }
-        } else {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
-                /**
-                 * This will solve the Glide and image size issues
-                 * after the layout has changed while.
-                 */
-                if (audioModel.isNotNull()) {
-                    art.requestLayout()
-                    art.post {
-                        art.loadFromFileDescriptor(audioModel?.fileUri?.toUri()!!)
-                    }
+        artPager.adapter = AlbumArtAdapter(audioModels!!)
+        artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
 
-                    title.text = audioModel?.title
-                    artist.text = audioModel?.artists
-                    album.text = audioModel?.album
-                } else {
-                    art.requestLayout()
-                    art.post {
-                        art.loadFromFileDescriptor(uri!!)
-                    }
-                }
-            } else {
-                art.scaleType = ImageView.ScaleType.CENTER_CROP
-                art.setImageURI(audioModel?.artUri?.toUri())
-                startPostponedEnterTransition()
-
-                title.text = audioModel?.title
-                artist.text = audioModel?.artists
-                album.text = audioModel?.album
-            }
+        (view.parent as? ViewGroup)?.doOnPreDraw {
+            startPostponedEnterTransition()
         }
+
+        artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    audioService?.setCurrentPosition(artPager.currentItem)
+                }
+            }
+        })
 
         replayButtonStatus(animate = false)
         playPause.isEnabled = false
 
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                kotlin.runCatching {
-                    if (uri.isNull()) {
-                        if ((audioModel?.fileUri?.toUri()?.getMimeType(requireContext())?.startsWith("audio") == true
-                                    || audioModel?.fileUri?.toUri()?.getMimeType(requireContext())?.startsWith("video") == true)
-                            || audioModel?.fileUri?.toUri()?.toString()?.startsWith("http") == true
-                            || audioModel?.fileUri?.toUri()?.toString()?.startsWith("ftp") == true) {
-                            serviceBound = true
-                            audioService = (service as AudioService.AudioBinder).getService()
-                            audioService?.audioUri = audioModel?.fileUri?.toUri()
-                        } else {
-                            throw IllegalArgumentException("File is not media type or incompatible")
-                        }
-                    } else {
-                        if ((uri?.getMimeType(requireContext())?.startsWith("audio") == true
-                                    || uri?.getMimeType(requireContext())?.startsWith("video") == true)
-                            || uri?.toString()?.startsWith("http") == true
-                            || uri?.toString()?.startsWith("ftp") == true) {
-                            serviceBound = true
-                            audioService = (service as AudioService.AudioBinder).getService()
-                            audioService?.audioUri = uri
-                        } else {
-                            throw IllegalArgumentException("File is not media type or incompatible")
-                        }
-                    }
-                }.getOrElse {
-                    it.printStackTrace()
-                    showWarning(it.message.toString())
-                }
+                serviceBound = true
+                audioService = (service as AudioService.AudioBinder).getService()
+                audioService?.setAudioPlayerProps(audioModels!!, artPager.currentItem)
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -219,12 +146,10 @@ class AudioPlayer : ScopedFragment() {
                             seekBar.max = audioService?.getDuration()!!
                             duration.text = NumberUtils.getFormattedTime(audioService?.getDuration()?.toLong()!!)
                             handler.post(progressRunnable)
-                            if (uri.isNotNull()) {
-                                title.text = audioService?.metaData?.title
-                                artist.text = audioService?.metaData?.artists
-                                album.text = audioService?.metaData?.album
-                            }
-                            fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
+                            title.text = audioService?.metaData?.title
+                            artist.text = audioService?.metaData?.artists
+                            album.text = audioService?.metaData?.album
+                            // fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
                             loader.gone(animate = true)
                             playPause.isEnabled = true
 
@@ -310,16 +235,6 @@ class AudioPlayer : ScopedFragment() {
 
         playPause.setOnClickListener {
             audioService?.changePlayerState()!!
-        }
-
-        art.setOnClickListener {
-            audioService?.changePlayerState()!!
-
-            kotlin.runCatching {
-                if (art.drawable is AnimatedVectorDrawable) {
-                    (art.drawable as AnimatedVectorDrawable).start()
-                }
-            }
         }
 
         close.setOnClickListener {
@@ -418,42 +333,6 @@ class AudioPlayer : ScopedFragment() {
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!)
     }
 
-    /**
-     * @param uri requires a valid file uri and not art uri else
-     * error 0x80000000 will be thrown by the MediaMetadataRetriever
-     *
-     * Asynchronously load Album Arts for song files from their URIs using file descriptor
-     */
-    fun ImageView.loadFromFileDescriptor(uri: Uri) {
-        postponeEnterTransition()
-
-        GlideApp.with(this)
-            .asBitmap()
-            .dontAnimate()
-            .transform(CenterCrop())
-            .load(DescriptorCoverModel(this.context, uri))
-            .addListener(object : RequestListener<Bitmap> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                    this@loadFromFileDescriptor.setImageResource(R.drawable.ani_ic_app_icon).also {
-                        (this@loadFromFileDescriptor.drawable as AnimatedVectorDrawable).start()
-                    }
-                    (view?.parent as? ViewGroup)?.doOnPreDraw {
-                        startPostponedEnterTransition()
-                    }
-
-                    return true
-                }
-
-                override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    (view?.parent as? ViewGroup)?.doOnPreDraw {
-                        startPostponedEnterTransition()
-                    }
-                    return false
-                }
-            })
-            .into(this)
-    }
-
     companion object {
         fun newInstance(uri: Uri, fromActivity: Boolean = false): AudioPlayer {
             val args = Bundle()
@@ -468,6 +347,16 @@ class AudioPlayer : ScopedFragment() {
             val args = Bundle()
             args.putParcelable(BundleConstants.audioModel, audioModel)
             args.putBoolean(BundleConstants.fromActivity, fromActivity)
+            val fragment = AudioPlayer()
+            fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstance(audioModels: ArrayList<AudioModel>, position: Int, fromActivity: Boolean = false): AudioPlayer {
+            val args = Bundle()
+            args.putParcelableArrayList(BundleConstants.audioModel, audioModels)
+            args.putBoolean(BundleConstants.fromActivity, fromActivity)
+            args.putInt(BundleConstants.position, position)
             val fragment = AudioPlayer()
             fragment.arguments = args
             return fragment

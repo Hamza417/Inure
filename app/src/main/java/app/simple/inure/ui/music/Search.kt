@@ -82,7 +82,7 @@ class Search : KeyboardScopedFragment() {
             val adapterMusic = AdapterMusic(it, false)
 
             adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
-                override fun onMusicClicked(audioModel: AudioModel, art: ImageView) {
+                override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
                     openFragmentArc(AudioPlayer.newInstance(audioModel), art, "audio_player")
                 }
 

@@ -6,7 +6,6 @@ import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -17,24 +16,20 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.net.toUri
 import androidx.media.app.NotificationCompat.MediaStyle
 import app.simple.inure.R
 import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.exceptions.InureMediaEngineException
-import app.simple.inure.loaders.MetadataHelper
-import app.simple.inure.models.AudioMetaData
+import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.receivers.MediaButtonIntentReceiver
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
+import app.simple.inure.util.ImageHelper.getBitmapFromUri
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.util.NullSafety.isNull
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.math.ln
 
@@ -73,18 +68,10 @@ class AudioService : Service(),
     private var wasPlaying = false
     private var hasReleased = false
 
-    var metaData: AudioMetaData? = null
+    var metaData: AudioModel? = null
 
-    var audioUri: Uri? = null
-        set(value) {
-            if (hasReleased || field.isNull() || field != value) {
-                field = value
-                audioPlayer(value!!)
-            } else if (field == value) {
-                Log.d("AudioService", "AudioService: Already playing")
-                setupMetadata()
-            }
-        }
+    private var currentPosition = -1
+    private var audioModels: ArrayList<AudioModel>? = null
 
     private val becomingNoisyReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -302,27 +289,23 @@ class AudioService : Service(),
 
     private fun setupMetadata() {
         kotlin.runCatching {
-            CoroutineScope(Dispatchers.IO).launch {
-                metaData = MetadataHelper.getAudioMetadata(applicationContext, audioUri!!)
+            metaData = audioModels!![currentPosition]
 
-                mediaMetadataCompat = MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
-                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
-                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
-                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
-                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, metaData?.art)
-                    // .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
-                    .build()
+            mediaMetadataCompat = MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
+                // .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, metaData?.art)
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
+                .build()
 
-                withContext(Dispatchers.Main) {
-                    setupMediaSession()
-                    mediaSessionCompat?.setMetadata(mediaMetadataCompat)
-                    createNotificationChannel()
-                    showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
-                    setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
-                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaData, applicationContext)
-                }
-            }
+            setupMediaSession()
+            mediaSessionCompat?.setMetadata(mediaMetadataCompat)
+            createNotificationChannel()
+            showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
+            setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaData, applicationContext)
         }.getOrElse {
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaError, applicationContext, it.stackTraceToString())
         }
@@ -349,7 +332,7 @@ class AudioService : Service(),
         }
     }
 
-    private fun audioPlayer(uri: Uri) {
+    private fun initAudioPlayer() {
         mediaPlayer.reset()
         mediaPlayer.setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
         mediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
@@ -357,8 +340,20 @@ class AudioService : Service(),
         mediaPlayer.setOnPreparedListener(this)
         mediaPlayer.setOnSeekCompleteListener(this)
         mediaPlayer.setOnBufferingUpdateListener(this)
-        mediaPlayer.setDataSource(applicationContext, uri)
+        mediaPlayer.setDataSource(applicationContext, audioModels!![currentPosition].fileUri.toUri())
         mediaPlayer.prepareAsync()
+    }
+
+    fun setAudioPlayerProps(audioModel: ArrayList<AudioModel>, currentPosition: Int) {
+        this.audioModels = audioModel
+        this.currentPosition = currentPosition
+        this.metaData = audioModel[currentPosition]
+        initAudioPlayer()
+    }
+
+    fun setCurrentPosition(currentPosition: Int) {
+        this.currentPosition = currentPosition
+        initAudioPlayer()
     }
 
     internal fun getProgress(): Int {
@@ -535,7 +530,7 @@ class AudioService : Service(),
 
         val notificationClick = with(Intent(this, AudioPlayerActivity::class.java)) {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            data = audioUri
+            data = audioModels?.get(currentPosition)?.fileUri?.toUri()
             PendingIntent.getActivity(applicationContext, 111, this, PendingIntent.FLAG_IMMUTABLE)
         }
 
@@ -543,7 +538,7 @@ class AudioService : Service(),
 
         builder = NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.drawable.ic_main_app_icon_regular)
-            .setLargeIcon(metaData?.art)
+            .setLargeIcon(getBitmapFromUri(applicationContext, audioModels?.get(currentPosition)?.artUri?.toUri()!!))
             .addAction(action) /* Play Pause Action */
             .addAction(close)
             .setContentTitle(metaData?.title)

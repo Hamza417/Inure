@@ -1,8 +1,8 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val position = "position"
     const val audioModel = "audio_model"
-    const val artUri = "art_uri"
     const val fromActivity = "from_activity"
     const val batteryOptimizationModel = "battery_optimization_model"
     const val batchUninstallerProgressStateModel = "batchUninstallerProgressStateModel"
