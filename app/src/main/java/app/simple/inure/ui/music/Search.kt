@@ -82,14 +82,14 @@ class Search : KeyboardScopedFragment() {
             val adapterMusic = AdapterMusic(it, false)
 
             adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
-                override fun onMusicClicked(uri: Uri, art: ImageView) {
-                    openFragmentArc(AudioPlayer.newInstance(uri), art, "audio_player")
+                override fun onMusicClicked(audioModel: AudioModel, art: ImageView) {
+                    openFragmentArc(AudioPlayer.newInstance(audioModel.fileUri.toUri(), audioModel.artUri.toUri()), art, "audio_player")
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
                     PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            openFragmentArc(AudioPlayer.newInstance(uri), view, "audio_player")
+                            openFragmentArc(AudioPlayer.newInstance(audioModel.fileUri.toUri(), audioModel.artUri.toUri()), view, "audio_player")
                             MusicPreferences.setLastMusicId(audioModel.id)
                         }
 

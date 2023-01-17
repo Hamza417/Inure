@@ -55,7 +55,7 @@ class Music : KeyboardScopedFragment() {
             adapterMusic = AdapterMusic(audioModels, headerMode = true)
 
             adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
-                override fun onMusicClicked(uri: Uri, art: ImageView) {
+                override fun onMusicClicked(audioModel: AudioModel, art: ImageView) {
                     //                    val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
                     //                    intent.data = uri
                     //
@@ -67,13 +67,13 @@ class Music : KeyboardScopedFragment() {
                     //                        startActivity(intent)
                     //                    }
 
-                    openFragmentArc(AudioPlayer.newInstance(uri), art, "audio_player")
+                    openFragmentArc(AudioPlayer.newInstance(audioModel.fileUri.toUri(), audioModel.artUri.toUri()), art, "audio_player")
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
                     PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            openFragmentArc(AudioPlayer.newInstance(uri), view, "audio_player")
+                            openFragmentArc(AudioPlayer.newInstance(audioModel.fileUri.toUri(), audioModel.artUri.toUri()), view, "audio_player")
                             MusicPreferences.setLastMusicId(audioModel.id)
                         }
 
@@ -113,9 +113,7 @@ class Music : KeyboardScopedFragment() {
                     R.drawable.ic_play -> {
                         for (position in audioModels.indices) {
                             if (MusicPreferences.getLastMusicId() == audioModels[position].id) {
-                                if (position > 7) {
-                                    (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 150)
-                                }
+                                (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 150)
                                 val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
                                 intent.data = Uri.parse(audioModels[position].fileUri)
                                 startActivity(intent)

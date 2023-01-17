@@ -13,6 +13,7 @@ object DevelopmentPreferences {
     const val hoverAnimation = "is_hover_animation_enabled"
     const val centerBottomMenu = "is_center_bottom_menu_enabled"
     const val alternativeBatteryOptimizationSwitch = "is_alternative_battery_optimization_switch_enabled"
+    const val loadAlbumArtFromFile = "is_album_art_loaded_from_file"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> = listOf(
             DevelopmentPreferencesModel("Use WebView for XML Preview",
@@ -58,6 +59,11 @@ object DevelopmentPreferences {
             DevelopmentPreferencesModel("Enable Alternative Battery Optimization Switch",
                                         "Enable alternative battery optimization switcher popup in the app.",
                                         alternativeBatteryOptimizationSwitch,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Load Album Art From File",
+                                        "Load album art from file instead of using MediaStore.\n\nThis will increase the time taken to load album art but will improve the album art quality.",
+                                        loadAlbumArtFromFile,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN)
     ).sortedBy {
         it.title

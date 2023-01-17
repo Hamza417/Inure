@@ -27,6 +27,7 @@ import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
 import app.simple.inure.glide.modules.GlideApp
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioService
 import app.simple.inure.util.ConditionUtils.invert
@@ -66,6 +67,7 @@ class AudioPlayer : ScopedFragment() {
     private var wasSongPlaying = false
     private var fromActivity = false
     private var isFinished = false
+    private var isArtUri = false
 
     /**
      * [currentPosition] will keep the current position of the playback
@@ -158,14 +160,32 @@ class AudioPlayer : ScopedFragment() {
                             loader.gone(animate = true)
                             playPause.isEnabled = true
 
-                            /**
-                             * This will solve the Glide and image size issues
-                             * after the layout has changed while.
-                             */
-                            art.requestLayout()
-                            art.post {
-                                art.loadFromFileDescriptor(uri!!)
+                            if (fromActivity) {
+                                /**
+                                 * This will solve the Glide and image size issues
+                                 * after the layout has changed while.
+                                 */
+                                art.requestLayout()
+                                art.post {
+                                    art.loadFromFileDescriptor(uri!!)
+                                }
+                            } else {
+                                if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+                                    /**
+                                     * This will solve the Glide and image size issues
+                                     * after the layout has changed while.
+                                     */
+                                    art.requestLayout()
+                                    art.post {
+                                        art.loadFromFileDescriptor(uri!!)
+                                    }
+                                } else {
+                                    art.scaleType = ImageView.ScaleType.CENTER_CROP
+                                    art.setImageURI(requireArguments().parcelable(BundleConstants.artUri))
+                                    startPostponedEnterTransition()
+                                }
                             }
+
                             wasSongPlaying = true
                             buttonStatus(audioService?.isPlaying()!!, animate = false)
                         } catch (e: IllegalStateException) {
@@ -395,6 +415,16 @@ class AudioPlayer : ScopedFragment() {
         fun newInstance(uri: Uri, fromActivity: Boolean = false): AudioPlayer {
             val args = Bundle()
             args.putParcelable(BundleConstants.uri, uri)
+            args.putBoolean(BundleConstants.fromActivity, fromActivity)
+            val fragment = AudioPlayer()
+            fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstance(uri: Uri, artUri: Uri, fromActivity: Boolean = false): AudioPlayer {
+            val args = Bundle()
+            args.putParcelable(BundleConstants.uri, uri)
+            args.putParcelable(BundleConstants.artUri, artUri)
             args.putBoolean(BundleConstants.fromActivity, fromActivity)
             val fragment = AudioPlayer()
             fragment.arguments = args

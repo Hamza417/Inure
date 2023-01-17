@@ -59,7 +59,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             holder.container.setOnClickListener {
                 MusicPreferences.setLastMusicId(list[position].id)
                 id = list[position].id
-                musicCallbacks?.onMusicClicked(Uri.parse(list[position].fileUri), holder.art)
+                musicCallbacks?.onMusicClicked(list[position], holder.art)
                 // updateHighlightedSongState()
             }
 
@@ -132,7 +132,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     companion object {
         interface MusicCallbacks {
-            fun onMusicClicked(uri: Uri, art: ImageView)
+            fun onMusicClicked(audioModel: AudioModel, art: ImageView)
             fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int)
         }
     }

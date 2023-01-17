@@ -284,7 +284,7 @@ class AudioService : Service(),
         mediaSessionCompat!!.setMediaButtonReceiver(mediaButtonReceiverPendingIntent)
         mediaSessionCompat!!.isActive = true
         mediaControllerCompat = mediaSessionCompat!!.controller
-        // mediaMetadataCompat = mediaControllerCompat!!.metadata
+        mediaMetadataCompat = mediaControllerCompat!!.metadata
     }
 
     private fun setPlaybackState(playbackState: Int) {
