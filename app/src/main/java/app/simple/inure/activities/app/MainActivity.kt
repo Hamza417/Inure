@@ -144,6 +144,7 @@ class MainActivity : BaseActivity() {
                         } else {
                             if (MainPreferences.setFullVersion(value = true)) {
                                 showWarning(R.string.full_version_activated, goBack = false)
+                                MainPreferences.resetUnlockerWarningCount()
 
                                 supportFragmentManager.beginTransaction()
                                     .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")

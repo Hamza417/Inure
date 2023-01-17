@@ -260,7 +260,7 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun unlockStateChecker() {
-        if (MainPreferences.isWithinTrialPeriod()) {
+        if (MainPreferences.isTrialWithoutFull()) {
             if (MainPreferences.isFullVersion()) {
                 daysLeft.gone()
             } else {
