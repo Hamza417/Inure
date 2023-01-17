@@ -25,8 +25,8 @@ import app.simple.inure.models.AudioModel
 import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.popups.music.PopupMusicSort
 import app.simple.inure.preferences.MusicPreferences
-import app.simple.inure.services.AudioService
-import app.simple.inure.ui.viewers.AudioPlayer
+import app.simple.inure.services.AudioServicePager
+import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
 class Music : KeyboardScopedFragment() {
@@ -67,13 +67,13 @@ class Music : KeyboardScopedFragment() {
                     //                        startActivity(intent)
                     //                    }
 
-                    openFragmentArc(AudioPlayer.newInstance(position), art, "audio_player")
+                    openFragmentArc(AudioPlayerPager.newInstance(position), art, "audio_player")
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
                     PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            openFragmentArc(AudioPlayer.newInstance(audioModel), view, "audio_player")
+                            openFragmentArc(AudioPlayerPager.newInstance(audioModel), view, "audio_player")
                             MusicPreferences.setLastMusicId(audioModel.id)
                         }
 
@@ -133,7 +133,7 @@ class Music : KeyboardScopedFragment() {
 
             if (deletedId == MusicPreferences.getLastMusicId()) {
                 try {
-                    requireContext().stopService(Intent(requireContext(), AudioService::class.java))
+                    requireContext().stopService(Intent(requireContext(), AudioServicePager::class.java))
                 } catch (e: IllegalStateException) {
                     e.printStackTrace()
                 }

@@ -20,6 +20,7 @@ import androidx.core.net.toUri
 import androidx.media.app.NotificationCompat.MediaStyle
 import app.simple.inure.R
 import app.simple.inure.activities.association.AudioPlayerActivity
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.exceptions.InureMediaEngineException
 import app.simple.inure.models.AudioModel
@@ -33,14 +34,14 @@ import app.simple.inure.util.NullSafety.isNotNull
 import java.util.*
 import kotlin.math.ln
 
-class AudioService : Service(),
-                     AudioManager.OnAudioFocusChangeListener,
-                     MediaPlayer.OnCompletionListener,
-                     MediaPlayer.OnPreparedListener,
-                     MediaPlayer.OnErrorListener,
-                     MediaPlayer.OnBufferingUpdateListener,
-                     MediaPlayer.OnSeekCompleteListener,
-                     SharedPreferences.OnSharedPreferenceChangeListener {
+class AudioServicePager : Service(),
+                          AudioManager.OnAudioFocusChangeListener,
+                          MediaPlayer.OnCompletionListener,
+                          MediaPlayer.OnPreparedListener,
+                          MediaPlayer.OnErrorListener,
+                          MediaPlayer.OnBufferingUpdateListener,
+                          MediaPlayer.OnSeekCompleteListener,
+                          SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val binder = AudioBinder()
     private val mediaPlayer = MediaPlayer()
@@ -73,6 +74,7 @@ class AudioService : Service(),
     private var currentPosition = -1
     private var audioModels: ArrayList<AudioModel>? = null
 
+
     private val becomingNoisyReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             pause()
@@ -80,8 +82,8 @@ class AudioService : Service(),
     }
 
     inner class AudioBinder : Binder() {
-        fun getService(): AudioService {
-            return this@AudioService
+        fun getService(): AudioServicePager {
+            return this@AudioServicePager
         }
     }
 
@@ -265,7 +267,7 @@ class AudioService : Service(),
             }
 
             override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
-                return MediaButtonIntentReceiver.handleIntent(this@AudioService, mediaButtonEvent)
+                return MediaButtonIntentReceiver.handleIntent(this@AudioServicePager, mediaButtonEvent)
             }
         })
 
@@ -554,7 +556,7 @@ class AudioService : Service(),
 
         val notificationClick = with(Intent(this, AudioPlayerActivity::class.java)) {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            data = audioModels?.get(currentPosition)?.fileUri?.toUri()
+            putParcelableArrayListExtra(BundleConstants.audioModel, audioModels)
             PendingIntent.getActivity(applicationContext, 111, this, PendingIntent.FLAG_IMMUTABLE)
         }
 
@@ -588,7 +590,7 @@ class AudioService : Service(),
     }
 
     private fun generateAction(icon: Int, title: String, action: String): NotificationCompat.Action {
-        val intent = Intent(this, AudioService::class.java)
+        val intent = Intent(this, AudioServicePager::class.java)
         intent.action = action
         val close = PendingIntent.getService(this, (0..100).random(), intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Action.Builder(icon, title, close).build()

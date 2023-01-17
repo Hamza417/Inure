@@ -571,7 +571,7 @@
         </service>
 
         <service
-            android:name=".services.AudioService"
+            android:name=".services.AudioServicePager"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />

@@ -13,7 +13,7 @@ import android.view.KeyEvent
 import androidx.core.content.ContextCompat
 import app.simple.inure.BuildConfig
 import app.simple.inure.constants.ServiceConstants
-import app.simple.inure.services.AudioService
+import app.simple.inure.services.AudioServicePager
 import app.simple.inure.util.ParcelUtils.parcelable
 
 /**
@@ -116,7 +116,7 @@ class MediaButtonIntentReceiver : BroadcastReceiver() {
         }
 
         private fun startService(context: Context, command: String) {
-            val intent = Intent(context, AudioService::class.java)
+            val intent = Intent(context, AudioServicePager::class.java)
             intent.action = command
             try {
                 // IMPORTANT NOTE: (kind of a hack)

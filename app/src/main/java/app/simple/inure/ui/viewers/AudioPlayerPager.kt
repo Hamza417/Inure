@@ -3,7 +3,6 @@ package app.simple.inure.ui.viewers
 import android.annotation.SuppressLint
 import android.content.*
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.view.LayoutInflater
@@ -29,7 +28,7 @@ import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.MusicPreferences
-import app.simple.inure.services.AudioService
+import app.simple.inure.services.AudioServicePager
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.ParcelUtils.parcelable
@@ -37,7 +36,7 @@ import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.MusicViewModel
 import kotlinx.coroutines.launch
 
-class AudioPlayer : ScopedFragment() {
+class AudioPlayerPager : ScopedFragment() {
 
     private lateinit var artPager: ViewPager2
     private lateinit var replay: DynamicRippleImageButton
@@ -56,14 +55,13 @@ class AudioPlayer : ScopedFragment() {
 
     private var audioModels: ArrayList<AudioModel>? = null
     private var audioModel: AudioModel? = null
-    private var audioService: AudioService? = null
+    private var audioServicePager: AudioServicePager? = null
     private var serviceConnection: ServiceConnection? = null
     private var audioBroadcastReceiver: BroadcastReceiver? = null
 
     private val audioIntentFilter = IntentFilter()
     private var serviceBound = false
     private var wasSongPlaying = false
-    private var fromActivity = false
     private var isFinished = false
 
     /**
@@ -80,7 +78,7 @@ class AudioPlayer : ScopedFragment() {
     private val musicViewModel: MusicViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
+        val view = inflater.inflate(R.layout.fragment_audio_player_pager, container, false)
 
         artPager = view.findViewById(R.id.album_art_mime)
         replay = view.findViewById(R.id.mime_repeat_button)
@@ -98,7 +96,6 @@ class AudioPlayer : ScopedFragment() {
         loader = view.findViewById(R.id.loader)
 
         audioModel = requireArguments().parcelable(BundleConstants.audioModel)
-        fromActivity = requireArguments().getBoolean(BundleConstants.fromActivity, false)
 
         audioIntentFilter.addAction(ServiceConstants.actionPrepared)
         audioIntentFilter.addAction(ServiceConstants.actionQuitMusicService)
@@ -117,33 +114,29 @@ class AudioPlayer : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
 
-        if (fromActivity) {
-            startPostponedEnterTransition()
-        } else {
-            musicViewModel.getSongs().observe(viewLifecycleOwner) {
-                audioModels = it
-                artPager.adapter = AlbumArtAdapter(audioModels!!)
-                artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
+        musicViewModel.getSongs().observe(viewLifecycleOwner) {
+            audioModels = it
+            artPager.adapter = AlbumArtAdapter(audioModels!!)
+            artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
 
-                (view.parent as? ViewGroup)?.doOnPreDraw {
-                    startPostponedEnterTransition()
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+
+            artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrollStateChanged(state: Int) {
+                    super.onPageScrollStateChanged(state)
+                    if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                        currentSeekPosition = 0
+                        audioServicePager?.setCurrentPosition(artPager.currentItem)
+                        MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
+                    }
                 }
+            })
 
-                artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageScrollStateChanged(state: Int) {
-                        super.onPageScrollStateChanged(state)
-                        if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                            currentSeekPosition = 0
-                            audioService?.setCurrentPosition(artPager.currentItem)
-                            MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
-                        }
-                    }
-                })
-
-                lifecycleScope.launch { // OnStart, but on steroids!!!
-                    repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        startService()
-                    }
+            lifecycleScope.launch { // OnStart, but on steroids!!!
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    startService()
                 }
             }
         }
@@ -154,9 +147,9 @@ class AudioPlayer : ScopedFragment() {
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 serviceBound = true
-                audioService = (service as AudioService.AudioBinder).getService()
-                audioService?.setAudioPlayerProps(audioModels!!, artPager.currentItem)
-                audioService?.setCurrentPosition(artPager.currentItem)
+                audioServicePager = (service as AudioServicePager.AudioBinder).getService()
+                audioServicePager?.setAudioPlayerProps(audioModels!!, artPager.currentItem)
+                audioServicePager?.setCurrentPosition(artPager.currentItem)
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -168,22 +161,22 @@ class AudioPlayer : ScopedFragment() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
                     ServiceConstants.actionPrepared -> {
-                        audioService?.seek(currentSeekPosition)
+                        audioServicePager?.seek(currentSeekPosition)
                     }
                     ServiceConstants.actionMetaData -> {
                         try {
-                            seekBar.max = audioService?.getDuration()!!
-                            duration.text = NumberUtils.getFormattedTime(audioService?.getDuration()?.toLong()!!)
+                            seekBar.max = audioServicePager?.getDuration()!!
+                            duration.text = NumberUtils.getFormattedTime(audioServicePager?.getDuration()?.toLong()!!)
                             handler.post(progressRunnable)
-                            title.text = audioService?.metaData?.title
-                            artist.text = audioService?.metaData?.artists
-                            album.text = audioService?.metaData?.album
+                            title.text = audioServicePager?.metaData?.title
+                            artist.text = audioServicePager?.metaData?.artists
+                            album.text = audioServicePager?.metaData?.album
                             // fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
                             loader.gone(animate = true)
                             playPause.isEnabled = true
 
                             wasSongPlaying = true
-                            buttonStatus(audioService?.isPlaying()!!, animate = false)
+                            buttonStatus(audioServicePager?.isPlaying()!!, animate = false)
                         } catch (e: IllegalStateException) {
                             e.printStackTrace()
                             showError(e.stackTraceToString())
@@ -250,18 +243,18 @@ class AudioPlayer : ScopedFragment() {
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    this@AudioPlayer.progress.text = NumberUtils.getFormattedTime(progress.toLong())
+                    this@AudioPlayerPager.progress.text = NumberUtils.getFormattedTime(progress.toLong())
                     currentSeekPosition = progress
                 }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
-                this@AudioPlayer.seekBar.clearAnimation()
+                this@AudioPlayerPager.seekBar.clearAnimation()
                 handler.removeCallbacks(progressRunnable)
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                audioService?.seek(seekBar.progress)
+                audioServicePager?.seek(seekBar.progress)
                 handler.post(progressRunnable)
             }
         })
@@ -271,7 +264,7 @@ class AudioPlayer : ScopedFragment() {
         }
 
         playPause.setOnClickListener {
-            audioService?.changePlayerState()!!
+            audioServicePager?.changePlayerState()!!
         }
 
         close.setOnClickListener {
@@ -280,11 +273,11 @@ class AudioPlayer : ScopedFragment() {
         }
 
         next.setOnClickListener {
-            audioService?.playNext()
+            audioServicePager?.playNext()
         }
 
         previous.setOnClickListener {
-            audioService?.playPrevious()
+            audioServicePager?.playPrevious()
         }
     }
 
@@ -315,24 +308,20 @@ class AudioPlayer : ScopedFragment() {
     private fun stopService() {
         serviceBound = false
         requireContext().unbindService(serviceConnection!!)
-        requireContext().stopService(Intent(requireContext(), AudioService::class.java))
+        requireContext().stopService(Intent(requireContext(), AudioServicePager::class.java))
         finish()
     }
 
     private fun finish() {
         isFinished = true
-        if (fromActivity) {
-            requireActivity().finish()
-        } else {
-            lifecycleScope.launchWhenResumed {
-                popBackStack()
-            }
+        lifecycleScope.launchWhenResumed {
+            popBackStack()
         }
     }
 
     private val progressRunnable: Runnable = object : Runnable {
         override fun run() {
-            currentSeekPosition = audioService?.getProgress()!!
+            currentSeekPosition = audioServicePager?.getProgress()!!
             seekBar.updateProgress(currentSeekPosition)
             progress.text = NumberUtils.getFormattedTime(currentSeekPosition.toLong())
             handler.postDelayed(this, 1000L)
@@ -340,7 +329,7 @@ class AudioPlayer : ScopedFragment() {
     }
 
     private fun startService() {
-        val intent = Intent(requireActivity(), AudioService::class.java)
+        val intent = Intent(requireActivity(), AudioServicePager::class.java)
         requireContext().startService(intent)
         serviceConnection?.let { requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE) }
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(audioBroadcastReceiver!!, audioIntentFilter)
@@ -372,29 +361,11 @@ class AudioPlayer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(uri: Uri, fromActivity: Boolean = false): AudioPlayer {
-            val args = Bundle()
-            args.putParcelable(BundleConstants.uri, uri)
-            args.putBoolean(BundleConstants.fromActivity, fromActivity)
-            val fragment = AudioPlayer()
-            fragment.arguments = args
-            return fragment
-        }
-
-        fun newInstance(audioModel: AudioModel, fromActivity: Boolean = false): AudioPlayer {
-            val args = Bundle()
-            args.putParcelable(BundleConstants.audioModel, audioModel)
-            args.putBoolean(BundleConstants.fromActivity, fromActivity)
-            val fragment = AudioPlayer()
-            fragment.arguments = args
-            return fragment
-        }
-
-        fun newInstance(position: Int, fromActivity: Boolean = false): AudioPlayer {
+        fun newInstance(position: Int, fromActivity: Boolean = false): AudioPlayerPager {
             val args = Bundle()
             args.putBoolean(BundleConstants.fromActivity, fromActivity)
             args.putInt(BundleConstants.position, position)
-            val fragment = AudioPlayer()
+            val fragment = AudioPlayerPager()
             fragment.arguments = args
             return fragment
         }
