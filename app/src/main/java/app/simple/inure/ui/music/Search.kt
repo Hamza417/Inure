@@ -83,13 +83,13 @@ class Search : KeyboardScopedFragment() {
 
             adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
-                    openFragmentArc(AudioPlayerPager.newInstance(audioModel), art, "audio_player")
+                    openFragmentArc(AudioPlayerPager.newInstance(position, fromSearch = true), art, "audio_player")
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
                     PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            openFragmentArc(AudioPlayerPager.newInstance(audioModel), view, "audio_player")
+                            openFragmentArc(AudioPlayerPager.newInstance(position, fromSearch = true), view, "audio_player")
                             MusicPreferences.setLastMusicId(audioModel.id)
                         }
 

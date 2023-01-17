@@ -9,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.themes.manager.Theme
-import app.simple.inure.ui.viewers.AudioPlayerPager
+import app.simple.inure.ui.viewers.AudioPlayer
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ThemeUtils
@@ -26,7 +26,7 @@ class AudioPlayerActivity : BaseActivity() {
             kotlin.runCatching {
                 if (intent.hasExtra(BundleConstants.audioModel)) {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, AudioPlayerPager.newInstance(uri!!, fromActivity = true), "audio_player")
+                        .replace(R.id.app_container, AudioPlayer.newInstance(uri!!, fromActivity = true), "audio_player")
                         .commit()
                 } else {
                     uri = if (intent?.action == Intent.ACTION_SEND && intent?.type?.startsWith("audio/") == true) {
@@ -38,7 +38,7 @@ class AudioPlayerActivity : BaseActivity() {
                     }
 
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, AudioPlayerPager.newInstance(uri!!, fromActivity = true), "audio_player")
+                        .replace(R.id.app_container, AudioPlayer.newInstance(uri!!, fromActivity = true), "audio_player")
                         .commit()
                 }
             }.getOrElse {

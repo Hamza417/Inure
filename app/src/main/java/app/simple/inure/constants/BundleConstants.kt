@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val fromSearch = "fromSearch"
     const val position = "position"
     const val audioModel = "audio_model"
     const val fromActivity = "from_activity"
