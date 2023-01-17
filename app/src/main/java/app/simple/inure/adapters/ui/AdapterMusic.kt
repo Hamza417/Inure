@@ -57,9 +57,9 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             holder.container.setDefaultBackground(MusicPreferences.getLastMusicId() == list[position].id)
 
             holder.container.setOnClickListener {
-                MusicPreferences.setLastMusicId(list[position].id)
                 id = list[position].id
-                musicCallbacks?.onMusicClicked(list[position], holder.art)
+                musicCallbacks?.onMusicClicked(list[position], holder.art, position)
+                // We need the animations, this will break it
                 // updateHighlightedSongState()
             }
 
@@ -99,6 +99,8 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     fun updateHighlightedSongState() {
         val compensate = if (headerMode) 1 else 0
+        id = MusicPreferences.getLastMusicId()
+
         for (i in list.indices) {
             if (list[i].id == id) {
                 notifyItemChanged(i.plus(compensate))
@@ -132,7 +134,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     companion object {
         interface MusicCallbacks {
-            fun onMusicClicked(audioModel: AudioModel, art: ImageView)
+            fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int)
             fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int)
         }
     }

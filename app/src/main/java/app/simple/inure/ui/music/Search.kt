@@ -25,7 +25,7 @@ import app.simple.inure.interfaces.menus.PopupMusicMenuCallbacks
 import app.simple.inure.models.AudioModel
 import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.preferences.MusicPreferences
-import app.simple.inure.ui.viewers.AudioPlayer
+import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.MusicViewModel
@@ -82,14 +82,14 @@ class Search : KeyboardScopedFragment() {
             val adapterMusic = AdapterMusic(it, false)
 
             adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
-                override fun onMusicClicked(audioModel: AudioModel, art: ImageView) {
-                    openFragmentArc(AudioPlayer.newInstance(audioModel), art, "audio_player")
+                override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
+                    openFragmentArc(AudioPlayerPager.newInstance(position, fromSearch = true), art, "audio_player")
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
                     PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            openFragmentArc(AudioPlayer.newInstance(audioModel), view, "audio_player")
+                            openFragmentArc(AudioPlayerPager.newInstance(position, fromSearch = true), view, "audio_player")
                             MusicPreferences.setLastMusicId(audioModel.id)
                         }
 

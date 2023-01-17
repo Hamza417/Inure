@@ -72,7 +72,6 @@ class AudioPlayer : ScopedFragment() {
     private var wasSongPlaying = false
     private var fromActivity = false
     private var isFinished = false
-    private var isArtUri = false
 
     /**
      * [currentPosition] will keep the current position of the playback

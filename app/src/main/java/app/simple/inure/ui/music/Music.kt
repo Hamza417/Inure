@@ -13,7 +13,6 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
-import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.adapters.ui.AdapterMusic
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -25,8 +24,8 @@ import app.simple.inure.models.AudioModel
 import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.popups.music.PopupMusicSort
 import app.simple.inure.preferences.MusicPreferences
-import app.simple.inure.services.AudioService
-import app.simple.inure.ui.viewers.AudioPlayer
+import app.simple.inure.services.AudioServicePager
+import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
 class Music : KeyboardScopedFragment() {
@@ -55,7 +54,7 @@ class Music : KeyboardScopedFragment() {
             adapterMusic = AdapterMusic(audioModels, headerMode = true)
 
             adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
-                override fun onMusicClicked(audioModel: AudioModel, art: ImageView) {
+                override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
                     //                    val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
                     //                    intent.data = uri
                     //
@@ -67,13 +66,13 @@ class Music : KeyboardScopedFragment() {
                     //                        startActivity(intent)
                     //                    }
 
-                    openFragmentArc(AudioPlayer.newInstance(audioModel), art, "audio_player")
+                    openFragmentArc(AudioPlayerPager.newInstance(position), art, "audio_player")
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
                     PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            openFragmentArc(AudioPlayer.newInstance(audioModel), view, "audio_player")
+                            openFragmentArc(AudioPlayerPager.newInstance(position), view, "audio_player")
                             MusicPreferences.setLastMusicId(audioModel.id)
                         }
 
@@ -114,9 +113,6 @@ class Music : KeyboardScopedFragment() {
                         for (position in audioModels.indices) {
                             if (MusicPreferences.getLastMusicId() == audioModels[position].id) {
                                 (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 150)
-                                val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                                intent.data = Uri.parse(audioModels[position].fileUri)
-                                startActivity(intent)
                                 break
                             }
                         }
@@ -133,7 +129,7 @@ class Music : KeyboardScopedFragment() {
 
             if (deletedId == MusicPreferences.getLastMusicId()) {
                 try {
-                    requireContext().stopService(Intent(requireContext(), AudioService::class.java))
+                    requireContext().stopService(Intent(requireContext(), AudioServicePager::class.java))
                 } catch (e: IllegalStateException) {
                     e.printStackTrace()
                 }
@@ -148,7 +144,7 @@ class Music : KeyboardScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             MusicPreferences.lastMusicId -> {
-                // adapterMusic?.updateHighlightedSongState()
+                adapterMusic?.updateHighlightedSongState()
             }
             MusicPreferences.musicSort,
             MusicPreferences.musicSortReverse -> {

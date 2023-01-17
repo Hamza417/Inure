@@ -571,10 +571,20 @@
         </service>
 
         <service
+            android:name=".services.AudioServicePager"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback"
+            android:icon="@mipmap/ic_audio_player"
+            android:roundIcon="@mipmap/ic_audio_player_round" />
+
+        <service
             android:name=".services.AudioService"
             android:enabled="true"
             android:exported="false"
-            android:foregroundServiceType="mediaPlayback" />
+            android:foregroundServiceType="mediaPlayback"
+            android:icon="@mipmap/ic_audio_player"
+            android:roundIcon="@mipmap/ic_audio_player_round" />
 
         <service
             android:name=".services.BatchExtractService"

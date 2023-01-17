@@ -192,4 +192,26 @@ public class AudioModel implements Parcelable {
         dest.writeString(fileUri);
         dest.writeLong(duration);
     }
+    
+    @Override
+    public String toString() {
+        return "AudioModel{" +
+                "name='" + name + '\'' +
+                ", title='" + title + '\'' +
+                ", artist='" + artist + '\'' +
+                ", album='" + album + '\'' +
+                ", artUri='" + artUri + '\'' +
+                ", fileUri='" + fileUri + '\'' +
+                ", path='" + path + '\'' +
+                ", mimeType='" + mimeType + '\'' +
+                ", track=" + track +
+                ", year=" + year +
+                ", size=" + size +
+                ", duration=" + duration +
+                ", id=" + id +
+                ", dateAdded=" + dateAdded +
+                ", dateModified=" + dateModified +
+                ", dateTaken=" + dateTaken +
+                '}';
+    }
 }
