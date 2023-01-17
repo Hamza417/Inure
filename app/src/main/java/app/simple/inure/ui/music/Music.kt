@@ -51,8 +51,8 @@ class Music : KeyboardScopedFragment() {
         postponeEnterTransition()
         fullVersionCheck()
 
-        musicViewModel.getSongs().observe(viewLifecycleOwner) {
-            adapterMusic = AdapterMusic(it, headerMode = true)
+        musicViewModel.getSongs().observe(viewLifecycleOwner) { audioModels ->
+            adapterMusic = AdapterMusic(audioModels, headerMode = true)
 
             adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(uri: Uri, art: ImageView) {
@@ -70,15 +70,11 @@ class Music : KeyboardScopedFragment() {
                     openFragmentArc(AudioPlayer.newInstance(uri), art, "audio_player")
                 }
 
-                override fun onMusicLongClicked(audioModel: AudioModel, view: View, position: Int) {
+                override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
                     PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                            intent.data = uri
-                            startActivity(intent)
+                            openFragmentArc(AudioPlayer.newInstance(uri), view, "audio_player")
                             MusicPreferences.setLastMusicId(audioModel.id)
-                            adapterMusic?.id = audioModel.id
-                            adapterMusic?.updateHighlightedSongState()
                         }
 
                         override fun onDelete(uri: Uri) {
@@ -115,13 +111,13 @@ class Music : KeyboardScopedFragment() {
                         musicViewModel.shuffleSongs()
                     }
                     R.drawable.ic_play -> {
-                        for (position in it.indices) {
-                            if (MusicPreferences.getLastMusicId() == it[position].id) {
+                        for (position in audioModels.indices) {
+                            if (MusicPreferences.getLastMusicId() == audioModels[position].id) {
                                 if (position > 7) {
                                     (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 150)
                                 }
                                 val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                                intent.data = Uri.parse(it[position].fileUri)
+                                intent.data = Uri.parse(audioModels[position].fileUri)
                                 startActivity(intent)
                                 break
                             }

@@ -64,7 +64,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             }
 
             holder.container.setOnLongClickListener {
-                musicCallbacks?.onMusicLongClicked(list[holder.bindingAdapterPosition.minus(1)], it, holder.bindingAdapterPosition.minus(1))
+                musicCallbacks?.onMusicLongClicked(list[holder.bindingAdapterPosition.minus(1)], holder.art, holder.bindingAdapterPosition.minus(1))
                 true
             }
         } else if (holder is Header) {
@@ -133,7 +133,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
     companion object {
         interface MusicCallbacks {
             fun onMusicClicked(uri: Uri, art: ImageView)
-            fun onMusicLongClicked(audioModel: AudioModel, view: View, position: Int)
+            fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int)
         }
     }
 }

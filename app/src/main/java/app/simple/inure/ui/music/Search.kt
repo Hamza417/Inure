@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.net.toUri
+import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.adapters.ui.AdapterMusic
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -25,6 +25,7 @@ import app.simple.inure.interfaces.menus.PopupMusicMenuCallbacks
 import app.simple.inure.models.AudioModel
 import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.preferences.MusicPreferences
+import app.simple.inure.ui.viewers.AudioPlayer
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.MusicViewModel
@@ -62,7 +63,7 @@ class Search : KeyboardScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startPostponedEnterTransition()
+        postponeEnterTransition()
 
         searchBox.setText(MusicPreferences.getSearchKeyword())
         searchBox.setWindowInsetsAnimationCallback()
@@ -82,20 +83,14 @@ class Search : KeyboardScopedFragment() {
 
             adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(uri: Uri, art: ImageView) {
-                    val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                    intent.data = uri
-                    startActivity(intent)
+                    openFragmentArc(AudioPlayer.newInstance(uri), art, "audio_player")
                 }
 
-                override fun onMusicLongClicked(audioModel: AudioModel, view: View, position: Int) {
+                override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
                     PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                            intent.data = uri
-                            startActivity(intent)
+                            openFragmentArc(AudioPlayer.newInstance(uri), view, "audio_player")
                             MusicPreferences.setLastMusicId(audioModel.id)
-                            adapterMusic.id = audioModel.id
-                            adapterMusic.updateHighlightedSongState()
                         }
 
                         override fun onDelete(uri: Uri) {
@@ -117,6 +112,10 @@ class Search : KeyboardScopedFragment() {
             })
 
             recyclerView.adapter = adapterMusic
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
         }
 
         clear.setOnClickListener {
