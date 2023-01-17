@@ -43,6 +43,8 @@ class AudioPlayer : ScopedFragment() {
     private lateinit var replay: DynamicRippleImageButton
     private lateinit var playPause: DynamicRippleImageButton
     private lateinit var close: DynamicRippleImageButton
+    private lateinit var next: DynamicRippleImageButton
+    private lateinit var previous: DynamicRippleImageButton
     private lateinit var duration: TypeFaceTextView
     private lateinit var progress: TypeFaceTextView
     private lateinit var title: TypeFaceTextView
@@ -84,6 +86,8 @@ class AudioPlayer : ScopedFragment() {
         replay = view.findViewById(R.id.mime_repeat_button)
         playPause = view.findViewById(R.id.mime_play_button)
         close = view.findViewById(R.id.mime_close_button)
+        next = view.findViewById(R.id.mime_next_button)
+        previous = view.findViewById(R.id.mime_previous_button)
         duration = view.findViewById(R.id.current_duration_mime)
         progress = view.findViewById(R.id.current_time_mime)
         fileInfo = view.findViewById(R.id.mime_info)
@@ -136,7 +140,7 @@ class AudioPlayer : ScopedFragment() {
                     }
                 })
 
-                lifecycleScope.launch {
+                lifecycleScope.launch { // OnStart, but on steroids!!!
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
                         startService()
                     }
@@ -273,6 +277,14 @@ class AudioPlayer : ScopedFragment() {
         close.setOnClickListener {
             handler.removeCallbacks(progressRunnable)
             stopService()
+        }
+
+        next.setOnClickListener {
+            audioService?.playNext()
+        }
+
+        previous.setOnClickListener {
+            audioService?.playPrevious()
         }
     }
 

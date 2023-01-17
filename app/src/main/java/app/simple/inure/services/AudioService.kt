@@ -243,11 +243,11 @@ class AudioService : Service(),
             }
 
             override fun onSkipToNext() {
-                /* no-op */
+                playNext()
             }
 
             override fun onSkipToPrevious() {
-                /* no-op */
+                playPrevious()
             }
 
             override fun onStop() {
@@ -559,12 +559,16 @@ class AudioService : Service(),
         }
 
         val close = generateAction(R.drawable.ic_close, "Close", ServiceConstants.actionQuitMusicService)
+        val previous = generateAction(R.drawable.ic_skip_previous, "Previous", ServiceConstants.actionPrevious)
+        val next = generateAction(R.drawable.ic_skip_next, "Next", ServiceConstants.actionNext)
 
         builder = NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.drawable.ic_main_app_icon_regular)
             .setLargeIcon(getBitmapFromUri(applicationContext, audioModels?.get(currentPosition)?.artUri?.toUri()!!))
             .addAction(action) /* Play Pause Action */
             .addAction(close)
+            .addAction(previous)
+            .addAction(next)
             .setContentTitle(metaData?.title)
             .setContentText(metaData?.artists)
             .setSubText(metaData?.album)
@@ -573,7 +577,7 @@ class AudioService : Service(),
             .setColorized(true)
             .setCategory(Notification.CATEGORY_TRANSPORT)
             .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken)
-                          .setShowActionsInCompactView(0, 1)
+                          .setShowActionsInCompactView(1, 2, 3)
                           .setShowCancelButton(true)
                           .setCancelButtonIntent(close.getActionIntent()))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
