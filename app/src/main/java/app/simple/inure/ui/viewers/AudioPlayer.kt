@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SeekBar
+import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -27,12 +28,15 @@ import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
 import app.simple.inure.glide.modules.GlideApp
+import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioService
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.getMimeType
 import app.simple.inure.util.IntentHelper
+import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
@@ -58,6 +62,7 @@ class AudioPlayer : ScopedFragment() {
     private lateinit var loader: CustomProgressBar
 
     private var uri: Uri? = null
+    private var audioModel: AudioModel? = null
     private var audioService: AudioService? = null
     private var serviceConnection: ServiceConnection? = null
     private var audioBroadcastReceiver: BroadcastReceiver? = null
@@ -96,8 +101,15 @@ class AudioPlayer : ScopedFragment() {
         seekBar = view.findViewById(R.id.seekbar_mime)
         loader = view.findViewById(R.id.loader)
 
-        uri = requireArguments().parcelable(BundleConstants.uri)
-        art.transitionName = uri.toString()
+        kotlin.runCatching {
+            uri = requireArguments().parcelable(BundleConstants.uri)
+            if (uri.isNull()) throw NullPointerException("Uri is null")
+            art.transitionName = uri.toString()
+        }.onFailure {
+            // Probably the [AudioModel] mode
+            audioModel = requireArguments().parcelable(BundleConstants.audioModel)
+            art.transitionName = audioModel?.fileUri.toString()
+        }
 
         fromActivity = requireArguments().getBoolean(BundleConstants.fromActivity, false)
 
@@ -115,21 +127,75 @@ class AudioPlayer : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (fromActivity) {
+            /**
+             * This will solve the Glide and image size issues
+             * after the layout has changed while.
+             */
+            art.requestLayout()
+            art.post {
+                art.loadFromFileDescriptor(uri!!)
+            }
+        } else {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+                /**
+                 * This will solve the Glide and image size issues
+                 * after the layout has changed while.
+                 */
+                if (audioModel.isNotNull()) {
+                    art.requestLayout()
+                    art.post {
+                        art.loadFromFileDescriptor(audioModel?.fileUri?.toUri()!!)
+                    }
+
+                    title.text = audioModel?.title
+                    artist.text = audioModel?.artists
+                    album.text = audioModel?.album
+                } else {
+                    art.requestLayout()
+                    art.post {
+                        art.loadFromFileDescriptor(uri!!)
+                    }
+                }
+            } else {
+                art.scaleType = ImageView.ScaleType.CENTER_CROP
+                art.setImageURI(audioModel?.artUri?.toUri())
+                startPostponedEnterTransition()
+
+                title.text = audioModel?.title
+                artist.text = audioModel?.artists
+                album.text = audioModel?.album
+            }
+        }
+
         replayButtonStatus(animate = false)
         playPause.isEnabled = false
 
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 kotlin.runCatching {
-                    if ((uri?.getMimeType(requireContext())?.startsWith("audio") == true
-                                || uri?.getMimeType(requireContext())?.startsWith("video") == true)
-                        || uri?.toString()?.startsWith("http") == true
-                        || uri?.toString()?.startsWith("ftp") == true) {
-                        serviceBound = true
-                        audioService = (service as AudioService.AudioBinder).getService()
-                        audioService?.audioUri = uri
+                    if (uri.isNull()) {
+                        if ((audioModel?.fileUri?.toUri()?.getMimeType(requireContext())?.startsWith("audio") == true
+                                    || audioModel?.fileUri?.toUri()?.getMimeType(requireContext())?.startsWith("video") == true)
+                            || audioModel?.fileUri?.toUri()?.toString()?.startsWith("http") == true
+                            || audioModel?.fileUri?.toUri()?.toString()?.startsWith("ftp") == true) {
+                            serviceBound = true
+                            audioService = (service as AudioService.AudioBinder).getService()
+                            audioService?.audioUri = audioModel?.fileUri?.toUri()
+                        } else {
+                            throw IllegalArgumentException("File is not media type or incompatible")
+                        }
                     } else {
-                        throw IllegalArgumentException("File is not media type or incompatible")
+                        if ((uri?.getMimeType(requireContext())?.startsWith("audio") == true
+                                    || uri?.getMimeType(requireContext())?.startsWith("video") == true)
+                            || uri?.toString()?.startsWith("http") == true
+                            || uri?.toString()?.startsWith("ftp") == true) {
+                            serviceBound = true
+                            audioService = (service as AudioService.AudioBinder).getService()
+                            audioService?.audioUri = uri
+                        } else {
+                            throw IllegalArgumentException("File is not media type or incompatible")
+                        }
                     }
                 }.getOrElse {
                     it.printStackTrace()
@@ -153,38 +219,14 @@ class AudioPlayer : ScopedFragment() {
                             seekBar.max = audioService?.getDuration()!!
                             duration.text = NumberUtils.getFormattedTime(audioService?.getDuration()?.toLong()!!)
                             handler.post(progressRunnable)
-                            title.text = audioService?.metaData?.title
-                            artist.text = audioService?.metaData?.artists
-                            album.text = audioService?.metaData?.album
+                            if (uri.isNotNull()) {
+                                title.text = audioService?.metaData?.title
+                                artist.text = audioService?.metaData?.artists
+                                album.text = audioService?.metaData?.album
+                            }
                             fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
                             loader.gone(animate = true)
                             playPause.isEnabled = true
-
-                            if (fromActivity) {
-                                /**
-                                 * This will solve the Glide and image size issues
-                                 * after the layout has changed while.
-                                 */
-                                art.requestLayout()
-                                art.post {
-                                    art.loadFromFileDescriptor(uri!!)
-                                }
-                            } else {
-                                if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
-                                    /**
-                                     * This will solve the Glide and image size issues
-                                     * after the layout has changed while.
-                                     */
-                                    art.requestLayout()
-                                    art.post {
-                                        art.loadFromFileDescriptor(uri!!)
-                                    }
-                                } else {
-                                    art.scaleType = ImageView.ScaleType.CENTER_CROP
-                                    art.setImageURI(requireArguments().parcelable(BundleConstants.artUri))
-                                    startPostponedEnterTransition()
-                                }
-                            }
 
                             wasSongPlaying = true
                             buttonStatus(audioService?.isPlaying()!!, animate = false)
@@ -387,6 +429,7 @@ class AudioPlayer : ScopedFragment() {
 
         GlideApp.with(this)
             .asBitmap()
+            .dontAnimate()
             .transform(CenterCrop())
             .load(DescriptorCoverModel(this.context, uri))
             .addListener(object : RequestListener<Bitmap> {
@@ -421,10 +464,9 @@ class AudioPlayer : ScopedFragment() {
             return fragment
         }
 
-        fun newInstance(uri: Uri, artUri: Uri, fromActivity: Boolean = false): AudioPlayer {
+        fun newInstance(audioModel: AudioModel, fromActivity: Boolean = false): AudioPlayer {
             val args = Bundle()
-            args.putParcelable(BundleConstants.uri, uri)
-            args.putParcelable(BundleConstants.artUri, artUri)
+            args.putParcelable(BundleConstants.audioModel, audioModel)
             args.putBoolean(BundleConstants.fromActivity, fromActivity)
             val fragment = AudioPlayer()
             fragment.arguments = args

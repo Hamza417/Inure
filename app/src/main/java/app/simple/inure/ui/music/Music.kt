@@ -67,13 +67,13 @@ class Music : KeyboardScopedFragment() {
                     //                        startActivity(intent)
                     //                    }
 
-                    openFragmentArc(AudioPlayer.newInstance(audioModel.fileUri.toUri(), audioModel.artUri.toUri()), art, "audio_player")
+                    openFragmentArc(AudioPlayer.newInstance(audioModel), art, "audio_player")
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
                     PopupMusicMenu(view, audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            openFragmentArc(AudioPlayer.newInstance(audioModel.fileUri.toUri(), audioModel.artUri.toUri()), view, "audio_player")
+                            openFragmentArc(AudioPlayer.newInstance(audioModel), view, "audio_player")
                             MusicPreferences.setLastMusicId(audioModel.id)
                         }
 

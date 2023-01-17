@@ -37,7 +37,7 @@ object MetadataHelper {
         audioMetadata.format = getFileExtension(context, songUri)
         audioMetadata.bitrate = getBitrate(mediaMetadataRetriever)
         audioMetadata.sampling = AudioUtils.getSampling(context, songUri)
-        // audioMetadata.art = getOriginalAlbumArt(mediaMetadataRetriever)
+        audioMetadata.art = getOriginalAlbumArt(mediaMetadataRetriever)
 
         mediaMetadataRetriever.close()
 
