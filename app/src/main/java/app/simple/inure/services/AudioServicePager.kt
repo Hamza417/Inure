@@ -357,7 +357,7 @@ class AudioServicePager : Service(),
     }
 
     fun setCurrentPosition(currentPosition: Int) {
-        if (this.currentPosition != currentPosition) {
+        if (this.currentPosition != currentPosition || audioModels!![currentPosition].id != MusicPreferences.getLastMusicId()) {
             this.currentPosition = currentPosition
             initAudioPlayer()
         } else {
