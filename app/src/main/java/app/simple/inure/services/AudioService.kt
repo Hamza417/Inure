@@ -178,8 +178,7 @@ class AudioService : Service(),
             seek(0)
             play()
         } else {
-            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
-            stopSelf()
+            playNext()
         }
     }
 
@@ -342,17 +341,42 @@ class AudioService : Service(),
         mediaPlayer.setOnBufferingUpdateListener(this)
         mediaPlayer.setDataSource(applicationContext, audioModels!![currentPosition].fileUri.toUri())
         mediaPlayer.prepareAsync()
+        MusicPreferences.setLastMusicId(audioModels!![currentPosition].id)
     }
 
     fun setAudioPlayerProps(audioModel: ArrayList<AudioModel>, currentPosition: Int) {
         this.audioModels = audioModel
-        this.currentPosition = currentPosition
         this.metaData = audioModel[currentPosition]
-        initAudioPlayer()
     }
 
     fun setCurrentPosition(currentPosition: Int) {
-        this.currentPosition = currentPosition
+        if (this.currentPosition != currentPosition) {
+            this.currentPosition = currentPosition
+            initAudioPlayer()
+        } else {
+            setupMetadata()
+        }
+    }
+
+    fun playNext() {
+        if (currentPosition == audioModels!!.size - 1) {
+            currentPosition = 0
+        } else {
+            currentPosition++
+        }
+
+        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionNext, applicationContext)
+        initAudioPlayer()
+    }
+
+    fun playPrevious() {
+        if (currentPosition == 0) {
+            currentPosition = audioModels!!.size - 1
+        } else {
+            currentPosition--
+        }
+
+        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPrevious, applicationContext)
         initAudioPlayer()
     }
 

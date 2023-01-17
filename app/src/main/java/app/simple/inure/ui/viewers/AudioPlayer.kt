@@ -11,7 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager2.widget.ViewPager2
 import app.simple.inure.R
@@ -27,11 +30,12 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioService
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NumberUtils
-import app.simple.inure.util.ParcelUtils.parcelableArrayList
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.viewmodels.panels.MusicViewModel
+import kotlinx.coroutines.launch
 
 class AudioPlayer : ScopedFragment() {
 
@@ -49,6 +53,7 @@ class AudioPlayer : ScopedFragment() {
     private lateinit var loader: CustomProgressBar
 
     private var audioModels: ArrayList<AudioModel>? = null
+    private var audioModel: AudioModel? = null
     private var audioService: AudioService? = null
     private var serviceConnection: ServiceConnection? = null
     private var audioBroadcastReceiver: BroadcastReceiver? = null
@@ -60,7 +65,7 @@ class AudioPlayer : ScopedFragment() {
     private var isFinished = false
 
     /**
-     * [currentPosition] will keep the current position of the playback
+     * [currentSeekPosition] will keep the current position of the playback
      * in the memory. This is necessary in cases where multiple instances of
      * the [app.simple.inure.activities.association.AudioPlayerActivity] is
      * started and the service lost the state of the previous playback so when
@@ -68,7 +73,9 @@ class AudioPlayer : ScopedFragment() {
      * that position where we left right when onPrepared is called before running
      * our handler [progressRunnable].
      */
-    private var currentPosition = 0
+    private var currentSeekPosition = 0
+
+    private val musicViewModel: MusicViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_audio_player, container, false)
@@ -86,7 +93,7 @@ class AudioPlayer : ScopedFragment() {
         seekBar = view.findViewById(R.id.seekbar_mime)
         loader = view.findViewById(R.id.loader)
 
-        audioModels = requireArguments().parcelableArrayList(BundleConstants.audioModel)
+        audioModel = requireArguments().parcelable(BundleConstants.audioModel)
         fromActivity = requireArguments().getBoolean(BundleConstants.fromActivity, false)
 
         audioIntentFilter.addAction(ServiceConstants.actionPrepared)
@@ -95,6 +102,8 @@ class AudioPlayer : ScopedFragment() {
         audioIntentFilter.addAction(ServiceConstants.actionPause)
         audioIntentFilter.addAction(ServiceConstants.actionPlay)
         audioIntentFilter.addAction(ServiceConstants.actionBuffering)
+        audioIntentFilter.addAction(ServiceConstants.actionNext)
+        audioIntentFilter.addAction(ServiceConstants.actionPrevious)
 
         return view
     }
@@ -104,21 +113,36 @@ class AudioPlayer : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
 
-        artPager.adapter = AlbumArtAdapter(audioModels!!)
-        artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
-
-        (view.parent as? ViewGroup)?.doOnPreDraw {
+        if (fromActivity) {
             startPostponedEnterTransition()
-        }
+        } else {
+            musicViewModel.getSongs().observe(viewLifecycleOwner) {
+                audioModels = it
+                artPager.adapter = AlbumArtAdapter(audioModels!!)
+                artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
 
-        artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-                if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                    audioService?.setCurrentPosition(artPager.currentItem)
+                (view.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
+                }
+
+                artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageScrollStateChanged(state: Int) {
+                        super.onPageScrollStateChanged(state)
+                        if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                            currentSeekPosition = 0
+                            audioService?.setCurrentPosition(artPager.currentItem)
+                            MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
+                        }
+                    }
+                })
+
+                lifecycleScope.launch {
+                    repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        startService()
+                    }
                 }
             }
-        })
+        }
 
         replayButtonStatus(animate = false)
         playPause.isEnabled = false
@@ -128,6 +152,7 @@ class AudioPlayer : ScopedFragment() {
                 serviceBound = true
                 audioService = (service as AudioService.AudioBinder).getService()
                 audioService?.setAudioPlayerProps(audioModels!!, artPager.currentItem)
+                audioService?.setCurrentPosition(artPager.currentItem)
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -139,7 +164,7 @@ class AudioPlayer : ScopedFragment() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
                     ServiceConstants.actionPrepared -> {
-                        audioService?.seek(currentPosition)
+                        audioService?.seek(currentSeekPosition)
                     }
                     ServiceConstants.actionMetaData -> {
                         try {
@@ -168,6 +193,14 @@ class AudioPlayer : ScopedFragment() {
                     }
                     ServiceConstants.actionPause -> {
                         buttonStatus(false)
+                    }
+                    ServiceConstants.actionNext -> {
+                        currentSeekPosition = 0
+                        artPager.setCurrentItem(artPager.currentItem + 1, true)
+                    }
+                    ServiceConstants.actionPrevious -> {
+                        currentSeekPosition = 0
+                        artPager.setCurrentItem(artPager.currentItem - 1, true)
                     }
                     ServiceConstants.actionBuffering -> {
                         seekBar.updateSecondaryProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
@@ -214,7 +247,7 @@ class AudioPlayer : ScopedFragment() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     this@AudioPlayer.progress.text = NumberUtils.getFormattedTime(progress.toLong())
-                    currentPosition = progress
+                    currentSeekPosition = progress
                 }
             }
 
@@ -287,9 +320,9 @@ class AudioPlayer : ScopedFragment() {
 
     private val progressRunnable: Runnable = object : Runnable {
         override fun run() {
-            currentPosition = audioService?.getProgress()!!
-            seekBar.updateProgress(currentPosition)
-            progress.text = NumberUtils.getFormattedTime(currentPosition.toLong())
+            currentSeekPosition = audioService?.getProgress()!!
+            seekBar.updateProgress(currentSeekPosition)
+            progress.text = NumberUtils.getFormattedTime(currentSeekPosition.toLong())
             handler.postDelayed(this, 1000L)
         }
     }
@@ -299,13 +332,6 @@ class AudioPlayer : ScopedFragment() {
         requireContext().startService(intent)
         serviceConnection?.let { requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE) }
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(audioBroadcastReceiver!!, audioIntentFilter)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (isFinished.invert()) {
-            startService()
-        }
     }
 
     override fun onStop() {
@@ -352,9 +378,8 @@ class AudioPlayer : ScopedFragment() {
             return fragment
         }
 
-        fun newInstance(audioModels: ArrayList<AudioModel>, position: Int, fromActivity: Boolean = false): AudioPlayer {
+        fun newInstance(position: Int, fromActivity: Boolean = false): AudioPlayer {
             val args = Bundle()
-            args.putParcelableArrayList(BundleConstants.audioModel, audioModels)
             args.putBoolean(BundleConstants.fromActivity, fromActivity)
             args.putInt(BundleConstants.position, position)
             val fragment = AudioPlayer()
