@@ -1,5 +1,6 @@
 package app.simple.inure.ui.viewers
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.*
 import android.content.SharedPreferences
@@ -8,6 +9,7 @@ import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import android.widget.SeekBar
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
@@ -20,6 +22,8 @@ import app.simple.inure.R
 import app.simple.inure.adapters.music.AlbumArtAdapter
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
+import app.simple.inure.decorations.lrc.LrcHelper
+import app.simple.inure.decorations.lrc.LrcView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -34,11 +38,14 @@ import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.MusicViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 
 class AudioPlayerPager : ScopedFragment() {
 
     private lateinit var artPager: ViewPager2
+    private lateinit var lrcView: LrcView
     private lateinit var replay: DynamicRippleImageButton
     private lateinit var playPause: DynamicRippleImageButton
     private lateinit var close: DynamicRippleImageButton
@@ -81,6 +88,7 @@ class AudioPlayerPager : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_audio_player_pager, container, false)
 
         artPager = view.findViewById(R.id.album_art_mime)
+        lrcView = view.findViewById(R.id.lrc_view)
         replay = view.findViewById(R.id.mime_repeat_button)
         playPause = view.findViewById(R.id.mime_play_button)
         close = view.findViewById(R.id.mime_close_button)
@@ -124,6 +132,8 @@ class AudioPlayerPager : ScopedFragment() {
                     startPostponedEnterTransition()
                 }
 
+                setLrc()
+
                 artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageScrollStateChanged(state: Int) {
                         super.onPageScrollStateChanged(state)
@@ -131,6 +141,8 @@ class AudioPlayerPager : ScopedFragment() {
                             currentSeekPosition = 0
                             audioServicePager?.setCurrentPosition(artPager.currentItem)
                             MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
+                            requireArguments().putInt(BundleConstants.position, artPager.currentItem)
+                            setLrc()
                         }
                     }
                 })
@@ -151,6 +163,8 @@ class AudioPlayerPager : ScopedFragment() {
                     startPostponedEnterTransition()
                 }
 
+                setLrc()
+
                 artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageScrollStateChanged(state: Int) {
                         super.onPageScrollStateChanged(state)
@@ -158,6 +172,8 @@ class AudioPlayerPager : ScopedFragment() {
                             currentSeekPosition = 0
                             audioServicePager?.setCurrentPosition(artPager.currentItem)
                             MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
+                            requireArguments().putInt(BundleConstants.position, artPager.currentItem)
+                            setLrc()
                         }
                     }
                 })
@@ -287,6 +303,10 @@ class AudioPlayerPager : ScopedFragment() {
         previous.setOnClickListener {
             audioServicePager?.playPrevious()
         }
+
+        lrcView.setOnPlayIndicatorLineListener { time, _ ->
+            audioServicePager?.seek(time.toInt())
+        }
     }
 
     private fun buttonStatus(isPlaying: Boolean, animate: Boolean = true) {
@@ -294,6 +314,63 @@ class AudioPlayerPager : ScopedFragment() {
             playPause.setIcon(R.drawable.ic_pause, animate)
         } else {
             playPause.setIcon(R.drawable.ic_play, animate)
+        }
+    }
+
+    private fun setLrc() {
+        lifecycleScope.launch {
+            with(File(audioModels!![artPager.currentItem].path.replaceAfterLast(".", "lrc"))) {
+                if (exists()) {
+                    lrcView.setLrcData(LrcHelper.parseLrcFromFile(this))
+                    delay(1000)
+                    lrcView.animate()
+                        .alpha(1F)
+                        .setInterpolator(AccelerateInterpolator())
+                        .setDuration(resources.getInteger(R.integer.animation_duration).toLong())
+                        .setListener(object : Animator.AnimatorListener {
+                            override fun onAnimationStart(animation: Animator) {
+                                lrcView.visibility = View.VISIBLE
+                            }
+
+                            override fun onAnimationEnd(animation: Animator) {
+                                /* no-op */
+                            }
+
+                            override fun onAnimationCancel(animation: Animator) {
+                                /* no-op */
+                            }
+
+                            override fun onAnimationRepeat(animation: Animator) {
+                                /* no-op */
+                            }
+                        })
+                        .start()
+                } else {
+                    delay(1000)
+                    lrcView.animate()
+                        .alpha(0F)
+                        .setInterpolator(AccelerateInterpolator())
+                        .setDuration(resources.getInteger(R.integer.animation_duration).toLong())
+                        .setListener(object : Animator.AnimatorListener {
+                            override fun onAnimationStart(animation: Animator) {
+                                /* no-op */
+                            }
+
+                            override fun onAnimationEnd(animation: Animator) {
+                                lrcView.visibility = View.GONE
+                            }
+
+                            override fun onAnimationCancel(animation: Animator) {
+                                /* no-op */
+                            }
+
+                            override fun onAnimationRepeat(animation: Animator) {
+                                /* no-op */
+                            }
+                        })
+                        .start()
+                }
+            }
         }
     }
 
@@ -331,6 +408,7 @@ class AudioPlayerPager : ScopedFragment() {
         override fun run() {
             currentSeekPosition = audioServicePager?.getProgress()!!
             seekBar.updateProgress(currentSeekPosition)
+            lrcView.updateTime(currentSeekPosition.toLong())
             progress.text = NumberUtils.getFormattedTime(currentSeekPosition.toLong())
             handler.postDelayed(this, 1000L)
         }

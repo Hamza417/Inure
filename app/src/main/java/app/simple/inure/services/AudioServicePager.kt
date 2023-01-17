@@ -180,7 +180,12 @@ class AudioServicePager : Service(),
             seek(0)
             play()
         } else {
-            playNext()
+            if (audioModels?.size!! > 1) {
+                playNext()
+            } else {
+                IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
+                stopSelf()
+            }
         }
     }
 
