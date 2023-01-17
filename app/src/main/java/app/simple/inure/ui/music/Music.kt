@@ -13,7 +13,6 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
-import app.simple.inure.activities.association.AudioPlayerActivity
 import app.simple.inure.adapters.ui.AdapterMusic
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -114,9 +113,6 @@ class Music : KeyboardScopedFragment() {
                         for (position in audioModels.indices) {
                             if (MusicPreferences.getLastMusicId() == audioModels[position].id) {
                                 (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 150)
-                                val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                                intent.data = Uri.parse(audioModels[position].fileUri)
-                                startActivity(intent)
                                 break
                             }
                         }

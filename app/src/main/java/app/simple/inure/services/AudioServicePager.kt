@@ -19,9 +19,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import androidx.media.app.NotificationCompat.MediaStyle
 import app.simple.inure.R
-import app.simple.inure.activities.association.AudioPlayerActivity
-import app.simple.inure.constants.BundleConstants
+import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.constants.ServiceConstants
+import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.exceptions.InureMediaEngineException
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.MusicPreferences
@@ -554,9 +554,8 @@ class AudioServicePager : Service(),
     private fun showNotification(action: NotificationCompat.Action) {
         notificationManager = baseContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        val notificationClick = with(Intent(this, AudioPlayerActivity::class.java)) {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            putParcelableArrayListExtra(BundleConstants.audioModel, audioModels)
+        val notificationClick = with(Intent(this, MainActivity::class.java)) {
+            this.action = ShortcutConstants.MUSIC_ACTION
             PendingIntent.getActivity(applicationContext, 111, this, PendingIntent.FLAG_IMMUTABLE)
         }
 

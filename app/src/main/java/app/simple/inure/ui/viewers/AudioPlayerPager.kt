@@ -222,11 +222,19 @@ class AudioPlayerPager : ScopedFragment() {
                     }
                     ServiceConstants.actionNext -> {
                         currentSeekPosition = 0
-                        artPager.setCurrentItem(artPager.currentItem + 1, true)
+                        if (artPager.currentItem < audioModels!!.size - 1) {
+                            artPager.setCurrentItem(artPager.currentItem + 1, true)
+                        } else {
+                            artPager.setCurrentItem(0, true)
+                        }
                     }
                     ServiceConstants.actionPrevious -> {
                         currentSeekPosition = 0
-                        artPager.setCurrentItem(artPager.currentItem - 1, true)
+                        if (artPager.currentItem > 0) {
+                            artPager.setCurrentItem(artPager.currentItem - 1, true)
+                        } else {
+                            artPager.setCurrentItem(audioModels!!.size - 1, true)
+                        }
                     }
                     ServiceConstants.actionBuffering -> {
                         seekBar.updateSecondaryProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
@@ -239,35 +247,6 @@ class AudioPlayerPager : ScopedFragment() {
                 }
             }
         }
-
-        //        art.setOnTouchListener { _, event ->
-        //            when (event.action) {
-        //                MotionEvent.ACTION_DOWN -> {
-        //                    art.animate()
-        //                        .scaleX(1.2F)
-        //                        .scaleY(1.2F)
-        //                        .setInterpolator(DecelerateInterpolator(1.5F))
-        //                        .start()
-        //                }
-        //                MotionEvent.ACTION_UP -> {
-        //                    art.animate()
-        //                        .scaleX(1.0F)
-        //                        .scaleY(1.0F)
-        //                        .setInterpolator(DecelerateInterpolator(1.5F))
-        //                        .start()
-        //
-        //                    kotlin.runCatching {
-        //                        if (art.drawable is AnimatedVectorDrawable) {
-        //                            (art.drawable as AnimatedVectorDrawable).start()
-        //                        }
-        //                    }.getOrElse {
-        //                        it.printStackTrace()
-        //                    }
-        //                }
-        //            }
-        //
-        //            false
-        //        }
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
