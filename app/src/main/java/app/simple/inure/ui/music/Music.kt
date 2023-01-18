@@ -194,6 +194,7 @@ class Music : KeyboardScopedFragment() {
             }
             MusicPreferences.musicSort,
             MusicPreferences.musicSortReverse -> {
+                MusicPreferences.setMusicPosition(-1)
                 musicViewModel.sortSongs()
             }
         }

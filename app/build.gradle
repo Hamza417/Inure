@@ -37,9 +37,6 @@ android {
         }
     }
 
-    lintOptions {
-        disable "Instantiatable"
-    }
 
     bundle {
         language {
@@ -94,11 +91,14 @@ android {
 
     ndkVersion '24.0.8215888'
     namespace 'app.simple.inure'
-    
+
     task generateVersionTxt {
         doLast {
             file("./version.txt").text = android.defaultConfig.versionName
         }
+    }
+    lint {
+        disable 'Instantiatable'
     }
 }
 
