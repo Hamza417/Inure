@@ -149,7 +149,7 @@
     <string name="n_enabled">%d attivato</string>
     <string name="n_disabled">%d disattivato</string>
     <string name="enabled">Attivato</string>
-    <string name="disabled">Disattivato</string>
+    <string name="disabled">Disattivate</string>
     <string name="enable">Abilita</string>
     <string name="disable">Disabilita</string>
     <string name="desc_not_available">Descrizione non disponibile.</string>
@@ -283,7 +283,7 @@
     <string name="single_user">Utente singolo</string>
     <string name="no_flags">Nessun contrassegno</string>
     <string name="icons">Icone</string>
-    <string name="icon_shadows">Effetto ombra dell\'icona</string>
+    <string name="icon_shadows">Effetto ombre icone</string>
     <string name="icon_shadow_desc">Abilita o disabilita gli effetti ombra/elevazione dalle icone delle app in tutta l\'applicazione.\n\nDisabilitando questa opzione le icone appariranno piatte.</string>
     <string name="highlight_extensions">Evidenzia estensioni</string>
     <string name="launch_mode">Modalità d\'avvio</string>
@@ -367,7 +367,7 @@
     <string name="format">Formato</string>
     <string name="reset">Reimposta</string>
     <string name="restart">Riavvia</string>
-    <string name="uninstalled">Disinstallato</string>
+    <string name="uninstalled">Disinstallate</string>
     <string name="cancelled">Annullato</string>
     <string name="waiting">In attesa</string>
     <string name="closed">Chiuso</string>
@@ -410,7 +410,7 @@
     <string name="copy_package_name">Copia nome pacchetto</string>
     <string name="join_telegram">Gruppo Telegram</string>
     <string name="desc_telegram">Unisciti al gruppo dell\'app su Telegram per discutere con altri utenti e sviluppatori.</string>
-    <string name="batch">Gruppo</string>
+    <string name="batch">Selezione di gruppo</string>
     <string name="verifying_license">Verifica licenza</string>
     <string name="day_night">Giorno/notte</string>
     <string name="slate">Slate</string>
