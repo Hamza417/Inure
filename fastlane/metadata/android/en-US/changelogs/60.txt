@@ -2,3 +2,4 @@
 - Updated translations
 - Added Italian translation
 - Updated credits
+- Fixed a few bugs
