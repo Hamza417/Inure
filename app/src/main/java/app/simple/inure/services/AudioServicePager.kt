@@ -566,6 +566,7 @@ class AudioServicePager : Service(),
         notificationManager = baseContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationClick = with(Intent(this, MainActivity::class.java)) {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
             this.action = ShortcutConstants.MUSIC_ACTION
             PendingIntent.getActivity(applicationContext, 111, this, PendingIntent.FLAG_IMMUTABLE)
         }

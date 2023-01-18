@@ -22,12 +22,13 @@ import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.launcher.SplashScreen
-import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*
+import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.CalendarUtils
@@ -124,9 +125,28 @@ class MainActivity : BaseActivity() {
                         .commit()
                 }
                 ShortcutConstants.MUSIC_ACTION -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, Music.newInstance(), "music")
-                        .commit()
+                    if (supportFragmentManager.findFragmentByTag("audio_player_pager") == null) {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.app_container,
+                                     AudioPlayerPager.newInstance(
+                                             MusicPreferences.getMusicPosition(),
+                                             MusicPreferences.getFromSearch()), "audio_player_pager")
+                            .commit()
+                    } else {
+                        Log.d("MainActivity", "Music player already open")
+                        // Remove the fragment if it already exists
+                        supportFragmentManager.beginTransaction()
+                            .remove(supportFragmentManager.findFragmentByTag("audio_player_pager")!!)
+                            .commitNowAllowingStateLoss()
+
+                        // Add the fragment again
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.app_container,
+                                     AudioPlayerPager.newInstance(
+                                             MusicPreferences.getMusicPosition(),
+                                             MusicPreferences.getFromSearch()), "audio_player_pager")
+                            .commit()
+                    }
                 }
                 "open_device_info" -> {
                     supportFragmentManager.beginTransaction()
