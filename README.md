@@ -14,7 +14,7 @@ An elegant Android app manager, currently in development
 ![](https://img.shields.io/badge/Minimum%20SDK-23%20(Marshmallow)-839192?logo=android&logoColor=white)
 ![](https://img.shields.io/badge/Target%20SDK-33%20(Android%2013)-566573?logo=android&logoColor=white)
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
-[![Telegram Channel](https://img.shields.io/badge/Telegram%20Channel-blue?logo=telegram)](https://t.me/inure_app_manager)
+[![Telegram Group](https://img.shields.io/badge/Telegram%20Group-blue?logo=telegram)](https://t.me/inure_app_manager)
 
 ## Download
 
