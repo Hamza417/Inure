@@ -34,7 +34,7 @@ object ServiceConstants {
     const val actionRewindPager = "$appPackageName.rewindPager"
     const val actionQuitMusicServicePager = "$appPackageName.quit.music.servicePager"
     const val actionPendingQuitServicePager = "$appPackageName.pending_quit_servicePager"
-    const val shuffleModePager = "$appPackageName.shuffle_modePager"
+    const val shuffleModePager = "$appPackageName.shuffle_modePage  r"
     const val actionNextPager = "$appPackageName.action_nextPager"
     const val actionPreviousPager = "$appPackageName.action_previousPager"
     const val actionOpenPager = "$appPackageName.action_openPager"

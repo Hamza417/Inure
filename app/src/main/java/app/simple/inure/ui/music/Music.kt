@@ -4,10 +4,13 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnLayoutChangeListener
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.app.SharedElementCallback
 import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
@@ -67,6 +70,7 @@ class Music : KeyboardScopedFragment() {
                     //                    }
 
                     openFragmentArc(AudioPlayerPager.newInstance(position), art, "audio_player")
+                    requireArguments().putInt("position", position)
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
@@ -95,10 +99,39 @@ class Music : KeyboardScopedFragment() {
                 }
             })
 
+            recyclerView.addOnLayoutChangeListener(object : OnLayoutChangeListener {
+                override fun onLayoutChange(view: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+                    recyclerView.removeOnLayoutChangeListener(this)
+                    val layoutManager = recyclerView.layoutManager
+                    val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
+                    // Scroll to position if the view for the current position is null (not
+                    // currently part of layout manager children), or it's not completely
+                    // visible.
+                    if (viewAtPosition == null || layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)) {
+                        recyclerView.post {
+                            (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(MusicPreferences.getMusicPosition(), 0)
+
+                            (view.parent as? ViewGroup)?.doOnPreDraw {
+                                startPostponedEnterTransition()
+                                Log.d("Music", "doOnPreDraw_1")
+                            }
+                        }
+                    } else {
+                        (view.parent as? ViewGroup)?.doOnPreDraw {
+                            startPostponedEnterTransition()
+                            Log.d("Music", "doOnPreDraw_2")
+                        }
+                    }
+                }
+            })
+
             recyclerView.adapter = adapterMusic
 
-            (view.parent as? ViewGroup)?.doOnPreDraw {
-                startPostponedEnterTransition()
+            if (requireArguments().getInt("position", MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
+                (view.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
+                    Log.d("Music", "doOnPreDraw_0")
+                }
             }
 
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
@@ -139,6 +172,17 @@ class Music : KeyboardScopedFragment() {
         musicViewModel.getError().observe(viewLifecycleOwner) {
             showError(it, goBack = false)
         }
+
+        setExitSharedElementCallback(object : SharedElementCallback() {
+            override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
+                // Locate the ViewHolder for the clicked position.
+                val selectedViewHolder = recyclerView.findViewHolderForAdapterPosition(MusicPreferences.getMusicPosition().plus(1))
+                if (selectedViewHolder is AdapterMusic.Holder) {
+                    // Map the first shared element name to the child ImageView.
+                    sharedElements[names[0]] = selectedViewHolder.art
+                }
+            }
+        })
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
