@@ -63,7 +63,7 @@ class AudioServicePager : Service(),
     private val intVolumeMin = 0
     private val floatVolumeMax = 1f
     private val floatVolumeMin = 0f
-    private val channelId = "inure_mini_player"
+    private val channelId = "inure_mini_player_ia"
     private val notificationId = 54786214
 
     private var wasPlaying = false
@@ -239,7 +239,7 @@ class AudioServicePager : Service(),
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
         mediaButtonIntent.component = mediaButtonReceiverComponentName
         val mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(applicationContext, 4558, mediaButtonIntent, PendingIntent.FLAG_IMMUTABLE)
-        mediaSessionCompat = MediaSessionCompat(this, getString(R.string.mini_player_name), mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent)
+        mediaSessionCompat = MediaSessionCompat(this, getString(R.string.music), mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent)
         mediaSessionCompat!!.setCallback(object : MediaSessionCompat.Callback() {
             override fun onPlay() {
                 play()
@@ -288,7 +288,13 @@ class AudioServicePager : Service(),
         mediaSessionCompat?.setPlaybackState(
                 PlaybackStateCompat.Builder()
                     .setState(playbackState, mediaPlayer.currentPosition.toLong(), 1f)
-                    .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                    .setActions(PlaybackStateCompat.ACTION_PLAY or
+                                        PlaybackStateCompat.ACTION_PAUSE or
+                                        PlaybackStateCompat.ACTION_PLAY_PAUSE or
+                                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
+                                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
+                                        PlaybackStateCompat.ACTION_SEEK_TO or
+                                        PlaybackStateCompat.ACTION_STOP)
                     .build()
         )
     }
@@ -302,7 +308,7 @@ class AudioServicePager : Service(),
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
-                // .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, metaData?.art)
+                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, getBitmapFromUri(applicationContext, audioModels?.get(currentPosition)?.artUri?.toUri()!!))
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
                 .build()
 
@@ -450,10 +456,10 @@ class AudioServicePager : Service(),
                             kotlin.runCatching {
                                 showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlay))
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    stopForeground(STOP_FOREGROUND_REMOVE)
+                                    stopForeground(STOP_FOREGROUND_DETACH)
                                 } else {
                                     @Suppress("DEPRECATION")
-                                    stopForeground(true)
+                                    stopForeground(false)
                                 }
                             }
                         }
@@ -546,7 +552,7 @@ class AudioServicePager : Service(),
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name: CharSequence = getString(R.string.audio_player)
+            val name: CharSequence = getString(R.string.music)
             val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_LOW)
             channel.enableVibration(false)
             channel.enableLights(false)
@@ -571,21 +577,18 @@ class AudioServicePager : Service(),
         builder = NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.drawable.ic_main_app_icon_regular)
             .setLargeIcon(getBitmapFromUri(applicationContext, audioModels?.get(currentPosition)?.artUri?.toUri()!!))
-            .addAction(action) /* Play Pause Action */
-            .addAction(close)
-            .addAction(previous)
-            .addAction(next)
             .setContentTitle(metaData?.title)
             .setContentText(metaData?.artists)
             .setSubText(metaData?.album)
             .setContentIntent(notificationClick)
             .setShowWhen(false)
             .setColorized(true)
-            .setCategory(Notification.CATEGORY_TRANSPORT)
+            .addAction(action) /* Play Pause Action */
+            .addAction(close) /* Close Action */
+            .addAction(previous) /* Previous Action */
+            .addAction(next) /* Next Action */
             .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken)
-                          .setShowActionsInCompactView(1, 2, 3)
-                          .setShowCancelButton(true)
-                          .setCancelButtonIntent(close.getActionIntent()))
+                          .setShowActionsInCompactView(0, 1, 2, 3))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
         val notification: Notification = builder!!.build()
