@@ -1,0 +1,4 @@
+- Revamped Music panel (dev_debug_feature)
+- Updated translations
+- Added Italian translation
+- Updated credits

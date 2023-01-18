@@ -9,12 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.app.SharedElementCallback
 import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterMusic
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
@@ -26,6 +29,7 @@ import app.simple.inure.models.AudioModel
 import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.ui.viewers.AudioPlayerPager
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.MusicViewModel
@@ -67,8 +71,12 @@ class Search : KeyboardScopedFragment() {
 
         searchBox.setText(MusicPreferences.getSearchKeyword())
         searchBox.setWindowInsetsAnimationCallback()
-        searchBox.showInput()
         clearButtonState()
+
+        if (requireArguments().getBoolean(BundleConstants.isKeyboardOpened, false).invert()) {
+            searchBox.showInput()
+            requireArguments().putBoolean(BundleConstants.isKeyboardOpened, true)
+        }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
             if (searchBox.isFocused) {
@@ -84,6 +92,7 @@ class Search : KeyboardScopedFragment() {
             adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
                     openFragmentArc(AudioPlayerPager.newInstance(position, fromSearch = true), art, "audio_player")
+                    requireArguments().putInt(BundleConstants.position, position)
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
@@ -111,10 +120,36 @@ class Search : KeyboardScopedFragment() {
                 }
             })
 
+            recyclerView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                override fun onLayoutChange(view: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+                    recyclerView.removeOnLayoutChangeListener(this)
+                    val layoutManager = recyclerView.layoutManager
+                    val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
+                    // Scroll to position if the view for the current position is null (not
+                    // currently part of layout manager children), or it's not completely
+                    // visible.
+                    if (viewAtPosition == null || layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)) {
+                        recyclerView.post {
+                            (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(MusicPreferences.getMusicPosition(), 0)
+
+                            (view.parent as? ViewGroup)?.doOnPreDraw {
+                                startPostponedEnterTransition()
+                            }
+                        }
+                    } else {
+                        (view.parent as? ViewGroup)?.doOnPreDraw {
+                            startPostponedEnterTransition()
+                        }
+                    }
+                }
+            })
+
             recyclerView.adapter = adapterMusic
 
-            (view.parent as? ViewGroup)?.doOnPreDraw {
-                startPostponedEnterTransition()
+            if (requireArguments().getInt(BundleConstants.position, MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
+                (view.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
+                }
             }
         }
 
@@ -122,6 +157,17 @@ class Search : KeyboardScopedFragment() {
             searchBox.text?.clear()
             MusicPreferences.setSearchKeyword("")
         }
+
+        setExitSharedElementCallback(object : SharedElementCallback() {
+            override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
+                // Locate the ViewHolder for the clicked position.
+                val selectedViewHolder = recyclerView.findViewHolderForAdapterPosition(MusicPreferences.getMusicPosition())
+                if (selectedViewHolder is AdapterMusic.Holder) {
+                    // Map the first shared element name to the child ImageView.
+                    sharedElements[names[0]] = selectedViewHolder.art
+                }
+            }
+        })
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

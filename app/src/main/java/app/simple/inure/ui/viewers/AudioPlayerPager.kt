@@ -11,12 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.SeekBar
+import androidx.core.app.SharedElementCallback
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import app.simple.inure.R
 import app.simple.inure.adapters.music.AlbumArtAdapter
@@ -139,6 +142,7 @@ class AudioPlayerPager : ScopedFragment() {
                         super.onPageScrollStateChanged(state)
                         if (state == ViewPager2.SCROLL_STATE_IDLE) {
                             currentSeekPosition = 0
+                            MusicPreferences.setMusicPosition(artPager.currentItem)
                             audioServicePager?.setCurrentPosition(artPager.currentItem)
                             MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
                             requireArguments().putInt(BundleConstants.position, artPager.currentItem)
@@ -170,6 +174,7 @@ class AudioPlayerPager : ScopedFragment() {
                         super.onPageScrollStateChanged(state)
                         if (state == ViewPager2.SCROLL_STATE_IDLE) {
                             currentSeekPosition = 0
+                            MusicPreferences.setMusicPosition(artPager.currentItem)
                             audioServicePager?.setCurrentPosition(artPager.currentItem)
                             MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
                             requireArguments().putInt(BundleConstants.position, artPager.currentItem)
@@ -307,6 +312,17 @@ class AudioPlayerPager : ScopedFragment() {
         lrcView.setOnPlayIndicatorLineListener { time, _ ->
             audioServicePager?.seek(time.toInt())
         }
+
+        setEnterSharedElementCallback(object : SharedElementCallback() {
+            override fun onMapSharedElements(names: List<String?>, sharedElements: MutableMap<String?, View?>) {
+                // Locate the ViewHolder for the clicked position.
+                val selectedViewHolder = (artPager[0] as RecyclerView).findViewHolderForAdapterPosition(MusicPreferences.getMusicPosition())
+                if (selectedViewHolder is AlbumArtAdapter.Holder) {
+                    // Map the first shared element name to the child ImageView.
+                    sharedElements[names[0]] = selectedViewHolder.itemView.findViewById(R.id.album_art)
+                }
+            }
+        })
     }
 
     private fun buttonStatus(isPlaying: Boolean, animate: Boolean = true) {

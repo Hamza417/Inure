@@ -428,6 +428,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     protected fun openFragmentArc(fragment: ScopedFragment, icon: View, tag: String? = null, duration: Long? = null) {
         fragment.setArcTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
 
+        //        try {
+        //            (fragment.exitTransition as TransitionSet?)?.excludeTarget(icon, true)
+        //        } catch (e: java.lang.ClassCastException) {
+        //            (fragment.exitTransition as MaterialContainerTransform?)?.excludeTarget(icon, true)
+        //        }
+
         val transaction = requireActivity().supportFragmentManager.beginTransaction().apply {
             setReorderingAllowed(true)
             addSharedElement(icon, icon.transitionName)

@@ -58,6 +58,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
             holder.container.setOnClickListener {
                 id = list[position].id
+                MusicPreferences.setMusicPosition(position)
                 musicCallbacks?.onMusicClicked(list[position], holder.art, position)
                 // We need the animations, this will break it
                 // updateHighlightedSongState()
