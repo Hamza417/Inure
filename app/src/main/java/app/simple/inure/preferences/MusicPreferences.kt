@@ -10,6 +10,7 @@ object MusicPreferences {
     const val musicSortReverse = "music_sort_reverse"
     const val musicRepeat = "music_repeat"
     const val musicPosition = "music_position"
+    const val fromSearch = "from_search"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -69,5 +70,15 @@ object MusicPreferences {
 
     fun getMusicPosition(): Int {
         return SharedPreferences.getSharedPreferences().getInt(musicPosition, 0)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setFromSearch(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(fromSearch, value).apply()
+    }
+
+    fun getFromSearch(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(fromSearch, false)
     }
 }

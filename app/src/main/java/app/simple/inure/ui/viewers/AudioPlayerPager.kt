@@ -465,6 +465,7 @@ class AudioPlayerPager : ScopedFragment() {
     companion object {
         fun newInstance(position: Int, fromSearch: Boolean = false): AudioPlayerPager {
             val args = Bundle()
+            MusicPreferences.setFromSearch(fromSearch)
             args.putBoolean(BundleConstants.fromSearch, fromSearch)
             args.putInt(BundleConstants.position, position)
             val fragment = AudioPlayerPager()
