@@ -1,1 +1,1 @@
-An elegant app manager for all rooted and non-rooted devices.
+An elegant multi-purpose app manager for all rooted and non-rooted devices.

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterMusic
 import app.simple.inure.constants.BottomMenuConstants
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
@@ -70,7 +71,7 @@ class Music : KeyboardScopedFragment() {
                     //                    }
 
                     openFragmentArc(AudioPlayerPager.newInstance(position), art, "audio_player")
-                    requireArguments().putInt("position", position)
+                    requireArguments().putInt(BundleConstants.position, position)
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
@@ -127,7 +128,7 @@ class Music : KeyboardScopedFragment() {
 
             recyclerView.adapter = adapterMusic
 
-            if (requireArguments().getInt("position", MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
+            if (requireArguments().getInt(BundleConstants.position, MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
                 (view.parent as? ViewGroup)?.doOnPreDraw {
                     startPostponedEnterTransition()
                     Log.d("Music", "doOnPreDraw_0")

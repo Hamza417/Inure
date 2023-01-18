@@ -92,7 +92,7 @@ class Search : KeyboardScopedFragment() {
             adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
                     openFragmentArc(AudioPlayerPager.newInstance(position, fromSearch = true), art, "audio_player")
-                    requireArguments().putInt("position", position)
+                    requireArguments().putInt(BundleConstants.position, position)
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int) {
@@ -146,7 +146,7 @@ class Search : KeyboardScopedFragment() {
 
             recyclerView.adapter = adapterMusic
 
-            if (requireArguments().getInt("position", MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
+            if (requireArguments().getInt(BundleConstants.position, MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
                 (view.parent as? ViewGroup)?.doOnPreDraw {
                     startPostponedEnterTransition()
                 }
