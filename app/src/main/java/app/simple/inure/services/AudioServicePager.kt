@@ -355,6 +355,7 @@ class AudioServicePager : Service(),
         mediaPlayer.setDataSource(applicationContext, audioModels!![currentPosition].fileUri.toUri())
         mediaPlayer.prepareAsync()
         MusicPreferences.setLastMusicId(audioModels!![currentPosition].id)
+        MusicPreferences.setMusicPosition(currentPosition)
     }
 
     fun setAudioPlayerProps(audioModel: ArrayList<AudioModel>, currentPosition: Int) {
