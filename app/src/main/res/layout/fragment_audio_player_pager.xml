@@ -9,11 +9,32 @@
     android:clipToPadding="false"
     android:orientation="vertical">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/album_art_mime"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/album_art_mime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <app.simple.inure.decorations.lrc.LrcView
+            android:id="@+id/lrc_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:alpha="0"
+            android:fadingEdge="vertical"
+            android:fadingEdgeLength="25dp"
+            android:requiresFadingEdge="vertical"
+            app:isLrcCurrentTextBold="true"
+            app:lrcLineSpaceSize="@dimen/info_text_small"
+            app:lrcTextSize="@dimen/popup_text_size"
+            app:playIconHeight="@dimen/panel_item_padding"
+            app:playIconWidth="@dimen/panel_item_padding" />
+
+    </FrameLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"

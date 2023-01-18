@@ -48,7 +48,7 @@ class MediaButtonIntentReceiver : BroadcastReceiver() {
                         val clickCount: Int = msg.arg1
                         if (DEBUG) Log.v(tag, "Handling headset click, count = $clickCount")
                         val command: String? = when (clickCount) {
-                            1 -> ServiceConstants.actionTogglePause
+                            1 -> ServiceConstants.actionTogglePausePager
                             else -> null
                         }
                         if (command != null) {
@@ -72,12 +72,12 @@ class MediaButtonIntentReceiver : BroadcastReceiver() {
                 // Fallback to system time if event time was not available.
                 var command: String? = null
                 when (keycode) {
-                    KeyEvent.KEYCODE_MEDIA_STOP -> command = ServiceConstants.actionStop
-                    KeyEvent.KEYCODE_HEADSETHOOK, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> command = ServiceConstants.actionTogglePause
-                    KeyEvent.KEYCODE_MEDIA_NEXT -> command = ServiceConstants.actionSkip
-                    KeyEvent.KEYCODE_MEDIA_PREVIOUS -> command = ServiceConstants.actionRewind
-                    KeyEvent.KEYCODE_MEDIA_PAUSE -> command = ServiceConstants.actionPause
-                    KeyEvent.KEYCODE_MEDIA_PLAY -> command = ServiceConstants.actionPlay
+                    KeyEvent.KEYCODE_MEDIA_STOP -> command = ServiceConstants.actionStopPager
+                    KeyEvent.KEYCODE_HEADSETHOOK, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> command = ServiceConstants.actionTogglePausePager
+                    KeyEvent.KEYCODE_MEDIA_NEXT -> command = ServiceConstants.actionSkipPager
+                    KeyEvent.KEYCODE_MEDIA_PREVIOUS -> command = ServiceConstants.actionRewindPager
+                    KeyEvent.KEYCODE_MEDIA_PAUSE -> command = ServiceConstants.actionPausePager
+                    KeyEvent.KEYCODE_MEDIA_PLAY -> command = ServiceConstants.actionPlayPager
                 }
                 if (command != null) {
                     if (action == KeyEvent.ACTION_DOWN) {

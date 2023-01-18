@@ -295,7 +295,11 @@ class AudioService : Service(),
         mediaSessionCompat?.setPlaybackState(
                 PlaybackStateCompat.Builder()
                     .setState(playbackState, mediaPlayer.currentPosition.toLong(), 1f)
-                    .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                    .setActions(PlaybackStateCompat.ACTION_SEEK_TO
+                                        or PlaybackStateCompat.ACTION_PLAY
+                                        or PlaybackStateCompat.ACTION_PAUSE
+                                        or PlaybackStateCompat.ACTION_PLAY_PAUSE
+                                        or PlaybackStateCompat.ACTION_STOP)
                     .build()
         )
     }
@@ -424,10 +428,10 @@ class AudioService : Service(),
                             kotlin.runCatching {
                                 showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlay))
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    stopForeground(STOP_FOREGROUND_REMOVE)
+                                    stopForeground(STOP_FOREGROUND_DETACH)
                                 } else {
                                     @Suppress("DEPRECATION")
-                                    stopForeground(true)
+                                    stopForeground(false)
                                 }
                             }
                         }
