@@ -105,14 +105,14 @@ class AudioPlayerPager : ScopedFragment() {
 
         audioModel = requireArguments().parcelable(BundleConstants.audioModel)
 
-        audioIntentFilter.addAction(ServiceConstants.actionPrepared)
-        audioIntentFilter.addAction(ServiceConstants.actionQuitMusicService)
-        audioIntentFilter.addAction(ServiceConstants.actionMetaData)
-        audioIntentFilter.addAction(ServiceConstants.actionPause)
-        audioIntentFilter.addAction(ServiceConstants.actionPlay)
-        audioIntentFilter.addAction(ServiceConstants.actionBuffering)
-        audioIntentFilter.addAction(ServiceConstants.actionNext)
-        audioIntentFilter.addAction(ServiceConstants.actionPrevious)
+        audioIntentFilter.addAction(ServiceConstants.actionPreparedPager)
+        audioIntentFilter.addAction(ServiceConstants.actionQuitMusicServicePager)
+        audioIntentFilter.addAction(ServiceConstants.actionMetaDataPager)
+        audioIntentFilter.addAction(ServiceConstants.actionPausePager)
+        audioIntentFilter.addAction(ServiceConstants.actionPlayPager)
+        audioIntentFilter.addAction(ServiceConstants.actionBufferingPager)
+        audioIntentFilter.addAction(ServiceConstants.actionNextPager)
+        audioIntentFilter.addAction(ServiceConstants.actionPreviousPager)
 
         return view
     }
@@ -205,10 +205,10 @@ class AudioPlayerPager : ScopedFragment() {
         audioBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
-                    ServiceConstants.actionPrepared -> {
+                    ServiceConstants.actionPreparedPager -> {
                         audioServicePager?.seek(currentSeekPosition)
                     }
-                    ServiceConstants.actionMetaData -> {
+                    ServiceConstants.actionMetaDataPager -> {
                         try {
                             seekBar.max = audioServicePager?.getDuration()!!
                             duration.text = NumberUtils.getFormattedTime(audioServicePager?.getDuration()?.toLong()!!)
@@ -227,16 +227,16 @@ class AudioPlayerPager : ScopedFragment() {
                             showError(e.stackTraceToString())
                         }
                     }
-                    ServiceConstants.actionQuitMusicService -> {
+                    ServiceConstants.actionQuitMusicServicePager -> {
                         finish()
                     }
-                    ServiceConstants.actionPlay -> {
+                    ServiceConstants.actionPlayPager -> {
                         buttonStatus(true)
                     }
-                    ServiceConstants.actionPause -> {
+                    ServiceConstants.actionPausePager -> {
                         buttonStatus(false)
                     }
-                    ServiceConstants.actionNext -> {
+                    ServiceConstants.actionNextPager -> {
                         currentSeekPosition = 0
                         if (artPager.currentItem < audioModels!!.size - 1) {
                             artPager.setCurrentItem(artPager.currentItem + 1, true)
@@ -244,7 +244,7 @@ class AudioPlayerPager : ScopedFragment() {
                             artPager.setCurrentItem(0, true)
                         }
                     }
-                    ServiceConstants.actionPrevious -> {
+                    ServiceConstants.actionPreviousPager -> {
                         currentSeekPosition = 0
                         if (artPager.currentItem > 0) {
                             artPager.setCurrentItem(artPager.currentItem - 1, true)
@@ -252,10 +252,10 @@ class AudioPlayerPager : ScopedFragment() {
                             artPager.setCurrentItem(audioModels!!.size - 1, true)
                         }
                     }
-                    ServiceConstants.actionBuffering -> {
+                    ServiceConstants.actionBufferingPager -> {
                         seekBar.updateSecondaryProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
                     }
-                    ServiceConstants.actionMediaError -> {
+                    ServiceConstants.actionMediaErrorPager -> {
                         childFragmentManager.showError(intent.extras?.getString("stringExtra", "unknown_media_playback_error")!!).setOnErrorCallbackListener {
                             stopService()
                         }

@@ -24,6 +24,24 @@ object ServiceConstants {
     const val actionBuffering = "$appPackageName.media.buffering"
     const val actionMediaError = "$appPackageName.media.error"
 
+    // Audio Pager
+    const val actionPreparedPager = "$appPackageName.preparedPager"
+    const val actionTogglePausePager = "$appPackageName.toggle_pausePager"
+    const val actionPlayPager = "$appPackageName.playPager"
+    const val actionPausePager = "$appPackageName.pausePager"
+    const val actionStopPager = "$appPackageName.stopPager"
+    const val actionSkipPager = "$appPackageName.skipPager"
+    const val actionRewindPager = "$appPackageName.rewindPager"
+    const val actionQuitMusicServicePager = "$appPackageName.quit.music.servicePager"
+    const val actionPendingQuitServicePager = "$appPackageName.pending_quit_servicePager"
+    const val shuffleModePager = "$appPackageName.shuffle_modePager"
+    const val actionNextPager = "$appPackageName.action_nextPager"
+    const val actionPreviousPager = "$appPackageName.action_previousPager"
+    const val actionOpenPager = "$appPackageName.action_openPager"
+    const val actionMetaDataPager = "$appPackageName.metadataPager"
+    const val actionBufferingPager = "$appPackageName.media.bufferingPager"
+    const val actionMediaErrorPager = "$appPackageName.media.errorPager"
+
     // Batch
     const val actionBatchCopyStart = "$appPackageName.batch.copy.start"
     const val actionBatchCancel = "$appPackageName.action.cancel"
