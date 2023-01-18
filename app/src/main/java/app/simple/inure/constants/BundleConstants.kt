@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val isKeyboardOpened = "isKeyboardOpened"
     const val fromSearch = "fromSearch"
     const val position = "position"
     const val audioModel = "audio_model"

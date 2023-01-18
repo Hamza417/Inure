@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterMusic
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
@@ -28,6 +29,7 @@ import app.simple.inure.models.AudioModel
 import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.ui.viewers.AudioPlayerPager
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.MusicViewModel
@@ -69,8 +71,12 @@ class Search : KeyboardScopedFragment() {
 
         searchBox.setText(MusicPreferences.getSearchKeyword())
         searchBox.setWindowInsetsAnimationCallback()
-        searchBox.showInput()
         clearButtonState()
+
+        if (requireArguments().getBoolean(BundleConstants.isKeyboardOpened, false).invert()) {
+            searchBox.showInput()
+            requireArguments().putBoolean(BundleConstants.isKeyboardOpened, true)
+        }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
             if (searchBox.isFocused) {
