@@ -74,13 +74,7 @@
     <string name="title_home_path_preference">Cartella HOME</string>
     <string name="summary_home_path_preference">Percorso a una cartella scrivibile da usare come HOME.</string>
     <string name="control_key_dialog_title">Tasti control e funzione</string>
-    <!-- The word CTRLKEY should be left un-translated. It will be replaced at run-time with the
-         actual control key key name. -->
-    <string name="control_key_dialog_control_text">CTRLKEY Space : Control-@ (NUL)\nCTRLKEY A..Z : Control-A..Z\nCTRLKEY 5 : Control-]\nCTRLKEY 6 : Control-^\nCTRLKEY 7 : Control-_\nCTRLKEY 9 : F11\nCTRLKEY 0 : F12</string>
     <string name="control_key_dialog_control_disabled_text">Nessun tasto control impostato.</string>
-    <!-- The word FNKEY should be left un-translated. It will be replaced at run-time with the
-         actual function key key name. -->
-    <string name="control_key_dialog_fn_text">FNKEY 1..9 : F1-F9\nFNKEY 0 : F10\nFNKEY W : Up\nFNKEY A : Left\nFNKEY S : Down\nFNKEY D : Right\nFNKEY P : PageUp\nFNKEY N : PageDown\nFNKEY T : Tab\nFNKEY L : | (pipe)\nFNKEY U : _ (underscore)\nFNKEY E : Control-[ (ESC)\nFNKEY X : Delete\nFNKEY I : Insert\nFNKEY H : Home\nFNKEY F : End\nFNKEY . : Control-\\</string>
     <string name="control_key_dialog_fn_disabled_text">Nessun tasto funzione impostato.</string>
     <string name="confirm_window_close_message">Chiudere questa finestra?</string>
     <string name="perm_run_script">Esegui comandi arbitrari nell\'emulatore del terminale</string>
@@ -100,7 +94,13 @@
     <string name="activity_term_here_title">Terminale qui</string>
     <!-- BEGIN SHORTCUT RELATED STRINGS -->
     <!-- AndroidManifest.xml -->
-    <string name="activity_shortcut_create">"Scorciatoia terminale"</string>
+    <string name="activity_shortcut_create">Scorciatoia terminale</string>
+    <!-- FSNavigator.java
+    <string name="fsnavigator_title">FILE SELECTOR</string>
+    <string name="fsnavigator_no_external_storage">External storage not available</string>
+    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
+    <string name="fsnavigator_change_theme">Change theme</string>
+    -->
     <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">Comando</string>
     <string name="addshortcut_button_find_command">Trova comando</string>
@@ -108,9 +108,6 @@
     <string name="addshortcut_command_window_instructions">La finestra dei comandi richiedeere il percorso completo, senza parametri. Per altri comandi usa la finestra Parametri (es. cd /sdcard).</string>
     <string name="addshortcut_arguments_label">Parametri\:</string>
     <string name="addshortcut_shortcut_label">Etichetta scorciatoia\:</string>
-    <string name="addshortcut_button_text_icon">Testo icona</string>
-    <string name="addshortcut_make_text_icon">MAKE TEXT ICON</string>
-    <string name="addshortcut_title">Scorciatoia terminale</string>
     <!-- ColorValue.java -->
     <string name="colorvalue_label_lock_button_column">BLOCCA</string>
     <string name="colorvalue_icon_text_entry_hint">Inserisci testo icona</string>
