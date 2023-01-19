@@ -72,7 +72,7 @@ public class AddShortcut extends TransparentBaseActivity {
         if (!path.equals("")) {
             editTexts[0].setText(path);
         }
-        editTexts[PATH].setHint(getString(R.string.addshortcut_command_hint));//"command");
+        editTexts[PATH].setHint(getString(R.string.addshortcut_command_hint)); //"command");
         editTexts[NAME].setText(name);
         editTexts[ARGS].setHint(getString(R.string.addshortcut_example_hint));//"--example=\"a\"");
         editTexts[ARGS].setOnFocusChangeListener((view, focus) -> {
@@ -136,12 +136,13 @@ public class AddShortcut extends TransparentBaseActivity {
     
         alert.setView(scrollView);
         alert.setTitle(getString(R.string.activity_shortcut_create));//"Term Shortcut");
-        alert.setPositiveButton(android.R.string.yes, (dialog, which) -> buildShortcut(
-                path,
-                editTexts[ARGS].getText().toString(),
-                editTexts[NAME].getText().toString(),
-                iconText[1],
-                (Integer) img.getTag()));
+        alert.setPositiveButton(android.R.string.yes, (dialog, which) ->
+                buildShortcut(
+                        editTexts[PATH].getText().toString(),
+                        editTexts[ARGS].getText().toString(),
+                        editTexts[NAME].getText().toString(),
+                        iconText[1],
+                        (Integer) img.getTag()));
     
         alert.setNegativeButton(android.R.string.cancel, (dialog, which) -> finish());
         alert.show();
@@ -218,6 +219,8 @@ public class AddShortcut extends TransparentBaseActivity {
         Intent target = new Intent().setClass(context, RunShortcut.class);
         target.setAction(RunShortcut.ACTION_RUN_SHORTCUT);
         target.putExtra(RunShortcut.EXTRA_SHORTCUT_COMMAND, cmdEnc);
+        Log.d(TermDebug.LOG_TAG, "Shortcut command: " + cmdStr);
+        Log.d(TermDebug.LOG_TAG, "Shortcut command (encrypted): " + cmdEnc);
         target.putExtra(RunShortcut.EXTRA_WINDOW_HANDLE, shortcutName);
         target.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Intent wrapper = new Intent();
@@ -227,21 +230,11 @@ public class AddShortcut extends TransparentBaseActivity {
             wrapper.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutName);
         }
         if (shortcutText != null && !shortcutText.equals("")) {
-            wrapper.putExtra(
-                    Intent.EXTRA_SHORTCUT_ICON
-                    , TextIcon.getTextIcon(
-                            shortcutText
-                            , shortcutColor
-                            , 96
-                            , 96
-                                          )
-                            );
+            wrapper.putExtra(Intent.EXTRA_SHORTCUT_ICON, TextIcon.getTextIcon(shortcutText, shortcutColor, 96, 96));
         } else {
-            wrapper.putExtra(
-                    Intent.EXTRA_SHORTCUT_ICON_RESOURCE
-                    , Intent.ShortcutIconResource.fromContext(context, R.mipmap.ic_terminal)
-                            );
+            wrapper.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context, R.mipmap.ic_terminal));
         }
+        Log.d(TermDebug.LOG_TAG, "Sending shortcut broadcast: " + wrapper);
         setResult(RESULT_OK, wrapper);
         finish();
     }

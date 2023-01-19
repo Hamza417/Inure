@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
-import android.util.Log
 import android.view.Window
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -198,15 +197,12 @@ object ThemeUtils {
             ThemeConstants.FOLLOW_SYSTEM -> {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
-                        Log.d("ThemeManager", "isNightMode: true")
                         return true
                     }
                     Configuration.UI_MODE_NIGHT_NO -> {
-                        Log.d("ThemeManager", "isNightMode: false")
                         return false
                     }
                     Configuration.UI_MODE_NIGHT_UNDEFINED -> {
-                        Log.d("ThemeManager", "Undefined night mode")
                         return false
                     }
                 }
