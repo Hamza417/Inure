@@ -11,17 +11,19 @@ public class ActivityInfoModel implements Parcelable {
     private String permission;
     private Boolean exported;
     private String target;
+    private boolean enabled;
     
     public ActivityInfoModel() {
     }
     
-    public ActivityInfoModel(ActivityInfo activityInfo, String status, String name, String permission, Boolean exported, String target) {
+    public ActivityInfoModel(ActivityInfo activityInfo, String status, String name, String permission, Boolean exported, String target, boolean enabled) {
         this.activityInfo = activityInfo;
         this.status = status;
         this.name = name;
         this.permission = permission;
         this.exported = exported;
         this.target = target;
+        this.enabled = enabled;
     }
     
     protected ActivityInfoModel(Parcel in) {
@@ -32,6 +34,7 @@ public class ActivityInfoModel implements Parcelable {
         byte tmpExported = in.readByte();
         exported = tmpExported == 0 ? null : tmpExported == 1;
         target = in.readString();
+        enabled = in.readByte() != 0;
     }
     
     @Override
@@ -42,6 +45,7 @@ public class ActivityInfoModel implements Parcelable {
         dest.writeString(permission);
         dest.writeByte((byte) (exported == null ? 0 : exported ? 1 : 2));
         dest.writeString(target);
+        dest.writeByte((byte) (enabled ? 1 : 0));
     }
     
     @Override
@@ -107,5 +111,13 @@ public class ActivityInfoModel implements Parcelable {
     
     public void setTarget(String target) {
         this.target = target;
+    }
+    
+    public boolean isEnabled() {
+        return enabled;
+    }
+    
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

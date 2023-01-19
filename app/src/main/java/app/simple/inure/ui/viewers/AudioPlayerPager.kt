@@ -74,7 +74,6 @@ class AudioPlayerPager : ScopedFragment() {
     private var serviceBound = false
     private var wasSongPlaying = false
     private var isFinished = false
-    private var fromUser = false
 
     /**
      * [currentSeekPosition] will keep the current position of the playback

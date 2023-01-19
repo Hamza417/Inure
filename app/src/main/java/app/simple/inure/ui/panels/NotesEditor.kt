@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -19,8 +20,10 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.notes.NotesEditorMenu
+import app.simple.inure.dialogs.notes.NotesNotSavedWarning.Companion.showNoteNotSavedWarning
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
+import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.popups.notes.PopupBackgroundSpan
 import app.simple.inure.preferences.NotesPreferences
@@ -66,6 +69,8 @@ class NotesEditor : KeyboardScopedFragment() {
             .create()
     }
 
+    private var isSaved = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
 
@@ -97,6 +102,7 @@ class NotesEditor : KeyboardScopedFragment() {
         noteEditText.doAfterTextChanged {
             handler.removeCallbacksAndMessages(null)
             save.visible(true)
+            isSaved = false
             handler.postDelayed(
                     {
                         Log.d("NotesEditor", "Saving notes")
@@ -163,6 +169,8 @@ class NotesEditor : KeyboardScopedFragment() {
         notesEditorViewModel.getSavedState().observe(viewLifecycleOwner) {
             if (it >= 0) {
                 save.gone(true)
+                isSaved = true
+                Log.d("NotesEditor", "Saved notes")
             }
         }
 
@@ -194,10 +202,24 @@ class NotesEditor : KeyboardScopedFragment() {
         }
 
         undoRedoButtonState()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (isSaved) {
+                remove()
+                goBack()
+            } else {
+                childFragmentManager.showNoteNotSavedWarning().setSureCallbacks(object : SureCallbacks {
+                    override fun onSure() {
+                        popBackStack()
+                    }
+                })
+            }
+        }
     }
 
     private fun handleTextChange(save: Boolean) {
         this.save.visible(true)
+        isSaved = false
 
         if (notesPackageInfo.isNull()) {
             notesPackageInfo = NotesPackageInfo(

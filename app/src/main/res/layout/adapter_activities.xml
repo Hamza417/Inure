@@ -22,16 +22,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="5dp"
-        app:textColorStyle="primary"
         android:textSize="16sp"
         app:appFontStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/adapter_activity_status"
         app:layout_constraintEnd_toStartOf="@id/divider01"
         app:layout_constraintStart_toEndOf="@+id/adapter_activity_icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_activity_status"
@@ -54,14 +54,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:textColorStyle="tertiary"
+        android:layout_marginBottom="16dp"
         android:textSize="14sp"
         app:appFontStyle="regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/divider01"
         app:layout_constraintStart_toEndOf="@+id/adapter_activity_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_activity_status" />
+        app:layout_constraintTop_toBottomOf="@id/adapter_activity_status"
+        app:textColorStyle="tertiary" />
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:id="@+id/divider01"

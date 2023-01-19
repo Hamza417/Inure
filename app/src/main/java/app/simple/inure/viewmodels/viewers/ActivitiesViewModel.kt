@@ -10,6 +10,7 @@ import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
+import app.simple.inure.util.ActivityUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -38,6 +39,7 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
                     activityInfoModel.target = ai.targetActivity ?: getString(R.string.not_available)
                     activityInfoModel.exported = ai.exported
                     activityInfoModel.permission = ai.permission ?: getString(R.string.no_permissions_required)
+                    activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, ai.name)
 
                     with(StringBuilder()) {
                         append(" | ")
