@@ -301,6 +301,7 @@ class AudioServicePager : Service(),
 
     private fun setupMetadata() {
         kotlin.runCatching {
+            Log.d("TAG", "setupMetadata: ${audioModels?.get(currentPosition)?.title}")
             metaData = audioModels!![currentPosition]
 
             mediaMetadataCompat = MediaMetadataCompat.Builder()
@@ -379,8 +380,8 @@ class AudioServicePager : Service(),
             currentPosition++
         }
 
-        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionNextPager, applicationContext)
         initAudioPlayer()
+        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionNextPager, applicationContext)
     }
 
     fun playPrevious() {

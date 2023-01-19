@@ -74,6 +74,7 @@ class AudioPlayerPager : ScopedFragment() {
     private var serviceBound = false
     private var wasSongPlaying = false
     private var isFinished = false
+    private var fromUser = false
 
     /**
      * [currentSeekPosition] will keep the current position of the playback
@@ -177,13 +178,15 @@ class AudioPlayerPager : ScopedFragment() {
                     override fun onPageScrollStateChanged(state: Int) {
                         super.onPageScrollStateChanged(state)
                         if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                            currentSeekPosition = 0
-                            MusicPreferences.setMusicPosition(artPager.currentItem)
-                            audioServicePager?.setCurrentPosition(artPager.currentItem)
-                            MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
-                            requireArguments().putInt(BundleConstants.position, artPager.currentItem)
-                            setMetaData(artPager.currentItem)
-                            setLrc()
+                            if (artPager.currentItem != MusicPreferences.getMusicPosition()) {
+                                currentSeekPosition = 0
+                                MusicPreferences.setMusicPosition(artPager.currentItem)
+                                audioServicePager?.setCurrentPosition(artPager.currentItem)
+                                MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
+                                requireArguments().putInt(BundleConstants.position, artPager.currentItem)
+                                setMetaData(artPager.currentItem)
+                                setLrc()
+                            }
                         }
                     }
                 })
@@ -205,6 +208,7 @@ class AudioPlayerPager : ScopedFragment() {
                 audioServicePager = (service as AudioServicePager.AudioBinder).getService()
                 audioServicePager?.setAudioPlayerProps(audioModels!!, artPager.currentItem)
                 audioServicePager?.setCurrentPosition(artPager.currentItem)
+                buttonStatus(audioServicePager?.isPlaying()!!)
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -427,7 +431,7 @@ class AudioPlayerPager : ScopedFragment() {
     private fun finish() {
         isFinished = true
         lifecycleScope.launchWhenResumed {
-            popBackStack()
+            goBack()
         }
     }
 
@@ -445,6 +449,8 @@ class AudioPlayerPager : ScopedFragment() {
         val intent = Intent(requireActivity(), AudioServicePager::class.java)
         requireContext().startService(intent)
         serviceConnection?.let { requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE) }
+
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!) // Just to be safe
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(audioBroadcastReceiver!!, audioIntentFilter)
     }
 
