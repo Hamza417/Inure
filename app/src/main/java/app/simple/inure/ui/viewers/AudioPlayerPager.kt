@@ -36,6 +36,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioServicePager
+import app.simple.inure.util.AudioUtils.toBitrate
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.ParcelUtils.parcelable
@@ -136,6 +137,7 @@ class AudioPlayerPager : ScopedFragment() {
                 }
 
                 setLrc()
+                setMetaData(artPager.currentItem)
 
                 artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageScrollStateChanged(state: Int) {
@@ -146,6 +148,7 @@ class AudioPlayerPager : ScopedFragment() {
                             audioServicePager?.setCurrentPosition(artPager.currentItem)
                             MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
                             requireArguments().putInt(BundleConstants.position, artPager.currentItem)
+                            setMetaData(artPager.currentItem)
                             setLrc()
                         }
                     }
@@ -168,6 +171,7 @@ class AudioPlayerPager : ScopedFragment() {
                 }
 
                 setLrc()
+                setMetaData(artPager.currentItem)
 
                 artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageScrollStateChanged(state: Int) {
@@ -178,6 +182,7 @@ class AudioPlayerPager : ScopedFragment() {
                             audioServicePager?.setCurrentPosition(artPager.currentItem)
                             MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
                             requireArguments().putInt(BundleConstants.position, artPager.currentItem)
+                            setMetaData(artPager.currentItem)
                             setLrc()
                         }
                     }
@@ -218,13 +223,8 @@ class AudioPlayerPager : ScopedFragment() {
                             seekBar.max = audioServicePager?.getDuration()!!
                             duration.text = NumberUtils.getFormattedTime(audioServicePager?.getDuration()?.toLong()!!)
                             handler.post(progressRunnable)
-                            title.text = audioServicePager?.metaData?.title
-                            artist.text = audioServicePager?.metaData?.artists
-                            album.text = audioServicePager?.metaData?.album
-                            // fileInfo.text = getString(R.string.audio_file_info, audioService?.metaData?.format, audioService?.metaData?.sampling, audioService?.metaData?.bitrate)
                             loader.gone(animate = true)
                             playPause.isEnabled = true
-
                             wasSongPlaying = true
                             buttonStatus(audioServicePager?.isPlaying()!!, animate = false)
                         } catch (e: IllegalStateException) {
@@ -323,6 +323,17 @@ class AudioPlayerPager : ScopedFragment() {
                 }
             }
         })
+    }
+
+    private fun setMetaData(position: Int) {
+        title.text = audioModels!![position].title
+        artist.text = audioModels!![position].artists
+        album.text = audioModels!![position].album
+        fileInfo.text = getString(
+                R.string.audio_file_info,
+                "." + audioModels!![position].path?.substringAfterLast("."),
+                audioModels!![position].bitrate.toBitrate(),
+                audioModels!![position].mimeType)
     }
 
     private fun buttonStatus(isPlaying: Boolean, animate: Boolean = true) {

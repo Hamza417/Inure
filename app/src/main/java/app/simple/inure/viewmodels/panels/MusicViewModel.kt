@@ -91,6 +91,7 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
                 audioModel.track = cursor!!.getInt(cursor!!.getColumnIndex(MediaStore.Audio.Media.TRACK))
                 audioModel.mimeType = cursor!!.getString(cursor!!.getColumnIndex(MediaStore.Audio.Media.MIME_TYPE))
                 audioModel.year = cursor!!.getInt(cursor!!.getColumnIndex(MediaStore.Audio.Media.YEAR))
+                audioModel.bitrate = cursor!!.getInt(cursor!!.getColumnIndex(MediaStore.Audio.Media.BITRATE))
 
                 //for android 10 exclusively
                 /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -175,7 +176,8 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
                 MediaStore.Audio.Media.DATE_TAKEN,
                 MediaStore.Audio.Media.MIME_TYPE,
                 MediaStore.Audio.Media.TRACK,
-                MediaStore.Audio.Media.YEAR
+                MediaStore.Audio.Media.YEAR,
+                MediaStore.Audio.Media.BITRATE
         )
 
         const val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0"

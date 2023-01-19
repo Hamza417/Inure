@@ -17,6 +17,7 @@ public class AudioModel implements Parcelable {
     private int track;
     private int year;
     private int size;
+    private int bitrate;
     
     private long duration;
     private long id;
@@ -34,7 +35,43 @@ public class AudioModel implements Parcelable {
         album = in.readString();
         artUri = in.readString();
         fileUri = in.readString();
+        path = in.readString();
+        mimeType = in.readString();
+        track = in.readInt();
+        year = in.readInt();
+        size = in.readInt();
+        bitrate = in.readInt();
         duration = in.readLong();
+        id = in.readLong();
+        dateAdded = in.readLong();
+        dateModified = in.readLong();
+        dateTaken = in.readLong();
+    }
+    
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(title);
+        dest.writeString(artist);
+        dest.writeString(album);
+        dest.writeString(artUri);
+        dest.writeString(fileUri);
+        dest.writeString(path);
+        dest.writeString(mimeType);
+        dest.writeInt(track);
+        dest.writeInt(year);
+        dest.writeInt(size);
+        dest.writeInt(bitrate);
+        dest.writeLong(duration);
+        dest.writeLong(id);
+        dest.writeLong(dateAdded);
+        dest.writeLong(dateModified);
+        dest.writeLong(dateTaken);
+    }
+    
+    @Override
+    public int describeContents() {
+        return 0;
     }
     
     public static final Creator <AudioModel> CREATOR = new Creator <AudioModel>() {
@@ -177,20 +214,12 @@ public class AudioModel implements Parcelable {
         this.size = size;
     }
     
-    @Override
-    public int describeContents() {
-        return 0;
+    public int getBitrate() {
+        return bitrate;
     }
     
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(title);
-        dest.writeString(artist);
-        dest.writeString(album);
-        dest.writeString(artUri);
-        dest.writeString(fileUri);
-        dest.writeLong(duration);
+    public void setBitrate(int bitrate) {
+        this.bitrate = bitrate;
     }
     
     @Override

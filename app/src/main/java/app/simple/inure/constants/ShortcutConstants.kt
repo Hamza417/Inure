@@ -14,6 +14,7 @@ object ShortcutConstants {
     const val PREFERENCES_ACTION = "open_preferences"
     const val SEARCH_ACTION = "open_search"
     const val MUSIC_ACTION = "open_music"
+    const val AUDIO_PLAYER_ACTION = "open_audio_player"
 
     const val ANALYTICS_ID = "sc_analytics"
     const val APPS_ID = "sc_apps"

@@ -27,6 +27,7 @@ import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.launcher.SplashScreen
+import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*
 import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ActivityUtils.getTopFragment
@@ -125,6 +126,11 @@ class MainActivity : BaseActivity() {
                         .commit()
                 }
                 ShortcutConstants.MUSIC_ACTION -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, Music.newInstance(), "music")
+                        .commit()
+                }
+                ShortcutConstants.AUDIO_PLAYER_ACTION -> {
                     if (supportFragmentManager.findFragmentByTag("audio_player_pager") == null) {
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.app_container,
