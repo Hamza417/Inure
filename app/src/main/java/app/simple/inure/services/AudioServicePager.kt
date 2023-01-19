@@ -25,6 +25,8 @@ import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.exceptions.InureMediaEngineException
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.MusicPreferences
+import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
+import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.receivers.MediaButtonIntentReceiver
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
@@ -73,7 +75,6 @@ class AudioServicePager : Service(),
 
     private var currentPosition = -1
     private var audioModels: ArrayList<AudioModel>? = null
-
 
     private val becomingNoisyReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -124,7 +125,7 @@ class AudioServicePager : Service(),
         super.onCreate()
 
         app.simple.inure.preferences.SharedPreferences.init(applicationContext)
-        app.simple.inure.preferences.SharedPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        registerSharedPreferenceChangeListener()
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
@@ -618,7 +619,7 @@ class AudioServicePager : Service(),
         hasReleased = true
         removeAudioFocus()
         unregisterReceiver(becomingNoisyReceiver)
-        app.simple.inure.preferences.SharedPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+        unregisterSharedPreferenceChangeListener()
     }
 
     fun isPlaying(): Boolean {

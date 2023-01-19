@@ -208,7 +208,6 @@ class AudioPlayerPager : ScopedFragment() {
                 audioServicePager = (service as AudioServicePager.AudioBinder).getService()
                 audioServicePager?.setAudioPlayerProps(audioModels!!, artPager.currentItem)
                 audioServicePager?.setCurrentPosition(artPager.currentItem)
-                buttonStatus(audioServicePager?.isPlaying()!!)
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -431,7 +430,11 @@ class AudioPlayerPager : ScopedFragment() {
     private fun finish() {
         isFinished = true
         lifecycleScope.launchWhenResumed {
-            goBack()
+            if (requireActivity().supportFragmentManager.backStackEntryCount > 0) {
+                popBackStack()
+            } else {
+                requireActivity().finish()
+            }
         }
     }
 
@@ -446,12 +449,11 @@ class AudioPlayerPager : ScopedFragment() {
     }
 
     private fun startService() {
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!) // Just to be safe
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(audioBroadcastReceiver!!, audioIntentFilter)
         val intent = Intent(requireActivity(), AudioServicePager::class.java)
         requireContext().startService(intent)
         serviceConnection?.let { requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE) }
-
-        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!) // Just to be safe
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(audioBroadcastReceiver!!, audioIntentFilter)
     }
 
     override fun onStop() {

@@ -101,7 +101,6 @@ That's all.
 - [ ] Quick Apps Sync from different devices.
 - [ ] Options to modify state of trackers of any app.
 
-
 ### Low priority features
 
 - [ ] Code highlights for all languages an Android app possibly contains.
@@ -138,7 +137,6 @@ is [here](https://github.com/Hamza417/Inure/issues/63).*
 |:---------------------------------------------------------------------:|:-------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x11                                  |           0x12            |                                 0x13                                  |                                 0x14                                  |
 
-
 ## Behind The Scenes
 
 |             ![01](./assets/01.jpg)              |
@@ -154,19 +152,23 @@ is [here](https://github.com/Hamza417/Inure/issues/63).*
 | Presentation design for Batch interface |
 
 ## Contribute
+
 ### Developers
-Inure's repo doesn't require any special setup, clone/fork the repo and run 
-in [Android Studio](https://developer.android.com/studio) and let the intial 
+
+Inure's repo doesn't require any special setup, clone/fork the repo and run
+in [Android Studio](https://developer.android.com/studio) and let the initial
 setup finish automatically and you'll be good to go.
 
 ### Not a developer?
-You can take participation in app's translation on [Crowdin](https://crowdin.com/project/inure) 
-and watch Inure work in your language and make the app more user friendly to 
+
+You can take participation in app's translation on [Crowdin](https://crowdin.com/project/inure)
+and watch Inure work in your language and make the app more user friendly to
 everyone speaking your tongue... 😎😎
 
 ### Want to show you were here?
-You cannot do the above still wanna show your support? hit the star 🌟 and let the 
-developer know you were here and appreciate the project.. 😄
+
+You cannot do the above still wanna show your support? hit the star 🌟 and let me know you were here
+and appreciate the project.. 😄
 
 ## License
 
