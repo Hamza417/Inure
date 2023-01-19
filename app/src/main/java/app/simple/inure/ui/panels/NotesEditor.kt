@@ -69,7 +69,7 @@ class NotesEditor : KeyboardScopedFragment() {
             .create()
     }
 
-    private var isSaved = false
+    private var isSaved = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
@@ -161,7 +161,6 @@ class NotesEditor : KeyboardScopedFragment() {
             }
 
             val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
-
             textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
             undoRedoButtonState()
         }
