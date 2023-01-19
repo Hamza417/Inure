@@ -33,6 +33,10 @@ import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ImageHelper.getBitmapFromUri
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.math.ln
 
@@ -71,6 +75,8 @@ class AudioServicePager : Service(),
     private var wasPlaying = false
     private var hasReleased = false
 
+    @set:Synchronized
+    @get:Synchronized
     var metaData: AudioModel? = null
 
     private var currentPosition = -1
@@ -302,24 +308,27 @@ class AudioServicePager : Service(),
 
     private fun setupMetadata() {
         kotlin.runCatching {
-            Log.d("TAG", "setupMetadata: ${audioModels?.get(currentPosition)?.title}")
-            metaData = audioModels!![currentPosition]
+            CoroutineScope(Dispatchers.IO).launch {
+                metaData = audioModels!![currentPosition]
 
-            mediaMetadataCompat = MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
-                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, getBitmapFromUri(applicationContext, audioModels?.get(currentPosition)?.artUri?.toUri()!!))
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
-                .build()
+                mediaMetadataCompat = MediaMetadataCompat.Builder()
+                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
+                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
+                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
+                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
+                    // .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, getBitmapFromUriForNotifications(applicationContext, audioModels?.get(currentPosition)?.artUri!!, 1024))
+                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
+                    .build()
 
-            setupMediaSession()
-            mediaSessionCompat?.setMetadata(mediaMetadataCompat)
-            createNotificationChannel()
-            showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPausePager))
-            setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
-            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaDataPager, applicationContext)
+                withContext(Dispatchers.Main) {
+                    setupMediaSession()
+                    mediaSessionCompat?.setMetadata(mediaMetadataCompat)
+                    createNotificationChannel()
+                    showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPausePager))
+                    setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaDataPager, applicationContext)
+                }
+            }
         }.getOrElse {
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaErrorPager, applicationContext, it.stackTraceToString())
         }

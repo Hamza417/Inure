@@ -31,16 +31,21 @@ object ImageHelper {
      * Converts image uri in string format to bitmap
      *
      * Should be used only for MediaStyle notifications
+     * and use resize to 256x256
      */
-    fun getBitmapFromUriForNotifications(context: Context, uri: String): Bitmap? {
+    fun getBitmapFromUriForNotifications(context: Context, uri: String, resize: Int = 256): Bitmap? {
         return try {
             val inputStream: InputStream? = context.contentResolver.openInputStream(Uri.parse(uri))
-            val bitmap = BitmapFactory.decodeStream(inputStream)
+            val bitmap = BitmapFactory.decodeStream(inputStream).resizeBitmap(resize, resize)
             inputStream?.close()
             bitmap
         } catch (e: FileNotFoundException) {
             R.drawable.ic_app_icon.toBitmap(context)
         }
+    }
+
+    fun Bitmap.resizeBitmap(width: Int, height: Int): Bitmap {
+        return Bitmap.createScaledBitmap(this, width, height, false)
     }
 
     /**
