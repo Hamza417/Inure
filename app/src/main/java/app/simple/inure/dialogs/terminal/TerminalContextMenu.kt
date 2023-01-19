@@ -11,7 +11,7 @@ import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
-class DialogContextMenu : ScopedDialogFragment() {
+class TerminalContextMenu : ScopedDialogFragment() {
 
     private lateinit var selectText: DynamicRippleTextView
     private lateinit var copyAll: DynamicRippleTextView
@@ -72,10 +72,10 @@ class DialogContextMenu : ScopedDialogFragment() {
     }
 
     companion object {
-        fun newInstance(canPaste: Boolean): DialogContextMenu {
+        fun newInstance(canPaste: Boolean): TerminalContextMenu {
             val args = Bundle()
             args.putBoolean(BundleConstants.canPaste, canPaste)
-            val fragment = DialogContextMenu()
+            val fragment = TerminalContextMenu()
             fragment.arguments = args
             return fragment
         }

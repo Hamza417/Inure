@@ -8,7 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 
-class DialogCloseWindow : ScopedDialogFragment() {
+class TerminalCloseWindow : ScopedDialogFragment() {
 
     private lateinit var ok: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
@@ -42,9 +42,9 @@ class DialogCloseWindow : ScopedDialogFragment() {
     }
 
     companion object {
-        fun newInstance(): DialogCloseWindow {
+        fun newInstance(): TerminalCloseWindow {
             val args = Bundle()
-            val fragment = DialogCloseWindow()
+            val fragment = TerminalCloseWindow()
             fragment.arguments = args
             return fragment
         }

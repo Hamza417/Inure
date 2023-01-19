@@ -22,9 +22,9 @@ import app.simple.inure.dialogs.app.AppMemory
 import app.simple.inure.dialogs.appearance.IconSize
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.dialogs.configuration.DateFormat
-import app.simple.inure.dialogs.terminal.DialogCommandLine
-import app.simple.inure.dialogs.terminal.DialogHomePath
-import app.simple.inure.dialogs.terminal.DialogInitialCommand
+import app.simple.inure.dialogs.terminal.TerminalCommandLine
+import app.simple.inure.dialogs.terminal.TerminalHomePath
+import app.simple.inure.dialogs.terminal.TerminalInitialCommand
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.models.PreferenceModel
@@ -203,18 +203,18 @@ class Preferences : SearchBarScopedFragment() {
                         R.string.shell -> {
                             when (preferenceModel.title) {
                                 R.string.title_shell_preference -> {
-                                    DialogCommandLine.newInstance()
+                                    TerminalCommandLine.newInstance()
                                         .show(childFragmentManager, "command_line")
                                 }
                                 R.string.title_initialcommand_preference -> {
-                                    DialogInitialCommand.newInstance()
+                                    TerminalInitialCommand.newInstance()
                                         .show(childFragmentManager, "initial_command")
                                 }
                                 R.string.title_termtype_preference -> {
                                     openFragmentSlide(ShellTerminalType.newInstance(), "terminal_type")
                                 }
                                 R.string.title_home_path_preference -> {
-                                    DialogHomePath.newInstance()
+                                    TerminalHomePath.newInstance()
                                         .show(childFragmentManager, "home_path")
                                 }
                                 else -> {

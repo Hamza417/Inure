@@ -13,24 +13,19 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.security.GeneralSecurityException;
 
 import app.simple.inure.R;
-import app.simple.inure.decorations.typeface.TypeFaceEditText;
+import app.simple.inure.dialogs.terminal.TerminalAddShortcut;
 import app.simple.inure.extensions.activities.TransparentBaseActivity;
 import app.simple.inure.terminal.RemoteInterface;
 import app.simple.inure.terminal.RunShortcut;
 import app.simple.inure.terminal.TermDebug;
 import app.simple.inure.terminal.compat.PRNGFixes;
 import app.simple.inure.terminal.util.ShortcutEncryption;
-import app.simple.inure.util.TypeFace;
 
 public class AddShortcut extends TransparentBaseActivity {
     private final int OP_MAKE_SHORTCUT = 1;
@@ -57,32 +52,52 @@ public class AddShortcut extends TransparentBaseActivity {
     
     //////////////////////////////////////////////////////////////////////
     void makeShortcut() {
-        if (path == null) {
-            path = "";
-        }
-        final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(context, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog);
-        LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(25, 25, 25, 25);
-        for (int i = 0, n = editTexts.length; i < n; i++) {
-            editTexts[i] = new TypeFaceEditText(context);
-            editTexts[i].setTypeface(TypeFace.INSTANCE.getRegularTypeFace(context));
-            editTexts[i].setSingleLine(true);
-        }
-        if (!path.equals("")) {
-            editTexts[0].setText(path);
-        }
-        editTexts[PATH].setHint(getString(R.string.addshortcut_command_hint)); //"command");
-        editTexts[NAME].setText(name);
-        editTexts[ARGS].setHint(getString(R.string.addshortcut_example_hint));//"--example=\"a\"");
-        editTexts[ARGS].setOnFocusChangeListener((view, focus) -> {
-            if (!focus) {
-                String s;
-                if (editTexts[NAME].getText().toString().equals("") && !(s = editTexts[ARGS].getText().toString()).equals("")) {
-                    editTexts[NAME].setText(s.split("\\s")[0]);
-                }
-            }
+        TerminalAddShortcut terminalAddShortcut = TerminalAddShortcut.Companion.newInstance();
+        terminalAddShortcut.setTerminalAddShortcutCallbacks((path, args, label) -> {
+            AddShortcut.this.path = path;
+            name = label;
+            //            editTexts[PATH].setText(path);
+            //            if (args != null) {
+            //                editTexts[ARGS].setText(args);
+            //            }
+            //            editTexts[NAME].setText(label);
+        
+            buildShortcut(
+                    path,
+                    args,
+                    name,
+                    iconText[1] /* empty value */,
+                    0 /* Random Value */);
         });
+    
+        terminalAddShortcut.show(getSupportFragmentManager(), "terminal_add_shortcut");
+    
+        //        if (path == null) {
+        //            path = "";
+        //        }
+        //        final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(context, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog);
+        //        LinearLayout linearLayout = new LinearLayout(context);
+        //        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        //        linearLayout.setPadding(25, 25, 25, 25);
+        //        for (int i = 0, n = editTexts.length; i < n; i++) {
+        //            editTexts[i] = new TypeFaceEditText(context);
+        //            editTexts[i].setTypeface(TypeFace.INSTANCE.getRegularTypeFace(context));
+        //            editTexts[i].setSingleLine(true);
+        //        }
+        //        if (!path.equals("")) {
+        //            editTexts[0].setText(path);
+        //        }
+        //        editTexts[PATH].setHint(getString(R.string.addshortcut_command_hint)); //"command");
+        //        editTexts[NAME].setText(name);
+        //        editTexts[ARGS].setHint(getString(R.string.addshortcut_example_hint));//"--example=\"a\"");
+        //        editTexts[ARGS].setOnFocusChangeListener((view, focus) -> {
+        //            if (!focus) {
+        //                String s;
+        //                if (editTexts[NAME].getText().toString().equals("") && !(s = editTexts[ARGS].getText().toString()).equals("")) {
+        //                    editTexts[NAME].setText(s.split("\\s")[0]);
+        //                }
+        //            }
+        //        });
     
         //        MaterialButton buttonPath = new MaterialButton(context);
         //        buttonPath.setText(getString(R.string.addshortcut_button_find_command));//"Find command");
@@ -103,22 +118,22 @@ public class AddShortcut extends TransparentBaseActivity {
         //            startActivityForResult(pickerIntent, OP_MAKE_SHORTCUT);
         //        });
     
-        linearLayout.addView(layoutTextViewH(
-                getString(R.string.addshortcut_command_window_instructions)//"Command window requires full path, no arguments. For other commands use Arguments window (ex: cd /sdcard)."
-                , null
-                , false));
-    
-        linearLayout.addView(layoutTextViewH(getString(R.string.addshortcut_command_hint), editTexts[PATH]));
-        linearLayout.addView(layoutTextViewH(getString(R.string.addshortcut_arguments_label), editTexts[ARGS]));
-        linearLayout.addView(layoutTextViewH(getString(R.string.addshortcut_shortcut_label), editTexts[NAME]));
-    
-        final ImageView img = new ImageView(context);
-        img.setImageResource(R.mipmap.ic_terminal);
-        img.setMaxHeight(100);
-        img.setTag(0xFFFFFFFF);
-        img.setMaxWidth(100);
-        img.setAdjustViewBounds(true);
-        img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        //        linearLayout.addView(layoutTextViewH(
+        //                getString(R.string.addshortcut_command_window_instructions)//"Command window requires full path, no arguments. For other commands use Arguments window (ex: cd /sdcard)."
+        //                , null
+        //                , false));
+        //
+        //        linearLayout.addView(layoutTextViewH(getString(R.string.addshortcut_command_hint), editTexts[PATH]));
+        //        linearLayout.addView(layoutTextViewH(getString(R.string.addshortcut_arguments_label), editTexts[ARGS]));
+        //        linearLayout.addView(layoutTextViewH(getString(R.string.addshortcut_shortcut_label), editTexts[NAME]));
+        //
+        //        final ImageView img = new ImageView(context);
+        //        img.setImageResource(R.mipmap.ic_terminal);
+        //        img.setMaxHeight(100);
+        //        img.setTag(0xFFFFFFFF);
+        //        img.setMaxWidth(100);
+        //        img.setAdjustViewBounds(true);
+        //        img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
     
         //        final MaterialButton btn_color = new MaterialButton(context);
         //        btn_color.setText(getString(R.string.addshortcut_button_text_icon));//"Text icon");
@@ -130,22 +145,22 @@ public class AddShortcut extends TransparentBaseActivity {
         //                , false));
         //        linearLayout.addView(layoutViewViewH(btn_color, img));
     
-        final ScrollView scrollView = new ScrollView(context);
-        scrollView.setFillViewport(true);
-        scrollView.addView(linearLayout);
-    
-        alert.setView(scrollView);
-        alert.setTitle(getString(R.string.activity_shortcut_create));//"Term Shortcut");
-        alert.setPositiveButton(android.R.string.yes, (dialog, which) ->
-                buildShortcut(
-                        editTexts[PATH].getText().toString(),
-                        editTexts[ARGS].getText().toString(),
-                        editTexts[NAME].getText().toString(),
-                        iconText[1],
-                        (Integer) img.getTag()));
-    
-        alert.setNegativeButton(android.R.string.cancel, (dialog, which) -> finish());
-        alert.show();
+        //        final ScrollView scrollView = new ScrollView(context);
+        //        scrollView.setFillViewport(true);
+        //        scrollView.addView(linearLayout);
+        //
+        //        alert.setView(scrollView);
+        //        alert.setTitle(getString(R.string.activity_shortcut_create));//"Term Shortcut");
+        //        alert.setPositiveButton(android.R.string.yes, (dialog, which) ->
+        //                buildShortcut(
+        //                        editTexts[PATH].getText().toString(),
+        //                        editTexts[ARGS].getText().toString(),
+        //                        editTexts[NAME].getText().toString(),
+        //                        iconText[1],
+        //                        (Integer) img.getTag()));
+        //
+        //        alert.setNegativeButton(android.R.string.cancel, (dialog, which) -> finish());
+        //        alert.show();
     }
     
     //////////////////////////////////////////////////////////////////////
@@ -186,7 +201,7 @@ public class AddShortcut extends TransparentBaseActivity {
     }
     
     //////////////////////////////////////////////////////////////////////
-    void buildShortcut(String path, String arguments, String shortcutName, String shortcutText, int shortcutColor) {
+    void buildShortcut(String path, String arguments, String shortcutName, String shortcutText, @SuppressWarnings ("SameParameterValue") int shortcutColor) {
         // Apply workarounds for SecureRandom bugs in Android < 4.4
         PRNGFixes.apply();
         ShortcutEncryption.Keys keys = ShortcutEncryption.getKeys(context);

@@ -101,14 +101,8 @@
     <!-- BEGIN SHORTCUT RELATED STRINGS -->
     <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">"Ярлык терминала"</string>
-    <!-- FSNavigator.java -->
-    <string name="fsnavigator_title">ВЫБЕРИТЕ ФАЙЛ</string>
-    <string name="fsnavigator_no_external_storage">Внешний накопитель не доступен</string>
-    <string name="fsnavigator_optional_enter_path">Или введите путь здесь.</string>
-    <string name="fsnavigator_change_theme">Изменить тему</string>
     <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">Команда</string>
-    <string name="addshortcut_example_hint">--example=\"\"a\"</string>
     <string name="addshortcut_button_find_command">Поиск команды</string>
     <string name="addshortcut_navigator_title">ВЫБЕРИТЕ КОНЕЧНУЮ ЦЕЛЬ</string>
     <string name="addshortcut_command_window_instructions">Окно команды требует полный путь, без аргументов. Для других команд используйте окно аргументов (например: cd /sdcard).</string>

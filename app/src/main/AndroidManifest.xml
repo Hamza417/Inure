@@ -528,7 +528,8 @@
         <activity
             android:name=".terminal.shortcuts.FSNavigator"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="true"
+            android:enabled="false"
+            android:exported="false"
             android:icon="@mipmap/ic_terminal"
             android:label="@string/addshortcut_button_find_command"
             android:launchMode="singleTop">

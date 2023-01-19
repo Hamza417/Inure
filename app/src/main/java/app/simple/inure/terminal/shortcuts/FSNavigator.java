@@ -50,7 +50,7 @@ public class FSNavigator extends android.app.Activity {
     ////////////////////////////////////////////////////////////
     public void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(getString(R.string.fsnavigator_title));//"File Selector");
+        setTitle("getString(R.string.fsnavigator_title)"); //"File Selector");
         SP = PreferenceManager.getDefaultSharedPreferences(context);
         theme = SP.getInt("theme", theme);
         setTheme(theme);
@@ -125,7 +125,7 @@ public class FSNavigator extends android.app.Activity {
             ) {
                 return (goTo);
             }
-            toast(getString(R.string.fsnavigator_no_external_storage), 1);//"External storage not available", 1);
+            toast("getString(R.string.fsnavigator_no_external_storage)", 1);//"External storage not available", 1);
             return (extSdCard);
         }
         return (goTo);
@@ -188,7 +188,7 @@ public class FSNavigator extends android.app.Activity {
         final TextView tv;
         if (entryWindow) {
             tv = new EditText(context);
-            tv.setHint(getString(R.string.fsnavigator_optional_enter_path));
+            tv.setHint("getString(R.string.fsnavigator_optional_enter_path)");
             tv.setLayoutParams(
                     new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.FILL_PARENT
@@ -522,7 +522,7 @@ public class FSNavigator extends android.app.Activity {
     {
         super.onCreateOptionsMenu(menu);
         //    super.onPrepareOptionsMenu(menu);    menu.clear();
-        menu.add(0, ACTION_THEME_SWAP, 0, getString(R.string.fsnavigator_change_theme));//"Change theme");
+        menu.add(0, ACTION_THEME_SWAP, 0, "getString(R.string.fsnavigator_change_theme)");//"Change theme");
         return (true);
     }
     

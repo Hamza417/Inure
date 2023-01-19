@@ -71,10 +71,10 @@ import app.simple.inure.decorations.emulatorview.compat.ClipboardManagerCompatFa
 import app.simple.inure.decorations.emulatorview.compat.KeycodeConstants;
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton;
 import app.simple.inure.decorations.ripple.DynamicRippleTextView;
-import app.simple.inure.dialogs.terminal.DialogCloseWindow;
-import app.simple.inure.dialogs.terminal.DialogContextMenu;
-import app.simple.inure.dialogs.terminal.DialogSpecialKeys;
-import app.simple.inure.dialogs.terminal.DialogTerminalMainMenu;
+import app.simple.inure.dialogs.terminal.TerminalCloseWindow;
+import app.simple.inure.dialogs.terminal.TerminalContextMenu;
+import app.simple.inure.dialogs.terminal.TerminalMainMenu;
+import app.simple.inure.dialogs.terminal.TerminalSpecialKeys;
 import app.simple.inure.extensions.activities.BaseActivity;
 import app.simple.inure.popups.terminal.PopupTerminalWindows;
 import app.simple.inure.preferences.ShellPreferences;
@@ -358,9 +358,9 @@ public class Term extends BaseActivity implements UpdateCallback,
         add.setOnClickListener(v -> doCreateNewWindow());
         close.setOnClickListener(v -> confirmCloseWindow());
         options.setOnClickListener(v -> {
-            DialogTerminalMainMenu dialogTerminalMainMenu = DialogTerminalMainMenu.Companion.newInstance(mWakeLock.isHeld(), mWifiLock.isHeld());
-        
-            dialogTerminalMainMenu.setOnTerminalMenuCallbacksListener(source -> {
+            TerminalMainMenu terminalMainMenu = TerminalMainMenu.Companion.newInstance(mWakeLock.isHeld(), mWifiLock.isHeld());
+    
+            terminalMainMenu.setOnTerminalMenuCallbacksListener(source -> {
                 switch (source) {
                     case 0: {
                         startActivityForResult(new Intent(Term.this, WindowList.class), REQUEST_CHOOSE_WINDOW);
@@ -371,7 +371,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                         break;
                     }
                     case 2: {
-                        DialogSpecialKeys.Companion.newInstance()
+                        TerminalSpecialKeys.Companion.newInstance()
                                 .show(getSupportFragmentManager(), "special_keys");
                         break;
                     }
@@ -401,7 +401,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                 }
             });
     
-            dialogTerminalMainMenu.show(getSupportFragmentManager(), "terminal_menu");
+            terminalMainMenu.show(getSupportFragmentManager(), "terminal_menu");
         });
         
         currentWindow.setOnClickListener(v -> popupTerminalWindows = new PopupTerminalWindows(v, adapterWindows));
@@ -745,9 +745,9 @@ public class Term extends BaseActivity implements UpdateCallback,
     }
     
     private void confirmCloseWindow() {
-        DialogCloseWindow dialogCloseWindow = DialogCloseWindow.Companion.newInstance();
-        dialogCloseWindow.setOnTerminalDialogCloseListener(this :: doCloseWindow);
-        dialogCloseWindow.show(getSupportFragmentManager(), "terminal_close");
+        TerminalCloseWindow terminalCloseWindow = TerminalCloseWindow.Companion.newInstance();
+        terminalCloseWindow.setOnTerminalDialogCloseListener(this :: doCloseWindow);
+        terminalCloseWindow.show(getSupportFragmentManager(), "terminal_close");
     }
     
     private void doCloseWindow() {
@@ -823,9 +823,9 @@ public class Term extends BaseActivity implements UpdateCallback,
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        DialogContextMenu dialogContextMenu = DialogContextMenu.Companion.newInstance(canPaste());
-        
-        dialogContextMenu.setOnTerminalContextMenuCallbackListener(source -> {
+        TerminalContextMenu terminalContextMenu = TerminalContextMenu.Companion.newInstance(canPaste());
+    
+        terminalContextMenu.setOnTerminalContextMenuCallbackListener(source -> {
             switch (source) {
                 case SELECT_TEXT_ID:
                     getCurrentEmulatorView().toggleSelectingText();
@@ -844,8 +844,8 @@ public class Term extends BaseActivity implements UpdateCallback,
                     break;
             }
         });
-        
-        dialogContextMenu.show(getSupportFragmentManager(), "context_menu");
+    
+        terminalContextMenu.show(getSupportFragmentManager(), "context_menu");
     }
     
     @Override

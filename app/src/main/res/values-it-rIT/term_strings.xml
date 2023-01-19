@@ -101,14 +101,8 @@
     <!-- BEGIN SHORTCUT RELATED STRINGS -->
     <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">"Scorciatoia terminale"</string>
-    <!-- FSNavigator.java -->
-    <string name="fsnavigator_title">SELETTORE FILE</string>
-    <string name="fsnavigator_no_external_storage">Archiviazione esterna non disponibile</string>
-    <string name="fsnavigator_optional_enter_path">Oppure inserisci qui il percorso.</string>
-    <string name="fsnavigator_change_theme">Cambia tema</string>
     <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">Comando</string>
-    <string name="addshortcut_example_hint">--example=\"\"a\"</string>
     <string name="addshortcut_button_find_command">Trova comando</string>
     <string name="addshortcut_navigator_title">SELEZIONA DESTINAZIONE SCORCIATOIA</string>
     <string name="addshortcut_command_window_instructions">La finestra dei comandi richiedeere il percorso completo, senza parametri. Per altri comandi usa la finestra Parametri (es. cd /sdcard).</string>
@@ -118,10 +112,6 @@
     <string name="addshortcut_make_text_icon">MAKE TEXT ICON</string>
     <string name="addshortcut_title">Scorciatoia terminale</string>
     <!-- ColorValue.java -->
-    <string name="colorvalue_letter_alpha">α</string>
-    <string name="colorvalue_letter_red">R</string>
-    <string name="colorvalue_letter_green">G</string>
-    <string name="colorvalue_letter_blue">B</string>
     <string name="colorvalue_label_lock_button_column">BLOCCA</string>
     <string name="colorvalue_icon_text_entry_hint">Inserisci testo icona</string>
     <!-- END SHORTCUT RELATED STRINGS -->

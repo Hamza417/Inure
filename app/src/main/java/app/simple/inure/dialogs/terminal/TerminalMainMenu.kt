@@ -9,7 +9,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 
-class DialogTerminalMainMenu : ScopedDialogFragment() {
+class TerminalMainMenu : ScopedDialogFragment() {
 
     private lateinit var windows: DynamicRippleTextView
     private lateinit var toggleKeyboard: DynamicRippleTextView
@@ -74,11 +74,11 @@ class DialogTerminalMainMenu : ScopedDialogFragment() {
     }
 
     companion object {
-        fun newInstance(wakeLockHeld: Boolean, wifiLockHeld: Boolean): DialogTerminalMainMenu {
+        fun newInstance(wakeLockHeld: Boolean, wifiLockHeld: Boolean): TerminalMainMenu {
             val args = Bundle()
             args.putBoolean(BundleConstants.wakelock, wakeLockHeld)
             args.putBoolean(BundleConstants.wifilock, wifiLockHeld)
-            val fragment = DialogTerminalMainMenu()
+            val fragment = TerminalMainMenu()
             fragment.arguments = args
             return fragment
         }

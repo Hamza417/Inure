@@ -101,14 +101,8 @@
     <!-- BEGIN SHORTCUT RELATED STRINGS -->
     <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">"詞彙捷徑"</string>
-    <!-- FSNavigator.java -->
-    <string name="fsnavigator_title">檔案選取器</string>
-    <string name="fsnavigator_no_external_storage">外部儲存空間無法使用</string>
-    <string name="fsnavigator_optional_enter_path">或在此輸入路徑</string>
-    <string name="fsnavigator_change_theme">變更主題</string>
     <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">命令</string>
-    <string name="addshortcut_example_hint">--example=\"\"a\"</string>
     <string name="addshortcut_button_find_command">尋找命令</string>
     <string name="addshortcut_navigator_title">選取捷徑目標</string>
     <string name="addshortcut_command_window_instructions">命令視窗需要完整路徑，無需引數。其它命令則使用引數視窗 (如：cd /sdcard)</string>

@@ -11,7 +11,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.preferences.ShellPreferences
 
-class DialogCommandLine : ScopedDialogFragment() {
+class TerminalCommandLine : ScopedDialogFragment() {
 
     private lateinit var command: DynamicCornerEditText
     private lateinit var save: DynamicRippleTextView
@@ -45,9 +45,9 @@ class DialogCommandLine : ScopedDialogFragment() {
     }
 
     companion object {
-        fun newInstance(): DialogCommandLine {
+        fun newInstance(): TerminalCommandLine {
             val args = Bundle()
-            val fragment = DialogCommandLine()
+            val fragment = TerminalCommandLine()
             fragment.arguments = args
             return fragment
         }

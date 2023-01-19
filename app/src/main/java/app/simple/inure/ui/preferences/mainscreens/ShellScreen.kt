@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
-import app.simple.inure.dialogs.terminal.DialogCommandLine
-import app.simple.inure.dialogs.terminal.DialogHomePath
-import app.simple.inure.dialogs.terminal.DialogInitialCommand
+import app.simple.inure.dialogs.terminal.TerminalCommandLine
+import app.simple.inure.dialogs.terminal.TerminalHomePath
+import app.simple.inure.dialogs.terminal.TerminalInitialCommand
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ShellPreferences
 import app.simple.inure.ui.preferences.subscreens.ShellTerminalType
@@ -53,12 +53,12 @@ class ShellScreen : ScopedFragment() {
         allowPathPrepend.setChecked(ShellPreferences.getAllowPathPrependState())
 
         commandLine.setOnClickListener {
-            DialogCommandLine.newInstance()
+            TerminalCommandLine.newInstance()
                 .show(childFragmentManager, "command_line")
         }
 
         initialCommand.setOnClickListener {
-            DialogInitialCommand.newInstance()
+            TerminalInitialCommand.newInstance()
                 .show(childFragmentManager, "initial_command")
         }
 
@@ -87,7 +87,7 @@ class ShellScreen : ScopedFragment() {
         }
 
         homePath.setOnClickListener {
-            DialogHomePath.newInstance()
+            TerminalHomePath.newInstance()
                 .show(childFragmentManager, "home_path")
         }
     }

@@ -12,7 +12,7 @@ import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.TerminalPreferences
 import app.simple.inure.terminal.util.TermSettings
 
-class DialogSpecialKeys : ScopedBottomSheetFragment() {
+class TerminalSpecialKeys : ScopedBottomSheetFragment() {
 
     private lateinit var text: TypeFaceTextView
 
@@ -49,9 +49,9 @@ class DialogSpecialKeys : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(): DialogSpecialKeys {
+        fun newInstance(): TerminalSpecialKeys {
             val args = Bundle()
-            val fragment = DialogSpecialKeys()
+            val fragment = TerminalSpecialKeys()
             fragment.arguments = args
             return fragment
         }
