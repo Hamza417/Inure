@@ -29,6 +29,11 @@ import app.simple.inure.util.ViewUtils;
  */
 public class DynamicRippleTextView extends TypeFaceTextView {
     
+    public DynamicRippleTextView(@NonNull Context context) {
+        super(context);
+        setBackgroundColor(Color.TRANSPARENT);
+    }
+    
     public DynamicRippleTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);

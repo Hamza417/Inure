@@ -50,6 +50,7 @@
       <w>condattr</w>
       <w>consolas</w>
       <w>constraintlayout</w>
+      <w>controlkey</w>
       <w>crowdin</w>
       <w>ctrlkey</w>
       <w>davemorrissey</w>
@@ -97,6 +98,7 @@
       <w>ime's</w>
       <w>indd</w>
       <w>indt</w>
+      <w>initialcommand</w>
       <w>instanceof</w>
       <w>inure's</w>
       <w>inureunlock</w>
@@ -208,6 +210,7 @@
       <w>switchview</w>
       <w>sysrq</w>
       <w>termprop</w>
+      <w>termtype</w>
       <w>textview</w>
       <w>textviews</w>
       <w>textwatcher</w>
@@ -242,6 +245,7 @@
       <w>wbmp</w>
       <w>webview</w>
       <w>wellbeing</w>
+      <w>westlake</w>
       <w>wifilock</w>
       <w>wilczek</w>
       <w>withaar</w>

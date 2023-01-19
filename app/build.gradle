@@ -51,6 +51,10 @@ android {
         }
     }
 
+    packagingOptions {
+        doNotStrip '**/*.so'
+    }
+
     flavorDimensions "version"
     productFlavors {
         github { // GitHub build

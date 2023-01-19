@@ -154,8 +154,8 @@ public class ColorValue implements CompoundButton.OnCheckedChangeListener {
                 buttonHit(which, (color[0] << 24) | (color[1] << 16) | (color[2] << 8) | color[3]);
             }
         };
-        String Title = context.getString(R.string.addshortcut_make_text_icon);
-        builder.setTitle(Title);
+        String title = "context.getString(R.string.addshortcut_make_text_icon)";
+        builder.setTitle(title);
         builder.setPositiveButton(android.R.string.yes, ocl);
         builder.setNegativeButton(android.R.string.cancel, ocl);
         builder.show();

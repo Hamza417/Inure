@@ -512,7 +512,7 @@
             android:icon="@mipmap/ic_terminal"
             android:label="@string/activity_shortcut_create"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/Inure.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -621,8 +621,8 @@
         <receiver
             android:name="app.simple.inure.widgets.LockScreenWidget"
             android:description="@string/lock_screen_desc"
-            android:exported="false"
             android:enabled="false"
+            android:exported="false"
             android:icon="@mipmap/ic_lock_screen"
             android:label="@string/lock_screen"
             android:roundIcon="@mipmap/ic_lock_screen_round">
@@ -650,8 +650,8 @@
         <receiver
             android:name="app.simple.inure.receivers.AdminReceiver"
             android:description="@string/device_admin_desc"
-            android:exported="false"
             android:enabled="false"
+            android:exported="false"
             android:label="@string/app_name_full"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data

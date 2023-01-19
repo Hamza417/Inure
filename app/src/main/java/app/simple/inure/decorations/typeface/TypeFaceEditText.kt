@@ -33,6 +33,11 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     private var colorMode: Int = 1
     private var valueAnimator: ValueAnimator? = null
 
+    constructor(context: Context) : super(context) {
+        typedArray = context.theme.obtainStyledAttributes(null, R.styleable.TypeFaceTextView, 0, 0)
+        init()
+    }
+
     constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs) {
         typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TypeFaceTextView, 0, 0)
         init()
@@ -52,6 +57,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
             setHintTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
             setDrawableTint(ThemeManager.theme.iconTheme.secondaryIconColor)
             setCursorDrawable()
+            typedArray.recycle()
         }
     }
 
