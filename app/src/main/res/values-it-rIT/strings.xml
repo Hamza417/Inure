@@ -639,4 +639,5 @@
     <string name="trackers_title">%1$d tracker = %1$d classi</string>
     <string name="inure_has_been_updated">Inure è stato aggiornato, vuoi vedere il registro modifiche?</string>
     <string name="refetching_data">Ricarica dati</string>
+    <string name="changes_are_not_saved_continue">Le modifiche non sono salvate, continuare?</string>
 </resources>
