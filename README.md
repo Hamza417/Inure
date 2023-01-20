@@ -111,8 +111,6 @@ That's all.
 *This list will be updated as the development progresses and a concised to-do task list
 is [here](https://github.com/Hamza417/Inure/issues/63).*
 
-<b>NOTE:</b> Inure is currently not expecting any feature requests or suggestions.
-
 ## Screenshots
 
 ### App's Interface
