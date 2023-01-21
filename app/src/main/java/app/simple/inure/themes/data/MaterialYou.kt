@@ -54,7 +54,7 @@ object MaterialYou {
         quaternaryTextColor = ContextCompat.getColor(this, android.R.color.system_neutral1_300)
 
         background = ContextCompat.getColor(this, android.R.color.system_neutral1_50)
-        viewerBackground = ContextCompat.getColor(this, android.R.color.system_neutral1_50)
+        viewerBackground = ContextCompat.getColor(this, android.R.color.system_neutral1_100)
         highlightBackground = ContextCompat.getColor(this, android.R.color.system_accent2_100)
         selectedBackground = ContextCompat.getColor(this, android.R.color.system_accent2_100)
         dividerBackground = ContextCompat.getColor(this, android.R.color.system_accent3_300)
@@ -74,7 +74,7 @@ object MaterialYou {
         quaternaryTextColorDark = ContextCompat.getColor(this, android.R.color.system_neutral1_400)
 
         backgroundDark = ContextCompat.getColor(this, android.R.color.system_neutral1_900)
-        viewerBackgroundDark = ContextCompat.getColor(this, android.R.color.system_neutral1_900)
+        viewerBackgroundDark = ContextCompat.getColor(this, android.R.color.system_neutral1_800)
         highlightBackgroundDark = ContextCompat.getColor(this, android.R.color.system_accent1_700)
         selectedBackgroundDark = ContextCompat.getColor(this, android.R.color.system_accent2_600)
         dividerBackgroundDark = ContextCompat.getColor(this, android.R.color.system_accent3_200)
