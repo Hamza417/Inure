@@ -47,10 +47,57 @@ public class RemoteInterface extends BaseActivity {
     
     private TermService mTermService;
     private Intent mTSIntent;
+    
+    /**
+     * Quote a string so it can be used as a parameter in bash and similar shells.
+     */
+    public static String quoteForBash(String s) {
+        StringBuilder builder = new StringBuilder();
+        String specialChars = "\"\\$`!";
+        builder.append('"');
+        int length = s.length();
+        for (int i = 0; i < length; i++) {
+            char c = s.charAt(i);
+            if (specialChars.indexOf(c) >= 0) {
+                builder.append('\\');
+            }
+            builder.append(c);
+        }
+        builder.append('"');
+        return builder.toString();
+    }
+    
+    protected void handleIntent() {
+        TermService service = getTermService();
+        if (service == null) {
+            finish();
+            return;
+        }
+        
+        Intent myIntent = getIntent();
+        String action = myIntent.getAction();
+        if (action.equals(Intent.ACTION_SEND) && myIntent.hasExtra(Intent.EXTRA_STREAM)) {
+            /* "permission.RUN_SCRIPT" not required as this is merely opening a new window. */
+            Object extraStream = myIntent.getExtras().get(Intent.EXTRA_STREAM);
+            if (extraStream instanceof Uri) {
+                String path = ((Uri) extraStream).getPath();
+                File file = new File(path);
+                String dirPath = file.isDirectory() ? path : file.getParent();
+                openNewWindow("cd " + quoteForBash(dirPath));
+            }
+        } else {
+            // Intent sender may not have permissions, ignore any extras
+            openNewWindow(null);
+        }
+        
+        finish();
+    }
+    
     private ServiceConnection mTSConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             TermService.TSBinder binder = (TermService.TSBinder) service;
             mTermService = binder.getService();
+            Log.d(TermDebug.LOG_TAG, "RemoteInterface connected to service");
             handleIntent();
         }
         
@@ -100,61 +147,19 @@ public class RemoteInterface extends BaseActivity {
         return mTermService;
     }
     
-    protected void handleIntent() {
-        TermService service = getTermService();
-        if (service == null) {
-            finish();
-            return;
-        }
-        
-        Intent myIntent = getIntent();
-        String action = myIntent.getAction();
-        if (action.equals(Intent.ACTION_SEND)
-                && myIntent.hasExtra(Intent.EXTRA_STREAM)) {
-            /* "permission.RUN_SCRIPT" not required as this is merely opening a new window. */
-            Object extraStream = myIntent.getExtras().get(Intent.EXTRA_STREAM);
-            if (extraStream instanceof Uri) {
-                String path = ((Uri) extraStream).getPath();
-                File file = new File(path);
-                String dirPath = file.isDirectory() ? path : file.getParent();
-                openNewWindow("cd " + quoteForBash(dirPath));
-            }
-        } else {
-            // Intent sender may not have permissions, ignore any extras
-            openNewWindow(null);
-        }
-        
-        finish();
-    }
-    
-    /**
-     * Quote a string so it can be used as a parameter in bash and similar shells.
-     */
-    public static String quoteForBash(String s) {
-        StringBuilder builder = new StringBuilder();
-        String specialChars = "\"\\$`!";
-        builder.append('"');
-        int length = s.length();
-        for (int i = 0; i < length; i++) {
-            char c = s.charAt(i);
-            if (specialChars.indexOf(c) >= 0) {
-                builder.append('\\');
-            }
-            builder.append(c);
-        }
-        builder.append('"');
-        return builder.toString();
-    }
-    
     protected String openNewWindow(String iInitialCommand) {
         TermService service = getTermService();
     
         String initialCommand = ShellPreferences.INSTANCE.getInitialCommand();
+        Log.d(TermDebug.LOG_TAG, "initialCommand: " + initialCommand);
         if (iInitialCommand != null) {
+            Log.d(TermDebug.LOG_TAG, "iInitialCommand: " + iInitialCommand);
             if (initialCommand != null) {
-                initialCommand += "\r" + iInitialCommand;
+                initialCommand += System.lineSeparator() + iInitialCommand;
+                Log.d(TermDebug.LOG_TAG, "initialCommand Appended: " + initialCommand);
             } else {
                 initialCommand = iInitialCommand;
+                Log.d(TermDebug.LOG_TAG, "initialCommand Reset: " + initialCommand);
             }
         }
         
@@ -163,17 +168,18 @@ public class RemoteInterface extends BaseActivity {
             
             session.setFinishCallback(service);
             service.getSessions().add(session);
-            
+    
             String handle = UUID.randomUUID().toString();
             ((GenericTermSession) session).setHandle(handle);
-            
+    
             Intent intent = new Intent(PRIVACT_OPEN_NEW_WINDOW);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            
+    
             return handle;
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             return null;
         }
     }
