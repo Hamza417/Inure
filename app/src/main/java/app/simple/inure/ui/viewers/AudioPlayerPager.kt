@@ -250,6 +250,8 @@ class AudioPlayerPager : ScopedFragment() {
                         } else {
                             artPager.setCurrentItem(0, true)
                         }
+
+                        setMetaData(artPager.currentItem)
                     }
                     ServiceConstants.actionPreviousPager -> {
                         currentSeekPosition = 0
@@ -258,6 +260,8 @@ class AudioPlayerPager : ScopedFragment() {
                         } else {
                             artPager.setCurrentItem(audioModels!!.size - 1, true)
                         }
+
+                        setMetaData(artPager.currentItem)
                     }
                     ServiceConstants.actionBufferingPager -> {
                         seekBar.updateSecondaryProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
