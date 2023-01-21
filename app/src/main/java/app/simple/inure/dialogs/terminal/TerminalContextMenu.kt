@@ -8,7 +8,6 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
-import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
 class TerminalContextMenu : ScopedDialogFragment() {
@@ -35,12 +34,6 @@ class TerminalContextMenu : ScopedDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (requireArguments().getBoolean(BundleConstants.canPaste)) {
-            paste.visible(false)
-        } else {
-            paste.gone()
-        }
-
         selectText.setOnClickListener {
             terminalContextMenuCallbacks?.onMenuClicked(0)
             dismiss()
@@ -64,6 +57,13 @@ class TerminalContextMenu : ScopedDialogFragment() {
         sendFnKey.setOnClickListener {
             terminalContextMenuCallbacks?.onMenuClicked(4)
             dismiss()
+        }
+
+        if (requireArguments().getBoolean(BundleConstants.canPaste)) {
+            paste.visible(false)
+        } else {
+            paste.isClickable = false
+            paste.alpha = 0.4F
         }
     }
 
