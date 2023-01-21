@@ -97,6 +97,7 @@ import app.simple.inure.util.ThemeUtils;
 public class Term extends BaseActivity implements UpdateCallback,
                                                   SharedPreferences.OnSharedPreferenceChangeListener,
                                                   ThemeChangedListener {
+    private static final String TAG = "Term";
     /**
      * The ViewFlipper which holds the collection of EmulatorView widgets.
      */
@@ -167,16 +168,16 @@ public class Term extends BaseActivity implements UpdateCallback,
     private static final int FLAG_INCLUDE_STOPPED_PACKAGES = 0x20;
     
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         getWindow().setStatusBarColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
-    
+        
         fullVersionCheck();
-    
+        
         mPrivateAlias = new ComponentName(this, RemoteInterface.PRIVACT_ACTIVITY_ALIAS);
-    
-        if (bundle == null) {
+        
+        if (savedInstanceState == null) {
             onNewIntent(getIntent());
         }
     
@@ -308,6 +309,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     private void populateViewFlipper() {
         if (termService != null) {
             termSessions = termService.getSessions();
+            onResumeSelectWindow = termService.getWindowId();
         
             if (termSessions.size() == 0) {
                 try {
@@ -336,6 +338,7 @@ public class Term extends BaseActivity implements UpdateCallback,
             viewFlipper.setOnViewFlipperFlippedListener((childView, index) -> {
                 if (adapterWindows != null && !termSessions.isEmpty()) {
                     currentWindow.setText(adapterWindows.getSessionTitle(index, getBaseContext()));
+                    termService.setWindowId(index);
                 }
             });
         
@@ -440,6 +443,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     
                             viewFlipper.setDisplayedChild(position);
                             currentWindow.setText(adapterWindows.getSessionTitle(position, getBaseContext()));
+                            termService.setWindowId(position);
                         }
     
                         if (NullSafety.INSTANCE.isNotNull(popupTerminalWindows)) {
@@ -1056,17 +1060,5 @@ public class Term extends BaseActivity implements UpdateCallback,
         if (handlers.size() > 0) {
             startActivity(openLink);
         }
-    }
-    
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        viewFlipper.setDisplayedChild(savedInstanceState.getInt("current_view"));
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-    
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-        savedInstanceState.putInt("current_view", viewFlipper.getDisplayedChild());
-        super.onSaveInstanceState(savedInstanceState);
     }
 }

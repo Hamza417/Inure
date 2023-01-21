@@ -43,6 +43,10 @@ public class TermService extends Service implements TermSession.FinishCallback {
     
     private SessionList mTermSessions;
     
+    private static final String TAG = "TermService";
+    
+    private int windowId = -1;
+    
     public class TSBinder extends Binder {
         TermService getService() {
             Log.i("TermService", "Activity binding to service");
@@ -141,6 +145,14 @@ public class TermService extends Service implements TermSession.FinishCallback {
     
     public SessionList getSessions() {
         return mTermSessions;
+    }
+    
+    public int getWindowId() {
+        return windowId;
+    }
+    
+    public void setWindowId(int windowId) {
+        this.windowId = windowId;
     }
     
     public void onSessionFinish(TermSession session) {
