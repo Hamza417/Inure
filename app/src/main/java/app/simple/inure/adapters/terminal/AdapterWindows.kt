@@ -26,7 +26,19 @@ open class AdapterWindows(private var sessions: SessionList) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val defaultTitle: String = holder.itemView.context.getString(R.string.window_title, position + 1)
+        // TODO - Let's see if this gets merged
+        // https://github.com/JetBrains/kotlin/pull/5079
+        //
+        //        sessions[position].title.ifNullOrEmpty {
+        //            holder.itemView.context.getString(R.string.window_title, position + 1)
+        //        }
+
+        val defaultTitle = if (sessions[position].title.isNullOrEmpty()) {
+            holder.itemView.context.getString(R.string.window_title, position + 1)
+        } else {
+            sessions[position].title
+        }
+
         holder.label.text = getSessionTitle(position, defaultTitle)
 
         holder.label.setOnClickListener {
@@ -44,6 +56,7 @@ open class AdapterWindows(private var sessions: SessionList) : RecyclerView.Adap
 
     override fun onUpdate(position: Int) {
         notifyItemRemoved(position)
+        notifyItemRangeChanged(position, sessions.size)
     }
 
     @SuppressLint("NotifyDataSetChanged")

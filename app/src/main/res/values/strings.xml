@@ -639,4 +639,5 @@
     <string name="inure_has_been_updated">Inure has been updated, would you like to see change logs?</string>
     <string name="refetching_data">Refetching Data</string>
     <string name="changes_are_not_saved_continue">Changes are not saved, continue?</string>
+    <string name="title">Title</string>
 </resources>

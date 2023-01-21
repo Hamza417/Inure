@@ -30,6 +30,7 @@
           <emptyLine />
         </value>
       </option>
+      <option name="MULTI_CATCH_TYPES_WRAP" value="0" />
     </JavaCodeStyleSettings>
     <JetCodeStyleSettings>
       <option name="CONTINUATION_INDENT_IN_PARAMETER_LISTS" value="true" />
