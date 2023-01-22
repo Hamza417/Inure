@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.app.usage.UsageEvents
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,11 +14,14 @@ import app.simple.inure.models.AppUsageModel
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
+import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.UsageInterval
+import com.github.mikephil.charting.data.BarEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class AppStatisticsViewModel(application: Application, private val packageInfo: PackageInfo) : UsageStatsViewModel(application) {
 
@@ -27,8 +31,18 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
         }
     }
 
+    private val chartData: MutableLiveData<ArrayList<BarEntry>> by lazy {
+        MutableLiveData<ArrayList<BarEntry>>().also {
+            loadStatsData()
+        }
+    }
+
     fun getUsageData(): LiveData<PackageStats> {
         return usageData
+    }
+
+    fun getChartData(): LiveData<ArrayList<BarEntry>> {
+        return chartData
     }
 
     private fun loadStatsData() {
@@ -96,6 +110,7 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
 
         packageStats.appUsage?.reverse()
         getDataUsage(packageStats)
+        loadChartData(packageStats)
 
         return packageStats
     }
@@ -119,6 +134,53 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
         if (wifiData.containsKey(uid)) {
             packageStats.wifiData = wifiData[uid]
         } else packageStats.wifiData = DataUsage.EMPTY
+    }
+
+    private fun loadChartData(packageStats: PackageStats) {
+        viewModelScope.launch(Dispatchers.Default) {
+            val entries = arrayListOf(
+                    BarEntry(0f, 0f),
+                    BarEntry(1f, 0f),
+                    BarEntry(2f, 0f),
+                    BarEntry(3f, 0f),
+                    BarEntry(4f, 0f),
+                    BarEntry(5f, 0f),
+                    BarEntry(6f, 0f)
+            )
+
+            var startTime_ = 0L
+
+            packageStats.appUsage?.forEach {
+                startTime_ += (it.startTime * 1000L)
+                Log.d("AppStatisticsViewModel", "loadChartData: ${startTime_} ${it.date} ${CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis())}")
+                when {
+                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 7 -> {
+                        entries[0].y += it.startTime
+                        Log.d("AppStatisticsViewModel", "loadChartData: ${entries[0].y} ${it.startTime} ${it.date} ${TimeUnit.MILLISECONDS.toDays(it.date)}")
+                    }
+                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 6 -> {
+                        entries[1].y += it.startTime
+                    }
+                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 5 -> {
+                        entries[2].y += it.startTime
+                    }
+                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 4 -> {
+                        entries[3].y += it.startTime
+                    }
+                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 3 -> {
+                        entries[4].y += it.startTime
+                    }
+                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 2 -> {
+                        entries[5].y += it.startTime
+                    }
+                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 1 -> {
+                        entries[6].y += it.startTime
+                    }
+                }
+
+                chartData.postValue(entries)
+            }
+        }
     }
 
     @Suppress("unused")

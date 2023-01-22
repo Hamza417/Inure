@@ -345,6 +345,18 @@ public class CalendarUtils {
         return (int) diffDays;
     }
     
+    public static int getDaysBetweenTwoDates(long startDate, long endDate) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTimeInMillis(startDate);
+        cal2.setTimeInMillis(endDate);
+        long milis1 = cal1.getTimeInMillis();
+        long milis2 = cal2.getTimeInMillis();
+        long diff = milis2 - milis1;
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+        return (int) diffDays;
+    }
+    
     public static Date convertStringToDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat(FormattingPreferences.INSTANCE.getDateFormat(),
                 LocaleHelper.INSTANCE.getAppLocale());

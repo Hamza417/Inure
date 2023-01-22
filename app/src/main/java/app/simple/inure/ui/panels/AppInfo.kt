@@ -372,7 +372,11 @@ class AppInfo : ScopedFragment() {
         }
 
         usageStatistics.setOnClickListener {
-            openFragmentSlide(UsageStatistics.newInstance(packageInfo), "storage")
+            if (DevelopmentPreferences.get(DevelopmentPreferences.useOldStyleUsageStatsPanel)) {
+                openFragmentSlide(UsageStatistics.newInstance(packageInfo), "usage_statistics")
+            } else {
+                openFragmentSlide(UsageStatisticsGraph.newInstance(packageInfo), "usage_statistics")
+            }
         }
 
         notes.setOnClickListener {
