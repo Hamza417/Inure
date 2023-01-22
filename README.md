@@ -175,17 +175,3 @@ and appreciate the project.. 😄
 **Inure App Manager** is released as open source software under
 the [GPL v3](https://opensource.org/licenses/gpl-3.0.html)
 license, see the [LICENSE](./LICENSE) file in the project root for the full license text.
-
-## Licence Limitations
-
-The assets used in the app are created using Adobe Photoshop and Adobe Illustrator and despite the
-project being GPLv3, these assets do not fall under the purview of any license. Therefore, you're
-not allowed to use any asset of the app in any _other_ projects. However, the app uses icons
-available
-on [Material Icons Library](https://fonts.google.com/icons?icon.style=Rounded&icon.set=Material+Icons)
-which are available under various open source licenses, so if need be, they can be downloaded from
-there.
-
-Assets here refers to any graphics in both raster and vector form that are unique to Inure or
-represents app's identity in some way including icons and animated vector files mustn't be
-replicated to other projects without any prior permission. Any "Fair Use" is permissible/allowed.
