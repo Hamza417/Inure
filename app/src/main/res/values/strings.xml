@@ -644,4 +644,13 @@
     <string name="refetching_data">Refetching Data</string>
     <string name="changes_are_not_saved_continue">Changes are not saved, continue?</string>
     <string name="title">Title</string>
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="rest_of_the_week">Rest of the Week</string>
 </resources>

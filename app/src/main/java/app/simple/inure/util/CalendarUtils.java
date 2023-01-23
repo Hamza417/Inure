@@ -56,6 +56,10 @@ public class CalendarUtils {
         return isSameDay(date, Calendar.getInstance().getTime());
     }
     
+    public static boolean isToday(long date) {
+        return isToday(new Date(date));
+    }
+    
     /**
      * <p>Checks if a calendar date is today.</p>
      *
@@ -84,6 +88,18 @@ public class CalendarUtils {
         Calendar cal2 = Calendar.getInstance();
         cal2.setTime(date2);
         return isBeforeDay(cal1, cal2);
+    }
+    
+    /**
+     * Check if the given date is yesterday.
+     *
+     * @param date date to check
+     * @return true if the given date is yesterday
+     */
+    public static boolean isYesterday(Date date) {
+        Calendar yesterday = Calendar.getInstance();
+        yesterday.add(Calendar.DATE, -1);
+        return isSameDay(date, yesterday.getTime());
     }
     
     /**

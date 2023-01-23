@@ -60,4 +60,9 @@
         android:layout_width="match_parent"
         android:layout_height="300dp" />
 
+    <app.simple.inure.decorations.theme.ThemePieChart
+        android:id="@+id/pie_chart"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pie_chart_height" />
+
 </app.simple.inure.decorations.theme.ThemeLinearLayout>
