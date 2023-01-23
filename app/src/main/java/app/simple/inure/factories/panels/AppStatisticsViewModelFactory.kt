@@ -4,6 +4,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
+import app.simple.inure.viewmodels.viewers.AppStatisticsGraphViewModel
 import app.simple.inure.viewmodels.viewers.AppStatisticsViewModel
 
 class AppStatisticsViewModelFactory(private val packageInfo: PackageInfo) : ViewModelProvider.Factory {
@@ -14,6 +15,9 @@ class AppStatisticsViewModelFactory(private val packageInfo: PackageInfo) : View
         when {
             modelClass.isAssignableFrom(AppStatisticsViewModel::class.java) -> {
                 return AppStatisticsViewModel(application, packageInfo) as T
+            }
+            modelClass.isAssignableFrom(AppStatisticsGraphViewModel::class.java) -> {
+                return AppStatisticsGraphViewModel(application, packageInfo) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope, Wrong ViewModel!!")

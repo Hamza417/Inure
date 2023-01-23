@@ -3,7 +3,6 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.app.usage.UsageEvents
 import android.content.pm.PackageInfo
-import android.util.Log
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,12 +13,9 @@ import app.simple.inure.models.AppUsageModel
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
-import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.UsageInterval
-import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -32,26 +28,8 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
         }
     }
 
-    private val barChartData: MutableLiveData<ArrayList<BarEntry>> by lazy {
-        MutableLiveData<ArrayList<BarEntry>>().also {
-            loadStatsData() // TODO - fix this getting called two times
-        }
-    }
-
-    private val pieChartData: MutableLiveData<ArrayList<PieEntry>> by lazy {
-        MutableLiveData<ArrayList<PieEntry>>()
-    }
-
     fun getUsageData(): LiveData<PackageStats> {
         return usageData
-    }
-
-    fun getChartData(): LiveData<ArrayList<BarEntry>> {
-        return barChartData
-    }
-
-    fun getPieChartData(): LiveData<ArrayList<PieEntry>> {
-        return pieChartData
     }
 
     private fun loadStatsData() {
@@ -119,8 +97,6 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
 
         packageStats.appUsage?.reverse()
         getDataUsage(packageStats)
-        loadChartData(packageStats)
-        loadPieChartData(packageStats)
 
         return packageStats
     }
@@ -144,100 +120,6 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
         if (wifiData.containsKey(uid)) {
             packageStats.wifiData = wifiData[uid]
         } else packageStats.wifiData = DataUsage.EMPTY
-    }
-
-    private fun loadChartData(packageStats: PackageStats) {
-        viewModelScope.launch(Dispatchers.Default) {
-            Log.d("TAG", "loadChartData: ${packageStats.appUsage?.size}")
-            val barEntries = arrayListOf(
-                    BarEntry(0f, 0f),
-                    BarEntry(1f, 0f),
-                    BarEntry(2f, 0f),
-                    BarEntry(3f, 0f),
-                    BarEntry(4f, 0f),
-                    BarEntry(5f, 0f),
-                    BarEntry(6f, 0f))
-
-            val pieEntries = arrayListOf(
-                    PieEntry(0f, 0f),
-                    PieEntry(1f, 0f),
-                    PieEntry(2f, 0f),
-                    PieEntry(3f, 0f),
-                    PieEntry(4f, 0f),
-                    PieEntry(5f, 0f),
-                    PieEntry(6f, 0f))
-
-            packageStats.appUsage?.forEach {
-                when {
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 6 -> {
-                        barEntries[0].y += it.startTime
-                        pieEntries[0].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 5 -> {
-                        barEntries[1].y += it.startTime
-                        pieEntries[1].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 4 -> {
-                        barEntries[2].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 3 -> {
-                        barEntries[3].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 2 -> {
-                        barEntries[4].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 1 -> {
-                        barEntries[5].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 0 -> {
-                        barEntries[6].y += it.startTime
-                    }
-                }
-
-                barChartData.postValue(barEntries)
-            }
-        }
-    }
-
-    private fun loadPieChartData(packageStats: PackageStats) {
-        viewModelScope.launch(Dispatchers.Default) {
-            val context = applicationContext()
-            val pieEntries = arrayListOf<PieEntry>()
-
-            packageStats.appUsage?.forEach {
-                when {
-                    CalendarUtils.isToday(it.date) -> {
-                        try {
-                            val pieEntry = PieEntry(pieEntries[0].value + it.startTime, context.getString(R.string.today))
-                            pieEntries.remove(pieEntries[0])
-                            pieEntries.add(0, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.today)))
-                        }
-                    }
-                    CalendarUtils.isYesterday(Date(it.date)) -> {
-                        try {
-                            val pieEntry = PieEntry(pieEntries[1].value + it.startTime, context.getString(R.string.yesterday))
-                            pieEntries.remove(pieEntries[1])
-                            pieEntries.add(1, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.yesterday)))
-                        }
-                    }
-                    else -> {
-                        try {
-                            val pieEntry = PieEntry(pieEntries[2].value + it.startTime, context.getString(R.string.rest_of_the_week))
-                            pieEntries.remove(pieEntries[2])
-                            pieEntries.add(2, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.rest_of_the_week)))
-                        }
-                    }
-                }
-            }
-
-            pieChartData.postValue(pieEntries)
-        }
     }
 
     @Suppress("unused")

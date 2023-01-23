@@ -21,7 +21,7 @@ import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.viewmodels.viewers.AppStatisticsViewModel
+import app.simple.inure.viewmodels.viewers.AppStatisticsGraphViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.AxisBase
@@ -38,7 +38,7 @@ class UsageStatisticsGraph : ScopedFragment() {
     private lateinit var back: DynamicRippleImageButton
     private lateinit var loader: CustomProgressBar
 
-    private lateinit var appStatisticsViewModel: AppStatisticsViewModel
+    private lateinit var appStatisticsGraphViewModel: AppStatisticsGraphViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.fragment_app_statistics_graph, container, false)
@@ -48,7 +48,7 @@ class UsageStatisticsGraph : ScopedFragment() {
         back = view.findViewById(R.id.app_info_back_button)
         loader = view.findViewById(R.id.loader)
 
-        appStatisticsViewModel = ViewModelProvider(this, AppStatisticsViewModelFactory(packageInfo))[AppStatisticsViewModel::class.java]
+        appStatisticsGraphViewModel = ViewModelProvider(this, AppStatisticsViewModelFactory(packageInfo))[AppStatisticsGraphViewModel::class.java]
 
         return view
     }
@@ -81,7 +81,7 @@ class UsageStatisticsGraph : ScopedFragment() {
     }
 
     private fun observeData() {
-        appStatisticsViewModel.getChartData().observe(viewLifecycleOwner) {
+        appStatisticsGraphViewModel.getChartData().observe(viewLifecycleOwner) {
             barChart.data = BarDataSet(it, getString(R.string.weekly)).let { dataSet ->
                 dataSet.valueFormatter = AxisFormatter()
                 dataSet.isHighlightEnabled = true
@@ -113,7 +113,7 @@ class UsageStatisticsGraph : ScopedFragment() {
             loader.gone(animate = true)
         }
 
-        appStatisticsViewModel.getPieChartData().observe(viewLifecycleOwner) {
+        appStatisticsGraphViewModel.getPieChartData().observe(viewLifecycleOwner) {
             pieChart.apply {
                 PieDataSet(it, "").apply {
                     data = PieData(this)
@@ -132,12 +132,12 @@ class UsageStatisticsGraph : ScopedFragment() {
             pieChart.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
-        appStatisticsViewModel.getError().observe(viewLifecycleOwner) {
+        appStatisticsGraphViewModel.getError().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             showError(it)
         }
 
-        appStatisticsViewModel.warning.observe(viewLifecycleOwner) {
+        appStatisticsGraphViewModel.warning.observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             showWarning(it)
         }

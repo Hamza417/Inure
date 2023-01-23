@@ -32,7 +32,7 @@ import net.dongliu.apk.parser.bean.ApkMeta
 import java.io.File
 import java.text.NumberFormat
 
-class AppInformationViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class AppInformationViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val information: MutableLiveData<ArrayList<Pair<Int, Spannable>>> by lazy {
         MutableLiveData<ArrayList<Pair<Int, Spannable>>>().also {
