@@ -227,6 +227,10 @@
     <string name="used_for_short">Used for %1$s minutes</string>
     <string name="used_for_long">Used for %1$s hours %2$s minutes</string>
     <string name="used_for_days">Used for %1$s days %2$s hours %3$s minutes</string>
+    <string name="for_seconds">%1$sS</string>
+    <string name="for_short">%1$sM</string>
+    <string name="for_long">%1$sH:%2$sM</string>
+    <string name="for_days">%1$sD:%2$sH:%3$sM</string>
     <string name="last_used_seconds">%1$s seconds ago</string>
     <string name="last_used_short">%1$s minutes ago</string>
     <string name="last_used_long">%1$s hours %2$s minutes ago</string>

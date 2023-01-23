@@ -21,7 +21,6 @@ import app.simple.inure.util.UsageInterval
 import com.github.mikephil.charting.data.BarEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 
 class AppStatisticsViewModel(application: Application, private val packageInfo: PackageInfo) : UsageStatsViewModel(application) {
 
@@ -33,7 +32,7 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
 
     private val chartData: MutableLiveData<ArrayList<BarEntry>> by lazy {
         MutableLiveData<ArrayList<BarEntry>>().also {
-            loadStatsData()
+            loadStatsData() // TODO - fix this getting called two times
         }
     }
 
@@ -138,6 +137,7 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
 
     private fun loadChartData(packageStats: PackageStats) {
         viewModelScope.launch(Dispatchers.Default) {
+            Log.d("TAG", "loadChartData: ${packageStats.appUsage?.size}")
             val entries = arrayListOf(
                     BarEntry(0f, 0f),
                     BarEntry(1f, 0f),
@@ -148,33 +148,35 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
                     BarEntry(6f, 0f)
             )
 
-            var startTime_ = 0L
-
             packageStats.appUsage?.forEach {
-                startTime_ += (it.startTime * 1000L)
-                Log.d("AppStatisticsViewModel", "loadChartData: ${startTime_} ${it.date} ${CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis())}")
                 when {
-                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 7 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 6 -> {
                         entries[0].y += it.startTime
-                        Log.d("AppStatisticsViewModel", "loadChartData: ${entries[0].y} ${it.startTime} ${it.date} ${TimeUnit.MILLISECONDS.toDays(it.date)}")
+                        entries[0].x = CalendarUtils.getWeekNumberFromDate(it.date).toFloat()
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 6 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 5 -> {
                         entries[1].y += it.startTime
+                        entries[1].x = CalendarUtils.getWeekNumberFromDate(it.date).toFloat()
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 5 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 4 -> {
                         entries[2].y += it.startTime
+                        entries[2].x = CalendarUtils.getWeekNumberFromDate(it.date).toFloat()
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 4 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 3 -> {
                         entries[3].y += it.startTime
+                        entries[3].x = CalendarUtils.getWeekNumberFromDate(it.date).toFloat()
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 3 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 2 -> {
                         entries[4].y += it.startTime
+                        entries[4].x = CalendarUtils.getWeekNumberFromDate(it.date).toFloat()
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 2 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 1 -> {
                         entries[5].y += it.startTime
+                        entries[5].x = CalendarUtils.getWeekNumberFromDate(it.date).toFloat()
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(startTime_, System.currentTimeMillis()) == 1 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 0 -> {
                         entries[6].y += it.startTime
+                        entries[6].x = CalendarUtils.getWeekNumberFromDate(it.date).toFloat()
                     }
                 }
 

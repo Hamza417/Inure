@@ -59,7 +59,7 @@ object ColorUtils {
     /**
      * Lightens the given color int
      *
-     * @param value between 0.0F - 1.0F of which closer to one being
+     * @param value between 0.0F - 1.0F of which closer to 1.0F being
      *              the transparent while 0.0 will be original
      *              strength
      */

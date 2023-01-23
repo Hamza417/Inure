@@ -13,12 +13,20 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
+import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.AppStatisticsViewModel
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
+import java.util.concurrent.TimeUnit
 
 class UsageStatisticsGraph : ScopedFragment() {
 
@@ -69,11 +77,28 @@ class UsageStatisticsGraph : ScopedFragment() {
 
     private fun observeData() {
         appStatisticsViewModel.getChartData().observe(viewLifecycleOwner) {
-            barChart.data = BarDataSet(it, "Usage").let { dataSet ->
-                dataSet.valueTextSize = 10f
-                dataSet.setDrawValues(false)
+            barChart.data = BarDataSet(it, "Daily Usage Statistics").let { dataSet ->
+                dataSet.valueFormatter = AxisFormatter()
+                dataSet.isHighlightEnabled = true
+                dataSet.highLightColor = AppearancePreferences.getAccentColorLight()
+                dataSet.color = AppearancePreferences.getAccentColor()
+                dataSet.valueTextColor = ThemeManager.theme.textViewTheme.secondaryTextColor
+                dataSet.valueTypeface = TypeFace.getMediumTypeFace(requireContext())
+                dataSet.formLineWidth = 0f
+
                 BarData(dataSet)
             }
+            barChart.setDrawBarShadow(false)
+            barChart.setDrawBorders(false)
+            barChart.setDrawGridBackground(false)
+            barChart.setFitBars(true)
+            barChart.description.isEnabled = false
+            barChart.axisLeft.isEnabled = false
+            barChart.axisRight.isEnabled = false
+            barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM // set x axis position to bottom
+            barChart.xAxis.setDrawGridLines(false)
+            barChart.xAxis.setDrawLabels(true)
+
             barChart.invalidate()
             loader.gone(animate = true)
         }
@@ -86,6 +111,37 @@ class UsageStatisticsGraph : ScopedFragment() {
         appStatisticsViewModel.warning.observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             showWarning(it)
+        }
+    }
+
+    inner class AxisFormatter : ValueFormatter() {
+        private val days = arrayOf("Mo", "Tu", "Wed", "Th", "Fr", "Sa", "Su")
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            return days.getOrNull(value.toInt()) ?: value.toString()
+        }
+
+        override fun getBarLabel(barEntry: BarEntry?): String {
+            return when {
+                TimeUnit.MILLISECONDS.toSeconds(barEntry!!.y.toLong()) < 60 -> {
+                    getString(R.string.for_seconds,
+                              TimeUnit.MILLISECONDS.toSeconds(barEntry.y.toLong()).toString())
+                }
+                TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()) < 60 -> {
+                    getString(R.string.for_short,
+                              TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()).toString())
+                }
+                TimeUnit.MILLISECONDS.toHours(barEntry.y.toLong()) < 24 -> {
+                    getString(R.string.for_long,
+                              TimeUnit.MILLISECONDS.toHours(barEntry.y.toLong()).toString(),
+                              (TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()) % 60).toString())
+                }
+                else -> {
+                    getString(R.string.for_days,
+                              TimeUnit.MILLISECONDS.toDays(barEntry.y.toLong()).toString(),
+                              TimeUnit.MILLISECONDS.toHours(barEntry.y.toLong()).toString(),
+                              (TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()) % 60).toString())
+                }
+            }
         }
     }
 

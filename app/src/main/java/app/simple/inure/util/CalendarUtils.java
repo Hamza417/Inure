@@ -373,6 +373,12 @@ public class CalendarUtils {
         return format.format(date);
     }
     
+    public static int getWeekNumberFromDate(long date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(date);
+        return cal.get(Calendar.DAY_OF_WEEK);
+    }
+    
     /**
      * Get today's date
      */

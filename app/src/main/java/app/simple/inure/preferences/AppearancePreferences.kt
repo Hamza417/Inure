@@ -6,6 +6,7 @@ import androidx.annotation.IntRange
 import androidx.annotation.RequiresApi
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.TypeFace
 
 object AppearancePreferences {
@@ -49,7 +50,7 @@ object AppearancePreferences {
     @Suppress("unused")
     @ColorInt
     fun getAccentColorLight(): Int {
-        return getSharedPreferences().getInt(accentColorLight, 0)
+        return ColorUtils.lightenColor(getSharedPreferences().getInt(accentColor, 0), 0.3F)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
