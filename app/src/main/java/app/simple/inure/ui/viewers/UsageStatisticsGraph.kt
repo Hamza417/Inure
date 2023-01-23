@@ -1,7 +1,6 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +17,7 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.TypeFace
@@ -26,6 +26,7 @@ import app.simple.inure.viewmodels.viewers.AppStatisticsGraphViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import java.util.concurrent.TimeUnit
@@ -93,59 +94,61 @@ class UsageStatisticsGraph : ScopedFragment() {
         appStatisticsGraphViewModel.getPackageStats().observe(viewLifecycleOwner) {
             with(it.totalTimeUsed) {
                 screenTime.apply {
-                    this.text = when {
-                        TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
-                            this.context.getString(R.string.used_for_seconds,
-                                                   TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
-                        }
-                        TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
-                            this.context.getString(R.string.used_for_short,
-                                                   TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
-                        }
-                        TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
-                            this.context.getString(R.string.used_for_long,
-                                                   TimeUnit.MILLISECONDS.toHours(this@with).toString(),
-                                                   (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                        }
-                        else -> {
-                            this.context.getString(R.string.used_for_days,
-                                                   TimeUnit.MILLISECONDS.toDays(this@with).toString(),
-                                                   TimeUnit.MILLISECONDS.toHours(this@with).toString(),
-                                                   (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                        }
-                    }
+                    this.setTextWithAnimation(
+                            when {
+                                TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
+                                    this.context.getString(R.string.used_for_seconds,
+                                                           TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
+                                }
+                                TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
+                                    this.context.getString(R.string.used_for_short,
+                                                           TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
+                                }
+                                TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
+                                    this.context.getString(R.string.used_for_long,
+                                                           TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                           (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                                }
+                                else -> {
+                                    this.context.getString(R.string.used_for_days,
+                                                           TimeUnit.MILLISECONDS.toDays(this@with).toString(),
+                                                           TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                           (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                                }
+                            })
                 }
             }
 
             with(System.currentTimeMillis() - it.appUsage!![0].date) {
                 lastUsed.apply {
-                    this.text = when {
-                        TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
-                            this.context.getString(R.string.last_used_seconds,
-                                                   TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
-                        }
-                        TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
-                            this.context.getString(R.string.last_used_short,
-                                                   TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
-                        }
-                        TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
-                            this.context.getString(R.string.last_used_long,
-                                                   TimeUnit.MILLISECONDS.toHours(this@with).toString(),
-                                                   (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                        }
-                        else -> {
-                            this.context.getString(R.string.last_used_days,
-                                                   TimeUnit.MILLISECONDS.toDays(this@with).toString(),
-                                                   TimeUnit.MILLISECONDS.toHours(this@with).toString(),
-                                                   (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                        }
-                    }
+                    this.setTextWithAnimation(
+                            when {
+                                TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
+                                    this.context.getString(R.string.last_used_seconds,
+                                                           TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
+                                }
+                                TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
+                                    this.context.getString(R.string.last_used_short,
+                                                           TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
+                                }
+                                TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
+                                    this.context.getString(R.string.last_used_long,
+                                                           TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                           (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                                }
+                                else -> {
+                                    this.context.getString(R.string.last_used_days,
+                                                           TimeUnit.MILLISECONDS.toDays(this@with).toString(),
+                                                           TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                           (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                                }
+                            })
                 }
             }
 
-            launchCount.text = getString(R.string.times, it.launchCount)
-            mobileData.text = it.mobileData.toString()
-            wifiData.text = it.wifiData.toString()
+            launchCount.setTextWithAnimation(getString(R.string.times, it.launchCount))
+            mobileData.setTextWithAnimation(it.mobileData.toString())
+            wifiData.setTextWithAnimation(it.wifiData.toString())
         }
 
         appStatisticsGraphViewModel.getChartData().observe(viewLifecycleOwner) {
@@ -160,6 +163,7 @@ class UsageStatisticsGraph : ScopedFragment() {
             }
 
             barChart.xAxis.valueFormatter = XAxisFormatter()
+            barChart.isKeepPositionOnRotation = true
 
             barChart.invalidate()
             barChart.animateY(1000, Easing.EaseOutCubic)
@@ -172,13 +176,22 @@ class UsageStatisticsGraph : ScopedFragment() {
                 PieDataSet(it, "").apply {
                     data = PieData(this)
                     colors = BAR_COLORS.reversed()
-                    valueTextColor = Color.TRANSPARENT
-                    setEntryLabelColor(Color.TRANSPARENT)
+                    valueTextColor = ThemeManager.theme.textViewTheme.primaryTextColor
+                    valueTextSize = 9F
+                    valueTypeface = TypeFace.getBoldTypeFace(requireContext())
+                    setEntryLabelColor(ThemeManager.theme.textViewTheme.primaryTextColor)
+                    setEntryLabelTextSize(9F)
+                    setEntryLabelTypeface(TypeFace.getBoldTypeFace(requireContext()))
+                    valueFormatter = PercentFormatter()
+                    setDrawIcons(true)
+                    xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+                    yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
                 }
 
                 animateXY(1000, 500, Easing.EaseOutCubic)
             }
 
+            pieChart.setUsePercentValues(true)
             pieChart.setAnimation(false)
             pieChart.notifyDataSetChanged()
             pieChart.notifyDataSetChanged()

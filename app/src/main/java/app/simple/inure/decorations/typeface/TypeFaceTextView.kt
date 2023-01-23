@@ -184,7 +184,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
     }
 
-    fun setTextAnimation(text: String, duration: Long = 250, completion: (() -> Unit)? = null) {
+    fun setTextWithAnimation(text: String, duration: Long = 250, completion: (() -> Unit)? = null) {
         fadOutAnimation(duration) {
             this.text = text
             fadInAnimation(duration) {
@@ -195,7 +195,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
     }
 
-    fun setTextAnimation(resId: Int, duration: Long = 250, completion: (() -> Unit)? = null) {
+    fun setTextWithAnimation(resId: Int, duration: Long = 250, completion: (() -> Unit)? = null) {
         fadOutAnimation(duration) {
             this.text = context.getString(resId)
             fadInAnimation(duration) {

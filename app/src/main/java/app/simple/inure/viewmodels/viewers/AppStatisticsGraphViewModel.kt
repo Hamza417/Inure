@@ -57,9 +57,9 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
             kotlin.runCatching {
                 with(getUsageEvents()) {
                     if (this.appUsage?.size?.isNotZero() == true) {
+                        packageStats.postValue(this)
                         loadPieChartData(this)
                         loadChartData(this)
-                        packageStats.postValue(this)
                     } else {
                         warning.postValue(getString(R.string.usage_data_does_not_exist_for_this_app))
                     }
@@ -156,24 +156,13 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                     BarEntry(5f, 0f),
                     BarEntry(6f, 0f))
 
-            val pieEntries = arrayListOf(
-                    PieEntry(0f, 0f),
-                    PieEntry(1f, 0f),
-                    PieEntry(2f, 0f),
-                    PieEntry(3f, 0f),
-                    PieEntry(4f, 0f),
-                    PieEntry(5f, 0f),
-                    PieEntry(6f, 0f))
-
             packageStats.appUsage?.forEach {
                 when {
                     CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 6 -> {
                         barEntries[0].y += it.startTime
-                        pieEntries[0].y += it.startTime
                     }
                     CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 5 -> {
                         barEntries[1].y += it.startTime
-                        pieEntries[1].y += it.startTime
                     }
                     CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 4 -> {
                         barEntries[2].y += it.startTime
@@ -184,10 +173,10 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                     CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 2 -> {
                         barEntries[4].y += it.startTime
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 1 -> {
+                    CalendarUtils.isYesterday(Date(it.date)) -> {
                         barEntries[5].y += it.startTime
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 0 -> {
+                    CalendarUtils.isToday(it.date) -> {
                         barEntries[6].y += it.startTime
                     }
                 }
