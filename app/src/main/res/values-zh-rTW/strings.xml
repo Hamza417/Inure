@@ -228,6 +228,10 @@
     <string name="used_for_short">使用了 %1$s 分鐘</string>
     <string name="used_for_long">使用了 %1$s 小時 %2$s 分鐘</string>
     <string name="used_for_days">使用了 %1$s 天 %2$s 小時 %3$s 分鐘</string>
+    <string name="for_seconds">%1$sS</string>
+    <string name="for_short">%1$sM</string>
+    <string name="for_long">%1$sH:%2$sM</string>
+    <string name="for_days">%1$sD:%2$sH:%3$sM</string>
     <string name="last_used_seconds">%1$s 秒前</string>
     <string name="last_used_short">%1$s 分鐘前</string>
     <string name="last_used_long">%1$s 小時 %2$s 分鐘前</string>
