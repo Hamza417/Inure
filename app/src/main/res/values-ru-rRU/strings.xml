@@ -228,6 +228,10 @@
     <string name="used_for_short">Используется %1$s минут</string>
     <string name="used_for_long">Используется %1$s часов %2$s минут</string>
     <string name="used_for_days">%1$s дней %2$s часов %3$s минут</string>
+    <string name="for_seconds">%1$sс</string>
+    <string name="for_short">%1$sм</string>
+    <string name="for_long">%1$sч:%2$sм</string>
+    <string name="for_days">%1$sд:%2$sч:%3$sм</string>
     <string name="last_used_seconds">%1$s секунд(ы) назад</string>
     <string name="last_used_short">%1$s минут(ы) назад</string>
     <string name="last_used_long">%1$s часов %2$s минуты назад</string>
@@ -644,4 +648,13 @@
     <string name="refetching_data">Извлечение данных</string>
     <string name="changes_are_not_saved_continue">Изменения не сохранены. Продолжить?</string>
     <string name="title">Название</string>
+    <string name="sun">Вск</string>
+    <string name="mon">Пн</string>
+    <string name="tue">Вт</string>
+    <string name="wed">Ср</string>
+    <string name="thu">Чт</string>
+    <string name="fri">Пт</string>
+    <string name="sat">Сб</string>
+    <string name="yesterday">Вчера</string>
+    <string name="weekly_usage">Данные об использовании за неделю</string>
 </resources>
