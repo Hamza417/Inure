@@ -23,11 +23,11 @@ An elegant Android app manager, currently in development
 [![](https://img.shields.io/badge/GitHub%20Releases-181717?logo=github)](https://github.com/Hamza417/Inure/releases/latest)
 [![](https://img.shields.io/badge/F--Droid-1976D2?logo=fdroid)](https://f-droid.org/en/packages/app.simple.inure/)
 
-## Buy
+## Buy (Full Version)
 
-[![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-$5.99-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
-[![](https://img.shields.io/badge/Full%20Unlocker%20(Payhip)-$5.99-23a094?logo=payhip&logoColor=white)](https://payhip.com/b/D9ikG)
-[![](https://img.shields.io/badge/Full%20Unlocker%20(Play%20Store)-~$5.99-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
+[![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
+[![](https://img.shields.io/badge/Full%20Unlocker%20(Payhip)-23a094?logo=payhip&logoColor=white)](https://payhip.com/b/D9ikG)
+[![](https://img.shields.io/badge/Full%20Unlocker%20(Play%20Store)-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
 
 ## Featured
 
