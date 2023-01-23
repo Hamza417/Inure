@@ -26,14 +26,22 @@ import java.util.*
 
 class AppStatisticsGraphViewModel(application: Application, private val packageInfo: PackageInfo) : UsageStatsViewModel(application) {
 
-    private val barChartData: MutableLiveData<ArrayList<BarEntry>> by lazy {
-        MutableLiveData<ArrayList<BarEntry>>().also {
-            loadStatsData() // TODO - fix this getting called two times
+    private val packageStats: MutableLiveData<PackageStats> by lazy {
+        MutableLiveData<PackageStats>().also {
+            loadStatsData()
         }
+    }
+
+    private val barChartData: MutableLiveData<ArrayList<BarEntry>> by lazy {
+        MutableLiveData<ArrayList<BarEntry>>()
     }
 
     private val pieChartData: MutableLiveData<ArrayList<PieEntry>> by lazy {
         MutableLiveData<ArrayList<PieEntry>>()
+    }
+
+    fun getPackageStats(): LiveData<PackageStats> {
+        return packageStats
     }
 
     fun getChartData(): LiveData<ArrayList<BarEntry>> {
@@ -51,6 +59,7 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                     if (this.appUsage?.size?.isNotZero() == true) {
                         loadPieChartData(this)
                         loadChartData(this)
+                        packageStats.postValue(this)
                     } else {
                         warning.postValue(getString(R.string.usage_data_does_not_exist_for_this_app))
                     }
@@ -110,8 +119,6 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
 
         packageStats.appUsage?.reverse()
         getDataUsage(packageStats)
-        loadChartData(packageStats)
-        loadPieChartData(packageStats)
 
         return packageStats
     }

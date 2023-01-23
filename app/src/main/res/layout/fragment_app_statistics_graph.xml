@@ -1,68 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/panel_item_padding"
+    app:layout_behavior="@string/over_scroll_behavior">
 
-    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+    <app.simple.inure.decorations.theme.ThemeLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="1dp"
-        android:orientation="horizontal"
-        android:padding="@dimen/header_padding">
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical">
 
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/app_info_back_button"
-            android:layout_width="@dimen/header_icon_size"
-            android:layout_height="@dimen/header_icon_size"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/header_padding"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_arrow_back"
-            android:transitionName="@string/app_information"
-            app:buttonTintType="accent"
-            tools:ignore="ContentDescription" />
+        <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/header_padding">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/app_info_back_button"
+                android:layout_width="@dimen/header_icon_size"
+                android:layout_height="@dimen/header_icon_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/header_padding"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_arrow_back"
+                android:transitionName="@string/app_information"
+                app:buttonTintType="accent"
+                tools:ignore="ContentDescription" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="@string/usage_statistics"
+                android:textSize="@dimen/header_font_size"
+                android:transitionName="@string/app_information"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.views.CustomProgressBar
+                android:id="@+id/loader"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="@dimen/panel_icon_size"
+                android:layout_height="@dimen/panel_icon_size"
+                android:layout_gravity="center_vertical"
+                android:indeterminateTint="?attr/colorAppAccent"
+                android:padding="10dp" />
+
+        </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:singleLine="true"
-            android:text="@string/usage_statistics"
-            android:textSize="@dimen/header_font_size"
-            android:transitionName="@string/app_information"
+            android:layout_marginTop="@dimen/panel_item_padding"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:text="@string/screen_time"
+            android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
-            app:textColorStyle="accent" />
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
 
-        <app.simple.inure.decorations.views.CustomProgressBar
-            android:id="@+id/loader"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="@dimen/panel_icon_size"
-            android:layout_height="@dimen/panel_icon_size"
-            android:layout_gravity="center_vertical"
-            android:indeterminateTint="?attr/colorAppAccent"
-            android:padding="10dp" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/screen_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="secondary" />
 
-    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/panel_item_padding"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:text="@string/launched"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.theme.ThemeDivider
-        android:layout_width="match_parent"
-        android:layout_height="1px" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/launched"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTint="@android:color/transparent"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="secondary" />
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/bar_chart"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/panel_item_padding"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:text="@string/last_used"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.theme.ThemePieChart
-        android:id="@+id/pie_chart"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pie_chart_height" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/last_used"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTint="@android:color/transparent"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="secondary" />
 
-</app.simple.inure.decorations.theme.ThemeLinearLayout>
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/panel_item_padding"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:text="@string/mobile_data"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/mobile_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTint="@android:color/transparent"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="secondary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/panel_item_padding"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:text="@string/wifi"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/wifi_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:paddingHorizontal="@dimen/panel_item_padding"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTint="@android:color/transparent"
+            app:drawableTintStyle="secondary"
+            app:textColorStyle="secondary" />
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="@dimen/panel_item_padding" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/min_sdk_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/panel_item_padding"
+            android:padding="@dimen/panel_item_padding"
+            android:text="@string/weekly_usage"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.theme.ThemeBarChart
+            android:id="@+id/bar_chart"
+            android:layout_width="match_parent"
+            android:layout_height="350dp" />
+
+        <app.simple.inure.decorations.theme.ThemePieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pie_chart_height" />
+
+    </app.simple.inure.decorations.theme.ThemeLinearLayout>
+
+</androidx.core.widget.NestedScrollView>

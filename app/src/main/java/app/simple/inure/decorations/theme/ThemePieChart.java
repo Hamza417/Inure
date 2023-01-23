@@ -49,6 +49,8 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
          */
         if (!isInEditMode()) {
             setHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
+            setNoDataTextColor(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getSecondaryTextColor());
+            setNoDataTextTypeface(TypeFace.INSTANCE.getMediumTypeFace(getContext()));
         }
     
         setHoleColor(Color.TRANSPARENT);
@@ -110,7 +112,7 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     
     @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
-        getLegend().setTextColor(theme.getTextViewTheme().getSecondaryTextColor());
+        initProps();
         invalidate();
     }
     
