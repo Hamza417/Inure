@@ -652,6 +652,5 @@
     <string name="fri">Fri</string>
     <string name="sat">Sat</string>
     <string name="yesterday">Yesterday</string>
-    <string name="rest_of_the_week">Rest of the Week</string>
     <string name="weekly_usage">Weekly Usage Data</string>
 </resources>
