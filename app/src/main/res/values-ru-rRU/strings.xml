@@ -111,7 +111,7 @@
     <string name="bouncy_desc">Значение, определяющее, насколько должен быть сильным эффект отскока перед окончанием прокрутки списка.</string>
     <string name="root">Root</string>
     <string name="use_root_methods">Использовать Root</string>
-    <string name="root_desc">Используйте root методы вместо использования собственных API-интерфейсов Android и библиотек для выполнения некоторых функций.\n\nЭтот вариант рекомендуется, поскольку он может упростить работу пользователя.\n\nТребуется устройство с root-доступом.</string>
+    <string name="root_desc">Использовать root методы вместо использования собственных API-интерфейсов и библиотек Android для выполнения некоторых функций.\n\nЭтот вариант рекомендуется, поскольку он может упростить работу пользователя.\n\nТребуется устройство с root-доступом.</string>
     <string name="back_button">Кнопка Назад</string>
     <string name="files">Файлы</string>
     <string name="method_count">Кол-во способов</string>
@@ -620,4 +620,28 @@
     <string name="invalid_apk_file">Недопустимый файл АРК.</string>
     <string name="unlocker_not_installed">Не удалось обнаружить разблокировщик полной версии.</string>
     <string name="full_version_deactivated">Полная версия отключена</string>
+    <string name="sort">Сортировка</string>
+    <string name="filter">Фильтр</string>
+    <string name="shuffle">Перемешивание</string>
+    <string name="play">Воспроизведение</string>
+    <string name="checklist">Чеклист</string>
+    <string name="bold">Жирный</string>
+    <string name="italic">Курсив</string>
+    <string name="underline">Подчёркнутый</string>
+    <string name="strikethrough">Зачёркнутый</string>
+    <string name="subscript">Подстрочный</string>
+    <string name="superscript">Надстрочный</string>
+    <string name="highlight">Выделение</string>
+    <string name="info">Сведения</string>
+    <string name="menus">Меню</string>
+    <string name="contexts_in_bottom_menu">Контекст в нижнем меню</string>
+    <string name="bottom_menu_context_desc">Добавление меток под значками нижнего меню, чтобы прояснить их назначение и контекст.</string>
+    <string name="clear">Очистить</string>
+    <string name="uninstall_updates">Удалить обновления</string>
+    <string name="trackers_message">%1$d протестированных подписей в %2$d классах</string>
+    <string name="trackers_title">%1$d трекеры = %1$d классы</string>
+    <string name="inure_has_been_updated">Inure был обновлён, вы хотели бы видеть список изменений?</string>
+    <string name="refetching_data">Извлечение данных</string>
+    <string name="changes_are_not_saved_continue">Изменения не сохранены. Продолжить?</string>
+    <string name="title">Название</string>
 </resources>
