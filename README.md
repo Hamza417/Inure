@@ -25,9 +25,8 @@ An elegant Android app manager, currently in development
 
 ## Buy (Full Version)
 
-[![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
-[![](https://img.shields.io/badge/Full%20Unlocker%20(Payhip)-23a094?logo=payhip&logoColor=white)](https://payhip.com/b/D9ikG)
-[![](https://img.shields.io/badge/Full%20Unlocker%20(Play%20Store)-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
+[![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-Purchase-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
+[![](https://img.shields.io/badge/Full%20Unlocker%20(Play%20Store)-Purchase-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
 
 ## Featured
 
