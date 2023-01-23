@@ -228,6 +228,10 @@
     <string name="used_for_short">使用了 %1$s 分鐘</string>
     <string name="used_for_long">使用了 %1$s 小時 %2$s 分鐘</string>
     <string name="used_for_days">使用了 %1$s 天 %2$s 小時 %3$s 分鐘</string>
+    <string name="for_seconds">%1$sS</string>
+    <string name="for_short">%1$sM</string>
+    <string name="for_long">%1$sH:%2$sM</string>
+    <string name="for_days">%1$sD:%2$sH:%3$sM</string>
     <string name="last_used_seconds">%1$s 秒前</string>
     <string name="last_used_short">%1$s 分鐘前</string>
     <string name="last_used_long">%1$s 小時 %2$s 分鐘前</string>
@@ -641,4 +645,13 @@
     <string name="refetching_data">重新擷取資料</string>
     <string name="changes_are_not_saved_continue">變更尚未儲存，要繼續嗎？</string>
     <string name="title">標題</string>
+    <string name="sun">週日</string>
+    <string name="mon">週一</string>
+    <string name="tue">週二</string>
+    <string name="wed">週三</string>
+    <string name="thu">週四</string>
+    <string name="fri">週五</string>
+    <string name="sat">週六</string>
+    <string name="yesterday">昨天</string>
+    <string name="rest_of_the_week">其餘天</string>
 </resources>
