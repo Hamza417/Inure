@@ -55,7 +55,7 @@ class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerVie
                         else -> {
                             this.context.getString(R.string.used_for_days,
                                                    TimeUnit.MILLISECONDS.toDays(this@with).toString(),
-                                                   TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                   (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
                                                    (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                         }
                     }
@@ -81,7 +81,7 @@ class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerVie
                         else -> {
                             this.context.getString(R.string.last_used_days,
                                                    TimeUnit.MILLISECONDS.toDays(this@with).toString(),
-                                                   TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                   (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
                                                    (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                         }
                     }

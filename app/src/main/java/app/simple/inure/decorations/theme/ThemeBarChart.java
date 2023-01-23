@@ -40,6 +40,7 @@ public class ThemeBarChart extends BarChart implements SharedPreferences.OnShare
         setDrawBarShadow(false);
         setDrawValueAboveBar(true);
         setDrawBorders(false);
+        setDrawMarkers(true);
         setDrawGridBackground(false);
         getDescription().setEnabled(false);
         

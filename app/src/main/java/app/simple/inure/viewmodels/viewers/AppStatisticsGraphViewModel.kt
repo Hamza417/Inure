@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.app.usage.UsageEvents
+import android.content.Context
 import android.content.pm.PackageInfo
 import android.util.Log
 import androidx.collection.SparseArrayCompat
@@ -189,7 +190,15 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
     private fun loadPieChartData(packageStats: PackageStats) {
         viewModelScope.launch(Dispatchers.Default) {
             val context = applicationContext()
-            val pieEntries = arrayListOf<PieEntry>()
+            val pieEntries = arrayListOf(
+                    PieEntry(0f, ""),
+                    PieEntry(0f, ""),
+                    PieEntry(0f, ""),
+                    PieEntry(0f, ""),
+                    PieEntry(0f, ""),
+                    PieEntry(0f, ""),
+                    PieEntry(0f, "")
+            )
 
             packageStats.appUsage?.forEach {
                 when {
@@ -211,19 +220,93 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                             pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.yesterday)))
                         }
                     }
-                    else -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 2 -> {
                         try {
-                            val pieEntry = PieEntry(pieEntries[2].value + it.startTime, context.getString(R.string.rest_of_the_week))
+                            val pieEntry = PieEntry(pieEntries[2].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
                             pieEntries.remove(pieEntries[2])
                             pieEntries.add(2, pieEntry)
                         } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.rest_of_the_week)))
+                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
                         }
                     }
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 3 -> {
+                        try {
+                            val pieEntry = PieEntry(pieEntries[3].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
+                            pieEntries.remove(pieEntries[3])
+                            pieEntries.add(3, pieEntry)
+                        } catch (e: java.lang.IndexOutOfBoundsException) {
+                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
+                        }
+                    }
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 4 -> {
+                        try {
+                            val pieEntry = PieEntry(pieEntries[4].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
+                            pieEntries.remove(pieEntries[4])
+                            pieEntries.add(4, pieEntry)
+                        } catch (e: java.lang.IndexOutOfBoundsException) {
+                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
+                        }
+                    }
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 5 -> {
+                        try {
+                            val pieEntry = PieEntry(pieEntries[5].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
+                            pieEntries.remove(pieEntries[5])
+                            pieEntries.add(5, pieEntry)
+                        } catch (e: java.lang.IndexOutOfBoundsException) {
+                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
+                        }
+                    }
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 6 -> {
+                        try {
+                            val pieEntry = PieEntry(pieEntries[6].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
+                            pieEntries.remove(pieEntries[6])
+                            pieEntries.add(6, pieEntry)
+                        } catch (e: java.lang.IndexOutOfBoundsException) {
+                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
+                        }
+                    }
+                    //                    else -> {
+                    //                        try {
+                    //                            val pieEntry = PieEntry(pieEntries[7].value + it.startTime, context.getString(R.string.rest_of_the_week))
+                    //                            pieEntries.remove(pieEntries[7])
+                    //                            pieEntries.add(2, pieEntry)
+                    //                        } catch (e: java.lang.IndexOutOfBoundsException) {
+                    //                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.rest_of_the_week)))
+                    //                        }
+                    //                    }
                 }
             }
 
             pieChartData.postValue(pieEntries)
+        }
+    }
+
+    //    private fun calculateDailyAverage(pieEntries: List<PieEntry>) {
+    //        var tally = 0
+    //        var total = 0L
+    //
+    //        for (i in pieEntries.indices) {
+    //            if (pieEntries[i].value.isNotZero()) {
+    //                tally++
+    //                total += pieEntries[i].value.toLong()
+    //            }
+    //        }
+    //
+    //        val average = total / pieEntries.size
+    //
+    //        dailyAverage.postValue(average)
+    //    }
+
+    private fun Context.getWeekName(weekNumber: Int): String {
+        return when (weekNumber) {
+            7 -> getString(R.string.sun)
+            1 -> getString(R.string.mon)
+            2 -> getString(R.string.tue)
+            3 -> getString(R.string.wed)
+            4 -> getString(R.string.thu)
+            5 -> getString(R.string.fri)
+            6 -> getString(R.string.sat)
+            else -> ""
         }
     }
 

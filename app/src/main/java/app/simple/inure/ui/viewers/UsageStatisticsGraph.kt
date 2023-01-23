@@ -112,7 +112,7 @@ class UsageStatisticsGraph : ScopedFragment() {
                                 else -> {
                                     this.context.getString(R.string.used_for_days,
                                                            TimeUnit.MILLISECONDS.toDays(this@with).toString(),
-                                                           TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                           (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
                                                            (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                                 }
                             })
@@ -139,7 +139,7 @@ class UsageStatisticsGraph : ScopedFragment() {
                                 else -> {
                                     this.context.getString(R.string.last_used_days,
                                                            TimeUnit.MILLISECONDS.toDays(this@with).toString(),
-                                                           TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                           (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
                                                            (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                                 }
                             })
@@ -182,7 +182,7 @@ class UsageStatisticsGraph : ScopedFragment() {
                     setEntryLabelColor(ThemeManager.theme.textViewTheme.primaryTextColor)
                     setEntryLabelTextSize(9F)
                     setEntryLabelTypeface(TypeFace.getBoldTypeFace(requireContext()))
-                    valueFormatter = PercentFormatter()
+                    valueFormatter = PercentFormatter(pieChart)
                     setDrawIcons(true)
                     xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
                     yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
