@@ -112,6 +112,12 @@ class AudioServicePager : Service(),
                 ServiceConstants.actionTogglePausePager -> {
                     changePlayerState()
                 }
+                ServiceConstants.actionNextPager -> {
+                    playNext()
+                }
+                ServiceConstants.actionPreviousPager -> {
+                    playPrevious()
+                }
                 ServiceConstants.actionQuitMusicServicePager -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         stopForeground(STOP_FOREGROUND_REMOVE)
@@ -136,7 +142,7 @@ class AudioServicePager : Service(),
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            focusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)
+            focusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
                 .setAudioAttributes(AudioAttributes.Builder()
                                         .setUsage(AudioAttributes.USAGE_MEDIA)
                                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())

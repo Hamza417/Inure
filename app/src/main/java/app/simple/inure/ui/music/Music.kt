@@ -142,7 +142,7 @@ class Music : KeyboardScopedFragment() {
                         PopupMusicSort(view)
                     }
                     R.drawable.shuffle -> {
-                        musicViewModel.shuffleSongs()
+                        (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset((0..audioModels.size).random(), 150)
                     }
                     R.drawable.ic_play -> {
                         for (position in audioModels.indices) {

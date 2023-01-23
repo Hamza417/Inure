@@ -136,7 +136,6 @@ class AudioPlayerPager : ScopedFragment() {
                     startPostponedEnterTransition()
                 }
 
-                setLrc()
                 setMetaData(artPager.currentItem)
 
                 artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -149,7 +148,6 @@ class AudioPlayerPager : ScopedFragment() {
                             MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
                             requireArguments().putInt(BundleConstants.position, artPager.currentItem)
                             setMetaData(artPager.currentItem)
-                            setLrc()
                         }
                     }
                 })
@@ -170,7 +168,6 @@ class AudioPlayerPager : ScopedFragment() {
                     startPostponedEnterTransition()
                 }
 
-                setLrc()
                 setMetaData(artPager.currentItem)
 
                 artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -184,7 +181,6 @@ class AudioPlayerPager : ScopedFragment() {
                                 MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
                                 requireArguments().putInt(BundleConstants.position, artPager.currentItem)
                                 setMetaData(artPager.currentItem)
-                                setLrc()
                             }
                         }
                     }
@@ -340,6 +336,7 @@ class AudioPlayerPager : ScopedFragment() {
                 "." + audioModels!![position].path?.substringAfterLast("."),
                 audioModels!![position].bitrate.toBitrate(),
                 audioModels!![position].mimeType)
+        setLrc()
     }
 
     private fun buttonStatus(isPlaying: Boolean, animate: Boolean = true) {
