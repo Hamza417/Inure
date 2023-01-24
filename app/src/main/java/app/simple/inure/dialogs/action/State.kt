@@ -45,8 +45,10 @@ class State : ScopedBottomSheetFragment() {
                     "Done" -> {
                         loader.loaded()
                         if (getApplication<Application>().packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
+                            packageInfo.applicationInfo.enabled = true
                             status.setText(R.string.enabled)
                         } else {
+                            packageInfo.applicationInfo.enabled = false
                             status.setText(R.string.disabled)
                         }
                         onSuccess?.invoke()

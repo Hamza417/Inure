@@ -24,6 +24,7 @@ class DevelopmentScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        fullVersionCheck(goBack = false)
 
         recyclerView.adapter = AdapterDevelopmentPreferences()
     }

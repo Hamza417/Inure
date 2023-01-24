@@ -93,6 +93,7 @@ class NotesEditor : KeyboardScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fullVersionCheck()
 
         name.text = packageInfo.applicationInfo.name
         packageId.text = packageInfo.packageName

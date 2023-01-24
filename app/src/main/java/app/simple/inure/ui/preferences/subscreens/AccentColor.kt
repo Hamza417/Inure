@@ -71,6 +71,7 @@ class AccentColor : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fullVersionCheck()
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         recyclerView.adapter = adapterAccentColor
     }

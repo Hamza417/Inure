@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
+import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
@@ -182,6 +184,19 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     open fun showWarning(@StringRes warning: Int) {
         childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
             dismiss()
+        }
+    }
+
+    open fun fullVersionCheck(goBack: Boolean = true): Boolean {
+        return if (MainPreferences.isAppFullVersionEnabled()) {
+            true
+        } else {
+            childFragmentManager.showFullVersion().setFullVersionCallbacks {
+                if (goBack) {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
+            }
+            false
         }
     }
 }

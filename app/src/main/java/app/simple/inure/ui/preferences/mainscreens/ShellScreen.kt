@@ -45,6 +45,7 @@ class ShellScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        fullVersionCheck()
 
         sendMouseEvent.setChecked(ShellPreferences.getMouseEventState())
         closeWindow.setChecked(ShellPreferences.getCloseWindowOnExitState())

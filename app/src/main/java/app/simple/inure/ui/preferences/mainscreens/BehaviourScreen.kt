@@ -93,11 +93,15 @@ class BehaviourScreen : ScopedFragment() {
         }
 
         transitionType.setOnClickListener {
-            PopupTransitionType(it)
+            if (fullVersionCheck(goBack = false)) {
+                PopupTransitionType(it)
+            }
         }
 
         arcType.setOnClickListener {
-            PopupArcType(it)
+            if (fullVersionCheck(goBack = false)) {
+                PopupArcType(it)
+            }
         }
 
         dampingRatio.setOnClickListener {

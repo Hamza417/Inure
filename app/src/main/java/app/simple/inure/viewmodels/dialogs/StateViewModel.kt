@@ -12,7 +12,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class StateViewModel(application: Application, val packageInfo: PackageInfo) : RootViewModel(application) {
+class StateViewModel(application: Application, private val packageInfo: PackageInfo) : RootViewModel(application) {
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }

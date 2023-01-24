@@ -304,12 +304,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    open fun fullVersionCheck(): Boolean {
+    open fun fullVersionCheck(goBack: Boolean = true): Boolean {
         return if (MainPreferences.isAppFullVersionEnabled()) {
             true
         } else {
             childFragmentManager.showFullVersion().setFullVersionCallbacks {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                if (goBack) {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
             }
             false
         }

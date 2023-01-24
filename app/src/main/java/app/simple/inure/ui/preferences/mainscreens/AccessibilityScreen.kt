@@ -82,7 +82,9 @@ class AccessibilityScreen : ScopedFragment() {
         }
 
         divider.setOnSwitchCheckedChangeListener {
-            AccessibilityPreferences.setDivider(it)
+            if (fullVersionCheck(goBack = false)) {
+                AccessibilityPreferences.setDivider(it)
+            }
         }
 
         reduceAnimations.setOnSwitchCheckedChangeListener {

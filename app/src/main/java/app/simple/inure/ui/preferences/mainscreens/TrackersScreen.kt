@@ -24,6 +24,7 @@ class TrackersScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        fullVersionCheck()
 
         showAllClassesSwitch.setChecked(TrackersPreferences.isFullClassesList())
 
