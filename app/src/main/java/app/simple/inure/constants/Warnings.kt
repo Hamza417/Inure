@@ -17,4 +17,9 @@ object Warnings {
      * InureWarning03: Unknown app state detected!
      */
     fun getInureWarning03(): String = "0x003: Unknown app state detected!"
+
+    /**
+     * InureWarning04: Invalid unlocker detected
+     */
+    fun getInureWarning04(): String = "0x004: Invalid unlocker package detected or unlocker integrity has been compromised!"
 }

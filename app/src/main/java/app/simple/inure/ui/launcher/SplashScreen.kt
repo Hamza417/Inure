@@ -17,11 +17,13 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.core.app.AppOpsManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.Misc
+import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
@@ -32,6 +34,7 @@ import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.viewmodels.launcher.LauncherViewModel
 import app.simple.inure.viewmodels.panels.*
 import app.simple.inure.viewmodels.viewers.SensorsViewModel
 import kotlinx.coroutines.delay
@@ -56,6 +59,8 @@ class SplashScreen : ScopedFragment() {
     private var isFrequentlyUsedLoaded = false
     private var isBatteryOptimizationLoaded = false
     private var isBootManagerLoaded = false
+
+    private val launcherViewModel: LauncherViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -260,6 +265,17 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun unlockStateChecker() {
+        launcherViewModel.getHasValidCertificate().observe(viewLifecycleOwner) {
+            if (it) {
+                Log.d(TAG, "Valid certificate found")
+                /* no-op */
+            } else {
+                showWarning(Warnings.getInureWarning04(), goBack = false)
+                MainPreferences.setFullVersion(false)
+                MainPreferences.resetUnlockerWarningCount()
+            }
+        }
+
         if (MainPreferences.isTrialWithoutFull()) {
             if (MainPreferences.isFullVersion()) {
                 daysLeft.gone()
