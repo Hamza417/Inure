@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="unknown">未知</string>
-    <string name="not_available">N/A</string>
+    <string name="not_available">不適用</string>
     <string name="app_information">應用程式資訊</string>
     <string name="launch">啟動</string>
     <string name="kill">终止</string>
@@ -14,9 +14,9 @@
     <string name="app_size">應用程式大小</string>
     <string name="reversed">遞減</string>
     <string name="apps_category">應用程式類別</string>
-    <string name="system">系统</string>
+    <string name="system">系統</string>
     <string name="user">使用者</string>
-    <string name="both">全部</string>
+    <string name="both">兩者</string>
     <string name="app_typeface">應用程式字樣</string>
     <string name="desc_app_typeface">變更應用程式字型樣式 (僅英文字符)。</string>
     <string name="appearance">外觀</string>
@@ -25,7 +25,7 @@
     <string name="total_sensors">%1$s 個感應器</string>
     <string name="total_notes">%1$s 則附註</string>
     <string name="apps">應用程式</string>
-    <string name="configuration_button">組態按鈕</string>
+    <string name="configuration_button">顯示設定按鈕</string>
     <string name="search_button">搜尋按鈕</string>
     <string name="sorting_style">排序樣式</string>
     <string name="open_application_settings">開啟應用程式設定…</string>
