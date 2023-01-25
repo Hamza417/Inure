@@ -228,6 +228,10 @@
     <string name="used_for_short">Usato per %1$s minuti</string>
     <string name="used_for_long">Usato per %1$s ore e %2$s minuti</string>
     <string name="used_for_days">Usato per %1$s giorni, %2$s ore e %3$s minuti</string>
+    <string name="for_seconds">%1$sS</string>
+    <string name="for_short">%1$sM</string>
+    <string name="for_long">%1$sH:%2$sM</string>
+    <string name="for_days">%1$sD:%2$sH:%3$sM</string>
     <string name="last_used_seconds">%1$s secondi fa</string>
     <string name="last_used_short">%1$s minuti fa</string>
     <string name="last_used_long">%1$s ore e %2$s minuti fa</string>
@@ -640,4 +644,14 @@
     <string name="inure_has_been_updated">Inure è stato aggiornato, vuoi vedere il registro modifiche?</string>
     <string name="refetching_data">Ricarica dati</string>
     <string name="changes_are_not_saved_continue">Le modifiche non sono salvate, continuare?</string>
+    <string name="title">Titolo</string>
+    <string name="sun">Dom</string>
+    <string name="mon">Lun</string>
+    <string name="tue">Mar</string>
+    <string name="wed">Mer</string>
+    <string name="thu">Gio</string>
+    <string name="fri">Ven</string>
+    <string name="sat">Sab</string>
+    <string name="yesterday">Ieri</string>
+    <string name="weekly_usage">Dati di utilizzo settimanali</string>
 </resources>
