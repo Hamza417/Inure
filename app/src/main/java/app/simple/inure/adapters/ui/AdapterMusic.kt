@@ -35,7 +35,8 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                                .inflate(R.layout.adapter_music, parent, false))
                 }
                 else -> {
-                    throw IllegalArgumentException("there is no type that matches the type $viewType, make sure your using types correctly")
+                    throw IllegalArgumentException("there is no type that matches the type" +
+                                                           " $viewType, make sure your using types correctly")
                 }
             }
         } else {
@@ -46,6 +47,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
         val position = if (headerMode) position_ - 1 else position_
+        val minusValue = if (headerMode) 1 else 0
 
         if (holder is Holder) {
             holder.title.text = list[position].title
@@ -57,15 +59,17 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             holder.container.setDefaultBackground(MusicPreferences.getLastMusicId() == list[position].id)
 
             holder.container.setOnClickListener {
-                id = list[position].id
-                MusicPreferences.setMusicPosition(position)
-                musicCallbacks?.onMusicClicked(list[position], holder.art, position)
+                id = list[holder.bindingAdapterPosition.minus(minusValue)].id
+                MusicPreferences.setMusicPosition(holder.bindingAdapterPosition.minus(minusValue))
+                musicCallbacks?.onMusicClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
+                                               holder.art, holder.bindingAdapterPosition.minus(minusValue))
                 // We need the animations, this will break it
                 // updateHighlightedSongState()
             }
 
             holder.container.setOnLongClickListener {
-                musicCallbacks?.onMusicLongClicked(list[holder.bindingAdapterPosition.minus(1)], holder.art, holder.bindingAdapterPosition.minus(1), it)
+                musicCallbacks?.onMusicLongClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
+                                                   holder.art, holder.bindingAdapterPosition.minus(minusValue), it)
                 true
             }
         } else if (holder is Header) {
@@ -115,10 +119,17 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
     }
 
     fun updateDeleted(position: Int) {
-        list.removeAt(position)
-        notifyItemChanged(0)
-        notifyItemRemoved(position.plus(1))
-        notifyItemRangeChanged(0, list.size)
+        if (headerMode) {
+            list.removeAt(position)
+            notifyItemChanged(0)
+            notifyItemRemoved(position.plus(1))
+            notifyItemRangeChanged(0, list.size)
+        } else {
+            list.removeAt(position)
+            notifyItemChanged(0)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(0, list.size)
+        }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

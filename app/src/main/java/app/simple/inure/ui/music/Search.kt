@@ -28,6 +28,7 @@ import app.simple.inure.interfaces.menus.PopupMusicMenuCallbacks
 import app.simple.inure.models.AudioModel
 import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.preferences.MusicPreferences
+import app.simple.inure.services.AudioServicePager
 import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
@@ -40,7 +41,11 @@ class Search : KeyboardScopedFragment() {
     private lateinit var searchBox: TypeFaceEditText
     private lateinit var clear: DynamicRippleImageButton
     private lateinit var searchContainer: LinearLayout
+
     private lateinit var musicViewModel: MusicViewModel
+    private var adapterMusic: AdapterMusic? = null
+
+    private var deletedId = -1L
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_music_search, container, false)
@@ -87,9 +92,9 @@ class Search : KeyboardScopedFragment() {
         }
 
         musicViewModel.getSearched().observe(viewLifecycleOwner) {
-            val adapterMusic = AdapterMusic(it, false)
+            adapterMusic = AdapterMusic(it, false)
 
-            adapterMusic.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
+            adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
                     openFragmentArc(AudioPlayerPager.newInstance(position, fromSearch = true), art, "audio_player_pager")
                     requireArguments().putInt(BundleConstants.position, position)
@@ -106,6 +111,7 @@ class Search : KeyboardScopedFragment() {
                         override fun onDelete(uri: Uri) {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
+                                    deletedId = audioModel.id
                                     musicViewModel.deleteSong(uri, position)
                                 }
                             })
@@ -154,6 +160,22 @@ class Search : KeyboardScopedFragment() {
             }
         }
 
+        musicViewModel.getDeleted().observe(viewLifecycleOwner) {
+            if (deletedId != -1L) {
+                adapterMusic?.updateDeleted(it)
+
+                if (deletedId == MusicPreferences.getLastMusicId()) {
+                    try {
+                        requireContext().stopService(Intent(requireContext(), AudioServicePager::class.java))
+                    } catch (e: IllegalStateException) {
+                        e.printStackTrace()
+                    }
+                }
+
+                deletedId = -1L
+            }
+        }
+
         clear.setOnClickListener {
             searchBox.text?.clear()
             MusicPreferences.setSearchKeyword("")
@@ -175,6 +197,14 @@ class Search : KeyboardScopedFragment() {
         when (key) {
             MusicPreferences.searchKeyword -> {
                 musicViewModel.loadSearched(MusicPreferences.getSearchKeyword())
+            }
+            MusicPreferences.lastMusicId -> {
+                adapterMusic?.updateHighlightedSongState()
+            }
+            MusicPreferences.musicSort,
+            MusicPreferences.musicSortReverse -> {
+                MusicPreferences.setMusicPosition(-1)
+                musicViewModel.sortSongs()
             }
         }
     }

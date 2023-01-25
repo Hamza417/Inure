@@ -160,14 +160,18 @@ class Music : KeyboardScopedFragment() {
         }
 
         musicViewModel.getDeleted().observe(viewLifecycleOwner) {
-            adapterMusic?.updateDeleted(it)
+            if (it != -1) {
+                adapterMusic?.updateDeleted(it)
 
-            if (deletedId == MusicPreferences.getLastMusicId()) {
-                try {
-                    requireContext().stopService(Intent(requireContext(), AudioServicePager::class.java))
-                } catch (e: IllegalStateException) {
-                    e.printStackTrace()
+                if (deletedId == MusicPreferences.getLastMusicId()) {
+                    try {
+                        requireContext().stopService(Intent(requireContext(), AudioServicePager::class.java))
+                    } catch (e: IllegalStateException) {
+                        e.printStackTrace()
+                    }
                 }
+
+                musicViewModel.setDeleted(-1)
             }
         }
 
