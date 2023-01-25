@@ -102,6 +102,12 @@ public class CalendarUtils {
         return isSameDay(date, yesterday.getTime());
     }
     
+    public static boolean isBeforeYesterday(long date, int dayOffset) {
+        Calendar yesterday = Calendar.getInstance();
+        yesterday.add(Calendar.DATE, dayOffset);
+        return isSameDay(new Date(date), yesterday.getTime());
+    }
+    
     /**
      * <p>Checks if the first calendar date is before the second calendar date ignoring time.</p>
      *

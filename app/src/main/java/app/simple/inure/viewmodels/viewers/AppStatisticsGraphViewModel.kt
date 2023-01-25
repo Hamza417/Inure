@@ -139,10 +139,15 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
 
         if (mobileData.containsKey(uid)) {
             packageStats.mobileData = mobileData[uid]
-        } else packageStats.mobileData = DataUsage.EMPTY
+        } else {
+            packageStats.mobileData = DataUsage.EMPTY
+        }
+
         if (wifiData.containsKey(uid)) {
             packageStats.wifiData = wifiData[uid]
-        } else packageStats.wifiData = DataUsage.EMPTY
+        } else {
+            packageStats.wifiData = DataUsage.EMPTY
+        }
     }
 
     private fun loadChartData(packageStats: PackageStats) {
@@ -202,7 +207,8 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
 
             packageStats.appUsage?.forEach {
                 when {
-                    CalendarUtils.isToday(it.date) -> {
+                    CalendarUtils.isToday(it.date) -> { // Today
+                        Log.d("TAG", "loadPieChartData: Today 0 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
                         try {
                             val pieEntry = PieEntry(pieEntries[0].value + it.startTime, context.getString(R.string.today))
                             pieEntries.remove(pieEntries[0])
@@ -211,7 +217,8 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                             pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.today)))
                         }
                     }
-                    CalendarUtils.isYesterday(Date(it.date)) -> {
+                    CalendarUtils.isYesterday(Date(it.date)) -> { // Yesterday
+                        Log.d("TAG", "loadPieChartData: Yesterday 1 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
                         try {
                             val pieEntry = PieEntry(pieEntries[1].value + it.startTime, context.getString(R.string.yesterday))
                             pieEntries.remove(pieEntries[1])
@@ -220,7 +227,8 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                             pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.yesterday)))
                         }
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 2 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 2 -> { // 2 days ago
+                        Log.d("TAG", "loadPieChartData: 2 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
                         try {
                             val pieEntry = PieEntry(pieEntries[2].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
                             pieEntries.remove(pieEntries[2])
@@ -229,7 +237,8 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                             pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
                         }
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 3 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 3 -> { // 3 days ago
+                        Log.d("TAG", "loadPieChartData: 3 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
                         try {
                             val pieEntry = PieEntry(pieEntries[3].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
                             pieEntries.remove(pieEntries[3])
@@ -238,7 +247,8 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                             pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
                         }
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 4 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 4 -> { // 4 days ago
+                        Log.d("TAG", "loadPieChartData: 4 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
                         try {
                             val pieEntry = PieEntry(pieEntries[4].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
                             pieEntries.remove(pieEntries[4])
@@ -247,7 +257,8 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                             pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
                         }
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 5 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 5 -> { // 5 days ago
+                        Log.d("TAG", "loadPieChartData: 5 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
                         try {
                             val pieEntry = PieEntry(pieEntries[5].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
                             pieEntries.remove(pieEntries[5])
@@ -256,7 +267,8 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                             pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
                         }
                     }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 6 -> {
+                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 6 -> { // 6 days ago
+                        Log.d("TAG", "loadPieChartData: 6 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
                         try {
                             val pieEntry = PieEntry(pieEntries[6].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
                             pieEntries.remove(pieEntries[6])

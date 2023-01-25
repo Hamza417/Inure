@@ -76,7 +76,7 @@ public class DataUsage extends Pair <Long, Long> implements Parcelable, Comparab
     @NonNull
     @Override
     public String toString() {
-        return "↓ " + FileSizeHelper.INSTANCE.toSize(first)
-                + " : ↑ " + FileSizeHelper.INSTANCE.toSize(second);
+        return "↑ " + FileSizeHelper.INSTANCE.toSize(first)
+                + " : ↓ " + FileSizeHelper.INSTANCE.toSize(second);
     }
 }
