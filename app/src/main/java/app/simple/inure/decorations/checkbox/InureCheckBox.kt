@@ -97,6 +97,10 @@ class InureCheckBox @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
+    fun isChecked(): Boolean {
+        return isChecked
+    }
+
     fun setCheckedWithoutAnimations(boolean: Boolean) {
         isChecked = if (boolean) {
             checked()

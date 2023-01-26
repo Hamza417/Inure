@@ -53,7 +53,7 @@ public class AddShortcut extends TransparentBaseActivity {
     //////////////////////////////////////////////////////////////////////
     void makeShortcut() {
         TerminalAddShortcut terminalAddShortcut = TerminalAddShortcut.Companion.newInstance();
-        terminalAddShortcut.setTerminalAddShortcutCallbacks((path, args, label) -> {
+        terminalAddShortcut.setTerminalAddShortcutCallbacks((path, args, label, quoteForBash) -> {
             AddShortcut.this.path = path;
             name = label;
             //            editTexts[PATH].setText(path);
@@ -61,12 +61,13 @@ public class AddShortcut extends TransparentBaseActivity {
             //                editTexts[ARGS].setText(args);
             //            }
             //            editTexts[NAME].setText(label);
-        
+    
             buildShortcut(
                     path,
                     args,
                     name,
                     iconText[1] /* empty value */,
+                    quoteForBash,
                     0 /* Random Value */);
         });
     
@@ -201,7 +202,7 @@ public class AddShortcut extends TransparentBaseActivity {
     }
     
     //////////////////////////////////////////////////////////////////////
-    void buildShortcut(String path, String arguments, String shortcutName, String shortcutText, @SuppressWarnings ("SameParameterValue") int shortcutColor) {
+    void buildShortcut(String path, String arguments, String shortcutName, String shortcutText, boolean quoteForBash, @SuppressWarnings ("SameParameterValue") int shortcutColor) {
         // Apply workarounds for SecureRandom bugs in Android < 4.4
         PRNGFixes.apply();
         ShortcutEncryption.Keys keys = ShortcutEncryption.getKeys(context);
@@ -215,22 +216,31 @@ public class AddShortcut extends TransparentBaseActivity {
             }
             ShortcutEncryption.saveKeys(context, keys);
         }
+        
         StringBuilder cmd = new StringBuilder();
+        
         if (path != null && !path.equals("")) {
-            cmd.append(RemoteInterface.quoteForBash(path));
+            if (quoteForBash) {
+                cmd.append(RemoteInterface.quoteForBash(path));
+            } else {
+                cmd.append(path);
+            }
         }
+        
         if (arguments != null && !arguments.equals("")) {
             cmd.append(" ").append(arguments);
         }
+        
         String cmdStr = cmd.toString();
         String cmdEnc;
+        
         try {
             cmdEnc = ShortcutEncryption.encrypt(cmdStr, keys);
-        } catch (
-                GeneralSecurityException e) {
+        } catch (GeneralSecurityException e) {
             Log.e(TermDebug.LOG_TAG, "Shortcut encryption failed: " + e);
             throw new RuntimeException(e);
         }
+        
         Intent target = new Intent().setClass(context, RunShortcut.class);
         target.setAction(RunShortcut.ACTION_RUN_SHORTCUT);
         target.putExtra(RunShortcut.EXTRA_SHORTCUT_COMMAND, cmdEnc);
@@ -238,6 +248,7 @@ public class AddShortcut extends TransparentBaseActivity {
         Log.d(TermDebug.LOG_TAG, "Shortcut command (encrypted): " + cmdEnc);
         target.putExtra(RunShortcut.EXTRA_WINDOW_HANDLE, shortcutName);
         target.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        
         Intent wrapper = new Intent();
         wrapper.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
         wrapper.putExtra(Intent.EXTRA_SHORTCUT_INTENT, target);
@@ -250,6 +261,7 @@ public class AddShortcut extends TransparentBaseActivity {
             wrapper.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(context, R.mipmap.ic_terminal));
         }
         Log.d(TermDebug.LOG_TAG, "Sending shortcut broadcast: " + wrapper);
+        
         setResult(RESULT_OK, wrapper);
         finish();
     }

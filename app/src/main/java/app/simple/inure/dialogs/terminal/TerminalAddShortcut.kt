@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
@@ -16,6 +17,7 @@ class TerminalAddShortcut : ScopedBottomSheetFragment() {
     private lateinit var command: TypeFaceEditText
     private lateinit var args: TypeFaceEditText
     private lateinit var label: TypeFaceEditText
+    private lateinit var quoteForBash: InureCheckBox
     private lateinit var save: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
 
@@ -27,6 +29,7 @@ class TerminalAddShortcut : ScopedBottomSheetFragment() {
         command = view.findViewById(R.id.command_edit_text)
         args = view.findViewById(R.id.args_edit_text)
         label = view.findViewById(R.id.label_edit_text)
+        quoteForBash = view.findViewById(R.id.quote_checkbox)
         save = view.findViewById(R.id.save)
         cancel = view.findViewById(R.id.cancel)
 
@@ -36,7 +39,7 @@ class TerminalAddShortcut : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        args.setOnFocusChangeListener { v, hasFocus ->
+        args.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 var s: String = args.text.toString()
                 if (label.text.toString() == "" && args.text.toString().also { s = it } != "") {
@@ -50,7 +53,8 @@ class TerminalAddShortcut : ScopedBottomSheetFragment() {
                 ?.onShortcutAdded(
                         command.text.toString(),
                         args.text.toString(),
-                        label.text.toString())
+                        label.text.toString(),
+                        quoteForBash.isChecked())
         }
 
         cancel.setOnClickListener {

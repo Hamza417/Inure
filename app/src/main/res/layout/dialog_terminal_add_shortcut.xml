@@ -104,12 +104,29 @@
             app:textColorStyle="primary" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/dialog_padding"
             android:animateLayoutChanges="true"
             android:orientation="horizontal">
+
+            <app.simple.inure.decorations.checkbox.InureCheckBox
+                android:id="@+id/quote_checkbox"
+                android:layout_width="@dimen/checkbox_dimensions"
+                android:layout_height="@dimen/checkbox_dimensions"
+                android:layout_gravity="center_vertical" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/popup_padding"
+                android:layout_weight="1"
+                android:text="@string/quote_for_bash"
+                android:textSize="@dimen/desc_text_size"
+                app:appFontStyle="medium"
+                app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/cancel"

@@ -28,6 +28,7 @@ public final class RunShortcut extends RemoteInterface {
     
     public static final String EXTRA_WINDOW_HANDLE = "inure.terminal.window_handle";
     public static final String EXTRA_SHORTCUT_COMMAND = "inure.terminal.iShortcutCommand";
+    public static final String EXTRA_SHORTCUT_QOT_FOR_BASH = "inure.terminal.iShortcutQotForBash";
     
     @Override
     protected void handleIntent() {
