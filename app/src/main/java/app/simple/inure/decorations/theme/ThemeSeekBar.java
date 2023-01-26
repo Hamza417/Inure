@@ -1,5 +1,7 @@
 package app.simple.inure.decorations.theme;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -218,11 +220,47 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     
     public void updateProgress(int value) {
         clearProgressAnimation();
-    
+        
         primaryProgressAnimator = ObjectAnimator.ofInt(this, "progress", getProgress(), value);
         primaryProgressAnimator.setDuration(1000L);
         primaryProgressAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
         primaryProgressAnimator.setAutoCancel(true);
+        primaryProgressAnimator.start();
+    }
+    
+    public void updateProgress(int value, int max) {
+        clearProgressAnimation();
+        
+        primaryProgressAnimator = ObjectAnimator.ofInt(this, "progress", getProgress(), value);
+        primaryProgressAnimator.setDuration(950L);
+        primaryProgressAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
+        primaryProgressAnimator.setAutoCancel(true);
+        primaryProgressAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                if (getProgress() == 0) {
+                    setMax(max);
+                }
+            }
+            
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (getMax() != max) {
+                    setMax(max);
+                }
+            }
+            
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                super.onAnimationCancel(animation);
+                if (getMax() != max) {
+                    setMax(max);
+                }
+            }
+        });
+        
         primaryProgressAnimator.start();
     }
     

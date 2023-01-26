@@ -17,86 +17,107 @@
 
 <!-- Write change logs here -->
 
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added changes not saved yet warning in <b>Notes Editor</b> panel.</li>
-    <li>Added support for <i>Android 13 Themed Icons</i>.</li>
-</ul>
-
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed highlight color issue in <i>Material You</i> theme.</li>
-</ul>
-
-<h4>Music</h4>
-
-<ul>
-    <li>Fixed metadata issue in <i>Audio Player</i>.</li>
-    <li>Fixed few issues</li>
-    <li>Removed internal bitmap processing from due to it causing huge lag in SystemUI and rendering
-        it unusable for a few seconds.
-        <br>
-        <small>It's an Android API bug and should be treated as such. If you're using lock screen
-               album art like feature, it won't work anymore.</small>
-    </li>
-    <li>Fixed notifications on older Android versions.</li>
-    <li>Changed AudioFocus property.</li>
-    <li>Fixed wrong music playing issue after a file is deleted.</li>
-    <li>Felicity music icon.</li>
-</ul>
-
-<h4>Terminal</h4>
-
-<ul>
-    <li>Redesigned <i>Add Shortcut</i> dialog based on Inure design.</li>
-    <li>Fixed shortcut command not working on shortcut launch.</li>
-    <li>Disabled <i>FSNavigator</i> activity from <b>Terminal</b> framework.
-        <br>
-        <small>
-            I don't think we'll ever need it, if you do, enable the activity from <i>Activities</i>
-            panel for Inure.
-        </small>
-    </li>
-    <li>Fixed crashes on changing terminal windows.</li>
-    <li>Added a new dialog to specify window titles.
-        <br>
-        <small>If you leave the text box empty and hit create, it will use the default name
-               convention.</small>
-    </li>
-    <li>Fixed windows losing position state when <i>Terminal</i> activity is recreated.
-        <br>
-        <small>It should now work even when the app is closed and terminal is reopened from the
-               notification.</small>
-    </li>
-    <li>Fixed <i>Paste</i> button state.</li>
-</ul>
-
-<h4>Usage Stats (App)</h4>
-
-<ul>
-    <li>Redesigned whole panel's interface.</li>
-    <li>Added bar chart based data organization.</li>
-    <li>Added pie chart representation to analyze percentage of app usage on daily basis.</li>
-    <li>Removed raw data based <i>Usage Stats</i> panel.
-        <br>
-        <small>If you still need it, you can enable it from <b>Development Preferences</b>.</small>
-    </li>
-    <li>Fixed some time data formatting issues.</li>
-</ul>
-
-<h4>Unlocker</h4>
-
-<ul>
-    <li>Added offline unlocker integrity test.</li>
-    <li>Revisited which feature needs to be in Premium version.
-        <br>
-        <small>This updated limits some more features in the free version.</small>
-    </li>
+    <li>Fixed seekbar glitches.</li>
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input class="toggle" id="build_61" type="checkbox">
+    <label class="lbl-toggle" for="build_61">Build61</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added changes not saved yet warning in <b>Notes Editor</b> panel.</li>
+                <li>Added support for <i>Android 13 Themed Icons</i>.</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed highlight color issue in <i>Material You</i> theme.</li>
+            </ul>
+
+            <h4>Music</h4>
+
+            <ul>
+                <li>Fixed metadata issue in <i>Audio Player</i>.</li>
+                <li>Fixed few issues</li>
+                <li>Removed internal bitmap processing from due to it causing huge lag in SystemUI
+                    and rendering
+                    it unusable for a few seconds.
+                    <br>
+                    <small>It's an Android API bug and should be treated as such. If you're using
+                           lock screen
+                           album art like feature, it won't work anymore.</small>
+                </li>
+                <li>Fixed notifications on older Android versions.</li>
+                <li>Changed AudioFocus property.</li>
+                <li>Fixed wrong music playing issue after a file is deleted.</li>
+                <li>Felicity music icon.</li>
+            </ul>
+
+            <h4>Terminal</h4>
+
+            <ul>
+                <li>Redesigned <i>Add Shortcut</i> dialog based on Inure design.</li>
+                <li>Fixed shortcut command not working on shortcut launch.</li>
+                <li>Disabled <i>FSNavigator</i> activity from <b>Terminal</b> framework.
+                    <br>
+                    <small>
+                        I don't think we'll ever need it, if you do, enable the activity from <i>Activities</i>
+                        panel for Inure.
+                    </small>
+                </li>
+                <li>Fixed crashes on changing terminal windows.</li>
+                <li>Added a new dialog to specify window titles.
+                    <br>
+                    <small>If you leave the text box empty and hit create, it will use the default
+                           name
+                           convention.</small>
+                </li>
+                <li>Fixed windows losing position state when <i>Terminal</i> activity is recreated.
+                    <br>
+                    <small>It should now work even when the app is closed and terminal is reopened
+                           from the
+                           notification.</small>
+                </li>
+                <li>Fixed <i>Paste</i> button state.</li>
+            </ul>
+
+            <h4>Usage Stats (App)</h4>
+
+            <ul>
+                <li>Redesigned whole panel's interface.</li>
+                <li>Added bar chart based data organization.</li>
+                <li>Added pie chart representation to analyze percentage of app usage on daily
+                    basis.
+                </li>
+                <li>Removed raw data based <i>Usage Stats</i> panel.
+                    <br>
+                    <small>If you still need it, you can enable it from <b>Development
+                                                                           Preferences</b>.</small>
+                </li>
+                <li>Fixed some time data formatting issues.</li>
+            </ul>
+
+            <h4>Unlocker</h4>
+
+            <ul>
+                <li>Added offline unlocker integrity test.</li>
+                <li>Revisited which feature needs to be in Premium version.
+                    <br>
+                    <small>This updated limits some more features in the free version.</small>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input class="toggle" id="build_60" type="checkbox">

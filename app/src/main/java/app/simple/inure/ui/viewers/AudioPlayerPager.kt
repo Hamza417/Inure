@@ -6,6 +6,7 @@ import android.content.*
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -218,7 +219,7 @@ class AudioPlayerPager : ScopedFragment() {
                     }
                     ServiceConstants.actionMetaDataPager -> {
                         try {
-                            seekBar.max = audioServicePager?.getDuration()!!
+                            handler.removeCallbacks(progressRunnable)
                             duration.text = NumberUtils.getFormattedTime(audioServicePager?.getDuration()?.toLong()!!)
                             handler.post(progressRunnable)
                             loader.gone(animate = true)
@@ -441,7 +442,9 @@ class AudioPlayerPager : ScopedFragment() {
     private val progressRunnable: Runnable = object : Runnable {
         override fun run() {
             currentSeekPosition = audioServicePager?.getProgress()!!
-            seekBar.updateProgress(currentSeekPosition)
+            seekBar.updateProgress(currentSeekPosition, audioServicePager?.getDuration()!!)
+            Log.d("ProgressBar", "Current Seek Position: $currentSeekPosition")
+            Log.d("ProgressBar", "Current Duration: ${audioServicePager?.getDuration()!!}")
             lrcView.updateTime(currentSeekPosition.toLong())
             progress.text = NumberUtils.getFormattedTime(currentSeekPosition.toLong())
             handler.postDelayed(this, 1000L)
