@@ -242,7 +242,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    list.add(Pair(R.drawable.ic_felicity, R.string.music))
+                    list.add(Pair(R.drawable.ic_music_note, R.string.music))
                 }
             }
 

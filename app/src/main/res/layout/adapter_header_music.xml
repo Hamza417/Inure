@@ -34,7 +34,7 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/music"
-            app:srcCompat="@drawable/ic_felicity"
+            app:srcCompat="@drawable/ic_music_note"
             android:transitionName="@string/music" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
