@@ -16,7 +16,7 @@ Repo: https://github.com/Hamza417/Inure
 Builds:
   - versionName: build61_final (beta)
     versionCode: 61
-    commit: 81147ecdd417c74f3b9a7e332b5830541d0dde81
+    commit: 00ed6166680e1d56f2195175b9bc28b888896624
     subdir: app
     gradle:
       - github
