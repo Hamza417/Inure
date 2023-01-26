@@ -1,10 +1,10 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'project-report'
-    id 'org.jetbrains.kotlin.android'
-}
+    plugins {
+        id 'com.android.application'
+        id 'kotlin-android'
+        id 'kotlin-kapt'
+        id 'project-report'
+        id 'org.jetbrains.kotlin.android'
+    }
 
 android {
 
@@ -18,8 +18,8 @@ android {
         applicationId "app.simple.inure"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 60
-        versionName "build60_final (beta)"
+        versionCode 61
+        versionName "build61_final (beta)"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

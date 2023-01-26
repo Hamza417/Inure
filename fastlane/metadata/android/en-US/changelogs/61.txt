@@ -1,0 +1,4 @@
+- Updated Terminal UI and fixed all issues
+- Fixed many bugs
+- Update Usage Stats UI
+- Unlocker integrity test

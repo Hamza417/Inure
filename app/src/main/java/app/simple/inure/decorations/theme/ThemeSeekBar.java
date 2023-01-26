@@ -1,6 +1,5 @@
 package app.simple.inure.decorations.theme;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -219,32 +218,11 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     
     public void updateProgress(int value) {
         clearProgressAnimation();
+    
         primaryProgressAnimator = ObjectAnimator.ofInt(this, "progress", getProgress(), value);
         primaryProgressAnimator.setDuration(1000L);
         primaryProgressAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
         primaryProgressAnimator.setAutoCancel(true);
-        primaryProgressAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-            
-            }
-            
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                invalidate();
-                requestLayout();
-            }
-            
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            
-            }
-            
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            
-            }
-        });
         primaryProgressAnimator.start();
     }
     
@@ -254,28 +232,6 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         secondaryProgressAnimator.setDuration(1000L);
         secondaryProgressAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
         secondaryProgressAnimator.setAutoCancel(true);
-        secondaryProgressAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-            
-            }
-            
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                invalidate();
-                requestLayout();
-            }
-            
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            
-            }
-            
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            
-            }
-        });
         secondaryProgressAnimator.start();
     }
     

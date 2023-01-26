@@ -219,9 +219,9 @@
                 android:layout_weight="1"
                 android:drawablePadding="@dimen/popup_padding"
                 android:gravity="center_vertical"
-                android:text="Inure Mini Player"
+                android:text="Felicity Mini Player"
                 app:appFontStyle="regular"
-                app:drawableLeftCompat="@drawable/ic_main_app_icon_regular"
+                app:drawableLeftCompat="@drawable/ic_felicity"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="tertiary"
                 tools:ignore="HardcodedText" />

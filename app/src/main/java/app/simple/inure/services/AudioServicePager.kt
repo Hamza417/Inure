@@ -594,7 +594,7 @@ class AudioServicePager : Service(),
         val next = generateAction(R.drawable.ic_skip_next, "Next", ServiceConstants.actionNextPager)
 
         builder = NotificationCompat.Builder(applicationContext, channelId)
-            .setSmallIcon(R.drawable.ic_main_app_icon_regular)
+            .setSmallIcon(R.drawable.ic_felicity)
             .setLargeIcon(getBitmapFromUri(applicationContext, audioModels?.get(currentPosition)?.artUri?.toUri()!!))
             .setContentTitle(metaData?.title)
             .setContentText(metaData?.artists)

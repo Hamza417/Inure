@@ -8,23 +8,22 @@ IssueTracker: https://github.com/Hamza417/Inure/issues
 Translation: https://crowdin.com/project/inure
 Changelog: https://github.com/Hamza417/Inure/releases
 
-AutoName: Inure App Manager (Alpha)
+AutoName: Inure
 
 RepoType: git
 Repo: https://github.com/Hamza417/Inure
 
 Builds:
-  - versionName: build_44 (alpha)
-    versionCode: 44
-    commit: build44
+  - versionName: build61_final (beta)
+    versionCode: 61
+    commit: 81147ecdd417c74f3b9a7e332b5830541d0dde81
     subdir: app
     gradle:
-      - yes
+      - github
     scanignore:
-      - Inure/app/src/main/java/app/simple/inure/trackers/dex/DexLoaderBuilder.java
-
+      - app/src/main/java/app/simple/inure/trackers/dex/DexLoaderBuilder.java
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
-CurrentVersion: build_44 (alpha)
-CurrentVersionCode: 44
+CurrentVersion: build61_final (beta)
+CurrentVersionCode: 61
