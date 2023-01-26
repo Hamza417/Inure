@@ -39,6 +39,9 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     private ObjectAnimator primaryProgressAnimator;
     private ObjectAnimator secondaryProgressAnimator;
     
+    private final float shadowRadius = 0F;
+    private final float dY = 0F;
+    
     public ThemeSeekBar(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -108,7 +111,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         shape.getPaint().setStyle(Paint.Style.STROKE);
         shape.getPaint().setStrokeWidth(4);
         shape.getPaint().setStrokeCap(Paint.Cap.ROUND);
-        shape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 216));
+        shape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 216));
         shape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
         
         ShapeDrawable shapeD = new ShapeDrawable();
@@ -123,7 +126,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         secondary.getPaint().setStyle(Paint.Style.STROKE);
         secondary.getPaint().setStrokeWidth(4);
         secondary.getPaint().setStrokeCap(Paint.Cap.ROUND);
-        secondary.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 216));
+        secondary.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 216));
         secondary.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
         ClipDrawable secondaryProgress = new ClipDrawable(secondary, Gravity.START, ClipDrawable.HORIZONTAL);
         
@@ -158,9 +161,9 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     
         if (!isInEditMode()) {
             if (BehaviourPreferences.INSTANCE.areColoredShadowsOn()) {
-                backgroundShape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 232));
+                backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 232));
             } else {
-                backgroundShape.getPaint().setShadowLayer(50F, 0, 5, ColorUtils.INSTANCE.changeAlpha(Color.GRAY, 216));
+                backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(Color.GRAY, 216));
             }
         }
     
