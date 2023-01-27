@@ -654,4 +654,5 @@
     <string name="sat">週六</string>
     <string name="yesterday">昨天</string>
     <string name="weekly_usage">每週使用資料</string>
+    <string name="quote_for_bash">Bash 引文</string>
 </resources>
