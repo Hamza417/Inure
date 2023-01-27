@@ -68,7 +68,7 @@
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_warning_tiny"
-                    app:drawableTint="@android:color/holo_red_dark"
+                    app:drawableTintStyle="warning"
                     app:textColorStyle="tertiary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -266,7 +266,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_warning_tiny"
-                        app:drawableTint="#e74c3c"
+                        app:drawableTintStyle="warning"
                         app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView15"
                         app:layout_constraintEnd_toStartOf="@+id/configuration_root_switch_view"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -292,6 +292,60 @@
 
                     <app.simple.inure.decorations.switchview.SwitchView
                         android:id="@+id/configuration_root_switch_view"
+                        android:layout_width="@dimen/switch_width"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:padding="@dimen/panel_item_padding">
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/configuration_shizuku_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/use_shizuku"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_warning_tiny"
+                        app:drawableTintStyle="warning"
+                        app:layout_constraintBottom_toTopOf="@+id/configuration_shizuku_desc"
+                        app:layout_constraintEnd_toStartOf="@+id/configuration_shizuku_switch"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/configuration_shizuku_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:text="@string/shizuku_desc"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/configuration_shizuku_switch"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/configuration_shizuku_title"
+                        app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.switchview.SwitchView
+                        android:id="@+id/configuration_shizuku_switch"
                         android:layout_width="@dimen/switch_width"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

@@ -654,4 +654,6 @@
     <string name="yesterday">Yesterday</string>
     <string name="weekly_usage">Weekly Usage Data</string>
     <string name="quote_for_bash">Quote for Bash</string>
+    <string name="use_shizuku">Use Shizuku</string>
+    <string name="shizuku_desc">Use Shizuku APIs instead of using native Android APIs and Libs to perform some functions.\n\nThis option is recommended for non-root users.\n\nShizuku access is required.</string>
 </resources>

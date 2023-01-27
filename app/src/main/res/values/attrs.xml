@@ -59,6 +59,7 @@
             <flag name="accent" value="0" />
             <flag name="regular" value="1" />
             <flag name="secondary" value="2" />
+            <flag name="warning" value="3" />
         </attr>
 
         <attr name="isDrawableHidden" format="boolean" />
