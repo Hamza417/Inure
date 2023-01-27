@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
@@ -21,6 +23,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rikka.shizuku.ShizukuProvider
 
 class ConfigurationScreen : ScopedFragment() {
 
@@ -31,6 +34,8 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var shizukuIcon: ImageView
     private lateinit var shizukuSwitch: SwitchView
 
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_configuration, container, false)
 
@@ -40,6 +45,22 @@ class ConfigurationScreen : ScopedFragment() {
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
         shizukuSwitch = view.findViewById(R.id.configuration_shizuku_switch)
         shizukuIcon = view.findViewById(R.id.configuration_shizuku_icon)
+
+        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.forEach {
+                when (it.key) {
+                    ShizukuProvider.PERMISSION -> {
+                        if (it.value) {
+                            shizukuSwitch.setChecked(true)
+                            ConfigurationPreferences.setUsingShizuku(true)
+                        } else {
+                            shizukuSwitch.setChecked(false)
+                            ConfigurationPreferences.setUsingShizuku(false)
+                        }
+                    }
+                }
+            }
+        }
 
         return view
     }
@@ -107,11 +128,9 @@ class ConfigurationScreen : ScopedFragment() {
 
         shizukuSwitch.setOnSwitchCheckedChangeListener { it ->
             if (it) {
-                ConfigurationPreferences.setUsingShizuku(true)
-                shizukuSwitch.setChecked(true)
+                requestPermissionLauncher.launch(arrayOf(ShizukuProvider.PERMISSION))
             } else {
                 ConfigurationPreferences.setUsingShizuku(false)
-                shizukuSwitch.setChecked(false)
             }
         }
     }

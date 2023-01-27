@@ -35,6 +35,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rikka.shizuku.ShizukuProvider
 
 class Setup : ScopedFragment() {
 
@@ -46,6 +47,7 @@ class Setup : ScopedFragment() {
     private lateinit var storageStatus: TypeFaceTextView
     private lateinit var storageUri: TypeFaceTextView
     private lateinit var rootSwitchView: SwitchView
+    private lateinit var shizukuSwitch: SwitchView
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
 
@@ -62,6 +64,7 @@ class Setup : ScopedFragment() {
         storageStatus = view.findViewById(R.id.status_storage_access)
         storageUri = view.findViewById(R.id.status_storage_uri)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
+        shizukuSwitch = view.findViewById(R.id.configuration_shizuku_switch)
         startApp = view.findViewById(R.id.start_app_now)
         skip = view.findViewById(R.id.skip_setup)
 
@@ -72,6 +75,15 @@ class Setup : ScopedFragment() {
                         if (it.value) {
                             setStorageStatus()
                             showStartAppButton()
+                        }
+                    }
+                    ShizukuProvider.PERMISSION -> {
+                        if (it.value) {
+                            shizukuSwitch.setChecked(true)
+                            ConfigurationPreferences.setUsingShizuku(true)
+                        } else {
+                            shizukuSwitch.setChecked(false)
+                            ConfigurationPreferences.setUsingShizuku(false)
                         }
                     }
                 }
@@ -157,6 +169,14 @@ class Setup : ScopedFragment() {
             } else {
                 ConfigurationPreferences.setUsingRoot(false)
                 rootSwitchView.setChecked(false)
+            }
+        }
+
+        shizukuSwitch.setOnSwitchCheckedChangeListener { it ->
+            if (it) {
+                requestPermissionLauncher.launch(arrayOf(ShizukuProvider.PERMISSION))
+            } else {
+                ConfigurationPreferences.setUsingShizuku(false)
             }
         }
     }
