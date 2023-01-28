@@ -472,7 +472,7 @@
     <string name="standalone_terminal_desc">將終端機作為一個獨立的應用程式，直接從主畫面上啟動，而無需再每次需要終端機時開啟主要應用程式。</string>
     <string name="ok">確定</string>
     <string name="share">分享</string>
-    <string name="saved_commands">最愛命令</string>
+    <string name="saved_commands">儲存的命令</string>
     <string name="pin_to_home_panel">釘選至主面板</string>
     <string name="remove_from_home_screen">從主面板中移除</string>
     <string name="limit_stats_to_hours">限制統計資料時長</string>
@@ -655,6 +655,4 @@
     <string name="yesterday">昨天</string>
     <string name="weekly_usage">每週使用資料</string>
     <string name="quote_for_bash">Bash 引文</string>
-    <string name="use_shizuku">使用 Shizuku</string>
-    <string name="shizuku_desc">使用 Shizuku API 而非原生 Android API 和程式庫來處理一些功能。\n\n此選項建議非 Root 使用者開啟。\n\n需要 Shizuku 存取權。</string>
 </resources>
