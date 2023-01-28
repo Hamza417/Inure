@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
@@ -47,6 +48,7 @@
             android:id="@+id/command_edit_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:hint="@string/fstrim"
             android:importantForAutofill="no"
             android:inputType="textNoSuggestions"
             android:paddingHorizontal="@dimen/dialog_padding"
@@ -90,8 +92,32 @@
             android:id="@+id/label_edit_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:hint="Trim Data"
             android:importantForAutofill="no"
             android:inputType="textNoSuggestions"
+            android:paddingHorizontal="@dimen/dialog_padding"
+            android:textCursorDrawable="@drawable/text_cursor"
+            app:appFontStyle="medium"
+            app:textColorStyle="primary"
+            tools:ignore="HardcodedText" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_padding"
+            android:layout_marginBottom="@dimen/popup_item_gap_length"
+            android:text="@string/description"
+            android:textSize="@dimen/desc_text_size"
+            app:appFontStyle="medium"
+            app:textColorStyle="secondary" />
+
+        <app.simple.inure.decorations.corners.DynamicCornerEditText
+            android:id="@+id/description_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/trim_data"
+            android:importantForAutofill="no"
+            android:inputType="text"
             android:paddingHorizontal="@dimen/dialog_padding"
             android:textCursorDrawable="@drawable/text_cursor"
             app:appFontStyle="medium"

@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,14 +34,26 @@ class AdapterTerminalCommands(private val terminalCommands: ArrayList<TerminalCo
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
         val position = position_ - 1
 
         if (holder is Holder) {
-            holder.command.text = terminalCommands[position].command
-            holder.arguments.text = terminalCommands[position].arguments
-            holder.description.text = terminalCommands[position].description
+            holder.label.text = terminalCommands[position].label
+            holder.command.text = "cmd: " + terminalCommands[position].command
             holder.timestamp.text = terminalCommands[position].dateCreated.toDate()
+
+            if (terminalCommands[position].arguments.isNullOrEmpty()) {
+                holder.arguments.text = "args: ${holder.getString(R.string.unspecified).lowercase()}"
+            } else {
+                holder.arguments.text = "args: " + terminalCommands[position].arguments
+            }
+
+            if (terminalCommands[position].description.isNullOrEmpty()) {
+                holder.description.setText(R.string.desc_not_available)
+            } else {
+                holder.description.text = terminalCommands[position].description
+            }
 
             holder.container.setOnClickListener {
                 terminalCommandCallbacks?.onCommandClicked(terminalCommands[position])
@@ -79,6 +92,7 @@ class AdapterTerminalCommands(private val terminalCommands: ArrayList<TerminalCo
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+        val label: TypeFaceTextView = itemView.findViewById(R.id.label)
         val command: TypeFaceTextView = itemView.findViewById(R.id.command)
         val arguments: TypeFaceTextView = itemView.findViewById(R.id.arguments)
         val timestamp: TypeFaceTextView = itemView.findViewById(R.id.timestamp)

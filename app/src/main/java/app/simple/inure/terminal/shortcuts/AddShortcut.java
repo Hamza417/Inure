@@ -21,6 +21,7 @@ import java.security.GeneralSecurityException;
 import app.simple.inure.R;
 import app.simple.inure.dialogs.terminal.TerminalAddShortcut;
 import app.simple.inure.extensions.activities.TransparentBaseActivity;
+import app.simple.inure.interfaces.terminal.TerminalAddShortcutCallbacks;
 import app.simple.inure.terminal.RemoteInterface;
 import app.simple.inure.terminal.RunShortcut;
 import app.simple.inure.terminal.TermDebug;
@@ -53,23 +54,27 @@ public class AddShortcut extends TransparentBaseActivity {
     //////////////////////////////////////////////////////////////////////
     void makeShortcut() {
         TerminalAddShortcut terminalAddShortcut = TerminalAddShortcut.Companion.newInstance();
-        terminalAddShortcut.setTerminalAddShortcutCallbacks((path, args, label, quoteForBash) -> {
-            AddShortcut.this.path = path;
-            name = label;
-            //            editTexts[PATH].setText(path);
-            //            if (args != null) {
-            //                editTexts[ARGS].setText(args);
-            //            }
-            //            editTexts[NAME].setText(label);
-    
-            buildShortcut(
-                    path,
-                    args,
-                    name,
-                    iconText[1] /* empty value */,
-                    quoteForBash,
-                    0 /* Random Value */);
-        });
+        terminalAddShortcut.setTerminalAddShortcutCallbacks(
+                new TerminalAddShortcutCallbacks() {
+                    @Override
+                    public void onShortcutAdded(String path, String args, String label, boolean quoteForBash) {
+                        AddShortcut.this.path = path;
+                        name = label;
+                        //            editTexts[PATH].setText(path);
+                        //            if (args != null) {
+                        //                editTexts[ARGS].setText(args);
+                        //            }
+                        //            editTexts[NAME].setText(label);
+                    
+                        buildShortcut(
+                                path,
+                                args,
+                                name,
+                                iconText[1] /* empty value */,
+                                quoteForBash,
+                                0 /* Random Value */);
+                    }
+                });
     
         terminalAddShortcut.show(getSupportFragmentManager(), "terminal_add_shortcut");
     

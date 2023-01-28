@@ -40,4 +40,17 @@ class SavedCommandsViewModel(application: Application) : WrappedViewModel(applic
             terminalCommands.postValue(arrayListOf())
         }
     }
+
+    fun addNewCommands(terminalCommand: TerminalCommand) {
+        viewModelScope.launch(Dispatchers.IO) {
+            TerminalCommandDatabase
+                .getInstance(getApplication())!!
+                .terminalCommandDao()!!
+                .insertTerminalCommand(terminalCommand)
+            terminalCommands.postValue(TerminalCommandDatabase
+                                           .getInstance(getApplication())!!
+                                           .terminalCommandDao()!!
+                                           .getAllTerminalCommands() as ArrayList<TerminalCommand>?)
+        }
+    }
 }

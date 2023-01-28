@@ -8,7 +8,7 @@ import app.simple.inure.database.dao.TerminalCommandDao
 import app.simple.inure.models.TerminalCommand
 import app.simple.inure.util.ConditionUtils.invert
 
-@Database(entities = [TerminalCommand::class], exportSchema = true, version = 1)
+@Database(entities = [TerminalCommand::class], exportSchema = true, version = 2)
 abstract class TerminalCommandDatabase : RoomDatabase() {
 
     abstract fun terminalCommandDao(): TerminalCommandDao?

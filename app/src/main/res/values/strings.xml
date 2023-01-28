@@ -656,4 +656,6 @@
     <string name="quote_for_bash">Quote for Bash</string>
     <string name="export">Export</string>
     <string name="add">Add</string>
+    <string name="description">Description</string>
+    <string name="fstrim">fstrim</string>
 </resources>

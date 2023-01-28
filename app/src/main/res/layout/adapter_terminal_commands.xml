@@ -9,7 +9,7 @@
     android:padding="@dimen/dialog_padding">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/command"
+        android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawablePadding="@dimen/dialog_padding"
@@ -19,6 +19,15 @@
         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
         app:drawableTintStyle="accent"
         app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/command"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:textColorStyle="accent" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/arguments"
