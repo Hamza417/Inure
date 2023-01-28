@@ -3,6 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -42,6 +43,8 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
     private lateinit var sharedPreferencesViewerViewModel: SharedPreferencesViewerViewModel
     private lateinit var sharedPrefsViewerViewModelFactory: SharedPrefsViewerViewModelFactory
 
+    private val requestCode = 555
+
     private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
@@ -73,7 +76,7 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
 
         name.text = requireArguments().getString("path_to_xml")!!
 
-        sharedPrefsViewerViewModelFactory = SharedPrefsViewerViewModelFactory(requireArguments().getString("path_to_xml")!!)
+        sharedPrefsViewerViewModelFactory = SharedPrefsViewerViewModelFactory(requireArguments().getString(BundleConstants.pathToXml)!!, packageInfo)
         sharedPreferencesViewerViewModel = ViewModelProvider(this, sharedPrefsViewerViewModelFactory)[SharedPreferencesViewerViewModel::class.java]
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
@@ -114,12 +117,27 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {
-                            val fileName: String = packageInfo.packageName + "_" + name.text
-                            exportManifest.launch(fileName)
+                            //                            val fileName: String = packageInfo.packageName + "_" + name.text
+                            //                            exportManifest.launch(fileName)
+                            progress.visible(true)
+                            sharedPreferencesViewerViewModel.writePreferencesTextToFile(text.text.toString(), requestCode)
                         }
                     }
                 }
             })
+        }
+
+        sharedPreferencesViewerViewModel.getLoaderCode().observe(viewLifecycleOwner) {
+            if (it == requestCode) {
+                Toast.makeText(requireContext(), R.string.saved_successfully, Toast.LENGTH_SHORT).show()
+                progress.gone()
+            } else {
+                progress.gone()
+            }
+        }
+
+        sharedPreferencesViewerViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it, goBack = false)
         }
 
         settings.setOnClickListener {
@@ -129,9 +147,10 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
     }
 
     companion object {
-        fun newInstance(path: String): SharedPrefsViewer {
+        fun newInstance(path: String, packageInfo: PackageInfo): SharedPrefsViewer {
             val args = Bundle()
             args.putString(BundleConstants.pathToXml, path)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = SharedPrefsViewer()
             fragment.arguments = args
             return fragment

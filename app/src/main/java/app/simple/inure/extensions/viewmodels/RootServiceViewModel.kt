@@ -77,6 +77,10 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
         }
     }
 
+    protected fun getFileSystemManager(): FileSystemManager? {
+        return fileSystemManager
+    }
+
     override fun onCleared() {
         super.onCleared()
         stopService()

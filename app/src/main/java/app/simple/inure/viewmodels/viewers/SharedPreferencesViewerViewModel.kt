@@ -1,16 +1,15 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
+import android.content.pm.PackageInfo
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.BuildConfig
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.preferences.AppearancePreferences
@@ -24,7 +23,7 @@ import java.nio.charset.Charset
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class SharedPreferencesViewerViewModel(private val pathToXml: String, application: Application) : RootServiceViewModel(application) {
+class SharedPreferencesViewerViewModel(private val pathToXml: String, private val packageInfo: PackageInfo, application: Application) : RootServiceViewModel(application) {
 
     private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
 
@@ -49,23 +48,21 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, applicatio
         MutableLiveData<Spanned>()
     }
 
+    private val loaderCode: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
+    }
+
     fun getSpanned(): LiveData<Spanned> {
         return spanned
+    }
+
+    fun getLoaderCode(): LiveData<Int> {
+        return loaderCode
     }
 
     private fun loadSharedPrefsFile(fileSystemManager: FileSystemManager?) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                kotlin.runCatching {
-                    Shell.enableVerboseLogging = BuildConfig.DEBUG
-                    Shell.setDefaultBuilder(Shell.Builder.create()
-                                                .setContext(applicationContext())
-                                                .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                                .setTimeout(10))
-                }.onFailure {
-                    Log.e(javaClass.name, "Failed to initialize Shell", it)
-                }
-
                 val code = fileSystemManager?.getSharedPrefsString()!!
                 val formattedContent = SpannableString(code)
 
@@ -98,10 +95,47 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, applicatio
         val capacity = channel.size()
         val byteBuffer = ByteBuffer.allocate(capacity.toInt())
         channel.read(byteBuffer)
+        channel.close()
         return String(byteBuffer.array(), Charset.defaultCharset())
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
         loadSharedPrefsFile(fileSystemManager)
+    }
+
+    fun replacePreferences(text: String, requestCode: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                Shell.cmd("cp -f $pathToXml $pathToXml.bak").exec()
+                Shell.cmd("rm -f $pathToXml").exec()
+                Shell.cmd("touch $pathToXml").exec()
+                Shell.cmd("echo \"$text\" > $pathToXml").exec()
+                Shell.cmd("chmod 660 $pathToXml").exec()
+                loaderCode.postValue(requestCode)
+            }.onFailure {
+                postWarning(it.message)
+                loaderCode.postValue(-1)
+            }
+        }
+    }
+
+    fun writePreferencesTextToFile(text: String, requestCode: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                // Force close the app first
+                Shell.cmd("am force-stop ${packageInfo.packageName}").exec()
+                val extendedFile = getFileSystemManager()?.getFile(pathToXml)
+                val outputStream = extendedFile?.newOutputStream()
+                outputStream?.write(text.toByteArray())
+                outputStream?.close()
+                Shell.cmd("chmod 660 $pathToXml").exec()
+
+                loaderCode.postValue(requestCode)
+            }.onFailure {
+                it.printStackTrace()
+                postWarning(it.message)
+                loaderCode.postValue(-1)
+            }
+        }
     }
 }

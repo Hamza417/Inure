@@ -92,7 +92,7 @@ That's all.
 - [x] Proper analytics panel.
 - [x] App directories panel.
 - [ ] APK browser for apps that are not yet installed.
-- [ ] Modify Shared Prefs of other apps _(root)_.
+- [x] Modify Shared Prefs of other apps _(root)_.
 - [ ] Modify SQLite databases of other apps _(root)_.
 - [ ] Multiple user support _(suspended)_.
 - [ ] Use app via ADB Shell instead of root? _(suspended)_.
