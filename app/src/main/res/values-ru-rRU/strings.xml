@@ -657,4 +657,7 @@
     <string name="sat">Сб</string>
     <string name="yesterday">Вчера</string>
     <string name="weekly_usage">Данные об использовании за неделю</string>
+    <string name="quote_for_bash">Цитата на Bash</string>
+    <string name="use_shizuku">Использовать Shizuku</string>
+    <string name="shizuku_desc">Использовать API-интерфейсы Shizuku вместо использования нативных API-интерфейсов и библиотек Android для выполнения некоторых функций.\n\nЭтот вариант рекомендуется для пользователей без root.\n\nТребуется Shizuku доступ.</string>
 </resources>
