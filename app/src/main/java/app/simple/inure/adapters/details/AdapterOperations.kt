@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.AppOpsModel
 import app.simple.inure.util.AdapterUtils
@@ -22,10 +23,15 @@ class AdapterOperations(private val ops: ArrayList<AppOpsModel>, val keyword: St
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = ops[position].title
         holder.desc.text = ops[position].description
+
         holder.checkBox.setCheckedWithoutAnimations(ops[position].isEnabled)
 
         AdapterUtils.searchHighlighter(holder.name, keyword)
         AdapterUtils.searchHighlighter(holder.desc, keyword)
+
+        holder.container.setOnClickListener {
+            holder.checkBox.toggle()
+        }
 
         holder.checkBox.setOnCheckedChangeListener {
             adapterOpsCallbacks?.onCheckedChanged(ops[position], position)
@@ -49,6 +55,7 @@ class AdapterOperations(private val ops: ArrayList<AppOpsModel>, val keyword: St
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_name)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_desc)
         val checkBox: InureCheckBox = itemView.findViewById(R.id.checkBox)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_ops_container)
     }
 
     companion object {

@@ -5,21 +5,19 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.BuildConfig
 import app.simple.inure.apk.ops.AppOps
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.RootViewModel
 import app.simple.inure.models.AppOpsModel
-import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class OperationsViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class OperationsViewModel(application: Application, val packageInfo: PackageInfo) : RootViewModel(application) {
 
     private val appOpsData: MutableLiveData<ArrayList<AppOpsModel>> by lazy {
         MutableLiveData<ArrayList<AppOpsModel>>().also {
-            loadAppOpsData("")
+            initShell()
         }
     }
 
@@ -53,21 +51,15 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
     fun updateAppOpsState(appsOpsModel: AppOpsModel, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                if (ConfigurationPreferences.isUsingRoot()) {
-                    kotlin.runCatching {
-                        Shell.enableVerboseLogging = BuildConfig.DEBUG
-                        Shell.setDefaultBuilder(Shell.Builder.create()
-                                                    .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                                    .setTimeout(10))
+                Shell.cmd(getStateChangeCommand(appsOpsModel)).exec().let {
+                    if (it.isSuccess) {
+                        appsOpsModel.isEnabled = appsOpsModel.isEnabled.invert()
+                        appOpsState.postValue(Pair(appsOpsModel, position))
+                    } else {
+                        appOpsState.postValue(Pair(appsOpsModel, position))
+                        postWarning("Failed to change state of ${appsOpsModel.title} : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
                     }
-
-                    Shell.cmd(getStateChangeCommand(appsOpsModel)).exec()
-                } else {
-                    Runtime.getRuntime().exec(getStateChangeCommand(appsOpsModel))
                 }
-            }.onSuccess {
-                appsOpsModel.isEnabled = appsOpsModel.isEnabled.invert()
-                appOpsState.postValue(Pair(appsOpsModel, position))
             }.getOrElse {
                 postError(it)
             }
@@ -81,5 +73,13 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         stringBuilder.append(" ")
         stringBuilder.append(appsOpsModel.title + if (appsOpsModel.isEnabled) " deny" else " allow")
         return stringBuilder.toString()
+    }
+
+    override fun onShellCreated(shell: Shell?) {
+        loadAppOpsData("")
+    }
+
+    override fun onShellDenied() {
+        /* no-op */
     }
 }

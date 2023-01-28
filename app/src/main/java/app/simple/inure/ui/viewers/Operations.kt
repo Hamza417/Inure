@@ -13,7 +13,7 @@ import app.simple.inure.adapters.details.AdapterOperations
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.interfaces.fragments.SureCallbacks
@@ -58,8 +58,7 @@ class Operations : SearchBarScopedFragment() {
 
             adapterOperations?.setOnOpsCheckedChangeListener(object : AdapterOperations.Companion.AdapterOpsCallbacks {
                 override fun onCheckedChanged(appOpsModel: AppOpsModel, position: Int) {
-                    val p0 = Sure.newInstance()
-                    p0.setOnSureCallbackListener(object : SureCallbacks {
+                    childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                         override fun onSure() {
                             operationsViewModel.updateAppOpsState(appOpsModel, position)
                         }
@@ -68,7 +67,6 @@ class Operations : SearchBarScopedFragment() {
                             adapterOperations?.updateOperation(appOpsModel, position)
                         }
                     })
-                    p0.show(childFragmentManager, "sure")
                 }
             })
 
@@ -77,6 +75,10 @@ class Operations : SearchBarScopedFragment() {
 
         operationsViewModel.getAppOpsState().observe(viewLifecycleOwner) {
             adapterOperations?.updateOperation(it.first, it.second)
+        }
+
+        operationsViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it, goBack = false)
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->

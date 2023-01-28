@@ -104,10 +104,10 @@ class InureCheckBox @JvmOverloads constructor(context: Context, attrs: Attribute
     fun setCheckedWithoutAnimations(boolean: Boolean) {
         isChecked = if (boolean) {
             checked()
-            boolean
+            true
         } else {
             unchecked()
-            boolean
+            false
         }
     }
 
@@ -142,6 +142,7 @@ class InureCheckBox @JvmOverloads constructor(context: Context, attrs: Attribute
         thumb.scaleY = 0F
         this.backgroundTintList = ColorStateList.valueOf(ThemeManager.theme.switchViewTheme.switchOffColor)
         elevation = 0F
+        invalidate()
     }
 
     private fun checked() {
@@ -149,6 +150,7 @@ class InureCheckBox @JvmOverloads constructor(context: Context, attrs: Attribute
         thumb.scaleY = 1F
         this.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
         elevation = 25F
+        invalidate()
     }
 
     private fun animateElevation(elevation: Float) {

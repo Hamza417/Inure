@@ -21,7 +21,8 @@
             android:layout_gravity="center_vertical"
             android:scaleType="center"
             android:src="@drawable/ic_error"
-            app:tintType="secondary" />
+            app:tint="@android:color/holo_red_dark"
+            app:tintType="custom" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/warning"
