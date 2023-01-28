@@ -50,11 +50,11 @@ object AccessibilityPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setBottomMenuContext(value: Boolean) {
+    fun setAppElementsContext(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(bottomMenuContext, value).apply()
     }
 
-    fun isBottomMenuContext(): Boolean {
+    fun isAppElementsContext(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(bottomMenuContext, false)
     }
 }

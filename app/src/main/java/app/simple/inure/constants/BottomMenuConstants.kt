@@ -52,6 +52,15 @@ object BottomMenuConstants {
             Pair(R.drawable.ic_search, R.string.search),
     )
 
+    private val terminalCommandsBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
+            Pair(R.drawable.ic_add, R.string.add),
+            Pair(R.drawable.ic_clear_all, R.string.clear),
+            divider,
+            Pair(R.drawable.ic_settings, R.string.preferences),
+            divider,
+            Pair(R.drawable.ic_search, R.string.search),
+    )
+
     private val musicBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
             Pair(R.drawable.ic_sort, R.string.sort),
             divider,
@@ -124,6 +133,11 @@ object BottomMenuConstants {
     @Suppress("UNCHECKED_CAST")
     fun getStackTracesBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return stackTracesBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun getTerminalCommandsBottomMenuItems(): ArrayList<Pair<Int, Int>> {
+        return terminalCommandsBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
     }
 
     @Suppress("UNCHECKED_CAST")

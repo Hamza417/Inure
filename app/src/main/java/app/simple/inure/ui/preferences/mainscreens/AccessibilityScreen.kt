@@ -49,7 +49,7 @@ class AccessibilityScreen : ScopedFragment() {
         stroke.setChecked(AccessibilityPreferences.isHighlightStroke())
         divider.setChecked(AccessibilityPreferences.isDividerEnabled())
         reduceAnimations.setChecked(AccessibilityPreferences.isAnimationReduced())
-        enableContexts.setChecked(AccessibilityPreferences.isBottomMenuContext())
+        enableContexts.setChecked(AccessibilityPreferences.isAppElementsContext())
 
         if (highlight.isChecked()) {
             strokeContainer.alpha = 1F
@@ -92,7 +92,7 @@ class AccessibilityScreen : ScopedFragment() {
         }
 
         enableContexts.setOnSwitchCheckedChangeListener {
-            AccessibilityPreferences.setBottomMenuContext(it)
+            AccessibilityPreferences.setAppElementsContext(it)
         }
 
         reduceAnimationsDesc.makeLinks(Pair(getString(R.string.behaviour), object : View.OnClickListener {

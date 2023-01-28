@@ -655,4 +655,5 @@
     <string name="weekly_usage">Weekly Usage Data</string>
     <string name="quote_for_bash">Quote for Bash</string>
     <string name="export">Export</string>
+    <string name="add">Add</string>
 </resources>

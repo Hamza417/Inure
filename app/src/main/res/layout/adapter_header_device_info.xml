@@ -16,14 +16,15 @@
         android:clipToPadding="false"
         android:orientation="horizontal">
 
-        <ImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/imageView4"
             android:layout_width="@dimen/adapter_header_icon_size"
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/device_info"
+            android:transitionName="@string/device_info"
             app:srcCompat="@drawable/ic_memory"
-            android:transitionName="@string/device_info" />
+            app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/typeFaceTextView02"
@@ -31,10 +32,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="16dp"
+            android:layout_weight="1"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:layout_weight="1"
             android:text="@string/device_info"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="light"
@@ -55,9 +56,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            app:textColorStyle="primary"
             android:textSize="16sp"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/adapter_header_sort_button"
@@ -90,14 +91,14 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/search_button"
             android:src="@drawable/ic_search"
-            app:buttonTintType="regular"
-            android:transitionName="adapter_search_icon" />
+            android:transitionName="adapter_search_icon"
+            app:buttonTintType="regular" />
 
     </LinearLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="@dimen/header_padding"
-        android:layout_height="1px" />
+        android:layout_height="1px"
+        android:layout_marginHorizontal="@dimen/header_padding" />
 
 </LinearLayout>

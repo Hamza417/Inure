@@ -1,0 +1,52 @@
+{
+    "formatVersion": 1,
+    "database": {
+        "version": 1,
+        "identityHash": "1442db07f932913f1ab334dc31f91914",
+        "entities": [
+            {
+                "tableName": "terminal_commands",
+                "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`command` TEXT, `arguments` TEXT, `description` TEXT, `date_created` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+                "fields": [
+                    {
+                        "fieldPath": "command",
+                        "columnName": "command",
+                        "affinity": "TEXT",
+                        "notNull": false
+                    },
+                    {
+                        "fieldPath": "arguments",
+                        "columnName": "arguments",
+                        "affinity": "TEXT",
+                        "notNull": false
+                    },
+                    {
+                        "fieldPath": "description",
+                        "columnName": "description",
+                        "affinity": "TEXT",
+                        "notNull": false
+                    },
+                    {
+                        "fieldPath": "dateCreated",
+                        "columnName": "date_created",
+                        "affinity": "INTEGER",
+                        "notNull": true
+                    }
+                ],
+                "primaryKey": {
+                    "autoGenerate": true,
+                    "columnNames": [
+                        "date_created"
+                    ]
+                },
+                "indices": [],
+                "foreignKeys": []
+            }
+        ],
+        "views": [],
+        "setupQueries": [
+            "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+            "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1442db07f932913f1ab334dc31f91914')"
+        ]
+    }
+}

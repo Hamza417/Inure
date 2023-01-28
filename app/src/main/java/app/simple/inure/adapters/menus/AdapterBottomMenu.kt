@@ -17,7 +17,7 @@ import app.simple.inure.util.RecyclerViewUtils
 class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) : RecyclerView.Adapter<HorizontalListViewHolder>() {
 
     private var bottomMenuCallbacks: BottomMenuCallbacks? = null
-    private val isBottomMenuContext = AccessibilityPreferences.isBottomMenuContext()
+    private val isBottomMenuContext = AccessibilityPreferences.isAppElementsContext()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalListViewHolder {
         return when (viewType) {

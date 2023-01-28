@@ -5,7 +5,6 @@ import app.simple.inure.models.BatchModel
 
 @Dao
 interface BatchDao {
-
     @Query("SELECT * FROM batch_state_data ORDER BY package_name COLLATE nocase")
     fun getBatch(): MutableList<BatchModel>
 
