@@ -245,6 +245,8 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 list.add(Pair(R.drawable.ic_power_off, R.string.boot_manager))
             }
 
+            list.add(Pair(R.drawable.ic_terminal_saved, R.string.saved_commands))
+
             if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     list.add(Pair(R.drawable.ic_music_note, R.string.music))
