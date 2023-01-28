@@ -25,7 +25,7 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.menus.CodeViewerMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.XMLViewerViewModelFactory
-import app.simple.inure.popups.app.PopupXmlViewer
+import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
@@ -119,8 +119,12 @@ class XMLViewerTextView : KeyboardScopedFragment() {
                             val clip = ClipData.newPlainText("xml", text.text.toString())
                             clipboard?.setPrimaryClip(clip)
                         }
-                        getString(R.string.save) -> {
-                            val fileName: String = packageInfo.packageName + "_" + name.text
+                        getString(R.string.export) -> {
+                            val name = with(name.text.toString()) {
+                                substring(lastIndexOf("/") + 1, length)
+                            }
+
+                            val fileName: String = packageInfo.packageName + "_" + name
                             exportManifest.launch(fileName)
                         }
                     }

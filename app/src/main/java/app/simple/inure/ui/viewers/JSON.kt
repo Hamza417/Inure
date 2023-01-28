@@ -23,7 +23,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.CodeViewModelFactory
-import app.simple.inure.popups.app.PopupXmlViewer
+import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -109,8 +109,12 @@ class JSON : KeyboardScopedFragment() {
                             val clip = ClipData.newPlainText("xml", json.text.toString())
                             clipboard?.setPrimaryClip(clip)
                         }
-                        getString(R.string.save) -> {
-                            val fileName: String = packageInfo.packageName + "_" + name.text
+                        getString(R.string.export) -> {
+                            val name = with(name.text.toString()) {
+                                substring(lastIndexOf("/") + 1, length)
+                            }
+
+                            val fileName: String = packageInfo.packageName + "_" + name
                             exportManifest.launch(fileName)
                         }
                     }

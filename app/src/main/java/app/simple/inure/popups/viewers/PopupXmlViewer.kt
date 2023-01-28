@@ -1,4 +1,4 @@
-package app.simple.inure.popups.app
+package app.simple.inure.popups.viewers
 
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -16,7 +16,7 @@ class PopupXmlViewer(view: View) : BasePopupWindow() {
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_xml_viewer_menu, PopupLinearLayout(view.context))
 
         contentView.findViewById<DynamicRippleTextView>(R.id.popup_xml_copy).onClick(contentView.context.getString(R.string.copy))
-        contentView.findViewById<DynamicRippleTextView>(R.id.popup_xml_save).onClick(contentView.context.getString(R.string.save))
+        contentView.findViewById<DynamicRippleTextView>(R.id.popup_xml_export).onClick(contentView.context.getString(R.string.export))
 
         init(contentView, view, Gravity.NO_GRAVITY)
     }

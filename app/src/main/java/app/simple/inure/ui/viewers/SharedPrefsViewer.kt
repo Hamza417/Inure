@@ -21,10 +21,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.menus.CodeViewerMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.SharedPrefsViewerViewModelFactory
-import app.simple.inure.popups.app.PopupXmlViewer
+import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.popups.viewers.PopupSharedPrefsViewer
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.SharedPreferencesViewerViewModel
@@ -74,7 +76,7 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
         settings = view.findViewById(R.id.xml_viewer_settings)
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
 
-        name.text = requireArguments().getString("path_to_xml")!!
+        name.text = requireArguments().getString(BundleConstants.pathToXml)!!
 
         sharedPrefsViewerViewModelFactory = SharedPrefsViewerViewModelFactory(requireArguments().getString(BundleConstants.pathToXml)!!, packageInfo)
         sharedPreferencesViewerViewModel = ViewModelProvider(this, sharedPrefsViewerViewModelFactory)[SharedPreferencesViewerViewModel::class.java]
@@ -108,19 +110,29 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
         }
 
         options.setOnClickListener {
-            PopupXmlViewer(it).setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
+            PopupSharedPrefsViewer(it).setOnPopupClickedListener(object : PopupSharedPrefsViewer.PopupSharedPrefsCallbacks {
                 override fun onPopupItemClicked(source: String) {
                     when (source) {
                         getString(R.string.copy) -> {
                             val clipboard: ClipboardManager? = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-                            val clip = ClipData.newPlainText("xml", text.text.toString())
+                            val clip = ClipData.newPlainText("SharedPref", text.text.toString())
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.save) -> {
-                            //                            val fileName: String = packageInfo.packageName + "_" + name.text
-                            //                            exportManifest.launch(fileName)
-                            progress.visible(true)
-                            sharedPreferencesViewerViewModel.writePreferencesTextToFile(text.text.toString(), requestCode)
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                override fun onSure() {
+                                    progress.visible(true)
+                                    sharedPreferencesViewerViewModel.writePreferencesTextToFile(text.text.toString(), requestCode)
+                                }
+                            })
+                        }
+                        getString(R.string.export) -> {
+                            val name = with(name.text.toString()) {
+                                substring(lastIndexOf("/") + 1, length)
+                            }
+
+                            val fileName: String = packageInfo.packageName + "_" + name
+                            exportManifest.launch(fileName)
                         }
                     }
                 }

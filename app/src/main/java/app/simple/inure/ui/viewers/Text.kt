@@ -24,7 +24,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.TextViewViewModelFactory
-import app.simple.inure.popups.app.PopupXmlViewer
+import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel
 import java.io.IOException
@@ -94,9 +94,7 @@ class Text : KeyboardScopedFragment() {
         }
 
         options.setOnClickListener {
-            val p = PopupXmlViewer(it)
-
-            p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
+            PopupXmlViewer(it).setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {
                     when (source) {
                         getString(R.string.copy) -> {
@@ -104,8 +102,12 @@ class Text : KeyboardScopedFragment() {
                             val clip = ClipData.newPlainText("xml", txt.text.toString())
                             clipboard?.setPrimaryClip(clip)
                         }
-                        getString(R.string.save) -> {
-                            val fileName: String = packageInfo.packageName + "_" + path.text
+                        getString(R.string.export) -> {
+                            val name = with(path.text.toString()) {
+                                substring(lastIndexOf("/") + 1, length)
+                            }
+
+                            val fileName: String = packageInfo.packageName + "_" + name
                             exportText.launch(fileName)
                         }
                     }

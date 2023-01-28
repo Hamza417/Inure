@@ -9,7 +9,22 @@
     tools:parentTag="android.widget.LinearLayout">
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/popup_xml_copy"
+        android:id="@+id/popup_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
+        android:clickable="true"
+        android:focusable="true"
+        android:maxLines="1"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/save"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_copy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
@@ -24,9 +39,12 @@
         app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/popup_xml_export"
+        android:id="@+id/popup_export"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:maxLines="1"
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/export"

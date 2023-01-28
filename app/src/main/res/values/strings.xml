@@ -654,4 +654,5 @@
     <string name="yesterday">Yesterday</string>
     <string name="weekly_usage">Weekly Usage Data</string>
     <string name="quote_for_bash">Quote for Bash</string>
+    <string name="export">Export</string>
 </resources>

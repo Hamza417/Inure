@@ -21,7 +21,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.XmlWebView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.XMLViewerViewModelFactory
-import app.simple.inure.popups.app.PopupXmlViewer
+import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
@@ -92,9 +92,7 @@ class XMLViewerWebView : ScopedFragment() {
         }
 
         options.setOnClickListener {
-            val p = PopupXmlViewer(it)
-
-            p.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
+            PopupXmlViewer(it).setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {
                     when (source) {
                         getString(R.string.copy) -> {
@@ -102,8 +100,12 @@ class XMLViewerWebView : ScopedFragment() {
                             val clip = ClipData.newPlainText("xml", code)
                             clipboard?.setPrimaryClip(clip)
                         }
-                        getString(R.string.save) -> {
-                            val fileName: String = packageInfo.packageName + "_" + name.text
+                        getString(R.string.export) -> {
+                            val name = with(name.text.toString()) {
+                                substring(lastIndexOf("/") + 1, length)
+                            }
+
+                            val fileName: String = packageInfo.packageName + "_" + name
                             exportManifest.launch(fileName)
                         }
                     }

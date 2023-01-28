@@ -16,7 +16,7 @@ import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.activities.BaseActivity
-import app.simple.inure.popups.app.PopupXmlViewer
+import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.ViewUtils.visible
 import com.anggrayudi.storage.file.fullName
