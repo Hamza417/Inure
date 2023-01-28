@@ -15,6 +15,7 @@ object DevelopmentPreferences {
     const val alternativeBatteryOptimizationSwitch = "is_alternative_battery_optimization_switch_enabled"
     const val loadAlbumArtFromFile = "is_album_art_loaded_from_file"
     const val useOldStyleUsageStatsPanel = "is_old_style_usage_stats_panel_enabled"
+    const val enableDeviceInfo = "is_device_info_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> = listOf(
             DevelopmentPreferencesModel("Use WebView for XML Preview",
@@ -70,6 +71,11 @@ object DevelopmentPreferences {
             DevelopmentPreferencesModel("Use Old Style Usage Stats Panel",
                                         "Use old raw data style usage stats panel instead of the current one.",
                                         useOldStyleUsageStatsPanel,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Enable Device Info",
+                                        "Enable Device Info panel in the app. It was planned but never implemented.",
+                                        enableDeviceInfo,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN)
     ).sortedBy {
         it.title

@@ -219,12 +219,17 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(Pair(R.drawable.ic_app_icon, R.string.apps))
             list.add(Pair(R.drawable.ic_terminal, R.string.terminal))
             list.add(Pair(R.drawable.ic_stats, R.string.usage_statistics))
-            // list.add(Pair(R.drawable.ic_memory, R.string.device_info))
+
             list.add(Pair(0, 0)) // Divider
             list.add(Pair(R.drawable.ic_sensors, R.string.sensors))
             list.add(Pair(R.drawable.ic_layers, R.string.batch))
             list.add(Pair(R.drawable.ic_analytics, R.string.analytics))
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
+
+            if (DevelopmentPreferences.get(DevelopmentPreferences.enableDeviceInfo)) {
+                list.add(Pair(R.drawable.ic_memory, R.string.device_info))
+            }
+
             list.add(Pair(0, 0)) // Divider
             list.add(Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed))
             list.add(Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated))
@@ -284,7 +289,9 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             DevelopmentPreferences.music,
-            ConfigurationPreferences.isUsingRoot -> {
+            DevelopmentPreferences.enableDeviceInfo,
+            ConfigurationPreferences.isUsingRoot,
+            -> {
                 loadItems()
             }
         }
