@@ -61,7 +61,7 @@ class Resources : SearchBarScopedFragment() {
                     }
                 }
 
-                override fun onResourceLongClicked(path: String) {
+                override fun onResourceLongClicked(path: String, view: View, position: Int) {
                     openFragmentSlide(Text.newInstance(packageInfo, path), "txt_tv_xml")
                 }
             })

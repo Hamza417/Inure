@@ -27,7 +27,7 @@ class AdapterResources(private val list: MutableList<String>, private val keywor
         }
 
         holder.xml.setOnLongClickListener {
-            resourceCallbacks?.onResourceLongClicked(list[position])
+            resourceCallbacks?.onResourceLongClicked(list[position], it, position)
             true
         }
 
@@ -48,6 +48,6 @@ class AdapterResources(private val list: MutableList<String>, private val keywor
 
     interface ResourceCallbacks {
         fun onResourceClicked(path: String)
-        fun onResourceLongClicked(path: String)
+        fun onResourceLongClicked(path: String, view: View, position: Int)
     }
 }

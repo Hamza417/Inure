@@ -11,8 +11,11 @@ import app.simple.inure.adapters.details.AdapterResources
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.popups.viewers.PopupSharedPreferences
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.SharedPreferencesViewModel
 
@@ -49,8 +52,21 @@ class SharedPreferences : SearchBarScopedFragment() {
                             sharedPreferencesViewModel.getSharedPrefsPath() + path, packageInfo), "shared_prefs_viewer")
                 }
 
-                override fun onResourceLongClicked(path: String) {
+                override fun onResourceLongClicked(path: String, view: View, position: Int) {
+                    PopupSharedPreferences(view).setOnPopupNotesMenuCallbackListener(object : PopupSharedPreferences.Companion.PopupSharedPrefsMenuCallback {
+                        override fun onOpenClicked() {
+                            openFragmentSlide(SharedPrefsViewer.newInstance(
+                                    sharedPreferencesViewModel.getSharedPrefsPath() + path, packageInfo), "shared_prefs_viewer")
+                        }
 
+                        override fun onDeleteClicked() {
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                override fun onSure() {
+                                    sharedPreferencesViewModel.deletePreferences(path, position)
+                                }
+                            })
+                        }
+                    })
                 }
             })
 
@@ -60,6 +76,18 @@ class SharedPreferences : SearchBarScopedFragment() {
         sharedPreferencesViewModel.getError().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             showError(it)
+        }
+
+        sharedPreferencesViewModel.getDeleted().observe(viewLifecycleOwner) {
+            if (it != -1) {
+                sharedPreferencesViewModel.getSharedPrefs().value?.removeAt(it)
+                recyclerView.adapter?.notifyItemRemoved(it)
+                sharedPreferencesViewModel.resetDeleted()
+            }
+        }
+
+        sharedPreferencesViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it, goBack = false)
         }
     }
 

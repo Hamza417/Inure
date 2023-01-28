@@ -103,6 +103,7 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, private va
         loadSharedPrefsFile(fileSystemManager)
     }
 
+    @Suppress("unused")
     fun replacePreferences(text: String, requestCode: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -124,10 +125,13 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, private va
             kotlin.runCatching {
                 // Force close the app first
                 Shell.cmd("am force-stop ${packageInfo.packageName}").exec()
+
                 val extendedFile = getFileSystemManager()?.getFile(pathToXml)
                 val outputStream = extendedFile?.newOutputStream()
                 outputStream?.write(text.toByteArray())
                 outputStream?.close()
+
+                // Set the permissions of the file to 660
                 Shell.cmd("chmod 660 $pathToXml").exec()
 
                 loaderCode.postValue(requestCode)
