@@ -152,7 +152,7 @@
     <string name="disabled">已停用</string>
     <string name="enable">啟用</string>
     <string name="disable">停用</string>
-    <string name="desc_not_available">沒有描述可用。</string>
+    <string name="desc_not_available">沒有可用的描述。</string>
     <string name="permission_info_not_available">權限資訊無法使用。</string>
     <string name="loading">正在載入</string>
     <string name="total">總計 %d</string>
@@ -655,4 +655,8 @@
     <string name="yesterday">昨天</string>
     <string name="weekly_usage">每週使用資料</string>
     <string name="quote_for_bash">Bash 引文</string>
+    <string name="export">匯出</string>
+    <string name="add">新增</string>
+    <string name="description">描述描述</string>
+    <string name="fstrim">fstrim</string>
 </resources>
