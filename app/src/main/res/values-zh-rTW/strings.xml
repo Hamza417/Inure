@@ -658,5 +658,6 @@
     <string name="export">匯出</string>
     <string name="add">新增</string>
     <string name="description">描述描述</string>
-    <string name="fstrim">fstrim</string>
+    <string name="run">執行</string>
+    <string name="edit">編輯</string>
 </resources>
