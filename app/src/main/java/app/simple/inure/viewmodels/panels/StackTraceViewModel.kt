@@ -18,7 +18,11 @@ class StackTraceViewModel(application: Application) : WrappedViewModel(applicati
         }
     }
 
-    private val delete = MutableLiveData<Int>()
+    private val delete: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>().also {
+            it.postValue(-1)
+        }
+    }
 
     fun getStackTraces(): LiveData<ArrayList<StackTrace>> {
         return stackTraces
@@ -61,5 +65,9 @@ class StackTraceViewModel(application: Application) : WrappedViewModel(applicati
                 postError(it)
             }
         }
+    }
+
+    fun resetDelete() {
+        delete.postValue(-1)
     }
 }

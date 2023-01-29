@@ -77,6 +77,7 @@ class AdapterStackTraces(val stackTraces: ArrayList<StackTrace>) : RecyclerView.
         stackTraces.removeAt(position)
         notifyItemChanged(0)
         notifyItemRemoved(position.plus(1))
+        notifyItemRangeChanged(0, stackTraces.size)
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

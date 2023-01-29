@@ -56,7 +56,7 @@ class AdapterTerminalCommands(val terminalCommands: ArrayList<TerminalCommand>) 
             }
 
             holder.container.setOnClickListener {
-                terminalCommandCallbacks?.onCommandClicked(terminalCommands[position])
+                terminalCommandCallbacks?.onCommandClicked(terminalCommands[holder.bindingAdapterPosition.minus(1)])
             }
 
             holder.container.setOnLongClickListener {
@@ -89,6 +89,7 @@ class AdapterTerminalCommands(val terminalCommands: ArrayList<TerminalCommand>) 
         terminalCommands.removeAt(position)
         notifyItemChanged(0)
         notifyItemRemoved(position.plus(1))
+        notifyItemRangeChanged(0, terminalCommands.size)
     }
 
     fun updateItem(terminalCommand: TerminalCommand, position: Int) {

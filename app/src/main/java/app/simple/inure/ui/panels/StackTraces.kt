@@ -87,7 +87,10 @@ class StackTraces : ScopedFragment() {
             })
 
             stackTraceViewModel.getDelete().observe(viewLifecycleOwner) {
-                adapterStackTraces.itemRemoved(it)
+                if (it != -1) {
+                    adapterStackTraces.itemRemoved(it)
+                    stackTraceViewModel.resetDelete()
+                }
             }
 
             recyclerView.adapter = adapterStackTraces
@@ -104,10 +107,6 @@ class StackTraces : ScopedFragment() {
                         childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                             override fun onSure() {
                                 stackTraceViewModel.deleteAllStackTraces()
-                            }
-
-                            override fun onCancel() {
-                                // do nothing
                             }
                         })
                     }
