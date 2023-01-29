@@ -145,60 +145,64 @@ class Installer : ScopedFragment() {
 
         installerViewModel.getPackageInfo().observe(viewLifecycleOwner) {
             loader.gone()
-            packageInfo = it
+            kotlin.runCatching {
+                packageInfo = it
 
-            name.text = packageInfo.applicationInfo.name
-            packageName.text = buildString {
-                append(packageInfo.packageName)
-                append(" (${packageInfo.versionName})")
-            }
+                name.text = packageInfo.applicationInfo.name
+                packageName.text = buildString {
+                    append(packageInfo.packageName)
+                    append(" (${packageInfo.versionName})")
+                }
 
-            checkLaunchStatus()
+                checkLaunchStatus()
 
-            if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
-                install.gone()
-                update.visible(true)
-                uninstall.visible(true)
-            } else {
-                install.visible(true)
-                update.gone()
-                uninstall.gone()
-            }
+                if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
+                    install.gone()
+                    update.visible(true)
+                    uninstall.visible(true)
+                } else {
+                    install.visible(true)
+                    update.gone()
+                    uninstall.gone()
+                }
 
-            install.setOnClickListener {
-                loader.visible(true)
-                install.gone()
-                update.gone()
-                uninstall.gone()
-                launch.gone()
-                installerViewModel.install()
-            }
+                install.setOnClickListener {
+                    loader.visible(true)
+                    install.gone()
+                    update.gone()
+                    uninstall.gone()
+                    launch.gone()
+                    installerViewModel.install()
+                }
 
-            update.setOnClickListener {
-                install.callOnClick()
-            }
+                update.setOnClickListener {
+                    install.callOnClick()
+                }
 
-            uninstall.setOnClickListener {
-                val sure = Sure.newInstance()
-                sure.setOnSureCallbackListener(object : SureCallbacks {
-                    override fun onSure() {
-                        val uninstaller = Uninstaller.newInstance(packageInfo)
+                uninstall.setOnClickListener {
+                    val sure = Sure.newInstance()
+                    sure.setOnSureCallbackListener(object : SureCallbacks {
+                        override fun onSure() {
+                            val uninstaller = Uninstaller.newInstance(packageInfo)
 
-                        uninstaller.listener = {
-                            if (!requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
-                                uninstall.gone(animate = false)
-                                update.gone(animate = false)
-                                install.visible(animate = false)
+                            uninstaller.listener = {
+                                if (!requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
+                                    uninstall.gone(animate = false)
+                                    update.gone(animate = false)
+                                    install.visible(animate = false)
+                                }
+
+                                checkLaunchStatus()
                             }
 
-                            checkLaunchStatus()
+                            uninstaller.show(childFragmentManager, "uninstaller")
                         }
+                    })
 
-                        uninstaller.show(childFragmentManager, "uninstaller")
-                    }
-                })
-
-                sure.show(childFragmentManager, "sure")
+                    sure.show(childFragmentManager, "sure")
+                }
+            }.onFailure {
+                showWarning(it.localizedMessage!!)
             }
         }
 

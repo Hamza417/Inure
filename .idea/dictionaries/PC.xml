@@ -179,6 +179,7 @@
       <w>propname</w>
       <w>pspimage</w>
       <w>pthread</w>
+      <w>ptty</w>
       <w>quickapps</w>
       <w>rajdhani</w>
       <w>readystatechange</w>
@@ -192,6 +193,7 @@
       <w>rummler</w>
       <w>sbyte</w>
       <w>scaler</w>
+      <w>scrollback</w>
       <w>scrollers</w>
       <w>searchbox</w>
       <w>seekbar</w>
@@ -222,6 +224,7 @@
       <w>thumbr</w>
       <w>tidelift</w>
       <w>timedlock</w>
+      <w>tiocswinsz</w>
       <w>toml</w>
       <w>tommynok</w>
       <w>topjohnwu</w>

@@ -56,36 +56,25 @@ import java.nio.charset.StandardCharsets;
  * and closes the attached I/O streams.
  */
 public class TermSession {
-    public void setKeyListener(TermKeyListener l) {
-        mKeyListener = l;
-    }
-    
-    private TermKeyListener mKeyListener;
-    
-    private ColorScheme mColorScheme = BaseTextRenderer.defaultColorScheme;
-    private UpdateCallback mNotify;
-    
-    private OutputStream mTermOut;
-    private InputStream mTermIn;
-    
-    private String mTitle;
-    
-    private TranscriptScreen mTranscriptScreen;
-    private TerminalEmulator mEmulator;
-    
-    private boolean mDefaultUTF8Mode;
-    
-    private final Thread mReaderThread;
-    private final ByteQueue mByteQueue;
-    private final byte[] mReceiveBuffer;
-    
-    private final Thread mWriterThread;
-    private final ByteQueue mWriteQueue;
-    private Handler mWriterHandler;
-    
-    private final CharBuffer mWriteCharBuffer;
-    private final ByteBuffer mWriteByteBuffer;
-    private final CharsetEncoder mUTF8Encoder;
+    private final Thread readerThread;
+    private final ByteQueue byteQueue;
+    private final byte[] receiverBuffer;
+    private final Thread writerThread;
+    private final ByteQueue writeQueue;
+    private final CharBuffer writeCharBuffer;
+    private final ByteBuffer writeByteBuffer;
+    private final CharsetEncoder utf8Encoder;
+    private TermKeyListener keyListener;
+    private ColorScheme colorScheme = BaseTextRenderer.defaultColorScheme;
+    private UpdateCallback notify;
+    private OutputStream termOut;
+    private InputStream termIn;
+    private String title;
+    private TranscriptScreen transcriptScreen;
+    private TerminalEmulator emulator;
+    private boolean defaultUTF8Mode;
+    private Handler writerHandler;
+    private FinishCallback finishCallback;
     
     // Number of rows in the transcript
     private static final int TRANSCRIPT_ROWS = 10000;
@@ -109,14 +98,12 @@ public class TermSession {
         void onSessionFinish(TermSession session);
     }
     
-    private FinishCallback mFinishCallback;
-    
-    private boolean mIsRunning = false;
-    private final Handler mMsgHandler = new Handler() {
-        @SuppressLint ("HandlerLeak")
+    private boolean isRunning = false;
+    @SuppressLint ("HandlerLeak")
+    private final Handler messageHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
-            if (!mIsRunning) {
+            if (!isRunning) {
                 return;
             }
             if (msg.what == NEW_INPUT) {
@@ -127,62 +114,56 @@ public class TermSession {
         }
     };
     
-    private UpdateCallback mTitleChangedListener;
-    
-    public TermSession() {
-        this(false);
-    }
-    
     public TermSession(final boolean exitOnEOF) {
-        mWriteCharBuffer = CharBuffer.allocate(2);
-        mWriteByteBuffer = ByteBuffer.allocate(4);
-        mUTF8Encoder = StandardCharsets.UTF_8.newEncoder();
-        mUTF8Encoder.onMalformedInput(CodingErrorAction.REPLACE);
-        mUTF8Encoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
-        
-        mReceiveBuffer = new byte[4 * 1024];
-        mByteQueue = new ByteQueue(4 * 1024);
-        mReaderThread = new Thread() {
+        writeCharBuffer = CharBuffer.allocate(2);
+        writeByteBuffer = ByteBuffer.allocate(4);
+        utf8Encoder = StandardCharsets.UTF_8.newEncoder();
+        utf8Encoder.onMalformedInput(CodingErrorAction.REPLACE);
+        utf8Encoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+    
+        receiverBuffer = new byte[4 * 1024];
+        byteQueue = new ByteQueue(4 * 1024);
+        readerThread = new Thread() {
             private final byte[] mBuffer = new byte[4096];
-            
+        
             @Override
             public void run() {
                 try {
                     while (true) {
-                        int read = mTermIn.read(mBuffer);
+                        int read = termIn.read(mBuffer);
                         if (read == -1) {
                             // EOF -- process exited
                             break;
                         }
                         int offset = 0;
                         while (read > 0) {
-                            int written = mByteQueue.write(mBuffer,
+                            int written = byteQueue.write(mBuffer,
                                     offset, read);
                             offset += written;
                             read -= written;
-                            mMsgHandler.sendMessage(
-                                    mMsgHandler.obtainMessage(NEW_INPUT));
+                            messageHandler.sendMessage(
+                                    messageHandler.obtainMessage(NEW_INPUT));
                         }
                     }
                 } catch (IOException | InterruptedException ignored) {
                 }
-    
+            
                 if (exitOnEOF) {
-                    mMsgHandler.sendMessage(mMsgHandler.obtainMessage(EOF));
+                    messageHandler.sendMessage(messageHandler.obtainMessage(EOF));
                 }
             }
         };
-        mReaderThread.setName("TermSession input reader");
-        
-        mWriteQueue = new ByteQueue(4096);
-        mWriterThread = new Thread() {
+        readerThread.setName("TermSession input reader");
+    
+        writeQueue = new ByteQueue(4096);
+        writerThread = new Thread() {
             private final byte[] mBuffer = new byte[4096];
-            
+        
             @Override
             public void run() {
                 Looper.prepare();
-    
-                mWriterHandler = new Handler(Looper.myLooper()) {
+            
+                writerHandler = new Handler(Looper.myLooper()) {
                     @Override
                     public void handleMessage(Message msg) {
                         if (msg.what == NEW_OUTPUT) {
@@ -200,9 +181,9 @@ public class TermSession {
             }
             
             private void writeToOutput() {
-                ByteQueue writeQueue = mWriteQueue;
+                ByteQueue writeQueue = TermSession.this.writeQueue;
                 byte[] buffer = mBuffer;
-                OutputStream termOut = mTermOut;
+                OutputStream termOut = TermSession.this.termOut;
                 
                 int bytesAvailable = writeQueue.getBytesAvailable();
                 int bytesToWrite = Math.min(bytesAvailable, buffer.length);
@@ -223,7 +204,17 @@ public class TermSession {
                 }
             }
         };
-        mWriterThread.setName("TermSession output writer");
+        writerThread.setName("TermSession output writer");
+    }
+    
+    private UpdateCallback mTitleChangedListener;
+    
+    public TermSession() {
+        this(false);
+    }
+    
+    public void setKeyListener(TermKeyListener l) {
+        keyListener = l;
     }
     
     protected void onProcessExit() {
@@ -237,14 +228,14 @@ public class TermSession {
      * @param rows    The number of rows in the terminal window.
      */
     public void initializeEmulator(int columns, int rows) {
-        mTranscriptScreen = new TranscriptScreen(columns, TRANSCRIPT_ROWS, rows, mColorScheme);
-        mEmulator = new TerminalEmulator(this, mTranscriptScreen, columns, rows, mColorScheme);
-        mEmulator.setDefaultUTF8Mode(mDefaultUTF8Mode);
-        mEmulator.setKeyListener(mKeyListener);
-        
-        mIsRunning = true;
-        mReaderThread.start();
-        mWriterThread.start();
+        transcriptScreen = new TranscriptScreen(columns, TRANSCRIPT_ROWS, rows, colorScheme);
+        emulator = new TerminalEmulator(this, transcriptScreen, columns, rows, colorScheme);
+        emulator.setDefaultUTF8Mode(defaultUTF8Mode);
+        emulator.setKeyListener(keyListener);
+    
+        isRunning = true;
+        readerThread.start();
+        writerThread.start();
     }
     
     /**
@@ -266,7 +257,7 @@ public class TermSession {
     public void write(byte[] data, int offset, int count) {
         try {
             while (count > 0) {
-                int written = mWriteQueue.write(data, offset, count);
+                int written = writeQueue.write(data, offset, count);
                 offset += written;
                 count -= written;
                 notifyNewOutput();
@@ -304,7 +295,7 @@ public class TermSession {
      * @param codePoint The Unicode code point to write to the terminal.
      */
     public void write(int codePoint) {
-        ByteBuffer byteBuf = mWriteByteBuffer;
+        ByteBuffer byteBuf = writeByteBuffer;
         if (codePoint < 128) {
             // Fast path for ASCII characters
             byte[] buf = byteBuf.array();
@@ -312,12 +303,13 @@ public class TermSession {
             write(buf, 0, 1);
             return;
         }
-        
-        CharBuffer charBuf = mWriteCharBuffer;
-        CharsetEncoder encoder = mUTF8Encoder;
-        
+    
+        CharBuffer charBuf = writeCharBuffer;
+        CharsetEncoder encoder = utf8Encoder;
+    
         charBuf.clear();
         byteBuf.clear();
+        //noinspection ResultOfMethodCallIgnored
         Character.toChars(codePoint, charBuf.array(), 0);
         encoder.reset();
         encoder.encode(charBuf, byteBuf, true);
@@ -327,7 +319,7 @@ public class TermSession {
     
     /* Notify the writer thread that there's new output waiting */
     private void notifyNewOutput() {
-        Handler writerHandler = mWriterHandler;
+        Handler writerHandler = this.writerHandler;
         if (writerHandler == null) {
             /* Writer thread isn't started -- will pick up data once it does */
             return;
@@ -340,8 +332,9 @@ public class TermSession {
      *
      * @return This session's {@link OutputStream}.
      */
+    @SuppressWarnings ("unused")
     public OutputStream getTermOut() {
-        return mTermOut;
+        return termOut;
     }
     
     /**
@@ -350,7 +343,7 @@ public class TermSession {
      * @param termOut This session's {@link OutputStream}.
      */
     public void setTermOut(OutputStream termOut) {
-        mTermOut = termOut;
+        this.termOut = termOut;
     }
     
     /**
@@ -358,8 +351,9 @@ public class TermSession {
      *
      * @return This session's {@link InputStream}.
      */
+    @SuppressWarnings ("unused")
     public InputStream getTermIn() {
-        return mTermIn;
+        return termIn;
     }
     
     /**
@@ -368,22 +362,23 @@ public class TermSession {
      * @param termIn This session's {@link InputStream}.
      */
     public void setTermIn(InputStream termIn) {
-        mTermIn = termIn;
+        this.termIn = termIn;
     }
     
     /**
      * @return Whether the terminal emulation is currently running.
      */
     public boolean isRunning() {
-        return mIsRunning;
+        return isRunning;
     }
     
+    @SuppressWarnings ("unused")
     TranscriptScreen getTranscriptScreen() {
-        return mTranscriptScreen;
+        return transcriptScreen;
     }
     
     TerminalEmulator getEmulator() {
-        return mEmulator;
+        return emulator;
     }
     
     /**
@@ -393,7 +388,7 @@ public class TermSession {
      * @param notify The {@link UpdateCallback} to be invoked on changes.
      */
     public void setUpdateCallback(UpdateCallback notify) {
-        mNotify = notify;
+        this.notify = notify;
     }
     
     /**
@@ -401,8 +396,8 @@ public class TermSession {
      * #setUpdateCallback setUpdateCallback} that the screen has changed.
      */
     protected void notifyUpdate() {
-        if (mNotify != null) {
-            mNotify.onUpdate();
+        if (notify != null) {
+            notify.onUpdate();
         }
     }
     
@@ -410,14 +405,14 @@ public class TermSession {
      * Get the terminal session's title (may be null).
      */
     public String getTitle() {
-        return mTitle;
+        return title;
     }
     
     /**
      * Change the terminal session's title.
      */
     public void setTitle(String title) {
-        mTitle = title;
+        this.title = title;
         notifyTitleChanged();
     }
     
@@ -456,10 +451,10 @@ public class TermSession {
      * @param rows    The number of rows in the terminal window.
      */
     public void updateSize(int columns, int rows) {
-        if (mEmulator == null) {
+        if (emulator == null) {
             initializeEmulator(columns, rows);
         } else {
-            mEmulator.updateSize(columns, rows);
+            emulator.updateSize(columns, rows);
         }
     }
     
@@ -470,24 +465,24 @@ public class TermSession {
      * scrollback buffer.
      */
     public String getTranscriptText() {
-        return mTranscriptScreen.getTranscriptText();
+        return transcriptScreen.getTranscriptText();
     }
     
     /**
      * Look for new input from the ptty, send it to the terminal emulator.
      */
     private void readFromProcess() {
-        int bytesAvailable = mByteQueue.getBytesAvailable();
-        int bytesToRead = Math.min(bytesAvailable, mReceiveBuffer.length);
-        int bytesRead = 0;
+        int bytesAvailable = byteQueue.getBytesAvailable();
+        int bytesToRead = Math.min(bytesAvailable, receiverBuffer.length);
+        int bytesRead;
         try {
-            bytesRead = mByteQueue.read(mReceiveBuffer, 0, bytesToRead);
+            bytesRead = byteQueue.read(receiverBuffer, 0, bytesToRead);
         } catch (InterruptedException e) {
             return;
         }
-        
+    
         // Give subclasses a chance to process the read data
-        processInput(mReceiveBuffer, 0, bytesRead);
+        processInput(receiverBuffer, 0, bytesRead);
         notifyUpdate();
     }
     
@@ -505,7 +500,7 @@ public class TermSession {
      * @param count  The number of bytes read.
      */
     protected void processInput(byte[] data, int offset, int count) {
-        mEmulator.append(data, offset, count);
+        emulator.append(data, offset, count);
     }
     
     /**
@@ -517,8 +512,8 @@ public class TermSession {
      * @param offset The starting offset into the buffer of the data.
      * @param count  The length of the data to be written.
      */
-    protected final void appendToEmulator(byte[] data, int offset, int count) {
-        mEmulator.append(data, offset, count);
+    protected final void appendToEmulator(byte[] data, @SuppressWarnings ("SameParameterValue") int offset, int count) {
+        emulator.append(data, offset, count);
     }
     
     /**
@@ -531,11 +526,11 @@ public class TermSession {
         if (scheme == null) {
             scheme = BaseTextRenderer.defaultColorScheme;
         }
-        mColorScheme = scheme;
-        if (mEmulator == null) {
+        colorScheme = scheme;
+        if (emulator == null) {
             return;
         }
-        mEmulator.setColorScheme(scheme);
+        emulator.setColorScheme(scheme);
     }
     
     /**
@@ -550,11 +545,11 @@ public class TermSession {
      *                      mode by default.
      */
     public void setDefaultUTF8Mode(boolean utf8ByDefault) {
-        mDefaultUTF8Mode = utf8ByDefault;
-        if (mEmulator == null) {
+        defaultUTF8Mode = utf8ByDefault;
+        if (emulator == null) {
             return;
         }
-        mEmulator.setDefaultUTF8Mode(utf8ByDefault);
+        emulator.setDefaultUTF8Mode(utf8ByDefault);
     }
     
     /**
@@ -563,10 +558,10 @@ public class TermSession {
      * @return Whether the emulator is currently in UTF-8 mode.
      */
     public boolean getUTF8Mode() {
-        if (mEmulator == null) {
-            return mDefaultUTF8Mode;
+        if (emulator == null) {
+            return defaultUTF8Mode;
         } else {
-            return mEmulator.getUTF8Mode();
+            return emulator.getUTF8Mode();
         }
     }
     
@@ -577,8 +572,8 @@ public class TermSession {
      * @param utf8ModeNotify The {@link UpdateCallback} to be invoked.
      */
     public void setUTF8ModeUpdateCallback(UpdateCallback utf8ModeNotify) {
-        if (mEmulator != null) {
-            mEmulator.setUTF8ModeUpdateCallback(utf8ModeNotify);
+        if (emulator != null) {
+            emulator.setUTF8ModeUpdateCallback(utf8ModeNotify);
         }
     }
     
@@ -586,7 +581,7 @@ public class TermSession {
      * Reset the terminal emulator's state.
      */
     public void reset() {
-        mEmulator.reset();
+        emulator.reset();
         notifyUpdate();
     }
     
@@ -597,7 +592,7 @@ public class TermSession {
      * @param callback The {@link FinishCallback} to be invoked on finish.
      */
     public void setFinishCallback(FinishCallback callback) {
-        mFinishCallback = callback;
+        finishCallback = callback;
     }
     
     /**
@@ -606,26 +601,36 @@ public class TermSession {
      * <code>OutputStream</code>.
      */
     public void finish() {
-        mIsRunning = false;
-        mEmulator.finish();
-        if (mTranscriptScreen != null) {
-            mTranscriptScreen.finish();
-        }
-        
-        // Stop the reader and writer threads, and close the I/O streams
-        if (mWriterHandler != null) {
-            mWriterHandler.sendEmptyMessage(FINISH);
-        }
         try {
-            mTermIn.close();
-            mTermOut.close();
-        } catch (IOException e) {
-            // We don't care if this fails
-        } catch (NullPointerException ignored) {
-        }
+            isRunning = false;
+            try {
+                emulator.finish();
+            } catch (Exception e) {
+                // throw new RuntimeException(e);
+                // Ignore any exceptions that occur during finish
+            }
+            if (transcriptScreen != null) {
+                transcriptScreen.finish();
+            }
         
-        if (mFinishCallback != null) {
-            mFinishCallback.onSessionFinish(this);
+            // Stop the reader and writer threads, and close the I/O streams
+            if (writerHandler != null) {
+                writerHandler.sendEmptyMessage(FINISH);
+            }
+        
+            try {
+                termIn.close();
+                termOut.close();
+            } catch (IOException e) {
+                // We don't care if this fails
+            } catch (NullPointerException ignored) {
+            }
+        
+            if (finishCallback != null) {
+                finishCallback.onSessionFinish(this);
+            }
+        } catch (Exception ignored) {
+            // Ignore any exceptions that occur during finish
         }
     }
 }
