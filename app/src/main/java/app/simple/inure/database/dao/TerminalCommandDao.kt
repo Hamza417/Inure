@@ -23,6 +23,12 @@ interface TerminalCommandDao {
     suspend fun insertTerminalCommand(terminalCommand: TerminalCommand)
 
     /**
+     * Update a [TerminalCommand] item
+     */
+    @Update
+    suspend fun updateTerminalCommand(terminalCommand: TerminalCommand)
+
+    /**
      * Delete the entire table
      */
     @Query("DELETE FROM terminal_commands")

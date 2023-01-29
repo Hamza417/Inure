@@ -14,7 +14,7 @@ import app.simple.inure.models.TerminalCommand
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterTerminalCommands(private val terminalCommands: ArrayList<TerminalCommand>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterTerminalCommands(val terminalCommands: ArrayList<TerminalCommand>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var terminalCommandCallbacks: TerminalCommandCallbacks? = null
 
@@ -85,10 +85,17 @@ class AdapterTerminalCommands(private val terminalCommands: ArrayList<TerminalCo
         this.terminalCommandCallbacks = terminalCommandCallbacks
     }
 
-    fun itemRemoved(position: Int) {
+    fun removeItem(position: Int) {
         terminalCommands.removeAt(position)
         notifyItemChanged(0)
         notifyItemRemoved(position.plus(1))
+    }
+
+    fun updateItem(terminalCommand: TerminalCommand, position: Int) {
+        terminalCommands.removeAt(position)
+        terminalCommands.add(position, terminalCommand)
+        notifyItemChanged(0)
+        notifyItemChanged(position.plus(1))
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

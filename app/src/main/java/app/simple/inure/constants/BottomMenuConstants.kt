@@ -54,7 +54,7 @@ object BottomMenuConstants {
 
     private val terminalCommandsBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
             Pair(R.drawable.ic_add, R.string.add),
-            Pair(R.drawable.ic_clear_all, R.string.clear),
+            // Pair(R.drawable.ic_clear_all, R.string.clear),
             divider,
             Pair(R.drawable.ic_settings, R.string.preferences),
             divider,

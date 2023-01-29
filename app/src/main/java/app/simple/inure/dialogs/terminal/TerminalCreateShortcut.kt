@@ -6,11 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
+import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.TerminalConstants
 import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.terminal.TerminalAddShortcutCallbacks
+import app.simple.inure.models.TerminalCommand
+import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.ParcelUtils.parcelable
 
 class TerminalCreateShortcut : ScopedBottomSheetFragment() {
 
@@ -23,6 +28,7 @@ class TerminalCreateShortcut : ScopedBottomSheetFragment() {
     private lateinit var cancel: DynamicRippleTextView
 
     private var terminalAddShortcutCallbacks: TerminalAddShortcutCallbacks? = null
+    private var terminalCommand: TerminalCommand? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_create_terminal_shortcut, container, false)
@@ -35,11 +41,22 @@ class TerminalCreateShortcut : ScopedBottomSheetFragment() {
         save = view.findViewById(R.id.save)
         cancel = view.findViewById(R.id.cancel)
 
+        terminalCommand = requireArguments().parcelable(BundleConstants.terminalCommand)
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (terminalCommand.isNotNull()) {
+            command.setText(terminalCommand!!.command)
+            args.setText(terminalCommand!!.arguments)
+            label.setText(terminalCommand!!.label)
+            description.setText(terminalCommand!!.description)
+        } else {
+            command.hint = TerminalConstants.getRandomCommandHint()
+        }
 
         args.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -103,6 +120,15 @@ class TerminalCreateShortcut : ScopedBottomSheetFragment() {
         fun FragmentManager.createTerminalShortcut(): TerminalCreateShortcut {
             val fragment = newInstance()
             fragment.show(this, "create_terminal_shortcut")
+            return fragment
+        }
+
+        fun FragmentManager.editTerminalShortcut(terminalCommand: TerminalCommand): TerminalCreateShortcut {
+            val args = Bundle()
+            args.putParcelable(BundleConstants.terminalCommand, terminalCommand)
+            val fragment = TerminalCreateShortcut()
+            fragment.arguments = args
+            fragment.show(this, "edit_terminal_shortcut")
             return fragment
         }
     }

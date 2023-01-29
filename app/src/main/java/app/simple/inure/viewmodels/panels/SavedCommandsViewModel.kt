@@ -53,4 +53,24 @@ class SavedCommandsViewModel(application: Application) : WrappedViewModel(applic
                                            .getAllTerminalCommands() as ArrayList<TerminalCommand>?)
         }
     }
+
+    fun deleteCommand(terminalCommand: TerminalCommand?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            TerminalCommandDatabase
+                .getInstance(getApplication())!!
+                .terminalCommandDao()!!
+                .deleteTerminalCommand(terminalCommand!!)
+
+            terminalCommands.value?.remove(terminalCommand)
+        }
+    }
+
+    fun updateCommand(terminalCommand: TerminalCommand) {
+        viewModelScope.launch(Dispatchers.IO) {
+            TerminalCommandDatabase
+                .getInstance(getApplication())!!
+                .terminalCommandDao()!!
+                .updateTerminalCommand(terminalCommand)
+        }
+    }
 }

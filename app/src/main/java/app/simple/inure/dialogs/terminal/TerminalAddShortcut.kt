@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.constants.TerminalConstants
 import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceEditText
@@ -38,6 +39,8 @@ class TerminalAddShortcut : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        command.hint = TerminalConstants.getRandomCommandHint()
 
         args.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {

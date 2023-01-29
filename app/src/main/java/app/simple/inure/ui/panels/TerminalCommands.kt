@@ -14,11 +14,13 @@ import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.terminal.TerminalCreateShortcut.Companion.createTerminalShortcut
+import app.simple.inure.dialogs.terminal.TerminalCreateShortcut.Companion.editTerminalShortcut
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.interfaces.terminal.TerminalAddShortcutCallbacks
 import app.simple.inure.interfaces.terminal.TerminalCommandCallbacks
 import app.simple.inure.models.TerminalCommand
+import app.simple.inure.popups.terminal.PopupTerminalCommands
 import app.simple.inure.terminal.RunShortcut
 import app.simple.inure.terminal.TermDebug
 import app.simple.inure.terminal.compat.PRNGFixes
@@ -52,14 +54,37 @@ class TerminalCommands : ScopedFragment() {
                     runCommand(terminalCommand)
                 }
 
-                override fun onCommandLongClicked(terminalCommand: TerminalCommand?, view: View, minus: Int) {
+                override fun onCommandLongClicked(terminalCommand: TerminalCommand?, view: View, position: Int) {
+                    PopupTerminalCommands(view).setOnPopupNotesMenuCallbackListener(object : PopupTerminalCommands.Companion.PopupTerminalCommandsCallbacks {
+                        override fun onDeleteClicked() {
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                override fun onSure() {
+                                    savedCommandsViewModel.deleteCommand(terminalCommand)
+                                    adapterTerminalCommands.removeItem(position)
+                                }
+                            })
+                        }
 
+                        override fun onRunClicked() {
+                            runCommand(terminalCommand)
+                        }
+
+                        override fun onEditClicked() {
+                            childFragmentManager.editTerminalShortcut(terminalCommand!!).setTerminalAddShortcutCallbacks(object : TerminalAddShortcutCallbacks {
+                                override fun onCreateShortcut(path: String?, args: String?, label: String?, description: String?) {
+                                    val terminalCommandEdited = TerminalCommand(path, args, label, description, terminalCommand.dateCreated)
+                                    savedCommandsViewModel.updateCommand(terminalCommandEdited)
+                                    adapterTerminalCommands.updateItem(terminalCommandEdited, position)
+                                }
+                            })
+                        }
+                    })
                 }
             })
 
             recyclerView.adapter = adapterTerminalCommands
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getTerminalCommandsBottomMenuItems(), recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getTerminalCommandsBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_add -> {
                         childFragmentManager.createTerminalShortcut().setTerminalAddShortcutCallbacks(object : TerminalAddShortcutCallbacks {

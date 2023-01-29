@@ -657,5 +657,6 @@
     <string name="export">Export</string>
     <string name="add">Add</string>
     <string name="description">Description</string>
-    <string name="fstrim">fstrim</string>
+    <string name="run">Run</string>
+    <string name="edit">Edit</string>
 </resources>

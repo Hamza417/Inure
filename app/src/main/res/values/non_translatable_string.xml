@@ -52,7 +52,4 @@
     <string name="colorvalue_letter_red" translatable="false">R</string>
     <string name="colorvalue_letter_green" translatable="false">G</string>
     <string name="colorvalue_letter_blue" translatable="false">B</string>
-    <string name="fstrim_v_data">fstrim -v /data</string>
-    <string name="trim_data">Trim /data partition</string>
-    <string name="fstrim_data">fstrim data</string>
 </resources>
