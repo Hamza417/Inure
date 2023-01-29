@@ -112,7 +112,12 @@ class RecyclerViewHelper implements FastScroller.ViewHelper {
         offset -= recyclerView.getPaddingTop();
         int itemHeight = getItemHeight();
         // firstItemPosition should be non-negative even if paddingTop is greater than item height.
-        int firstItemPosition = Math.max(0, offset / itemHeight);
+        int firstItemPosition;
+        try {
+            firstItemPosition = Math.max(0, offset / itemHeight);
+        } catch (ArithmeticException e) {
+            firstItemPosition = 0;
+        }
         int firstItemTop = firstItemPosition * itemHeight - offset;
         scrollToPositionWithOffset(firstItemPosition, firstItemTop);
     }
