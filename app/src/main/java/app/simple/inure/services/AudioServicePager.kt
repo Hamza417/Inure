@@ -24,6 +24,7 @@ import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.exceptions.InureMediaEngineException
 import app.simple.inure.models.AudioModel
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
@@ -31,6 +32,7 @@ import app.simple.inure.receivers.MediaButtonIntentReceiver
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ImageHelper.getBitmapFromUri
+import app.simple.inure.util.ImageHelper.getBitmapFromUriForNotifications
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
 import kotlinx.coroutines.CoroutineScope
@@ -317,14 +319,19 @@ class AudioServicePager : Service(),
             CoroutineScope(Dispatchers.IO).launch {
                 metaData = audioModels!![currentPosition]
 
-                mediaMetadataCompat = MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
-                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
-                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
-                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
-                    // .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, getBitmapFromUriForNotifications(applicationContext, audioModels?.get(currentPosition)?.artUri!!, 1024))
-                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
-                    .build()
+                with(MediaMetadataCompat.Builder()) {
+                    putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
+                    putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
+                    putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
+                    putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.addBitmapToMetadata)) {
+                        putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
+                                  getBitmapFromUriForNotifications(applicationContext,
+                                                                   audioModels?.get(currentPosition)?.artUri!!, 1024))
+                    }
+                    putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
+                    mediaMetadataCompat = build()
+                }
 
                 withContext(Dispatchers.Main) {
                     setupMediaSession()
@@ -473,12 +480,12 @@ class AudioServicePager : Service(),
                             setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
                             kotlin.runCatching {
                                 showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlayPager))
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    stopForeground(STOP_FOREGROUND_DETACH)
-                                } else {
-                                    @Suppress("DEPRECATION")
-                                    stopForeground(false)
-                                }
+                                //                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                //                                    stopForeground(STOP_FOREGROUND_DETACH)
+                                //                                } else {
+                                //                                    @Suppress("DEPRECATION")
+                                //                                    stopForeground(false)
+                                //                                }
                             }
                         }
                         timer!!.cancel()

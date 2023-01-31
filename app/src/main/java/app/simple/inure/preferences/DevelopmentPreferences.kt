@@ -16,6 +16,7 @@ object DevelopmentPreferences {
     const val loadAlbumArtFromFile = "is_album_art_loaded_from_file"
     const val useOldStyleUsageStatsPanel = "is_old_style_usage_stats_panel_enabled"
     const val enableDeviceInfo = "is_device_info_enabled"
+    const val addBitmapToMetadata = "is_bitmap_added_to_metadata"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> = listOf(
             DevelopmentPreferencesModel("Use WebView for XML Preview",
@@ -76,6 +77,11 @@ object DevelopmentPreferences {
             DevelopmentPreferencesModel("Enable Device Info",
                                         "Enable Device Info panel in the app. It was planned but never implemented.",
                                         enableDeviceInfo,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Add Bitmap To Metadata",
+                                        "Add bitmap to metadata of the metadata of MusicPlayerService. Useful for ROMs that shows Album Art on Lock Screen.",
+                                        addBitmapToMetadata,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN)
     ).sortedBy {
         it.title
