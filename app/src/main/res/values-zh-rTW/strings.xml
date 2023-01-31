@@ -660,4 +660,5 @@
     <string name="description">描述描述</string>
     <string name="run">執行</string>
     <string name="edit">編輯</string>
+    <string name="select_all">全部選取</string>
 </resources>
