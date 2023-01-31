@@ -230,6 +230,24 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         notifyItemRangeInserted(1, it.size.plus(1))
     }
 
+    fun selectAll() {
+        for (i in apps.indices) {
+            apps[i].isSelected = true
+            notifyItemChanged(i.plus(1))
+        }
+    }
+
+    fun isAllSelected(): Boolean {
+        return apps.stream().allMatch { it.isSelected }
+    }
+
+    fun deselectAll() {
+        for (i in apps.indices) {
+            apps[i].isSelected = false
+            notifyItemChanged(i.plus(1))
+        }
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.adapter_batch_app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_batch_app_name)

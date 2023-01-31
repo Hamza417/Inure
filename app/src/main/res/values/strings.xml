@@ -659,4 +659,5 @@
     <string name="description">Description</string>
     <string name="run">Run</string>
     <string name="edit">Edit</string>
+    <string name="select_all">Select All</string>
 </resources>

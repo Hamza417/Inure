@@ -89,6 +89,15 @@ class Batch : ScopedFragment() {
         if (bottomRightCornerMenu?.menuAdapter?.itemCount == getBatchMenuItems().size) return
         bottomRightCornerMenu?.initBottomMenuWithRecyclerView(getBatchMenuItems(), recyclerView) { id, view ->
             when (id) {
+                R.drawable.ic_select_all -> {
+                    showLoader(manualOverride = true)
+
+                    if (adapterBatch?.isAllSelected() == true) {
+                        batchViewModel.deselectAllBatchItems()
+                    } else {
+                        batchViewModel.selectAllBatchItems()
+                    }
+                }
                 R.drawable.ic_sort -> {
                     PopupBatchSortingStyle(view)
                 }
@@ -142,7 +151,7 @@ class Batch : ScopedFragment() {
             }
         }
 
-        return BottomMenuConstants.getAllAppsBottomMenuItems()
+        return BottomMenuConstants.getBatchUnselectedMenu()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

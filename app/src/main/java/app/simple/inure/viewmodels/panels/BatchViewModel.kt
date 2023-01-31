@@ -187,4 +187,38 @@ class BatchViewModel(application: Application) : PackageUtilsViewModel(applicati
         super.onCleared()
         batchDatabase?.close()
     }
+
+    fun selectAllBatchItems() {
+        viewModelScope.launch(Dispatchers.IO) {
+            batchDatabase = BatchDatabase.getInstance(context)
+            for (batchData in batchData.value!!) {
+                if (!batchData.isSelected) {
+                    batchDatabase?.batchDao()
+                        ?.insertBatch(BatchModel(batchData.packageInfo.packageName,
+                                                 true,
+                                                 System.currentTimeMillis()))
+                }
+            }
+
+            loadSelectedApps()
+            loadAppData()
+        }
+    }
+
+    fun deselectAllBatchItems() {
+        viewModelScope.launch(Dispatchers.IO) {
+            batchDatabase = BatchDatabase.getInstance(context)
+            for (batchData in batchData.value!!) {
+                if (batchData.isSelected) {
+                    batchDatabase?.batchDao()
+                        ?.insertBatch(BatchModel(batchData.packageInfo.packageName,
+                                                 false,
+                                                 System.currentTimeMillis()))
+                }
+            }
+
+            loadSelectedApps()
+            loadAppData()
+        }
+    }
 }

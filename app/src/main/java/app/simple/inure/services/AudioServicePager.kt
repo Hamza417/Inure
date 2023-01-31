@@ -610,9 +610,9 @@ class AudioServicePager : Service(),
             .setShowWhen(false)
             .setColorized(true)
             .addAction(action) /* Play Pause Action */
-            .addAction(close) /* Close Action */
             .addAction(previous) /* Previous Action */
             .addAction(next) /* Next Action */
+            .addAction(close) /* Close Action */
             .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken)
                           .setShowActionsInCompactView(0, 1, 2, 3))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
