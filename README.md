@@ -100,6 +100,7 @@ That's all.
 - [x] Boot manager for all apps.
 - [ ] Quick Apps Sync from different devices.
 - [ ] Options to modify state of trackers of any app.
+- [ ] Manage system wide default apps.
 
 ### Low priority features
 
