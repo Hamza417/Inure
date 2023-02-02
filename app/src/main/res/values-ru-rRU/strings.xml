@@ -658,4 +658,10 @@
     <string name="yesterday">Вчера</string>
     <string name="weekly_usage">Данные об использовании за неделю</string>
     <string name="quote_for_bash">Цитата на Bash</string>
+    <string name="export">Экспорт</string>
+    <string name="add">Добавить</string>
+    <string name="description">Описание</string>
+    <string name="run">Запустить</string>
+    <string name="edit">Редактирование</string>
+    <string name="select_all">Выбрать всё</string>
 </resources>
