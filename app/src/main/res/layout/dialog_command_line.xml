@@ -25,7 +25,6 @@
         android:hint="@string/addshortcut_command_hint"
         android:importantForAutofill="no"
         android:inputType="textNoSuggestions"
-        android:maxLength="30"
         android:maxLines="1"
         android:paddingHorizontal="@dimen/dialog_padding"
         android:textCursorDrawable="@drawable/text_cursor"
