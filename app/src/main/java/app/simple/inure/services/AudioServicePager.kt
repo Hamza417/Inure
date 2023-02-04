@@ -15,7 +15,6 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import androidx.media.app.NotificationCompat.MediaStyle
@@ -384,7 +383,7 @@ class AudioServicePager : Service(),
             MusicPreferences.setMusicPosition(currentPosition)
         } catch (e: IllegalStateException) {
             // Unknown error maybe?
-            Toast.makeText(applicationContext, e.localizedMessage, Toast.LENGTH_SHORT).show()
+            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaErrorPager, applicationContext, e.stackTraceToString())
             playNext()
         }
     }

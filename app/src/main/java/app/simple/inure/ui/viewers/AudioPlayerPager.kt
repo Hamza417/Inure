@@ -32,7 +32,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.MusicPreferences
@@ -118,6 +117,7 @@ class AudioPlayerPager : ScopedFragment() {
         audioIntentFilter.addAction(ServiceConstants.actionBufferingPager)
         audioIntentFilter.addAction(ServiceConstants.actionNextPager)
         audioIntentFilter.addAction(ServiceConstants.actionPreviousPager)
+        audioIntentFilter.addAction(ServiceConstants.actionMediaErrorPager)
 
         return view
     }
@@ -266,9 +266,7 @@ class AudioPlayerPager : ScopedFragment() {
                         seekBar.updateSecondaryProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
                     }
                     ServiceConstants.actionMediaErrorPager -> {
-                        childFragmentManager.showError(intent.extras?.getString("stringExtra", "unknown_media_playback_error")!!).setOnErrorCallbackListener {
-                            stopService()
-                        }
+                        showError(intent.extras?.getString("stringExtra", "unknown_media_playback_error")!!, goBack = false)
                     }
                 }
             }
