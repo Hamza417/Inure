@@ -1,0 +1,4 @@
+- Added commands manager
+- Implemented Shared Prefs editor
+- Fixed a lot of crashes
+- Major UI improvements
