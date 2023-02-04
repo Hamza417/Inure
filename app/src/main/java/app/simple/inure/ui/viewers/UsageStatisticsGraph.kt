@@ -45,6 +45,8 @@ class UsageStatisticsGraph : ScopedFragment() {
 
     private lateinit var appStatisticsGraphViewModel: AppStatisticsGraphViewModel
 
+    private var barEntries = ArrayList<BarEntry>()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.fragment_app_statistics_graph, container, false)
 
@@ -155,13 +157,14 @@ class UsageStatisticsGraph : ScopedFragment() {
             barChart.data = BarDataSet(it, "").let { dataSet ->
                 dataSet.valueFormatter = AxisFormatter()
                 dataSet.isHighlightEnabled = true
-                dataSet.colors = BAR_COLORS
+                dataSet.colors = BAR_COLORS.reversed()
                 dataSet.valueTypeface = TypeFace.getMediumTypeFace(requireContext())
                 dataSet.formLineWidth = 0f
 
                 BarData(dataSet)
             }
 
+            barEntries = it
             barChart.xAxis.valueFormatter = XAxisFormatter()
             barChart.isKeepPositionOnRotation = true
 
@@ -240,11 +243,7 @@ class UsageStatisticsGraph : ScopedFragment() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             val todayNumber = CalendarUtils.getWeekNumberFromDate(System.currentTimeMillis())
             val dayValue = (value + todayNumber).toInt() % 7 // Offset the day value by today's day
-            return getString(days.getOrNull(dayValue) ?: R.string.not_available)
-        }
-
-        override fun getBarLabel(barEntry: BarEntry?): String {
-            return days.getOrNull(barEntry?.data as Int).toString()
+            return barEntries.getOrNull(value.toInt())?.data?.toString() ?: getString(R.string.not_available)
         }
     }
 

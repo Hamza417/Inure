@@ -17,12 +17,18 @@ import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.ConditionUtils.isNotZero
+import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
+import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.UsageInterval
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.TextStyle
 import java.util.*
 
 class AppStatisticsGraphViewModel(application: Application, private val packageInfo: PackageInfo) : UsageStatsViewModel(application) {
@@ -152,140 +158,49 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
 
     private fun loadChartData(packageStats: PackageStats) {
         viewModelScope.launch(Dispatchers.Default) {
-            Log.d("TAG", "loadChartData: ${packageStats.appUsage?.size}")
-            val barEntries = arrayListOf(
-                    BarEntry(0f, 0f),
-                    BarEntry(1f, 0f),
-                    BarEntry(2f, 0f),
-                    BarEntry(3f, 0f),
-                    BarEntry(4f, 0f),
-                    BarEntry(5f, 0f),
-                    BarEntry(6f, 0f))
+            val barEntries = arrayListOf<BarEntry>()
 
-            packageStats.appUsage?.forEach {
-                when {
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 6 -> {
-                        barEntries[0].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 5 -> {
-                        barEntries[1].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 4 -> {
-                        barEntries[2].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 3 -> {
-                        barEntries[3].y += it.startTime
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 2 -> {
-                        barEntries[4].y += it.startTime
-                    }
-                    CalendarUtils.isYesterday(Date(it.date)) -> {
-                        barEntries[5].y += it.startTime
-                    }
-                    CalendarUtils.isToday(it.date) -> {
-                        barEntries[6].y += it.startTime
-                    }
+            packageStats.appUsage?.forEach { it ->
+                val number = CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) //(7 - it.date.toLocalDate().dayOfWeek.value) % 7
+                // Log.d("reversedWeekNumber", "$reversedWeekNumber: ${it.date.toLocalDate().dayOfWeek.value}")
+
+                Log.d("BarChart", "Day: $number, Date: ${it.date.toDate()}, Label: ${getDayString(it.date.toLocalDate())}")
+
+                try {
+                    barEntries[number].y += it.startTime
+                    barEntries[number].data = getDayString(it.date.toLocalDate())
+                } catch (e: IndexOutOfBoundsException) {
+                    barEntries.add(number, BarEntry(number.toFloat(), it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
                 }
-
-                barChartData.postValue(barEntries)
             }
+
+            // Flip x value of bar entries
+            @Suppress("UNCHECKED_CAST")
+            val copy = barEntries.clone() as ArrayList<BarEntry>
+
+            for (i in 0 until copy.size) {
+                barEntries[i].x = (copy.size - 1 - i).toFloat()
+            }
+
+            barChartData.postValue(barEntries)
         }
     }
 
     private fun loadPieChartData(packageStats: PackageStats) {
         viewModelScope.launch(Dispatchers.Default) {
-            val context = applicationContext()
-            val pieEntries = arrayListOf(
-                    PieEntry(0f, ""),
-                    PieEntry(0f, ""),
-                    PieEntry(0f, ""),
-                    PieEntry(0f, ""),
-                    PieEntry(0f, ""),
-                    PieEntry(0f, ""),
-                    PieEntry(0f, "")
-            )
+            val pieEntries = arrayListOf<PieEntry>()
 
             packageStats.appUsage?.forEach {
-                when {
-                    CalendarUtils.isToday(it.date) -> { // Today
-                        Log.d("TAG", "loadPieChartData: Today 0 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
-                        try {
-                            val pieEntry = PieEntry(pieEntries[0].value + it.startTime, context.getString(R.string.today))
-                            pieEntries.remove(pieEntries[0])
-                            pieEntries.add(0, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.today)))
-                        }
-                    }
-                    CalendarUtils.isYesterday(Date(it.date)) -> { // Yesterday
-                        Log.d("TAG", "loadPieChartData: Yesterday 1 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
-                        try {
-                            val pieEntry = PieEntry(pieEntries[1].value + it.startTime, context.getString(R.string.yesterday))
-                            pieEntries.remove(pieEntries[1])
-                            pieEntries.add(1, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.yesterday)))
-                        }
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 2 -> { // 2 days ago
-                        Log.d("TAG", "loadPieChartData: 2 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
-                        try {
-                            val pieEntry = PieEntry(pieEntries[2].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
-                            pieEntries.remove(pieEntries[2])
-                            pieEntries.add(2, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
-                        }
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 3 -> { // 3 days ago
-                        Log.d("TAG", "loadPieChartData: 3 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
-                        try {
-                            val pieEntry = PieEntry(pieEntries[3].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
-                            pieEntries.remove(pieEntries[3])
-                            pieEntries.add(3, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
-                        }
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 4 -> { // 4 days ago
-                        Log.d("TAG", "loadPieChartData: 4 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
-                        try {
-                            val pieEntry = PieEntry(pieEntries[4].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
-                            pieEntries.remove(pieEntries[4])
-                            pieEntries.add(4, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
-                        }
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 5 -> { // 5 days ago
-                        Log.d("TAG", "loadPieChartData: 5 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
-                        try {
-                            val pieEntry = PieEntry(pieEntries[5].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
-                            pieEntries.remove(pieEntries[5])
-                            pieEntries.add(5, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
-                        }
-                    }
-                    CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) == 6 -> { // 6 days ago
-                        Log.d("TAG", "loadPieChartData: 6 ${context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))} : ${CalendarUtils.getWeekNumberFromDate(it.date)}")
-                        try {
-                            val pieEntry = PieEntry(pieEntries[6].value + it.startTime, context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date)))
-                            pieEntries.remove(pieEntries[6])
-                            pieEntries.add(6, pieEntry)
-                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getWeekName(CalendarUtils.getWeekNumberFromDate(it.date))))
-                        }
-                    }
-                    //                    else -> {
-                    //                        try {
-                    //                            val pieEntry = PieEntry(pieEntries[7].value + it.startTime, context.getString(R.string.rest_of_the_week))
-                    //                            pieEntries.remove(pieEntries[7])
-                    //                            pieEntries.add(2, pieEntry)
-                    //                        } catch (e: java.lang.IndexOutOfBoundsException) {
-                    //                            pieEntries.add(PieEntry(it.startTime.toFloat(), context.getString(R.string.rest_of_the_week)))
-                    //                        }
-                    //                    }
+                val numberOfDays = CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis())
+
+                Log.d("PieChart", "Day: $numberOfDays, Date: ${it.date.toDate()}, Label: ${getDayString(it.date.toLocalDate())}")
+
+                try {
+                    val pieEntry = PieEntry(pieEntries[numberOfDays].value + it.startTime, getDayString(it.date.toLocalDate()))
+                    pieEntries.remove(pieEntries[numberOfDays])
+                    pieEntries.add(numberOfDays, pieEntry)
+                } catch (e: java.lang.IndexOutOfBoundsException) {
+                    pieEntries.add(numberOfDays, PieEntry(it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
                 }
             }
 
@@ -311,15 +226,23 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
 
     private fun Context.getWeekName(weekNumber: Int): String {
         return when (weekNumber) {
-            7 -> getString(R.string.sun)
-            1 -> getString(R.string.mon)
-            2 -> getString(R.string.tue)
-            3 -> getString(R.string.wed)
-            4 -> getString(R.string.thu)
-            5 -> getString(R.string.fri)
-            6 -> getString(R.string.sat)
+            1 -> getString(R.string.sun)
+            2 -> getString(R.string.mon)
+            3 -> getString(R.string.tue)
+            4 -> getString(R.string.wed)
+            5 -> getString(R.string.thu)
+            6 -> getString(R.string.fri)
+            7 -> getString(R.string.sat)
             else -> ""
         }
+    }
+
+    private fun getDayString(date: LocalDate): String? {
+        return date.dayOfWeek.getDisplayName(TextStyle.SHORT, LocaleHelper.getAppLocale())
+    }
+
+    private fun Long.toLocalDate(): LocalDate {
+        return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
     }
 
     @Suppress("unused")

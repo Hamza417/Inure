@@ -71,6 +71,12 @@ public class CalendarUtils {
         return isSameDay(cal, Calendar.getInstance());
     }
     
+    public static boolean isMoreThanOneWeek(long date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -7);
+        return isBeforeDay(new Date(date), calendar.getTime());
+    }
+    
     /**
      * <p>Checks if the first date is before the second date ignoring time.</p>
      *
