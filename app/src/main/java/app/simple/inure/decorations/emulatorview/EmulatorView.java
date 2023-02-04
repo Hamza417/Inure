@@ -981,7 +981,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         
         updateText();
         
-        mEmulator = session.getEmulator();
+        mEmulator = session.getTerminalEmulator();
         session.setUpdateCallback(mUpdateNotify);
         
         requestFocus();

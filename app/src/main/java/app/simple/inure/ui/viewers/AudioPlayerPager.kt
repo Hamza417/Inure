@@ -143,12 +143,14 @@ class AudioPlayerPager : ScopedFragment() {
                     override fun onPageScrollStateChanged(state: Int) {
                         super.onPageScrollStateChanged(state)
                         if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                            currentSeekPosition = 0
-                            MusicPreferences.setMusicPosition(artPager.currentItem)
-                            audioServicePager?.setCurrentPosition(artPager.currentItem)
-                            MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
-                            requireArguments().putInt(BundleConstants.position, artPager.currentItem)
-                            setMetaData(artPager.currentItem)
+                            if (artPager.currentItem != MusicPreferences.getMusicPosition()) {
+                                currentSeekPosition = 0
+                                MusicPreferences.setMusicPosition(artPager.currentItem)
+                                audioServicePager?.setCurrentPosition(artPager.currentItem)
+                                MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
+                                requireArguments().putInt(BundleConstants.position, artPager.currentItem)
+                                setMetaData(artPager.currentItem)
+                            }
                         }
                     }
                 })

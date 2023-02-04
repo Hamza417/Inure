@@ -17,6 +17,7 @@
 package app.simple.inure.terminal;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
@@ -42,7 +43,7 @@ public class ShellTermSession extends GenericTermSession {
     private final String mInitialCommand;
     
     private static final int PROCESS_EXITED = 1;
-    private final Handler mMsgHandler = new Handler() {
+    private final Handler mMsgHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             if (!isRunning()) {
@@ -57,14 +58,14 @@ public class ShellTermSession extends GenericTermSession {
     public ShellTermSession(TermSettings settings, String initialCommand) throws IOException {
         super(ParcelFileDescriptor.open(new File("/dev/ptmx"), ParcelFileDescriptor.MODE_READ_WRITE),
                 settings, false);
-        
+    
         initializeSession();
-        
-        setTermOut(new ParcelFileDescriptor.AutoCloseOutputStream(mTermFd));
-        setTermIn(new ParcelFileDescriptor.AutoCloseInputStream(mTermFd));
-        
+    
+        setTermOut(new ParcelFileDescriptor.AutoCloseOutputStream(termParcelFileDescriptor));
+        setTermIn(new ParcelFileDescriptor.AutoCloseInputStream(termParcelFileDescriptor));
+    
         mInitialCommand = initialCommand;
-        
+    
         mWatcherThread = new Thread() {
             @Override
             public void run() {
@@ -78,7 +79,7 @@ public class ShellTermSession extends GenericTermSession {
     }
     
     private void initializeSession() throws IOException {
-        TermSettings settings = mSettings;
+        TermSettings settings = termSettings;
         
         String path = System.getenv("PATH");
         if (ShellPreferences.INSTANCE.getAllowPathExtensionsState()) {
@@ -149,22 +150,23 @@ public class ShellTermSession extends GenericTermSession {
             }
             args = argList.toArray(new String[1]);
         } catch (Exception e) {
-            argList = parse(mSettings.getFailsafeShell());
+            argList = parse(termSettings.getFailsafeShell());
             arg0 = argList.get(0);
             args = argList.toArray(new String[1]);
         }
-        
-        return TermExec.createSubprocess(mTermFd, arg0, args, env);
+    
+        return TermExec.createSubprocess(termParcelFileDescriptor, arg0, args, env);
     }
     
     private ArrayList <String> parse(String cmd) {
         final int PLAIN = 0;
         final int WHITESPACE = 1;
-        final int INQUOTE = 2;
+        final int IN_QUOTE = 2;
         int state = WHITESPACE;
-        ArrayList <String> result = new ArrayList <String>();
+        ArrayList <String> result = new ArrayList <>();
         int cmdLen = cmd.length();
         StringBuilder builder = new StringBuilder();
+    
         for (int i = 0; i < cmdLen; i++) {
             char c = cmd.charAt(i);
             if (state == PLAIN) {
@@ -173,20 +175,21 @@ public class ShellTermSession extends GenericTermSession {
                     builder.delete(0, builder.length());
                     state = WHITESPACE;
                 } else if (c == '"') {
-                    state = INQUOTE;
+                    state = IN_QUOTE;
                 } else {
                     builder.append(c);
                 }
             } else if (state == WHITESPACE) {
+                //noinspection StatementWithEmptyBody
                 if (Character.isWhitespace(c)) {
                     // do nothing
                 } else if (c == '"') {
-                    state = INQUOTE;
+                    state = IN_QUOTE;
                 } else {
                     state = PLAIN;
                     builder.append(c);
                 }
-            } else if (state == INQUOTE) {
+            } else if (state == IN_QUOTE) {
                 if (c == '\\') {
                     if (i + 1 < cmdLen) {
                         i += 1;
@@ -199,13 +202,15 @@ public class ShellTermSession extends GenericTermSession {
                 }
             }
         }
+    
         if (builder.length() > 0) {
             result.add(builder.toString());
         }
+    
         return result;
     }
     
-    private void onProcessExit(int result) {
+    private void onProcessExit(@SuppressWarnings ("unused") int result) {
         onProcessExit();
     }
     

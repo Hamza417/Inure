@@ -15,6 +15,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import androidx.media.app.NotificationCompat.MediaStyle
@@ -369,17 +370,23 @@ class AudioServicePager : Service(),
     }
 
     private fun initAudioPlayer() {
-        mediaPlayer.reset()
-        mediaPlayer.setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
-        mediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
-        mediaPlayer.setOnCompletionListener(this)
-        mediaPlayer.setOnPreparedListener(this)
-        mediaPlayer.setOnSeekCompleteListener(this)
-        mediaPlayer.setOnBufferingUpdateListener(this)
-        mediaPlayer.setDataSource(applicationContext, audioModels!![currentPosition].fileUri.toUri())
-        mediaPlayer.prepareAsync()
-        MusicPreferences.setLastMusicId(audioModels!![currentPosition].id)
-        MusicPreferences.setMusicPosition(currentPosition)
+        try {
+            mediaPlayer.reset()
+            mediaPlayer.setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
+            mediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+            mediaPlayer.setOnCompletionListener(this)
+            mediaPlayer.setOnPreparedListener(this)
+            mediaPlayer.setOnSeekCompleteListener(this)
+            mediaPlayer.setOnBufferingUpdateListener(this)
+            mediaPlayer.setDataSource(applicationContext, audioModels!![currentPosition].fileUri.toUri())
+            mediaPlayer.prepareAsync()
+            MusicPreferences.setLastMusicId(audioModels!![currentPosition].id)
+            MusicPreferences.setMusicPosition(currentPosition)
+        } catch (e: IllegalStateException) {
+            // Unknown error maybe?
+            Toast.makeText(applicationContext, e.localizedMessage, Toast.LENGTH_SHORT).show()
+            playNext()
+        }
     }
 
     fun setAudioPlayerProps(audioModel: ArrayList<AudioModel>, currentPosition: Int) {

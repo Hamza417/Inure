@@ -71,7 +71,7 @@ public class TermSession {
     private InputStream termIn;
     private String title;
     private TranscriptScreen transcriptScreen;
-    private TerminalEmulator emulator;
+    private TerminalEmulator terminalEmulator;
     private boolean defaultUTF8Mode;
     private Handler writerHandler;
     private FinishCallback finishCallback;
@@ -229,9 +229,9 @@ public class TermSession {
      */
     public void initializeEmulator(int columns, int rows) {
         transcriptScreen = new TranscriptScreen(columns, TRANSCRIPT_ROWS, rows, colorScheme);
-        emulator = new TerminalEmulator(this, transcriptScreen, columns, rows, colorScheme);
-        emulator.setDefaultUTF8Mode(defaultUTF8Mode);
-        emulator.setKeyListener(keyListener);
+        terminalEmulator = new TerminalEmulator(this, transcriptScreen, columns, rows, colorScheme);
+        terminalEmulator.setDefaultUTF8Mode(defaultUTF8Mode);
+        terminalEmulator.setKeyListener(keyListener);
     
         isRunning = true;
         readerThread.start();
@@ -377,8 +377,8 @@ public class TermSession {
         return transcriptScreen;
     }
     
-    TerminalEmulator getEmulator() {
-        return emulator;
+    TerminalEmulator getTerminalEmulator() {
+        return terminalEmulator;
     }
     
     /**
@@ -451,10 +451,10 @@ public class TermSession {
      * @param rows    The number of rows in the terminal window.
      */
     public void updateSize(int columns, int rows) {
-        if (emulator == null) {
+        if (terminalEmulator == null) {
             initializeEmulator(columns, rows);
         } else {
-            emulator.updateSize(columns, rows);
+            terminalEmulator.updateSize(columns, rows);
         }
     }
     
@@ -500,7 +500,7 @@ public class TermSession {
      * @param count  The number of bytes read.
      */
     protected void processInput(byte[] data, int offset, int count) {
-        emulator.append(data, offset, count);
+        terminalEmulator.append(data, offset, count);
     }
     
     /**
@@ -513,7 +513,7 @@ public class TermSession {
      * @param count  The length of the data to be written.
      */
     protected final void appendToEmulator(byte[] data, @SuppressWarnings ("SameParameterValue") int offset, int count) {
-        emulator.append(data, offset, count);
+        terminalEmulator.append(data, offset, count);
     }
     
     /**
@@ -527,10 +527,10 @@ public class TermSession {
             scheme = BaseTextRenderer.defaultColorScheme;
         }
         colorScheme = scheme;
-        if (emulator == null) {
+        if (terminalEmulator == null) {
             return;
         }
-        emulator.setColorScheme(scheme);
+        terminalEmulator.setColorScheme(scheme);
     }
     
     /**
@@ -546,10 +546,10 @@ public class TermSession {
      */
     public void setDefaultUTF8Mode(boolean utf8ByDefault) {
         defaultUTF8Mode = utf8ByDefault;
-        if (emulator == null) {
+        if (terminalEmulator == null) {
             return;
         }
-        emulator.setDefaultUTF8Mode(utf8ByDefault);
+        terminalEmulator.setDefaultUTF8Mode(utf8ByDefault);
     }
     
     /**
@@ -558,10 +558,10 @@ public class TermSession {
      * @return Whether the emulator is currently in UTF-8 mode.
      */
     public boolean getUTF8Mode() {
-        if (emulator == null) {
+        if (terminalEmulator == null) {
             return defaultUTF8Mode;
         } else {
-            return emulator.getUTF8Mode();
+            return terminalEmulator.getUTF8Mode();
         }
     }
     
@@ -572,8 +572,8 @@ public class TermSession {
      * @param utf8ModeNotify The {@link UpdateCallback} to be invoked.
      */
     public void setUTF8ModeUpdateCallback(UpdateCallback utf8ModeNotify) {
-        if (emulator != null) {
-            emulator.setUTF8ModeUpdateCallback(utf8ModeNotify);
+        if (terminalEmulator != null) {
+            terminalEmulator.setUTF8ModeUpdateCallback(utf8ModeNotify);
         }
     }
     
@@ -581,7 +581,7 @@ public class TermSession {
      * Reset the terminal emulator's state.
      */
     public void reset() {
-        emulator.reset();
+        terminalEmulator.reset();
         notifyUpdate();
     }
     
@@ -604,7 +604,7 @@ public class TermSession {
         try {
             isRunning = false;
             try {
-                emulator.finish();
+                terminalEmulator.finish();
             } catch (Exception e) {
                 // throw new RuntimeException(e);
                 // Ignore any exceptions that occur during finish

@@ -179,6 +179,7 @@
       <w>propname</w>
       <w>pspimage</w>
       <w>pthread</w>
+      <w>ptmx</w>
       <w>ptty</w>
       <w>quickapps</w>
       <w>rajdhani</w>
@@ -246,6 +247,7 @@
       <w>vitahabtc</w>
       <w>vrifox</w>
       <w>vterm</w>
+      <w>vttest</w>
       <w>waleedon</w>
       <w>wantarray</w>
       <w>wbmp</w>
