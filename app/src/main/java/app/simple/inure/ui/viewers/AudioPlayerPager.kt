@@ -6,7 +6,6 @@ import android.content.*
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -338,6 +337,7 @@ class AudioPlayerPager : ScopedFragment() {
                 audioModels!![position].bitrate.toBitrate(),
                 audioModels!![position].mimeType)
         setLrc()
+        requireArguments().putInt(BundleConstants.position, position)
     }
 
     private fun buttonStatus(isPlaying: Boolean, animate: Boolean = true) {
@@ -443,8 +443,6 @@ class AudioPlayerPager : ScopedFragment() {
         override fun run() {
             currentSeekPosition = audioServicePager?.getProgress()!!
             seekBar.updateProgress(currentSeekPosition, audioServicePager?.getDuration()!!)
-            Log.d("ProgressBar", "Current Seek Position: $currentSeekPosition")
-            Log.d("ProgressBar", "Current Duration: ${audioServicePager?.getDuration()!!}")
             lrcView.updateTime(currentSeekPosition.toLong())
             progress.text = NumberUtils.getFormattedTime(currentSeekPosition.toLong())
             handler.postDelayed(this, 1000L)

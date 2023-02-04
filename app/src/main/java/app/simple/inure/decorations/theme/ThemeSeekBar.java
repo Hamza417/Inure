@@ -54,8 +54,8 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     
     private void init() {
         if (!isInEditMode()) {
-            setThumb();
-            setColors();
+            setThumb(AppearancePreferences.INSTANCE.getCornerRadius());
+            setColors(AppearancePreferences.INSTANCE.getCornerRadius());
         }
     
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -74,7 +74,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     
     @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
-        setThumb();
+        setThumb(AppearancePreferences.INSTANCE.getCornerRadius());
     }
     
     @Override
@@ -85,10 +85,11 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         super.onDetachedFromWindow();
     }
     
-    private void setThumb() {
+    private void setThumb(float cornerRadius) {
         if (!isInEditMode()) {
             setThumb(new DrawableBuilder()
-                    .oval()
+                    .rectangle()
+                    .cornerRadius((int) cornerRadius)
                     .width(getResources().getDimensionPixelOffset(R.dimen.seekbar_thumb_size))
                     .height(getResources().getDimensionPixelOffset(R.dimen.seekbar_thumb_size))
                     .ripple(false)
@@ -142,23 +143,24 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     /**
      * We'll create our progress drawable here
      */
-    public void setColors() {
+    public void setColors(float cornerRadius) {
         /*
          * fgGradDirection and/or bgGradDirection could be parameters
          * if you require other gradient directions eg LEFT_RIGHT.
          */
         GradientDrawable.Orientation fgGradDirection = GradientDrawable.Orientation.TOP_BOTTOM;
         GradientDrawable.Orientation bgGradDirection = GradientDrawable.Orientation.TOP_BOTTOM;
-    
+        
         //Background
-        float r = 20;
+        int divideFactor = 4;
+        float radius = cornerRadius / divideFactor;
         ShapeDrawable backgroundShape = new ShapeDrawable();
-        backgroundShape.setShape(new RoundRectShape(new float[] {r, r, r, r, r, r, r, r}, null, null));
+        backgroundShape.setShape(new RoundRectShape(new float[] {radius, radius, radius, radius, radius, radius, radius, radius}, null, null));
         backgroundShape.getPaint().setStyle(Paint.Style.STROKE);
         backgroundShape.getPaint().setStrokeWidth(4);
         backgroundShape.getPaint().setStrokeCap(Paint.Cap.ROUND);
         backgroundShape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
-    
+        
         if (!isInEditMode()) {
             if (BehaviourPreferences.INSTANCE.areColoredShadowsOn()) {
                 backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 232));
@@ -166,7 +168,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
                 backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(Color.GRAY, 216));
             }
         }
-    
+        
         /*
          * This code block isn't being due to its limited customization
          * abilities, however it's left here for revision and reference
@@ -177,17 +179,17 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
                 ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()});
         bgGradDrawable.setShape(GradientDrawable.RECTANGLE);
         if (!isInEditMode()) {
-            bgGradDrawable.setCornerRadius(AppearancePreferences.INSTANCE.getCornerRadius() / 5);
+            bgGradDrawable.setCornerRadius(cornerRadius / divideFactor);
         }
         ClipDrawable backgroundClip = new ClipDrawable(bgGradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
         backgroundClip.setLevel(10000);
-    
+        
         //SecondaryProgress
         GradientDrawable fg2GradDrawable = new GradientDrawable(fgGradDirection, new int[] {
                 ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 96),
                 ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 96)});
         fg2GradDrawable.setShape(GradientDrawable.RECTANGLE);
-        fg2GradDrawable.setCornerRadius(AppearancePreferences.INSTANCE.getCornerRadius() / 2);
+        fg2GradDrawable.setCornerRadius(cornerRadius / divideFactor);
         ClipDrawable fg2clip = new ClipDrawable(fg2GradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
         
         //Progress
@@ -195,7 +197,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
                 AppearancePreferences.INSTANCE.getAccentColor(),
                 AppearancePreferences.INSTANCE.getAccentColor()});
         fg1GradDrawable.setShape(GradientDrawable.RECTANGLE);
-        fg1GradDrawable.setCornerRadius(AppearancePreferences.INSTANCE.getCornerRadius() / 2);
+        fg1GradDrawable.setCornerRadius(cornerRadius / divideFactor);
         ClipDrawable fg1clip = new ClipDrawable(fg1GradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
         
         //Setup LayerDrawable and assign to progressBar
@@ -219,6 +221,11 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         super.setMax(max);
         invalidate();
         requestLayout();
+    }
+    
+    public void updateDrawable(float cornerRadius) {
+        setThumb(cornerRadius);
+        setColors(cornerRadius);
     }
     
     public void updateProgress(int value) {
@@ -279,8 +286,8 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Objects.equals(key, AppearancePreferences.accentColor)) {
-            setColors();
-            setThumb();
+            setColors(AppearancePreferences.INSTANCE.getCornerRadius());
+            setThumb(AppearancePreferences.INSTANCE.getCornerRadius());
         }
     }
     

@@ -52,9 +52,9 @@ class RoundedCorner : ScopedBottomSheetFragment() {
 
         radiusSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                println(progress)
                 radiusValue.text = buildSpannableString("${progress / factor} px", 2)
                 updateBackground(progress / factor)
+                radiusSeekBar.updateDrawable(progress / factor)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
