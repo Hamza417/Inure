@@ -243,7 +243,7 @@ class UsageStatisticsGraph : ScopedFragment() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             val todayNumber = CalendarUtils.getWeekNumberFromDate(System.currentTimeMillis())
             val dayValue = (value + todayNumber).toInt() % 7 // Offset the day value by today's day
-            return barEntries.getOrNull(value.toInt())?.data?.toString() ?: getString(R.string.not_available)
+            return barEntries.getOrNull(6 - value.toInt())?.data?.toString() ?: getString(R.string.not_available)
         }
     }
 

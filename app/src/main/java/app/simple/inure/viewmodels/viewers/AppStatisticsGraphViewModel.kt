@@ -158,7 +158,15 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
 
     private fun loadChartData(packageStats: PackageStats) {
         viewModelScope.launch(Dispatchers.Default) {
-            val barEntries = arrayListOf<BarEntry>()
+            val barEntries = arrayListOf(
+                    BarEntry(0f, 0f, getDayString(LocalDate.now())),
+                    BarEntry(1f, 0f, getDayString(LocalDate.now().minusDays(1))),
+                    BarEntry(2f, 0f, getDayString(LocalDate.now().minusDays(2))),
+                    BarEntry(3f, 0f, getDayString(LocalDate.now().minusDays(3))),
+                    BarEntry(4f, 0f, getDayString(LocalDate.now().minusDays(4))),
+                    BarEntry(5f, 0f, getDayString(LocalDate.now().minusDays(5))),
+                    BarEntry(6f, 0f, getDayString(LocalDate.now().minusDays(6)))
+            )
 
             packageStats.appUsage?.forEach { it ->
                 val number = CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) //(7 - it.date.toLocalDate().dayOfWeek.value) % 7
@@ -175,11 +183,18 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
             }
 
             // Flip x value of bar entries
-            @Suppress("UNCHECKED_CAST")
-            val copy = barEntries.clone() as ArrayList<BarEntry>
+            for (index in 0 until barEntries.size) {
+                barEntries[index].x = (barEntries.size.minus(1) - index).toFloat()
 
-            for (i in 0 until copy.size) {
-                barEntries[i].x = (copy.size - 1 - i).toFloat()
+                // Flip data of bar entries
+                // barEntries[index].data = copy[barEntries[index].x.toInt()].data
+            }
+
+            // Replace empty bar entries with empty bar entry
+            for (index in 0 until barEntries.size) {
+                if (barEntries[index].y == 0f) {
+                    barEntries[index] = BarEntry(barEntries[index].x, 0f, getString(R.string.not_available))
+                }
             }
 
             barChartData.postValue(barEntries)
@@ -188,7 +203,15 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
 
     private fun loadPieChartData(packageStats: PackageStats) {
         viewModelScope.launch(Dispatchers.Default) {
-            val pieEntries = arrayListOf<PieEntry>()
+            val pieEntries = arrayListOf(
+                    PieEntry(0f, getDayString(LocalDate.now())),
+                    PieEntry(0f, getDayString(LocalDate.now().minusDays(1))),
+                    PieEntry(0f, getDayString(LocalDate.now().minusDays(2))),
+                    PieEntry(0f, getDayString(LocalDate.now().minusDays(3))),
+                    PieEntry(0f, getDayString(LocalDate.now().minusDays(4))),
+                    PieEntry(0f, getDayString(LocalDate.now().minusDays(5))),
+                    PieEntry(0f, getDayString(LocalDate.now().minusDays(6)))
+            )
 
             packageStats.appUsage?.forEach {
                 val numberOfDays = CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis())
@@ -201,6 +224,13 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                     pieEntries.add(numberOfDays, pieEntry)
                 } catch (e: java.lang.IndexOutOfBoundsException) {
                     pieEntries.add(numberOfDays, PieEntry(it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
+                }
+            }
+
+            // Replace empty pie entries with empty pie entry
+            for (index in 0 until pieEntries.size) {
+                if (pieEntries[index].value == 0f) {
+                    pieEntries[index] = PieEntry(0f, "")
                 }
             }
 
