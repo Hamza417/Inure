@@ -648,13 +648,6 @@
     <string name="refetching_data">Извлечение данных</string>
     <string name="changes_are_not_saved_continue">Изменения не сохранены. Продолжить?</string>
     <string name="title">Название</string>
-    <string name="sun">Вск</string>
-    <string name="mon">Пн</string>
-    <string name="tue">Вт</string>
-    <string name="wed">Ср</string>
-    <string name="thu">Чт</string>
-    <string name="fri">Пт</string>
-    <string name="sat">Сб</string>
     <string name="yesterday">Вчера</string>
     <string name="weekly_usage">Данные об использовании за неделю</string>
     <string name="quote_for_bash">Цитата на Bash</string>
