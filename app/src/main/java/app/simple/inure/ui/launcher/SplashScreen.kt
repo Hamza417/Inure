@@ -284,7 +284,7 @@ class SplashScreen : ScopedFragment() {
                 daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
                 MainPreferences.resetUnlockerWarningCount()
 
-                if (MainPreferences.getLaunchCount() % 5 == 0) {
+                if (MainPreferences.getLaunchCount() % 20 == 0) {
                     parentFragmentManager.showFullVersionReminder()
                 }
             }
@@ -307,7 +307,7 @@ class SplashScreen : ScopedFragment() {
             // Should always be 0
             daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
 
-            if (MainPreferences.getLaunchCount() % 5 == 0) {
+            if (MainPreferences.getLaunchCount() % 20 == 0) {
                 parentFragmentManager.showFullVersionReminder()
             }
         }

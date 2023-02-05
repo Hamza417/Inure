@@ -18,7 +18,7 @@ android {
         applicationId "app.simple.inure"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 61
+        versionCode 62
         versionName "build61_final (beta)"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -102,6 +102,7 @@ android {
             file("./version.txt").text = android.defaultConfig.versionName
         }
     }
+
     lint {
         disable 'Instantiatable'
     }
