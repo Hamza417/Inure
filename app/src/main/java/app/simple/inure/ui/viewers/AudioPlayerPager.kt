@@ -143,6 +143,7 @@ class AudioPlayerPager : ScopedFragment() {
                         super.onPageScrollStateChanged(state)
                         if (state == ViewPager2.SCROLL_STATE_IDLE) {
                             if (artPager.currentItem != MusicPreferences.getMusicPosition()) {
+                                handler.removeCallbacks(progressRunnable)
                                 currentSeekPosition = 0
                                 MusicPreferences.setMusicPosition(artPager.currentItem)
                                 audioServicePager?.setCurrentPosition(artPager.currentItem)
@@ -177,10 +178,11 @@ class AudioPlayerPager : ScopedFragment() {
                         super.onPageScrollStateChanged(state)
                         if (state == ViewPager2.SCROLL_STATE_IDLE) {
                             if (artPager.currentItem != MusicPreferences.getMusicPosition()) {
+                                handler.removeCallbacks(progressRunnable)
                                 currentSeekPosition = 0
                                 MusicPreferences.setMusicPosition(artPager.currentItem)
-                                audioServicePager?.setCurrentPosition(artPager.currentItem)
                                 MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
+                                audioServicePager?.setCurrentPosition(artPager.currentItem)
                                 requireArguments().putInt(BundleConstants.position, artPager.currentItem)
                                 setMetaData(artPager.currentItem)
                             }
@@ -280,6 +282,10 @@ class AudioPlayerPager : ScopedFragment() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
+                if (seekBar.max != audioServicePager?.getDuration()!!) {
+                    seekBar.max = audioServicePager?.getDuration()!!
+                }
+
                 this@AudioPlayerPager.seekBar.clearAnimation()
                 handler.removeCallbacks(progressRunnable)
             }

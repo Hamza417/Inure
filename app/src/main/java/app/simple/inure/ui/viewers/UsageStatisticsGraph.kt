@@ -174,7 +174,7 @@ class UsageStatisticsGraph : ScopedFragment() {
                 val legendEntries = ArrayList<LegendEntry>()
                 for (i in 0 until size) {
                     legendEntries.add(LegendEntry().apply {
-                        label = this@with[i].data.toString()
+                        // label = this@with[i].data.toString()
                         formColor = BAR_COLORS.reversed()[i]
                     })
                 }

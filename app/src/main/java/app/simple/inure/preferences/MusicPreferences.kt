@@ -1,5 +1,6 @@
 package app.simple.inure.preferences
 
+import android.annotation.SuppressLint
 import app.simple.inure.util.SortMusic
 
 object MusicPreferences {
@@ -64,6 +65,7 @@ object MusicPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
+    @SuppressLint("ApplySharedPref")
     fun setMusicPosition(value: Int) {
         SharedPreferences.getSharedPreferences().edit().putInt(musicPosition, value).commit()
     }

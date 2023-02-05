@@ -19,7 +19,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import androidx.media.app.NotificationCompat.MediaStyle
 import app.simple.inure.R
-import app.simple.inure.activities.app.MainActivity
+import app.simple.inure.activities.association.FelicityPlayerActivity
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.exceptions.InureMediaEngineException
@@ -207,6 +207,7 @@ class AudioServicePager : Service(),
     override fun onPrepared(mp: MediaPlayer?) {
         if (requestAudioFocus()) {
             mp?.start()
+            play()
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPreparedPager, applicationContext)
             setupMetadata()
         }
@@ -380,9 +381,10 @@ class AudioServicePager : Service(),
             mediaPlayer.setDataSource(applicationContext, audioModels!![currentPosition].fileUri.toUri())
             mediaPlayer.prepareAsync()
             MusicPreferences.setLastMusicId(audioModels!![currentPosition].id)
-            MusicPreferences.setMusicPosition(currentPosition)
+            Log.d("AudioServicePager", "initAudioPlayer: ${audioModels!![currentPosition].fileUri}")
         } catch (e: IllegalStateException) {
             // Unknown error maybe?
+            e.printStackTrace()
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaErrorPager, applicationContext, e.stackTraceToString())
             playNext()
         }
@@ -409,6 +411,7 @@ class AudioServicePager : Service(),
             currentPosition++
         }
 
+        MusicPreferences.setMusicPosition(currentPosition)
         initAudioPlayer()
         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionNextPager, applicationContext)
     }
@@ -420,6 +423,7 @@ class AudioServicePager : Service(),
             currentPosition--
         }
 
+        MusicPreferences.setMusicPosition(currentPosition)
         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPreviousPager, applicationContext)
         initAudioPlayer()
     }
@@ -596,7 +600,7 @@ class AudioServicePager : Service(),
     private fun showNotification(action: NotificationCompat.Action) {
         notificationManager = baseContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        val notificationClick = with(Intent(this, MainActivity::class.java)) {
+        val notificationClick = with(Intent(this, FelicityPlayerActivity::class.java)) {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
             this.action = ShortcutConstants.AUDIO_PLAYER_ACTION
             PendingIntent.getActivity(applicationContext, 111, this, PendingIntent.FLAG_IMMUTABLE)
