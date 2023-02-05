@@ -328,14 +328,15 @@ class AudioPlayerPager : ScopedFragment() {
     }
 
     private fun setMetaData(position: Int) {
-        title.text = audioModels!![position].title
-        artist.text = audioModels!![position].artists
-        album.text = audioModels!![position].album
-        fileInfo.text = getString(
+        title.setTextWithSlideAnimation(audioModels!![position].title, 250L, 0L)
+        artist.setTextWithSlideAnimation(audioModels!![position].artists, 250L, 50L)
+        album.setTextWithSlideAnimation(audioModels!![position].album, 250L, 100L)
+        fileInfo.setTextWithSlideAnimation(getString(
                 R.string.audio_file_info,
                 "." + audioModels!![position].path?.substringAfterLast("."),
                 audioModels!![position].bitrate.toBitrate(),
-                audioModels!![position].mimeType)
+                audioModels!![position].mimeType), 250L, 150L)
+
         setLrc()
         requireArguments().putInt(BundleConstants.position, position)
     }
