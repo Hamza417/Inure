@@ -25,6 +25,7 @@ import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.AppStatisticsGraphViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -168,6 +169,19 @@ class UsageStatisticsGraph : ScopedFragment() {
             barChart.xAxis.valueFormatter = XAxisFormatter()
             barChart.isKeepPositionOnRotation = true
 
+            with(it) {
+                val legendEntries = ArrayList<LegendEntry>()
+                for (i in 0 until size) {
+                    legendEntries.add(LegendEntry().apply {
+                        label = this@with[i].data.toString()
+                        formColor = BAR_COLORS.reversed()[i]
+                    })
+                }
+                barChart.legend.setCustom(legendEntries.reversed())
+            }
+
+            barChart.notifyDataSetChanged()
+            barChart.notifyDataSetChanged()
             barChart.invalidate()
             barChart.animateY(1000, Easing.EaseOutCubic)
 

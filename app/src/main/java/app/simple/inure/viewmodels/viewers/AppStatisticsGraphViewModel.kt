@@ -2,9 +2,7 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.app.usage.UsageEvents
-import android.content.Context
 import android.content.pm.PackageInfo
-import android.util.Log
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +14,6 @@ import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.ConditionUtils.isNotZero
-import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.UsageInterval
@@ -169,33 +166,22 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
             )
 
             packageStats.appUsage?.forEach { it ->
-                val number = it.date.getNumberOfDaysBetweenTwoDates() //(7 - it.date.toLocalDate().dayOfWeek.value) % 7
-                // Log.d("reversedWeekNumber", "$reversedWeekNumber: ${it.date.toLocalDate().dayOfWeek.value}")
-
-                Log.d("BarChart", "Day: $number, Date: ${it.date.toDate()}, Label: ${getDayString(it.date.toLocalDate())}")
+                val number = it.date.getNumberOfDaysBetweenTwoDates()
 
                 try {
                     barEntries[number].y += it.startTime
                     barEntries[number].data = getDayString(it.date.toLocalDate())
-
-                    //                    barEntries[number].y += it.startTime
-                    //                    if (barEntries[number].data == null) {
-                    //                        barEntries[number].data = getDayString(it.date.toLocalDate())
-                    //                    } else if (barEntries[number].data.toString() != getDayString(it.date.toLocalDate())) {
-                    //                        if (barEntries[number].data.toString().contains(getDayString(it.date.toLocalDate())).invert()) {
-                    //                            barEntries[number].data = getDayString(it.date.toLocalDate()) + ", " + barEntries[number].data.toString()
-                    //                        }
-                    //                    }
                 } catch (e: IndexOutOfBoundsException) {
                     barEntries.add(number, BarEntry(number.toFloat(), it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
                 }
             }
 
-            // Flip x value of bar entries
+            // Flip values of bar entries
             for (index in 0 until barEntries.size) {
+                // Flip x value of bar entry
                 barEntries[index].x = (barEntries.size.minus(1) - index).toFloat()
 
-                // Flip data of bar entries
+                // Flip data of bar entry
                 // barEntries[index].data = copy[barEntries[index].x.toInt()].data
             }
 
@@ -224,8 +210,6 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
 
             packageStats.appUsage?.forEach {
                 val numberOfDays = it.date.getNumberOfDaysBetweenTwoDates()
-
-                Log.d("PieChart", "Day: $numberOfDays, Date: ${it.date.toDate()}, Label: ${getDayString(it.date.toLocalDate())}")
 
                 try {
                     val pieEntry = PieEntry(pieEntries[numberOfDays].value + it.startTime, getDayString(it.date.toLocalDate()))
@@ -262,19 +246,6 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
     //
     //        dailyAverage.postValue(average)
     //    }
-
-    private fun Context.getWeekName(weekNumber: Int): String {
-        return when (weekNumber) {
-            1 -> getString(R.string.sun)
-            2 -> getString(R.string.mon)
-            3 -> getString(R.string.tue)
-            4 -> getString(R.string.wed)
-            5 -> getString(R.string.thu)
-            6 -> getString(R.string.fri)
-            7 -> getString(R.string.sat)
-            else -> ""
-        }
-    }
 
     private fun getDayString(date: LocalDate): String? {
         return date.dayOfWeek.getDisplayName(TextStyle.SHORT, LocaleHelper.getAppLocale())
