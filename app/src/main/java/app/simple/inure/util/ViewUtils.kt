@@ -78,7 +78,7 @@ object ViewUtils {
      *                    shadow
      */
     fun addShadow(contentView: View) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P && BehaviourPreferences.areColoredShadowsOn()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && BehaviourPreferences.areColoredShadowsOn()) {
             contentView.outlineAmbientShadowColor = AppearancePreferences.getAccentColor()
             contentView.outlineSpotShadowColor = AppearancePreferences.getAccentColor()
         }
@@ -203,7 +203,7 @@ object ViewUtils {
 
     // ViewExtensions
 
-    fun View.fadOutAnimation(duration: Long = 300, visibility: Int = View.INVISIBLE, completion: (() -> Unit)? = null) {
+    fun View.fadeOutAnimation(duration: Long = 300, visibility: Int = View.INVISIBLE, completion: (() -> Unit)? = null) {
         animate()
             .alpha(0f)
             .setDuration(duration)
@@ -215,12 +215,43 @@ object ViewUtils {
             }
     }
 
-    fun View.fadInAnimation(duration: Long = 300, completion: (() -> Unit)? = null) {
+    fun View.fadeInAnimation(duration: Long = 300, completion: (() -> Unit)? = null) {
         alpha = 0f
         visibility = View.VISIBLE
         animate()
             .alpha(1f)
             .setDuration(duration)
+            .withEndAction {
+                completion?.let {
+                    it()
+                }
+            }
+    }
+
+    fun View.slideOutAnimation(duration: Long = 300, delay: Long = 0L, visibility: Int = View.INVISIBLE, completion: (() -> Unit)? = null) {
+        animate()
+            .translationX(-50F)
+            .alpha(0f)
+            .setDuration(duration)
+            .setStartDelay(delay)
+            .setInterpolator(AccelerateInterpolator())
+            .withEndAction {
+                this.visibility = visibility
+                completion?.let {
+                    it()
+                }
+            }
+    }
+
+    fun View.slideInAnimation(duration: Long = 300, delay: Long = 0L, completion: (() -> Unit)? = null) {
+        translationX = 50F
+        visibility = View.VISIBLE
+        animate()
+            .translationX(0f)
+            .alpha(1f)
+            .setDuration(duration)
+            .setStartDelay(delay)
+            .setInterpolator(DecelerateInterpolator())
             .withEndAction {
                 completion?.let {
                     it()

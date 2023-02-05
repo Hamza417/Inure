@@ -97,7 +97,7 @@ class UsageStatisticsGraph : ScopedFragment() {
         appStatisticsGraphViewModel.getPackageStats().observe(viewLifecycleOwner) {
             with(it.totalTimeUsed) {
                 screenTime.apply {
-                    this.setTextWithAnimation(
+                    this.setTextWithSlideAnimation(
                             when {
                                 TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
                                     this.context.getString(R.string.used_for_seconds,
@@ -118,13 +118,15 @@ class UsageStatisticsGraph : ScopedFragment() {
                                                            (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
                                                            (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                                 }
-                            })
+                            }, 250L, 0L)
                 }
             }
 
+            launchCount.setTextWithSlideAnimation(getString(R.string.times, it.launchCount), 250L, 50L)
+
             with(System.currentTimeMillis() - it.appUsage!![0].date) {
                 lastUsed.apply {
-                    this.setTextWithAnimation(
+                    this.setTextWithSlideAnimation(
                             when {
                                 TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
                                     this.context.getString(R.string.last_used_seconds,
@@ -145,13 +147,12 @@ class UsageStatisticsGraph : ScopedFragment() {
                                                            (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
                                                            (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                                 }
-                            })
+                            }, 250L, 100L)
                 }
             }
 
-            launchCount.setTextWithAnimation(getString(R.string.times, it.launchCount))
-            mobileData.setTextWithAnimation(it.mobileData.toString())
-            wifiData.setTextWithAnimation(it.wifiData.toString())
+            mobileData.setTextWithSlideAnimation(it.mobileData.toString(), 250L, 150L)
+            wifiData.setTextWithSlideAnimation(it.wifiData.toString(), 250L, 200L)
         }
 
         appStatisticsGraphViewModel.getChartData().observe(viewLifecycleOwner) {
