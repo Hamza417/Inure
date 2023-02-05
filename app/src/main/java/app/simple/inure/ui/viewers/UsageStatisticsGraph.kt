@@ -243,7 +243,7 @@ class UsageStatisticsGraph : ScopedFragment() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             val todayNumber = CalendarUtils.getWeekNumberFromDate(System.currentTimeMillis())
             val dayValue = (value + todayNumber).toInt() % 7 // Offset the day value by today's day
-            return barEntries.getOrNull(6 - value.toInt())?.data?.toString() ?: getString(R.string.not_available)
+            return barEntries.getOrNull(barEntries.size.minus(1) - value.toInt())?.data?.toString() ?: getString(R.string.not_available)
         }
     }
 
@@ -256,23 +256,15 @@ class UsageStatisticsGraph : ScopedFragment() {
             return fragment
         }
 
-        private val days = arrayOf(
-                R.string.sun,
-                R.string.mon,
-                R.string.tue,
-                R.string.wed,
-                R.string.thu,
-                R.string.fri,
-                R.string.sat)
-
         val BAR_COLORS = arrayListOf(
-                ColorTemplate.rgb("#DC828F"), // New York Pink
+                ColorTemplate.rgb("#576F72"), // Cadet
                 ColorTemplate.rgb("#F7CE76"), // Rajah
                 ColorTemplate.rgb("#E8D6CF"), // Dust Storm
                 ColorTemplate.rgb("#8C7386"), // Mountbatten Pink
                 ColorTemplate.rgb("#698396"), // Lynch
                 ColorTemplate.rgb("#8FA2A6"), // Light Slate Grey
                 ColorTemplate.rgb("#874741"), // Sienna
+                ColorTemplate.rgb("#D0C9C0"), // Pastel Gray (Light Gray)
         )
     }
 }

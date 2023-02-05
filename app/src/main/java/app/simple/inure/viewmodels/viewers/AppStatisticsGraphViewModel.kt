@@ -15,7 +15,6 @@ import app.simple.inure.models.AppUsageModel
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
-import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
@@ -29,6 +28,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.TextStyle
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 class AppStatisticsGraphViewModel(application: Application, private val packageInfo: PackageInfo) : UsageStatsViewModel(application) {
@@ -169,7 +169,7 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
             )
 
             packageStats.appUsage?.forEach { it ->
-                val number = CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis()) //(7 - it.date.toLocalDate().dayOfWeek.value) % 7
+                val number = it.date.getNumberOfDaysBetweenTwoDates() //(7 - it.date.toLocalDate().dayOfWeek.value) % 7
                 // Log.d("reversedWeekNumber", "$reversedWeekNumber: ${it.date.toLocalDate().dayOfWeek.value}")
 
                 Log.d("BarChart", "Day: $number, Date: ${it.date.toDate()}, Label: ${getDayString(it.date.toLocalDate())}")
@@ -177,6 +177,15 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                 try {
                     barEntries[number].y += it.startTime
                     barEntries[number].data = getDayString(it.date.toLocalDate())
+
+                    //                    barEntries[number].y += it.startTime
+                    //                    if (barEntries[number].data == null) {
+                    //                        barEntries[number].data = getDayString(it.date.toLocalDate())
+                    //                    } else if (barEntries[number].data.toString() != getDayString(it.date.toLocalDate())) {
+                    //                        if (barEntries[number].data.toString().contains(getDayString(it.date.toLocalDate())).invert()) {
+                    //                            barEntries[number].data = getDayString(it.date.toLocalDate()) + ", " + barEntries[number].data.toString()
+                    //                        }
+                    //                    }
                 } catch (e: IndexOutOfBoundsException) {
                     barEntries.add(number, BarEntry(number.toFloat(), it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
                 }
@@ -214,7 +223,7 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
             )
 
             packageStats.appUsage?.forEach {
-                val numberOfDays = CalendarUtils.getDaysBetweenTwoDates(it.date, System.currentTimeMillis())
+                val numberOfDays = it.date.getNumberOfDaysBetweenTwoDates()
 
                 Log.d("PieChart", "Day: $numberOfDays, Date: ${it.date.toDate()}, Label: ${getDayString(it.date.toLocalDate())}")
 
@@ -273,6 +282,12 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
 
     private fun Long.toLocalDate(): LocalDate {
         return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
+    }
+
+    private fun Long.getNumberOfDaysBetweenTwoDates(): Int {
+        return Instant.ofEpochMilli(this)
+            .atZone(ZoneId.systemDefault()).toLocalDate()
+            .until(LocalDate.now(), ChronoUnit.DAYS).toInt()
     }
 
     @Suppress("unused")
