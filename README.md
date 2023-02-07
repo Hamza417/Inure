@@ -34,6 +34,7 @@ An elegant Android app manager, currently in development
 - ["Inure, a beautifully animated Android App Manager." - Android Dev Notes](https://twitter.com/androiddevnotes/status/1389111968670179340)
 - [Top 5 Android Apps of the Week - NextPit](https://www.nextpit.com/apps-of-the-week-51-2021)
 - [5 Super Useful OPENSOURCE Apps for Android - TechDoc](https://youtu.be/vlf0jEFHR74)
+- [Best Android Apps - February 2023 - HowToMen](https://youtu.be/kOrnfQOz4rg?t=112)
 
 ## About
 
