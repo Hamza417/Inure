@@ -645,13 +645,6 @@
     <string name="refetching_data">Ricarica dati</string>
     <string name="changes_are_not_saved_continue">Le modifiche non sono salvate, continuare?</string>
     <string name="title">Titolo</string>
-    <string name="sun">Dom</string>
-    <string name="mon">Lun</string>
-    <string name="tue">Mar</string>
-    <string name="wed">Mer</string>
-    <string name="thu">Gio</string>
-    <string name="fri">Ven</string>
-    <string name="sat">Sab</string>
     <string name="yesterday">Ieri</string>
     <string name="weekly_usage">Dati di utilizzo settimanali</string>
 </resources>
