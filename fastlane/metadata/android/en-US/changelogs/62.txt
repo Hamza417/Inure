@@ -1,4 +1,5 @@
 - Added commands manager
 - Implemented Shared Prefs editor
+- New data generator dialog
 - Fixed a lot of crashes
 - Major UI improvements

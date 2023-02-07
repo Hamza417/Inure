@@ -251,6 +251,7 @@ class AudioServicePager : Service(),
     }
 
     private fun setupMediaSession() {
+        mediaSessionCompat?.release()
         val mediaButtonReceiverComponentName = ComponentName(applicationContext, MediaButtonIntentReceiver::class.java)
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
         mediaButtonIntent.component = mediaButtonReceiverComponentName
