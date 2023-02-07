@@ -52,4 +52,10 @@
     <string name="colorvalue_letter_red" translatable="false">R</string>
     <string name="colorvalue_letter_green" translatable="false">G</string>
     <string name="colorvalue_letter_blue" translatable="false">B</string>
+    <string name="markdown" translatable="false">.MD</string>
+    <string name="html" translatable="false">.HTML</string>
+    <string name="txt" translatable="false">.TXT</string>
+    <string name="xml" translatable="false">.XML</string>
+    <string name="json">.JSON</string>
+    <string name="csv">.CSV</string>
 </resources>

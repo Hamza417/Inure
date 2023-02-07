@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.BufferedInputStream
+import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
 import java.util.regex.Matcher
@@ -24,7 +25,7 @@ import java.util.regex.Pattern
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-class JSONViewerViewModel(application: Application, private val accentColor: Int, private val packageInfo: PackageInfo, private val path: String)
+class JSONViewerViewModel(application: Application, private val accentColor: Int, private val packageInfo: PackageInfo, private val path: String, private val isRaw: Boolean = false)
     : WrappedViewModel(application) {
 
     private val quotations: Pattern = Pattern.compile(":\\s\"[\\S\\w^]*\"",
@@ -80,15 +81,24 @@ class JSONViewerViewModel(application: Application, private val accentColor: Int
 
     @Suppress("BlockingMethodInNonBlockingContext")
     private fun getJsonFile(): String {
-        ZipFile(packageInfo.applicationInfo.sourceDir).use { zipFile ->
-            val entries: Enumeration<out ZipEntry?> = zipFile.entries()
+        if (isRaw) {
+            // Open JSON file from file system
+            File(path).inputStream().use { inputStream ->
+                inputStream.bufferedReader().use {
+                    return it.readText()
+                }
+            }
+        } else {
+            ZipFile(packageInfo.applicationInfo.sourceDir).use { zipFile ->
+                val entries: Enumeration<out ZipEntry?> = zipFile.entries()
 
-            while (entries.hasMoreElements()) {
-                entries.nextElement()!!.let { entry ->
-                    if (entry.name == path) {
-                        return BufferedInputStream(zipFile.getInputStream(entry)).use { bufferedInputStream ->
-                            bufferedInputStream.bufferedReader().use {
-                                it.readText()
+                while (entries.hasMoreElements()) {
+                    entries.nextElement()!!.let { entry ->
+                        if (entry.name == path) {
+                            return BufferedInputStream(zipFile.getInputStream(entry)).use { bufferedInputStream ->
+                                bufferedInputStream.bufferedReader().use {
+                                    it.readText()
+                                }
                             }
                         }
                     }

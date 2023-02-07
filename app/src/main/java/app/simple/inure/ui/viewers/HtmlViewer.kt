@@ -67,6 +67,7 @@ class HtmlViewer : ScopedFragment() {
         textViewViewModelFactory = TextViewViewModelFactory(
                 packageInfo,
                 requireArguments().getString("path")!!,
+                requireArguments().getBoolean(BundleConstants.isRaw),
         )
 
         textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory)[TextViewerViewModel::class.java]

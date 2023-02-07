@@ -71,10 +71,10 @@ class Java : KeyboardScopedFragment() {
 
         path = requireArguments().getString(BundleConstants.pathToJava)!!
 
-        codeViewModelFactory = CodeViewModelFactory(requireActivity().application,
-                                                    packageInfo,
+        codeViewModelFactory = CodeViewModelFactory(packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent),
-                                                    path!!)
+                                                    path!!,
+                                                    requireArguments().getBoolean(BundleConstants.isRaw, false))
 
         javaViewModel = ViewModelProvider(this, codeViewModelFactory)[JavaViewModel::class.java]
 

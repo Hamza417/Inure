@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel
 
-class TextViewViewModelFactory(private val packageInfo: PackageInfo, private val path: String)
+class TextViewViewModelFactory(private val packageInfo: PackageInfo, private val path: String, val isRaw: Boolean)
     : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
@@ -15,7 +15,7 @@ class TextViewViewModelFactory(private val packageInfo: PackageInfo, private val
         @Suppress("UNCHECKED_CAST") // Cast is checked
         when {
             modelClass.isAssignableFrom(TextViewerViewModel::class.java) -> {
-                return TextViewerViewModel(packageInfo, path, application) as T
+                return TextViewerViewModel(packageInfo, path, application, isRaw) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope, Wrong Viewmodel!!")

@@ -71,10 +71,10 @@ class JSON : KeyboardScopedFragment() {
 
         path = requireArguments().getString(BundleConstants.pathToJSON)!!
 
-        codeViewModelFactory = CodeViewModelFactory(requireActivity().application,
-                                                    packageInfo,
+        codeViewModelFactory = CodeViewModelFactory(packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent),
-                                                    path!!)
+                                                    path!!,
+                                                    requireArguments().getBoolean(BundleConstants.isRaw, false))
 
         jsonViewerViewModel = ViewModelProvider(this, codeViewModelFactory)[JSONViewerViewModel::class.java]
 
@@ -124,10 +124,11 @@ class JSON : KeyboardScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, path: String): JSON {
+        fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): JSON {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putString(BundleConstants.pathToJSON, path)
+            args.putBoolean(BundleConstants.isRaw, isRaw)
             val fragment = JSON()
             fragment.arguments = args
             return fragment

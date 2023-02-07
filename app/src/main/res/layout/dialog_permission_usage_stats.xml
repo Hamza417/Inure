@@ -85,7 +85,7 @@
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginStart="10dp"
                 android:gravity="center"
-                android:padding="@dimen/dialog_padding"
+                android:padding="@dimen/button_padding"
                 android:text="@string/grant"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"

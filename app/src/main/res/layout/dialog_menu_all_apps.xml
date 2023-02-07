@@ -34,8 +34,8 @@
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:drawableEndCompat="@drawable/ic_dot_tiny"
-                app:textColorStyle="primary"
-                app:drawableTint="@color/indian_red" />
+                app:drawableTintStyle="accent"
+                app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="match_parent"

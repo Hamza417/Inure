@@ -66,7 +66,8 @@ class Text : KeyboardScopedFragment() {
         scrollView = view.findViewById(R.id.text_viewer_scroll_view)
 
         textViewViewModelFactory = TextViewViewModelFactory(packageInfo,
-                                                            requireArguments().getString(BundleConstants.path)!!)
+                                                            requireArguments().getString(BundleConstants.path)!!,
+                                                            requireArguments().getBoolean(BundleConstants.isRaw))
         textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory)[TextViewerViewModel::class.java]
 
         path.text = requireArguments().getString(BundleConstants.path)!!

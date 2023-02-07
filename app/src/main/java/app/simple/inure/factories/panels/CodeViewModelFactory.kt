@@ -1,6 +1,5 @@
 package app.simple.inure.factories.panels
 
-import android.app.Application
 import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -8,7 +7,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import app.simple.inure.viewmodels.viewers.JSONViewerViewModel
 import app.simple.inure.viewmodels.viewers.JavaViewModel
 
-class CodeViewModelFactory(private val application: Application, private val packageInfo: PackageInfo, private val accentColor: Int, private val path: String)
+class CodeViewModelFactory(private val packageInfo: PackageInfo, private val accentColor: Int, private val path: String, private val isRaw: Boolean = false)
     : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -17,7 +16,7 @@ class CodeViewModelFactory(private val application: Application, private val pac
 
         return when {
             modelClass.isAssignableFrom(JSONViewerViewModel::class.java) -> {
-                JSONViewerViewModel(application, accentColor, packageInfo, path) as T
+                JSONViewerViewModel(application, accentColor, packageInfo, path, isRaw) as T
             }
             modelClass.isAssignableFrom(JavaViewModel::class.java) -> {
                 JavaViewModel(application, accentColor, packageInfo, path) as T

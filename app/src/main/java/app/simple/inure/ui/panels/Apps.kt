@@ -17,13 +17,14 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.apps.AllAppsMenu.Companion.newAppsMenuInstance
 import app.simple.inure.dialogs.menus.AppsMenu
-import app.simple.inure.dialogs.miscellaneous.GeneratedDataType
-import app.simple.inure.dialogs.miscellaneous.GeneratedDataType.Companion.showGeneratedDataTypeSelector
+import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.ui.viewers.JSON
+import app.simple.inure.ui.viewers.Markdown
 import app.simple.inure.ui.viewers.XMLViewerTextView
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.panels.AppsViewModel
@@ -86,21 +87,40 @@ class Apps : ScopedFragment() {
                     }
                     R.drawable.ic_settings -> {
                         childFragmentManager.newAppsMenuInstance().setOnGenerateListClicked {
-                            childFragmentManager.showGeneratedDataTypeSelector().setOnDataTypeSelected(object : GeneratedDataType.Companion.OnDataTypeSelected {
-                                override fun onDataTypeSelected(type: String) {
-                                    showLoader(manualOverride = true)
-                                    appsViewModel.generateAllAppsTXTFile(type)
-                                }
-                            })
+                            childFragmentManager.showGeneratedDataTypeSelector().onGenerateData {
+                                showLoader(manualOverride = true)
+                                appsViewModel.generateAppsData(it)
+                            }
 
                             appsViewModel.getGeneratedAppData().observe(viewLifecycleOwner) {
                                 if (it.isNotNull()) {
                                     hideLoader()
-                                    openFragmentSlide(XMLViewerTextView
-                                                          .newInstance(packageInfo = PackageInfo(), /* Empty package info */
-                                                                       isManifest = false,
-                                                                       pathToXml = it,
-                                                                       isRaw = true), "xml_viewer")
+                                    when {
+                                        it.endsWith(".xml") ||
+                                                it.endsWith(".html") ||
+                                                it.endsWith(".txt") ||
+                                                it.endsWith(".csv") -> {
+                                            openFragmentSlide(
+                                                    XMLViewerTextView
+                                                        .newInstance(packageInfo = PackageInfo(), /* Empty package info */
+                                                                     isManifest = false,
+                                                                     pathToXml = it,
+                                                                     isRaw = true), "xml_viewer")
+                                        }
+                                        it.endsWith(".json") -> {
+                                            openFragmentSlide(
+                                                    JSON.newInstance(packageInfo = PackageInfo(),
+                                                                     path = it,
+                                                                     isRaw = true), "json_viewer")
+                                        }
+                                        it.endsWith(".md") -> {
+                                            openFragmentSlide(
+                                                    Markdown.newInstance(packageInfo = PackageInfo(),
+                                                                         path = it,
+                                                                         isRaw = true), "markdown_viewer")
+                                        }
+                                    }
+
                                     appsViewModel.clearGeneratedAppsDataLiveData()
                                 }
                             }
