@@ -19,6 +19,7 @@ import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.newStoragePermissionInstance
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -29,6 +30,10 @@ import app.simple.inure.popups.batch.PopupBatchAppsCategory
 import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.ui.subpanels.BatchSelectedApps
+import app.simple.inure.ui.viewers.JSON
+import app.simple.inure.ui.viewers.Markdown
+import app.simple.inure.ui.viewers.XMLViewerTextView
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.viewmodels.panels.BatchViewModel
 
@@ -136,6 +141,45 @@ class Batch : ScopedFragment() {
                             }
                         }
                     })
+                }
+                R.drawable.ic_text_snippet -> {
+                    childFragmentManager.showGeneratedDataTypeSelector().onGenerateData {
+                        showLoader(manualOverride = true)
+                        adapterBatch?.getCurrentAppsList()?.let { batchViewModel.generateAppsData(it) }
+                    }
+
+                    batchViewModel.getGeneratedAppData().observe(viewLifecycleOwner) {
+                        if (it.isNotNull()) {
+                            hideLoader()
+                            when {
+                                it.endsWith(".xml") ||
+                                        it.endsWith(".html") ||
+                                        it.endsWith(".txt") ||
+                                        it.endsWith(".csv") -> {
+                                    openFragmentSlide(
+                                            XMLViewerTextView
+                                                .newInstance(packageInfo = PackageInfo(), /* Empty package info */
+                                                             isManifest = false,
+                                                             pathToXml = it,
+                                                             isRaw = true), "xml_viewer")
+                                }
+                                it.endsWith(".json") -> {
+                                    openFragmentSlide(
+                                            JSON.newInstance(packageInfo = PackageInfo(),
+                                                             path = it,
+                                                             isRaw = true), "json_viewer")
+                                }
+                                it.endsWith(".md") -> {
+                                    openFragmentSlide(
+                                            Markdown.newInstance(packageInfo = PackageInfo(),
+                                                                 path = it,
+                                                                 isRaw = true), "markdown_viewer")
+                                }
+                            }
+
+                            batchViewModel.clearGeneratedAppsDataLiveData()
+                        }
+                    }
                 }
                 R.drawable.ic_checklist -> {
                     openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")

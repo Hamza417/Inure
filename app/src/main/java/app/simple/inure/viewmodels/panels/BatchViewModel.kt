@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.database.instances.BatchDatabase
-import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
+import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.models.BatchModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.apps.PopupAppsCategory
@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class BatchViewModel(application: Application) : PackageUtilsViewModel(application) {
+class BatchViewModel(application: Application) : DataGeneratorViewModel(application) {
 
     private var batchDatabase: BatchDatabase? = null
 

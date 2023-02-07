@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Misc
+import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.GeneratedDataPreferences
 import app.simple.inure.util.ColorUtils.toHexColor
@@ -55,6 +56,15 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             generatedAppDataPath.postValue(path)
         }
+    }
+
+    @JvmName("generateAppsData1")
+    fun generateAppsData(apps: ArrayList<BatchPackageInfo>) {
+        val list = arrayListOf<PackageInfo>()
+        apps.forEach {
+            list.add(it.packageInfo)
+        }
+        generateAppsData(list)
     }
 
     private fun getGeneratedString(): StringBuilder {

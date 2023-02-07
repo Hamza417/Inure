@@ -144,15 +144,16 @@ class GenerateAppData : ScopedBottomSheetFragment() {
     }
 
     private fun setDataFormat() {
-        format.text = when (GeneratedDataPreferences.getGeneratedDataType()) {
-            GeneratedDataPreferences.TXT -> getString(R.string.txt)
-            GeneratedDataPreferences.MD -> getString(R.string.markdown)
-            GeneratedDataPreferences.HTML -> getString(R.string.html)
-            GeneratedDataPreferences.CSV -> getString(R.string.csv)
-            GeneratedDataPreferences.XML -> getString(R.string.xml)
-            GeneratedDataPreferences.JSON -> getString(R.string.json)
-            else -> getString(R.string.unknown)
-        }
+        format.setTextWithSlideAnimation(
+                when (GeneratedDataPreferences.getGeneratedDataType()) {
+                    GeneratedDataPreferences.TXT -> getString(R.string.txt)
+                    GeneratedDataPreferences.MD -> getString(R.string.markdown)
+                    GeneratedDataPreferences.HTML -> getString(R.string.html)
+                    GeneratedDataPreferences.CSV -> getString(R.string.csv)
+                    GeneratedDataPreferences.XML -> getString(R.string.xml)
+                    GeneratedDataPreferences.JSON -> getString(R.string.json)
+                    else -> getString(R.string.unknown)
+                })
     }
 
     private fun isAtLeastOneIdFieldIsSelected(): Boolean {
