@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -73,9 +74,19 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
             setLayoutParams(layoutParams);
     
             if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.centerBottomMenu)) {
-                FrameLayout.LayoutParams layoutParams_ = ((FrameLayout.LayoutParams) getLayoutParams());
-                layoutParams_.gravity = Gravity.CENTER | Gravity.BOTTOM;
-                setLayoutParams(layoutParams_);
+                try {
+                    FrameLayout.LayoutParams layoutParams_ = ((FrameLayout.LayoutParams) getLayoutParams());
+                    layoutParams_.gravity = Gravity.CENTER | Gravity.BOTTOM;
+                    setLayoutParams(layoutParams_);
+                } catch (ClassCastException e) {
+                    try {
+                        LinearLayout.LayoutParams layoutParams_ = ((LinearLayout.LayoutParams) getLayoutParams());
+                        layoutParams_.gravity = Gravity.CENTER | Gravity.BOTTOM;
+                        setLayoutParams(layoutParams_);
+                    } catch (ClassCastException ex) {
+                        DevelopmentPreferences.INSTANCE.set(DevelopmentPreferences.centerBottomMenu, false);
+                    }
+                }
             }
         });
     }

@@ -145,7 +145,9 @@ class Batch : ScopedFragment() {
                 R.drawable.ic_text_snippet -> {
                     childFragmentManager.showGeneratedDataTypeSelector().onGenerateData {
                         showLoader(manualOverride = true)
-                        adapterBatch?.getCurrentAppsList()?.let { batchViewModel.generateAppsData(it) }
+                        adapterBatch?.getCurrentAppsList()?.let {
+                            batchViewModel.generateAppsData(it)
+                        }
                     }
 
                     batchViewModel.getGeneratedAppData().observe(viewLifecycleOwner) {
