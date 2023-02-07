@@ -80,7 +80,7 @@ object DevelopmentPreferences {
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
             DevelopmentPreferencesModel("Add Bitmap To Metadata",
-                                        "Add bitmap to metadata of the metadata of MusicPlayerService. Useful for ROMs that shows Album Art on Lock Screen.",
+                                        "Add bitmap to the metadata of MusicPlayerService. Useful for ROMs that shows Album Art on Lock Screen.",
                                         addBitmapToMetadata,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN)
     ).sortedBy {
