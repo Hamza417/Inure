@@ -6,7 +6,6 @@ import kotlin.math.pow
 
 class BounceInterpolator internal constructor(private val amplitude: Double, private val frequency: Double) : Interpolator {
     override fun getInterpolation(time: Float): Float {
-        return (-1 * Math.E.pow(-time / amplitude) *
-                cos(frequency * time) + 1).toFloat()
+        return (-1 * Math.E.pow(-time / amplitude) * cos(frequency * time) + 1).toFloat()
     }
 }

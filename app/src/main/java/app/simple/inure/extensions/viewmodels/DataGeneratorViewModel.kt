@@ -274,7 +274,7 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         stringBuilder.append("\t\tth, td {\r\n")
         stringBuilder.append("\t\t\ttext-align: left;\r\n")
         stringBuilder.append("\t\t\tpadding: 8px;\r\n")
-        // Break words
+        // Break long words to prevent overlapping
         stringBuilder.append("\t\t\tword-wrap: break-word;\r\n")
         stringBuilder.append("\t\t}\r\n")
         stringBuilder.append("\t\ttr:nth-child(even){background-color: #f2f2f2}\r\n")
