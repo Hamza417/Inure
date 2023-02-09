@@ -9,6 +9,7 @@ An elegant Android app manager, currently in development
 ![](https://img.shields.io/tokei/lines/github/Hamza417/Inure?color=orange&label=Total%20Lines&logo=kotlin&logoColor=white)
 ![](https://img.shields.io/github/downloads/Hamza417/inure/total?color=orange&label=Total%20Downloads%20(GitHub)&logo=github&logoColor=white)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FHamza417%2FInure&count_bg=%239A3DC8&title_bg=%23555555&icon=tencentweibo.svg&icon_color=%23E7E7E7&title=Total+Visits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![Release](https://img.shields.io/github/v/release/Hamza417/Inure?color=52be80&label=Release)](https://github.com/Hamza417/Inure/releases)
 ![](https://img.shields.io/github/languages/count/Hamza417/Inure?color=white&label=Languages)
 ![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License)
 ![](https://img.shields.io/badge/Minimum%20SDK-23%20(Marshmallow)-839192?logo=android&logoColor=white)
