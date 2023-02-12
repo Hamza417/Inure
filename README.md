@@ -24,6 +24,8 @@ An elegant Android app manager, currently in development
 [![](https://img.shields.io/badge/GitHub%20Releases-181717?logo=github)](https://github.com/Hamza417/Inure/releases/latest)
 [![](https://img.shields.io/badge/F--Droid-1976D2?logo=fdroid)](https://f-droid.org/en/packages/app.simple.inure/)
 
+**Update:** There's some problem on F-Droid and Inure hasn't been updated for the past two releases there. Use other sources to update the app while the issue is been resolved.
+
 ## Buy (Full Version)
 
 [![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-Purchase-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
