@@ -649,6 +649,7 @@ class AudioServicePager : Service(),
         mediaPlayer.stop()
         mediaPlayer.reset()
         mediaPlayer.release()
+        mediaSessionCompat?.release()
         hasReleased = true
         removeAudioFocus()
         unregisterReceiver(becomingNoisyReceiver)

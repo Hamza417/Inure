@@ -30,6 +30,7 @@ import app.simple.inure.popups.music.PopupMusicSort
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioServicePager
 import app.simple.inure.ui.viewers.AudioPlayerPager
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
 class Music : KeyboardScopedFragment() {
@@ -40,11 +41,14 @@ class Music : KeyboardScopedFragment() {
     private val musicViewModel: MusicViewModel by viewModels()
 
     private var deletedId = -1L
+    private var displayHeight: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_music, container, false)
 
         recyclerView = view.findViewById(R.id.music_recycler_view)
+        displayHeight = StatusBarHeight.getDisplayHeight(requireContext()) +
+                StatusBarHeight.getStatusBarHeight(requireContext().resources)
 
         return view
     }
@@ -106,12 +110,14 @@ class Music : KeyboardScopedFragment() {
                     recyclerView.removeOnLayoutChangeListener(this)
                     val layoutManager = recyclerView.layoutManager
                     val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
-                    // Scroll to position if the view for the current position is null (not
-                    // currently part of layout manager children), or it's not completely
+
+                    // Scroll to position if the view for the current position is null
+                    // (not currently part of layout manager children), or it's not completely
                     // visible.
                     if (viewAtPosition == null || layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)) {
                         recyclerView.post {
-                            (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(MusicPreferences.getMusicPosition(), 0)
+                            Log.d("Music", displayHeight.toString())
+                            (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(MusicPreferences.getMusicPosition(), displayHeight / 2)
 
                             (view.parent as? ViewGroup)?.doOnPreDraw {
                                 startPostponedEnterTransition()
@@ -142,12 +148,12 @@ class Music : KeyboardScopedFragment() {
                         PopupMusicSort(view)
                     }
                     R.drawable.shuffle -> {
-                        (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset((0..audioModels.size).random(), 150)
+                        (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset((0..audioModels.size).random(), displayHeight / 2)
                     }
                     R.drawable.ic_play -> {
                         for (position in audioModels.indices) {
                             if (MusicPreferences.getLastMusicId() == audioModels[position].id) {
-                                (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 150)
+                                (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, displayHeight / 2)
                                 break
                             }
                         }
