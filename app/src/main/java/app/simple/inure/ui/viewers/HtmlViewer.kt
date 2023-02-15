@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +21,7 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.XmlWebView
+import app.simple.inure.decorations.views.CustomWebView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.viewers.PopupXmlViewer
@@ -29,7 +31,7 @@ import java.io.IOException
 class HtmlViewer : ScopedFragment() {
 
     private lateinit var scrollView: PaddingAwareNestedScrollView
-    private lateinit var html: XmlWebView
+    private lateinit var html: CustomWebView
     private lateinit var path: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
 
@@ -66,13 +68,13 @@ class HtmlViewer : ScopedFragment() {
 
         textViewViewModelFactory = TextViewViewModelFactory(
                 packageInfo,
-                requireArguments().getString("path")!!,
+                requireArguments().getString(BundleConstants.path)!!,
                 requireArguments().getBoolean(BundleConstants.isRaw),
         )
 
         textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory)[TextViewerViewModel::class.java]
 
-        path.text = requireArguments().getString("path")!!
+        path.text = requireArguments().getString(BundleConstants.path)!!
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
 
@@ -81,13 +83,14 @@ class HtmlViewer : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         startPostponedEnterTransition()
 
         textViewerViewModel.getText().observe(viewLifecycleOwner) {
             runCatching {
-                htmlTxt = it
-                html.loadData(it, "text/html", "UTF-8")
+                Log.d("HtmlViewer", it)
+                val encodedHtml: String = Base64.encodeToString(it.encodeToByteArray(), Base64.NO_PADDING)
+                htmlTxt = encodedHtml
+                html.loadData(encodedHtml, MimeConstants.htmlType, "base64")
             }.getOrElse {
                 showError(it.stackTraceToString())
             }
@@ -117,10 +120,11 @@ class HtmlViewer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(applicationInfo: PackageInfo, path: String): HtmlViewer {
+        fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): HtmlViewer {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
-            args.putString("path", path)
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putString(BundleConstants.path, path)
+            args.putBoolean(BundleConstants.isRaw, isRaw)
             val fragment = HtmlViewer()
             fragment.arguments = args
             return fragment

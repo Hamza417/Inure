@@ -52,6 +52,9 @@ class WebPage : ScopedFragment() {
                 getString(R.string.translate) -> {
                     webView.loadUrl("file:///android_asset/html/translation.html")
                 }
+                else -> {
+                    webView.loadUrl(requireArguments().getString(BundleConstants.webPage)!!)
+                }
             }
         } else {
             webView.restoreState(savedInstanceState!!)

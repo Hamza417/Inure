@@ -52,13 +52,12 @@
             android:layout_width="match_parent"
             android:layout_height="1px" />
 
-        <app.simple.inure.decorations.views.XmlWebView
+        <app.simple.inure.decorations.views.CustomWebView
             android:id="@+id/html_viewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:padding="10dp"
             android:saveEnabled="true"
             android:scrollbars="none" />
 

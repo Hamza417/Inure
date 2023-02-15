@@ -23,6 +23,7 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.ui.viewers.HtmlViewer
 import app.simple.inure.ui.viewers.JSON
 import app.simple.inure.ui.viewers.Markdown
 import app.simple.inure.ui.viewers.XMLViewerTextView
@@ -97,7 +98,6 @@ class Apps : ScopedFragment() {
                                     hideLoader()
                                     when {
                                         it.endsWith(".xml") ||
-                                                it.endsWith(".html") ||
                                                 it.endsWith(".txt") ||
                                                 it.endsWith(".csv") -> {
                                             openFragmentSlide(
@@ -106,6 +106,11 @@ class Apps : ScopedFragment() {
                                                                      isManifest = false,
                                                                      pathToXml = it,
                                                                      isRaw = true), "xml_viewer")
+                                        }
+                                        it.endsWith(".html") -> {
+                                            openFragmentSlide(HtmlViewer
+                                                                  .newInstance(packageInfo = PackageInfo(), it,
+                                                                               isRaw = true), "web_page")
                                         }
                                         it.endsWith(".json") -> {
                                             openFragmentSlide(
