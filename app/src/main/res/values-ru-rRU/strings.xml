@@ -14,7 +14,7 @@
     <string name="app_size">Размер приложения</string>
     <string name="reversed">По убыванию</string>
     <string name="apps_category">Категории приложений</string>
-    <string name="system">Системные</string>
+    <string name="system">Система</string>
     <string name="user">Пользовательские</string>
     <string name="both">Все</string>
     <string name="app_typeface">Шрифт приложения</string>
@@ -207,8 +207,8 @@
     <string name="retail_demo">Демонстрация</string>
     <string name="apex">Apex</string>
     <string name="auto">Автоматически</string>
-    <string name="internal">Внутренний</string>
-    <string name="prefer_external">Внешние предпочтения</string>
+    <string name="internal">Внутренняя память</string>
+    <string name="prefer_external">Предпочтительно внешняя память</string>
     <string name="application_type">Тип приложения</string>
     <string name="transition_desc">Включает анимацию перехода между панелями. Рекомендуется отключить, потому что это сделает другие анимации пользовательского интерфейса более быстрыми.\n\nЭта опция не имеет значения, если анимация отключена в ОС.</string>
     <string name="transitions">Переходы</string>
@@ -448,7 +448,7 @@
     <string name="overheat">Перегрев</string>
     <string name="overvoltage">Перенапряжение</string>
     <string name="unspecified_failure">Неопределённая ошибка</string>
-    <string name="health">Здравоохранение</string>
+    <string name="health">Здоровье</string>
     <string name="voltage">Напряжение</string>
     <string name="temperature">Температура</string>
     <string name="charging">Зарядка</string>
