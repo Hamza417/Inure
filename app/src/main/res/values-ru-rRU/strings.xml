@@ -476,7 +476,7 @@
     <string name="pin_to_home_panel">Добавить в Быстрый доступ к приложениям</string>
     <string name="remove_from_home_screen">Убрать из Быстрый доступ к приложениям</string>
     <string name="limit_stats_to_hours">Ограничить статистику по часам</string>
-    <string name="sure">Уверены</string>
+    <string name="sure">Да</string>
     <string name="editor">Редактор</string>
     <string name="ignore_case">Игнорировать регистр</string>
     <string name="formatting">Форматирование</string>
