@@ -20,7 +20,6 @@ An elegant Android app manager, currently in development
 ## Download
 
 [![](https://img.shields.io/badge/Play%20Store-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inure)
-[![](https://img.shields.io/badge/IzzyOnDroid-4AB495?logo=fdroid)](https://apt.izzysoft.de/fdroid/index/apk/app.simple.inure)
 [![](https://img.shields.io/badge/GitHub%20Releases-181717?logo=github)](https://github.com/Hamza417/Inure/releases/latest)
 [![](https://img.shields.io/badge/F--Droid-1976D2?logo=fdroid)](https://f-droid.org/en/packages/app.simple.inure/)
 
