@@ -16,9 +16,9 @@ import app.simple.inure.ui.deviceinfo.SystemInfo
 import app.simple.inure.viewmodels.deviceinfo.PanelItemsViewModel
 
 /**
- * This feature is removed from the app
+ * This feature has been removed from the app
  */
-class DeviceInformation : ScopedFragment() {
+class DeviceInfo : ScopedFragment() {
 
     private lateinit var panels: CustomVerticalRecyclerView
     private lateinit var adapterDeviceInfo: AdapterDeviceInfo
@@ -52,6 +52,9 @@ class DeviceInformation : ScopedFragment() {
                         getString(R.string.battery) -> {
                             openFragmentLinear(BatteryInfo.newInstance(), icon, "battery_info")
                         }
+                        getString(R.string.sensors) -> {
+                            openFragmentLinear(Sensors.newInstance(), icon, "sensors")
+                        }
                     }
                 }
 
@@ -73,9 +76,9 @@ class DeviceInformation : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): DeviceInformation {
+        fun newInstance(): app.simple.inure.ui.panels.DeviceInfo {
             val args = Bundle()
-            val fragment = DeviceInformation()
+            val fragment = app.simple.inure.ui.panels.DeviceInfo()
             fragment.arguments = args
             return fragment
         }

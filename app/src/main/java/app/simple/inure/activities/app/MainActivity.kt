@@ -156,7 +156,7 @@ class MainActivity : BaseActivity() {
                 }
                 "open_device_info" -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, DeviceInformation.newInstance(), "device_info")
+                        .replace(R.id.app_container, DeviceInfo.newInstance(), "device_info")
                         .commit()
                 }
                 IntentConstants.ACTION_UNLOCK -> {

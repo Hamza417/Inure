@@ -34,6 +34,7 @@ class PanelItemsViewModel(application: Application) : WrappedViewModel(applicati
                     // Pair(R.drawable.ic_camera, context.getString(R.string.camera)),
                     // Pair(R.drawable.ic_network, context.getString(R.string.network)),
                     Pair(BatteryUtils.getBatteryDrawable(applicationContext()), context.getString(R.string.battery)),
+                    Pair(R.drawable.ic_sensors, context.getString(R.string.sensors)),
                     // Pair(R.drawable.ic_android, context.getString(R.string.media)),
             )
 

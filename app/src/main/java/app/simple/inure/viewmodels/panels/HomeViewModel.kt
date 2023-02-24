@@ -221,7 +221,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(Pair(R.drawable.ic_stats, R.string.usage_statistics))
 
             list.add(Pair(0, 0)) // Divider
-            list.add(Pair(R.drawable.ic_sensors, R.string.sensors))
+            // list.add(Pair(R.drawable.ic_sensors, R.string.sensors))
             list.add(Pair(R.drawable.ic_layers, R.string.batch))
             list.add(Pair(R.drawable.ic_analytics, R.string.analytics))
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
