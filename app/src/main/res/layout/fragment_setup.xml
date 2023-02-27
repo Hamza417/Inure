@@ -68,7 +68,7 @@
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_warning_tiny"
-                    app:drawableTint="@android:color/holo_red_dark"
+                    app:drawableTintStyle="warning"
                     app:textColorStyle="tertiary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -266,7 +266,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_warning_tiny"
-                        app:drawableTint="#e74c3c"
+                        app:drawableTintStyle="warning"
                         app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView15"
                         app:layout_constraintEnd_toStartOf="@+id/configuration_root_switch_view"
                         app:layout_constraintHorizontal_bias="0.0"

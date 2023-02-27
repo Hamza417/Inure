@@ -163,7 +163,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_warning_tiny"
-                        app:drawableTint="@color/indian_red"
+                        app:drawableTintStyle="warning"
                         app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView80"
                         app:layout_constraintEnd_toStartOf="@+id/appearance_switch_blur_windows"
                         app:layout_constraintHorizontal_bias="0.0"

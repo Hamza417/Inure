@@ -386,14 +386,25 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     protected fun openFragmentSlide(fragment: ScopedFragment, tag: String? = null) {
         clearTransitions()
 
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.setReorderingAllowed(true)
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-        transaction.replace(R.id.app_container, fragment, tag)
-        if (tag.isNotNull()) {
-            transaction.addToBackStack(tag)
+        try {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.setReorderingAllowed(true)
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+            transaction.replace(R.id.app_container, fragment, tag)
+            if (tag.isNotNull()) {
+                transaction.addToBackStack(tag)
+            }
+            transaction.commit()
+        } catch (e: IllegalStateException) {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.setReorderingAllowed(true)
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+            transaction.replace(R.id.app_container, fragment, tag)
+            if (tag.isNotNull()) {
+                transaction.addToBackStack(tag)
+            }
+            transaction.commitAllowingStateLoss()
         }
-        transaction.commit()
     }
 
     /**

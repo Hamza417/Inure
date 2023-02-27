@@ -131,7 +131,7 @@
                     app:appFontStyle="bold"
                     app:drawableEndCompat="@drawable/ic_warning_tiny"
                     app:textColorStyle="primary"
-                    app:drawableTint="@color/indian_red" />
+                    app:drawableTintStyle="warning" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:layout_width="match_parent"
