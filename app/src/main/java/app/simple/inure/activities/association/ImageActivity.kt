@@ -15,7 +15,9 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extensions.activities.BaseActivity
+import app.simple.inure.glide.svg.SVG
 import app.simple.inure.util.FileUtils.getMimeType
+import app.simple.inure.util.FileUtils.isSVG
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ProcessUtils
 import app.simple.inure.util.ViewUtils.gone
@@ -48,6 +50,8 @@ class ImageActivity : BaseActivity() {
         name = findViewById(R.id.image_name)
         header = findViewById(R.id.header)
 
+        Log.d("ImageActivity", "SVG: ${intent.data}, ${intent.data!!.getMimeType(applicationContext)}")
+
         ProcessUtils.ensureOnMainThread {
             if (intent.data!!.getMimeType(applicationContext)?.endsWith("gif") == true) {
                 Glide.with(applicationContext)
@@ -73,6 +77,35 @@ class ImageActivity : BaseActivity() {
 
                     })
                     .into(gif)
+            } else if (intent.data!!.isSVG(applicationContext)) {
+                Log.d("ImageActivity", "SVG: ${intent.data}")
+                Glide.with(applicationContext)
+                    .asBitmap()
+                    .dontAnimate()
+                    .dontTransform()
+                    .load(SVG(applicationContext, intent.data!!))
+                    .addListener(object : RequestListener<Bitmap> {
+                        override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            image.setImage(ImageSource.bitmap(resource!!))
+                            gif.gone()
+                            if (savedInstanceState.isNotNull()) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center", PointF::class.java)!!)
+                                } else {
+                                    @Suppress("DEPRECATION")
+                                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center")!!)
+                                }
+                            }
+                            return true
+                        }
+
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                            Log.e("ImageActivity", "SVG: ${e?.message}")
+                            showWarning(Warnings.getInureWarning02(intent.data.toString(), "SVG"))
+                            return true
+                        }
+                    })
+                    .preload()
             } else {
                 Glide.with(applicationContext)
                     .asBitmap()

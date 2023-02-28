@@ -120,6 +120,10 @@ object FileUtils {
         }
     }
 
+    fun Uri.isSVG(context: Context): Boolean {
+        return getMimeType(context) == "image/svg+xml"
+    }
+
     fun convertToByteArray(file: File): ByteArray? {
         val fileBytes = ByteArray(file.length().toInt())
         return try {

@@ -3,6 +3,7 @@ package app.simple.inure.glide.util
 import android.content.pm.ActivityInfo
 import android.content.pm.ProviderInfo
 import android.content.pm.ServiceInfo
+import android.net.Uri
 import android.widget.ImageView
 import app.simple.inure.glide.activities.ActivityIconModel
 import app.simple.inure.glide.apkIcon.ApkIcon
@@ -11,6 +12,7 @@ import app.simple.inure.glide.icon.AppIcon
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.providers.ProviderIconModel
 import app.simple.inure.glide.services.ServiceIconModel
+import app.simple.inure.glide.svg.SVG
 import java.io.File
 
 object ImageLoader {
@@ -69,6 +71,13 @@ object ImageLoader {
         GlideApp.with(this)
             .asBitmap()
             .load(ProviderIconModel(providerInfo, this.context))
+            .into(this)
+    }
+
+    fun ImageView.loadSvg(uri: Uri) {
+        GlideApp.with(this)
+            .asBitmap()
+            .load(SVG(context, uri))
             .into(this)
     }
 }
