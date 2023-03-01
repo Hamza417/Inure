@@ -56,6 +56,7 @@
     <string name="html" translatable="false">.HTML</string>
     <string name="txt" translatable="false">.TXT</string>
     <string name="xml" translatable="false">.XML</string>
-    <string name="json">.JSON</string>
-    <string name="csv">.CSV</string>
+    <string name="json" translatable="false">.JSON</string>
+    <string name="csv" translatable="false">.CSV</string>
+    <string name="github_link" translatable="false"><![CDATA[https://github.com/sponsors/Hamza417/sponsorships?sponsor=Hamza417&tier_id=262253]]></string>
 </resources>

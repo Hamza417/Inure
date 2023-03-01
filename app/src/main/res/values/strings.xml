@@ -656,4 +656,6 @@
     <string name="dangerous_permission_info">Only dangerous permission\'s status can be changed.</string>
     <string name="dont_show_again">Don\'t Show Again</string>
     <string name="date">Date</string>
+    <string name="trial_info">Trial Information</string>
+    <string name="desc_trial">Inure App Manager offers full access to the app for free for 15 days. After that these features will require Unlocker to be activated.</string>
 </resources>

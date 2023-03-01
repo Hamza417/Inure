@@ -57,7 +57,7 @@
                 android:drawablePadding="@dimen/popup_padding"
                 android:gravity="center"
                 android:padding="@dimen/dialog_padding"
-                android:text="@string/purchase"
+                android:text="@string/show_me"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:drawableEndCompat="@drawable/ic_open_in_new_tiny"

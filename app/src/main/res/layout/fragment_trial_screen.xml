@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_behavior="@string/over_scroll_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/panel_item_padding"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/popup_padding">
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/header_padding"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/header_padding"
+                    android:text="@string/app_name_full"
+                    android:textSize="@dimen/preferences_title_text_size"
+                    app:appFontStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_main_app_icon_regular"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="accent" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/header_padding"
+                    android:paddingHorizontal="@dimen/panel_item_padding"
+                    android:text="@string/trial_info"
+                    android:textSize="@dimen/header_font_size"
+                    app:appFontStyle="light"
+                    app:textColorStyle="heading" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/days_left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/popup_padding"
+                    android:drawablePadding="5dp"
+                    android:paddingHorizontal="@dimen/panel_item_padding"
+                    android:text="@string/days_trial_period_remaining"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_warning_tiny"
+                    app:drawableTintStyle="warning"
+                    app:textColorStyle="tertiary" />
+
+                <app.simple.inure.decorations.theme.ThemeDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginHorizontal="@dimen/panel_item_padding"
+                    android:layout_marginTop="@dimen/panel_item_padding" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="50dp"
+                    android:padding="@dimen/panel_item_padding"
+                    android:text="@string/desc_trial"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/batch"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/battery_optimization"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/installer"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/notes"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/icon_shadows"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/app_typeface"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/activities"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="AppOps"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary"
+                    tools:ignore="HardcodedText" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/shared_prefs"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/trackers"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/usage_statistics"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/boot_manager"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/terminal"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/saved_commands"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/music"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/accent_colors"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/corner_radius"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/transitions"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/arc_animations"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/dividers"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/deep_search"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+            </LinearLayout>
+
+        </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <app.simple.inure.decorations.theme.ThemeFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="horizontal"
+        android:padding="@dimen/popup_padding">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/purchase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:clickable="false"
+            android:drawablePadding="@dimen/dialog_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/button_padding"
+            android:text="@string/purchase"
+            android:textSize="@dimen/popup_text_size"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="accent" />
+
+    </app.simple.inure.decorations.theme.ThemeFrameLayout>
+
+</LinearLayout>

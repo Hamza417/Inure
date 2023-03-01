@@ -13,21 +13,20 @@ import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.MarketUtils
 
-class FullVersionReminder : ScopedBottomSheetFragment() {
+class Purchase : ScopedBottomSheetFragment() {
 
-    private lateinit var purchase: DynamicRippleTextView
     private lateinit var close: DynamicRippleTextView
-    private var playStore: DynamicRippleTextView? = null
+    private lateinit var playStore: DynamicRippleTextView
+    private lateinit var gumroad: DynamicRippleTextView
+    private lateinit var github: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_full_version_reminder, container, false)
 
-        purchase = view.findViewById(R.id.purchase)
+        playStore = view.findViewById(R.id.play_store)
+        gumroad = view.findViewById(R.id.gumroad)
+        github = view.findViewById(R.id.github)
         close = view.findViewById(R.id.close)
-
-        kotlin.runCatching {
-            playStore = view.findViewById(R.id.play_store)
-        }
 
         return view
     }
@@ -35,17 +34,19 @@ class FullVersionReminder : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        purchase.setOnClickListener {
-            if (AppUtils.isPlayFlavor()) {
-                MarketUtils.openAppOnPlayStore(requireContext(), AppUtils.unlockerPackageName)
-            } else if (AppUtils.isGithubFlavor()) {
-                // Open GumRoad link in Browser
-                getString(R.string.gumroad_link).asUri().openInBrowser(requireContext())
-            }
+        playStore.setOnClickListener {
+            // Open in Play Store
+            MarketUtils.openAppOnPlayStore(requireContext(), AppUtils.unlockerPackageName)
         }
 
-        playStore?.setOnClickListener {
-            MarketUtils.openAppOnPlayStore(requireContext(), AppUtils.unlockerPackageName)
+        gumroad.setOnClickListener {
+            // Open GumRoad link in Browser
+            getString(R.string.gumroad_link).asUri().openInBrowser(requireContext())
+        }
+
+        github.setOnClickListener {
+            // Open GitHub link in Browser
+            getString(R.string.github_link).asUri().openInBrowser(requireContext())
         }
 
         close.setOnClickListener {
@@ -54,15 +55,15 @@ class FullVersionReminder : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(): FullVersionReminder {
+        fun newInstance(): Purchase {
             val args = Bundle()
-            val fragment = FullVersionReminder()
+            val fragment = Purchase()
             fragment.arguments = args
             return fragment
         }
 
-        fun FragmentManager.showFullVersionReminder() {
-            newInstance().show(this, "full_version_reminder")
+        fun FragmentManager.showPurchaseDialog() {
+            newInstance().show(this, "purchase")
         }
     }
 }

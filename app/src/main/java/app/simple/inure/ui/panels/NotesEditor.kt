@@ -127,7 +127,7 @@ class NotesEditor : KeyboardScopedFragment() {
          * It could be null, I mean why not :P
          */
         bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getNotesFunctionMenu(),
-                                                              null /* We don't do that here*/) { id, view ->
+                                                              null /* We don't do that here*/) { id, view1 ->
             val start = noteEditText.selectionStart
             val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
             when (id) {
@@ -153,7 +153,7 @@ class NotesEditor : KeyboardScopedFragment() {
                     noteEditText.toQuote()
                 }
                 R.drawable.ic_format_paint -> {
-                    PopupBackgroundSpan(view).setOnPopupBackgroundCallbackListener(
+                    PopupBackgroundSpan(view1).setOnPopupBackgroundCallbackListener(
                             object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
                                 override fun onColorClicked(color: Int) {
                                     noteEditText.highlightText(color)

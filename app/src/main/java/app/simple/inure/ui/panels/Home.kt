@@ -22,7 +22,6 @@ import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.ChangesReminder
-import app.simple.inure.dialogs.app.FullVersionReminder.Companion.showFullVersionReminder
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
@@ -237,7 +236,7 @@ class Home : ScopedFragment() {
         }
 
         purchase.setOnClickListener {
-            childFragmentManager.showFullVersionReminder()
+            openFragmentSlide(Trial.newInstance(), "trial")
         }
     }
 

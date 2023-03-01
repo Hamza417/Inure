@@ -1,5 +1,6 @@
 package app.simple.inure.dialogs.miscellaneous
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -69,6 +70,15 @@ class UsageStatsPermission : ScopedBottomSheetFragment() {
     override fun onResume() {
         super.onResume()
         setState()
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        if (requireContext().checkForUsageAccessPermission()) {
+            usageStatsPermissionCallbacks?.onClosedAfterGrant()
+        } else {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun setState() {
