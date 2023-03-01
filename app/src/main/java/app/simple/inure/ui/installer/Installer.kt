@@ -207,13 +207,17 @@ class Installer : ScopedFragment() {
         }
 
         installerViewModel.getFile().observe(viewLifecycleOwner) {
-            val file = if (it.size > 1) it.findFile("base.apk")!! else it[0]
-            icon.loadAppIcon(file)
+            kotlin.runCatching {
+                val file = if (it.size > 1) it.findFile("base.apk")!! else it[0]
+                icon.loadAppIcon(file)
 
-            val titles = arrayOf(getString(R.string.information), getString(R.string.permissions), getString(R.string.manifest), getString(R.string.certificate), getString(R.string.trackers))
+                val titles = arrayOf(getString(R.string.information), getString(R.string.permissions), getString(R.string.manifest), getString(R.string.certificate), getString(R.string.trackers))
 
-            viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles)
-            tabLayout.setViewPager2(viewPager)
+                viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles)
+                tabLayout.setViewPager2(viewPager)
+            }.onFailure {
+                showError(it)
+            }
         }
 
         installerViewModel.getError().observe(viewLifecycleOwner) {

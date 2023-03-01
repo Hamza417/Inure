@@ -93,7 +93,23 @@ public class RemoteInterface extends BaseActivity {
         finish();
     }
     
-    private ServiceConnection mTSConnection = new ServiceConnection() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mSettings = new TermSettings(getResources(), prefs);
+    
+        Intent TSIntent = new Intent(this, TermService.class);
+        mTSIntent = TSIntent;
+        startService(TSIntent);
+        if (!bindService(TSIntent, terminalServiceConnection, BIND_AUTO_CREATE)) {
+            Log.e(TermDebug.LOG_TAG, "bind to service failed!");
+            finish();
+        }
+    }
+    
+    private ServiceConnection terminalServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             TermService.TSBinder binder = (TermService.TSBinder) service;
             mTermService = binder.getService();
@@ -107,24 +123,8 @@ public class RemoteInterface extends BaseActivity {
     };
     
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mSettings = new TermSettings(getResources(), prefs);
-        
-        Intent TSIntent = new Intent(this, TermService.class);
-        mTSIntent = TSIntent;
-        startService(TSIntent);
-        if (!bindService(TSIntent, mTSConnection, BIND_AUTO_CREATE)) {
-            Log.e(TermDebug.LOG_TAG, "bind to service failed!");
-            finish();
-        }
-    }
-    
-    @Override
     public void finish() {
-        ServiceConnection conn = mTSConnection;
+        ServiceConnection conn = terminalServiceConnection;
         if (conn != null) {
             unbindService(conn);
             
@@ -137,7 +137,7 @@ public class RemoteInterface extends BaseActivity {
                 }
             }
             
-            mTSConnection = null;
+            terminalServiceConnection = null;
             mTermService = null;
         }
         super.finish();

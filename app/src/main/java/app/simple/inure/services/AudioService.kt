@@ -500,26 +500,29 @@ class AudioService : Service(),
     }
 
     private fun updateVolume(change: Int) {
-        // increment or decrement depending on type of fade
-        iVolume += change
+        try { // increment or decrement depending on type of fade
+            iVolume += change
 
-        // ensure iVolume within boundaries
-        if (iVolume < intVolumeMin) {
-            iVolume = intVolumeMin
-        } else if (iVolume > intVolumeMax) {
-            iVolume = intVolumeMax
+            // ensure iVolume within boundaries
+            if (iVolume < intVolumeMin) {
+                iVolume = intVolumeMin
+            } else if (iVolume > intVolumeMax) {
+                iVolume = intVolumeMax
+            }
+
+            // convert to float value
+            var fVolume = 1 - ln((intVolumeMax - iVolume).toDouble()).toFloat() / ln(intVolumeMax.toDouble()).toFloat()
+
+            // ensure fVolume within boundaries
+            if (fVolume < floatVolumeMin) {
+                fVolume = floatVolumeMin
+            } else if (fVolume > floatVolumeMax) {
+                fVolume = floatVolumeMax
+            }
+            mediaPlayer.setVolume(fVolume, fVolume)
+        } catch (e: IllegalStateException) {
+            Log.e("AudioService", "IllegalStateException: ${e.message}")
         }
-
-        // convert to float value
-        var fVolume = 1 - ln((intVolumeMax - iVolume).toDouble()).toFloat() / ln(intVolumeMax.toDouble()).toFloat()
-
-        // ensure fVolume within boundaries
-        if (fVolume < floatVolumeMin) {
-            fVolume = floatVolumeMin
-        } else if (fVolume > floatVolumeMax) {
-            fVolume = floatVolumeMax
-        }
-        mediaPlayer.setVolume(fVolume, fVolume)
     }
 
     private fun createNotificationChannel() {
