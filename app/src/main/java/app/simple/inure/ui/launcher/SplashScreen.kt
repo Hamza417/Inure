@@ -27,7 +27,6 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
-import app.simple.inure.dialogs.app.FullVersionReminder.Companion.showFullVersionReminder
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.*
 import app.simple.inure.ui.panels.Home
@@ -289,7 +288,7 @@ class SplashScreen : ScopedFragment() {
                 MainPreferences.resetUnlockerWarningCount()
 
                 if (MainPreferences.getLaunchCount() % 20 == 0) {
-                    parentFragmentManager.showFullVersionReminder()
+                    // parentFragmentManager.showFullVersionReminder()
                 }
             }
         } else if (MainPreferences.isFullVersion()) {
@@ -312,7 +311,7 @@ class SplashScreen : ScopedFragment() {
             daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
 
             if (MainPreferences.getLaunchCount() % 20 == 0) {
-                parentFragmentManager.showFullVersionReminder()
+                // parentFragmentManager.showFullVersionReminder()
             }
         }
     }

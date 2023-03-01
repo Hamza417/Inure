@@ -143,13 +143,13 @@ object MainPreferences {
     fun getDaysLeft(): Int {
         return if (MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS) {
             (MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()))
-                .coerceAtLeast(0).coerceAtMost(15)
+                .coerceAtLeast(0).coerceAtMost(MAX_TRIAL_DAYS)
         } else {
             if (MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) > MAX_TRIAL_DAYS) {
                 0
             } else {
                 MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday())
-                    .coerceAtLeast(0).coerceAtMost(15)
+                    .coerceAtLeast(0).coerceAtMost(MAX_TRIAL_DAYS)
             }
         }
     }
