@@ -657,4 +657,6 @@
     <string name="run">Запустить</string>
     <string name="edit">Редактирование</string>
     <string name="select_all">Выбрать всё</string>
+    <string name="dangerous_permission_info">Можно изменить состояние только опасных разрешений.</string>
+    <string name="dont_show_again">Больше не показывать</string>
 </resources>
