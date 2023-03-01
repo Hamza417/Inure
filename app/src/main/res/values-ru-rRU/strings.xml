@@ -659,4 +659,5 @@
     <string name="select_all">Выбрать всё</string>
     <string name="dangerous_permission_info">Можно изменить состояние только опасных разрешений.</string>
     <string name="dont_show_again">Больше не показывать</string>
+    <string name="date">Дата</string>
 </resources>
