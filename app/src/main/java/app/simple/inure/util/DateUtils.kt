@@ -19,4 +19,9 @@ object DateUtils {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
         return sdf.format(Date(date))
     }
+
+    fun getTodayDate(): String {
+        val sdf = SimpleDateFormat("EEE, yyyy MMM dd, hh:mm a", Locale.getDefault())
+        return sdf.format(Date())
+    }
 }

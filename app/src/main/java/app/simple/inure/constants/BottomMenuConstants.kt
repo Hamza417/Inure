@@ -104,7 +104,9 @@ object BottomMenuConstants {
             Pair(R.drawable.ic_format_superscript, R.string.superscript),
             Pair(R.drawable.ic_format_subscript, R.string.subscript),
             divider,
-            Pair(R.drawable.ic_format_paint, R.string.highlight)
+            Pair(R.drawable.ic_format_paint, R.string.highlight),
+            divider,
+            Pair(R.drawable.ic_watch_later, R.string.date),
     )
 
     @Suppress("UNCHECKED_CAST")

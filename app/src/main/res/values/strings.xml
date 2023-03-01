@@ -655,4 +655,5 @@
     <string name="select_all">Select All</string>
     <string name="dangerous_permission_info">Only dangerous permission\'s status can be changed.</string>
     <string name="dont_show_again">Don\'t Show Again</string>
+    <string name="date">Date</string>
 </resources>

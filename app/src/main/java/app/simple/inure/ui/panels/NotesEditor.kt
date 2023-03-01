@@ -37,6 +37,7 @@ import app.simple.inure.text.EditTextHelper.toSuperscript
 import app.simple.inure.text.EditTextHelper.toUnderline
 import app.simple.inure.text.SpannableSerializer
 import app.simple.inure.text.TextViewUndoRedo
+import app.simple.inure.util.DateUtils
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -158,6 +159,21 @@ class NotesEditor : KeyboardScopedFragment() {
                                     noteEditText.highlightText(color)
                                 }
                             })
+                }
+                R.drawable.ic_watch_later -> {
+                    // Append today's date
+                    //                    if (noteEditText.toString().endsWith("\n\n")) {
+                    //                        noteEditText.append(DateUtils.getTodayDate())
+                    //                    } else {
+                    //                        // Check if only one newline is present and not two
+                    //                        if (noteEditText.toString().endsWith("\n") && !noteEditText.toString().endsWith("\n\n")) {
+                    //                            noteEditText.append("\n${DateUtils.getTodayDate()}")
+                    //                        } else {
+                    //                            noteEditText.append("\n\n${DateUtils.getTodayDate()}")
+                    //                        }
+                    //                    }
+
+                    noteEditText.append(DateUtils.getTodayDate())
                 }
             }
 
