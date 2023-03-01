@@ -12,11 +12,10 @@ import app.simple.inure.adapters.installer.AdapterInstallerPermissions
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.PermissionStatus
+import app.simple.inure.dialogs.action.PermissionStatus.Companion.showPermissionStatus
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.models.PermissionInfo
-import app.simple.inure.popups.viewers.PopupPermissions
 import app.simple.inure.viewmodels.installer.InstallerPermissionViewModel
 import java.io.File
 
@@ -58,31 +57,9 @@ class Permissions : ScopedFragment() {
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
                 override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
-
-                    val popup = PopupPermissions(container, permissionInfo)
-
-                    popup.setOnMenuClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String) {
-                            when (source) {
-                                getString(R.string.revoke) -> {
-                                    val p = PermissionStatus.newInstance(packageInfo, permissionInfo, getString(R.string.revoke))
-                                    p.show(childFragmentManager, "permission_status")
-                                    p.setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
-                                        override fun onSuccess(grantedStatus: Boolean) {
-                                            adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
-                                        }
-                                    })
-                                }
-                                getString(R.string.grant) -> {
-                                    val p = PermissionStatus.newInstance(packageInfo, permissionInfo, getString(R.string.grant))
-                                    p.show(childFragmentManager, "permission_status")
-                                    p.setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
-                                        override fun onSuccess(grantedStatus: Boolean) {
-                                            adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
-                                        }
-                                    })
-                                }
-                            }
+                    childFragmentManager.showPermissionStatus(packageInfo, permissionInfo).setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
+                        override fun onSuccess(grantedStatus: Boolean) {
+                            adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
                         }
                     })
                 }

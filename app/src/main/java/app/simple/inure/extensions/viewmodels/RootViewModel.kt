@@ -93,6 +93,10 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
         return shell
     }
 
+    protected fun isShellAvailable(): Boolean {
+        return shell != null
+    }
+
     abstract fun onShellCreated(shell: Shell?)
     abstract fun onShellDenied()
 }

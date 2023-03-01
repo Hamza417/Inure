@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.R
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootViewModel
@@ -14,16 +13,14 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PermissionStatusViewModel(application: Application, val packageInfo: PackageInfo, val permissionInfo: PermissionInfo, val mode: String?) : RootViewModel(application) {
+class PermissionStatusViewModel(application: Application, val packageInfo: PackageInfo, val permissionInfo: PermissionInfo) : RootViewModel(application) {
 
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     private val success: MutableLiveData<String> by lazy {
-        MutableLiveData<String>().also {
-            initShell()
-        }
+        MutableLiveData<String>()
     }
 
     fun getResults(): LiveData<String> {
@@ -37,7 +34,7 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val mode = if (mode == getApplication<Application>().getString(R.string.revoke)) "revoke" else "grant"
+                val mode = if (this@PermissionStatusViewModel.permissionInfo.isGranted == 1) "revoke" else "grant"
 
                 Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").submit { shellResult ->
                     kotlin.runCatching {
@@ -79,5 +76,10 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
     override fun onShellDenied() {
         warning.postValue(Warnings.getInureWarning01())
         success.postValue("Failed")
+    }
+
+    fun setPermissionState(mode: PermissionInfo) {
+        this.permissionInfo.isGranted = mode.isGranted
+        initShell()
     }
 }

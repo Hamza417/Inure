@@ -1,49 +1,58 @@
 package app.simple.inure.dialogs.action
 
 import android.content.pm.PackageInfo
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PermissionUtils
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.LoaderImageView
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.PermissionStatusFactory
 import app.simple.inure.models.PermissionInfo
+import app.simple.inure.preferences.PermissionPreferences
 import app.simple.inure.util.ParcelUtils.parcelable
+import app.simple.inure.util.StringUtils.optimizeToColoredString
+import app.simple.inure.util.ViewUtils.invisible
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.dialogs.PermissionStatusViewModel
 
 class PermissionStatus : ScopedBottomSheetFragment() {
 
-    private lateinit var loader: LoaderImageView
+    private lateinit var loader: CustomProgressBar
+    private lateinit var name: TypeFaceTextView
     private lateinit var status: TypeFaceTextView
+    private lateinit var description: TypeFaceTextView
+
+    private lateinit var close: DynamicRippleTextView
+    private lateinit var state: DynamicRippleTextView
 
     private lateinit var permissionInfo: PermissionInfo
     private lateinit var permissionStatusFactory: PermissionStatusFactory
     private lateinit var permissionStatusViewModel: PermissionStatusViewModel
     private var permissionStatusCallbacks: PermissionStatusCallbacks? = null
 
-    private var mode: String? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_permission_status, container, false)
 
         loader = view.findViewById(R.id.loader)
-        status = view.findViewById(R.id.permission_status_result)
+        name = view.findViewById(R.id.permissions_name)
+        status = view.findViewById(R.id.permissions_status)
+        description = view.findViewById(R.id.permissions_desc)
+        close = view.findViewById(R.id.close)
+        state = view.findViewById(R.id.permission_state)
 
         permissionInfo = requireArguments().parcelable(BundleConstants.permissionInfo)!!
         packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
-        mode = requireArguments().getString(BundleConstants.permissionMode)
 
-        permissionStatusFactory = PermissionStatusFactory(packageInfo,
-                                                          permissionInfo,
-                                                          mode)
-
-        println(mode)
-
+        permissionStatusFactory = PermissionStatusFactory(packageInfo, permissionInfo)
         permissionStatusViewModel = ViewModelProvider(this, permissionStatusFactory)[PermissionStatusViewModel::class.java]
 
         return view
@@ -52,29 +61,95 @@ class PermissionStatus : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loader.invisible(animate = false)
+        status.setStatusText(permissionInfo)
+        name.setPermissionName(permissionInfo)
+        description.setDescriptionText(permissionInfo)
+        setStateText()
+
+        state.setOnClickListener {
+            loader.visible(animate = true)
+            permissionStatusViewModel.setPermissionState(permissionInfo)
+        }
+
         permissionStatusViewModel.getSuccessStatus().observe(viewLifecycleOwner) {
             when (it) {
                 "Done" -> {
-                    loader.loaded()
-                    with(mode == getString(R.string.revoke)) {
+                    loader.invisible(animate = true)
+                    with(permissionInfo.isGranted == 1) {
                         if (this) {
-                            status.setText(R.string.rejected)
+                            permissionInfo.isGranted = 0
                         } else {
-                            status.setText(R.string.granted)
+                            permissionInfo.isGranted = 1
                         }
 
                         permissionStatusCallbacks?.onSuccess(!this)
+                        status.setStatusText(permissionInfo)
+                        setStateText()
                     }
                 }
                 "Failed" -> {
-                    loader.error()
-                    status.setText(R.string.failed)
+                    loader.invisible(animate = true)
                 }
             }
         }
 
         permissionStatusViewModel.getWarning().observe(viewLifecycleOwner) {
             showWarning(it)
+        }
+    }
+
+    private fun TypeFaceTextView.setStatusText(permissionInfo: PermissionInfo) {
+        @Suppress("deprecation")
+        text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            PermissionUtils.protectionToString(permissionInfo.permissionInfo!!.protection, permissionInfo.permissionInfo!!.protectionFlags, context)
+        } else {
+            PermissionUtils.protectionToString(permissionInfo.permissionInfo!!.protectionLevel, permissionInfo.permissionInfo!!.protectionLevel, context)
+        }
+
+        text = when (permissionInfo.isGranted) {
+            0 -> {
+                text.toString() + " | " + context.getString(R.string.rejected)
+            }
+            1 -> {
+                text.toString() + " | " + context.getString(R.string.granted)
+            }
+            2 -> {
+                text.toString() + " | " + context.getString(R.string.unknown)
+            }
+            else -> {
+                text.toString() + " | " + context.getString(R.string.unknown)
+            }
+        }
+    }
+
+    private fun TypeFaceTextView.setDescriptionText(permissionInfo: PermissionInfo) {
+        text = kotlin.runCatching {
+            val string = permissionInfo.permissionInfo!!.loadDescription(requireContext().packageManager)
+
+            if (string.isNullOrEmpty()) {
+                throw NullPointerException("Description is either null or not available")
+            } else {
+                string
+            }
+        }.getOrElse {
+            getString(R.string.desc_not_available)
+        }
+    }
+
+    private fun TypeFaceTextView.setPermissionName(permissionInfo: PermissionInfo) {
+        text = if (PermissionPreferences.getLabelType()) {
+            permissionInfo.name
+        } else {
+            permissionInfo.label
+        }.toString().optimizeToColoredString(".")
+    }
+
+    private fun setStateText() {
+        state.text = if (permissionInfo.isGranted == 1) {
+            getString(R.string.revoke)
+        } else {
+            getString(R.string.grant)
         }
     }
 
@@ -88,13 +163,18 @@ class PermissionStatus : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, permissionInfo: PermissionInfo, mode: String): PermissionStatus {
+        fun newInstance(packageInfo: PackageInfo, permissionInfo: PermissionInfo): PermissionStatus {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putParcelable(BundleConstants.permissionInfo, permissionInfo)
-            args.putString(BundleConstants.permissionMode, mode)
             val fragment = PermissionStatus()
             fragment.arguments = args
+            return fragment
+        }
+
+        fun FragmentManager.showPermissionStatus(packageInfo: PackageInfo, permissionInfo: PermissionInfo): PermissionStatus {
+            val fragment = newInstance(packageInfo, permissionInfo)
+            fragment.show(this, "permission_status")
             return fragment
         }
 

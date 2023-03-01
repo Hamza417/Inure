@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,15 @@ public class LoaderImageView extends AppCompatImageView {
     public void error() {
         clearAnimation();
         animateColor(Color.parseColor("#a93226"));
+    }
+    
+    public void reset() {
+        clearAnimation();
+        setImageResource(R.drawable.ic_loader);
+        startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.loader));
+        // Clear tint
+        setImageTintList(null);
+        setVisibility(View.VISIBLE);
     }
     
     private void animateColor(int toColor) {

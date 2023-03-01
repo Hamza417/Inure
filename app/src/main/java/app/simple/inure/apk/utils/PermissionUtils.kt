@@ -3,6 +3,7 @@ package app.simple.inure.apk.utils
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.PermissionInfo
+import android.os.Build
 import androidx.annotation.Nullable
 import app.simple.inure.R
 
@@ -26,6 +27,15 @@ object PermissionUtils {
             e.printStackTrace()
         }
         return null
+    }
+
+    fun PermissionInfo.isDangerous(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            protection and PermissionInfo.PROTECTION_MASK_BASE == PermissionInfo.PROTECTION_DANGEROUS
+        } else {
+            @Suppress("DEPRECATION")
+            protectionLevel and PermissionInfo.PROTECTION_MASK_BASE == PermissionInfo.PROTECTION_DANGEROUS
+        }
     }
 
     @Suppress("deprecation")

@@ -653,4 +653,5 @@
     <string name="run">Run</string>
     <string name="edit">Edit</string>
     <string name="select_all">Select All</string>
+    <string name="dangerous_permission_info">Only dangerous permission\'s status can be changed.</string>
 </resources>

@@ -7,14 +7,14 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.viewmodels.dialogs.PermissionStatusViewModel
 
-class PermissionStatusFactory(private val packageInfo: PackageInfo, private val permissionInfo: PermissionInfo, val mode: String?) : ViewModelProvider.Factory {
+class PermissionStatusFactory(private val packageInfo: PackageInfo, private val permissionInfo: PermissionInfo) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
 
         when {
             modelClass.isAssignableFrom(PermissionStatusViewModel::class.java) -> {
-                return PermissionStatusViewModel(application, packageInfo, permissionInfo, mode) as T
+                return PermissionStatusViewModel(application, packageInfo, permissionInfo) as T
             }
             else -> {
                 throw IllegalArgumentException("Wrong View Model")
