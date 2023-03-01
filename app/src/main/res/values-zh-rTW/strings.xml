@@ -655,4 +655,5 @@
     <string name="edit">編輯</string>
     <string name="select_all">全部選取</string>
     <string name="dangerous_permission_info">僅能變更危險權限的狀態。</string>
+    <string name="dont_show_again">不再顯示</string>
 </resources>
