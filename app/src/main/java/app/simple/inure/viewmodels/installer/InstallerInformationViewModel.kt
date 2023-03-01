@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
 import java.io.File
-import java.nio.BufferUnderflowException
 import java.text.NumberFormat
 
 class InstallerInformationViewModel(application: Application, private val file: File) : WrappedViewModel(application) {
@@ -48,14 +47,14 @@ class InstallerInformationViewModel(application: Application, private val file: 
     }
 
     private fun loadInformation() {
-        try {
+        kotlin.runCatching {
             apkFile = ApkFile(file)
 
             if (packageManager.isPackageInstalled(apkFile!!.apkMeta.packageName)) {
                 packageInfo = packageManager.getPackageInfo(apkFile!!.apkMeta.packageName)
             }
-        } catch (e: BufferUnderflowException) {
-            postError(e)
+        }.onFailure {
+            postError(it)
             return
         }
 

@@ -18,6 +18,7 @@ import androidx.annotation.IntegerRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.transition.ArcMotion
 import androidx.transition.Fade
 import app.simple.inure.R
@@ -323,33 +324,73 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     open fun showWarning(warning: String, goBack: Boolean = true) {
-        parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
-            if (goBack) {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+        if (isStateSaved) {
+            lifecycleScope.launchWhenResumed {
+                parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+                    if (goBack) {
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                    }
+                }
+            }
+        } else {
+            parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+                if (goBack) {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
             }
         }
     }
 
     open fun showWarning(@StringRes warning: Int, goBack: Boolean = true) {
-        parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
-            if (goBack) {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+        if (isStateSaved) {
+            lifecycleScope.launchWhenResumed {
+                parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+                    if (goBack) {
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                    }
+                }
+            }
+        } else {
+            parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+                if (goBack) {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
             }
         }
     }
 
     open fun showError(error: String, goBack: Boolean = true) {
-        childFragmentManager.showError(error).setOnErrorCallbackListener {
-            if (goBack) {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+        if (isStateSaved) {
+            lifecycleScope.launchWhenResumed {
+                childFragmentManager.showError(error).setOnErrorCallbackListener {
+                    if (goBack) {
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                    }
+                }
+            }
+        } else {
+            childFragmentManager.showError(error).setOnErrorCallbackListener {
+                if (goBack) {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
             }
         }
     }
 
     open fun showError(error: Throwable, goBack: Boolean = true) {
-        childFragmentManager.showError(error.stackTraceToString()).setOnErrorCallbackListener {
-            if (goBack) {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+        if (isStateSaved) {
+            lifecycleScope.launchWhenResumed {
+                childFragmentManager.showError(error.stackTraceToString()).setOnErrorCallbackListener {
+                    if (goBack) {
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                    }
+                }
+            }
+        } else {
+            childFragmentManager.showError(error.stackTraceToString()).setOnErrorCallbackListener {
+                if (goBack) {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
             }
         }
     }
