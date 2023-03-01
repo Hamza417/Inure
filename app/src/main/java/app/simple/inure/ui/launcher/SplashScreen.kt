@@ -100,7 +100,11 @@ class SplashScreen : ScopedFragment() {
                     proceed()
                 }
                 !checkForPermission() -> {
-                    openFragmentSlide(Setup.newInstance())
+                    if (SetupPreferences.isDontShowAgain()) {
+                        proceed()
+                    } else {
+                        openFragmentSlide(Setup.newInstance())
+                    }
                 }
                 else -> {
                     proceed()

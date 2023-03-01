@@ -19,12 +19,14 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.SetupPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
@@ -48,6 +50,7 @@ class Setup : ScopedFragment() {
     private lateinit var rootSwitchView: SwitchView
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
+    private lateinit var dontShowAgainCheckBox: InureCheckBox
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
@@ -64,6 +67,7 @@ class Setup : ScopedFragment() {
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
         startApp = view.findViewById(R.id.start_app_now)
         skip = view.findViewById(R.id.skip_setup)
+        dontShowAgainCheckBox = view.findViewById(R.id.show_again_checkbox)
 
         requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             permissions.forEach {
@@ -86,6 +90,7 @@ class Setup : ScopedFragment() {
         startPostponedEnterTransition()
 
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
+        dontShowAgainCheckBox.setChecked(SetupPreferences.isDontShowAgain())
 
         usageAccess.setOnClickListener {
             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
@@ -158,6 +163,10 @@ class Setup : ScopedFragment() {
                 ConfigurationPreferences.setUsingRoot(false)
                 rootSwitchView.setChecked(false)
             }
+        }
+
+        dontShowAgainCheckBox.setOnCheckedChangeListener {
+            SetupPreferences.setDontShowAgain(it)
         }
     }
 

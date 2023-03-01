@@ -317,19 +317,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/dialog_elevation"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="horizontal"
         android:padding="@dimen/popup_padding">
 
-        <app.simple.inure.decorations.ripple.DynamicRippleTextView
-            android:id="@+id/start_app_now"
+        <app.simple.inure.decorations.checkbox.InureCheckBox
+            android:id="@+id/show_again_checkbox"
+            android:layout_width="@dimen/checkbox_dimensions"
+            android:layout_height="@dimen/checkbox_dimensions"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/popup_padding" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/popup_padding"
             android:layout_weight="1"
+            android:text="@string/dont_show_again"
+            android:textSize="@dimen/desc_text_size"
+            app:appFontStyle="medium"
+            app:textColorStyle="secondary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/start_app_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:clickable="false"
-            android:gravity="start"
-            android:padding="@dimen/panel_item_padding"
+            android:padding="@dimen/button_padding"
             android:text="@string/start_app_now"
-            android:textSize="@dimen/header_name_text_size"
+            android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold"
             app:textColorStyle="accent" />
 
@@ -339,9 +357,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:clickable="false"
-            android:padding="@dimen/panel_item_padding"
+            android:padding="@dimen/button_padding"
             android:text="@string/skip"
-            android:textSize="@dimen/header_name_text_size"
+            android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold"
             app:textColorStyle="secondary" />
 
