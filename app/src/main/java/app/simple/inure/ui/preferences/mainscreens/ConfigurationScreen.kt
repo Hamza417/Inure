@@ -76,7 +76,7 @@ class ConfigurationScreen : ScopedFragment() {
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
         shizukuSwitchView.setChecked(ConfigurationPreferences.isUsingShizuku() && isShizukuPermissionGranted())
 
-        shizukuIcon.loadAppIcon("moe.shizuku.privileged.api", requirePackageManager().isPackageInstalledAndEnabled("moe.shizuku.privileged.api"))
+        shizukuIcon.loadAppIcon(ShizukuProvider.MANAGER_APPLICATION_ID, requirePackageManager().isPackageInstalledAndEnabled(ShizukuProvider.MANAGER_APPLICATION_ID))
 
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             ConfigurationPreferences.setKeepScreenOn(isChecked)
