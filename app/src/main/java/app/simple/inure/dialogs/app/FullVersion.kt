@@ -32,7 +32,7 @@ class FullVersion : ScopedBottomSheetFragment() {
         startPostponedEnterTransition()
 
         showMe.setOnClickListener {
-            openFragmentSlide(Trial.newInstance(), "trial")
+            openFragmentSlide(Trial.newInstance(true), "trial")
         }
 
         close.setOnClickListener {

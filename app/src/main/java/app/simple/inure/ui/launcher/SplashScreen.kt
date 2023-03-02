@@ -30,6 +30,7 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.*
 import app.simple.inure.ui.panels.Home
+import app.simple.inure.ui.panels.Trial
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
@@ -230,7 +231,11 @@ class SplashScreen : ScopedFragment() {
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
         if (isEverythingLoaded()) {
-            openFragmentArc(Home.newInstance(), icon)
+            if (MainPreferences.getDaysLeft() != -1) {
+                openFragmentArc(Home.newInstance(), icon)
+            } else {
+                openFragmentSlide(Trial.newInstance(true))
+            }
         }
     }
 

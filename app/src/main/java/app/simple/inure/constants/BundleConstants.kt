@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val integrity = "integrity"
     const val terminalCommand = "terminal_command"
     const val currentTerminalView = "current_terminal_view"
     const val isKeyboardOpened = "isKeyboardOpened"

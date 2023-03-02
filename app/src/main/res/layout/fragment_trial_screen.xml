@@ -32,6 +32,7 @@
                 android:paddingHorizontal="@dimen/popup_padding">
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/trial_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/header_padding"
