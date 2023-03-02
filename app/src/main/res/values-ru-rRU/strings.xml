@@ -660,4 +660,6 @@
     <string name="dangerous_permission_info">Можно изменить состояние только опасных разрешений.</string>
     <string name="dont_show_again">Больше не показывать</string>
     <string name="date">Дата</string>
+    <string name="trial_info">Информация о пробной версии</string>
+    <string name="desc_trial">Inure App Manager предлагает полный доступ к приложению бесплатно в течение 15 дней. После этого для активации этих функций требуется установка Unlocker.</string>
 </resources>
