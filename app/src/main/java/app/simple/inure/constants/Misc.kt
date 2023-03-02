@@ -19,4 +19,7 @@ object Misc {
     const val hoverAnimationScaleOnUnHover = 1.0F
     const val hoverAnimationElevation = 10F
     const val hoverAnimationAlpha = 0.8F
+
+    // Misc
+    const val SHIZUKU_CODE = 654
 }

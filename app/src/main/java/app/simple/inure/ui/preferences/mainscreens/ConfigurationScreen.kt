@@ -1,12 +1,15 @@
 package app.simple.inure.ui.preferences.mainscreens
 
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
@@ -22,6 +25,8 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rikka.shizuku.Shizuku
+import rikka.shizuku.ShizukuProvider
 
 class ConfigurationScreen : ScopedFragment() {
 
@@ -31,6 +36,9 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var rootSwitchView: SwitchView
     private lateinit var shizukuSwitchView: SwitchView
     private lateinit var shizukuIcon: ImageView
+
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_configuration, container, false)
 
@@ -41,6 +49,22 @@ class ConfigurationScreen : ScopedFragment() {
         shizukuIcon = view.findViewById(R.id.shizuku_icon)
         shizukuSwitchView = view.findViewById(R.id.configuration_shizuku_switch_view)
 
+        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.forEach {
+                when (it.key) {
+                    ShizukuProvider.PERMISSION -> {
+                        if (it.value) {
+                            ConfigurationPreferences.setUsingShizuku(true)
+                            shizukuSwitchView.setChecked(true)
+                        } else {
+                            ConfigurationPreferences.setUsingShizuku(false)
+                            shizukuSwitchView.setChecked(false)
+                        }
+                    }
+                }
+            }
+        }
+
         return view
     }
 
@@ -50,6 +74,8 @@ class ConfigurationScreen : ScopedFragment() {
 
         keepScreenOnSwitchView.setChecked(ConfigurationPreferences.isKeepScreenOn())
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
+        shizukuSwitchView.setChecked(ConfigurationPreferences.isUsingShizuku() && isShizukuPermissionGranted())
+
         shizukuIcon.loadAppIcon("moe.shizuku.privileged.api", requirePackageManager().isPackageInstalledAndEnabled("moe.shizuku.privileged.api"))
 
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
@@ -105,7 +131,20 @@ class ConfigurationScreen : ScopedFragment() {
         }
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener { it ->
+            if (it) {
+                // requestPermissionLauncher.launch(arrayOf(Manifest.permission.MANAGE_EXTERNAL_STORAGE))
+                requestPermissionLauncher.launch(arrayOf(ShizukuProvider.PERMISSION))
+            } else {
+                ConfigurationPreferences.setUsingShizuku(false)
+            }
+        }
+    }
 
+    private fun isShizukuPermissionGranted(): Boolean {
+        return if (Shizuku.isPreV11() || Shizuku.getVersion() < 11) {
+            requireActivity().checkSelfPermission(ShizukuProvider.PERMISSION) == PackageManager.PERMISSION_GRANTED
+        } else {
+            Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
         }
     }
 
