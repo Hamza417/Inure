@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.preferences.subscreens.Language
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
@@ -26,7 +29,8 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var shortcuts: DynamicRippleRelativeLayout
     private lateinit var language: DynamicRippleRelativeLayout
     private lateinit var rootSwitchView: SwitchView
-
+    private lateinit var shizukuSwitchView: SwitchView
+    private lateinit var shizukuIcon: ImageView
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_configuration, container, false)
 
@@ -34,6 +38,8 @@ class ConfigurationScreen : ScopedFragment() {
         shortcuts = view.findViewById(R.id.configuration_shortcuts)
         language = view.findViewById(R.id.configuration_language)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
+        shizukuIcon = view.findViewById(R.id.shizuku_icon)
+        shizukuSwitchView = view.findViewById(R.id.configuration_shizuku_switch_view)
 
         return view
     }
@@ -44,6 +50,7 @@ class ConfigurationScreen : ScopedFragment() {
 
         keepScreenOnSwitchView.setChecked(ConfigurationPreferences.isKeepScreenOn())
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
+        shizukuIcon.loadAppIcon("moe.shizuku.privileged.api", requirePackageManager().isPackageInstalledAndEnabled("moe.shizuku.privileged.api"))
 
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             ConfigurationPreferences.setKeepScreenOn(isChecked)
@@ -95,6 +102,10 @@ class ConfigurationScreen : ScopedFragment() {
                 ConfigurationPreferences.setUsingRoot(false)
                 rootSwitchView.setChecked(false)
             }
+        }
+
+        shizukuSwitchView.setOnSwitchCheckedChangeListener { it ->
+
         }
     }
 

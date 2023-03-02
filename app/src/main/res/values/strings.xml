@@ -658,4 +658,7 @@
     <string name="date">Date</string>
     <string name="trial_info">Trial Information</string>
     <string name="desc_trial">Inure App Manager offers full access to the app for free for 15 days. After that these features will require Unlocker to be activated.</string>
+    <string name="use_shizuku">Use Shizuku</string>
+    <string name="shizuku_desc">Use Shizuku API instead of using native Android APIs and Libs to perform some functions.\n\nThis option is recommended for non-root users.\n\nShizuku access is required.</string>
+    <string name="shizuku_alert">If root access is granted and root mode is toggled in the app, then root mode will be preferred over Shizuku.</string>
 </resources>

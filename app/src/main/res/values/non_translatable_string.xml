@@ -59,4 +59,5 @@
     <string name="json" translatable="false">.JSON</string>
     <string name="csv" translatable="false">.CSV</string>
     <string name="github_link" translatable="false"><![CDATA[https://github.com/sponsors/Hamza417/sponsorships?sponsor=Hamza417&tier_id=262253]]></string>
+    <string name="shizuku">Shizuku</string>
 </resources>
