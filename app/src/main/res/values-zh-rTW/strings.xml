@@ -659,4 +659,7 @@
     <string name="date">日期</string>
     <string name="trial_info">試用資訊</string>
     <string name="desc_trial">Inure App 管理員提供 15 天免費的應用程式完整存取。之後，這些功能將需要解鎖器的啟用。</string>
+    <string name="use_shizuku">使用 Shizuku</string>
+    <string name="shizuku_desc">使用 Shizuku API 而非原生 Android API 和程式庫來處理一些功能。\n\n此選項建議非 Root 使用者開啟。\n\n需要 Shizuku 存取權。</string>
+    <string name="shizuku_alert">若授予 Root 存取權並在應用程式中切換至 Root 模式，則 Root 模式將優先於 Shizuku。</string>
 </resources>
