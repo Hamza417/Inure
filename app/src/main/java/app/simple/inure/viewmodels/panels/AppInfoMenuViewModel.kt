@@ -86,6 +86,34 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
                 list.add(Pair(R.drawable.ic_broom, R.string.clear_cache))
                 list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
+            } else if (ConfigurationPreferences.isUsingShizuku()) {
+                if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {
+                    list.add(Pair(R.drawable.ic_launch, R.string.launch))
+                }
+
+                list.add(Pair(R.drawable.ic_send, R.string.send))
+
+                if (isNotThisApp()) {
+                    list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
+
+                    if (packageInfo.isSystemApp()) {
+                        if (packageInfo.isUpdateInstalled()) {
+                            list.add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
+                        }
+                    }
+
+                    if (packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
+                        list.add(Pair(R.drawable.ic_disable, R.string.disable))
+                    } else {
+                        list.add(Pair(R.drawable.ic_check, R.string.enable))
+                    }
+
+                    list.add(Pair(R.drawable.ic_close, R.string.force_stop))
+                    list.add(Pair(R.drawable.ic_delete_sweep, R.string.clear_data))
+                }
+
+                list.add(Pair(R.drawable.ic_broom, R.string.clear_cache))
+                list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
             } else {
                 if (packageInfo.isUserApp()) {
                     if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {
