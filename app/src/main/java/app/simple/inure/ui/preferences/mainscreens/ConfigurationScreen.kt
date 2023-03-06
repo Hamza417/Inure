@@ -74,7 +74,7 @@ class ConfigurationScreen : ScopedFragment() {
 
         keepScreenOnSwitchView.setChecked(ConfigurationPreferences.isKeepScreenOn())
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
-        shizukuSwitchView.setChecked(ConfigurationPreferences.isUsingShizuku() && isShizukuPermissionGranted())
+        shizukuSwitchView.setChecked(ConfigurationPreferences.isUsingShizuku())
 
         shizukuIcon.loadAppIcon(ShizukuProvider.MANAGER_APPLICATION_ID, requirePackageManager().isPackageInstalledAndEnabled(ShizukuProvider.MANAGER_APPLICATION_ID))
 
@@ -132,7 +132,6 @@ class ConfigurationScreen : ScopedFragment() {
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener { it ->
             if (it) {
-                // requestPermissionLauncher.launch(arrayOf(Manifest.permission.MANAGE_EXTERNAL_STORAGE))
                 requestPermissionLauncher.launch(arrayOf(ShizukuProvider.PERMISSION))
             } else {
                 ConfigurationPreferences.setUsingShizuku(false)
