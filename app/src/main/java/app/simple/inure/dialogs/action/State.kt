@@ -15,7 +15,7 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.StateViewModelFactory
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.viewmodels.dialogs.StateViewModel
+import app.simple.inure.viewmodels.dialogs.StateShizukuViewModel
 
 class State : ScopedBottomSheetFragment() {
 
@@ -48,7 +48,7 @@ class State : ScopedBottomSheetFragment() {
 
         packageName.text = packageInfo.packageName
 
-        with(ViewModelProvider(this, StateViewModelFactory(packageInfo))[StateViewModel::class.java]) {
+        with(ViewModelProvider(this, StateViewModelFactory(packageInfo))[StateShizukuViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner) {
 
             }

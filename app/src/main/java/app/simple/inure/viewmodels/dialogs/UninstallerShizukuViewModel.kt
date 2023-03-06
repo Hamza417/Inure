@@ -7,12 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
-import app.simple.inure.extensions.viewmodels.RootViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UninstallerViewModel(application: Application, val packageInfo: PackageInfo) : RootViewModel(application) {
+class UninstallerShizukuViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
 
     val error = MutableLiveData<String>()
 
@@ -67,5 +67,9 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
     override fun onShellDenied() {
         warning.postValue(Warnings.getInureWarning01())
         success.postValue("Failed")
+    }
+
+    override fun onShizukuCreated() {
+
     }
 }

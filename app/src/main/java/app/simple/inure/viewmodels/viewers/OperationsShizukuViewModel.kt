@@ -6,14 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.ops.AppOps
-import app.simple.inure.extensions.viewmodels.RootViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.AppOpsModel
 import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class OperationsViewModel(application: Application, val packageInfo: PackageInfo) : RootViewModel(application) {
+class OperationsShizukuViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
 
     private val appOpsData: MutableLiveData<ArrayList<AppOpsModel>> by lazy {
         MutableLiveData<ArrayList<AppOpsModel>>().also {
@@ -81,5 +81,9 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
     override fun onShellDenied() {
         /* no-op */
+    }
+
+    override fun onShizukuCreated() {
+
     }
 }

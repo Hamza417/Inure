@@ -20,13 +20,13 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.AppOpsModel
 import app.simple.inure.preferences.OperationsPreferences
 import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.viewmodels.viewers.OperationsViewModel
+import app.simple.inure.viewmodels.viewers.OperationsShizukuViewModel
 
 class Operations : SearchBarScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var operationsViewModel: OperationsViewModel
+    private lateinit var operationsViewModel: OperationsShizukuViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private var adapterOperations: AdapterOperations? = null
 
@@ -40,7 +40,7 @@ class Operations : SearchBarScopedFragment() {
         title = view.findViewById(R.id.operations_title)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        operationsViewModel = ViewModelProvider(this, packageInfoFactory)[OperationsViewModel::class.java]
+        operationsViewModel = ViewModelProvider(this, packageInfoFactory)[OperationsShizukuViewModel::class.java]
 
         return view
     }

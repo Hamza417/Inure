@@ -7,12 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
-import app.simple.inure.extensions.viewmodels.RootViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActivityLauncherViewModel(application: Application, val packageInfo: PackageInfo, val packageId: String) : RootViewModel(application) {
+class ActivityLauncherShizukuViewModel(application: Application, val packageInfo: PackageInfo, val packageId: String) : RootShizukuViewModel(application) {
 
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -89,25 +89,25 @@ class ActivityLauncherViewModel(application: Application, val packageInfo: Packa
                         }
                     }.onSuccess {
                         if (shellResult.isSuccess) {
-                            this@ActivityLauncherViewModel.action.postValue("Done")
+                            this@ActivityLauncherShizukuViewModel.action.postValue("Done")
                         } else {
-                            this@ActivityLauncherViewModel.action.postValue("Failed")
+                            this@ActivityLauncherShizukuViewModel.action.postValue("Failed")
                         }
                     }.getOrElse {
                         result.postValue("\n" + it.message!!)
                         if (shellResult.isSuccess) {
-                            this@ActivityLauncherViewModel.action.postValue("Done")
+                            this@ActivityLauncherShizukuViewModel.action.postValue("Done")
                         } else {
-                            this@ActivityLauncherViewModel.action.postValue("Failed")
+                            this@ActivityLauncherShizukuViewModel.action.postValue("Failed")
                         }
                     }
                 }
             }.onFailure {
                 result.postValue("\n" + it.message!!)
-                this@ActivityLauncherViewModel.action.postValue("Failed")
+                this@ActivityLauncherShizukuViewModel.action.postValue("Failed")
             }.getOrElse {
                 result.postValue("\n" + it.message!!)
-                this@ActivityLauncherViewModel.action.postValue("Failed")
+                this@ActivityLauncherShizukuViewModel.action.postValue("Failed")
             }
         }
     }
@@ -123,5 +123,9 @@ class ActivityLauncherViewModel(application: Application, val packageInfo: Packa
     override fun onShellDenied() {
         warning.postValue(Warnings.getInureWarning01())
         success.postValue("Failed")
+    }
+
+    override fun onShizukuCreated() {
+
     }
 }

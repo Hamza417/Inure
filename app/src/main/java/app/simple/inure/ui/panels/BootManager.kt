@@ -22,21 +22,21 @@ import app.simple.inure.popups.bootmanager.PopupBootManagerAppsCategory
 import app.simple.inure.popups.bootmanager.PopupBootManagerSortingStyle
 import app.simple.inure.preferences.BootManagerPreferences
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.viewmodels.panels.BootManagerViewModel
+import app.simple.inure.viewmodels.panels.BootManagerShizukuViewModel
 
 class BootManager : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
     private var adapterBootManager: AdapterBootManager? = null
-    private var bootManagerViewModel: BootManagerViewModel? = null
+    private var bootManagerViewModel: BootManagerShizukuViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_boot_manager, container, false)
 
         recyclerView = view.findViewById(R.id.boot_manager_recycler_view)
 
-        bootManagerViewModel = ViewModelProvider(requireActivity())[BootManagerViewModel::class.java]
+        bootManagerViewModel = ViewModelProvider(requireActivity())[BootManagerShizukuViewModel::class.java]
 
         return view
     }

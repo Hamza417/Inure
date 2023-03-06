@@ -13,7 +13,7 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.constants.Warnings
-import app.simple.inure.extensions.viewmodels.RootViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BootManagerPreferences
@@ -23,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class BootManagerViewModel(application: Application) : RootViewModel(application) {
+class BootManagerShizukuViewModel(application: Application) : RootShizukuViewModel(application) {
 
     private val command = "pm query-receivers --components -a android.intent.action.BOOT_COMPLETED"
     private val bootCompletedIntent = "android.intent.action.BOOT_COMPLETED"
@@ -61,6 +61,10 @@ class BootManagerViewModel(application: Application) : RootViewModel(application
     override fun onShellCreated(shell: Shell?) {
         Log.d("BootManagerViewModel", "onShellCreated: SHELL CREATED")
         loadBootComponents()
+    }
+
+    override fun onShizukuCreated() {
+
     }
 
     override fun onShellDenied() {

@@ -7,19 +7,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
-import app.simple.inure.extensions.viewmodels.RootViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo) : RootViewModel(application) {
+class StateShizukuViewModel(application: Application, private val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
+
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
-            initShell()
+            initializeCoreFramework()
         }
     }
 
@@ -34,7 +36,7 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Shell.cmd("am force-stop ${packageInfo.packageName}").submit { shellResult ->
+                Shell.cmd(formStateCommand()).submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
@@ -67,6 +69,31 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
         }
     }
 
+    private fun useShizuku() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                ShizukuUtils.setAppDisabled(packageInfo.applicationInfo.enabled, setOf(packageInfo.packageName))
+            }.onFailure {
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+            }.onSuccess {
+                result.postValue("\n" + it)
+                success.postValue("Done")
+            }.getOrElse {
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+            }
+        }
+    }
+
+    private fun formStateCommand(): String {
+        return if (packageInfo.applicationInfo.enabled) {
+            "pm disable ${packageInfo.packageName}"
+        } else {
+            "pm enable ${packageInfo.packageName}"
+        }
+    }
+
     override fun onShellCreated(shell: Shell?) {
         runCommand()
     }
@@ -74,5 +101,9 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
     override fun onShellDenied() {
         warning.postValue(Warnings.getInureWarning01())
         success.postValue("Failed")
+    }
+
+    override fun onShizukuCreated() {
+        useShizuku()
     }
 }

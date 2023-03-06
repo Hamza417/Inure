@@ -7,20 +7,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
-import app.simple.inure.extensions.viewmodels.RootViewModel
-import app.simple.inure.models.PermissionInfo
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PermissionStatusViewModel(application: Application, val packageInfo: PackageInfo, val permissionInfo: PermissionInfo) : RootViewModel(application) {
-
+class ComponentStateShizukuViewModel(application: Application, val packageInfo: PackageInfo, val packageId: String, val mode: Boolean) : RootShizukuViewModel(application) {
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     private val success: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+        MutableLiveData<String>().also {
+            initShell()
+        }
     }
 
     fun getResults(): LiveData<String> {
@@ -34,9 +34,9 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val mode = if (this@PermissionStatusViewModel.permissionInfo.isGranted == 1) "revoke" else "grant"
+                val mode = if (mode) "disable" else "enable"
 
-                Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").submit { shellResult ->
+                Shell.cmd("pm $mode ${packageInfo.packageName}/${packageId}").submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
@@ -78,8 +78,7 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
         success.postValue("Failed")
     }
 
-    fun setPermissionState(mode: PermissionInfo) {
-        this.permissionInfo.isGranted = mode.isGranted
-        initShell()
+    override fun onShizukuCreated() {
+
     }
 }

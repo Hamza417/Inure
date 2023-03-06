@@ -12,10 +12,23 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
+import rikka.shizuku.Shizuku
 
-abstract class RootViewModel(application: Application) : WrappedViewModel(application) {
+abstract class RootShizukuViewModel(application: Application) : WrappedViewModel(application) {
 
     private var shell: Shell? = null
+
+    /**
+     * Initialize the shell or shizuku depending on the user's preference.
+     * Root is preferred over shizuku.
+     */
+    protected fun initializeCoreFramework() {
+        if (ConfigurationPreferences.isUsingRoot()) {
+            initShell()
+        } else if (ConfigurationPreferences.isUsingShizuku()) {
+            initShizuku()
+        }
+    }
 
     @MainThread
     protected fun initShell() {
@@ -83,6 +96,14 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
         }
     }
 
+    protected fun initShizuku() {
+        if (Shizuku.pingBinder()) {
+            onShizukuCreated()
+        } else {
+            warning.postValue(Warnings.getInureWarning06())
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         shell?.close()
@@ -99,4 +120,5 @@ abstract class RootViewModel(application: Application) : WrappedViewModel(applic
 
     abstract fun onShellCreated(shell: Shell?)
     abstract fun onShellDenied()
+    abstract fun onShizukuCreated()
 }

@@ -4,7 +4,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import app.simple.inure.viewmodels.dialogs.ComponentStateViewModel
+import app.simple.inure.viewmodels.dialogs.ComponentStateShizukuViewModel
 
 class ComponentStateFactory(private val packageInfo: PackageInfo, private val packageId: String, val mode: Boolean) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
@@ -12,8 +12,8 @@ class ComponentStateFactory(private val packageInfo: PackageInfo, private val pa
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
 
         when {
-            modelClass.isAssignableFrom(ComponentStateViewModel::class.java) -> {
-                return ComponentStateViewModel(application, packageInfo, packageId, mode) as T
+            modelClass.isAssignableFrom(ComponentStateShizukuViewModel::class.java) -> {
+                return ComponentStateShizukuViewModel(application, packageInfo, packageId, mode) as T
             }
             else -> {
                 throw IllegalArgumentException("Wrong viewmodel.")

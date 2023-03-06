@@ -20,7 +20,7 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.UninstallerViewModelFactory
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.viewmodels.dialogs.UninstallerViewModel
+import app.simple.inure.viewmodels.dialogs.UninstallerShizukuViewModel
 import app.simple.inure.viewmodels.panels.*
 
 class Uninstaller : ScopedBottomSheetFragment() {
@@ -57,7 +57,7 @@ class Uninstaller : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (ConfigurationPreferences.isUsingRoot()) {
-            with(ViewModelProvider(this, UninstallerViewModelFactory(packageInfo))[UninstallerViewModel::class.java]) {
+            with(ViewModelProvider(this, UninstallerViewModelFactory(packageInfo))[UninstallerShizukuViewModel::class.java]) {
                 getError().observe(viewLifecycleOwner) {
                     showError(it)
                 }
@@ -124,14 +124,14 @@ class Uninstaller : ScopedBottomSheetFragment() {
         val batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
 
         val batteryOptimizationViewModel = if (ConfigurationPreferences.isUsingRoot()) {
-            ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
+            ViewModelProvider(requireActivity())[BatteryOptimizationShizukuViewModel::class.java]
         } else {
             isBatteryOptimizationLoaded = true
             null
         }
 
         val bootManagerViewModel = if (ConfigurationPreferences.isUsingRoot()) {
-            ViewModelProvider(requireActivity())[BootManagerViewModel::class.java]
+            ViewModelProvider(requireActivity())[BootManagerShizukuViewModel::class.java]
         } else {
             isBootManagerLoaded = true
             null

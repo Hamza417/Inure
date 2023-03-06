@@ -4,7 +4,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import app.simple.inure.viewmodels.dialogs.UninstallerViewModel
+import app.simple.inure.viewmodels.dialogs.UninstallerShizukuViewModel
 
 class UninstallerViewModelFactory(private val packageInfo: PackageInfo) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
@@ -12,8 +12,8 @@ class UninstallerViewModelFactory(private val packageInfo: PackageInfo) : ViewMo
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
 
         when {
-            modelClass.isAssignableFrom(UninstallerViewModel::class.java) -> {
-                return UninstallerViewModel(application, packageInfo) as T
+            modelClass.isAssignableFrom(UninstallerShizukuViewModel::class.java) -> {
+                return UninstallerShizukuViewModel(application, packageInfo) as T
             }
             else -> {
                 throw IllegalArgumentException("Wrong View Model")

@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.Warnings
-import app.simple.inure.extensions.viewmodels.RootViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.BatchUninstallerProgressStateModel
 import app.simple.inure.util.ConditionUtils.invert
@@ -16,7 +16,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class BatchUninstallerViewModel(application: Application, val list: ArrayList<BatchPackageInfo>) : RootViewModel(application) {
+class BatchUninstallerShizukuViewModel(application: Application, val list: ArrayList<BatchPackageInfo>) : RootShizukuViewModel(application) {
 
     private val state = MutableLiveData<BatchUninstallerProgressStateModel>()
     private val done = MutableLiveData(0)
@@ -72,5 +72,9 @@ class BatchUninstallerViewModel(application: Application, val list: ArrayList<Ba
 
     override fun onShellDenied() {
         warning.postValue(Warnings.getInureWarning01())
+    }
+
+    override fun onShizukuCreated() {
+
     }
 }

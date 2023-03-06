@@ -27,4 +27,9 @@ object Warnings {
      * InureWarning05: App integrity failed
      */
     fun getInureWarning05(): String = "0x005: App integrity has been compromised"
+
+    /**
+     * InureWarning06: Failed to initialize the Shizuku.
+     */
+    fun getInureWarning06(): String = "0x006: Failed to initialize the Shizuku."
 }

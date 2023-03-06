@@ -7,12 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
-import app.simple.inure.extensions.viewmodels.RootViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ComponentStateViewModel(application: Application, val packageInfo: PackageInfo, val packageId: String, val mode: Boolean) : RootViewModel(application) {
+class ForceCloseShizukuViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -34,13 +34,11 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val mode = if (mode) "disable" else "enable"
-
-                Shell.cmd("pm $mode ${packageInfo.packageName}/${packageId}").submit { shellResult ->
+                Shell.cmd("am force-stop ${packageInfo.packageName}").submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
-                            if (i.contains("Exception")) {
+                            if (i.contains("Exception") || i.contains("not exist")) {
                                 throw InureShellException("Execution Failed...")
                             }
                         }
@@ -76,5 +74,9 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
     override fun onShellDenied() {
         warning.postValue(Warnings.getInureWarning01())
         success.postValue("Failed")
+    }
+
+    override fun onShizukuCreated() {
+
     }
 }

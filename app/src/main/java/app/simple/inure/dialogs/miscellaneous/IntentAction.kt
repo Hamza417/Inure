@@ -19,7 +19,7 @@ import app.simple.inure.factories.actions.ActivityLaunchFactory
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.dialogs.ActivityLauncherViewModel
+import app.simple.inure.viewmodels.dialogs.ActivityLauncherShizukuViewModel
 
 class IntentAction : ScopedDialogFragment() {
 
@@ -29,7 +29,7 @@ class IntentAction : ScopedDialogFragment() {
     private lateinit var loader: CustomProgressBar
 
     private lateinit var activityLaunchFactory: ActivityLaunchFactory
-    private lateinit var activityLauncherViewModel: ActivityLauncherViewModel
+    private lateinit var activityLauncherViewModel: ActivityLauncherShizukuViewModel
 
     private var packageId: String? = null
 
@@ -44,7 +44,7 @@ class IntentAction : ScopedDialogFragment() {
         packageId = requireArguments().getString(BundleConstants.packageId)!!
 
         activityLaunchFactory = ActivityLaunchFactory(packageInfo, packageId!!)
-        activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory)[ActivityLauncherViewModel::class.java]
+        activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory)[ActivityLauncherShizukuViewModel::class.java]
 
         return view
     }

@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.Warnings
-import app.simple.inure.extensions.viewmodels.RootViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatteryOptimizationPreferences
@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class BatteryOptimizationViewModel(application: Application) : RootViewModel(application) {
+class BatteryOptimizationShizukuViewModel(application: Application) : RootShizukuViewModel(application) {
 
     init {
         initShell()
@@ -151,5 +151,9 @@ class BatteryOptimizationViewModel(application: Application) : RootViewModel(app
     override fun onAppUninstalled(packageName: String?) {
         super.onAppUninstalled(packageName)
         loadBatteryOptimization()
+    }
+
+    override fun onShizukuCreated() {
+
     }
 }

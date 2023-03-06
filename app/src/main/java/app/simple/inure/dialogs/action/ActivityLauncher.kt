@@ -12,7 +12,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ActivityLaunchFactory
-import app.simple.inure.viewmodels.dialogs.ActivityLauncherViewModel
+import app.simple.inure.viewmodels.dialogs.ActivityLauncherShizukuViewModel
 
 class ActivityLauncher : ScopedBottomSheetFragment() {
 
@@ -20,7 +20,7 @@ class ActivityLauncher : ScopedBottomSheetFragment() {
     private lateinit var status: TypeFaceTextView
 
     private lateinit var activityLaunchFactory: ActivityLaunchFactory
-    private lateinit var activityLauncherViewModel: ActivityLauncherViewModel
+    private lateinit var activityLauncherViewModel: ActivityLauncherShizukuViewModel
 
     private var packageId: String? = null
 
@@ -33,7 +33,7 @@ class ActivityLauncher : ScopedBottomSheetFragment() {
         packageId = requireArguments().getString(BundleConstants.packageId)!!
 
         activityLaunchFactory = ActivityLaunchFactory(packageInfo, packageId!!)
-        activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory)[ActivityLauncherViewModel::class.java]
+        activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory)[ActivityLauncherShizukuViewModel::class.java]
 
         return view
     }

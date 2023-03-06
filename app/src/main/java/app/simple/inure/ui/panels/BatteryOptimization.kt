@@ -22,21 +22,21 @@ import app.simple.inure.popups.battery.PopupOptimizationSwitch
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.viewmodels.panels.BatteryOptimizationViewModel
+import app.simple.inure.viewmodels.panels.BatteryOptimizationShizukuViewModel
 
 class BatteryOptimization : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterBatteryOptimization: AdapterBatteryOptimization
 
-    private lateinit var batteryOptimizationViewModel: BatteryOptimizationViewModel
+    private lateinit var batteryOptimizationViewModel: BatteryOptimizationShizukuViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_battery_optimization, container, false)
 
         recyclerView = view.findViewById(R.id.battery_optimization_recycler_view)
 
-        batteryOptimizationViewModel = ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
+        batteryOptimizationViewModel = ViewModelProvider(requireActivity())[BatteryOptimizationShizukuViewModel::class.java]
 
         return view
     }
