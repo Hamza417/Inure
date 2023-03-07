@@ -234,7 +234,7 @@ class SplashScreen : ScopedFragment() {
             if (TrialPreferences.getDaysLeft() != -1) {
                 openFragmentArc(Home.newInstance(), icon)
             } else {
-                openFragmentSlide(Trial.newInstance(true))
+                openFragmentSlide(Trial.newInstance())
             }
         }
     }

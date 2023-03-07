@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -33,7 +32,7 @@ class Trial : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        if (requireArguments().getBoolean(BundleConstants.integrity)) {
+        if (TrialPreferences.getDaysLeft() == -1) {
             title.text = Warnings.getInureWarning05()
         }
 
@@ -45,9 +44,8 @@ class Trial : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(integrity: Boolean = false): Trial {
+        fun newInstance(): Trial {
             val args = Bundle()
-            args.putBoolean(BundleConstants.integrity, integrity)
             val fragment = Trial()
             fragment.arguments = args
             return fragment

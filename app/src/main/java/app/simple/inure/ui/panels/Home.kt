@@ -237,7 +237,7 @@ class Home : ScopedFragment() {
         }
 
         purchase.setOnClickListener {
-            openFragmentSlide(Trial.newInstance(true), "trial")
+            openFragmentSlide(Trial.newInstance(), "trial")
         }
     }
 

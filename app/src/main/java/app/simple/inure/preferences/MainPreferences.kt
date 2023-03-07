@@ -100,6 +100,12 @@ object MainPreferences {
         return getSharedPreferences().getInt(unlockerWarningCount, 0)
     }
 
+    fun removeLegacyPreferences() {
+        getSharedPreferences().edit().remove(firstLaunchDate).apply()
+        getSharedPreferences().edit().remove(isAppFullVersionEnabled).apply()
+        getSharedPreferences().edit().remove(unlockerWarningCount).apply()
+    }
+
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setChangeLogReminder(value: Int) {

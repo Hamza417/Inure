@@ -36,7 +36,7 @@ object TrialPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setUnlockerWarningCount(value: Int) {
+    private fun setUnlockerWarningCount(value: Int) {
         getEncryptedSharedPreferences().edit().putInt(unlockerWarningCount, value).apply()
     }
 
@@ -91,6 +91,7 @@ object TrialPreferences {
             setFullVersion(MainPreferences.isFullVersionEnabledLegacy())
 
             getEncryptedSharedPreferences().edit().putBoolean(isLegacyMigrated, true).apply()
+            MainPreferences.removeLegacyPreferences()
         }
     }
 }
