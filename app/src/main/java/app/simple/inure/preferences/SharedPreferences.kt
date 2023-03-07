@@ -2,16 +2,35 @@ package app.simple.inure.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import app.simple.inure.util.NullSafety.isNull
 
 object SharedPreferences {
 
     private const val preferences = "Preferences"
+    private const val preferencesEncrypted = "PreferencesSecured"
     private var sharedPreferences: SharedPreferences? = null
+    private var encryptedSharedPreferences: SharedPreferences? = null
 
     fun init(context: Context) {
         if (sharedPreferences.isNull()) {
             sharedPreferences = context.getSharedPreferences(preferences, Context.MODE_PRIVATE)
+        }
+    }
+
+    fun initEncrypted(context: Context) {
+        if (encryptedSharedPreferences.isNull()) {
+            val masterKeyAlias = MasterKey.Builder(context)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+
+            encryptedSharedPreferences = EncryptedSharedPreferences.create(
+                    context,
+                    preferencesEncrypted,
+                    masterKeyAlias,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
         }
     }
 
@@ -24,6 +43,10 @@ object SharedPreferences {
      */
     fun getSharedPreferences(): SharedPreferences {
         return sharedPreferences ?: throw NullPointerException()
+    }
+
+    fun getEncryptedSharedPreferences(): SharedPreferences {
+        return encryptedSharedPreferences ?: throw NullPointerException()
     }
 
     fun registerListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {

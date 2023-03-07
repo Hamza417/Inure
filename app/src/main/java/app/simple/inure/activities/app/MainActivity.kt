@@ -19,10 +19,7 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
-import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.preferences.MusicPreferences
+import app.simple.inure.preferences.*
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
@@ -59,7 +56,7 @@ class MainActivity : BaseActivity() {
 
         if (savedInstanceState.isNull()) {
             if (MainPreferences.getLaunchCount().isZero()) {
-                MainPreferences.setFirstLaunchDate(System.currentTimeMillis())
+                TrialPreferences.setFirstLaunchDate(System.currentTimeMillis())
             }
 
             MainPreferences.incrementLaunchCount()
@@ -161,16 +158,16 @@ class MainActivity : BaseActivity() {
                 }
                 IntentConstants.ACTION_UNLOCK -> {
                     if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
-                        if (MainPreferences.isFullVersion()) {
+                        if (TrialPreferences.isFullVersion()) {
                             showWarning(R.string.full_version_already_activated, goBack = false)
 
                             supportFragmentManager.beginTransaction()
                                 .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
                                 .commit()
                         } else {
-                            if (MainPreferences.setFullVersion(value = true)) {
+                            if (TrialPreferences.setFullVersion(value = true)) {
                                 showWarning(R.string.full_version_activated, goBack = false)
-                                MainPreferences.resetUnlockerWarningCount()
+                                TrialPreferences.resetUnlockerWarningCount()
 
                                 supportFragmentManager.beginTransaction()
                                     .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")

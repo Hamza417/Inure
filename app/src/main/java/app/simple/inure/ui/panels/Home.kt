@@ -29,6 +29,7 @@ import app.simple.inure.popups.app.PopupHome
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.TerminalPreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.music.Music
 import app.simple.inure.util.ConditionUtils.isZero
@@ -76,7 +77,7 @@ class Home : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (MainPreferences.isFullVersion()) {
+        if (TrialPreferences.isFullVersion()) {
             purchase.gone(animate = false)
         }
 

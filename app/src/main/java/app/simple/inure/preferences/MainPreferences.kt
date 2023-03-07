@@ -3,24 +3,20 @@ package app.simple.inure.preferences
 import app.simple.inure.BuildConfig
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
-import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.Sort
-import java.util.*
 
 /**
  * All app preferences
  */
 object MainPreferences {
 
-    private const val MAX_TRIAL_DAYS = 15
-
     private const val launchCount = "main_app_launch_count"
     private const val dayNightMode = "is_day_night_mode"
     private const val appLanguage = "current_language_locale"
-    private const val firstLaunchDate = "first_launch_date"
-    private const val isAppFullVersionEnabled = "is_full_version_enabled"
-    private const val unlockerWarningCount = "unlocker_warning_count"
     private const val changeLogReminder = "change_log_reminder"
+    private const val firstLaunchDate = "first_launch_date"
+    private const val unlockerWarningCount = "unlocker_warning_count"
+    private const val isAppFullVersionEnabled = "is_full_version_enabled"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
@@ -92,62 +88,16 @@ object MainPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setFullVersion(value: Boolean): Boolean {
-        return getSharedPreferences().edit().putBoolean(isAppFullVersionEnabled, value).commit()
+    fun getFirstLaunchDateLegacy(): Long {
+        return getSharedPreferences().getLong(firstLaunchDate, System.currentTimeMillis())
     }
 
-    fun isAppFullVersionEnabled(): Boolean {
-        return getSharedPreferences().getBoolean(isAppFullVersionEnabled, false) ||
-                CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
-    }
-
-    fun isWithinTrialPeriod(): Boolean {
-        return CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
-    }
-
-    fun isTrialWithoutFull(): Boolean {
-        return CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
-                && !isAppFullVersionEnabled()
-    }
-
-    fun isFullVersion(): Boolean {
+    fun isFullVersionEnabledLegacy(): Boolean {
         return getSharedPreferences().getBoolean(isAppFullVersionEnabled, false)
     }
 
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setUnlockerWarningCount(value: Int) {
-        getSharedPreferences().edit().putInt(unlockerWarningCount, value).apply()
-    }
-
-    fun getUnlockerWarningCount(): Int {
+    fun getUnlockerWarningCountLegacy(): Int {
         return getSharedPreferences().getInt(unlockerWarningCount, 0)
-    }
-
-    fun incrementUnlockerWarningCount() {
-        setUnlockerWarningCount(getUnlockerWarningCount() + 1)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setFirstLaunchDate(value: Long) {
-        getSharedPreferences().edit().putLong(firstLaunchDate, value).apply()
-    }
-
-    fun getFirstLaunchDate(): Long {
-        return getSharedPreferences().getLong(firstLaunchDate, -1)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun getDaysLeft(): Int {
-        return if (MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) > MAX_TRIAL_DAYS ||
-            MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) < 0) {
-            -1
-        } else {
-            MAX_TRIAL_DAYS - CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday())
-                .coerceAtLeast(0).coerceAtMost(MAX_TRIAL_DAYS)
-        }
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -162,9 +112,5 @@ object MainPreferences {
 
     fun shouldShowChangeLogReminder(): Boolean {
         return getChangeLogReminder() < BuildConfig.VERSION_CODE
-    }
-
-    fun resetUnlockerWarningCount() {
-        setUnlockerWarningCount(0)
     }
 }

@@ -11,7 +11,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.app.Purchase.Companion.showPurchaseDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.TrialPreferences
 
 class Trial : ScopedFragment() {
 
@@ -37,7 +37,7 @@ class Trial : ScopedFragment() {
             title.text = Warnings.getInureWarning05()
         }
 
-        daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
+        daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
 
         purchase.setOnClickListener {
             childFragmentManager.showPurchaseDialog()

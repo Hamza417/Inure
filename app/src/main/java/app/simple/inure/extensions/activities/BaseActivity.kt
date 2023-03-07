@@ -49,6 +49,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
     override fun attachBaseContext(newBaseContext: Context) {
         SharedPreferences.init(newBaseContext)
+        SharedPreferences.initEncrypted(newBaseContext)
         SharedPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
         super.attachBaseContext(ContextUtils.updateLocale(newBaseContext, ConfigurationPreferences.getAppLanguage()!!))
     }
@@ -63,6 +64,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         }
 
         ThemeUtils.setAppTheme(baseContext.resources)
+        TrialPreferences.migrateLegacy()
 
         with(window) {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
@@ -320,7 +322,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     }
 
     open fun fullVersionCheck(): Boolean {
-        return if (MainPreferences.isAppFullVersionEnabled()) {
+        return if (TrialPreferences.isAppFullVersionEnabled()) {
             true
         } else {
             supportFragmentManager.showFullVersion().setFullVersionCallbacks {

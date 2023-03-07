@@ -231,7 +231,7 @@ class SplashScreen : ScopedFragment() {
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
         if (isEverythingLoaded()) {
-            if (MainPreferences.getDaysLeft() != -1) {
+            if (TrialPreferences.getDaysLeft() != -1) {
                 openFragmentArc(Home.newInstance(), icon)
             } else {
                 openFragmentSlide(Trial.newInstance(true))
@@ -279,37 +279,37 @@ class SplashScreen : ScopedFragment() {
                 /* no-op */
             } else {
                 showWarning(Warnings.getInureWarning04(), goBack = false)
-                MainPreferences.setFullVersion(false)
-                MainPreferences.resetUnlockerWarningCount()
+                TrialPreferences.setFullVersion(false)
+                TrialPreferences.resetUnlockerWarningCount()
             }
         }
 
-        if (MainPreferences.isTrialWithoutFull()) {
-            if (MainPreferences.isFullVersion()) {
+        if (TrialPreferences.isTrialWithoutFull()) {
+            if (TrialPreferences.isFullVersion()) {
                 daysLeft.gone()
-                MainPreferences.resetUnlockerWarningCount()
+                TrialPreferences.resetUnlockerWarningCount()
             } else {
-                daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
-                MainPreferences.resetUnlockerWarningCount()
+                daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
+                TrialPreferences.resetUnlockerWarningCount()
             }
-        } else if (MainPreferences.isFullVersion()) {
+        } else if (TrialPreferences.isFullVersion()) {
             if (requirePackageManager().isPackageInstalled(AppUtils.unlockerPackageName)) {
                 daysLeft.gone()
             } else {
-                if (MainPreferences.getUnlockerWarningCount() < 3) {
+                if (TrialPreferences.getUnlockerWarningCount() < 3) {
                     showWarning(R.string.unlocker_not_installed, goBack = false)
-                    MainPreferences.incrementUnlockerWarningCount()
+                    TrialPreferences.incrementUnlockerWarningCount()
                     daysLeft.gone()
                 } else {
                     showWarning(R.string.full_version_deactivated, goBack = false)
-                    MainPreferences.setFullVersion(false)
-                    MainPreferences.resetUnlockerWarningCount()
-                    daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
+                    TrialPreferences.setFullVersion(false)
+                    TrialPreferences.resetUnlockerWarningCount()
+                    daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
                 }
             }
         } else {
             // Should always be 0
-            daysLeft.text = getString(R.string.days_trial_period_remaining, MainPreferences.getDaysLeft())
+            daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
         }
     }
 

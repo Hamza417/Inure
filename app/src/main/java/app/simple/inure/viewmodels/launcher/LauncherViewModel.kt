@@ -9,7 +9,7 @@ import app.simple.inure.apk.utils.APKCertificateUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.NullSafety.isNotNull
@@ -31,7 +31,7 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
     private val hasValidCertificate: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().also {
             if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
-                if (MainPreferences.isFullVersion()) {
+                if (TrialPreferences.isFullVersion()) {
                     verifyCertificate()
                 }
             }

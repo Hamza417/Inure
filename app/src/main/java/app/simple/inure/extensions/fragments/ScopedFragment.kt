@@ -33,10 +33,10 @@ import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.ui.panels.AppInfo
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
@@ -306,7 +306,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     open fun fullVersionCheck(goBack: Boolean = true): Boolean {
-        return if (MainPreferences.isAppFullVersionEnabled()) {
+        return if (TrialPreferences.isAppFullVersionEnabled()) {
             true
         } else {
             childFragmentManager.showFullVersion().setFullVersionCallbacks {
