@@ -12,7 +12,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ClearDataViewModelFactory
-import app.simple.inure.viewmodels.dialogs.ClearDataShizukuViewModel
+import app.simple.inure.viewmodels.dialogs.ClearDataViewModel
 
 class ClearData : ScopedBottomSheetFragment() {
 
@@ -31,7 +31,7 @@ class ClearData : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(ViewModelProvider(this, ClearDataViewModelFactory(packageInfo))[ClearDataShizukuViewModel::class.java]) {
+        with(ViewModelProvider(this, ClearDataViewModelFactory(packageInfo))[ClearDataViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner) {
 
             }

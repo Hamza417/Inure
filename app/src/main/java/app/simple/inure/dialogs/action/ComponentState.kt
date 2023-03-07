@@ -12,7 +12,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ComponentStateFactory
-import app.simple.inure.viewmodels.dialogs.ComponentStateShizukuViewModel
+import app.simple.inure.viewmodels.dialogs.ComponentStateViewModel
 
 class ComponentState : ScopedBottomSheetFragment() {
 
@@ -20,7 +20,7 @@ class ComponentState : ScopedBottomSheetFragment() {
     private lateinit var status: TypeFaceTextView
 
     private lateinit var componentStateFactory: ComponentStateFactory
-    private lateinit var componentStateViewModel: ComponentStateShizukuViewModel
+    private lateinit var componentStateViewModel: ComponentStateViewModel
     private var componentStatusCallbacks: ComponentStatusCallbacks? = null
 
     private var mode: Boolean? = null
@@ -36,7 +36,7 @@ class ComponentState : ScopedBottomSheetFragment() {
         mode = requireArguments().getBoolean(BundleConstants.componentMode)
 
         componentStateFactory = ComponentStateFactory(packageInfo, packageId!!, mode!!)
-        componentStateViewModel = ViewModelProvider(this, componentStateFactory).get(ComponentStateShizukuViewModel::class.java)
+        componentStateViewModel = ViewModelProvider(this, componentStateFactory).get(ComponentStateViewModel::class.java)
 
         return view
     }

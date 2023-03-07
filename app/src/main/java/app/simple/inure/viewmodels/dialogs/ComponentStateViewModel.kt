@@ -12,7 +12,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ComponentStateShizukuViewModel(application: Application, val packageInfo: PackageInfo, val packageId: String, val mode: Boolean) : RootShizukuViewModel(application) {
+class ComponentStateViewModel(application: Application, val packageInfo: PackageInfo, val packageId: String, val mode: Boolean) : RootShizukuViewModel(application) {
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }

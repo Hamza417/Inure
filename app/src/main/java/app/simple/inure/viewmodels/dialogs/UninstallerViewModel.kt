@@ -3,22 +3,24 @@ package app.simple.inure.viewmodels.dialogs
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UninstallerShizukuViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
+class UninstallerViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
 
     val error = MutableLiveData<String>()
 
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
-            initShell()
+            initializeCoreFramework()
         }
     }
 
@@ -52,6 +54,22 @@ class UninstallerShizukuViewModel(application: Application, val packageInfo: Pac
         }
     }
 
+    private fun runShizuku() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                ShizukuUtils.uninstallApp(setOf(packageInfo.packageName))
+            }.onFailure {
+                success.postValue("Failed")
+                postError(it)
+            }.onSuccess {
+                success.postValue("Done")
+            }.getOrElse {
+                success.postValue("Failed")
+                postError(it)
+            }
+        }
+    }
+
     private fun formUninstallCommand(): String {
         return if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
             "pm uninstall -k --user 0 ${packageInfo.packageName}"
@@ -70,6 +88,7 @@ class UninstallerShizukuViewModel(application: Application, val packageInfo: Pac
     }
 
     override fun onShizukuCreated() {
-
+        Log.d("Shizuku", "Created")
+        runShizuku()
     }
 }

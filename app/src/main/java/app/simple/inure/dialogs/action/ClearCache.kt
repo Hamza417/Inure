@@ -12,7 +12,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ClearCacheViewModelFactory
-import app.simple.inure.viewmodels.dialogs.ClearCacheShizukuViewModel
+import app.simple.inure.viewmodels.dialogs.ClearCacheViewModel
 
 class ClearCache : ScopedBottomSheetFragment() {
 
@@ -31,7 +31,7 @@ class ClearCache : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(ViewModelProvider(this, ClearCacheViewModelFactory(packageInfo))[ClearCacheShizukuViewModel::class.java]) {
+        with(ViewModelProvider(this, ClearCacheViewModelFactory(packageInfo))[ClearCacheViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner) {
 
             }

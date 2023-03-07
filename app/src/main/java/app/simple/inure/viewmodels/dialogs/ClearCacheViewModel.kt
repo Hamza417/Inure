@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 
-class ClearCacheShizukuViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
+class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }

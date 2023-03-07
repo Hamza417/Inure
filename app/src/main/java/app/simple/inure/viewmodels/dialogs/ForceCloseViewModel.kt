@@ -8,19 +8,19 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
-import app.simple.inure.models.PermissionInfo
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PermissionStatusShizukuViewModel(application: Application, val packageInfo: PackageInfo, val permissionInfo: PermissionInfo) : RootShizukuViewModel(application) {
-
+class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     private val success: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+        MutableLiveData<String>().also {
+            initShell()
+        }
     }
 
     fun getResults(): LiveData<String> {
@@ -34,13 +34,11 @@ class PermissionStatusShizukuViewModel(application: Application, val packageInfo
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val mode = if (this@PermissionStatusShizukuViewModel.permissionInfo.isGranted == 1) "revoke" else "grant"
-
-                Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").submit { shellResult ->
+                Shell.cmd("am force-stop ${packageInfo.packageName}").submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
-                            if (i.contains("Exception")) {
+                            if (i.contains("Exception") || i.contains("not exist")) {
                                 throw InureShellException("Execution Failed...")
                             }
                         }
@@ -80,10 +78,5 @@ class PermissionStatusShizukuViewModel(application: Application, val packageInfo
 
     override fun onShizukuCreated() {
 
-    }
-
-    fun setPermissionState(mode: PermissionInfo) {
-        this.permissionInfo.isGranted = mode.isGranted
-        initShell()
     }
 }

@@ -8,18 +8,20 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ClearDataShizukuViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
+class StateViewModel(application: Application, private val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
+
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
-            initShell()
+            initializeCoreFramework()
         }
     }
 
@@ -34,7 +36,7 @@ class ClearDataShizukuViewModel(application: Application, val packageInfo: Packa
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Shell.cmd("pm clear ${packageInfo.packageName}").submit { shellResult ->
+                Shell.cmd(formStateCommand()).submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
@@ -60,12 +62,35 @@ class ClearDataShizukuViewModel(application: Application, val packageInfo: Packa
             }.onFailure {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
-                postError(it)
             }.getOrElse {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
-                postError(it)
             }
+        }
+    }
+
+    private fun useShizuku() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                ShizukuUtils.setAppDisabled(packageInfo.applicationInfo.enabled, setOf(packageInfo.packageName))
+            }.onFailure {
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+            }.onSuccess {
+                result.postValue("\n" + it)
+                success.postValue("Done")
+            }.getOrElse {
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+            }
+        }
+    }
+
+    private fun formStateCommand(): String {
+        return if (packageInfo.applicationInfo.enabled) {
+            "pm disable ${packageInfo.packageName}"
+        } else {
+            "pm enable ${packageInfo.packageName}"
         }
     }
 
@@ -79,6 +104,6 @@ class ClearDataShizukuViewModel(application: Application, val packageInfo: Packa
     }
 
     override fun onShizukuCreated() {
-
+        useShizuku()
     }
 }

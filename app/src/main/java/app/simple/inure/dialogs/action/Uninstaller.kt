@@ -20,7 +20,7 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.UninstallerViewModelFactory
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.viewmodels.dialogs.UninstallerShizukuViewModel
+import app.simple.inure.viewmodels.dialogs.UninstallerViewModel
 import app.simple.inure.viewmodels.panels.*
 
 class Uninstaller : ScopedBottomSheetFragment() {
@@ -56,8 +56,8 @@ class Uninstaller : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (ConfigurationPreferences.isUsingRoot()) {
-            with(ViewModelProvider(this, UninstallerViewModelFactory(packageInfo))[UninstallerShizukuViewModel::class.java]) {
+        if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
+            with(ViewModelProvider(this, UninstallerViewModelFactory(packageInfo))[UninstallerViewModel::class.java]) {
                 getError().observe(viewLifecycleOwner) {
                     showError(it)
                 }

@@ -12,7 +12,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ForceCloseViewModelFactory
-import app.simple.inure.viewmodels.dialogs.ForceCloseShizukuViewModel
+import app.simple.inure.viewmodels.dialogs.ForceCloseViewModel
 
 class ForceStop : ScopedBottomSheetFragment() {
 
@@ -31,7 +31,7 @@ class ForceStop : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(ViewModelProvider(this, ForceCloseViewModelFactory(packageInfo))[ForceCloseShizukuViewModel::class.java]) {
+        with(ViewModelProvider(this, ForceCloseViewModelFactory(packageInfo))[ForceCloseViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner) {
 
             }

@@ -4,12 +4,12 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import app.simple.inure.viewmodels.dialogs.ClearCacheShizukuViewModel
+import app.simple.inure.viewmodels.dialogs.ClearCacheViewModel
 
 class ClearCacheViewModelFactory(private val packageInfo: PackageInfo) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
-        return ClearCacheShizukuViewModel(application, packageInfo) as T
+        return ClearCacheViewModel(application, packageInfo) as T
     }
 }

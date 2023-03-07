@@ -12,8 +12,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActivityLauncherShizukuViewModel(application: Application, val packageInfo: PackageInfo, val packageId: String) : RootShizukuViewModel(application) {
-
+class ClearDataViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -24,10 +23,6 @@ class ActivityLauncherShizukuViewModel(application: Application, val packageInfo
         }
     }
 
-    private val action: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
     fun getResults(): LiveData<String> {
         return result
     }
@@ -36,14 +31,10 @@ class ActivityLauncherShizukuViewModel(application: Application, val packageInfo
         return success
     }
 
-    fun getActionStatus(): LiveData<String> {
-        return action
-    }
-
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Shell.cmd(formLaunchCommand(null)).submit { shellResult ->
+                Shell.cmd("pm clear ${packageInfo.packageName}").submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
@@ -69,51 +60,13 @@ class ActivityLauncherShizukuViewModel(application: Application, val packageInfo
             }.onFailure {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
+                postError(it)
             }.getOrElse {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
+                postError(it)
             }
         }
-    }
-
-    fun runActionCommand(action: String?) {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                Shell.cmd(formLaunchCommand(action)).submit { shellResult ->
-                    kotlin.runCatching {
-                        for (s in shellResult.out) {
-                            result.postValue("\n" + s)
-                            if (s.contains("Exception") || s.contains("not exist")) {
-                                throw InureShellException("Execution Failed...")
-                            }
-                        }
-                    }.onSuccess {
-                        if (shellResult.isSuccess) {
-                            this@ActivityLauncherShizukuViewModel.action.postValue("Done")
-                        } else {
-                            this@ActivityLauncherShizukuViewModel.action.postValue("Failed")
-                        }
-                    }.getOrElse {
-                        result.postValue("\n" + it.message!!)
-                        if (shellResult.isSuccess) {
-                            this@ActivityLauncherShizukuViewModel.action.postValue("Done")
-                        } else {
-                            this@ActivityLauncherShizukuViewModel.action.postValue("Failed")
-                        }
-                    }
-                }
-            }.onFailure {
-                result.postValue("\n" + it.message!!)
-                this@ActivityLauncherShizukuViewModel.action.postValue("Failed")
-            }.getOrElse {
-                result.postValue("\n" + it.message!!)
-                this@ActivityLauncherShizukuViewModel.action.postValue("Failed")
-            }
-        }
-    }
-
-    private fun formLaunchCommand(action: String?): String {
-        return "am start -n ${packageInfo.packageName}/$packageId -a \"${action ?: "android.intent.action.MAIN"}\""
     }
 
     override fun onShellCreated(shell: Shell?) {

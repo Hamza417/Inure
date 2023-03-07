@@ -22,7 +22,7 @@ import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.dialogs.PermissionStatusShizukuViewModel
+import app.simple.inure.viewmodels.dialogs.PermissionStatusViewModel
 
 class PermissionStatus : ScopedBottomSheetFragment() {
 
@@ -36,7 +36,7 @@ class PermissionStatus : ScopedBottomSheetFragment() {
 
     private lateinit var permissionInfo: PermissionInfo
     private lateinit var permissionStatusFactory: PermissionStatusFactory
-    private lateinit var permissionStatusViewModel: PermissionStatusShizukuViewModel
+    private lateinit var permissionStatusViewModel: PermissionStatusViewModel
     private var permissionStatusCallbacks: PermissionStatusCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,7 +53,7 @@ class PermissionStatus : ScopedBottomSheetFragment() {
         packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
 
         permissionStatusFactory = PermissionStatusFactory(packageInfo, permissionInfo)
-        permissionStatusViewModel = ViewModelProvider(this, permissionStatusFactory)[PermissionStatusShizukuViewModel::class.java]
+        permissionStatusViewModel = ViewModelProvider(this, permissionStatusFactory)[PermissionStatusViewModel::class.java]
 
         return view
     }
