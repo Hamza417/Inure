@@ -1,0 +1,3 @@
+- Partial support for Shizuku
+- Various bugs and crashes fixes
+- Security improvements

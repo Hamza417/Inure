@@ -326,6 +326,19 @@
                     app:appFontStyle="regular"
                     app:textColorStyle="secondary" />
 
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="@dimen/popup_padding"
+                    android:layout_marginEnd="@dimen/panel_item_padding"
+                    android:text="This feature is still in alpha stage, it may not work properly."
+                    android:textSize="@dimen/preferences_description_text_size"
+                    android:textStyle="italic"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="accent"
+                    tools:ignore="HardcodedText" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
