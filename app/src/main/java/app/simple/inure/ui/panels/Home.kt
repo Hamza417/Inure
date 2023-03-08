@@ -158,6 +158,9 @@ class Home : ScopedFragment() {
                         R.string.disabled -> {
                             openFragmentArc(Disabled.newInstance(), icon, "disabled")
                         }
+                        R.string.hidden -> {
+                            openFragmentArc(Hidden.newInstance(), icon, "hidden")
+                        }
                         R.string.stacktraces -> {
                             openFragmentArc(StackTraces.newInstance(), icon, "stacktraces")
                         }
