@@ -51,6 +51,12 @@ android {
         }
     }
 
+    externalNativeBuild {
+        cmake {
+            path "src/main/jni/CMakeLists.txt"
+        }
+    }
+
     flavorDimensions "version"
     productFlavors {
         github { // GitHub build
