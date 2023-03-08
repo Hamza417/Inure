@@ -26,6 +26,8 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
+import app.simple.inure.dialogs.action.Hide.Companion.showHide
+import app.simple.inure.dialogs.action.State.Companion.showState
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.appinfo.AppInfoMenu
@@ -277,13 +279,18 @@ class AppInfo : ScopedFragment() {
                         R.string.disable, R.string.enable -> {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    val f = State.newInstance(getPackageInfo(packageInfo.packageName))
-
-                                    f.onSuccess = {
+                                    childFragmentManager.showState(packageInfo).onSuccess = {
                                         componentsViewModel.loadActionOptions()
                                     }
-
-                                    f.show(childFragmentManager, "state")
+                                }
+                            })
+                        }
+                        R.string.visible, R.string.hidden -> {
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                override fun onSure() {
+                                    childFragmentManager.showHide(packageInfo).onSuccess = {
+                                        componentsViewModel.loadActionOptions()
+                                    }
                                 }
                             })
                         }

@@ -10,19 +10,25 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.extensions.fragments.ScopedActionDialogBottomFragment
+import app.simple.inure.factories.actions.HideViewModelFactory
 import app.simple.inure.factories.actions.StateViewModelFactory
-import app.simple.inure.viewmodels.dialogs.StateViewModel
+import app.simple.inure.viewmodels.dialogs.HideViewModel
 
-class State : ScopedActionDialogBottomFragment() {
+class Hide : ScopedActionDialogBottomFragment() {
+
+    private lateinit var hideViewModel: HideViewModel
 
     override fun getLayoutViewId(): Int {
-        return R.layout.dialog_enable_disable
+        return R.layout.dialog_hide
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(ViewModelProvider(this, StateViewModelFactory(packageInfo))[StateViewModel::class.java]) {
+        val hideViewModelFactory = HideViewModelFactory(packageInfo)
+        hideViewModel = ViewModelProvider(this, hideViewModelFactory)[HideViewModel::class.java]
+
+        with(ViewModelProvider(this, StateViewModelFactory(packageInfo))[HideViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner) {
 
             }
@@ -54,17 +60,17 @@ class State : ScopedActionDialogBottomFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo): State {
+        fun newInstance(packageInfo: PackageInfo): Hide {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            val fragment = State()
+            val fragment = Hide()
             fragment.arguments = args
             return fragment
         }
 
-        fun FragmentManager.showState(packageInfo: PackageInfo): State {
+        fun FragmentManager.showHide(packageInfo: PackageInfo): Hide {
             val fragment = newInstance(packageInfo)
-            fragment.show(this, "state")
+            fragment.show(this, "hide")
             return fragment
         }
     }

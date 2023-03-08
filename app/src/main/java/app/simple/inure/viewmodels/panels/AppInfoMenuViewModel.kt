@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
+import app.simple.inure.apk.utils.PackageUtils.isAppHidden
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
 import app.simple.inure.apk.utils.PackageUtils.isUpdateInstalled
@@ -19,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
         MutableLiveData<List<Pair<Int, Int>>>().also {
             loadMetaOptions()
@@ -80,6 +82,12 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                         list.add(Pair(R.drawable.ic_check, R.string.enable))
                     }
 
+                    if (packageManager.isAppHidden(packageInfo.packageName)) {
+                        list.add(Pair(R.drawable.ic_visibility, R.string.visible))
+                    } else {
+                        list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
+                    }
+
                     list.add(Pair(R.drawable.ic_close, R.string.force_stop))
                     list.add(Pair(R.drawable.ic_delete_sweep, R.string.clear_data))
                 }
@@ -106,6 +114,12 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                         list.add(Pair(R.drawable.ic_disable, R.string.disable))
                     } else {
                         list.add(Pair(R.drawable.ic_check, R.string.enable))
+                    }
+
+                    if (packageManager.isAppHidden(packageInfo.packageName)) {
+                        list.add(Pair(R.drawable.ic_visibility, R.string.visible))
+                    } else {
+                        list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
                     }
 
                     list.add(Pair(R.drawable.ic_close, R.string.force_stop))

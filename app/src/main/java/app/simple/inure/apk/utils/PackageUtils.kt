@@ -48,6 +48,8 @@ object PackageUtils {
                 PackageManager.GET_DISABLED_COMPONENTS).toLong()
     }
 
+    private val PRIVATE_FLAG_HIDDEN = 1 shl 0
+
     /**
      * Fetches the app's name from the package id of the same application
      * @param context of the given environment
@@ -368,6 +370,14 @@ object PackageUtils {
             packageInfoList.addAll(getInstalledPackages(flags.toInt()))
         }
         return ArrayUtils.deepCopy(packageInfoList)
+    }
+
+    fun PackageManager.isAppHidden(packageName: String): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            getApplicationInfo(packageName)?.flags!! and PRIVATE_FLAG_HIDDEN != 0
+        } else {
+            false
+        }
     }
 
     fun getIntentFilter(s: String): Intent {

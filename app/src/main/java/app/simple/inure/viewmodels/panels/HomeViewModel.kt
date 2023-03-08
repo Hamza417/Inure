@@ -26,6 +26,8 @@ import java.util.stream.Collectors
 
 class HomeViewModel(application: Application) : PackageUtilsViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private val PRIVATE_FLAG_HIDDEN = 1 shl 0
+
     init {
         registerSharedPreferenceChangeListener()
     }
@@ -64,6 +66,12 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         }
     }
 
+    private val hidden: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            loadPackageData()
+        }
+    }
+
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
         MutableLiveData<List<Pair<Int, Int>>>().also {
             loadItems()
@@ -88,6 +96,10 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     fun getDisabledApps(): LiveData<ArrayList<PackageInfo>> {
         return disabled
+    }
+
+    fun getHiddenApps(): LiveData<ArrayList<PackageInfo>> {
+        return hidden
     }
 
     fun getMenuItems(): LiveData<List<Pair<Int, Int>>> {
@@ -212,6 +224,25 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         }
     }
 
+    private fun loadHiddenApps() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val apps = getInstalledApps().stream()
+                .filter { it.applicationInfo.flags and PRIVATE_FLAG_HIDDEN != 0 }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
+
+            for (i in apps.indices) {
+                apps[i].applicationInfo.name =
+                    PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+            }
+
+            apps.sortBy {
+                it.applicationInfo.name
+            }
+
+            hidden.postValue(apps)
+        }
+    }
+
     private fun loadItems() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = arrayListOf<Pair<Int, Int>>()
@@ -270,6 +301,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         loadMostUsed()
         loadRecentlyUpdatedAppData()
         loadDisabledApps()
+        loadHiddenApps()
     }
 
     override fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {
@@ -281,6 +313,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         loadMostUsed()
         loadRecentlyUpdatedAppData()
         loadDisabledApps()
+        loadHiddenApps()
         loadDeletedApps()
     }
 
