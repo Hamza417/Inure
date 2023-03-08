@@ -267,7 +267,10 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(Pair(R.drawable.ic_apps_category_most_used, R.string.most_used))
             list.add(Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled))
             list.add(Pair(R.drawable.ic_disable, R.string.disabled))
-            list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
+
+            if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
+                list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
+            }
 
             list.add(Pair(0, 0)) // Divider
             list.add(Pair(R.drawable.ic_stacktrace, R.string.stacktraces))

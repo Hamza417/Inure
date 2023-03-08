@@ -17,6 +17,7 @@ object DevelopmentPreferences {
     const val useOldStyleUsageStatsPanel = "is_old_style_usage_stats_panel_enabled"
     const val enableDeviceInfo = "is_device_info_enabled"
     const val addBitmapToMetadata = "is_bitmap_added_to_metadata"
+    const val enableHiddenApps = "is_hidden_apps_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> = listOf(
             DevelopmentPreferencesModel("Use WebView for XML Preview",
@@ -82,6 +83,11 @@ object DevelopmentPreferences {
             DevelopmentPreferencesModel("Add Bitmap To Metadata",
                                         "Add bitmap to the metadata of MusicPlayerService. Useful for ROMs that shows Album Art on Lock Screen.",
                                         addBitmapToMetadata,
+                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+            DevelopmentPreferencesModel("Enable Hidden Apps",
+                                        "Enable Hidden Apps in the app. The feature was added but removed due to API changes by Google and is not working properly anymore.",
+                                        enableHiddenApps,
                                         DevelopmentPreferencesModel.TYPE_BOOLEAN)
     ).sortedBy {
         it.title

@@ -15,6 +15,7 @@ import app.simple.inure.apk.utils.PackageUtils.isUpdateInstalled
 import app.simple.inure.apk.utils.PackageUtils.isUserApp
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -82,10 +83,12 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                         list.add(Pair(R.drawable.ic_check, R.string.enable))
                     }
 
-                    if (packageManager.isAppHidden(packageInfo.packageName)) {
-                        list.add(Pair(R.drawable.ic_visibility, R.string.visible))
-                    } else {
-                        list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
+                        if (packageManager.isAppHidden(packageInfo.packageName)) {
+                            list.add(Pair(R.drawable.ic_visibility, R.string.visible))
+                        } else {
+                            list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
+                        }
                     }
 
                     list.add(Pair(R.drawable.ic_close, R.string.force_stop))
@@ -116,10 +119,12 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                         list.add(Pair(R.drawable.ic_check, R.string.enable))
                     }
 
-                    if (packageManager.isAppHidden(packageInfo.packageName)) {
-                        list.add(Pair(R.drawable.ic_visibility, R.string.visible))
-                    } else {
-                        list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
+                        if (packageManager.isAppHidden(packageInfo.packageName)) {
+                            list.add(Pair(R.drawable.ic_visibility, R.string.visible))
+                        } else {
+                            list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
+                        }
                     }
 
                     list.add(Pair(R.drawable.ic_close, R.string.force_stop))
