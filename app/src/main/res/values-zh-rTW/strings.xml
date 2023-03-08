@@ -76,7 +76,7 @@
     <string name="resources">資源</string>
     <string name="receivers">接收器</string>
     <string name="manifest">資訊清單</string>
-    <string name="providers">提供器</string>
+    <string name="providers">提供者</string>
     <string name="screen">螢幕</string>
     <string name="keep_screen_on">保持螢幕開啟</string>
     <string name="keep_screen_on_desc">防止裝置在應用程式可見時進入睡眠。</string>
@@ -440,7 +440,7 @@
     <string name="form_factor">外形規格</string>
     <string name="refresh_rate">重新整理率</string>
     <string name="extra_large">超大</string>
-    <string name="level">水平儀</string>
+    <string name="level">電量</string>
     <string name="capacity">容量</string>
     <string name="cold">過冷</string>
     <string name="good">良好</string>
@@ -451,7 +451,7 @@
     <string name="health">健康</string>
     <string name="voltage">電壓</string>
     <string name="temperature">溫度</string>
-    <string name="charging">充電中</string>
+    <string name="charging">充電</string>
     <string name="charging_type">充電類型</string>
     <string name="technology">技術</string>
     <string name="icon_size">圖示大小</string>
@@ -528,7 +528,7 @@
     <string name="no_services_found">找不到服務</string>
     <string name="no_resource_found">找不到資源</string>
     <string name="no_receivers_found">找不到接收器</string>
-    <string name="no_providers_found">找不到提供器</string>
+    <string name="no_providers_found">找不到提供者</string>
     <string name="no_features_found">找不到功能</string>
     <string name="no_graphics_found">找不到圖形</string>
     <string name="no_extras_found">找不到額外項目</string>
