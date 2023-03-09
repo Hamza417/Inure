@@ -214,7 +214,7 @@
     <string name="transitions">轉換</string>
     <string name="arc_animations">弧形動畫</string>
     <string name="desc_arc_animations">啟用或停用圖示的圓形路徑動畫。\n\n若系統本身停用了動畫，此選項將不會覆寫。</string>
-    <string name="valid_to">有效期限</string>
+    <string name="valid_to">有效期至</string>
     <string name="pdf_viewer">PDF 檢視器</string>
     <string name="ttf_viewer">TTF 檢視器</string>
     <string name="popups">彈出式視窗</string>
