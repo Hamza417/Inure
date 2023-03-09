@@ -64,7 +64,7 @@ class BatteryViewModel(application: Application) : WrappedViewModel(application)
     private fun getVoltage(): Pair<String, Spannable> {
         val voltage = BatteryUtils.getBatteryStatusIntent(applicationContext())?.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1)
         return Pair(getString(R.string.voltage),
-                    "${voltage ?: -1 / 1000.0}V".applySecondaryTextColor())
+                    "${voltage ?: (-1 / 1000.0)} mV".applySecondaryTextColor())
     }
 
     private fun getTemperature(): Pair<String, Spannable> {
