@@ -661,4 +661,6 @@
     <string name="use_shizuku">Use Shizuku</string>
     <string name="shizuku_desc">Use Shizuku API instead of using native Android APIs and Libs to perform some functions.\n\nThis option is recommended for non-root users.\n\nShizuku access is required.</string>
     <string name="shizuku_alert">If root access is granted and root mode is toggled in the app, then root mode will be preferred over Shizuku.</string>
+    <string name="disclaimer">Disclaimer</string>
+    <string name="agree">Agree</string>
 </resources>

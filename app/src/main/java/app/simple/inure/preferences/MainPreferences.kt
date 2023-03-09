@@ -17,6 +17,7 @@ object MainPreferences {
     private const val firstLaunchDate = "first_launch_date"
     private const val unlockerWarningCount = "unlocker_warning_count"
     private const val isAppFullVersionEnabled = "is_full_version_enabled"
+    private const val disclaimerAgreed = "disclaimer_agreed"
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
@@ -118,5 +119,15 @@ object MainPreferences {
 
     fun shouldShowChangeLogReminder(): Boolean {
         return getChangeLogReminder() < BuildConfig.VERSION_CODE
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setDisclaimerAgreed(value: Boolean) {
+        getSharedPreferences().edit().putBoolean(disclaimerAgreed, value).apply()
+    }
+
+    fun isDisclaimerAgreed(): Boolean {
+        return getSharedPreferences().getBoolean(disclaimerAgreed, false)
     }
 }

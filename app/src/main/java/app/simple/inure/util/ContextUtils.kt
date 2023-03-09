@@ -22,6 +22,7 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
          */
         fun updateLocale(baseContext: Context, languageCode: String): ContextWrapper {
             val localeToSwitchTo = if (languageCode == "default") {
+
                 Locale.forLanguageTag(LocaleHelper.getSystemLanguageCode())
             } else {
                 Locale.forLanguageTag(languageCode)

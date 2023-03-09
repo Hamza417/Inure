@@ -96,6 +96,9 @@ class SplashScreen : ScopedFragment() {
             }
 
             when {
+                MainPreferences.isDisclaimerAgreed().invert() -> {
+                    openFragmentSlide(Disclaimer.newInstance())
+                }
                 requireArguments().getBoolean("skip") -> {
                     proceed()
                 }

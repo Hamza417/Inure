@@ -20,7 +20,8 @@ object LocaleHelper {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Resources.getSystem().configuration.locales[0].language
         } else {
-            "default"
+            @Suppress("deprecation")
+            Resources.getSystem().configuration.locale.language
         }
     }
 
@@ -39,7 +40,7 @@ object LocaleHelper {
             // English (United States)
             Locales("English (US)", "en-US"),
             // Traditional Chinese (Taiwan)
-            Locales("漢語 (Traditional Chinese)", "zh-TW"),
+            Locales("漢語 (Traditional Chinese)", "zh-Hant-TW"),
             // Russian
             Locales("Русский (Russian)", "ru-RU"),
             // Italian
