@@ -11,15 +11,24 @@ import android.util.Log;
 
 import org.lsposed.hiddenapibypass.HiddenApiBypass;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import androidx.annotation.Nullable;
 import app.simple.inure.BuildConfig;
+import app.simple.inure.util.IOUtils;
+import rikka.shizuku.Shizuku;
 import rikka.shizuku.ShizukuBinderWrapper;
+import rikka.shizuku.ShizukuRemoteProcess;
 import rikka.shizuku.SystemServiceHelper;
 
 public class ShizukuUtils {
+    
+    private static final String TAG = "ShizukuUtils";
+    
     @SuppressLint ("PrivateApi")
     public static void setAppDisabled(boolean disabled, Set <String> pkgNames)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -100,9 +109,9 @@ public class ShizukuUtils {
         iPmInstance = asInterfaceMethod.invoke(null, new ShizukuBinderWrapper(SystemServiceHelper.getSystemService("package")));
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            deletePackage = HiddenApiBypass.getDeclaredMethod(iPmClass, "deletePackage", String.class, IPackageDeleteObserver2.class, int.class, int.class);
+            deletePackage = HiddenApiBypass.getDeclaredMethod(iPmClass, "deletePackage", String.class, IPackageDeleteObserver2.class, int.class);
         } else {
-            deletePackage = iPmClass.getMethod("deletePackage", String.class, IPackageDeleteObserver2.class, int.class, int.class);
+            deletePackage = iPmClass.getMethod("deletePackage", String.class, IPackageDeleteObserver2.class, int.class);
         }
         
         for (String packageName : pkgNames) {
@@ -111,13 +120,56 @@ public class ShizukuUtils {
                 public void onPackageDeleted(String s, int i, String s1) {
                     Log.i("ShizukuHider", "Uninstalled app: " + s);
                 }
-                
+    
                 @Override
                 public void onUserActionRequired(Intent intent) {
                     Log.i("ShizukuHider", "Uninstalled app: " + intent);
                 }
             }, 0, Os.getuid() / 100000);
             Log.i("ShizukuHider", "Uninstalled app: " + packageName);
+        }
+    }
+    
+    public static Shell.Result execInternal(Shell.Command command, @Nullable InputStream inputPipe) {
+        StringBuilder stdOutSb = new StringBuilder();
+        StringBuilder stdErrSb = new StringBuilder();
+        
+        try {
+            Shell.Command.Builder shCommand = new Shell.Command.Builder("sh", "-c", command.toString());
+            
+            //noinspection deprecation
+            ShizukuRemoteProcess process = Shizuku.newProcess(shCommand.build().toStringArray(), null, null);
+            
+            Thread stdOutD = IOUtils.writeStreamToStringBuilder(stdOutSb, process.getInputStream());
+            Thread stdErrD = IOUtils.writeStreamToStringBuilder(stdErrSb, process.getErrorStream());
+            
+            if (inputPipe != null) {
+                try (OutputStream outputStream = process.getOutputStream(); InputStream inputStream = inputPipe) {
+                    IOUtils.copyStream(inputStream, outputStream);
+                } catch (Exception e) {
+                    stdOutD.interrupt();
+                    stdErrD.interrupt();
+    
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        process.destroyForcibly();
+                    } else {
+                        process.destroy();
+                    }
+                    
+                    throw new RuntimeException(e);
+                }
+            }
+            
+            process.waitFor();
+            stdOutD.join();
+            stdErrD.join();
+            
+            return new Shell.Result(command, process.exitValue(), stdOutSb.toString().trim(), stdErrSb.toString().trim());
+        } catch (Exception e) {
+            Log.w(TAG, "Unable execute command: ");
+            Log.w(TAG, e);
+            return new Shell.Result(command, -1, stdOutSb.toString().trim(), stdErrSb
+                    + "\n\n<!> SAI ShizukuShell Java exception: " + Utils.throwableToString(e));
         }
     }
 }

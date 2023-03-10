@@ -6,7 +6,6 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
-import android.util.Log
 import java.util.*
 
 open class ContextUtils(context: Context) : ContextWrapper(context) {
@@ -36,7 +35,6 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
             val resources: Resources = context.resources
             val configuration: Configuration = resources.configuration
 
-            Log.d("Locale", localeToSwitchTo.toLanguageTag())
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 val localeList = LocaleList(localeToSwitchTo)
                 LocaleList.setDefault(localeList)
