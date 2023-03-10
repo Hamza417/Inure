@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
+import android.util.Log
 import java.util.*
 
 open class ContextUtils(context: Context) : ContextWrapper(context) {
@@ -22,8 +23,11 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
          */
         fun updateLocale(baseContext: Context, languageCode: String): ContextWrapper {
             val localeToSwitchTo = if (languageCode == "default") {
-
-                Locale.forLanguageTag(LocaleHelper.getSystemLanguageCode())
+                if (LocaleHelper.isOneOfTraditionalChinese()) {
+                    Locale.forLanguageTag("zh-TW")
+                } else {
+                    Locale.forLanguageTag(LocaleHelper.getSystemLanguageCode())
+                }
             } else {
                 Locale.forLanguageTag(languageCode)
             }
@@ -31,6 +35,8 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
             var context = baseContext
             val resources: Resources = context.resources
             val configuration: Configuration = resources.configuration
+
+            Log.d("Locale", localeToSwitchTo.toLanguageTag())
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 val localeList = LocaleList(localeToSwitchTo)
                 LocaleList.setDefault(localeList)
@@ -39,6 +45,7 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
                 @Suppress("deprecation")
                 configuration.locale = localeToSwitchTo
             }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 context = context.createConfigurationContext(configuration)
             } else {

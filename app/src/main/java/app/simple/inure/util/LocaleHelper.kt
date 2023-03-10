@@ -25,6 +25,21 @@ object LocaleHelper {
         }
     }
 
+    fun isOneOfTraditionalChinese(): Boolean {
+        return with(getSystemLanguageCode()) {
+            this == "zh" ||
+                    this == "zh-HK" ||
+                    this == "zh-MO" ||
+                    this == "zh-TW" ||
+                    this == "zh-Hant" ||
+                    this == "zh-Hant-HK" ||
+                    this == "zh-Hant-MO" ||
+                    this == "zh-Hant-TW" ||
+                    this == "zh-Hant-CN" ||
+                    this == "zh-Hant-SG"
+        }
+    }
+
     /**
      * List of languages currently supported by
      * the app.
@@ -40,7 +55,7 @@ object LocaleHelper {
             // English (United States)
             Locales("English (US)", "en-US"),
             // Traditional Chinese (Taiwan)
-            Locales("漢語 (Traditional Chinese)", "zh-Hant-TW"),
+            Locales("漢語 (Traditional Chinese)", "zh-TW"),
             // Russian
             Locales("Русский (Russian)", "ru-RU"),
             // Italian

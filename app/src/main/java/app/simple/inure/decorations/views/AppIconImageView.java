@@ -42,7 +42,7 @@ public class AppIconImageView extends AppCompatImageView implements SharedPrefer
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!isInEditMode()) {
-            app.simple.inure.preferences.SharedPreferences.INSTANCE.registerListener(this);
+            app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferencesListener(this);
         }
     }
     

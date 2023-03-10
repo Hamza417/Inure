@@ -49,7 +49,7 @@ object SharedPreferences {
         return encryptedSharedPreferences ?: throw NullPointerException()
     }
 
-    fun registerListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+    fun registerSharedPreferencesListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
         getSharedPreferences().registerOnSharedPreferenceChangeListener(listener)
     }
 
@@ -63,7 +63,7 @@ object SharedPreferences {
      * implemented.
      */
     fun SharedPreferences.OnSharedPreferenceChangeListener.registerSharedPreferenceChangeListener() {
-        registerListener(this)
+        registerSharedPreferencesListener(this)
     }
 
     /**

@@ -91,7 +91,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.registerListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferencesListener(this);
     }
     
     @Override

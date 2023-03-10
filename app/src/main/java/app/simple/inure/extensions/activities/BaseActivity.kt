@@ -31,6 +31,7 @@ import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.*
+import app.simple.inure.preferences.SharedPreferences.registerSharedPreferencesListener
 import app.simple.inure.preferences.ShellPreferences.getHomePath
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
@@ -50,7 +51,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     override fun attachBaseContext(newBaseContext: Context) {
         SharedPreferences.init(newBaseContext)
         SharedPreferences.initEncrypted(newBaseContext)
-        SharedPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        registerSharedPreferencesListener(this)
         super.attachBaseContext(ContextUtils.updateLocale(newBaseContext, ConfigurationPreferences.getAppLanguage()!!))
     }
 
