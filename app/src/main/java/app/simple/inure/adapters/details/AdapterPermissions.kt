@@ -27,7 +27,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
 
     private var permissionCallbacks: PermissionCallbacks? = null
     private var permissionLabelMode = PermissionPreferences.getLabelType()
-    private val isRootMode = ConfigurationPreferences.isUsingRoot()
+    private val isRootShizukuMode = ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_permissions, parent, false))
@@ -50,7 +50,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             holder.desc.gone()
         }
 
-        if (isRootMode) {
+        if (isRootShizukuMode) {
             holder.container.setOnClickListener {
                 permissionCallbacks?.onPermissionClicked(it, permissions[position], position)
             }

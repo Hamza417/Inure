@@ -2,30 +2,18 @@ package app.simple.inure.dialogs.action
 
 import android.content.pm.PackageInfo
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.LoaderImageView
-import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedActionDialogBottomFragment
 import app.simple.inure.factories.actions.ForceCloseViewModelFactory
 import app.simple.inure.viewmodels.dialogs.ForceCloseViewModel
 
-class ForceStop : ScopedBottomSheetFragment() {
+class ForceStop : ScopedActionDialogBottomFragment() {
 
-    private lateinit var loader: LoaderImageView
-    private lateinit var status: TypeFaceTextView
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_force_stop, container, false)
-
-        loader = view.findViewById(R.id.loader)
-        status = view.findViewById(R.id.force_stop_result)
-
-        return view
+    override fun getLayoutViewId(): Int {
+        return R.layout.dialog_hide
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

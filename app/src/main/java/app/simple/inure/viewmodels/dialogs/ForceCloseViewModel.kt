@@ -2,12 +2,15 @@ package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.shizuku.Shell.Command
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +22,7 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
 
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
-            initShell()
+            initializeCoreFramework()
         }
     }
 
@@ -67,6 +70,26 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
         }
     }
 
+    private fun runShizuku() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                Log.d("ForceCloseViewModel", "Running Shizuku command...")
+                ShizukuUtils.execInternal(Command("am force-stop ${packageInfo.packageName}"), null).let {
+                    result.postValue(it.toString())
+                    Log.d("ForceCloseViewModel", it.toString())
+                }
+            }.onFailure {
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+            }.onSuccess {
+                success.postValue("Done")
+            }.getOrElse {
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+            }
+        }
+    }
+
     override fun onShellCreated(shell: Shell?) {
         runCommand()
     }
@@ -77,6 +100,6 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
     }
 
     override fun onShizukuCreated() {
-
+        runShizuku()
     }
 }

@@ -31,7 +31,7 @@ class UpdatesUninstaller : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_uninstaller, container, false)
 
         loader = view.findViewById(R.id.loader)
-        status = view.findViewById(R.id.uninstall_result)
+        status = view.findViewById(R.id.result)
 
         return view
     }
