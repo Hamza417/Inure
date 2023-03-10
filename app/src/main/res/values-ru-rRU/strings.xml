@@ -665,4 +665,6 @@
     <string name="use_shizuku">Использовать Shizuku</string>
     <string name="shizuku_desc">Использовать API Shizuku вместо использования собственных API и библиотек Android, для выполнения некоторых функций.\n\nЭтот вариант рекомендуется для пользователей без root прав.\n\nТребуется Shizuku доступ.</string>
     <string name="shizuku_alert">Если root-доступ предоставлен и в приложении включен режим root, то режим root будет предпочтительнее, чем Shizuku.</string>
+    <string name="disclaimer">Отказ от ответственности</string>
+    <string name="agree">Принять</string>
 </resources>
