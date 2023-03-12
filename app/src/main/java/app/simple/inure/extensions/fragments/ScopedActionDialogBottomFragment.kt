@@ -11,7 +11,7 @@ import app.simple.inure.preferences.ConfigurationPreferences
 
 open class ScopedActionDialogBottomFragment : ScopedBottomSheetFragment() {
 
-    protected lateinit var mode: TypeFaceTextView
+    protected lateinit var method: TypeFaceTextView
     protected lateinit var packageName: TypeFaceTextView
     protected lateinit var loader: LoaderImageView
     protected lateinit var status: TypeFaceTextView
@@ -21,7 +21,7 @@ open class ScopedActionDialogBottomFragment : ScopedBottomSheetFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(getLayoutViewId(), container, false)
 
-        mode = view.findViewById(R.id.mode)
+        method = view.findViewById(R.id.mode)
         packageName = view.findViewById(R.id.package_name)
         loader = view.findViewById(R.id.loader)
         status = view.findViewById(R.id.result)
@@ -33,9 +33,9 @@ open class ScopedActionDialogBottomFragment : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (ConfigurationPreferences.isUsingRoot()) {
-            mode.setText(R.string.root)
+            method.setText(R.string.root)
         } else if (ConfigurationPreferences.isUsingShizuku()) {
-            mode.setText(R.string.shizuku)
+            method.setText(R.string.shizuku)
         }
 
         packageName.text = packageInfo.packageName

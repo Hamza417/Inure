@@ -8,18 +8,20 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ComponentStateViewModel(application: Application, val packageInfo: PackageInfo, val packageId: String, val mode: Boolean) : RootShizukuViewModel(application) {
+
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
-            initShell()
+            initializeCoreFramework()
         }
     }
 
@@ -69,6 +71,22 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
         }
     }
 
+    private fun runShizuku() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                ShizukuUtils.updateComponentState(packageInfo.packageName, packageId, mode)
+            }.onFailure {
+                error.postValue(it)
+                success.postValue("Failed")
+            }.onSuccess {
+                success.postValue("Done")
+            }.getOrElse {
+                error.postValue(it)
+                success.postValue("Failed")
+            }
+        }
+    }
+
     override fun onShellCreated(shell: Shell?) {
         runCommand()
     }
@@ -79,6 +97,6 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
     }
 
     override fun onShizukuCreated() {
-
+        runShizuku()
     }
 }

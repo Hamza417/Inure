@@ -1,6 +1,7 @@
 package app.simple.inure.shizuku;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.IPackageDataObserver;
 import android.content.pm.IPackageDeleteObserver2;
@@ -164,6 +165,35 @@ public class ShizukuUtils {
         } catch (Exception e) {
             Log.e("ShizukuHider", "clearAppCache: ", e);
         }
+    }
+    
+    @SuppressLint ("PrivateApi")
+    public static void updateComponentState(String packageName, String componentName, boolean enabled)
+            throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        /*
+         * Call android.content.pm.IPackageManager.setComponentEnabledSetting with reflection.
+         * Through Shizuku wrapper.
+         * References:
+         *             - https://www.xda-developers.com/implementing-shizuku/
+         *             - https://github.dev/aistra0528/Hail
+         */
+        Log.d("ShizukuHider", "updateComponentState: " + enabled);
+        Method setComponentEnabledSetting;
+        Object iPmInstance;
+        
+        Class <?> iPmClass = Class.forName("android.content.pm.IPackageManager");
+        Class <?> iPmStub = Class.forName("android.content.pm.IPackageManager$Stub");
+        Method asInterfaceMethod = iPmStub.getMethod("asInterface", IBinder.class);
+        iPmInstance = asInterfaceMethod.invoke(null, new ShizukuBinderWrapper(SystemServiceHelper.getSystemService("package")));
+        
+        setComponentEnabledSetting = iPmClass.getMethod("setComponentEnabledSetting", ComponentName.class, int.class, int.class, int.class);
+        
+        setComponentEnabledSetting.invoke(iPmInstance,
+                new ComponentName(packageName, componentName),
+                enabled ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP,
+                0);
+        Log.i("ShizukuHider", "Updated component state: " + packageName);
     }
     
     public static Shell.Result execInternal(Shell.Command command, @Nullable InputStream inputPipe) {
