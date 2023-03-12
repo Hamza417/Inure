@@ -65,7 +65,7 @@ feedbacks [here](https://github.com/Hamza417/Inure/discussions/48).
 
 ### High priority features
 
-- [ ] Add basic Shizuku support (in development).
+- [x] Add basic Shizuku support.
 - [x] Apps Backup feature.
 - [x] Dedicated app installer.
 - [x] External APK information.
