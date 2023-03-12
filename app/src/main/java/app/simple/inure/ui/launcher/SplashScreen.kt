@@ -218,6 +218,11 @@ class SplashScreen : ScopedFragment() {
          */
         batteryOptimizationViewModel?.warning?.observe(viewLifecycleOwner) {
             showWarning(it, goBack = false)
+
+            if (ConfigurationPreferences.isUsingShizuku()) {
+                isBatteryOptimizationLoaded = true
+                openApp()
+            }
         }
 
         bootManagerViewModel?.getBootComponentData()?.observe(viewLifecycleOwner) {

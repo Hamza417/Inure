@@ -59,6 +59,7 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
     /**
      * Returns an Arraylist of [AudioModel]
      */
+    @Suppress("SameParameterValue")
     @SuppressLint("Range", "InlinedApi")
     private fun getAllAudioFiles(contentLocation: Uri): ArrayList<AudioModel> {
         val allAudioModel = ArrayList<AudioModel>()
@@ -132,6 +133,7 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
         }
     }
 
+    @Suppress("unused")
     fun shuffleSongs() {
         viewModelScope.launch(Dispatchers.Default) {
             globalList.shuffle()
@@ -164,7 +166,7 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
     @Suppress("unused")
     companion object {
         @SuppressLint("InlinedApi")
-        val audioProjection = arrayOf(
+        private val audioProjection = arrayOf(
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.ALBUM_ID,
                 MediaStore.Audio.Media.ALBUM,
@@ -181,11 +183,10 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
                 MediaStore.Audio.Media.MIME_TYPE,
                 MediaStore.Audio.Media.TRACK,
                 MediaStore.Audio.Media.YEAR,
-                MediaStore.Audio.Media.BITRATE
-        )
+                MediaStore.Audio.Media.BITRATE)
 
-        const val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0"
-        val externalContentUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val internalContentUri: Uri = MediaStore.Audio.Media.INTERNAL_CONTENT_URI
+        private const val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0"
+        private val externalContentUri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        private val internalContentUri: Uri = MediaStore.Audio.Media.INTERNAL_CONTENT_URI
     }
 }

@@ -21,15 +21,14 @@
             android:layout_gravity="center_vertical"
             android:scaleType="center"
             android:src="@drawable/ic_error"
-            app:tint="@android:color/holo_red_dark"
-            app:tintType="custom" />
+            app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/popup_padding"
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="medium"
             app:textColorStyle="tertiary" />
