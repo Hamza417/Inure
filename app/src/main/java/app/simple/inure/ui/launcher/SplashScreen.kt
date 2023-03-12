@@ -124,7 +124,7 @@ class SplashScreen : ScopedFragment() {
         val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         val batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
 
-        val batteryOptimizationViewModel = if (ConfigurationPreferences.isUsingRoot()) {
+        val batteryOptimizationViewModel = if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
             ViewModelProvider(requireActivity())[BatteryOptimizationShizukuViewModel::class.java]
         } else {
             isBatteryOptimizationLoaded = true

@@ -14,7 +14,6 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.batteryoptimizations.BatteryOptimizationSwitch.Companion.showBatteryOptimizationSwitch
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.interfaces.dialog.BatteryOptimizationCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.popups.battery.PopupBatteryOptimizationCategory
 import app.simple.inure.popups.battery.PopupBatteryOptimizationSortingStyle
@@ -80,18 +79,16 @@ class BatteryOptimization : ScopedFragment() {
                             batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
                         }
                     } else {
-                        childFragmentManager.showBatteryOptimizationSwitch(batteryOptimizationModel).setBatteryOptimizationCallbacks(object : BatteryOptimizationCallbacks {
-                            override fun onOptimizationSet(batteryOptimizationModel: BatteryOptimizationModel) {
-                                batteryOptimizationViewModel.getBatteryOptimizationUpdate().observe(viewLifecycleOwner) {
-                                    if (it.isNotNull()) {
-                                        adapterBatteryOptimization.updateItem(it.first, it.second)
-                                        batteryOptimizationViewModel.clearBatteryOptimizationAppData()
-                                    }
+                        childFragmentManager.showBatteryOptimizationSwitch(batteryOptimizationModel).setBatteryOptimizationCallbacks { batteryOptimizationModel ->
+                            batteryOptimizationViewModel.getBatteryOptimizationUpdate().observe(viewLifecycleOwner) {
+                                if (it.isNotNull()) {
+                                    adapterBatteryOptimization.updateItem(it.first, it.second)
+                                    batteryOptimizationViewModel.clearBatteryOptimizationAppData()
                                 }
-
-                                batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
                             }
-                        })
+
+                            batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
+                        }
                     }
                 }
             })

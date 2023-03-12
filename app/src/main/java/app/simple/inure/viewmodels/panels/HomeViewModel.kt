@@ -275,8 +275,11 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(Pair(0, 0)) // Divider
             list.add(Pair(R.drawable.ic_stacktrace, R.string.stacktraces))
 
-            if (ConfigurationPreferences.isUsingRoot()) {
+            if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
                 list.add(Pair(R.drawable.ic_settings_power, R.string.battery_optimization))
+            }
+
+            if (ConfigurationPreferences.isUsingRoot()) {
                 list.add(Pair(R.drawable.ic_power_off, R.string.boot_manager))
             }
 
