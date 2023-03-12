@@ -2,12 +2,15 @@ package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +23,7 @@ class ActivityLauncherViewModel(application: Application, val packageInfo: Packa
 
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
-            initShell()
+            initializeCoreFramework()
         }
     }
 
@@ -112,8 +115,32 @@ class ActivityLauncherViewModel(application: Application, val packageInfo: Packa
         }
     }
 
+    private fun runShizuku(action: String? = null) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command(formLaunchCommand(action)), null).let {
+                    Log.d("Shizuku", it.toString())
+                }
+            }.onSuccess {
+                success.postValue("Done")
+            }.onFailure {
+                success.postValue("Failed")
+            }.getOrElse {
+                success.postValue("Failed")
+            }
+        }
+    }
+
     private fun formLaunchCommand(action: String?): String {
         return "am start -n ${packageInfo.packageName}/$packageId -a \"${action ?: "android.intent.action.MAIN"}\""
+    }
+
+    fun runWithAction(action: String?) {
+        if (ConfigurationPreferences.isUsingRoot()) {
+            runActionCommand(action)
+        } else {
+            runShizuku(action)
+        }
     }
 
     override fun onShellCreated(shell: Shell?) {
@@ -126,6 +153,6 @@ class ActivityLauncherViewModel(application: Application, val packageInfo: Packa
     }
 
     override fun onShizukuCreated() {
-
+        runShizuku()
     }
 }

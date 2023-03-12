@@ -78,7 +78,7 @@ class IntentAction : ScopedDialogFragment() {
 
         launch.setOnClickListener {
             loader.visible(true)
-            activityLauncherViewModel.runActionCommand(action.text.toString())
+            activityLauncherViewModel.runWithAction(action.text.toString())
         }
 
         activityLauncherViewModel.getActionStatus().observe(viewLifecycleOwner) {

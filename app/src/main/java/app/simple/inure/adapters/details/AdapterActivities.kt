@@ -22,7 +22,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
     : RecyclerView.Adapter<AdapterActivities.Holder>() {
 
     private lateinit var activitiesCallbacks: ActivitiesCallbacks
-    private val isRootMode = ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()
+    private val isRootMode = ConfigurationPreferences.isUsingRoot() // || ConfigurationPreferences.isUsingShizuku()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_activities, parent, false))
