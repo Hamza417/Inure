@@ -2,24 +2,28 @@ package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.shizuku.Shell.Command
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ClearDataViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
+
     private val result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
-            initShell()
+            initializeCoreFramework()
         }
     }
 
@@ -69,6 +73,27 @@ class ClearDataViewModel(application: Application, val packageInfo: PackageInfo)
         }
     }
 
+    private fun runShizuku() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                ShizukuUtils.execInternal(Command("pm clear ${packageInfo.packageName}"), null).let {
+                    result.postValue("\n" + it)
+                    Log.d("ClearData", it.toString())
+                }
+            }.onFailure {
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+                postError(it)
+            }.onSuccess {
+                success.postValue("Done")
+            }.getOrElse {
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+                postError(it)
+            }
+        }
+    }
+
     override fun onShellCreated(shell: Shell?) {
         runCommand()
     }
@@ -79,6 +104,6 @@ class ClearDataViewModel(application: Application, val packageInfo: PackageInfo)
     }
 
     override fun onShizukuCreated() {
-
+        runShizuku()
     }
 }
