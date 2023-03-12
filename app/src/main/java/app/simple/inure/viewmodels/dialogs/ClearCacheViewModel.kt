@@ -13,6 +13,7 @@ import app.simple.inure.constants.Misc
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,7 +31,7 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
             if (applicationContext().applicationInfo.isSystemApp()) {
                 applicationContext().clearCache(packageInfo.packageName)
             } else {
-                initShell()
+                initializeCoreFramework()
             }
         }
     }
@@ -84,6 +85,25 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
         }
     }
 
+    private fun runShizuku() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                ShizukuUtils.clearAppCache(setOf(packageInfo.packageName))
+            }.onSuccess {
+                Log.d("ClearCacheViewModel", "Cache cleared: ${packageInfo.packageName}")
+                success.postValue("Done")
+            }.onFailure {
+                it.printStackTrace()
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+            }.getOrElse {
+                it.printStackTrace()
+                result.postValue("\n" + it.message!!)
+                success.postValue("Failed")
+            }
+        }
+    }
+
     private fun getCommand(): String {
         //        return "rm -r -v /data/data/${packageInfo.packageName}/cache " +
         //                "& rm -r -v /data/data/${packageInfo.packageName}/app_cache " +
@@ -115,7 +135,7 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
     }
 
     override fun onShizukuCreated() {
-
+        runShizuku()
     }
 
     /**

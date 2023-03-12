@@ -2,6 +2,7 @@ package app.simple.inure.shizuku;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.IPackageDataObserver;
 import android.content.pm.IPackageDeleteObserver2;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -127,6 +128,41 @@ public class ShizukuUtils {
                 }
             }, 0, Os.getuid() / 100000);
             Log.i("ShizukuHider", "Uninstalled app: " + packageName);
+        }
+    }
+    
+    @SuppressLint ("PrivateApi")
+    public static void clearAppCache(Set <String> pkgNames) {
+        /*
+         * Call android.content.pm.IPackageManager.deleteApplicationCacheFiles with reflection.
+         * Through Shizuku wrapper.
+         * References:
+         *             - https://www.xda-developers.com/implementing-shizuku/
+         *             - https://github.dev/aistra0528/Hail
+         */
+        Log.d("ShizukuHider", "clearAppCache");
+        Method deleteApplicationCacheFiles;
+        Object iPmInstance;
+        
+        try {
+            Class <?> iPmClass = Class.forName("android.content.pm.IPackageManager");
+            Class <?> iPmStub = Class.forName("android.content.pm.IPackageManager$Stub");
+            Method asInterfaceMethod = iPmStub.getMethod("asInterface", IBinder.class);
+            iPmInstance = asInterfaceMethod.invoke(null, new ShizukuBinderWrapper(SystemServiceHelper.getSystemService("package")));
+            
+            deleteApplicationCacheFiles = iPmClass.getMethod("deleteApplicationCacheFiles", String.class, IPackageDataObserver.class);
+            
+            for (String packageName : pkgNames) {
+                deleteApplicationCacheFiles.invoke(iPmInstance, packageName, new IPackageDataObserver.Stub() {
+                    @Override
+                    public void onRemoveCompleted(String s, boolean b) {
+                        Log.i("ShizukuHider", "Cleared app cache: " + s);
+                    }
+                });
+                Log.i("ShizukuHider", "Cleared app cache: " + packageName);
+            }
+        } catch (Exception e) {
+            Log.e("ShizukuHider", "clearAppCache: ", e);
         }
     }
     
