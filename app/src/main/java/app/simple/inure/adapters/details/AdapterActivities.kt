@@ -35,19 +35,23 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         holder.icon.loadIconFromActivityInfo(activities[position].activityInfo)
 
         holder.status.text = holder.itemView.context.getString(
-            R.string.activity_status,
+                R.string.activity_status,
 
-            if (activities[position].exported) {
-                holder.itemView.context.getString(R.string.exported)
-            } else {
-                holder.itemView.context.getString(R.string.not_exported)
-            },
+                if (activities[position].exported) {
+                    holder.itemView.context.getString(R.string.exported)
+                } else {
+                    holder.itemView.context.getString(R.string.not_exported)
+                },
 
-            if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[position].name)) {
-                holder.itemView.context.getString(R.string.enabled)
-            } else {
-                holder.itemView.context.getString(R.string.disabled)
-            })
+                kotlin.runCatching {
+                    if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[position].name)) {
+                        holder.itemView.context.getString(R.string.enabled)
+                    } else {
+                        holder.itemView.context.getString(R.string.disabled)
+                    }
+                }.onFailure {
+                    holder.itemView.context.getString(R.string.unknown)
+                })
 
         holder.status.append(activities[position].status)
 
@@ -75,7 +79,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         if (isRootMode) {
             holder.container.setOnLongClickListener {
                 activitiesCallbacks
-                        .onActivityLongPressed(
+                    .onActivityLongPressed(
                             activities[holder.absoluteAdapterPosition].name,
                             packageInfo,
                             it,

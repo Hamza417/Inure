@@ -34,6 +34,7 @@ object ActivityUtils {
         startActivity(context, launchIntent, null)
     }
 
+    @kotlin.jvm.Throws(java.lang.IllegalArgumentException::class)
     fun isEnabled(context: Context, packageName: String, clsName: String): Boolean {
         val componentName = ComponentName(packageName, clsName)
 

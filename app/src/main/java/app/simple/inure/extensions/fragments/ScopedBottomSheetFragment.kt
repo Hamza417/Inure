@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.*
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -164,8 +165,12 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
      * @param tag back stack tag for fragment
      */
     protected fun openFragmentSlide(fragment: ScopedFragment, tag: String? = null) {
-        (parentFragment as ScopedFragment).clearReEnterTransition()
-        (parentFragment as ScopedFragment).clearExitTransition()
+        try {
+            (parentFragment as ScopedFragment).clearReEnterTransition()
+            (parentFragment as ScopedFragment).clearExitTransition()
+        } catch (e: java.lang.NullPointerException) {
+            Log.e("ScopedBottomSheetFragment", "openFragmentSlide: ${e.message}")
+        }
 
         requireActivity().supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)

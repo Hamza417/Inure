@@ -31,5 +31,5 @@ object Warnings {
     /**
      * InureWarning06: Failed to initialize the Shizuku.
      */
-    fun getInureWarning06(): String = "0x006: Failed to initialize the Shizuku."
+    fun getInureWarning06(): String = "0x006: Failed to initialize Shizuku."
 }

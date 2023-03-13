@@ -274,9 +274,15 @@ public class Term extends BaseActivity implements UpdateCallback,
     
             terminalMainMenu.show(getSupportFragmentManager(), "terminal_menu");
         });
-        
-        currentWindow.setOnClickListener(v -> popupTerminalWindows = new PopupTerminalWindows(v, adapterWindows));
-        
+    
+        currentWindow.setOnClickListener(v -> {
+            try {
+                popupTerminalWindows = new PopupTerminalWindows(v, adapterWindows);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
+    
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Inure Terminal:" + TermDebug.LOG_TAG);
         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -284,7 +290,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         if (AndroidCompat.SDK >= 12) {
             wifiLockMode = WIFI_MODE_FULL_HIGH_PERF;
         }
-        
+    
         mWifiLock = wm.createWifiLock(wifiLockMode, TermDebug.LOG_TAG);
         mHaveFullHwKeyboard = checkHaveFullHwKeyboard(getResources().getConfiguration());
         
@@ -305,12 +311,12 @@ public class Term extends BaseActivity implements UpdateCallback,
             }
         };
     }
-
+    
     private void populateViewFlipper() {
         if (termService != null) {
             termSessions = termService.getSessions();
             onResumeSelectWindow = termService.getWindowId();
-        
+    
             if (termSessions.size() == 0) {
                 try {
                     termSessions.add(createTermSession(null));
@@ -320,28 +326,28 @@ public class Term extends BaseActivity implements UpdateCallback,
                     return;
                 }
             }
-        
+    
             termSessions.addCallback(this);
-        
+    
             for (TermSession session : termSessions) {
                 EmulatorView view = createEmulatorView(session);
                 viewFlipper.addView(view);
             }
-        
+    
             updatePrefs();
-        
+    
             if (onResumeSelectWindow >= 0) {
                 viewFlipper.setDisplayedChild(onResumeSelectWindow);
                 onResumeSelectWindow = -1;
             }
-        
+    
             viewFlipper.setOnViewFlipperFlippedListener((childView, index) -> {
                 if (adapterWindows != null && !termSessions.isEmpty()) {
                     currentWindow.setText(adapterWindows.getSessionTitle(index, getBaseContext()));
                     termService.setWindowId(index);
                 }
             });
-        
+    
             viewFlipper.onResume();
         }
     }
@@ -738,12 +744,12 @@ public class Term extends BaseActivity implements UpdateCallback,
         terminalSessionTitle.setTerminalSessionTitleCallbacks(title -> {
             try {
                 TermSession session = createTermSession(title);
-            
+    
                 termSessions.add(session);
-            
+    
                 TermView view = createEmulatorView(session);
                 view.updatePrefs(mSettings);
-            
+    
                 viewFlipper.addView(view);
                 viewFlipper.setDisplayedChild(viewFlipper.getChildCount() - 1);
             } catch (IOException e) {

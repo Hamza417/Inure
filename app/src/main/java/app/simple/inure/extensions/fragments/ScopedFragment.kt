@@ -461,12 +461,25 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     fun openFragmentLinear(fragment: ScopedFragment, view: View, tag: String? = null, duration: Long? = null) {
         fragment.setLinearTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
 
-        requireActivity().supportFragmentManager.beginTransaction()
-            .setReorderingAllowed(true)
-            .addSharedElement(view, view.transitionName)
-            .replace(R.id.app_container, fragment, tag)
-            .addToBackStack(tag)
-            .commit()
+        try {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.setReorderingAllowed(true)
+            transaction.addSharedElement(view, view.transitionName)
+            transaction.replace(R.id.app_container, fragment, tag)
+            if (tag.isNotNull()) {
+                transaction.addToBackStack(tag)
+            }
+            transaction.commit()
+        } catch (e: IllegalStateException) {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.setReorderingAllowed(true)
+            transaction.addSharedElement(view, view.transitionName)
+            transaction.replace(R.id.app_container, fragment, tag)
+            if (tag.isNotNull()) {
+                transaction.addToBackStack(tag)
+            }
+            transaction.commitAllowingStateLoss()
+        }
     }
 
     /**
@@ -488,15 +501,29 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         //            (fragment.exitTransition as MaterialContainerTransform?)?.excludeTarget(icon, true)
         //        }
 
-        val transaction = requireActivity().supportFragmentManager.beginTransaction().apply {
-            setReorderingAllowed(true)
-            addSharedElement(icon, icon.transitionName)
-            replace(R.id.app_container, fragment, tag)
-            if (tag.isNotNull()) {
-                addToBackStack(tag)
+        try {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction().apply {
+                setReorderingAllowed(true)
+                addSharedElement(icon, icon.transitionName)
+                replace(R.id.app_container, fragment, tag)
+                if (tag.isNotNull()) {
+                    addToBackStack(tag)
+                }
             }
+
+            transaction.commit()
+        } catch (e: IllegalStateException) {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction().apply {
+                setReorderingAllowed(true)
+                addSharedElement(icon, icon.transitionName)
+                replace(R.id.app_container, fragment, tag)
+                if (tag.isNotNull()) {
+                    addToBackStack(tag)
+                }
+            }
+
+            transaction.commitAllowingStateLoss()
         }
-        transaction.commit()
     }
 
     protected fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
