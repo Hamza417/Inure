@@ -48,6 +48,10 @@ Inure is a powerful open source applications manager and analyzer with a good-lo
 - AMOLED, Slate, Grey and High Contrast dark modes
 - Monet color palette support
 
+<b>Trial</b>
+
+The full version of Inure is available to try for 15 days, all the features of the app will continue to work except a few of the trial features will be disabled after the period has ended. You can unlock the full version by purchasing the Inure Unlocker.
+
 <b>Note</b>
 
-Inure is currently in stable-beta stage and there maybe features that are not yet added, and the app may crash sometimes. I am actively developing this app and would love to hear feedback, ideas and general discussions about the app. You can submit your feedback on <a href="https://github.com/Hamza417/Inure/discussions/48">GitHub Discussion</a> or join <a href="https://t.me/inure_app_manager">Telegram Group</a> for the app (Recommended).
+Inure is currently in stable stage, but there maybe some unknown bugs. I am actively developing this app and would love to hear feedback, ideas and general discussions about the app. You can submit your feedback on <a href="https://github.com/Hamza417/Inure/discussions/48">GitHub Discussion</a> or join <a href="https://t.me/inure_app_manager">Telegram Group</a> for the app (Recommended).
