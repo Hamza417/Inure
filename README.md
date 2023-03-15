@@ -134,24 +134,8 @@ is [here](https://github.com/Hamza417/Inure/issues/63).*
 |:---------------------------------------:|
 | Presentation design for Batch interface |
 
-## Contribute
 
-### Developers
 
-Inure's repo doesn't require any special setup, clone/fork the repo and run
-in [Android Studio](https://developer.android.com/studio) and let the initial
-setup finish automatically and you'll be good to go.
-
-### Not a developer?
-
-You can take participation in app's translation on [Crowdin](https://crowdin.com/project/inure)
-and watch Inure work in your language and make the app more user friendly to
-everyone speaking your tongue... 😎😎
-
-### Want to show you were here?
-
-You cannot do the above still wanna show your support? hit the star 🌟 and let me know you were here
-and appreciate the project.. 😄
 
 ## License
 
