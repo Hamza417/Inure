@@ -37,6 +37,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rikka.shizuku.ShizukuProvider
 
 class Setup : ScopedFragment() {
 
@@ -48,6 +49,7 @@ class Setup : ScopedFragment() {
     private lateinit var storageStatus: TypeFaceTextView
     private lateinit var storageUri: TypeFaceTextView
     private lateinit var rootSwitchView: SwitchView
+    private lateinit var shizukuSwitchView: SwitchView
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
     private lateinit var dontShowAgainCheckBox: InureCheckBox
@@ -65,6 +67,7 @@ class Setup : ScopedFragment() {
         storageStatus = view.findViewById(R.id.status_storage_access)
         storageUri = view.findViewById(R.id.status_storage_uri)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
+        shizukuSwitchView = view.findViewById(R.id.setup_shizuku_switch_view)
         startApp = view.findViewById(R.id.start_app_now)
         skip = view.findViewById(R.id.skip_setup)
         dontShowAgainCheckBox = view.findViewById(R.id.show_again_checkbox)
@@ -76,6 +79,15 @@ class Setup : ScopedFragment() {
                         if (it.value) {
                             setStorageStatus()
                             showStartAppButton()
+                        }
+                    }
+                    ShizukuProvider.PERMISSION -> {
+                        if (it.value) {
+                            ConfigurationPreferences.setUsingShizuku(true)
+                            shizukuSwitchView.setChecked(true)
+                        } else {
+                            ConfigurationPreferences.setUsingShizuku(false)
+                            shizukuSwitchView.setChecked(false)
                         }
                     }
                 }
@@ -91,6 +103,7 @@ class Setup : ScopedFragment() {
 
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
         dontShowAgainCheckBox.setChecked(SetupPreferences.isDontShowAgain())
+        shizukuSwitchView.setChecked(ConfigurationPreferences.isUsingShizuku())
 
         usageAccess.setOnClickListener {
             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
@@ -162,6 +175,14 @@ class Setup : ScopedFragment() {
             } else {
                 ConfigurationPreferences.setUsingRoot(false)
                 rootSwitchView.setChecked(false)
+            }
+        }
+
+        shizukuSwitchView.setOnSwitchCheckedChangeListener { it ->
+            if (it) {
+                requestPermissionLauncher.launch(arrayOf(ShizukuProvider.PERMISSION))
+            } else {
+                ConfigurationPreferences.setUsingShizuku(false)
             }
         }
 

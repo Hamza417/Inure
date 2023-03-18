@@ -190,7 +190,9 @@ class InureCheckBox @JvmOverloads constructor(context: Context, attrs: Attribute
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        ThemeManager.addListener(this)
+        if (isInEditMode.invert()) {
+            ThemeManager.addListener(this)
+        }
     }
 
     override fun onThemeChanged(theme: Theme, animate: Boolean) {

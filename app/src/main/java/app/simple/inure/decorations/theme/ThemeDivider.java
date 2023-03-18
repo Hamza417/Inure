@@ -3,6 +3,7 @@ package app.simple.inure.decorations.theme;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -34,12 +35,19 @@ public class ThemeDivider extends View implements ThemeChangedListener {
         setBackgroundColor(Color.WHITE);
         setTint(false);
         setTranslationZ(1F);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setFocusable(View.NOT_FOCUSABLE);
+        } else {
+            setFocusable(false);
+        }
     }
     
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        ThemeManager.INSTANCE.addListener(this);
+        if (!isInEditMode()) {
+            ThemeManager.INSTANCE.addListener(this);
+        }
     }
     
     @Override
