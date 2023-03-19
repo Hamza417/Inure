@@ -16,7 +16,7 @@
     <string name="apps_category">應用程式類別</string>
     <string name="system">系統</string>
     <string name="user">使用者</string>
-    <string name="both">兩者</string>
+    <string name="both">全部</string>
     <string name="app_typeface">應用程式字樣</string>
     <string name="desc_app_typeface">變更應用程式字型樣式 (僅英文字符)。</string>
     <string name="appearance">外觀</string>
@@ -25,7 +25,7 @@
     <string name="total_sensors">%1$s 個感應器</string>
     <string name="total_notes">%1$s 則附註</string>
     <string name="apps">應用程式</string>
-    <string name="configuration_button">顯示設定按鈕</string>
+    <string name="configuration_button">組態按鈕</string>
     <string name="search_button">搜尋按鈕</string>
     <string name="sorting_style">排序樣式</string>
     <string name="open_application_settings">開啟應用程式設定…</string>
@@ -154,7 +154,7 @@
     <string name="disable">停用</string>
     <string name="desc_not_available">沒有可用的描述。</string>
     <string name="permission_info_not_available">權限資訊無法使用。</string>
-    <string name="loading">正在載入</string>
+    <string name="loading">載入</string>
     <string name="total">總計 %d</string>
     <string name="cache_dir">正在建立快取目錄</string>
     <string name="split_apk_detected">偵測到分割 APK</string>
@@ -466,7 +466,7 @@
     <string name="character_based">基於字元</string>
     <string name="word_based">基於文字</string>
     <string name="skip_loading_on_app_start">應用程式啟動時跳過載入</string>
-    <string name="desc_skip_loading">在應用程式啟動時不載入資料，直接進入應用程式主畫面。\n\n資料仍會向先前一樣被載入，但所有的工作都將放入背景，載入不封鎖應用程式的啟動，但如果資料不可用，會增加應用程式內動作的延遲。</string>
+    <string name="desc_skip_loading">在應用程式啟動時不載入資料，直接進入應用程式主畫面。\n\n資料仍會像先前一樣被載入，但所有的工作都將放入背景，載入不封鎖應用程式的啟動，但如果資料不可用，會增加應用程式內動作的延遲。</string>
     <string name="path">路徑</string>
     <string name="standalone_terminal">獨立終端機</string>
     <string name="standalone_terminal_desc">將終端機作為一個獨立的應用程式，直接從主畫面上啟動，而無需再每次需要終端機時開啟主要應用程式。</string>
@@ -664,4 +664,5 @@
     <string name="shizuku_alert">若授予 Root 存取權並在應用程式中切換至 Root 模式，則 Root 模式將優先於 Shizuku。</string>
     <string name="disclaimer">免責聲明</string>
     <string name="agree">同意</string>
+    <string name="package_manager">套件管理員</string>
 </resources>
