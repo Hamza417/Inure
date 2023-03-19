@@ -73,6 +73,19 @@
                 app:drawableTintStyle="accent"
                 app:textColorStyle="secondary" />
 
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/usage_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/menu_text_button_padding"
+                android:text="@string/usage_statistics"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_dot_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="secondary" />
+
             <app.simple.inure.decorations.theme.ThemeDivider
                 android:layout_width="match_parent"
                 android:layout_height="1px"

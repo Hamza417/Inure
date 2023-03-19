@@ -42,6 +42,7 @@ class AppsMenu : ScopedDialogFragment() {
     private lateinit var launch: DynamicRippleTextView
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var send: DynamicRippleTextView
+    private lateinit var usageStatistics: DynamicRippleTextView
     private lateinit var permissions: DynamicRippleTextView
     private lateinit var activities: DynamicRippleTextView
     private lateinit var services: DynamicRippleTextView
@@ -67,6 +68,7 @@ class AppsMenu : ScopedDialogFragment() {
         launch = view.findViewById(R.id.launch)
         appInformation = view.findViewById(R.id.app_information)
         send = view.findViewById(R.id.send)
+        usageStatistics = view.findViewById(R.id.usage_stats)
         permissions = view.findViewById(R.id.permissions)
         activities = view.findViewById(R.id.activities)
         services = view.findViewById(R.id.services)
@@ -136,6 +138,10 @@ class AppsMenu : ScopedDialogFragment() {
         send.setOnClickListener {
             Send.newInstance(packageInfo)
                 .show(childFragmentManager, "send")
+        }
+
+        usageStatistics.setOnClickListener {
+            openFragmentSlide(UsageStatisticsGraph.newInstance(packageInfo), "usage_stats")
         }
 
         permissions.setOnClickListener {
