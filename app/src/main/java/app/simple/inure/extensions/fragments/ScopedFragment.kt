@@ -294,10 +294,19 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * @param manualOverride if true, loader can be shown from anywhere
      */
     open fun showLoader(manualOverride: Boolean = false) {
-        if (requireArguments().getBoolean(BundleConstants.loading)) {
-            loader = Loader.newInstance()
-            loader?.show(childFragmentManager, "loader")
-        } else {
+        kotlin.runCatching {
+            if (requireArguments().getBoolean(BundleConstants.loading)) {
+                loader = Loader.newInstance()
+                loader?.show(childFragmentManager, "loader")
+            } else {
+                if (manualOverride) {
+                    loader = Loader.newInstance()
+                    loader?.show(childFragmentManager, "loader")
+                } else {
+                    throw IllegalStateException("Loader can't be shown from here")
+                }
+            }
+        }.getOrElse {
             if (manualOverride) {
                 loader = Loader.newInstance()
                 loader?.show(childFragmentManager, "loader")

@@ -17,6 +17,7 @@ import app.simple.inure.adapters.home.AdapterQuickApps
 import app.simple.inure.adapters.menus.AdapterHomeMenu
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
@@ -26,10 +27,7 @@ import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
-import app.simple.inure.preferences.BehaviourPreferences
-import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.preferences.TerminalPreferences
-import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.preferences.*
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.music.Music
 import app.simple.inure.util.ConditionUtils.isZero
@@ -38,6 +36,7 @@ import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
+import rikka.shizuku.Shizuku
 
 class Home : ScopedFragment() {
 
@@ -165,7 +164,15 @@ class Home : ScopedFragment() {
                             openFragmentArc(StackTraces.newInstance(), icon, "stacktraces")
                         }
                         R.string.battery_optimization -> {
-                            openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
+                            if (ConfigurationPreferences.isUsingShizuku()) {
+                                if (Shizuku.pingBinder()) {
+                                    openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
+                                } else {
+                                    showWarning(Warnings.getInureWarning06(), goBack = false)
+                                }
+                            } else {
+                                openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
+                            }
                         }
                         R.string.boot_manager -> {
                             openFragmentArc(BootManager.newInstance(), icon, "boot_manager")

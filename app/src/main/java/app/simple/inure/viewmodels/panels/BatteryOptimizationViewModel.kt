@@ -25,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class BatteryOptimizationShizukuViewModel(application: Application) : RootShizukuViewModel(application) {
+class BatteryOptimizationViewModel(application: Application) : RootShizukuViewModel(application) {
 
     init {
         initializeCoreFramework()
@@ -231,6 +231,14 @@ class BatteryOptimizationShizukuViewModel(application: Application) : RootShizuk
 
     fun clearBatteryOptimizationAppData() {
         batteryOptimizationUpdate.value = null
+    }
+
+    fun isBatteryOptimizationDataEmpty(): Boolean {
+        kotlin.runCatching {
+            return batteryOptimizationData.value.isNullOrEmpty()
+        }.getOrElse {
+            return true
+        }
     }
 
     override fun onShellCreated(shell: Shell?) {

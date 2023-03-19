@@ -21,21 +21,21 @@ import app.simple.inure.popups.battery.PopupOptimizationSwitch
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.viewmodels.panels.BatteryOptimizationShizukuViewModel
+import app.simple.inure.viewmodels.panels.BatteryOptimizationViewModel
 
 class BatteryOptimization : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterBatteryOptimization: AdapterBatteryOptimization
 
-    private lateinit var batteryOptimizationViewModel: BatteryOptimizationShizukuViewModel
+    private lateinit var batteryOptimizationViewModel: BatteryOptimizationViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_battery_optimization, container, false)
 
         recyclerView = view.findViewById(R.id.battery_optimization_recycler_view)
 
-        batteryOptimizationViewModel = ViewModelProvider(requireActivity())[BatteryOptimizationShizukuViewModel::class.java]
+        batteryOptimizationViewModel = ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
 
         return view
     }
@@ -43,10 +43,10 @@ class BatteryOptimization : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
-
         fullVersionCheck()
 
         batteryOptimizationViewModel.getBatteryOptimizationData().observe(viewLifecycleOwner) { batteryOptimizationModelArrayList ->
+            hideLoader()
             adapterBatteryOptimization = AdapterBatteryOptimization(batteryOptimizationModelArrayList)
 
             adapterBatteryOptimization.setOnItemClickListener(object : AdapterCallbacks {
@@ -79,7 +79,7 @@ class BatteryOptimization : ScopedFragment() {
                             batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
                         }
                     } else {
-                        childFragmentManager.showBatteryOptimizationSwitch(batteryOptimizationModel).setBatteryOptimizationCallbacks { batteryOptimizationModel ->
+                        childFragmentManager.showBatteryOptimizationSwitch(batteryOptimizationModel).setBatteryOptimizationCallbacks { batteryOptimizationModel_ ->
                             batteryOptimizationViewModel.getBatteryOptimizationUpdate().observe(viewLifecycleOwner) {
                                 if (it.isNotNull()) {
                                     adapterBatteryOptimization.updateItem(it.first, it.second)
@@ -87,7 +87,7 @@ class BatteryOptimization : ScopedFragment() {
                                 }
                             }
 
-                            batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
+                            batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel_, position)
                         }
                     }
                 }
