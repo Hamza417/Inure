@@ -36,6 +36,8 @@ open class ScopedActionDialogBottomFragment : ScopedBottomSheetFragment() {
             method.setText(R.string.root)
         } else if (ConfigurationPreferences.isUsingShizuku()) {
             method.setText(R.string.shizuku)
+        } else {
+            method.setText(R.string.package_manager)
         }
 
         packageName.text = packageInfo.packageName

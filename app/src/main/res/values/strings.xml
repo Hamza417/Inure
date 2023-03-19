@@ -663,4 +663,5 @@
     <string name="shizuku_alert">If root access is granted and root mode is toggled in the app, then root mode will be preferred over Shizuku.</string>
     <string name="disclaimer">Disclaimer</string>
     <string name="agree">Agree</string>
+    <string name="package_manager">Package Manager</string>
 </resources>

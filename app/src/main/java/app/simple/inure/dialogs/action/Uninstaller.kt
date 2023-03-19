@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.isSystemApp
 import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.IntentConstants
@@ -18,6 +19,7 @@ import app.simple.inure.factories.actions.UninstallerViewModelFactory
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.viewmodels.dialogs.UninstallerViewModel
 import app.simple.inure.viewmodels.panels.*
+import rikka.shizuku.Shizuku
 
 class Uninstaller : ScopedActionDialogBottomFragment() {
 
@@ -44,7 +46,7 @@ class Uninstaller : ScopedActionDialogBottomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
+        if (ConfigurationPreferences.isUsingRoot()) {
             with(ViewModelProvider(this, UninstallerViewModelFactory(packageInfo))[UninstallerViewModel::class.java]) {
                 getError().observe(viewLifecycleOwner) {
                     showError(it)
@@ -69,29 +71,63 @@ class Uninstaller : ScopedActionDialogBottomFragment() {
                     showWarning(it)
                 }
             }
-        } else {
-            kotlin.runCatching {
-                status.setText(R.string.waiting)
+        } else if (ConfigurationPreferences.isUsingShizuku()) { // This block could be merged with the above block
+            if (Shizuku.pingBinder()) {
+                with(ViewModelProvider(this, UninstallerViewModelFactory(packageInfo))[UninstallerViewModel::class.java]) {
+                    getError().observe(viewLifecycleOwner) {
+                        showError(it)
+                    }
 
-                appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                    when (result.resultCode) {
-                        Activity.RESULT_OK -> {
-                            loader.loaded()
-                            status.setText(R.string.done)
-                            listener?.invoke()
-                        }
-                        Activity.RESULT_CANCELED -> {
-                            loader.error()
-                            status.setText(R.string.cancelled)
+                    getSuccessStatus().observe(viewLifecycleOwner) {
+                        when (it) {
+                            "Done" -> {
+                                loader.loaded()
+                                status.setText(R.string.done)
+                                listener?.invoke()
+                            }
+                            "Failed" -> {
+                                loader.error()
+                                status.setText(R.string.failed)
+                            }
                         }
                     }
                 }
-
-                packageInfo.uninstallThisPackage(appUninstallObserver)
-            }.onFailure {
-                loader.error()
-                status.setText(R.string.failed)
+            } else {
+                if (packageInfo.isSystemApp()) {
+                    loader.error()
+                    status.setText(R.string.failed)
+                } else {
+                    useAPIUninstaller()
+                }
             }
+        } else {
+            useAPIUninstaller()
+        }
+    }
+
+    private fun useAPIUninstaller() {
+        kotlin.runCatching {
+            method.setText(R.string.package_manager)
+            status.setText(R.string.waiting)
+
+            appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                when (result.resultCode) {
+                    Activity.RESULT_OK -> {
+                        loader.loaded()
+                        status.setText(R.string.done)
+                        listener?.invoke()
+                    }
+                    Activity.RESULT_CANCELED -> {
+                        loader.error()
+                        status.setText(R.string.cancelled)
+                    }
+                }
+            }
+
+            packageInfo.uninstallThisPackage(appUninstallObserver)
+        }.onFailure {
+            loader.error()
+            status.setText(R.string.failed)
         }
     }
 
