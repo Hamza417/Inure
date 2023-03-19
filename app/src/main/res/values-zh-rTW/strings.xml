@@ -305,7 +305,7 @@
     <string name="forward_navigation">向前導覽</string>
     <string name="mask_adjust">遮罩調整</string>
     <string name="mask_state">遮罩狀態</string>
-    <string name="mode_changed">遮罩已變更</string>
+    <string name="mode_changed">模式已變更</string>
     <string name="default_">預設 %1$s</string>
     <string name="wide_color_gamut">廣色域 %1$s</string>
     <string name="not_supported">不支援</string>
@@ -444,7 +444,7 @@
     <string name="capacity">容量</string>
     <string name="cold">過冷</string>
     <string name="good">良好</string>
-    <string name="dead">無作用</string>
+    <string name="dead">耗盡</string>
     <string name="overheat">過熱</string>
     <string name="overvoltage">電壓過高</string>
     <string name="unspecified_failure">未指定的失敗</string>
@@ -538,7 +538,7 @@
     <string name="stiffness_desc">捲動檢視硬度。</string>
     <string name="very_low">非常低</string>
     <string name="soapstone">皂石</string>
-    <string name="oil">油</string>
+    <string name="oil">石油</string>
     <string name="privacy_policy">隱私權政策</string>
     <string name="manage_space">管理空間</string>
     <string name="clear_app_data_desc">清除所有應用程式資料並重設為原始狀態。</string>
@@ -585,7 +585,7 @@
     <string name="last_used">上次使用</string>
     <string name="mobile_data">行動數據</string>
     <string name="times">%1$d 次</string>
-    <string name="usage_data_does_not_exist_for_this_app">使用量資料內不存在本應用程式。</string>
+    <string name="usage_data_does_not_exist_for_this_app">這個應用程式內不存在使用量資料。</string>
     <string name="shared_prefs">已共用的偏好設定</string>
     <string name="stacktraces">堆疊追蹤</string>
     <string name="crash_report">當機報告</string>
@@ -594,7 +594,7 @@
     <string name="count_queued">%1$d 已佇列</string>
     <string name="lock_screen">鎖定螢幕</string>
     <string name="lock_screen_desc">允許這個應用程式鎖定裝置螢幕。</string>
-    <string name="device_admin_desc">允許應用程式處理裝置層級動作。</string>
+    <string name="device_admin_desc">允許這個應用程式處理裝置層級動作。</string>
     <string name="delete">刪除</string>
     <string name="open">開啟</string>
     <string name="this_app_doesnt_require_any_permissions">這個應用程式不需要任何權限。</string>
@@ -627,7 +627,7 @@
     <string name="play">播放</string>
     <string name="checklist">檢查清單</string>
     <string name="bold">粗體</string>
-    <string name="italic">鞋底</string>
+    <string name="italic">斜體</string>
     <string name="underline">底線</string>
     <string name="strikethrough">刪除線</string>
     <string name="subscript">下標</string>
@@ -650,7 +650,7 @@
     <string name="quote_for_bash">Bash 引文</string>
     <string name="export">匯出</string>
     <string name="add">新增</string>
-    <string name="description">描述描述</string>
+    <string name="description">描述</string>
     <string name="run">執行</string>
     <string name="edit">編輯</string>
     <string name="select_all">全部選取</string>
