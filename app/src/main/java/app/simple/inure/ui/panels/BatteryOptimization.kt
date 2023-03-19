@@ -45,6 +45,19 @@ class BatteryOptimization : ScopedFragment() {
         postponeEnterTransition()
         fullVersionCheck()
 
+        //        if(batteryOptimizationViewModel.isBatteryOptimizationDataEmpty()) {
+        //            kotlin.runCatching {
+        //                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+        //                    withTimeout(5000) {
+        //                        showLoader(manualOverride = true)
+        //                        startPostponedEnterTransition()
+        //                    }
+        //                }
+        //            }.onFailure {
+        //                showWarning(it.message.toString())
+        //            }
+        //        }
+
         batteryOptimizationViewModel.getBatteryOptimizationData().observe(viewLifecycleOwner) { batteryOptimizationModelArrayList ->
             hideLoader()
             adapterBatteryOptimization = AdapterBatteryOptimization(batteryOptimizationModelArrayList)
@@ -79,7 +92,7 @@ class BatteryOptimization : ScopedFragment() {
                             batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
                         }
                     } else {
-                        childFragmentManager.showBatteryOptimizationSwitch(batteryOptimizationModel).setBatteryOptimizationCallbacks { batteryOptimizationModel_ ->
+                        childFragmentManager.showBatteryOptimizationSwitch(batteryOptimizationModel).setBatteryOptimizationCallbacks { batteryOptimizationModel ->
                             batteryOptimizationViewModel.getBatteryOptimizationUpdate().observe(viewLifecycleOwner) {
                                 if (it.isNotNull()) {
                                     adapterBatteryOptimization.updateItem(it.first, it.second)
@@ -87,7 +100,7 @@ class BatteryOptimization : ScopedFragment() {
                                 }
                             }
 
-                            batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel_, position)
+                            batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
                         }
                     }
                 }

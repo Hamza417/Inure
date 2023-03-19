@@ -23,7 +23,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ParcelUtils.parcelableArrayList
-import app.simple.inure.viewmodels.panels.BatchUninstallerShizukuViewModel
+import app.simple.inure.viewmodels.panels.BatchUninstallerViewModel
 import app.simple.inure.viewmodels.panels.BatchViewModel
 
 class BatchUninstaller : ScopedBottomSheetFragment() {
@@ -32,7 +32,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
 
     private var appList = arrayListOf<BatchPackageInfo>()
 
-    private var batchUninstallerViewModel: BatchUninstallerShizukuViewModel? = null
+    private var batchUninstallerViewModel: BatchUninstallerViewModel? = null
     private var batchViewModel: BatchViewModel? = null
     private var batchUninstallerProgressStateModel = BatchUninstallerProgressStateModel()
 
@@ -77,9 +77,9 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
             setState(batchUninstallerProgressStateModel)
         }
 
-        if (ConfigurationPreferences.isUsingRoot()) {
+        if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
             val batchViewModelFactory = BatchViewModelFactory(appList)
-            batchUninstallerViewModel = ViewModelProvider(this, batchViewModelFactory)[BatchUninstallerShizukuViewModel::class.java]
+            batchUninstallerViewModel = ViewModelProvider(this, batchViewModelFactory)[BatchUninstallerViewModel::class.java]
         }
 
         return view
@@ -100,7 +100,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
             Log.d("BatchUninstaller", "Done -> $it")
         }
 
-        if (ConfigurationPreferences.isUsingRoot().invert()) {
+        if (ConfigurationPreferences.isUsingRoot().invert() || ConfigurationPreferences.isUsingShizuku().invert()) {
             if (savedInstanceState.isNull()) {
                 for (app in appList) {
                     val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
