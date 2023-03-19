@@ -30,20 +30,20 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
             kotlin.runCatching {
                 val list = arrayListOf<ActivityInfoModel>()
 
-                for (ai in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName)!!.receivers) {
+                for (ai in application.packageManager.getPackageInfo(packageInfo.packageName)!!.receivers) {
                     val activityInfoModel = ActivityInfoModel()
 
                     activityInfoModel.activityInfo = ai
                     activityInfoModel.name = ai.name
-                    activityInfoModel.target = ai.targetActivity ?: getApplication<Application>().getString(R.string.not_available)
+                    activityInfoModel.target = ai.targetActivity ?: application.getString(R.string.not_available)
                     activityInfoModel.exported = ai.exported
-                    activityInfoModel.permission = ai.permission ?: getApplication<Application>().getString(R.string.no_permissions_required)
+                    activityInfoModel.permission = ai.permission ?: application.getString(R.string.no_permissions_required)
 
                     with(StringBuilder()) {
                         append(" | ")
-                        append(MetaUtils.getLaunchMode(ai.launchMode, getApplication()))
+                        append(MetaUtils.getLaunchMode(ai.launchMode, application))
                         append(" | ")
-                        append(MetaUtils.getOrientation(ai.screenOrientation, getApplication()))
+                        append(MetaUtils.getOrientation(ai.screenOrientation, application))
                         activityInfoModel.status = this.toString()
                     }
 

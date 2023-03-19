@@ -86,7 +86,7 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
         try {
             messageDigest = MessageDigest.getInstance("SHA1")
             certRaw?.let { messageDigest.update(it) }
-            var strAppend = ""
+            var strAppend: String
 
             for (b in messageDigest.digest()) {
                 strAppend = (b.toInt() and 0xff).toString(16)

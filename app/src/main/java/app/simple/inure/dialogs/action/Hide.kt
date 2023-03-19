@@ -1,6 +1,5 @@
 package app.simple.inure.dialogs.action
 
-import android.app.Application
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.View
@@ -37,7 +36,7 @@ class Hide : ScopedActionDialogBottomFragment() {
                 when (it) {
                     "Done" -> {
                         loader.loaded()
-                        if (getApplication<Application>().packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
+                        if (requireContext().packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
                             packageInfo.applicationInfo.enabled = true
                             status.setText(R.string.enabled)
                         } else {

@@ -1,9 +1,12 @@
+@file:Suppress("unused")
+
 package app.simple.inure.util
 
 import java.util.zip.ZipFile
 
+@Suppress("UNUSED_VARIABLE", "EXTENSION_SHADOWED_BY_MEMBER")
 object XmlParser {
-    fun main(args: Array<String>) {
+    fun main() {
         val fileName = "app.apk"
         ZipFile(fileName).use { zip ->
             zip.entries().asSequence().forEach { entry ->
@@ -22,25 +25,23 @@ object XmlParser {
     /**
      * Binary XML doc ending Tag
      */
-    var endDocTag = 0x00100101
+    private var endDocTag = 0x00100101
 
     /**
      * Binary XML start Tag
      */
-    var startTag = 0x00100102
+    private var startTag = 0x00100102
 
     /**
      * Binary XML end Tag
      */
-    var endTag = 0x00100103
-
+    private var endTag = 0x00100103
 
     /**
      * Reference var for spacing
      * Used in prtIndent()
      */
-    var spaces = "                                             "
-
+    private var spaces = "                                             "
 
     /**
      * Parse the 'compressed' binary form of Android XML docs
@@ -49,6 +50,7 @@ object XmlParser {
      *
      * @param xml Encoded XML content to decompress
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     fun decompressXML(xml: ByteArray): String {
 
         val resultXml = StringBuilder()
@@ -58,7 +60,7 @@ object XmlParser {
         //   0th word is 03 00 08 00
         //   3rd word SEEMS TO BE:  Offset at then of StringTable
         //   4th word is: Number of strings in string table
-        // WARNING: Sometime I indiscriminently display or refer to word in
+        // WARNING: Sometime I indiscriminately display or refer to word in
         //   little endian storage format, or in integer format (ie MSB first).
         val numbStrings = lew(xml, 4 * 4)
 
@@ -181,7 +183,6 @@ object XmlParser {
         return resultXml.toString()
     } // end of decompressXML
 
-
     /**
      * Tool Method for decompressXML();
      * Compute binary XML to its string format
@@ -193,12 +194,11 @@ object XmlParser {
      * @param strInd
      * @return String-formatted XML
      */
-    fun compXmlString(xml: ByteArray, sitOff: Int, stOff: Int, strInd: Int): String? {
+    private fun compXmlString(xml: ByteArray, @Suppress("SameParameterValue") sitOff: Int, stOff: Int, strInd: Int): String? {
         if (strInd < 0) return null
         val strOff = stOff + lew(xml, sitOff + strInd * 4)
         return compXmlStringAt(xml, strOff)
     }
-
 
     /**
      * Tool Method for decompressXML();
@@ -208,11 +208,9 @@ object XmlParser {
      * @param str String to indent
      * @return Indented string
      */
-    fun prtIndent(indent: Int, str: String): String {
-
-        return spaces.substring(0, Math.min(indent * 2, spaces.length)) + str
+    private fun prtIndent(indent: Int, str: String): String {
+        return spaces.substring(0, (indent * 2).coerceAtMost(spaces.length)) + str
     }
-
 
     /**
      * Tool method for decompressXML()
@@ -224,7 +222,7 @@ object XmlParser {
      * @param strOff Offset to get string from
      * @return String from StringTable at offset strOff
      */
-    fun compXmlStringAt(arr: ByteArray, strOff: Int): String {
+    private fun compXmlStringAt(arr: ByteArray, strOff: Int): String {
         val strLen = (arr[strOff + 1] shl (8 and 0xff00)) or (arr[strOff].toInt() and 0xff)
         val chars = ByteArray(strLen)
         for (ii in 0 until strLen) {
@@ -241,7 +239,7 @@ object XmlParser {
      * @param off Offset to get word from
      * @return Value of Little Endian 32 bit word specified
      */
-    fun lew(arr: ByteArray, off: Int): Int {
+    private fun lew(arr: ByteArray, off: Int): Int {
         return (arr[off + 3] shl 24 and -0x1000000 or ((arr[off + 2] shl 16) and 0xff0000)
                 or (arr[off + 1] shl 8 and 0xff00) or (arr[off].toInt() and 0xFF))
     } // end of LEW

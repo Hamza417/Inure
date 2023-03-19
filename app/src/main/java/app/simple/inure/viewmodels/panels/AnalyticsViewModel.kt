@@ -66,7 +66,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
 
                 if (total != 0F) { // Filter empty data
                     data.add(PieEntry(total, if (AnalyticsPreferences.getSDKValue()) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)))
-                    colors.add(SDKHelper.getSdkColor(sdkCode, getApplication()))
+                    colors.add(SDKHelper.getSdkColor(sdkCode, applicationContext()))
                 }
             }
 
@@ -92,7 +92,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
 
                 if (total != 0F) { // Filter empty data
                     data.add(PieEntry(total, if (AnalyticsPreferences.getSDKValue()) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)))
-                    colors.add(SDKHelper.getSdkColor(sdkCode, getApplication()))
+                    colors.add(SDKHelper.getSdkColor(sdkCode, applicationContext()))
                 }
             }
 

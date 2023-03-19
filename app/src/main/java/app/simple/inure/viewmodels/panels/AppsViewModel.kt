@@ -53,7 +53,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
             }
 
             for (i in apps.indices) {
-                apps[i].applicationInfo.name = getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                apps[i].applicationInfo.name = getApplicationName(application.applicationContext, apps[i].applicationInfo)
             }
 
             apps.getSortedList(MainPreferences.getSortStyle(), MainPreferences.isReverseSorting())

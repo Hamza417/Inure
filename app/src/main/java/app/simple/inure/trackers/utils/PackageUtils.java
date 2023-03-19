@@ -14,8 +14,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Locale;
 
 import app.simple.inure.apk.utils.PermissionUtils;
@@ -23,13 +21,13 @@ import app.simple.inure.apk.utils.PermissionUtils;
 public class PackageUtils {
     
     public static String apkIsolatedZygote(PackageInfo p, String intro) {
-        String sResult = "";
+        StringBuilder sResult = new StringBuilder();
         ServiceInfo[] si = p.services;
         if (si != null) {
             for (ServiceInfo s : si) {
                 if ((s.flags & ServiceInfo.FLAG_USE_APP_ZYGOTE) != 0) {
-                    sResult = s.name + ":" + sResult;
-                    sResult += "\u26BF";
+                    sResult.insert(0, s.name + ":");
+                    sResult.append("\u26BF");
                 }
             }
         }
@@ -62,6 +60,7 @@ public class PackageUtils {
         return s;
     }
     
+    @SuppressWarnings ("unused")
     public static String apkPro(PackageInfo packageInfo, Context context) {
         String[] aPermissionsUse;
         StringBuilder s = new StringBuilder(apkCert(packageInfo));
@@ -84,7 +83,7 @@ public class PackageUtils {
                     }
                     aPermissionsUse[i] += tmp + "\n-->" + pI.group;
                     
-                } catch (PackageManager.NameNotFoundException e) {
+                } catch (PackageManager.NameNotFoundException ignored) {
                 
                 }
                 if ((packageInfo.requestedPermissionsFlags[i] & PackageInfo.REQUESTED_PERMISSION_GRANTED) != 0) {
@@ -94,22 +93,18 @@ public class PackageUtils {
             }
             try {
                 Arrays.sort(aPermissionsUse);
-            } catch (NullPointerException e) {
+            } catch (NullPointerException ignored) {
             }
             s.append("\n");
-            for (int i = 0; i < aPermissionsUse.length; i++) {
-                s.append("\n\n").append(aPermissionsUse[i]);
+            for (String value : aPermissionsUse) {
+                s.append("\n\n").append(value);
             }
         }
         if (packageInfo.permissions != null) {
             s.append("\n\n#######################\n### Declared Permissions ###");
             try {
-                Collections.sort(Arrays.asList(packageInfo.permissions), new Comparator <PermissionInfo>() {
-                    public int compare(PermissionInfo o1, PermissionInfo o2) {
-                        return o1.name.compareToIgnoreCase(o2.name);
-                    }
-                });
-            } catch (NullPointerException e) {
+                Arrays.sort(packageInfo.permissions, (o1, o2) -> o1.name.compareToIgnoreCase(o2.name));
+            } catch (NullPointerException ignored) {
             
             }
             for (int i = 0; i < packageInfo.permissions.length; i++) {

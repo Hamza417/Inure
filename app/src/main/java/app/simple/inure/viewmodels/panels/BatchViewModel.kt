@@ -66,7 +66,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(
-                        getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                        application.applicationContext, apps[i].applicationInfo)
             }
 
             apps.getSortedList(BatchPreferences.getSortStyle(), BatchPreferences.isReverseSorting())
@@ -144,7 +144,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
 
         for (i in list.indices) {
             list[i].packageInfo.applicationInfo.name = PackageUtils.getApplicationName(
-                    getApplication<Application>().applicationContext, list[i].packageInfo.applicationInfo)
+                    application.applicationContext, list[i].packageInfo.applicationInfo)
         }
 
         if (BatchPreferences.isSelectionOnTop()) {

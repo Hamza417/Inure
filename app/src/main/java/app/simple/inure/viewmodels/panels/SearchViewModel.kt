@@ -77,7 +77,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         }
 
         for (i in apps.indices) {
-            apps[i].applicationInfo.name = getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+            apps[i].applicationInfo.name = getApplicationName(application.applicationContext, apps[i].applicationInfo)
         }
 
         var filtered: ArrayList<PackageInfo> =

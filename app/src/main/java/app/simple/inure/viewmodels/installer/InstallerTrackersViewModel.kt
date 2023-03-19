@@ -64,7 +64,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
             subStats()
         }.getOrElse {
             postError(it)
-            message.postValue(Pair(getApplication<Application>().getString(R.string.error), it.stackTraceToString()))
+            message.postValue(Pair(getString(R.string.error), it.stackTraceToString()))
         }
     }
 

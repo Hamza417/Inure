@@ -32,7 +32,7 @@ class SensorsViewModel(application: Application) : WrappedViewModel(application)
     private fun loadSensorData() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                with(getApplication<Application>().getSystemService(Context.SENSOR_SERVICE) as SensorManager) {
+                with(application.getSystemService(Context.SENSOR_SERVICE) as SensorManager) {
                     val list: MutableList<Sensor> = getSensorList(Sensor.TYPE_ALL).toMutableList()
 
                     list.getSortedList(SensorsPreferences.getSortStyle())

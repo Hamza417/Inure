@@ -30,6 +30,7 @@ import app.simple.inure.util.ViewUtils.fadeOutAnimation
 import app.simple.inure.util.ViewUtils.slideInAnimation
 import app.simple.inure.util.ViewUtils.slideOutAnimation
 
+@Suppress("unused")
 open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val typedArray: TypedArray
@@ -155,14 +156,12 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
                 0, 3 -> animateDrawableColorChange(lastDrawableColor, AppearancePreferences.getAccentColor())
                 1 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.regularIconColor)
                 2 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.secondaryIconColor)
-                3 -> animateDrawableColorChange(lastDrawableColor, Color.parseColor("#34495e"))
             }
         } else {
             when (drawableTintMode) {
                 0, 3 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(AppearancePreferences.getAccentColor()))
                 1 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.regularIconColor))
                 2 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.secondaryIconColor))
-                3 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(Color.parseColor("#34495e")))
             }
         }
 

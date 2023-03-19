@@ -62,7 +62,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
             val list = arrayListOf<Pair<Int, Int>>()
 
             if (ConfigurationPreferences.isUsingRoot()) {
-                if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {
+                if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_launch, R.string.launch))
                 }
 
@@ -98,7 +98,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 list.add(Pair(R.drawable.ic_broom, R.string.clear_cache))
                 list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
             } else if (ConfigurationPreferences.isUsingShizuku()) {
-                if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {
+                if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_launch, R.string.launch))
                 }
 
@@ -135,7 +135,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
             } else {
                 if (packageInfo.isUserApp()) {
-                    if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName) && isNotThisApp()) {
+                    if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
                         list.add(Pair(R.drawable.ic_launch, R.string.launch))
                     }
 
@@ -145,7 +145,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                         list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
                     }
                 } else {
-                    if (PackageUtils.checkIfAppIsLaunchable(getApplication(), packageInfo.packageName)) {
+                    if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName)) {
                         list.add(Pair(R.drawable.ic_launch, R.string.launch))
                     }
 
@@ -214,6 +214,6 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
     }
 
     private fun isNotThisApp(): Boolean {
-        return packageInfo.packageName != getApplication<Application>().packageName
+        return packageInfo.packageName != application.packageName
     }
 }

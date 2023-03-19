@@ -35,12 +35,6 @@ object SortBatteryOptimization {
 
     /**
      * Sort the given [ArrayList] in various ways
-     *
-     * @param type use [Sort.NAME] constants
-     *             to specify sorting methods for the list
-     *
-     * @throws IllegalArgumentException if the [type] parameter
-     *                                  is specified correctly
      */
     fun ArrayList<BatteryOptimizationModel>.getSortedList() {
         when (BatteryOptimizationPreferences.getBatteryOptimizationSortStyle()) {
@@ -64,14 +58,8 @@ object SortBatteryOptimization {
 
     /**
      * Sort the given [ArrayList] in various ways
-     *
-     * @param type use [Sort.NAME] constants
-     *             to specify sorting methods for the list
-     *
-     * @throws IllegalArgumentException if the [type] parameter
-     *                                  is specified correctly
      */
-    fun MutableList<BatteryOptimizationModel>.getSortedList(type: String, reverse: Boolean) {
+    fun MutableList<BatteryOptimizationModel>.getSortedList() {
         when (BatteryOptimizationPreferences.getBatteryOptimizationSortStyle()) {
             NAME -> {
                 (this as ArrayList).sortByName(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())

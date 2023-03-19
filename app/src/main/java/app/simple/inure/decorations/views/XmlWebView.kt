@@ -35,6 +35,7 @@ class XmlWebView(context: Context, attributeSet: AttributeSet) : WebView(context
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
             if (context.resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
+                @Suppress("DEPRECATION")
                 WebSettingsCompat.setForceDark(this.settings, WebSettingsCompat.FORCE_DARK_ON)
             }
         } else {

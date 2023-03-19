@@ -73,7 +73,7 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
 
         for (app in list) {
             app.packageInfo.applicationInfo.name =
-                PackageUtils.getApplicationName(getApplication<Application>().applicationContext, app.packageInfo.applicationInfo)
+                PackageUtils.getApplicationName(application.applicationContext, app.packageInfo.applicationInfo)
         }
 
         return list

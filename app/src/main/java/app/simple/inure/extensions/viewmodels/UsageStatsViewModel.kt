@@ -20,7 +20,6 @@ import app.simple.inure.util.PermissionUtils
 import app.simple.inure.util.UsageInterval
 import dev.rikka.tools.refine.Refine
 import java.util.*
-import kotlin.collections.ArrayList
 
 open class UsageStatsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
@@ -28,10 +27,10 @@ open class UsageStatsViewModel(application: Application) : PackageUtilsViewModel
     @IntDef(value = [NetworkCapabilities.TRANSPORT_CELLULAR, NetworkCapabilities.TRANSPORT_WIFI])
     annotation class Transport
 
-    protected var usageStatsManager: UsageStatsManager = getApplication<Application>()
+    protected var usageStatsManager: UsageStatsManager = application
         .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
 
-    private var networkStatsManager = getApplication<Application>()
+    private var networkStatsManager = application
         .getSystemService(Context.NETWORK_STATS_SERVICE) as NetworkStatsManager
 
     protected fun getMobileData(@UsageInterval.IntervalType intervalType: Int): SparseArrayCompat<DataUsage> {

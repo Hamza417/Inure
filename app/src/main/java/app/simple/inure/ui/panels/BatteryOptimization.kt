@@ -92,7 +92,7 @@ class BatteryOptimization : ScopedFragment() {
                             batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
                         }
                     } else {
-                        childFragmentManager.showBatteryOptimizationSwitch(batteryOptimizationModel).setBatteryOptimizationCallbacks { batteryOptimizationModel ->
+                        childFragmentManager.showBatteryOptimizationSwitch(batteryOptimizationModel).setBatteryOptimizationCallbacks { batteryOptimizationModel_ ->
                             batteryOptimizationViewModel.getBatteryOptimizationUpdate().observe(viewLifecycleOwner) {
                                 if (it.isNotNull()) {
                                     adapterBatteryOptimization.updateItem(it.first, it.second)
@@ -100,7 +100,7 @@ class BatteryOptimization : ScopedFragment() {
                                 }
                             }
 
-                            batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel, position)
+                            batteryOptimizationViewModel.setBatteryOptimization(batteryOptimizationModel_, position)
                         }
                     }
                 }

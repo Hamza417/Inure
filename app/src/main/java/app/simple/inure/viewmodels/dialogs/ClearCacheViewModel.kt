@@ -29,7 +29,7 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
             if (applicationContext().applicationInfo.isSystemApp()) {
-                applicationContext().clearCache(packageInfo.packageName)
+                applicationContext().clearCache()
             } else {
                 initializeCoreFramework()
             }
@@ -141,7 +141,7 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
     /**
      * Clear cache of installed app using Android APIs
      */
-    private fun Context.clearCache(packageName: String) {
+    private fun Context.clearCache() {
         val pm = packageManager
         val method = pm.javaClass.getMethod("freeStorageAndNotify", Long::class.javaPrimitiveType, IPackageDataObserver::class.java)
         method.invoke(pm, Long.MAX_VALUE, object : IPackageDataObserver.Stub() {

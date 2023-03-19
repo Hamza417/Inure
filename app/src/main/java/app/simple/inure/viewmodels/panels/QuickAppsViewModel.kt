@@ -50,7 +50,7 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils
-                    .getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                    .getApplicationName(application.applicationContext, apps[i].applicationInfo)
             }
 
             this@QuickAppsViewModel.quickApps.postValue(apps)

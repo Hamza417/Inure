@@ -114,7 +114,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name = PackageUtils.getApplicationName(
-                        getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                        application.applicationContext, apps[i].applicationInfo)
             }
 
             apps.sortByDescending {
@@ -133,7 +133,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
-                    PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                    PackageUtils.getApplicationName(application.applicationContext, apps[i].applicationInfo)
             }
 
             apps.sortByDescending {
@@ -147,8 +147,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     private fun loadMostUsed() {
         viewModelScope.launch(Dispatchers.IO) {
             val stats = with(UsageInterval.getTimeInterval()) {
-                (getApplication<Application>()
-                    .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager)
+                (application.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager)
                     .queryAndAggregateUsageStats(startTime, endTime)
             }
 
@@ -165,7 +164,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                     packageStats.packageInfo = app
 
                     packageStats.packageInfo!!.applicationInfo.apply {
-                        name = getApplication<Application>().packageManager.getApplicationLabel(this).toString()
+                        name = application.packageManager.getApplicationLabel(this).toString()
                     }
 
                     packageStats.totalTimeUsed += stats[app.packageName]?.totalTimeInForeground ?: 0
@@ -194,7 +193,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
-                    PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                    PackageUtils.getApplicationName(application.applicationContext, apps[i].applicationInfo)
             }
 
             apps.sortBy {
@@ -213,7 +212,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
-                    PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                    PackageUtils.getApplicationName(application.applicationContext, apps[i].applicationInfo)
             }
 
             apps.sortBy {
@@ -232,7 +231,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             for (i in apps.indices) {
                 apps[i].applicationInfo.name =
-                    PackageUtils.getApplicationName(getApplication<Application>().applicationContext, apps[i].applicationInfo)
+                    PackageUtils.getApplicationName(application.applicationContext, apps[i].applicationInfo)
             }
 
             apps.sortBy {

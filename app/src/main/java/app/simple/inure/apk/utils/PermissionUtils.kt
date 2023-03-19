@@ -3,8 +3,6 @@ package app.simple.inure.apk.utils
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.PermissionInfo
-import android.os.Build
-import androidx.annotation.Nullable
 import app.simple.inure.R
 
 object PermissionUtils {
@@ -19,7 +17,6 @@ object PermissionUtils {
     private const val PROTECTION_FLAG_APP_PREDICTOR = 0x200000
     private const val PROTECTION_FLAG_RETAIL_DEMO = 0x1000000
 
-    @Nullable
     fun String.getPermissionInfo(context: Context): PermissionInfo? {
         try {
             return context.packageManager.getPermissionInfo(this, PackageManager.GET_META_DATA)
@@ -27,15 +24,6 @@ object PermissionUtils {
             e.printStackTrace()
         }
         return null
-    }
-
-    fun PermissionInfo.isDangerous(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            protection and PermissionInfo.PROTECTION_MASK_BASE == PermissionInfo.PROTECTION_DANGEROUS
-        } else {
-            @Suppress("DEPRECATION")
-            protectionLevel and PermissionInfo.PROTECTION_MASK_BASE == PermissionInfo.PROTECTION_DANGEROUS
-        }
     }
 
     @Suppress("deprecation")

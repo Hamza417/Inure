@@ -18,7 +18,9 @@ import androidx.annotation.IntegerRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.transition.ArcMotion
 import androidx.transition.Fade
 import app.simple.inure.R
@@ -47,6 +49,7 @@ import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import com.google.android.material.transition.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * [ScopedFragment] is lifecycle aware [CoroutineScope] fragment
@@ -334,10 +337,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     open fun showWarning(warning: String, goBack: Boolean = true) {
         if (isStateSaved) {
-            lifecycleScope.launchWhenResumed {
-                parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
-                    if (goBack) {
-                        requireActivity().onBackPressedDispatcher.onBackPressed()
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+                        if (goBack) {
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        }
                     }
                 }
             }
@@ -352,10 +357,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     open fun showWarning(@StringRes warning: Int, goBack: Boolean = true) {
         if (isStateSaved) {
-            lifecycleScope.launchWhenResumed {
-                parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
-                    if (goBack) {
-                        requireActivity().onBackPressedDispatcher.onBackPressed()
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+                        if (goBack) {
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        }
                     }
                 }
             }
@@ -370,10 +377,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     open fun showError(error: String, goBack: Boolean = true) {
         if (isStateSaved) {
-            lifecycleScope.launchWhenResumed {
-                childFragmentManager.showError(error).setOnErrorCallbackListener {
-                    if (goBack) {
-                        requireActivity().onBackPressedDispatcher.onBackPressed()
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    childFragmentManager.showError(error).setOnErrorCallbackListener {
+                        if (goBack) {
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        }
                     }
                 }
             }
@@ -388,10 +397,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     open fun showError(error: Throwable, goBack: Boolean = true) {
         if (isStateSaved) {
-            lifecycleScope.launchWhenResumed {
-                childFragmentManager.showError(error.stackTraceToString()).setOnErrorCallbackListener {
-                    if (goBack) {
-                        requireActivity().onBackPressedDispatcher.onBackPressed()
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    childFragmentManager.showError(error.stackTraceToString()).setOnErrorCallbackListener {
+                        if (goBack) {
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        }
                     }
                 }
             }

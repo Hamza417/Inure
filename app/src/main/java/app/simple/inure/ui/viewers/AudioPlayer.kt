@@ -15,7 +15,9 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
@@ -45,6 +47,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import kotlinx.coroutines.launch
 
 class AudioPlayer : ScopedFragment() {
 
@@ -363,8 +366,10 @@ class AudioPlayer : ScopedFragment() {
         if (fromActivity) {
             requireActivity().finish()
         } else {
-            lifecycleScope.launchWhenResumed {
-                popBackStack()
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    popBackStack()
+                }
             }
         }
     }

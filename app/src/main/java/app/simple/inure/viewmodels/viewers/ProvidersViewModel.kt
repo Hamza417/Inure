@@ -40,7 +40,7 @@ class ProvidersViewModel(application: Application, val packageInfo: PackageInfo)
 
                     with(StringBuilder()) {
                         append(" | ")
-                        append(MetaUtils.getServiceFlags(pi.flags, getApplication()))
+                        append(MetaUtils.getServiceFlags(pi.flags, application))
 
                         providerInfoModel.status = this.toString()
                     }

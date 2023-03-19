@@ -18,7 +18,6 @@ import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
 import app.simple.inure.themes.manager.ThemeManager
-import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils.gone
@@ -256,8 +255,8 @@ class UsageStatisticsGraph : ScopedFragment() {
 
     inner class XAxisFormatter : ValueFormatter() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-            val todayNumber = CalendarUtils.getWeekNumberFromDate(System.currentTimeMillis())
-            val dayValue = (value + todayNumber).toInt() % 7 // Offset the day value by today's day
+            // val todayNumber = CalendarUtils.getWeekNumberFromDate(System.currentTimeMillis())
+            // val dayValue = (value + todayNumber).toInt() % 7 // Offset the day value by today's day
             return barEntries.getOrNull(barEntries.size.minus(1) - value.toInt())?.data?.toString() ?: getString(R.string.not_available)
         }
     }

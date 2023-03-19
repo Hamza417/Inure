@@ -21,7 +21,9 @@ import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import app.simple.inure.R
 import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
@@ -43,6 +45,7 @@ import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.ThemeUtils.setTheme
 import com.google.android.material.transition.platform.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @SuppressLint("Registered")
@@ -128,6 +131,17 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         val defValue = getDir("HOME", MODE_PRIVATE).absolutePath
         val homePath = getHomePath(defValue)
         ShellPreferences.setHomePath(homePath!!)
+
+        /**
+         * Create a global database instance maybe?
+         */
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                withContext(Dispatchers.IO) {
+                    StackTraceDatabase.init(applicationContext)
+                }
+            }
+        }
     }
 
     @Suppress("unused")
@@ -348,18 +362,6 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             }
             BehaviourPreferences.transitionType -> {
                 // setTransitions()
-            }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        /**
-         * Create a global database instance maybe?
-         */
-        lifecycleScope.launchWhenCreated {
-            withContext(Dispatchers.IO) {
-                StackTraceDatabase.init(applicationContext)
             }
         }
     }

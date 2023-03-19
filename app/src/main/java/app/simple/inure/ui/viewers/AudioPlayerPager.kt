@@ -437,11 +437,13 @@ class AudioPlayerPager : ScopedFragment() {
 
     private fun finish() {
         isFinished = true
-        lifecycleScope.launchWhenResumed {
-            if (requireActivity().supportFragmentManager.backStackEntryCount > 0) {
-                popBackStack()
-            } else {
-                requireActivity().finish()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                if (requireActivity().supportFragmentManager.backStackEntryCount > 0) {
+                    popBackStack()
+                } else {
+                    requireActivity().finish()
+                }
             }
         }
     }

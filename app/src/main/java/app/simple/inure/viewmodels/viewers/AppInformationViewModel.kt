@@ -244,9 +244,9 @@ class AppInformationViewModel(application: Application, private val packageInfo:
         @Suppress("deprecation")
         val name = kotlin.runCatching {
             val p0 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                getApplication<Application>().packageManager.getInstallSourceInfo(packageInfo.packageName).installingPackageName
+                application.packageManager.getInstallSourceInfo(packageInfo.packageName).installingPackageName
             } else {
-                getApplication<Application>().packageManager.getInstallerPackageName(packageInfo.packageName)
+                application.packageManager.getInstallerPackageName(packageInfo.packageName)
             }
 
             PackageUtils.getApplicationName(context, p0!!)

@@ -31,7 +31,7 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
             kotlin.runCatching {
                 val list = arrayListOf<ServiceInfoModel>()
 
-                for (info in getApplication<Application>().packageManager.getPackageInfo(packageInfo.packageName)!!.services) {
+                for (info in application.packageManager.getPackageInfo(packageInfo.packageName)!!.services) {
                     val serviceInfoModel = ServiceInfoModel()
 
                     serviceInfoModel.serviceInfo = info
@@ -39,13 +39,13 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                     serviceInfoModel.isExported = info.exported
                     serviceInfoModel.flags = info.flags
                     serviceInfoModel.foregroundType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) info.foregroundServiceType else -3
-                    serviceInfoModel.permissions = info.permission ?: getApplication<Application>().getString(R.string.no_permissions_required)
+                    serviceInfoModel.permissions = info.permission ?: application.getString(R.string.no_permissions_required)
 
                     with(StringBuilder()) {
                         append(" | ")
-                        append(MetaUtils.getForegroundServiceType(serviceInfoModel.foregroundType, getApplication()))
+                        append(MetaUtils.getForegroundServiceType(serviceInfoModel.foregroundType, application))
                         append(" | ")
-                        append(MetaUtils.getServiceFlags(info.flags, getApplication()))
+                        append(MetaUtils.getServiceFlags(info.flags, application))
 
                         serviceInfoModel.status = this.toString()
                     }
