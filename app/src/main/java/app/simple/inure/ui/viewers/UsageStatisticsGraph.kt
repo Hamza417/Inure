@@ -279,6 +279,18 @@ class UsageStatisticsGraph : ScopedFragment() {
                 ColorTemplate.rgb("#8FA2A6"), // Light Slate Grey
                 ColorTemplate.rgb("#874741"), // Sienna
                 ColorTemplate.rgb("#D0C9C0"), // Pastel Gray (Light Gray)
+                /**
+                 * Safe zone colors, usually not used due to the nature of the data
+                 * being restricted to the last 7 days only. However, in some cases
+                 * the data may be more than 7 days, so these colors are used to
+                 * differentiate the data without crashing the app.
+                 */
+                ColorTemplate.rgb("#D5B4B4"),
+                ColorTemplate.rgb("#94AF9F"),
+                ColorTemplate.rgb("#DFD3C3"),
+                ColorTemplate.rgb("#65647C"),
+                ColorTemplate.rgb("#AEBDCA"),
+                ColorTemplate.rgb("#F2D7D9"),
         )
     }
 }
