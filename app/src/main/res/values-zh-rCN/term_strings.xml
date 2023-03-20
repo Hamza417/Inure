@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<resources>
+    <string name="new_window">新窗口</string>
+    <string name="close_window">关闭窗口</string>
+    <string name="window_list">窗口列表</string>
+    <string name="prev_window">向前一个窗口</string>
+    <string name="next_window">向后一个窗口</string>
+    <string name="special_keys">特殊键</string>
+    <string name="toggle_soft_keyboard">切换软键盘</string>
+    <string name="reset_toast_notification">此窗口的终端状态已重置.</string>
+    <string name="enable_wakelock">开启唤醒锁</string>
+    <string name="disable_wakelock">释放唤醒锁</string>
+    <string name="enable_wifilock">开启WIFI锁定</string>
+    <string name="disable_wifilock">释放WIFI锁定</string>
+    <string name="select_text">文本选择</string>
+    <string name="copy_all">全部复制</string>
+    <string name="paste">粘贴</string>
+    <string name="send_control_key">发送控制键</string>
+    <string name="send_fn_key">发送 fn 键</string>
+    <string name="window_title">窗口 %1$d</string>
+    <string name="service_notify_text">终端会话运行中....</string>
+    <string name="process_exit_message">终端会话结束</string>
+    <!-- Preference dialog -->
+    <string name="screen_preferences">屏幕</string>
+    <string name="title_cursorblink_preference">光标闪烁</string>
+    <string name="summary_cursorblink_preference">在终端窗口中定期闪烁光标.</string>
+    <string name="text_preferences">文本</string>
+    <string name="title_utf8_by_default_preference">默认为\"UTF-8\"</string>
+    <string name="summary_utf8_by_default_preference">是否默认开启\"UTF-8\"模式.</string>
+    <string name="title_fontsize_preference">字体大小</string>
+    <string name="summary_fontsize_preference">选择以磅为单位的字符高度。</string>
+    <string name="dialog_title_fontsize_preference">对话框字体大小</string>
+    <string name="title_color_preference">颜色</string>
+    <string name="summary_color_preference">选择字符颜色.</string>
+    <string name="dialog_title_color_preference">对话框字体颜色</string>
+    <string name="keyboard_preferences">键盘</string>
+    <string name="title_backaction_preference">后退按钮行为</string>
+    <string name="summary_backaction_preference">选择按下\"后退\"按钮的功能.</string>
+    <string name="title_controlkey_preference">控制键</string>
+    <string name="summary_controlkey_preference">选择控制键.</string>
+    <string name="title_fnkey_preference">Fn 键</string>
+    <string name="summary_fnkey_preference">选择 Fn 键.</string>
+    <string name="title_ime_preference">输入法</string>
+    <string name="summary_ime_preference">选择软键盘输入法.</string>
+    <string name="title_shell_preference">命令行</string>
+    <string name="summary_shell_preference">指定shell使用的命令行.</string>
+    <string name="title_initialcommand_preference">初始命令</string>
+    <string name="summary_initialcommand_preference">启动时发送到 shell.</string>
+    <string name="title_termtype_preference">终端类型</string>
+    <string name="summary_termtype_preference">向shell报告使用何种终端类型.</string>
+    <string name="title_close_window_on_process_exit_preference">退出时关闭窗口</string>
+    <string name="summary_close_window_on_process_exit_preference">当它的shell退出时窗口是否应该关闭.</string>
+    <string name="title_verify_path_preference">验证PATH条目</string>
+    <string name="summary_verify_path_preference">是否应从PATH中删除不可访问的目录.</string>
+    <string name="title_do_path_extensions_preference">允许PATH扩展</string>
+    <string name="summary_do_path_extensions_preference">是否应该允许其他应用程序提供额外的命令(添加到PATH).</string>
+    <string name="title_allow_prepend_path_preference">允许PATH前缀</string>
+    <string name="summary_allow_prepend_path_preference">是否允许其他应用程序覆盖现有命令(添加到PATH的开头).</string>
+    <string name="title_home_path_preference">HOME文件夹</string>
+    <string name="summary_home_path_preference">用作 HOME 的可写入文件夹的路径.</string>
+    <string name="control_key_dialog_title">控制键和功能键</string>
+    <string name="control_key_dialog_control_disabled_text">未设定控制键集合.</string>
+    <string name="control_key_dialog_fn_disabled_text">未设定功能键集合.</string>
+    <string name="confirm_window_close_message">关闭此窗口？</string>
+    <string name="perm_run_script">在终端模拟器中运行任意命令</string>
+    <string name="permdesc_run_script">允许应用程序在 Android 终端模拟器中打开新窗口，并在这些窗口中使用终端模拟器的所有权限运行命令，包括访问网络内容和您的存储空间.</string>
+    <string name="perm_append_to_path">向终端模拟器器添加命令</string>
+    <string name="permdesc_append_to_path">允许应用程序为终端模拟器提供额外的命令（将目录添加到PATH）.</string>
+    <string name="perm_prepend_to_path">覆盖终端模拟器中的命令</string>
+    <string name="permdesc_prepend_to_path">允许应用程序在终端模拟器中使用自己的版本（将目录添加到PATH）覆盖现有命令.</string>
+    <string name="email_transcript_chooser_title">邮件脚本使用:</string>
+    <string name="email_transcript_no_email_activity_found">无法选择电子邮件Activity发送邮件脚本.</string>
+    <string name="alt_sends_esc">Alt键发送ESC</string>
+    <string name="title_mouse_tracking_preference">发送鼠标事件</string>
+    <string name="summary_mouse_tracking_preference">点击和滚动事件是否应该作为转义序列发送到终端.</string>
+    <string name="title_use_keyboard_shortcuts">使用键盘快捷键</string>
+    <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: 循环浏览窗口\nCtrl-Shift-N: 新窗口\nCtrl-Shift-V: 粘贴.</string>
+    <string name="help">帮助</string>
+    <string name="activity_term_here_title">这是终端</string>
+    <!-- BEGIN SHORTCUT RELATED STRINGS -->
+    <!-- AndroidManifest.xml -->
+    <string name="activity_shortcut_create">终端快捷方式</string>
+    <!-- FSNavigator.java
+    <string name="fsnavigator_title">FILE SELECTOR</string>
+    <string name="fsnavigator_no_external_storage">External storage not available</string>
+    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
+    <string name="fsnavigator_change_theme">Change theme</string>
+    -->
+    <!-- AddShortcut.java -->
+    <string name="addshortcut_command_hint">命令</string>
+    <string name="addshortcut_button_find_command">查找命令</string>
+    <string name="addshortcut_navigator_title">选择快捷方式目标</string>
+    <string name="addshortcut_command_window_instructions">命令行窗口需要完整路径，不能仅仅为参数。对于其他命令，请使用参数窗口（例如：cd /sdcard）.</string>
+    <string name="addshortcut_arguments_label">参数</string>
+    <string name="addshortcut_shortcut_label">Shortcut标签</string>
+    <!-- ColorValue.java -->
+    <string name="colorvalue_label_lock_button_column">锁定</string>
+    <string name="colorvalue_icon_text_entry_hint">输入图标文本</string>
+    <!-- END SHORTCUT RELATED STRINGS -->
+</resources>
