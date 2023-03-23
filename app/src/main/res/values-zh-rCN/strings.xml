@@ -89,7 +89,7 @@
     <string name="certificate_md5">证书 MD5</string>
     <string name="certificate_sha1" tools:ignore="Typos">证书 SHA1</string>
     <string name="certificate_sha256">证书 SHA256</string>
-    <string name="issuer">Issuer</string>
+    <string name="issuer">发行者</string>
     <string name="sign_algorithm_oid">签名算法 OID</string>
     <string name="public_key">公钥</string>
     <string name="information">信息</string>
@@ -362,7 +362,7 @@
     <string name="init_order">Init Order</string>
     <string name="mandatory">Mandatory</string>
     <string name="optional">Optional</string>
-    <string name="extract">Extract</string>
+    <string name="extract">导出</string>
     <string name="launched">已启动</string>
     <string name="launching">启动中</string>
     <string name="date_format">日期格式</string>
@@ -481,7 +481,7 @@
     <string name="ignore_case">忽略大小写</string>
     <string name="formatting">格式化</string>
     <string name="sdk_value">SDK 值</string>
-    <string name="pie_hole_radius">Pie Hole Radius</string>
+    <string name="pie_hole_radius">饼状图半径</string>
     <string name="termux_title">使用 Termux</string>
     <string name="termux_desc">使用 Termux 而不是应用程序的本机终端模拟器。</string>
     <string name="desc_share">告诉其他人这个应用程序 \☺</string>
@@ -528,7 +528,7 @@
     <string name="no_services_found">未发现服务</string>
     <string name="no_resource_found">未发现资源</string>
     <string name="no_receivers_found">未发现接收器</string>
-    <string name="no_providers_found">No Providers Found</string>
+    <string name="no_providers_found">未发现内容提供者</string>
     <string name="no_features_found">未发现特性</string>
     <string name="no_graphics_found">未发现图像</string>
     <string name="no_extras_found">未发现附加组件</string>
@@ -569,7 +569,7 @@
     <string name="install">安装</string>
     <string name="update">更新</string>
     <string name="serial_number">序列号</string>
-    <string name="subject">Subject</string>
+    <string name="subject">主题</string>
     <string name="the_app_has_crashed">应用崩溃了!</string>
     <string name="fade">淡入淡出</string>
     <string name="elevation">Elevation</string>
