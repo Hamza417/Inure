@@ -24,7 +24,7 @@
     <string name="total_apps">%1$s 个应用</string>
     <string name="total_sensors">%1$s 个传感器</string>
     <string name="total_notes">%1$s 个笔记</string>
-    <string name="apps">Apps</string>
+    <string name="apps">应用程序</string>
     <string name="configuration_button">配置按钮</string>
     <string name="search_button">搜索按钮</string>
     <string name="sorting_style">排序方式</string>
@@ -89,7 +89,7 @@
     <string name="certificate_md5">证书 MD5</string>
     <string name="certificate_sha1" tools:ignore="Typos">证书 SHA1</string>
     <string name="certificate_sha256">证书 SHA256</string>
-    <string name="issuer">Issuer</string>
+    <string name="issuer">发行者</string>
     <string name="sign_algorithm_oid">签名算法 OID</string>
     <string name="public_key">公钥</string>
     <string name="information">信息</string>
@@ -98,7 +98,7 @@
     <string name="saved_successfully">保存成功</string>
     <string name="failed">失败！</string>
     <string name="app_info">应用信息</string>
-    <string name="uses_feature">Uses Features</string>
+    <string name="uses_feature">使用特性</string>
     <string name="gles_version">GLES 版本</string>
     <string name="error">错误</string>
     <string name="required">必需</string>
@@ -138,7 +138,7 @@
     <string name="send">发送</string>
     <string name="xml_viewer">XML 查看器</string>
     <string name="text_viewer">文本查看器</string>
-    <string name="extras">附加功能</string>
+    <string name="extras">附加组件</string>
     <string name="refresh">刷新</string>
     <string name="sensors">传感器</string>
     <string name="exported">已导出</string>
@@ -261,8 +261,8 @@
     <string name="full_user">全部用户</string>
     <string name="locked">已锁定</string>
     <string name="no_sensor">无可用传感器</string>
-    <string name="landscape">Landscape</string>
-    <string name="portrait">Portrait</string>
+    <string name="landscape">横屏</string>
+    <string name="portrait">竖屏</string>
     <string name="reverse_portrait">反向竖屏</string>
     <string name="reverse_landscape">反向横屏</string>
     <string name="sensor_landscape">传感器横向</string>
@@ -288,7 +288,7 @@
     <string name="no_flags">无Flag</string>
     <string name="icons">图标选项</string>
     <string name="icon_shadows">图标阴影效果</string>
-    <string name="icon_shadow_desc">Enable or disable the shadow/elevation effects from app icons throughout the app.\n\nDisabling this option will make the icons appear flat.</string>
+    <string name="icon_shadow_desc">在整个应用程序中启用或禁用应用程序图标的阴影/抬高效果。\n\n禁用此选项将使图标显得扁平。</string>
     <string name="highlight_extensions">高亮扩展名</string>
     <string name="launch_mode">运行模式</string>
     <string name="orientation">屏幕方向</string>
@@ -362,12 +362,12 @@
     <string name="init_order">Init Order</string>
     <string name="mandatory">Mandatory</string>
     <string name="optional">Optional</string>
-    <string name="extract">Extract</string>
+    <string name="extract">导出</string>
     <string name="launched">已启动</string>
     <string name="launching">启动中</string>
     <string name="date_format">日期格式</string>
     <string name="desc_date_format">整个应用程序中显示日期的格式.</string>
-    <string name="cheatsheet">Cheatsheet</string>
+    <string name="cheatsheet">格式速查表</string>
     <string name="format">格式</string>
     <string name="reset">重置</string>
     <string name="restart">Restart</string>
@@ -414,7 +414,7 @@
     <string name="copy_package_name">复制包名</string>
     <string name="join_telegram">Telegram 群组</string>
     <string name="desc_telegram">立刻加入Telegram群组, 与其他用户和开发者进行讨论.</string>
-    <string name="batch">Batch</string>
+    <string name="batch">批处理</string>
     <string name="verifying_license">验证许可证中</string>
     <string name="day_night">日间/夜间</string>
     <string name="slate">Slate</string>
@@ -437,7 +437,7 @@
     <string name="display">Display</string>
     <string name="large">Large</string>
     <string name="small">Small</string>
-    <string name="form_factor">Form Factor</string>
+    <string name="form_factor">机型尺寸</string>
     <string name="refresh_rate">刷新率</string>
     <string name="extra_large">特大</string>
     <string name="level">等级</string>
@@ -481,7 +481,7 @@
     <string name="ignore_case">忽略大小写</string>
     <string name="formatting">格式化</string>
     <string name="sdk_value">SDK 值</string>
-    <string name="pie_hole_radius">Pie Hole Radius</string>
+    <string name="pie_hole_radius">饼状图半径</string>
     <string name="termux_title">使用 Termux</string>
     <string name="termux_desc">使用 Termux 而不是应用程序的本机终端模拟器。</string>
     <string name="desc_share">告诉其他人这个应用程序 \☺</string>
@@ -493,7 +493,7 @@
     <string name="gestures">手势</string>
     <string name="not_selected">未选中</string>
     <string name="selected_on">已选择 %1$s</string>
-    <string name="move_selection_on_top">Move Selection on Top</string>
+    <string name="move_selection_on_top">将选择移动到屏幕顶部</string>
     <string name="notes">便签</string>
     <string name="highlight_selected">高亮选中</string>
     <string name="expanded_notes">展开便签</string>
@@ -528,7 +528,7 @@
     <string name="no_services_found">未发现服务</string>
     <string name="no_resource_found">未发现资源</string>
     <string name="no_receivers_found">未发现接收器</string>
-    <string name="no_providers_found">No Providers Found</string>
+    <string name="no_providers_found">未发现内容提供者</string>
     <string name="no_features_found">未发现特性</string>
     <string name="no_graphics_found">未发现图像</string>
     <string name="no_extras_found">未发现附加组件</string>
@@ -569,11 +569,11 @@
     <string name="install">安装</string>
     <string name="update">更新</string>
     <string name="serial_number">序列号</string>
-    <string name="subject">Subject</string>
+    <string name="subject">主题</string>
     <string name="the_app_has_crashed">应用崩溃了!</string>
     <string name="fade">淡入淡出</string>
     <string name="elevation">Elevation</string>
-    <string name="shared_axis">Shared Axis %1$s</string>
+    <string name="shared_axis">共享轴 %1$s</string>
     <string name="through">Through</string>
     <string name="transition_type">过渡类型</string>
     <string name="transition_type_desc">切换面板时中播放的过渡类型。</string>
@@ -661,7 +661,7 @@
     <string name="desc_trial">Inure App Manager提供15天免费访问该应用程序的完整权限.到期后,这些功能将需要激活解锁器.</string>
     <string name="use_shizuku">使用 Shizuku</string>
     <string name="shizuku_desc">使用 Shizuku API 而不是使用本机 Android API 和库来执行某些功能.\n\n建议非 root 用户使用此选项.\n\n需要 Shizuku 访问权限.</string>
-    <string name="shizuku_alert">If root access is granted and root mode is toggled in the app, then root mode will be preferred over Shizuku.</string>
+    <string name="shizuku_alert">如果授予root权限, 并在应用程序中切换至root 模式, 那么Root模式将优先于Shizuku</string>
     <string name="disclaimer">免责声明</string>
     <string name="agree">同意</string>
     <string name="package_manager">Package Manager</string>
