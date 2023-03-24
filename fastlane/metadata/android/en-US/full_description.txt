@@ -5,19 +5,17 @@ Inure is a powerful open source applications manager and analyzer with a good-lo
 - Organized list of all apps
 - Usage stats of all apps
 - Create notes for specific apps
-- Terminal Emulator
+- Terminal Emulator with commands manager
 - Sensors information
 - Scan for trackers in any app
 - Inbuilt device information panel
 - App information panel
-- Ability to send, disable, force close any user or system app
+- Uninstall, disable, force close user/system app (with and without root)
 - Dedicated app's component viewer and editor
 - Clear data and cache of any app
 - Grant or Deny permissions for any app
-- Uninstall system apps and disable user apps
-- Hide any app from the app drawer
-- Split APK installer
-- APK installer
+- Root and Shizuku API support
+- Manage per-app battery optimization and boot processes
 
 
 <b>Extra Capabilities</b>
@@ -54,4 +52,4 @@ The full version of Inure is available to try for 15 days, all the features of t
 
 <b>Note</b>
 
-Inure is currently in stable stage, but there maybe some unknown bugs. I am actively developing this app and would love to hear feedback, ideas and general discussions about the app. You can submit your feedback on <a href="https://github.com/Hamza417/Inure/discussions/48">GitHub Discussion</a> or join <a href="https://t.me/inure_app_manager">Telegram Group</a> for the app (Recommended).
+Inure has reached stable stage, but there maybe some unknown bugs. I am actively developing this app and would love to hear feedback, ideas and general discussions about the app. You can submit your feedback on <a href="https://github.com/Hamza417/Inure/discussions/48">GitHub Discussion</a> or join <a href="https://t.me/inure_app_manager">Telegram Group</a> for the app (Recommended).
