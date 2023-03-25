@@ -74,13 +74,10 @@ class StateViewModel(application: Application, private val packageInfo: PackageI
             kotlin.runCatching {
                 ShizukuUtils.setAppDisabled(packageInfo.applicationInfo.enabled, setOf(packageInfo.packageName))
             }.onFailure {
-                result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
             }.onSuccess {
-                result.postValue("\n" + it)
                 success.postValue("Done")
             }.getOrElse {
-                result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
             }
         }
