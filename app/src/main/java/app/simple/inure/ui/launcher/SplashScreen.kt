@@ -281,10 +281,20 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun unlockStateChecker() {
-        launcherViewModel.getHasValidCertificate().observe(viewLifecycleOwner) {
+        launcherViewModel.getHasValidCertificate().observe(viewLifecycleOwner) { it ->
             if (it) {
                 Log.d(TAG, "Valid certificate found")
-                /* no-op */
+
+                if (TrialPreferences.isFullVersion().invert()) {
+                    kotlin.runCatching {
+                        if (TrialPreferences.setFullVersion(value = true)) {
+                            showWarning(R.string.full_version_activated, goBack = false)
+                            TrialPreferences.resetUnlockerWarningCount()
+                        }
+                    }.getOrElse {
+                        it.printStackTrace()
+                    }
+                }
             } else {
                 showWarning(Warnings.getInureWarning04(), goBack = false)
                 TrialPreferences.setFullVersion(false)
