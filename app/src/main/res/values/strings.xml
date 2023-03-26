@@ -665,4 +665,7 @@
     <string name="agree">Agree</string>
     <string name="package_manager">Package Manager</string>
     <string name="vertical">Vertical</string>
+    <string name="home">Home</string>
+    <string name="menu_layout_desc">Change the layout of the items in Home panel.</string>
+    <string name="visibility_customization">Visibility Customization</string>
 </resources>

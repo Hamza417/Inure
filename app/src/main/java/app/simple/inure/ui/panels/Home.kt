@@ -26,8 +26,6 @@ import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.ChangesReminder
 import app.simple.inure.dialogs.menus.AppsMenu
-import app.simple.inure.dialogs.menus.HomeMenu
-import app.simple.inure.dialogs.menus.HomeMenu.Companion.showHomeMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
@@ -240,11 +238,13 @@ class Home : ScopedFragment() {
         }
 
         settings.setOnClickListener {
-            childFragmentManager.showHomeMenu().setOnHomeMenuCallbacks(object : HomeMenu.Companion.HomeMenuCallbacks {
-                override fun onOpenSettings() {
-                    openFragmentLinear(Preferences.newInstance(), it, "preferences_screen")
-                }
-            })
+            openFragmentLinear(Preferences.newInstance(), it, "preferences_screen")
+
+            //            childFragmentManager.showHomeMenu().setOnHomeMenuCallbacks(object : HomeMenu.Companion.HomeMenuCallbacks {
+            //                override fun onOpenSettings() {
+            //                    openFragmentLinear(Preferences.newInstance(), it, "preferences_screen")
+            //                }
+            //            })
         }
 
         options.setOnClickListener {
