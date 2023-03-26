@@ -665,4 +665,9 @@
     <string name="disclaimer">免责声明</string>
     <string name="agree">同意</string>
     <string name="package_manager">Package Manager</string>
+    <string name="vertical">垂直</string>
+    <string name="home">主页</string>
+    <string name="menu_layout_desc">更改\"主页\"面板中项目的布局。</string>
+    <string name="visibility_customization">可见性自定义</string>
+    <string name="home_visibility_customization_desc">更改“主页”面板中某些选项的可见性。</string>
 </resources>
