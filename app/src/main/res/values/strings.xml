@@ -668,4 +668,5 @@
     <string name="home">Home</string>
     <string name="menu_layout_desc">Change the layout of the items in Home panel.</string>
     <string name="visibility_customization">Visibility Customization</string>
+    <string name="home_visibility_customization_desc">Change the visibility of some options from the Home panel.</string>
 </resources>

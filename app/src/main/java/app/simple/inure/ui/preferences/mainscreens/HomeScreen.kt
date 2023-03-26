@@ -11,6 +11,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.HomePreferences
+import app.simple.inure.ui.preferences.subscreens.HomeCustomization
 
 class HomeScreen : ScopedFragment() {
 
@@ -36,7 +37,7 @@ class HomeScreen : ScopedFragment() {
         }
 
         layoutCustomization.setOnClickListener {
-
+            openFragmentSlide(HomeCustomization.newInstance(), "home_customization")
         }
     }
 

@@ -105,7 +105,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="15dp"
-                        android:layout_marginTop="5dp"
                         android:text="@string/menu_layout_desc"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
@@ -169,15 +168,14 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/home_visibility_customization_title"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="3dp"
                         android:layout_toEndOf="@id/home_visibility_customization_icon"
-                        android:text="@string/summary_fontsize_preference"
+                        android:text="@string/home_visibility_customization_desc"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
-
             </LinearLayout>
         </app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

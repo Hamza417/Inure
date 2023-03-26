@@ -13,9 +13,11 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
+import app.simple.inure.models.HomeCustomizationModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.util.ConditionUtils.invert
@@ -26,6 +28,7 @@ import java.util.stream.Collectors
 
 class HomeViewModel(application: Application) : PackageUtilsViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    @Suppress("PrivatePropertyName")
     private val PRIVATE_FLAG_HIDDEN = 1 shl 0
 
     init {
@@ -78,6 +81,12 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         }
     }
 
+    private val customizableMenuItems: MutableLiveData<ArrayList<HomeCustomizationModel>> by lazy {
+        MutableLiveData<ArrayList<HomeCustomizationModel>>().also {
+            loadCustomizableMenu()
+        }
+    }
+
     fun getRecentlyInstalled(): LiveData<ArrayList<PackageInfo>> {
         return recentlyInstalledAppData
     }
@@ -104,6 +113,10 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     fun getMenuItems(): LiveData<List<Pair<Int, Int>>> {
         return menuItems
+    }
+
+    fun getCustomizableMenuItems(): LiveData<ArrayList<HomeCustomizationModel>> {
+        return customizableMenuItems
     }
 
     private fun loadRecentlyInstalledAppData() {
@@ -247,13 +260,23 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             val list = arrayListOf<Pair<Int, Int>>()
 
             list.add(Pair(R.drawable.ic_app_icon, R.string.apps))
-            list.add(Pair(R.drawable.ic_terminal, R.string.terminal))
-            list.add(Pair(R.drawable.ic_stats, R.string.usage_statistics))
+
+            if (HomePreferences.isPanelVisible(HomePreferences.isTerminalVisible)) {
+                list.add(Pair(R.drawable.ic_terminal, R.string.terminal))
+            }
+
+            if (HomePreferences.isPanelVisible(HomePreferences.isUsageStatisticsVisible)) {
+                list.add(Pair(R.drawable.ic_stats, R.string.usage_statistics))
+            }
 
             list.add(Pair(0, 0)) // Divider
-            // list.add(Pair(R.drawable.ic_sensors, R.string.sensors))
+
             list.add(Pair(R.drawable.ic_layers, R.string.batch))
-            list.add(Pair(R.drawable.ic_analytics, R.string.analytics))
+
+            if (HomePreferences.isPanelVisible(HomePreferences.isAnalyticsVisible)) {
+                list.add(Pair(R.drawable.ic_analytics, R.string.analytics))
+            }
+
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.enableDeviceInfo)) {
@@ -263,26 +286,43 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(Pair(0, 0)) // Divider
             list.add(Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed))
             list.add(Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated))
-            list.add(Pair(R.drawable.ic_apps_category_most_used, R.string.most_used))
-            list.add(Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled))
-            list.add(Pair(R.drawable.ic_disable, R.string.disabled))
+
+            if (HomePreferences.isPanelVisible(HomePreferences.isMostUsedVisible)) {
+                list.add(Pair(R.drawable.ic_apps_category_most_used, R.string.most_used))
+            }
+
+            if (HomePreferences.isPanelVisible(HomePreferences.isUninstalledVisible)) {
+                list.add(Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled))
+            }
+
+            if (HomePreferences.isPanelVisible(HomePreferences.isDisabledVisible)) {
+                list.add(Pair(R.drawable.ic_disable, R.string.disabled))
+            }
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
                 list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
             }
 
             list.add(Pair(0, 0)) // Divider
-            list.add(Pair(R.drawable.ic_stacktrace, R.string.stacktraces))
+            if (HomePreferences.isPanelVisible(HomePreferences.isStackTracesVisible)) {
+                list.add(Pair(R.drawable.ic_stacktrace, R.string.stacktraces))
+            }
 
             if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
-                list.add(Pair(R.drawable.ic_settings_power, R.string.battery_optimization))
+                if (HomePreferences.isPanelVisible(HomePreferences.isBatteryOptimizationVisible)) {
+                    list.add(Pair(R.drawable.ic_settings_power, R.string.battery_optimization))
+                }
             }
 
             if (ConfigurationPreferences.isUsingRoot()) {
-                list.add(Pair(R.drawable.ic_power_off, R.string.boot_manager))
+                if (HomePreferences.isPanelVisible(HomePreferences.isBootManagerVisible)) {
+                    list.add(Pair(R.drawable.ic_power_off, R.string.boot_manager))
+                }
             }
 
-            list.add(Pair(R.drawable.ic_terminal_saved, R.string.saved_commands))
+            if (HomePreferences.isPanelVisible(HomePreferences.isSavedCommandsVisible)) {
+                list.add(Pair(R.drawable.ic_terminal_saved, R.string.saved_commands))
+            }
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -294,6 +334,25 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(Pair(0, 0))
 
             menuItems.postValue(list)
+        }
+    }
+
+    private fun loadCustomizableMenu() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = arrayListOf<HomeCustomizationModel>()
+
+            list.add(HomeCustomizationModel(R.string.terminal, R.drawable.ic_terminal, HomePreferences.isTerminalVisible))
+            list.add(HomeCustomizationModel(R.string.usage_statistics, R.drawable.ic_stats, HomePreferences.isUsageStatisticsVisible))
+            list.add(HomeCustomizationModel(R.string.analytics, R.drawable.ic_analytics, HomePreferences.isAnalyticsVisible))
+            list.add(HomeCustomizationModel(R.string.most_used, R.drawable.ic_apps_category_most_used, HomePreferences.isMostUsedVisible))
+            list.add(HomeCustomizationModel(R.string.uninstalled, R.drawable.ic_apps_category_deleted_apps, HomePreferences.isUninstalledVisible))
+            list.add(HomeCustomizationModel(R.string.disabled, R.drawable.ic_disable, HomePreferences.isDisabledVisible))
+            list.add(HomeCustomizationModel(R.string.stacktraces, R.drawable.ic_stacktrace, HomePreferences.isStackTracesVisible))
+            list.add(HomeCustomizationModel(R.string.saved_commands, R.drawable.ic_terminal_saved, HomePreferences.isSavedCommandsVisible))
+            list.add(HomeCustomizationModel(R.string.battery_optimization, R.drawable.ic_settings_power, HomePreferences.isBatteryOptimizationVisible))
+            list.add(HomeCustomizationModel(R.string.boot_manager, R.drawable.ic_power_off, HomePreferences.isBootManagerVisible))
+
+            customizableMenuItems.postValue(list)
         }
     }
 
@@ -336,6 +395,17 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             DevelopmentPreferences.music,
             DevelopmentPreferences.enableDeviceInfo,
             ConfigurationPreferences.isUsingRoot,
+            ConfigurationPreferences.isUsingShizuku,
+            HomePreferences.isTerminalVisible,
+            HomePreferences.isUsageStatisticsVisible,
+            HomePreferences.isAnalyticsVisible,
+            HomePreferences.isMostUsedVisible,
+            HomePreferences.isUninstalledVisible,
+            HomePreferences.isDisabledVisible,
+            HomePreferences.isStackTracesVisible,
+            HomePreferences.isSavedCommandsVisible,
+            HomePreferences.isBatteryOptimizationVisible,
+            HomePreferences.isBootManagerVisible
             -> {
                 loadItems()
             }
