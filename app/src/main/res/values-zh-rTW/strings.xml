@@ -665,4 +665,8 @@
     <string name="disclaimer">免責聲明</string>
     <string name="agree">同意</string>
     <string name="package_manager">套件管理員</string>
+    <string name="vertical">垂直</string>
+    <string name="home">首頁</string>
+    <string name="menu_layout_desc">變更主面板項目版面配置。</string>
+    <string name="visibility_customization">可見性自訂</string>
 </resources>
