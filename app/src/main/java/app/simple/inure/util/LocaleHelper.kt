@@ -55,7 +55,7 @@ object LocaleHelper {
             // English (United States)
             Locales("English (US)", "en-US"),
             // Traditional Chinese (Taiwan)
-            Locales("漢語 (Traditional Chinese)", "zh-TW"),
+            Locales("繁體中文 (Traditional Chinese)", "zh-TW"),
             // Simplified Chinese (China)
             Locales("简体中文 (Simplified Chinese)", "zh-CN"),
             // Russian
