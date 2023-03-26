@@ -1,6 +1,7 @@
 package app.simple.inure.ui.panels
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
@@ -24,9 +26,12 @@ import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.ChangesReminder
 import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.menus.HomeMenu
+import app.simple.inure.dialogs.menus.HomeMenu.Companion.showHomeMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.popups.app.PopupHome
+import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.*
 import app.simple.inure.terminal.Term
 import app.simple.inure.ui.music.Music
@@ -88,15 +93,22 @@ class Home : ScopedFragment() {
         homeViewModel.getMenuItems().observe(viewLifecycleOwner) {
             postponeEnterTransition()
 
-            val gridLayoutManager = GridLayoutManager(context, getInteger(R.integer.span_count))
+            when (HomePreferences.getMenuLayout()) {
+                PopupMenuLayout.GRID -> {
+                    val gridLayoutManager = GridLayoutManager(context, getInteger(R.integer.span_count))
 
-            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-                    return if (it[position].first.isZero()) getInteger(R.integer.span_count) else 1
+                    gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+                            return if (it[position].first.isZero()) getInteger(R.integer.span_count) else 1
+                        }
+                    }
+
+                    navigationRecyclerView.layoutManager = gridLayoutManager
+                }
+                PopupMenuLayout.VERTICAL -> {
+                    navigationRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                 }
             }
-
-            navigationRecyclerView.layoutManager = gridLayoutManager
 
             val adapter = AdapterHomeMenu(it)
 
@@ -228,7 +240,11 @@ class Home : ScopedFragment() {
         }
 
         settings.setOnClickListener {
-            openFragmentLinear(Preferences.newInstance(), it, "preferences_screen")
+            childFragmentManager.showHomeMenu().setOnHomeMenuCallbacks(object : HomeMenu.Companion.HomeMenuCallbacks {
+                override fun onOpenSettings() {
+                    openFragmentLinear(Preferences.newInstance(), it, "preferences_screen")
+                }
+            })
         }
 
         options.setOnClickListener {
@@ -248,6 +264,14 @@ class Home : ScopedFragment() {
 
         purchase.setOnClickListener {
             openFragmentSlide(Trial.newInstance(), "trial")
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            HomePreferences.homeMenuLayout -> {
+                homeViewModel.refreshMenuItems()
+            }
         }
     }
 

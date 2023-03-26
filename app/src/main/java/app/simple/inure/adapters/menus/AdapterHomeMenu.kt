@@ -10,6 +10,8 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.popups.home.PopupMenuLayout
+import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -20,7 +22,17 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_ITEM -> {
-                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_menu, parent, false))
+                when (HomePreferences.getMenuLayout()) {
+                    PopupMenuLayout.VERTICAL -> {
+                        Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_menu_vertical, parent, false))
+                    }
+                    PopupMenuLayout.GRID -> {
+                        Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_menu, parent, false))
+                    }
+                    else -> {
+                        throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")
+                    }
+                }
             }
             RecyclerViewUtils.TYPE_DIVIDER -> {
                 Divider(LayoutInflater.from(parent.context).inflate(R.layout.adapter_divider_preferences, parent, false))
