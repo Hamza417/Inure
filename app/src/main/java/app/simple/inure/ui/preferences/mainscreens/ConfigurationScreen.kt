@@ -14,13 +14,18 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.dialogs.configuration.AppPath.Companion.showAppPathDialog
+import app.simple.inure.dialogs.miscellaneous.StoragePermission
+import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.preferences.subscreens.Language
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
+import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +38,7 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var keepScreenOnSwitchView: SwitchView
     private lateinit var shortcuts: DynamicRippleRelativeLayout
     private lateinit var language: DynamicRippleRelativeLayout
+    private lateinit var path: DynamicRippleConstraintLayout
     private lateinit var rootSwitchView: SwitchView
     private lateinit var shizukuSwitchView: SwitchView
     private lateinit var shizukuIcon: ImageView
@@ -45,6 +51,7 @@ class ConfigurationScreen : ScopedFragment() {
         keepScreenOnSwitchView = view.findViewById(R.id.configuration_switch_keep_screen_on)
         shortcuts = view.findViewById(R.id.configuration_shortcuts)
         language = view.findViewById(R.id.configuration_language)
+        path = view.findViewById(R.id.configuration_path)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
         shizukuIcon = view.findViewById(R.id.shizuku_icon)
         shizukuSwitchView = view.findViewById(R.id.configuration_shizuku_switch_view)
@@ -94,6 +101,18 @@ class ConfigurationScreen : ScopedFragment() {
 
         language.setOnClickListener {
             openFragmentSlide(Language.newInstance(), "language")
+        }
+
+        path.setOnClickListener {
+            if (requireContext().checkStoragePermission()) {
+                childFragmentManager.showAppPathDialog()
+            } else {
+                childFragmentManager.showStoragePermissionDialog().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                    override fun onStoragePermissionGranted() {
+                        childFragmentManager.showAppPathDialog()
+                    }
+                })
+            }
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener { it ->

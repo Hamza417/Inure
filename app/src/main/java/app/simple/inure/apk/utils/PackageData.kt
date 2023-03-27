@@ -3,10 +3,18 @@ package app.simple.inure.apk.utils
 import android.content.Context
 import android.os.Build
 import android.os.Environment
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.PermissionUtils.areStoragePermissionsGranted
 import java.io.File
 
 object PackageData {
+    fun makePackageFolder(context: Context, path: String) {
+        if (getPackageDir((context), path)!!.exists() && getPackageDir((context), path)!!.isFile) {
+            getPackageDir((context), path)!!.delete()
+        }
+        getPackageDir((context), path)!!.mkdirs()
+    }
+
     fun makePackageFolder(context: Context) {
         if (getPackageDir((context))!!.exists() && getPackageDir((context))!!.isFile) {
             getPackageDir((context))!!.delete()
@@ -15,10 +23,14 @@ object PackageData {
     }
 
     fun getPackageDir(context: Context): File? {
+        return getPackageDir(context, ConfigurationPreferences.getAppPath())
+    }
+
+    fun getPackageDir(context: Context, path: String): File? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !context.areStoragePermissionsGranted()) {
             context.getExternalFilesDir("")
         } else {
-            File(Environment.getExternalStorageDirectory(), "Inure App Manager")
+            File(Environment.getExternalStorageDirectory(), path)
         }
     }
 

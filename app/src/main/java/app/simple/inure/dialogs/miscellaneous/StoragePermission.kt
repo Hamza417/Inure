@@ -18,7 +18,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
-import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -127,7 +126,7 @@ class StoragePermission : ScopedBottomSheetFragment() {
             return fragment
         }
 
-        fun FragmentManager.newStoragePermissionInstance(): StoragePermission {
+        fun FragmentManager.showStoragePermissionDialog(): StoragePermission {
             val args = Bundle()
             val fragment = StoragePermission()
             fragment.arguments = args

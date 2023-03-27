@@ -21,7 +21,7 @@ import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
-import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.newStoragePermissionInstance
+import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
@@ -134,7 +134,7 @@ class Batch : ScopedFragment() {
                             if (requireContext().checkStoragePermission()) {
                                 childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
                             } else {
-                                childFragmentManager.newStoragePermissionInstance().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                                childFragmentManager.showStoragePermissionDialog().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
                                     override fun onStoragePermissionGranted() {
                                         childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
                                     }

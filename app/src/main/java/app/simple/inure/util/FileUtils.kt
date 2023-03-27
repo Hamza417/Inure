@@ -4,12 +4,16 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.DocumentsContract
 import android.util.Log
 import android.webkit.MimeTypeMap
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import app.simple.inure.constants.Extensions
 import java.io.*
+import java.nio.file.InvalidPathException
+import java.nio.file.Paths
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
@@ -118,6 +122,33 @@ object FileUtils {
             val fileExtension = MimeTypeMap.getFileExtensionFromUrl(this.toString())
             MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension.lowercase(Locale.ROOT))
         }
+    }
+
+    /**
+     * <pre>
+     * Checks if a string is a valid path.
+     * Null safe.
+     *
+     * Calling examples:
+     * isValidPath("c:/test");      //returns true
+     * isValidPath("c:/te:t");      //returns false
+     * isValidPath("c:/te?t");      //returns false
+     * isValidPath("c/te*t");       //returns false
+     * isValidPath("good.txt");     //returns true
+     * isValidPath("not|good.txt"); //returns false
+     * isValidPath("not:good.txt"); //returns false
+     * </pre>
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isValidPath(path: String?): Boolean {
+        try {
+            Paths.get(path)
+        } catch (ex: InvalidPathException) {
+            return false
+        } catch (ex: java.lang.NullPointerException) {
+            return false
+        }
+        return true
     }
 
     fun Uri.isSVG(context: Context): Boolean {

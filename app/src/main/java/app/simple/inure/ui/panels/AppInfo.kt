@@ -34,7 +34,7 @@ import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.appinfo.AppInfoMenu
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
-import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.newStoragePermissionInstance
+import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -344,7 +344,7 @@ class AppInfo : ScopedFragment() {
                                     childFragmentManager.launchExtract(packageInfo, emptySet())
                                 }
                             } else {
-                                childFragmentManager.newStoragePermissionInstance().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                                childFragmentManager.showStoragePermissionDialog().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
                                     override fun onStoragePermissionGranted() {
                                         childFragmentManager.launchExtract(packageInfo, emptySet())
                                     }
