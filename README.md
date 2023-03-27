@@ -80,7 +80,8 @@ feedbacks [here](https://github.com/Hamza417/Inure/discussions/48).
 - [x] Add battery optimisation manager for all apps.
 - [x] Boot manager for all apps.
 - [ ] Quick Apps Sync from different devices.
-- [ ] Options to modify state of trackers of any app.
+- [ ] Options to modify state of trackers of any app </br>
+      _(suspended, not possible to implement without custom DNS filter)_.
 - [ ] Manage system wide default apps.
 
 ### Low priority features
