@@ -670,4 +670,7 @@
     <string name="menu_layout_desc">更改\"主页\"面板中项目的布局。</string>
     <string name="visibility_customization">可见性自定义</string>
     <string name="home_visibility_customization_desc">更改“主页”面板中某些选项的可见性。</string>
+    <string name="saved_to">已保存到 %1$s</string>
+    <string name="desc_app_path">更改应用程序的默认数据储存目录。</string>
+    <string name="APKs">拆分安装包</string>
 </resources>
