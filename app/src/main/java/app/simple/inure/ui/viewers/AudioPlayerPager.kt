@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.SeekBar
 import androidx.core.app.SharedElementCallback
-import androidx.core.view.doOnPreDraw
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -124,6 +123,19 @@ class AudioPlayerPager : ScopedFragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setEnterSharedElementCallback(object : SharedElementCallback() {
+            override fun onMapSharedElements(names: List<String>, sharedElements: MutableMap<String, View>) {
+                // Locate the ViewHolder for the clicked position.
+                val selectedViewHolder = (artPager[0] as RecyclerView)
+                    .findViewHolderForAdapterPosition(requireArguments().getInt(BundleConstants.position, 0))
+                if (selectedViewHolder is AlbumArtAdapter.Holder) {
+                    // Map the first shared element name to the child ImageView.
+                    sharedElements[names[0]] = selectedViewHolder.itemView.findViewById(R.id.album_art)
+                }
+            }
+        })
+
         postponeEnterTransition()
 
         if (requireArguments().getBoolean(BundleConstants.fromSearch)) {
@@ -132,9 +144,18 @@ class AudioPlayerPager : ScopedFragment() {
                 artPager.adapter = AlbumArtAdapter(audioModels!!)
                 artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
 
-                (view.parent as? ViewGroup)?.doOnPreDraw {
-                    startPostponedEnterTransition()
-                }
+                /**
+                 * This will break the transition for some reason, start the animation without
+                 * any callback
+                 */
+                //                (view.parent as? ViewGroup)?.doOnPreDraw {
+                //                    startPostponedEnterTransition()
+                //                }
+
+                /**
+                 * Like this, it works fine here
+                 */
+                startPostponedEnterTransition()
 
                 setMetaData(artPager.currentItem)
 
@@ -167,9 +188,18 @@ class AudioPlayerPager : ScopedFragment() {
                 artPager.adapter = AlbumArtAdapter(audioModels!!)
                 artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
 
-                (view.parent as? ViewGroup)?.doOnPreDraw {
-                    startPostponedEnterTransition()
-                }
+                /**
+                 * This will break the transition for some reason, start the animation without
+                 * any callback
+                 */
+                //                (view.parent as? ViewGroup)?.doOnPreDraw {
+                //                    startPostponedEnterTransition()
+                //                }
+
+                /**
+                 * Like this, it works fine here
+                 */
+                startPostponedEnterTransition()
 
                 setMetaData(artPager.currentItem)
 
@@ -320,17 +350,6 @@ class AudioPlayerPager : ScopedFragment() {
         lrcView.setOnPlayIndicatorLineListener { time, _ ->
             audioServicePager?.seek(time.toInt())
         }
-
-        setEnterSharedElementCallback(object : SharedElementCallback() {
-            override fun onMapSharedElements(names: List<String?>, sharedElements: MutableMap<String?, View?>) {
-                // Locate the ViewHolder for the clicked position.
-                val selectedViewHolder = (artPager[0] as RecyclerView).findViewHolderForAdapterPosition(MusicPreferences.getMusicPosition())
-                if (selectedViewHolder is AlbumArtAdapter.Holder) {
-                    // Map the first shared element name to the child ImageView.
-                    sharedElements[names[0]] = selectedViewHolder.itemView.findViewById(R.id.album_art)
-                }
-            }
-        })
     }
 
     private fun setMetaData(position: Int) {

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnLayoutChangeListener
@@ -107,27 +106,29 @@ class Music : KeyboardScopedFragment() {
 
             recyclerView.addOnLayoutChangeListener(object : OnLayoutChangeListener {
                 override fun onLayoutChange(view: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                    recyclerView.removeOnLayoutChangeListener(this)
-                    val layoutManager = recyclerView.layoutManager
-                    val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
+                    if (savedInstanceState != null) {
+                        recyclerView.removeOnLayoutChangeListener(this)
+                        val layoutManager = recyclerView.layoutManager
+                        val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
 
-                    // Scroll to position if the view for the current position is null
-                    // (not currently part of layout manager children), or it's not completely
-                    // visible.
-                    if (viewAtPosition == null || layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)) {
-                        recyclerView.post {
-                            Log.d("Music", displayHeight.toString())
-                            (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(MusicPreferences.getMusicPosition(), displayHeight / 2)
+                        // Scroll to position if the view for the current position is null
+                        // (not currently part of layout manager children), or it's not completely
+                        // visible.
+                        if (viewAtPosition == null || layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)) {
+                            recyclerView.post {
+                                // Log.d("Music", displayHeight.toString())
+                                (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(MusicPreferences.getMusicPosition(), displayHeight / 2)
 
+                                (view.parent as? ViewGroup)?.doOnPreDraw {
+                                    startPostponedEnterTransition()
+                                    // Log.d("Music", "doOnPreDraw_1")
+                                }
+                            }
+                        } else {
                             (view.parent as? ViewGroup)?.doOnPreDraw {
                                 startPostponedEnterTransition()
-                                Log.d("Music", "doOnPreDraw_1")
+                                // Log.d("Music", "doOnPreDraw_2")
                             }
-                        }
-                    } else {
-                        (view.parent as? ViewGroup)?.doOnPreDraw {
-                            startPostponedEnterTransition()
-                            Log.d("Music", "doOnPreDraw_2")
                         }
                     }
                 }
@@ -138,7 +139,7 @@ class Music : KeyboardScopedFragment() {
             if (requireArguments().getInt(BundleConstants.position, MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
                 (view.parent as? ViewGroup)?.doOnPreDraw {
                     startPostponedEnterTransition()
-                    Log.d("Music", "doOnPreDraw_0")
+                    // Log.d("Music", "doOnPreDraw_0")
                 }
             }
 
