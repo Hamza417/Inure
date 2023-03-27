@@ -1,7 +1,10 @@
 package app.simple.inure.dialogs.action
 
+import android.content.Intent
 import android.content.pm.PackageInfo
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +20,7 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ExtractViewModelFactory
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.util.ViewUtils.invisible
+import app.simple.inure.util.TextViewUtils.makeLinks
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.dialogs.ExtractViewModel
 
@@ -61,8 +64,22 @@ class Extract : ScopedBottomSheetFragment() {
 
         extractViewModel.getSuccess().observe(viewLifecycleOwner) {
             if (it) {
-                status.text = getString(R.string.done)
-                progress.invisible(animate = false)
+                status.text = getString(R.string.saved_to, extractViewModel.getFile().value?.absolutePath)
+                status.makeLinks(Pair(extractViewModel.getFile().value?.absolutePath!!, View.OnClickListener {
+                    val selectedUri: Uri = Uri.parse(extractViewModel.getFile().value?.absolutePath)
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.setDataAndType(selectedUri, "resource/folder")
+
+                    if (intent.resolveActivityInfo(requireContext().packageManager, 0) != null) {
+                        startActivity(intent)
+                    } else {
+                        // if you reach this place, it means there is no any file
+                        // explorer app installed on your device
+                        Log.d("Extract", "No file explorer app installed on your device")
+                    }
+                }))
+
+                progress.text = getString(R.string.done)
                 loader.loaded()
                 share.visible(true)
             }
