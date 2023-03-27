@@ -14,7 +14,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
-import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.factories.actions.ExtractViewModelFactory
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.dialogs.ExtractViewModel
 
@@ -24,7 +24,7 @@ class Send : ScopedBottomSheetFragment() {
     private lateinit var updates: TypeFaceTextView
     private lateinit var progress: TypeFaceTextView
     private lateinit var extractViewModel: ExtractViewModel
-    private lateinit var packageInfoFactory: PackageInfoFactory
+    private lateinit var extractViewModelFactory: ExtractViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_send_prepare, container, false)
@@ -33,8 +33,15 @@ class Send : ScopedBottomSheetFragment() {
         updates = view.findViewById(R.id.preparing_updates)
         progress = view.findViewById(R.id.preparing_progress)
 
-        packageInfoFactory = PackageInfoFactory(packageInfo)
-        extractViewModel = ViewModelProvider(this, packageInfoFactory)[ExtractViewModel::class.java]
+        val paths = mutableSetOf<String>()
+        paths.add(packageInfo.applicationInfo.publicSourceDir)
+
+        kotlin.runCatching {
+            paths.addAll(packageInfo.applicationInfo.splitSourceDirs)
+        }
+
+        extractViewModelFactory = ExtractViewModelFactory(packageInfo, paths)
+        extractViewModel = ViewModelProvider(this, extractViewModelFactory)[ExtractViewModel::class.java]
 
         return view
     }

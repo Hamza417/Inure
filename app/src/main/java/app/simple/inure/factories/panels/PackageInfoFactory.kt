@@ -4,7 +4,6 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import app.simple.inure.viewmodels.dialogs.ExtractViewModel
 import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
 import app.simple.inure.viewmodels.viewers.*
 
@@ -56,9 +55,6 @@ class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvid
             }
             modelClass.isAssignableFrom(TrackersViewModel::class.java) -> {
                 return TrackersViewModel(application, packageInfo) as T
-            }
-            modelClass.isAssignableFrom(ExtractViewModel::class.java) -> {
-                return ExtractViewModel(application, packageInfo) as T
             }
             modelClass.isAssignableFrom(OperationsShizukuViewModel::class.java) -> {
                 return OperationsShizukuViewModel(application, packageInfo) as T

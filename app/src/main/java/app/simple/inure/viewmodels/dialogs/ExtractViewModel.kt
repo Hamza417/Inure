@@ -18,7 +18,7 @@ import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.progress.ProgressMonitor
 import java.io.*
 
-class ExtractViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class ExtractViewModel(application: Application, val packageInfo: PackageInfo, val paths: Set<String>) : WrappedViewModel(application) {
 
     private val progress: MutableLiveData<Long> = MutableLiveData<Long>()
     private val status: MutableLiveData<String> = MutableLiveData<String>()
@@ -54,7 +54,7 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
                     throw SecurityException("Storage Permission not granted")
                 }
 
-                if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                if (packageInfo.applicationInfo.splitSourceDirs.isNotNull() && paths.size != 1) { // For split packages
                     status.postValue(getString(R.string.split_apk_detected))
                     extractBundle()
                 } else { // For APK files
@@ -132,10 +132,8 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo) :
     private fun createSplitApkFiles(): ArrayList<File> {
         val list = arrayListOf<File>()
 
-        list.add(File(packageInfo.applicationInfo.sourceDir))
-
-        for (i in packageInfo.applicationInfo.splitSourceDirs.indices) {
-            list.add(File(packageInfo.applicationInfo.splitSourceDirs[i]))
+        for (path in paths) {
+            list.add(File(path))
         }
 
         return list

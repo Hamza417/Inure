@@ -341,12 +341,12 @@ class AppInfo : ScopedFragment() {
                                 if (packageInfo.isSplitApk()) {
                                     childFragmentManager.showSplitApkSelector(packageInfo)
                                 } else {
-                                    childFragmentManager.launchExtract(packageInfo)
+                                    childFragmentManager.launchExtract(packageInfo, emptySet())
                                 }
                             } else {
                                 childFragmentManager.newStoragePermissionInstance().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
                                     override fun onStoragePermissionGranted() {
-                                        childFragmentManager.launchExtract(packageInfo)
+                                        childFragmentManager.launchExtract(packageInfo, emptySet())
                                     }
                                 })
                             }

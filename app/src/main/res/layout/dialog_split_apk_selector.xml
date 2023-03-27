@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dialog_padding"
+        android:clipChildren="false"
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
@@ -16,6 +17,7 @@
             android:id="@+id/split_apk_selector_rv"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:clipChildren="false"
             android:fadingEdge="vertical"
             android:fadingEdgeLength="@dimen/fading_edge_length"
             android:requiresFadingEdge="vertical" />

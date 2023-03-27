@@ -38,7 +38,7 @@ class Extract : ScopedBottomSheetFragment() {
         status = view.findViewById(R.id.extracting_updates)
         share = view.findViewById(R.id.share)
 
-        val extractViewModelFactory = ExtractViewModelFactory(packageInfo)
+        val extractViewModelFactory = ExtractViewModelFactory(packageInfo, requireArguments().getStringArray(BundleConstants.paths)!!.toSet())
         extractViewModel = ViewModelProvider(this, extractViewModelFactory)[ExtractViewModel::class.java]
 
         return view
@@ -88,16 +88,17 @@ class Extract : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo): Extract {
+        fun newInstance(packageInfo: PackageInfo, paths: Set<String>): Extract {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putStringArray(BundleConstants.paths, paths.toTypedArray())
             val fragment = Extract()
             fragment.arguments = args
             return fragment
         }
 
-        fun FragmentManager.launchExtract(packageInfo: PackageInfo) {
-            newInstance(packageInfo).show(this, "extract")
+        fun FragmentManager.launchExtract(packageInfo: PackageInfo, paths: Set<String>) {
+            newInstance(packageInfo, paths).show(this, "extract")
         }
     }
 }

@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.checkbox.InureCheckBox
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.util.ConditionUtils.invert
 
 class AdapterSplitApkSelector(private val paths: Set<String>) : RecyclerView.Adapter<AdapterSplitApkSelector.Holder>() {
 
@@ -20,12 +21,18 @@ class AdapterSplitApkSelector(private val paths: Set<String>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.path.text = paths.elementAt(position).subSequence(paths.elementAt(position).lastIndexOf("/") + 1, paths.elementAt(position).length)
 
-        holder.checkBox.setOnCheckedChangeListener { isChecked ->
-            onSplitApkSelectorListener?.onSplitApkSelected(paths.elementAt(position), isChecked)
-        }
+        if (paths.elementAt(position).endsWith("base.apk").invert()) {
+            holder.checkBox.setOnCheckedChangeListener { isChecked ->
+                onSplitApkSelectorListener?.onSplitApkSelected(paths.elementAt(position), isChecked)
+            }
 
-        holder.container.setOnClickListener {
-            holder.checkBox.toggle()
+            holder.container.setOnClickListener {
+                holder.checkBox.toggle()
+            }
+        } else {
+            holder.checkBox.setChecked(true)
+            holder.checkBox.isEnabled = false
+            holder.container.alpha = 0.5f
         }
 
         holder.checkBox.setChecked(true) // Default select everything
@@ -38,7 +45,7 @@ class AdapterSplitApkSelector(private val paths: Set<String>) : RecyclerView.Ada
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)
         val checkBox: InureCheckBox = itemView.findViewById(R.id.checkbox)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.container)
+        val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.container)
     }
 
     fun setOnSplitApkSelectorListener(onSplitApkSelectorListener: OnSplitApkSelectorListener) {

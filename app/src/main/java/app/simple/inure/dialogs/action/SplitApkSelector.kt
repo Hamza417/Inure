@@ -13,6 +13,7 @@ import app.simple.inure.adapters.dialogs.AdapterSplitApkSelector
 import app.simple.inure.adapters.dialogs.AdapterSplitApkSelector.Companion.OnSplitApkSelectorListener
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 
 class SplitApkSelector : ScopedBottomSheetFragment() {
@@ -41,6 +42,7 @@ class SplitApkSelector : ScopedBottomSheetFragment() {
 
         paths.add(packageInfo.applicationInfo.publicSourceDir)
         paths.addAll(packageInfo.applicationInfo.splitSourceDirs)
+        selectedPaths.addAll(paths)
 
         val adapterSplitApkSelector = AdapterSplitApkSelector(paths)
 
@@ -61,6 +63,15 @@ class SplitApkSelector : ScopedBottomSheetFragment() {
             selectedPaths.clear()
             selectedPaths.addAll(paths)
             adapterSplitApkSelector.selectAll()
+        }
+
+        cancel.setOnClickListener {
+            dismiss()
+        }
+
+        extract.setOnClickListener {
+            parentFragmentManager.launchExtract(packageInfo, selectedPaths)
+            dismiss()
         }
     }
 
