@@ -296,7 +296,7 @@ class SplashScreen : ScopedFragment() {
                     }
                 }
             } else {
-                showWarning(Warnings.getInureWarning04(), goBack = false)
+                showWarning(Warnings.getInvalidUnlockerWarning(), goBack = false)
                 TrialPreferences.setFullVersion(false)
                 TrialPreferences.resetUnlockerWarningCount()
             }

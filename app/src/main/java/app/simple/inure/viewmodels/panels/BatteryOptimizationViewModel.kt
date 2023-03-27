@@ -246,7 +246,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
     }
 
     override fun onShellDenied() {
-        warning.postValue(Warnings.getInureWarning01())
+        warning.postValue(Warnings.getNoRootConnectionWarning())
         batteryOptimizationData.postValue(ArrayList())
     }
 

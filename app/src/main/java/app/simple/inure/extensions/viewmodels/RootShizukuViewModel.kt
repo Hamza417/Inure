@@ -69,7 +69,7 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
                             } else {
                                 Log.d("RootViewModel", "Shell initialization failed")
                                 onShellDenied()
-                                warning.postValue(Warnings.getInureWarning01())
+                                warning.postValue(Warnings.getNoRootConnectionWarning())
                             }
                         }
                     }
@@ -81,7 +81,7 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
                          * Connection could not be established with the system shell
                          * Show the warning to the user
                          */
-                        warning.postValue(Warnings.getInureWarning01())
+                        warning.postValue(Warnings.getNoRootConnectionWarning())
                     } else {
                         /**
                          * Some other error occurred
@@ -100,7 +100,7 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
         if (Shizuku.pingBinder()) {
             onShizukuCreated()
         } else {
-            warning.postValue(Warnings.getInureWarning06())
+            warning.postValue(Warnings.getShizukuFailedWarning())
         }
     }
 

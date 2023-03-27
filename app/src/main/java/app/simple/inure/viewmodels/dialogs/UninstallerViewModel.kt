@@ -86,7 +86,7 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     override fun onShellDenied() {
-        warning.postValue(Warnings.getInureWarning01())
+        warning.postValue(Warnings.getNoRootConnectionWarning())
         success.postValue("Failed")
     }
 

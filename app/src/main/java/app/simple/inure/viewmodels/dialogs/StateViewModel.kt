@@ -96,7 +96,7 @@ class StateViewModel(application: Application, private val packageInfo: PackageI
     }
 
     override fun onShellDenied() {
-        warning.postValue(Warnings.getInureWarning01())
+        warning.postValue(Warnings.getNoRootConnectionWarning())
         success.postValue("Failed")
     }
 

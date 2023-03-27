@@ -68,7 +68,7 @@ class BootManagerShizukuViewModel(application: Application) : RootShizukuViewMod
     }
 
     override fun onShellDenied() {
-        warning.postValue(Warnings.getInureWarning01())
+        warning.postValue(Warnings.getNoRootConnectionWarning())
         bootComponentData.postValue(ArrayList())
     }
 

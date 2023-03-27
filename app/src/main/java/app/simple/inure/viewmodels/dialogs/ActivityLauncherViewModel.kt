@@ -148,7 +148,7 @@ class ActivityLauncherViewModel(application: Application, val packageInfo: Packa
     }
 
     override fun onShellDenied() {
-        warning.postValue(Warnings.getInureWarning01())
+        warning.postValue(Warnings.getNoRootConnectionWarning())
         success.postValue("Failed")
     }
 

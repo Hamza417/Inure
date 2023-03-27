@@ -101,7 +101,7 @@ class BatchUninstallerViewModel(application: Application, val list: ArrayList<Ba
     }
 
     override fun onShellDenied() {
-        warning.postValue(Warnings.getInureWarning01())
+        warning.postValue(Warnings.getNoRootConnectionWarning())
     }
 
     override fun onShizukuCreated() {

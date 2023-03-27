@@ -92,7 +92,7 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
     }
 
     override fun onShellDenied() {
-        warning.postValue(Warnings.getInureWarning01())
+        warning.postValue(Warnings.getNoRootConnectionWarning())
         success.postValue("Failed")
     }
 

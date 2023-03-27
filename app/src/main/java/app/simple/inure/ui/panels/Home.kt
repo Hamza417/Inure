@@ -178,7 +178,7 @@ class Home : ScopedFragment() {
                                 if (Shizuku.pingBinder()) {
                                     openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
                                 } else {
-                                    showWarning(Warnings.getInureWarning06(), goBack = false)
+                                    showWarning(Warnings.getShizukuFailedWarning(), goBack = false)
                                 }
                             } else {
                                 openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")

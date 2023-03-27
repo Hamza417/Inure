@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
@@ -73,8 +74,7 @@ class Extract : ScopedBottomSheetFragment() {
                     if (intent.resolveActivityInfo(requireContext().packageManager, 0) != null) {
                         startActivity(intent)
                     } else {
-                        // if you reach this place, it means there is no any file
-                        // explorer app installed on your device
+                        showWarning(Warnings.getNoFileExplorerWarning())
                         Log.d("Extract", "No file explorer app installed on your device")
                     }
                 }))

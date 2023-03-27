@@ -61,7 +61,7 @@ class ImageActivity : BaseActivity() {
                     .addListener(object : RequestListener<GifDrawable> {
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
                             Log.e("ImageActivity", "GIF: ${e?.message}")
-                            showWarning(Warnings.getInureWarning02(intent.data.toString(), "GIF"))
+                            showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "GIF"))
                             return true
                         }
 
@@ -101,7 +101,7 @@ class ImageActivity : BaseActivity() {
 
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
                             Log.e("ImageActivity", "SVG: ${e?.message}")
-                            showWarning(Warnings.getInureWarning02(intent.data.toString(), "SVG"))
+                            showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "SVG"))
                             return true
                         }
                     })
@@ -129,7 +129,7 @@ class ImageActivity : BaseActivity() {
 
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
                             Log.e("ImageActivity", "Bitmap: ${e?.message}")
-                            showWarning(Warnings.getInureWarning02(intent.data.toString(), "Bitmap"))
+                            showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "Bitmap"))
                             return true
                         }
                     })

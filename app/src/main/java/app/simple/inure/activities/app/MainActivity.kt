@@ -181,7 +181,7 @@ class MainActivity : BaseActivity() {
                             }
                         }
                     } else {
-                        showWarning(Warnings.getInureWarning03(), goBack = false)
+                        showWarning(Warnings.gtUnknownAppStateWarning(), goBack = false)
 
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")

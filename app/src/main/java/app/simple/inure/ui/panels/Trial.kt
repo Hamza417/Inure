@@ -33,7 +33,7 @@ class Trial : ScopedFragment() {
         startPostponedEnterTransition()
 
         if (TrialPreferences.getDaysLeft() == -1) {
-            title.text = Warnings.getInureWarning05()
+            title.text = Warnings.getAppIntegrityFailedWarning()
         }
 
         daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())

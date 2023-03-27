@@ -98,7 +98,7 @@ class HideViewModel(application: Application, private val packageInfo: PackageIn
     }
 
     override fun onShellDenied() {
-        postWarning(Warnings.getInureWarning01())
+        postWarning(Warnings.getNoRootConnectionWarning())
     }
 
     override fun onShizukuCreated() {
