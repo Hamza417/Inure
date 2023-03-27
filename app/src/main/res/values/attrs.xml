@@ -88,6 +88,7 @@
         <attr name="isFastScrollRequired" format="boolean" />
         <attr name="isEdgeColorRequired" format="boolean" />
         <attr name="isFadingEdgeRequired" format="boolean" />
+        <attr name="isTopFadingEdgeOnly" format="boolean" />
     </declare-styleable>
 
     <!-- These are the standard attributes that make up a complete theme. -->

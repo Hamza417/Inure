@@ -1,11 +1,13 @@
 package app.simple.inure.adapters.dialogs
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.checkbox.InureCheckBox
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.ConditionUtils.invert
@@ -42,7 +44,7 @@ class AdapterSplitApkSelector(private val paths: Set<String>) : RecyclerView.Ada
         return paths.size
     }
 
-    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)
         val checkBox: InureCheckBox = itemView.findViewById(R.id.checkbox)
         val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.container)
@@ -52,6 +54,7 @@ class AdapterSplitApkSelector(private val paths: Set<String>) : RecyclerView.Ada
         this.onSplitApkSelectorListener = onSplitApkSelectorListener
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun selectAll() {
         notifyDataSetChanged()
     }

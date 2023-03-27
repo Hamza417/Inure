@@ -7,18 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.dialogs.AdapterSplitApkSelector
 import app.simple.inure.adapters.dialogs.AdapterSplitApkSelector.Companion.OnSplitApkSelectorListener
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 
 class SplitApkSelector : ScopedBottomSheetFragment() {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var selectAll: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
     private lateinit var extract: DynamicRippleTextView

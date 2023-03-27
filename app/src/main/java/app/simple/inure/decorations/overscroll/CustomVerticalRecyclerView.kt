@@ -5,11 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
 import android.util.Log
-import android.view.ViewGroup
-import android.view.animation.Animation
 import android.widget.EdgeEffect
-import android.widget.ImageView
-import androidx.core.view.children
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +16,6 @@ import app.simple.inure.decorations.itemdecorations.DividerItemDecoration
 import app.simple.inure.decorations.theme.ThemeRecyclerView
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.RecyclerViewPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
@@ -39,6 +34,7 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
     private var fastScroll = true
     private var isEdgeColorRequired = true
     private var isFastScrollerAdded = false
+    private var isTopFadingEdge = true
 
     private var dividerItemDecoration: DividerItemDecoration? = null
     private var fastScrollerBuilder: FastScrollerBuilder? = null
@@ -63,6 +59,8 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
                         isVerticalFadingEdgeEnabled = true
                         setFadingEdgeLength(StatusBarHeight.getStatusBarHeight(resources) + paddingTop)
                     }
+
+                    isTopFadingEdge = getBoolean(R.styleable.RecyclerView_isTopFadingEdgeOnly, true)
 
                     fastScroll = getBoolean(R.styleable.RecyclerView_isFastScrollRequired, true)
                     manuallyAnimated = getBoolean(R.styleable.RecyclerView_manuallyAnimated, false)
@@ -236,7 +234,7 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
     }
 
     override fun isPaddingOffsetRequired(): Boolean {
-        return true
+        return isTopFadingEdge
     }
 
     override fun getTopPaddingOffset(): Int {
@@ -248,7 +246,11 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
     }
 
     override fun getBottomFadingEdgeStrength(): Float {
-        return 0F
+        return if (isTopFadingEdge) {
+            0f
+        } else {
+            super.getBottomFadingEdgeStrength()
+        }
     }
 
     /**
