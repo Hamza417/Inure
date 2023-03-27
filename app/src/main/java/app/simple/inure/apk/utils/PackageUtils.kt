@@ -162,6 +162,10 @@ object PackageUtils {
         return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
     }
 
+    fun PackageInfo.isSplitApk(): Boolean {
+        return applicationInfo.splitSourceDirs.isNullOrEmpty().not()
+    }
+
     /**
      * Check if app is a system app
      */

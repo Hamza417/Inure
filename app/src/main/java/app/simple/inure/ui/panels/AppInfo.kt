@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.menus.AdapterMenu
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isSplitApk
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -27,6 +28,7 @@ import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
 import app.simple.inure.dialogs.action.Hide.Companion.showHide
+import app.simple.inure.dialogs.action.SplitApkSelector.Companion.showSplitApkSelector
 import app.simple.inure.dialogs.action.State.Companion.showState
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
@@ -336,7 +338,11 @@ class AppInfo : ScopedFragment() {
                     when (source) {
                         R.string.extract -> {
                             if (requireContext().checkStoragePermission()) {
-                                childFragmentManager.launchExtract(packageInfo)
+                                if (packageInfo.isSplitApk()) {
+                                    childFragmentManager.showSplitApkSelector(packageInfo)
+                                } else {
+                                    childFragmentManager.launchExtract(packageInfo)
+                                }
                             } else {
                                 childFragmentManager.newStoragePermissionInstance().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
                                     override fun onStoragePermissionGranted() {
