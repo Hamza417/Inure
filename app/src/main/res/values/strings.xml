@@ -672,4 +672,5 @@
     <string name="saved_to">Saved to %1$s</string>
     <string name="desc_app_path">Change the application\'s default data storage directory.</string>
     <string name="APKs">APKs</string>
+    <string name="desc_apk_files">This panel is used to view all the APK files available in your device\'s storage.</string>
 </resources>

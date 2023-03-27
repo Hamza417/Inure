@@ -74,6 +74,20 @@ object ImageLoader {
             .into(this)
     }
 
+    fun ImageView.loadAPKIcon(file: File) {
+        GlideApp.with(this)
+            .asBitmap()
+            .load(ApkIcon(this.context, file))
+            .into(this)
+    }
+
+    fun ImageView.loadAPKIcon(path: String) {
+        GlideApp.with(this)
+            .asBitmap()
+            .load(ApkIcon(this.context, File(path)))
+            .into(this)
+    }
+
     fun ImageView.loadSvg(uri: Uri) {
         GlideApp.with(this)
             .asBitmap()

@@ -1,6 +1,8 @@
 package app.simple.inure.ui.panels
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterApks
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
 
 class APKs : ScopedFragment() {
@@ -42,6 +45,20 @@ class APKs : ScopedFragment() {
 
             adapterApks.apps = it
             adapterApks.notifyDataSetChanged()
+
+            adapterApks.setOnItemClickListener(object : AdapterCallbacks {
+                override fun onApkClicked(view: View, position: Int) {
+                    val uri = Uri.parse(adapterApks.apps[position])
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.setDataAndType(uri, "application/vnd.android.package-archive")
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
+
+                override fun onApkLongClicked(view: View, position: Int) {
+
+                }
+            })
         }
     }
 

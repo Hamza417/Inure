@@ -12,6 +12,7 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
+import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
@@ -41,20 +42,22 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
         val position = position_ - 1
         if (holder is Holder) {
 
+            holder.icon.loadAPKIcon(apps[position])
             holder.name.text = apps[position].substring(apps[position].lastIndexOf("/") + 1)
             holder.packageId.text = apps[position]
-            holder.info.text = apps[position].toSize()
+            holder.info.text = apps[position].toSize() + " | " + apps[position].substring(apps[position].lastIndexOf(".") + 1).uppercase(Locale.getDefault())
 
             holder.container.setOnClickListener {
-
+                adapterCallbacks.onApkClicked(it, position)
             }
 
             holder.container.setOnLongClickListener {
+                adapterCallbacks.onApkLongClicked(it, position)
                 true
             }
         }

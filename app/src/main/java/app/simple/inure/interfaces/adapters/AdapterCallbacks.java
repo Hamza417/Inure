@@ -81,4 +81,12 @@ public interface AdapterCallbacks {
     default void onGridClicked(@NonNull View view) {
     
     }
+    
+    default void onApkClicked(@NonNull View view, int position) {
+    
+    }
+    
+    default void onApkLongClicked(@NonNull View view, int position) {
+    
+    }
 }
