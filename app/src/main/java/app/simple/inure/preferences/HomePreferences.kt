@@ -17,6 +17,7 @@ object HomePreferences {
     const val isBatteryOptimizationVisible = "is_battery_optimization_visible"
     const val isBootManagerVisible = "is_boot_manager_visible"
     const val isSavedCommandsVisible = "is_saved_commands_visible"
+    const val isAPKsVisible = "is_apks_visible"
 
     // ---------------------------------------------------------------------------------------------------------- //
 

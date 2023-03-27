@@ -25,8 +25,9 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import app.simple.inure.R;
+import app.simple.inure.extensions.activities.BaseActivity;
 
-public class FSNavigator extends android.app.Activity {
+public class FSNavigator extends BaseActivity {
     
     private final int ACTION_THEME_SWAP = 0x00000100;
     private final int BUTTON_SIZE = 150;

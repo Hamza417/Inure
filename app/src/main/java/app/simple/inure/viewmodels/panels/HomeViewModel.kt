@@ -324,6 +324,10 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 list.add(Pair(R.drawable.ic_terminal_saved, R.string.saved_commands))
             }
 
+            if (HomePreferences.isPanelVisible(HomePreferences.isAPKsVisible)) {
+                list.add(Pair(R.drawable.ic_android, R.string.APKs))
+            }
+
             if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     list.add(Pair(R.drawable.ic_music_note, R.string.music))
@@ -351,6 +355,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(HomeCustomizationModel(R.string.saved_commands, R.drawable.ic_terminal_saved, HomePreferences.isSavedCommandsVisible))
             list.add(HomeCustomizationModel(R.string.battery_optimization, R.drawable.ic_settings_power, HomePreferences.isBatteryOptimizationVisible))
             list.add(HomeCustomizationModel(R.string.boot_manager, R.drawable.ic_power_off, HomePreferences.isBootManagerVisible))
+            list.add(HomeCustomizationModel(R.string.APKs, R.drawable.ic_android, HomePreferences.isAPKsVisible))
 
             customizableMenuItems.postValue(list)
         }
