@@ -1,10 +1,13 @@
 package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.selection.ItemDetailsLookup
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
@@ -23,8 +26,9 @@ import java.util.*
 
 class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
-    var apps = arrayListOf<String>()
+    var paths = arrayListOf<String>()
     private lateinit var adapterCallbacks: AdapterCallbacks
+    var tracker: SelectionTracker<String>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -47,10 +51,10 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
         val position = position_ - 1
         if (holder is Holder) {
 
-            holder.icon.loadAPKIcon(apps[position])
-            holder.name.text = apps[position].substring(apps[position].lastIndexOf("/") + 1)
-            holder.packageId.text = apps[position]
-            holder.info.text = apps[position].toSize() + " | " + apps[position].substring(apps[position].lastIndexOf(".") + 1).uppercase(Locale.getDefault())
+            holder.icon.loadAPKIcon(paths[position])
+            holder.name.text = paths[position].substring(paths[position].lastIndexOf("/") + 1)
+            holder.packageId.text = paths[position]
+            holder.info.text = paths[position].toSize() + " | " + paths[position].substring(paths[position].lastIndexOf(".") + 1).uppercase(Locale.getDefault())
 
             holder.container.setOnClickListener {
                 adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1))
@@ -60,10 +64,13 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
                 adapterCallbacks.onApkLongClicked(it, holder.bindingAdapterPosition.minus(1))
                 true
             }
-        }
 
-        if (holder is Header) {
-            holder.total.text = String.format(holder.itemView.context.getString(R.string.total), apps.size)
+            tracker?.let {
+                holder.setSelected(it.isSelected(paths[position]))
+            }
+
+        } else if (holder is Header) {
+            holder.total.text = String.format(holder.itemView.context.getString(R.string.total), paths.size)
 
             holder.category.text = when (MainPreferences.getAppsCategory()) {
                 PopupAppsCategory.USER -> {
@@ -112,7 +119,7 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
     }
 
     override fun getItemCount(): Int {
-        return apps.size + 1
+        return paths.size + 1
     }
 
     override fun getItemId(position: Int): Long {
@@ -135,6 +142,23 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.adapter_all_app_info)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
+
+        fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> {
+            return object : ItemDetailsLookup.ItemDetails<String>() {
+                override fun getPosition(): Int {
+                    Log.d("AdapterApks", "getPosition: ${bindingAdapterPosition.minus(1)}")
+                    return bindingAdapterPosition.minus(1)
+                }
+
+                override fun getSelectionKey(): String {
+                    return paths[bindingAdapterPosition.minus(1)]
+                }
+            }
+        }
+
+        fun setSelected(selected: Boolean) {
+            container.setDefaultBackground(selected)
+        }
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
@@ -145,7 +169,8 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
     }
 
     override fun getPopupText(position: Int): String {
-        return apps[position].substring(apps[position]
-                                            .lastIndexOf("/") + 1)[0].toString().uppercase(Locale.getDefault())
+        return paths[position]
+            .substring(paths[position]
+                           .lastIndexOf("/") + 1)[0].toString().uppercase(Locale.getDefault())
     }
 }
