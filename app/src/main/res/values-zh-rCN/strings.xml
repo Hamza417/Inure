@@ -673,4 +673,5 @@
     <string name="saved_to">已保存到 %1$s</string>
     <string name="desc_app_path">更改应用程序的默认数据储存目录。</string>
     <string name="APKs">拆分安装包</string>
+    <string name="scanning">扫描中</string>
 </resources>
