@@ -46,9 +46,11 @@ class APKs : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
 
-        if (apkBrowserViewModel.getApkPaths().isInitialized.invert()) {
-            apkScanner = childFragmentManager.showApkScanner()
-            startPostponedEnterTransition()
+        if (fullVersionCheck()) {
+            if (apkBrowserViewModel.getApkPaths().isInitialized.invert()) {
+                apkScanner = childFragmentManager.showApkScanner()
+                startPostponedEnterTransition()
+            }
         }
 
         apkBrowserViewModel.getApkPaths().observe(viewLifecycleOwner) {
