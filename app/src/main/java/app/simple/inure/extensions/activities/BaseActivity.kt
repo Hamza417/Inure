@@ -1,5 +1,6 @@
 package app.simple.inure.extensions.activities
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
@@ -9,6 +10,7 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.transition.ArcMotion
 import android.transition.Fade
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -300,11 +302,39 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         }
     }
 
-    private fun setNavColor() {
-        if (AppearancePreferences.isAccentOnNavigationBar()) {
-            window.navigationBarColor = AppearancePreferences.getAccentColor()
+    private fun setNavColor(accent: Boolean = false) {
+        val startColor: Int
+        val endColor: Int
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+        if (accent) {
+            if (AppearancePreferences.isAccentOnNavigationBar()) {
+                startColor = window.navigationBarColor
+                endColor = AppearancePreferences.getAccentColor()
+            } else {
+                startColor = ThemeManager.theme.viewGroupTheme.background
+                endColor = ThemeManager.theme.viewGroupTheme.background
+            }
         } else {
-            window.navigationBarColor = Color.TRANSPARENT
+            if (AppearancePreferences.isAccentOnNavigationBar()) {
+                startColor = ThemeManager.theme.viewGroupTheme.background
+                endColor = AppearancePreferences.getAccentColor()
+            } else {
+                startColor = AppearancePreferences.getAccentColor()
+                endColor = ThemeManager.theme.viewGroupTheme.background
+            }
+        }
+
+        // Animate color
+        val valueAnimator = ValueAnimator.ofArgb(/* ...values = */ startColor, endColor)
+        valueAnimator.duration = resources.getInteger(R.integer.animation_duration).toLong()
+        valueAnimator.addUpdateListener { animation ->
+            window.navigationBarColor = animation.animatedValue as Int
+        }
+        valueAnimator.start()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.navigationBarDividerColor = ThemeManager.theme.viewGroupTheme.dividerBackground
         }
 
         ThemeUtils.updateNavAndStatusColors(resources, window)
@@ -353,8 +383,12 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                 makeAppFullScreen()
                 fixNavigationBarOverlap()
             }
-            AppearancePreferences.accentColor,
+            AppearancePreferences.accentColor -> {
+                Log.d("BaseActivity", "Accent color changed")
+                setNavColor(accent = true)
+            }
             AppearancePreferences.accentOnNav -> {
+                Log.d("BaseActivity", "Accent color changed")
                 setNavColor()
             }
             BehaviourPreferences.arcType -> {

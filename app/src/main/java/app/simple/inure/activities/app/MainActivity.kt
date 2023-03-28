@@ -230,6 +230,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
             DevelopmentPreferences.crashHandler -> {
                 if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
