@@ -2,7 +2,7 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.os.Environment
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -17,8 +17,16 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
         }
     }
 
-    fun getApkPaths(): MutableLiveData<ArrayList<String>> {
+    private val info: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
+    fun getApkPaths(): LiveData<ArrayList<String>> {
         return paths
+    }
+
+    fun getPathInfo(): LiveData<String> {
+        return info
     }
 
     private fun loadApkPaths() {
@@ -27,7 +35,8 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
             val apkPaths = ArrayList<String>()
 
             externalStorage.walkTopDown().forEach {
-                Log.d("APK", it.absolutePath)
+                info.postValue(it.absolutePath.substringBeforeLast("/"))
+
                 if (it.extension == "apk" || it.extension == "apks" || it.extension == "apkm") {
                     apkPaths.add(it.absolutePath)
                 }
@@ -35,5 +44,9 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
 
             paths.postValue(apkPaths)
         }
+    }
+
+    fun refresh() {
+        loadApkPaths()
     }
 }

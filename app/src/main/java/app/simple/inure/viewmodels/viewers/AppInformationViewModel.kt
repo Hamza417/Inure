@@ -301,6 +301,9 @@ class AppInformationViewModel(application: Application, private val packageInfo:
             names.append(R.string.not_available)
         }
 
+        if (names.isEmpty())
+            names.append(getString(R.string.not_available))
+
         return Pair(R.string.split_packages,
                     names.toString().applySecondaryTextColor())
     }

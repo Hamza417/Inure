@@ -5,14 +5,19 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import app.simple.inure.decorations.theme.ThemeConstraintLayout;
 import app.simple.inure.util.ViewUtils;
 
-public class DynamicCornerConstraintLayout extends ConstraintLayout {
+public class DynamicCornerConstraintLayout extends ThemeConstraintLayout {
     
     public DynamicCornerConstraintLayout(@NonNull Context context) {
         super(context);
         init(null);
+    }
+    
+    public DynamicCornerConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init(attrs);
     }
     
     public DynamicCornerConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -21,7 +26,9 @@ public class DynamicCornerConstraintLayout extends ConstraintLayout {
     }
     
     private void init(AttributeSet attributeSet) {
-        LayoutBackground.setBackground(getContext(), this, attributeSet);
-        ViewUtils.INSTANCE.addShadow(this);
+        if (!isInEditMode()) {
+            LayoutBackground.setBackground(getContext(), this, attributeSet);
+            ViewUtils.INSTANCE.addShadow(this);
+        }
     }
 }

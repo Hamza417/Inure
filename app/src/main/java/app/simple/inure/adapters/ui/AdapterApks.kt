@@ -53,17 +53,17 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
             holder.info.text = apps[position].toSize() + " | " + apps[position].substring(apps[position].lastIndexOf(".") + 1).uppercase(Locale.getDefault())
 
             holder.container.setOnClickListener {
-                adapterCallbacks.onApkClicked(it, position)
+                adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1))
             }
 
             holder.container.setOnLongClickListener {
-                adapterCallbacks.onApkLongClicked(it, position)
+                adapterCallbacks.onApkLongClicked(it, holder.bindingAdapterPosition.minus(1))
                 true
             }
         }
 
         if (holder is Header) {
-            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
+            holder.total.text = String.format(holder.itemView.context.getString(R.string.total), apps.size)
 
             holder.category.text = when (MainPreferences.getAppsCategory()) {
                 PopupAppsCategory.USER -> {

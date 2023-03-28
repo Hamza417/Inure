@@ -53,7 +53,8 @@ class Permissions : ScopedFragment() {
         }
 
         installerPermissionViewModel.getPermissionsInfo().observe(viewLifecycleOwner) {
-            val adapterPermissions = AdapterPermissions(it, "")
+            val adapterPermissions = AdapterPermissions(it.first, "")
+            packageInfo = it.second
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
                 override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {

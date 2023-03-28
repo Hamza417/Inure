@@ -109,6 +109,14 @@ object BottomMenuConstants {
             Pair(R.drawable.ic_watch_later, R.string.date),
     )
 
+    val apkBrowserMenu: ArrayList<Pair<Int, Int>> by lazy {
+        arrayListOf(
+                Pair(R.drawable.ic_refresh, R.string.refresh),
+                divider,
+                Pair(R.drawable.ic_search, R.string.search),
+        )
+    }
+
     @Suppress("UNCHECKED_CAST")
     fun getGenericBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return genericBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>

@@ -25,8 +25,8 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
         }
     }
 
-    private val permissionsInfo: MutableLiveData<ArrayList<PermissionInfo>> by lazy {
-        MutableLiveData<ArrayList<PermissionInfo>>().also {
+    private val permissionsInfo: MutableLiveData<Pair<ArrayList<PermissionInfo>, PackageInfo>> by lazy {
+        MutableLiveData<Pair<ArrayList<PermissionInfo>, PackageInfo>>().also {
             loadPermissionData()
         }
     }
@@ -35,7 +35,7 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
         return permissionsFile
     }
 
-    fun getPermissionsInfo(): LiveData<ArrayList<PermissionInfo>> {
+    fun getPermissionsInfo(): LiveData<Pair<ArrayList<PermissionInfo>, PackageInfo>> {
         return permissionsInfo
     }
 
@@ -117,11 +117,11 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
 
                 apkFile.close()
 
-                permissionsInfo.postValue(permissions.apply {
+                permissionsInfo.postValue(Pair(permissions.apply {
                     sortBy {
                         it.name.lowercase(Locale.getDefault())
                     }
-                })
+                }, appPackageInfo))
             }.getOrElse {
                 postError(it)
             }
