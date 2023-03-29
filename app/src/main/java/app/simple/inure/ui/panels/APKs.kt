@@ -3,9 +3,7 @@ package app.simple.inure.ui.panels
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
@@ -125,68 +123,15 @@ class APKs : ScopedFragment() {
                     }
                 }
             }
-
-            val tracker = SelectionTracker
-                .Builder(
-                        "Path Selection",
-                        recyclerView,
-                        ApkPathKeyProvider(),
-                        ApkPathDetailsLookup(recyclerView),
-                        StorageStrategy.createStringStorage())
-                .withSelectionPredicate(SelectionPredicates.createSelectAnything())
-                .build()
-
-            tracker.addObserver(object : SelectionTracker.SelectionObserver<String>() {
-                override fun onSelectionChanged() {
-                    super.onSelectionChanged()
-                    tracker.hasSelection().let {
-                        if (it) {
-                            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenuSelection)
-                        } else {
-                            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenu)
-                        }
-                    }
-                }
-            })
-
-            adapterApks.tracker = tracker
         }
     }
 
+    @Suppress("unused")
     private fun updateBottomMenu(isSelected: Boolean) {
         if (isSelected) {
             bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenuSelection)
         } else {
             bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenu)
-        }
-    }
-
-    inner class ApkPathDetailsLookup(private val recyclerView: CustomVerticalRecyclerView) : ItemDetailsLookup<String>() {
-        override fun getItemDetails(event: MotionEvent): ItemDetails<String>? {
-            try {
-                val view = recyclerView.findChildViewUnder(event.x, event.y)
-                if (view != null) {
-                    return (recyclerView.getChildViewHolder(view) as AdapterApks.Holder).getItemDetails()
-                }
-            } catch (e: java.lang.ClassCastException) {
-                e.printStackTrace()
-            }
-            return null
-        }
-    }
-
-    inner class ApkPathKeyProvider : ItemKeyProvider<String>(SCOPE_MAPPED) {
-        override fun getKey(position: Int): String {
-            Log.d("AdapterApks", "getKey: $position")
-            return try {
-                adapterApks.paths[position]
-            } catch (e: IndexOutOfBoundsException) {
-                "" // Return empty string if position is out of bounds
-            }
-        }
-
-        override fun getPosition(key: String): Int {
-            return adapterApks.paths.indexOf(key).plus(1)
         }
     }
 

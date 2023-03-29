@@ -1,13 +1,10 @@
 package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
@@ -28,7 +25,6 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
 
     var paths = arrayListOf<String>()
     private lateinit var adapterCallbacks: AdapterCallbacks
-    var tracker: SelectionTracker<String>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -63,10 +59,6 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
             holder.container.setOnLongClickListener {
                 adapterCallbacks.onApkLongClicked(it, holder.bindingAdapterPosition.minus(1))
                 true
-            }
-
-            tracker?.let {
-                holder.setSelected(it.isSelected(paths[position]))
             }
 
         } else if (holder is Header) {
@@ -142,23 +134,6 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.adapter_all_app_info)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
-
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> {
-            return object : ItemDetailsLookup.ItemDetails<String>() {
-                override fun getPosition(): Int {
-                    Log.d("AdapterApks", "getPosition: ${bindingAdapterPosition.minus(1)}")
-                    return bindingAdapterPosition.minus(1)
-                }
-
-                override fun getSelectionKey(): String {
-                    return paths[bindingAdapterPosition.minus(1)]
-                }
-            }
-        }
-
-        fun setSelected(selected: Boolean) {
-            container.setDefaultBackground(selected)
-        }
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
