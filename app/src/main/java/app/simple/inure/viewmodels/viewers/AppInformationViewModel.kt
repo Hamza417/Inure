@@ -119,8 +119,12 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getDataDir(): Pair<Int, Spannable> {
-        return Pair(R.string.data,
-                    packageInfo.applicationInfo.dataDir.applySecondaryTextColor())
+        kotlin.runCatching {
+            return Pair(R.string.data,
+                        packageInfo.applicationInfo.dataDir.applySecondaryTextColor())
+        }.getOrElse {
+            return Pair(R.string.data, getString(R.string.not_available).applySecondaryTextColor())
+        }
     }
 
     private fun getVersion(): Pair<Int, Spannable> {

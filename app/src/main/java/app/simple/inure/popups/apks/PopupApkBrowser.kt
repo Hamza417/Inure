@@ -13,6 +13,8 @@ class PopupApkBrowser(view: View) : BasePopupWindow() {
     private val install: DynamicRippleTextView
     private val delete: DynamicRippleTextView
     private val send: DynamicRippleTextView
+    private val manifest: DynamicRippleTextView
+    private val info: DynamicRippleTextView
 
     private var popupApkBrowserCallbacks: PopupApkBrowserCallbacks? = null
 
@@ -22,6 +24,8 @@ class PopupApkBrowser(view: View) : BasePopupWindow() {
         install = contentView.findViewById(R.id.popup_install)
         delete = contentView.findViewById(R.id.popup_delete)
         send = contentView.findViewById(R.id.popup_send)
+        manifest = contentView.findViewById(R.id.popup_manifest)
+        info = contentView.findViewById(R.id.popup_info)
 
         install.setOnClickListener {
             popupApkBrowserCallbacks?.onInstallClicked()
@@ -38,6 +42,16 @@ class PopupApkBrowser(view: View) : BasePopupWindow() {
             dismiss()
         }
 
+        manifest.setOnClickListener {
+            popupApkBrowserCallbacks?.onManifestClicked()
+            dismiss()
+        }
+
+        info.setOnClickListener {
+            popupApkBrowserCallbacks?.onInfoClicked()
+            dismiss()
+        }
+
         init(contentView, view, Gravity.END)
     }
 
@@ -50,6 +64,8 @@ class PopupApkBrowser(view: View) : BasePopupWindow() {
             fun onInstallClicked()
             fun onDeleteClicked()
             fun onSendClicked()
+            fun onManifestClicked()
+            fun onInfoClicked()
         }
     }
 }

@@ -49,4 +49,30 @@
         app:appFontStyle="bold"
         app:textColorStyle="primary" />
 
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_manifest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/manifest"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/popup_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:fontFamily="@font/lato_bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/information"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
+
 </merge>

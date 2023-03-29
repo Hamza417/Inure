@@ -15,6 +15,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.*
 import app.simple.inure.R
+import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.adapters.ui.AdapterApks
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BottomMenuConstants
@@ -69,22 +70,26 @@ class APKs : ScopedFragment() {
 
             adapterApks.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int) {
-                    if (adapterApks.paths[position].endsWith(".apk")) {
-                        packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                    kotlin.runCatching {
+                        if (adapterApks.paths[position].endsWith(".apk")) {
+                            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                            } else {
+                                @Suppress("DEPRECATION")
+                                requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageUtils.flags.toInt())!!
+                            }
+
+                            packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
                         } else {
-                            @Suppress("DEPRECATION")
-                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageUtils.flags.toInt())!!
+                            packageInfo = PackageInfo() // empty package info
+                            packageInfo.applicationInfo = ApplicationInfo() // empty application info
+                            packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
                         }
 
-                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
-                    } else {
-                        packageInfo = PackageInfo() // empty package info
-                        packageInfo.applicationInfo = ApplicationInfo() // empty application info
-                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
+                        openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
+                    }.onFailure {
+                        showWarning("Failed to open apk : ${adapterApks.paths[position].substringAfterLast("/")}}", false)
                     }
-
-                    openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
                 }
 
                 override fun onApkLongClicked(view: View, position: Int) {
@@ -123,6 +128,22 @@ class APKs : ScopedFragment() {
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             startActivity(Intent.createChooser(intent, it[position].substringAfterLast("/")))
                         }
+
+                        override fun onManifestClicked() {
+                            val uri = FileProvider.getUriForFile(
+                                    /* context = */ requireContext(),
+                                    /* authority = */ "${requireContext().packageName}.provider",
+                                    /* file = */ File(adapterApks.paths[position]))
+                            val intent = Intent(requireContext(), ManifestAssociationActivity::class.java)
+                            intent.setDataAndType(uri, "application/vnd.android.package-archive")
+                            intent.putExtra(Intent.EXTRA_STREAM, uri)
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            startActivity(Intent.createChooser(intent, it[position].substringAfterLast("/")))
+                        }
+
+                        override fun onInfoClicked() {
+                            onApkClicked(view, position)
+                        }
                     })
                 }
             })
@@ -133,7 +154,7 @@ class APKs : ScopedFragment() {
                 startPostponedEnterTransition()
             }
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.apkBrowserMenu, recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.apkBrowserMenu, recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_refresh -> {
                         apkScanner = childFragmentManager.showApkScanner()
