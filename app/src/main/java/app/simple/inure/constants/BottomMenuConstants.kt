@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 import app.simple.inure.R
+import app.simple.inure.preferences.ConfigurationPreferences
 
 object BottomMenuConstants {
 
@@ -79,21 +80,43 @@ object BottomMenuConstants {
             Pair(R.drawable.ic_search, R.string.search),
     )
 
-    private val batchMenu: ArrayList<Pair<Int, Int>> = arrayListOf(
-            Pair(R.drawable.ic_delete, R.string.delete),
-            // Pair(R.drawable.ic_share, R.string.share),
-            Pair(R.drawable.ic_downloading, R.string.extract),
-            Pair(R.drawable.ic_text_snippet, R.string.data),
-            divider,
-            Pair(R.drawable.ic_checklist, R.string.checklist),
-            Pair(R.drawable.ic_select_all, R.string.select_all),
-            divider,
-            Pair(R.drawable.ic_sort, R.string.sort),
-            Pair(R.drawable.ic_filter, R.string.filter),
-            Pair(R.drawable.ic_settings, R.string.preferences),
-            divider,
-            Pair(R.drawable.ic_search, R.string.search),
-    )
+    private val batchMenuNonRoot: ArrayList<Pair<Int, Int>> by lazy {
+        arrayListOf(
+                Pair(R.drawable.ic_delete, R.string.delete),
+                // Pair(R.drawable.ic_share, R.string.share),
+                Pair(R.drawable.ic_downloading, R.string.extract),
+                Pair(R.drawable.ic_text_snippet, R.string.data),
+                divider,
+                Pair(R.drawable.ic_checklist, R.string.checklist),
+                Pair(R.drawable.ic_select_all, R.string.select_all),
+                divider,
+                Pair(R.drawable.ic_sort, R.string.sort),
+                Pair(R.drawable.ic_filter, R.string.filter),
+                Pair(R.drawable.ic_settings, R.string.preferences),
+                divider,
+                Pair(R.drawable.ic_search, R.string.search),
+        )
+    }
+
+    private val batchMenuRoot: ArrayList<Pair<Int, Int>> by lazy {
+        arrayListOf(
+                Pair(R.drawable.ic_settings_power, R.string.battery),
+                divider,
+                Pair(R.drawable.ic_delete, R.string.delete),
+                // Pair(R.drawable.ic_share, R.string.share),
+                Pair(R.drawable.ic_downloading, R.string.extract),
+                Pair(R.drawable.ic_text_snippet, R.string.data),
+                divider,
+                Pair(R.drawable.ic_checklist, R.string.checklist),
+                Pair(R.drawable.ic_select_all, R.string.select_all),
+                divider,
+                Pair(R.drawable.ic_sort, R.string.sort),
+                Pair(R.drawable.ic_filter, R.string.filter),
+                Pair(R.drawable.ic_settings, R.string.preferences),
+                divider,
+                Pair(R.drawable.ic_search, R.string.search),
+        )
+    }
 
     private val notesFunctionMenu: ArrayList<Pair<Int, Int>> = arrayListOf(
             Pair(R.drawable.ic_format_bold, R.string.bold),
@@ -128,6 +151,8 @@ object BottomMenuConstants {
         )
     }
 
+    // *********************************************************************************************** //
+
     @Suppress("UNCHECKED_CAST")
     fun getGenericBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return genericBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
@@ -155,7 +180,11 @@ object BottomMenuConstants {
 
     @Suppress("UNCHECKED_CAST")
     fun getBatchMenu(): ArrayList<Pair<Int, Int>> {
-        return batchMenu.clone() as ArrayList<Pair<Int, Int>>
+        return if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
+            batchMenuRoot.clone() as ArrayList<Pair<Int, Int>>
+        } else {
+            batchMenuNonRoot.clone() as ArrayList<Pair<Int, Int>>
+        }
     }
 
     @Suppress("UNCHECKED_CAST")

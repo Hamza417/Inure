@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/package_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/battery_optimization"
+            android:textSize="@dimen/info_text_large"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/total_apps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/popup_padding"
+            android:text="@string/total_apps"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="secondary" />
+
+        <app.simple.inure.decorations.views.InureRadioButton
+            android:id="@+id/optimize_rb"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_size"
+            android:paddingHorizontal="@dimen/dialog_padding"
+            android:text="@string/optimize" />
+
+        <app.simple.inure.decorations.views.InureRadioButton
+            android:id="@+id/dont_optimize_rb"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_size"
+            android:paddingHorizontal="@dimen/dialog_padding"
+            android:text="@string/dont_optimize"
+            android:textSize="@dimen/preferences_title_text_size" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginTop="@dimen/popup_item_gap_length"
+                android:layout_marginEnd="5dp"
+                android:gravity="center"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/cancel"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginTop="@dimen/popup_item_gap_length"
+                android:gravity="center"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/set"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+        </LinearLayout>
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

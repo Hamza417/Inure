@@ -28,6 +28,7 @@ class HomeCustomization : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        fullVersionCheck()
 
         homeViewModel.getCustomizableMenuItems().observe(viewLifecycleOwner) {
             recyclerView.adapter = AdapterHomeCustomization(it)

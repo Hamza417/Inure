@@ -18,7 +18,6 @@ import androidx.collection.SparseArrayCompat
 import app.simple.inure.models.DataUsage
 import app.simple.inure.util.PermissionUtils
 import app.simple.inure.util.UsageInterval
-import dev.rikka.tools.refine.Refine
 import java.util.*
 
 open class UsageStatsViewModel(application: Application) : PackageUtilsViewModel(application) {
@@ -84,8 +83,8 @@ open class UsageStatsViewModel(application: Application) : PackageUtilsViewModel
             for (info in subscriptionInfoList) {
                 val subscriptionId = info.subscriptionId
                 try {
-                    val subscriberId: String = Refine.unsafeCast<TelephonyManager>(telephonyManager).subscriberId
-                    subscriberIds.add(subscriberId)
+                    // val subscriberId: String = Refine.unsafeCast<TelephonyManager>(telephonyManager).subscriberId
+                    // subscriberIds.add(subscriberId)
                 } catch (e: Exception) {
                     try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

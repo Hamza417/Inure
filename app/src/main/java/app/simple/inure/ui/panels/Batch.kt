@@ -15,6 +15,7 @@ import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
+import app.simple.inure.dialogs.batch.BatchBatteryOptimization.Companion.showBatchBatteryOptimization
 import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchUninstaller
@@ -187,6 +188,9 @@ class Batch : ScopedFragment() {
                             batchViewModel.clearGeneratedAppsDataLiveData()
                         }
                     }
+                }
+                R.drawable.ic_settings_power -> {
+                    childFragmentManager.showBatchBatteryOptimization(adapterBatch?.getCurrentAppsList()!!)
                 }
                 R.drawable.ic_checklist -> {
                     openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
