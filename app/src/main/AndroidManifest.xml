@@ -151,9 +151,9 @@
 
         <activity
             android:name=".activities.association.AppDetailsActivity"
-            android:enabled="false"
+            android:enabled="true"
             android:exported="true"
-            android:label="@string/app_info">
+            android:label="@string/information">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -202,13 +202,13 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apks" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apks" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apks" />
-                <data android:pathPattern=".*\\.xapk" />
-                <data android:pathPattern=".*\\..*\\.xapk" />
-                <data android:pathPattern=".*\\..*\\..*\\.xapk" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.xapk" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.xapk" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xapk" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\.zip" />
+                <data android:pathPattern=".*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.zip" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.zip" />
             </intent-filter>
         </activity>
 

@@ -31,6 +31,7 @@ import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
+import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
@@ -52,6 +53,11 @@ import kotlinx.coroutines.withContext
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.content.SharedPreferences.OnSharedPreferenceChangeListener {
+
+    /**
+     * Fragments own loader instance
+     */
+    private var loader: Loader? = null
 
     override fun attachBaseContext(newBaseContext: Context) {
         SharedPreferences.init(newBaseContext)
@@ -375,6 +381,15 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             }
             false
         }
+    }
+
+    open fun showLoader() {
+        loader = Loader.newInstance()
+        loader?.show(supportFragmentManager, "loader")
+    }
+
+    open fun hideLoader() {
+        loader?.dismiss()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {
