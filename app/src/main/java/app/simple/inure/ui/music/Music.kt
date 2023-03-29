@@ -121,14 +121,16 @@ class Music : KeyboardScopedFragment() {
 
                                 (view.parent as? ViewGroup)?.doOnPreDraw {
                                     startPostponedEnterTransition()
-                                    // Log.d("Music", "doOnPreDraw_1")
                                 }
                             }
                         } else {
                             (view.parent as? ViewGroup)?.doOnPreDraw {
                                 startPostponedEnterTransition()
-                                // Log.d("Music", "doOnPreDraw_2")
                             }
+                        }
+                    } else {
+                        (view.parent as? ViewGroup)?.doOnPreDraw {
+                            startPostponedEnterTransition()
                         }
                     }
                 }

@@ -31,6 +31,7 @@ import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioServicePager
 import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.MusicViewModel
@@ -46,6 +47,7 @@ class Search : KeyboardScopedFragment() {
     private var adapterMusic: AdapterMusic? = null
 
     private var deletedId = -1L
+    private var displayHeight: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_music_search, container, false)
@@ -55,6 +57,9 @@ class Search : KeyboardScopedFragment() {
         clear = view.findViewById(R.id.clear)
         searchContainer = view.findViewById(R.id.search_container)
         musicViewModel = ViewModelProvider(requireActivity())[MusicViewModel::class.java]
+
+        displayHeight = StatusBarHeight.getDisplayHeight(requireContext()) +
+                StatusBarHeight.getStatusBarHeight(requireContext().resources)
 
         //        val params = searchContainer.layoutParams as ViewGroup.MarginLayoutParams
         //        params.setMargins(params.leftMargin,
@@ -129,16 +134,24 @@ class Search : KeyboardScopedFragment() {
 
             recyclerView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
                 override fun onLayoutChange(view: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                    recyclerView.removeOnLayoutChangeListener(this)
-                    val layoutManager = recyclerView.layoutManager
-                    val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
-                    // Scroll to position if the view for the current position is null (not
-                    // currently part of layout manager children), or it's not completely
-                    // visible.
-                    if (viewAtPosition == null || layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)) {
-                        recyclerView.post {
-                            (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(MusicPreferences.getMusicPosition(), 0)
+                    if (savedInstanceState != null) {
+                        recyclerView.removeOnLayoutChangeListener(this)
+                        val layoutManager = recyclerView.layoutManager
+                        val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
 
+                        // Scroll to position if the view for the current position is null
+                        // (not currently part of layout manager children), or it's not completely
+                        // visible.
+                        if (viewAtPosition == null || layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)) {
+                            recyclerView.post {
+                                // Log.d("Music", displayHeight.toString())
+                                (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(MusicPreferences.getMusicPosition(), displayHeight / 2)
+
+                                (view.parent as? ViewGroup)?.doOnPreDraw {
+                                    startPostponedEnterTransition()
+                                }
+                            }
+                        } else {
                             (view.parent as? ViewGroup)?.doOnPreDraw {
                                 startPostponedEnterTransition()
                             }
