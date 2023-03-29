@@ -202,13 +202,62 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apks" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apks" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apks" />
-                <data android:pathPattern=".*\\.zip" />
-                <data android:pathPattern=".*\\..*\\.zip" />
-                <data android:pathPattern=".*\\..*\\..*\\.zip" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.zip" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.zip" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.zip" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.zip" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.association.ManifestAssociationActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/manifest">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/vnd.android.package-archive" />
+                <data android:mimeType="application/vnd.apkm" />
+                <data android:mimeType="application/xapk-package-archive" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="application/vnd.android.package-archive" />
+                <data android:mimeType="application/vnd.apkm" />
+                <data android:mimeType="application/xapk-package-archive" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apkm" />
+                <data android:pathPattern=".*\\.apks" />
+                <data android:pathPattern=".*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apks" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apks" />
             </intent-filter>
         </activity>
 

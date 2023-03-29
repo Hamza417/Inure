@@ -56,7 +56,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                 || packageInfo.applicationInfo.sourceDir.endsWith(".zip")) {
 
                 val zipFile = ZipFile(packageInfo.applicationInfo.sourceDir)
-                val file = applicationContext().getInstallerDir("temp.apk")
+                val file = applicationContext().getInstallerDir("temp")
 
                 file.delete()
                 zipFile.extractFile("base.apk", file.absolutePath)

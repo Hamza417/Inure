@@ -11,14 +11,16 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.activities.BaseActivity
-import app.simple.inure.ui.viewers.Information
+import app.simple.inure.ui.viewers.XMLViewerTextView
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.NullSafety.isNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import net.lingala.zip4j.ZipFile
 
-class AppDetailsActivity : BaseActivity() {
+class ManifestAssociationActivity : BaseActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,25 +32,44 @@ class AppDetailsActivity : BaseActivity() {
                     kotlin.runCatching {
                         val name = DocumentFile.fromSingleUri(applicationContext, intent.data!!)!!.name
                         val sourceFile = applicationContext.getInstallerDir(name!!)
-                        val packageInfo: PackageInfo
+                        var packageInfo = PackageInfo()
 
                         contentResolver.openInputStream(intent.data!!)!!.use {
                             FileUtils.copyStreamToFile(it, sourceFile)
                         }
 
                         if (sourceFile.absolutePath.endsWith(".apk")) {
-                            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
-                            } else {
-                                @Suppress("DEPRECATION")
-                                packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageUtils.flags.toInt())!!
-                            }
+                            kotlin.runCatching {
+                                packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                                } else {
+                                    @Suppress("DEPRECATION")
+                                    packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageUtils.flags.toInt())!!
+                                }
 
-                            packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
+                                packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
+                            }.getOrElse {
+                                packageInfo = PackageInfo() // empty package info
+                                packageInfo.applicationInfo = ApplicationInfo() // empty application info
+                                packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
+                            }
                         } else {
                             packageInfo = PackageInfo() // empty package info
                             packageInfo.applicationInfo = ApplicationInfo() // empty application info
                             packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
+
+                            if (packageInfo.applicationInfo.sourceDir.endsWith(".apkm")
+                                || packageInfo.applicationInfo.sourceDir.endsWith(".apks")
+                                || packageInfo.applicationInfo.sourceDir.endsWith(".zip")) {
+
+                                val zipFile = ZipFile(packageInfo.applicationInfo.sourceDir)
+                                val file = applicationContext.getInstallerDir("temp")
+
+                                file.delete()
+                                zipFile.extractFile("base.apk", file.absolutePath)
+
+                                packageInfo.applicationInfo.sourceDir = file.absolutePath + "/base.apk"
+                            }
                         }
 
                         withContext(Dispatchers.Main) {
@@ -56,13 +77,17 @@ class AppDetailsActivity : BaseActivity() {
 
                             supportFragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
-                                .replace(R.id.app_container, Information.newInstance(packageInfo), "app_info")
+                                .replace(R.id.app_container, XMLViewerTextView
+                                    .newInstance(packageInfo,
+                                                 true,
+                                                 sourceFile.absolutePath + "/AndroidManifest.xml",
+                                                 false), "app_info")
                                 .commit()
                         }
                     }.getOrElse {
                         withContext(Dispatchers.Main) {
                             hideLoader()
-                            showWarning(it.localizedMessage ?: it.message ?: ("cannot parse file : " + DocumentFile.fromSingleUri(applicationContext, intent.data!!)!!.name))
+                            showWarning(it.localizedMessage ?: it.message ?: "Unknown error occurred")
                         }
                     }
                 }
