@@ -1,0 +1,5 @@
+- Added APK Browser/Scanner
+- Added APK Info panel
+- Added APK Manifest panel
+- Fixed few crashes and bugs
+- Improved animation framework
