@@ -72,21 +72,14 @@ feedbacks [here](https://github.com/Hamza417/Inure/discussions/48).
 - [x] External APK information.
 - [x] Proper analytics panel.
 - [x] App directories panel.
-- [ ] APK browser for apps that are not yet installed.
+- [x] APK browser for apps that are not yet installed.
 - [x] Modify Shared Prefs of other apps _(root)_.
-- [ ] Modify SQLite databases of other apps _(root)_.
-- [ ] Multiple user support _(suspended)_.
-- [ ] Use app via ADB Shell instead of root? _(suspended)_.
 - [x] Add battery optimisation manager for all apps.
 - [x] Boot manager for all apps.
-- [ ] Quick Apps Sync from different devices.
-- [ ] Options to modify state of trackers of any app </br>
-      _(suspended, not possible to implement without custom DNS filter)_.
 - [ ] Manage system wide default apps.
 
 ### Low priority features
 
-- [ ] Code highlights for all languages an Android app possibly contains.
 - [x] Dedicated TextEditor.
 - [x] ImageViewer scalable zoom support.
 - [ ] APK data extraction.
