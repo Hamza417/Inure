@@ -18,6 +18,7 @@ import app.simple.inure.R
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
@@ -58,7 +59,7 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        if (!AppearancePreferences.isTransparentStatusDisabled()) {
+        if (!DevelopmentPreferences.get(DevelopmentPreferences.transparentStatus)) {
             makeAppFullScreen()
             // fixNavigationBarOverlap()
         }

@@ -23,7 +23,6 @@ object AppearancePreferences {
     const val accentColorLight = "app_accent_color_light"
     const val appFont = "type_face"
     const val accentOnNav = "accent_color_on_nav_bar"
-    const val transparentStatus = "is_transparent_status_disabled_removed"
     const val iconSize = "app_icon_size"
 
     const val minIconSize = 75
@@ -129,17 +128,6 @@ object AppearancePreferences {
 
     fun isAccentOnNavigationBar(): Boolean {
         return getSharedPreferences().getBoolean(accentOnNav, false)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    @Suppress("unused")
-    fun setTransparentStatusState(boolean: Boolean) {
-        getSharedPreferences().edit().putBoolean(transparentStatus, boolean).apply()
-    }
-
-    fun isTransparentStatusDisabled(): Boolean {
-        return getSharedPreferences().getBoolean(transparentStatus, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.TestOnly;
 import androidx.annotation.Nullable;
 import app.simple.inure.R;
 import app.simple.inure.decorations.theme.ThemeLinearLayout;
-import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.util.StatusBarHeight;
 
 public class PaddingAwareLinearLayout extends ThemeLinearLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -52,7 +52,7 @@ public class PaddingAwareLinearLayout extends ThemeLinearLayout implements Share
     }
     
     private void updatePadding() {
-        if (AppearancePreferences.INSTANCE.isTransparentStatusDisabled()) {
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.transparentStatus)) {
             if (getPaddingTop() >= StatusBarHeight.getStatusBarHeight(getResources())) {
                 setPadding(getPaddingLeft(),
                         Math.abs(StatusBarHeight.getStatusBarHeight(getResources()) - getPaddingTop()),
@@ -69,7 +69,7 @@ public class PaddingAwareLinearLayout extends ThemeLinearLayout implements Share
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(AppearancePreferences.transparentStatus)) {
+        if (key.equals(DevelopmentPreferences.transparentStatus)) {
             updatePadding();
         }
     }

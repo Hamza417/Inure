@@ -16,6 +16,7 @@ import app.simple.inure.decorations.itemdecorations.DividerItemDecoration
 import app.simple.inure.decorations.theme.ThemeRecyclerView
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
@@ -50,7 +51,7 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
                     edgeColor = AppearancePreferences.getAccentColor()
 
                     if (getBoolean(R.styleable.RecyclerView_statusBarPaddingRequired, true)) {
-                        if (!AppearancePreferences.isTransparentStatusDisabled()) {
+                        if (!DevelopmentPreferences.get(DevelopmentPreferences.transparentStatus)) {
                             setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
                         }
                     }

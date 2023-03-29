@@ -18,79 +18,87 @@ object DevelopmentPreferences {
     const val enableDeviceInfo = "is_device_info_enabled"
     const val addBitmapToMetadata = "is_bitmap_added_to_metadata"
     const val enableHiddenApps = "is_hidden_apps_enabled"
+    const val transparentStatus = "is_transparent_status_disabled_removed"
 
-    val developmentPreferences: List<DevelopmentPreferencesModel> = listOf(
-            DevelopmentPreferencesModel("Use WebView for XML Preview",
-                                        "Use WebView for XML Preview instead of TextView.",
-                                        isWebViewXmlViewer,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+    val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
+        listOf(
+                DevelopmentPreferencesModel("Use WebView for XML Preview",
+                                            "Use WebView for XML Preview instead of TextView.",
+                                            isWebViewXmlViewer,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Hide Preferences Indicator",
-                                        "Hides the indicators in the settings and dialogs.",
-                                        preferencesIndicator,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Hide Preferences Indicator",
+                                            "Hides the indicators in the settings and dialogs.",
+                                            preferencesIndicator,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Enable Music",
-                                        "Enable music player in the app.",
-                                        music,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Enable Music",
+                                            "Enable music player in the app.",
+                                            music,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Disable Native Crash Handler",
-                                        "Disable native crash handler of the app and let system handle crash reports.",
-                                        crashHandler,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Disable Native Crash Handler",
+                                            "Disable native crash handler of the app and let system handle crash reports.",
+                                            crashHandler,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Disable Image Caching",
-                                        "Disable image caching to save memory but at the cost of higher CPU usage due to regeneration of all image data everytime they\'re loaded.",
-                                        imageCaching,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Disable Image Caching",
+                                            "Disable image caching to save memory but at the cost of higher CPU usage due to regeneration of all image data everytime they\'re loaded.",
+                                            imageCaching,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Enable Debug Messages",
-                                        "Enable debug messages in the app to help with debugging and finding bugs.",
-                                        debugMessages,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Enable Debug Messages",
+                                            "Enable debug messages in the app to help with debugging and finding bugs.",
+                                            debugMessages,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Enable Hover Animation",
-                                        "Enable scale animation on hover on all views in the app.",
-                                        hoverAnimation,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Enable Hover Animation",
+                                            "Enable scale animation on hover on all views in the app.",
+                                            hoverAnimation,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Center Bottom Menu",
-                                        "Center gravity for the bottom menus in the app.",
-                                        centerBottomMenu,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Center Bottom Menu",
+                                            "Center gravity for the bottom menus in the app.",
+                                            centerBottomMenu,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Enable Alternative Battery Optimization Switch",
-                                        "Enable alternative battery optimization switcher popup in the app.",
-                                        alternativeBatteryOptimizationSwitch,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Enable Alternative Battery Optimization Switch",
+                                            "Enable alternative battery optimization switcher popup in the app.",
+                                            alternativeBatteryOptimizationSwitch,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Load Album Art From File",
-                                        "Load album art from file instead of using MediaStore.\n\nThis will increase the time taken to load album art but will improve the album art quality.",
-                                        loadAlbumArtFromFile,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Load Album Art From File",
+                                            "Load album art from file instead of using MediaStore.\n\nThis will increase the time taken to load album art but will improve the album art quality.",
+                                            loadAlbumArtFromFile,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Use Old Style Usage Stats Panel",
-                                        "Use old raw data style usage stats panel instead of the current one.",
-                                        useOldStyleUsageStatsPanel,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Use Old Style Usage Stats Panel",
+                                            "Use old raw data style usage stats panel instead of the current one.",
+                                            useOldStyleUsageStatsPanel,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Enable Device Info",
-                                        "Enable Device Info panel in the app. It was planned but never implemented.",
-                                        enableDeviceInfo,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Enable Device Info",
+                                            "Enable Device Info panel in the app. It was planned but never implemented.",
+                                            enableDeviceInfo,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Add Bitmap To Metadata",
-                                        "Add bitmap to the metadata of MusicPlayerService. Useful for ROMs that shows Album Art on Lock Screen.",
-                                        addBitmapToMetadata,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN),
+                DevelopmentPreferencesModel("Add Bitmap To Metadata",
+                                            "Add bitmap to the metadata of MusicPlayerService. Useful for ROMs that shows Album Art on Lock Screen.",
+                                            addBitmapToMetadata,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-            DevelopmentPreferencesModel("Enable Hidden Apps",
-                                        "Enable Hidden Apps in the app. The feature was added but removed due to API changes by Google and is not working properly anymore.",
-                                        enableHiddenApps,
-                                        DevelopmentPreferencesModel.TYPE_BOOLEAN)
-    ).sortedBy {
-        it.title
+                DevelopmentPreferencesModel("Enable Hidden Apps",
+                                            "Enable Hidden Apps in the app. The feature was added but removed due to API changes by Google and is not working properly anymore.",
+                                            enableHiddenApps,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Disable Transparent Status",
+                                            "Disable transparent status bar in the app. This will make the status bar opaque.",
+                                            transparentStatus,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
+        ).sortedBy {
+            it.title
+        }
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

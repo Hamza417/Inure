@@ -121,7 +121,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        if (!AppearancePreferences.isTransparentStatusDisabled()) {
+        if (!DevelopmentPreferences.get(DevelopmentPreferences.transparentStatus)) {
             makeAppFullScreen()
         }
 
@@ -253,7 +253,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     }
 
     private fun makeAppFullScreen() {
-        if (AppearancePreferences.isTransparentStatusDisabled()) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.transparentStatus)) {
             window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
             WindowCompat.setDecorFitsSystemWindows(window, true)
         } else {
@@ -275,7 +275,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
          */
         val root = findViewById<CoordinatorLayout>(R.id.app_container)
 
-        if (AppearancePreferences.isTransparentStatusDisabled()) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.transparentStatus)) {
             root.layoutParams = (root.layoutParams as FrameLayout.LayoutParams).apply {
                 leftMargin = 0
                 bottomMargin = 0
@@ -394,7 +394,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {
         when (key) {
-            AppearancePreferences.transparentStatus -> {
+            DevelopmentPreferences.transparentStatus -> {
                 makeAppFullScreen()
                 fixNavigationBarOverlap()
             }

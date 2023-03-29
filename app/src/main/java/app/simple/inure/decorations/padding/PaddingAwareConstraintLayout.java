@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
 import app.simple.inure.decorations.theme.ThemeConstraintLayout;
-import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.util.StatusBarHeight;
 
 public class PaddingAwareConstraintLayout extends ThemeConstraintLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -29,7 +29,7 @@ public class PaddingAwareConstraintLayout extends ThemeConstraintLayout implemen
     }
     
     private void updatePadding() {
-        if (AppearancePreferences.INSTANCE.isTransparentStatusDisabled()) {
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.transparentStatus)) {
             if (getPaddingTop() >= StatusBarHeight.getStatusBarHeight(getResources())) {
                 setPadding(getPaddingLeft(),
                         Math.abs(StatusBarHeight.getStatusBarHeight(getResources()) - getPaddingTop()),
@@ -46,7 +46,7 @@ public class PaddingAwareConstraintLayout extends ThemeConstraintLayout implemen
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(AppearancePreferences.transparentStatus)) {
+        if (key.equals(DevelopmentPreferences.transparentStatus)) {
             updatePadding();
         }
     }

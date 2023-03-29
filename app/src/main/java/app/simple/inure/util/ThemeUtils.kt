@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import app.simple.inure.R
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
@@ -169,7 +170,7 @@ object ThemeUtils {
     }
 
     private fun setStatusAndNavColors(window: Window) {
-        if (AppearancePreferences.isTransparentStatusDisabled()) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.transparentStatus)) {
             window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
         } else {
             window.statusBarColor = Color.TRANSPARENT
