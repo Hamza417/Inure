@@ -23,7 +23,7 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:focusable="false"
-            android:transitionName="@string/scan_apks"
+            android:transitionName="@string/APKs"
             app:srcCompat="@drawable/ic_android"
             app:tintType="accent" />
 
@@ -37,7 +37,7 @@
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:text="@string/scan_apks"
+            android:text="@string/APKs"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="light"
             app:textColorStyle="heading" />

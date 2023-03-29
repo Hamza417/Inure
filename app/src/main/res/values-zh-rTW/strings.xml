@@ -672,6 +672,6 @@
     <string name="home_visibility_customization_desc">變更主面板部分選項的可見性。</string>
     <string name="saved_to">已儲存至 %1$s</string>
     <string name="desc_app_path">變更應用程式的預設儲存空間目錄。</string>
-    <string name="scan_apks">APKs</string>
+    <string name="APKs">APKs</string>
     <string name="scanning">正在掃描</string>
 </resources>

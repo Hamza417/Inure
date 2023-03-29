@@ -386,7 +386,7 @@
                     android:layout_marginTop="5dp"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
-                    android:text="@string/scan_apks"
+                    android:text="@string/APKs"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_dot_tiny"
