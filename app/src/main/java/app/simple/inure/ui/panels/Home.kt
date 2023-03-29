@@ -190,7 +190,7 @@ class Home : ScopedFragment() {
                         R.string.saved_commands -> {
                             openFragmentArc(TerminalCommands.newInstance(), icon, "saved_commands")
                         }
-                        R.string.APKs -> {
+                        R.string.scan_apks -> {
                             openFragmentArc(APKs.newInstance(), icon, "apks")
                         }
                     }

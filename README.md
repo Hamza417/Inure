@@ -43,7 +43,7 @@ An elegant Android app manager.
 Inure is an Android application package manager irrespective of whether they're installed or not, it
 can scan through any app's internal components and modify them on the go. It also packs a nice
 looking Terminal Emulator, Usage Stats, Split/APK Installer and various other tools and many of them
-are waiting to be implemented as well. On top of that, Inure's all functionalities been made to 
+are waiting to be implemented as well. On top of that, Inure's all functionalities been made to
 work with both Root and Shizuku modes.
 
 Inure's development was started as an independent learning project which later has become one of the
@@ -91,29 +91,41 @@ is [here](https://github.com/Hamza417/Inure/issues/63).*
 
 ### App's Interface
 
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/01.png) | ![02](fastlane/metadata/android/en-US/images/phoneScreenshots/03.png) | ![03](fastlane/metadata/android/en-US/images/phoneScreenshots/04.png) | ![04](fastlane/metadata/android/en-US/images/phoneScreenshots/06.jpg) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                 0x01                                  |                                 0x02                                  |                                 0x03                                  |                                 0x04                                  |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/00.png) | ![02](fastlane/metadata/android/en-US/images/phoneScreenshots/01.png) | ![03](fastlane/metadata/android/en-US/images/phoneScreenshots/04.png) | 
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x01                                  |                                 0x02                                  |                                 0x03                                  |
 
-| ![15](fastlane/metadata/android/en-US/images/phoneScreenshots/15.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/07.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/05.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/08.jpg) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                 0x05                                  |                                 0x06                                  |                                 0x07                                  |                                 0x08                                  |
+| ![04](fastlane/metadata/android/en-US/images/phoneScreenshots/06.jpg) | ![15](fastlane/metadata/android/en-US/images/phoneScreenshots/15.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/07.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x04                                  |                                 0x05                                  |                                 0x06                                  |  
 
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/09.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/10.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/11.jpg) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                 0x09                                  |                                 0x00                                  |                                 0x0A                                  |                                 0x0B                                  |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/05.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/08.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x07                                  |                                 0x08                                  |                                 0x09                                  | 
 
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/12.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/13.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/00.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/14.png) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                 0x0C                                  |                                 0x0D                                  |                                 0x0E                                  |                                 0x0F                                  |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/09.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/10.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/11.jpg) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x00                                  |                                 0x0A                                  |                                 0x0B                                  |
 
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/16.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/21.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/17.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/18.png) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                 0x11                                  |                                 0x12                                  |                                 0x13                                  |                                 0x14                                  |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/12.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/13.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/03.png) | 
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x0C                                  |                                 0x0D                                  |                                 0x0E                                  |
 
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/19.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/20.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/22.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/21.png) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                 0x15                                  |                                 0x16                                  |                                 0x17                                  |                                 0x18                                  |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/14.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/16.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/21.jpg) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x0F                                  |                                 0x11                                  |                                 0x12                                  | 
+
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/17.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/18.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/19.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x13                                  |                                 0x14                                  |                                 0x15                                  | 
+
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/20.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/22.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/21.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x16                                  |                                 0x17                                  |                                 0x18                                  |
+
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/23.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/24.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/25.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x19                                  |                                 0x1A                                  |                                 0x1B                                  |
 
 ## Behind The Scenes
 
