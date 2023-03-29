@@ -18,8 +18,8 @@ android {
         applicationId "app.simple.inure"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 65
-        versionName "build65"
+        versionCode 66
+        versionName "build66"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -166,10 +166,8 @@ dependencies {
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'net.lingala.zip4j:zip4j:2.9.0'
-    implementation 'dev.rikka.tools.refine:runtime:3.1.1'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
     implementation 'com.jaredrummler:apk-parser:1.0.2'
-    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
 
     // root
     def libsuVersion = '5.0.3'
