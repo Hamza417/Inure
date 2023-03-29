@@ -2,6 +2,10 @@ package app.simple.inure.ui.panels
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.*
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterApks
+import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.apks.ApkScanner
@@ -21,6 +26,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.apks.PopupApkBrowser
+import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
 import java.io.File
@@ -63,6 +69,25 @@ class APKs : ScopedFragment() {
 
             adapterApks.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int) {
+                    if (adapterApks.paths[position].endsWith(".apk")) {
+                        packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                        } else {
+                            @Suppress("DEPRECATION")
+                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageUtils.flags.toInt())!!
+                        }
+
+                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
+                    } else {
+                        packageInfo = PackageInfo() // empty package info
+                        packageInfo.applicationInfo = ApplicationInfo() // empty application info
+                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
+                    }
+
+                    openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
+                }
+
+                override fun onApkLongClicked(view: View, position: Int) {
                     PopupApkBrowser(view).setPopupApkBrowserCallbacks(object : PopupApkBrowser.Companion.PopupApkBrowserCallbacks {
                         override fun onInstallClicked() {
                             val uri = FileProvider.getUriForFile(
@@ -99,10 +124,6 @@ class APKs : ScopedFragment() {
                             startActivity(Intent.createChooser(intent, it[position].substringAfterLast("/")))
                         }
                     })
-                }
-
-                override fun onApkLongClicked(view: View, position: Int) {
-
                 }
             })
 

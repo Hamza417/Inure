@@ -16,10 +16,11 @@ import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
 import app.simple.inure.apk.parsers.APKParser.getNativeLibraries
 import app.simple.inure.apk.utils.MetaUtils
+import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.FileUtils.toFile
@@ -28,11 +29,13 @@ import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
+import net.lingala.zip4j.ZipFile
 import java.io.File
 import java.text.NumberFormat
 
-class AppInformationViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class AppInformationViewModel(application: Application, private var packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val information: MutableLiveData<ArrayList<Pair<Int, Spannable>>> by lazy {
         MutableLiveData<ArrayList<Pair<Int, Spannable>>>().also {
@@ -47,6 +50,33 @@ class AppInformationViewModel(application: Application, private val packageInfo:
     }
 
     private fun loadInformation() {
+        kotlin.runCatching {
+            if (packageInfo.applicationInfo.sourceDir.endsWith(".apkm")
+                || packageInfo.applicationInfo.sourceDir.endsWith(".apks")
+                || packageInfo.applicationInfo.sourceDir.endsWith(".zip")) {
+
+                val zipFile = ZipFile(packageInfo.applicationInfo.sourceDir)
+                val file = applicationContext().getInstallerDir("temp.apk")
+
+                file.delete()
+                zipFile.extractFile("base.apk", file.absolutePath)
+
+                packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    packageManager.getPackageArchiveInfo(file.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                } else {
+                    @Suppress("DEPRECATION")
+                    packageManager.getPackageArchiveInfo(file.absolutePath, PackageUtils.flags.toInt())!!
+                }
+
+                packageInfo.applicationInfo.sourceDir = file.absolutePath
+                packageInfo.splitNames = zipFile.fileHeaders.map { it.fileName }.toTypedArray()
+            }
+        }.getOrElse {
+            it.printStackTrace()
+            postError(it)
+            return@getOrElse
+        }
+
         information.postValue(arrayListOf(
                 getPackageName(),
                 getVersion(),
@@ -66,7 +96,7 @@ class AppInformationViewModel(application: Application, private val packageInfo:
                 getMethodCount(),
                 getApex(),
                 getApplicationType(),
-                getInstallerName(),
+                getInstaller(),
                 getRequestedPermissions(),
                 getFeatures(),
                 getSplitNames()
@@ -79,8 +109,13 @@ class AppInformationViewModel(application: Application, private val packageInfo:
     }
 
     private fun getApkPath(): Pair<Int, Spannable> {
-        return Pair(R.string.apk_base_package,
-                    packageInfo.applicationInfo.sourceDir.applySecondaryTextColor())
+        val apkPath = kotlin.runCatching {
+            packageInfo.applicationInfo.sourceDir
+        }.getOrElse {
+            null
+        }
+
+        return Pair(R.string.apk_base_package, apkPath?.applySecondaryTextColor() ?: getString(R.string.not_available).applySecondaryTextColor())
     }
 
     private fun getDataDir(): Pair<Int, Spannable> {
@@ -89,36 +124,55 @@ class AppInformationViewModel(application: Application, private val packageInfo:
     }
 
     private fun getVersion(): Pair<Int, Spannable> {
-        return Pair(R.string.version,
-                    PackageUtils.getApplicationVersion(context, packageInfo).applySecondaryTextColor())
+        return if (packageManager.isPackageInstalled(packageInfo.packageName)) {
+            Pair(R.string.version,
+                 PackageUtils.getApplicationVersion(context, packageInfo).applySecondaryTextColor())
+        } else {
+            val versionCode = ApkFile(packageInfo.applicationInfo.sourceDir).use {
+                it.apkMeta.versionName
+            }
+
+            Pair(R.string.version, versionCode.toString().applySecondaryTextColor())
+        }
     }
 
     private fun getVersionCode(): Pair<Int, Spannable> {
-        return Pair(R.string.version,
-                    PackageUtils.getApplicationVersionCode(context, packageInfo).applySecondaryTextColor())
+        return if (packageManager.isPackageInstalled(packageInfo.packageName)) {
+            Pair(R.string.version_code,
+                 PackageUtils.getApplicationVersion(context, packageInfo).applySecondaryTextColor())
+        } else {
+            val versionCode = ApkFile(packageInfo.applicationInfo.sourceDir).use {
+                it.apkMeta.versionCode
+            }
+
+            Pair(R.string.version_code, versionCode.toString().applySecondaryTextColor())
+        }
     }
 
     private fun getInstallLocation(): Pair<Int, Spannable> {
         val installLocation = kotlin.runCatching {
             when (packageInfo.installLocation) {
-                PackageInfo.INSTALL_LOCATION_AUTO -> R.string.auto
-                PackageInfo.INSTALL_LOCATION_INTERNAL_ONLY -> R.string.internal
-                PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL -> R.string.prefer_external
+                PackageInfo.INSTALL_LOCATION_AUTO -> getString(R.string.auto)
+                PackageInfo.INSTALL_LOCATION_INTERNAL_ONLY -> getString(R.string.internal)
+                PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL -> getString(R.string.prefer_external)
                 else -> {
                     if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
-                        R.string.system
+                        getString(R.string.system)
                     } else {
-                        R.string.not_available
+                        getString(R.string.not_available)
                     }
                 }
             }
         }.getOrElse {
-            R.string.not_available
+            if (packageManager.isPackageInstalled(packageInfo.packageName)) {
+                getString(R.string.app_not_installed, packageInfo.packageName)
+            } else {
+                getString(R.string.not_available)
+            }
         }
 
-        // TODO - fix this string issue
         return Pair(R.string.install_location,
-                    getString(installLocation).applySecondaryTextColor())
+                    installLocation.applySecondaryTextColor())
     }
 
     private fun getGlesVersion(): Pair<Int, Spannable> {
@@ -143,8 +197,14 @@ class AppInformationViewModel(application: Application, private val packageInfo:
     }
 
     private fun getNativeLibsDir(): Pair<Int, Spannable> {
+        val nativeLibsDir = kotlin.runCatching {
+            packageInfo.applicationInfo.nativeLibraryDir
+        }.getOrElse {
+            null
+        }
+
         return Pair(R.string.native_libraries_dir,
-                    packageInfo.applicationInfo.nativeLibraryDir.applySecondaryTextColor())
+                    nativeLibsDir?.applySecondaryTextColor() ?: getString(R.string.not_available).applySecondaryTextColor())
     }
 
     private fun getUID(): Pair<Int, Spannable> {
@@ -240,7 +300,7 @@ class AppInformationViewModel(application: Application, private val packageInfo:
                     applicationType.applySecondaryTextColor())
     }
 
-    private fun getInstallerName(): Pair<Int, Spannable> {
+    private fun getInstaller(): Pair<Int, Spannable> {
         @Suppress("deprecation")
         val name = kotlin.runCatching {
             val p0 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -251,7 +311,11 @@ class AppInformationViewModel(application: Application, private val packageInfo:
 
             PackageUtils.getApplicationName(context, p0!!)
         }.getOrElse {
-            getString(R.string.not_available)
+            if (packageManager.isPackageInstalled(packageInfo.packageName)) {
+                getString(R.string.unknown)
+            } else {
+                getString(R.string.app_not_installed, packageInfo.packageName)
+            }
         }
 
         return Pair(R.string.installer,
@@ -262,10 +326,9 @@ class AppInformationViewModel(application: Application, private val packageInfo:
         val permissions = StringBuilder()
 
         try {
-            val appPackageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
-            appPackageInfo.requestedPermissions.sort()
+            packageInfo.requestedPermissions.sort()
 
-            for (permission in appPackageInfo.requestedPermissions) {
+            for (permission in packageInfo.requestedPermissions) {
                 if (permissions.isEmpty()) {
                     permissions.append(permission)
                 } else {
@@ -298,7 +361,7 @@ class AppInformationViewModel(application: Application, private val packageInfo:
             }
         } catch (e: NullPointerException) {
             e.printStackTrace()
-            names.append(R.string.not_available)
+            names.append(getString(R.string.not_available))
         }
 
         if (names.isEmpty())
@@ -312,7 +375,7 @@ class AppInformationViewModel(application: Application, private val packageInfo:
         val features = StringBuilder()
 
         try {
-            for (feature in packageManager.getPackageInfo(packageInfo.packageName)!!.reqFeatures) {
+            for (feature in packageInfo.reqFeatures) {
                 if (features.isEmpty()) {
                     if (feature.name.isNullOrEmpty()) {
                         features.append(MetaUtils.getOpenGL(feature.reqGlEsVersion))
