@@ -17,12 +17,12 @@ class BatchBatteryOptimizationViewModel(application: Application, val apps: Arra
 
     private var isOptimized: Boolean = false
 
-    private val done: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
+    private val result: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
     }
 
-    fun getDone(): LiveData<Int> {
-        return done
+    fun getResult(): LiveData<String> {
+        return result
     }
 
     fun init(isOptimized: Boolean) {
@@ -53,11 +53,7 @@ class BatchBatteryOptimizationViewModel(application: Application, val apps: Arra
             Log.d("BatchBatteryOptimizationViewModel", "runSuCommand: ${createCommand()}")
             Shell.cmd(createCommand()).exec().let {
                 Log.d("BatchBatteryOptimizationViewModel", "runSuCommand: ${it.out}")
-                if (it.isSuccess) {
-                    done.postValue((0..100).random())
-                } else {
-                    done.postValue(-1)
-                }
+                result.postValue(it.out.toString())
             }
         }
     }
@@ -66,12 +62,11 @@ class BatchBatteryOptimizationViewModel(application: Application, val apps: Arra
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 ShizukuUtils.execInternal(Command(createCommand(), null), null).let {
-                    Log.d("BatchBatteryOptimizationViewModel", "runShizukuCommand: ${it.out}")
+                    result.postValue(it.out.toString())
                 }
-            }.onSuccess {
-                done.postValue((0..100).random())
             }.onFailure {
-                done.postValue(-1)
+                Log.d("BatchBatteryOptimizationViewModel", "runShizukuCommand: ${it.message}")
+                postError(it)
             }
         }
     }

@@ -11,6 +11,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.InureRadioButton
+import app.simple.inure.dialogs.app.Result.Companion.showResult
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.BatchBatteryOptimizationFactory
 import app.simple.inure.models.BatchPackageInfo
@@ -71,14 +72,9 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
             dismiss()
         }
 
-        batchBatteryOptimizationViewModel?.getDone()?.observe(viewLifecycleOwner) {
-            if (it == -1) {
-                showWarning(R.string.failed)
-                dismiss()
-            } else {
-                showWarning(R.string.done)
-                dismiss()
-            }
+        batchBatteryOptimizationViewModel?.getResult()?.observe(viewLifecycleOwner) {
+            parentFragmentManager.showResult(it)
+            dismiss()
         }
 
         batchBatteryOptimizationViewModel?.getWarning()?.observe(viewLifecycleOwner) {
