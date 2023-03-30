@@ -16,20 +16,6 @@
         android:padding="@dimen/dialog_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/adapter_permissions_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dialog_padding"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:text="@string/dangerous_permission_info"
-            android:textSize="@dimen/desc_text_size"
-            app:appFontStyle="regular"
-            app:drawableStartCompat="@drawable/ic_warning_tiny"
-            app:drawableTintStyle="warning"
-            app:textColorStyle="tertiary" />
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/permissions_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,17 +37,36 @@
             android:id="@+id/permissions_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
             android:textSize="@dimen/info_text_small"
+            android:layout_marginBottom="@dimen/popup_padding"
             app:appFontStyle="regular"
             app:textColorStyle="tertiary" />
 
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:id="@+id/divider"
+            android:layout_width="wrap_content"
+            android:layout_height="1px" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_padding"
+            android:drawablePadding="5dp"
+            android:gravity="start"
+            android:text="@string/dangerous_permission_info"
+            android:textSize="@dimen/desc_text_size"
+            app:appFontStyle="regular"
+            app:drawableStartCompat="@drawable/ic_warning_tiny"
+            app:drawableTintStyle="warning"
+            app:textColorStyle="tertiary" />
+
         <LinearLayout
+            android:id="@+id/btn_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="@dimen/dialog_padding"
-            android:animateLayoutChanges="true"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <app.simple.inure.decorations.views.CustomProgressBar
@@ -69,18 +74,15 @@
                 android:layout_width="@dimen/loader_size"
                 android:layout_height="@dimen/loader_size"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
                 android:visibility="invisible" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="5dp"
                 android:gravity="center"
                 android:padding="@dimen/button_padding"
                 android:text="@string/close"
@@ -93,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:gravity="center"
                 android:padding="@dimen/button_padding"
                 android:text="@string/grant"
@@ -102,7 +104,5 @@
                 app:textColorStyle="accent" />
 
         </LinearLayout>
-
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
-
 </FrameLayout>

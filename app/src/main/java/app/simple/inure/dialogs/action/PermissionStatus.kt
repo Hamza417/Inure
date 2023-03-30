@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.theme.ThemeDivider
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
@@ -20,6 +22,7 @@ import app.simple.inure.models.PermissionInfo
 import app.simple.inure.preferences.PermissionPreferences
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.StringUtils.optimizeToColoredString
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.dialogs.PermissionStatusViewModel
@@ -30,9 +33,12 @@ class PermissionStatus : ScopedBottomSheetFragment() {
     private lateinit var name: TypeFaceTextView
     private lateinit var status: TypeFaceTextView
     private lateinit var description: TypeFaceTextView
+    private lateinit var warning: TypeFaceTextView
 
     private lateinit var close: DynamicRippleTextView
     private lateinit var state: DynamicRippleTextView
+    private lateinit var divider: ThemeDivider
+    private lateinit var btnContainer: LinearLayout
 
     private lateinit var permissionInfo: PermissionInfo
     private lateinit var permissionStatusFactory: PermissionStatusFactory
@@ -46,8 +52,11 @@ class PermissionStatus : ScopedBottomSheetFragment() {
         name = view.findViewById(R.id.permissions_name)
         status = view.findViewById(R.id.permissions_status)
         description = view.findViewById(R.id.permissions_desc)
+        warning = view.findViewById(R.id.warning)
         close = view.findViewById(R.id.close)
         state = view.findViewById(R.id.permission_state)
+        divider = view.findViewById(R.id.divider)
+        btnContainer = view.findViewById(R.id.btn_container)
 
         permissionInfo = requireArguments().parcelable(BundleConstants.permissionInfo)!!
         packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
@@ -65,7 +74,8 @@ class PermissionStatus : ScopedBottomSheetFragment() {
         status.setStatusText(permissionInfo)
         name.setPermissionName(permissionInfo)
         description.setDescriptionText(permissionInfo)
-        setStateText()
+
+        setStateText(animate = false)
 
         state.setOnClickListener {
             loader.visible(animate = true)
@@ -101,7 +111,7 @@ class PermissionStatus : ScopedBottomSheetFragment() {
 
     private fun TypeFaceTextView.setStatusText(permissionInfo: PermissionInfo) {
         @Suppress("deprecation")
-        text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        var text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             PermissionUtils.protectionToString(permissionInfo.permissionInfo!!.protection, permissionInfo.permissionInfo!!.protectionFlags, context)
         } else {
             PermissionUtils.protectionToString(permissionInfo.permissionInfo!!.protectionLevel, permissionInfo.permissionInfo!!.protectionLevel, context)
@@ -109,18 +119,20 @@ class PermissionStatus : ScopedBottomSheetFragment() {
 
         text = when (permissionInfo.isGranted) {
             0 -> {
-                text.toString() + " | " + context.getString(R.string.rejected)
+                text + " | " + context.getString(R.string.rejected)
             }
             1 -> {
-                text.toString() + " | " + context.getString(R.string.granted)
+                text + " | " + context.getString(R.string.granted)
             }
             2 -> {
-                text.toString() + " | " + context.getString(R.string.unknown)
+                text + " | " + context.getString(R.string.unknown)
             }
             else -> {
-                text.toString() + " | " + context.getString(R.string.unknown)
+                text + " | " + context.getString(R.string.unknown)
             }
         }
+
+        setTextWithAnimation(text)
     }
 
     private fun TypeFaceTextView.setDescriptionText(permissionInfo: PermissionInfo) {
@@ -145,11 +157,51 @@ class PermissionStatus : ScopedBottomSheetFragment() {
         }.toString().optimizeToColoredString(".")
     }
 
-    private fun setStateText() {
-        state.text = if (permissionInfo.isGranted == 1) {
-            getString(R.string.revoke)
+    private fun setStateText(animate: Boolean = true) {
+        if (isDangerous(permissionInfo)) {
+            state.visible(animate = true)
+
+            if (animate) {
+                state.setTextWithSlideAnimation(if (permissionInfo.isGranted == 1) {
+                    getString(R.string.revoke)
+                } else {
+                    getString(R.string.grant)
+                })
+            } else {
+                state.text = if (permissionInfo.isGranted == 1) {
+                    getString(R.string.revoke)
+                } else {
+                    getString(R.string.grant)
+                }
+            }
+
+            warning.gone()
+            divider.gone()
         } else {
-            getString(R.string.grant)
+            state.gone(animate = false)
+            warning.visible(animate = false)
+            divider.visible(animate = false)
+        }
+
+        btnContainer.requestLayout()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun isDangerous(permissionInfo: PermissionInfo): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            when (permissionInfo.permissionInfo!!.protection) {
+                android.content.pm.PermissionInfo.PROTECTION_DANGEROUS -> true
+                android.content.pm.PermissionInfo.PROTECTION_SIGNATURE -> true
+                android.content.pm.PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> true
+                else -> false
+            }
+        } else {
+            when (permissionInfo.permissionInfo!!.protectionLevel and android.content.pm.PermissionInfo.PROTECTION_MASK_BASE) {
+                android.content.pm.PermissionInfo.PROTECTION_DANGEROUS -> true
+                android.content.pm.PermissionInfo.PROTECTION_SIGNATURE -> true
+                android.content.pm.PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> true
+                else -> false
+            }
         }
     }
 

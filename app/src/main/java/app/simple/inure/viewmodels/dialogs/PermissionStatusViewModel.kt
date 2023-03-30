@@ -9,7 +9,6 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.PermissionInfo
-import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
@@ -23,9 +22,7 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
     }
 
     private val success: MutableLiveData<String> by lazy {
-        MutableLiveData<String>().also {
-            initializeCoreFramework()
-        }
+        MutableLiveData<String>()
     }
 
     fun getResults(): LiveData<String> {
@@ -109,10 +106,6 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
 
     fun setPermissionState(mode: PermissionInfo) {
         this.permissionInfo.isGranted = mode.isGranted
-        if (ConfigurationPreferences.isUsingRoot()) {
-            initShell()
-        } else {
-            initShizuku()
-        }
+        initializeCoreFramework()
     }
 }
