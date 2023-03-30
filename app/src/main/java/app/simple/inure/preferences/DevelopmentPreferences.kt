@@ -43,7 +43,8 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Disable Image Caching",
-                                            "Disable image caching to save memory but at the cost of higher CPU usage due to regeneration of all image data everytime they\'re loaded.",
+                                            "Disable image caching to save memory but at the cost of higher CPU usage due to regeneration " +
+                                                    "of all image data everytime they\'re loaded.",
                                             imageCaching,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
@@ -68,7 +69,9 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Load Album Art From File",
-                                            "Load album art from file instead of using MediaStore.\n\nThis will increase the time taken to load album art but will improve the album art quality.",
+                                            "Load album art from file instead of using MediaStore.\n\nThis will increase the memory and time " +
+                                                    "taken to load album art but " +
+                                                    "will significantly improve the album art quality and animation performance.",
                                             loadAlbumArtFromFile,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
@@ -88,7 +91,8 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Hidden Apps",
-                                            "Enable Hidden Apps in the app. The feature was added but removed due to API changes by Google and is not working properly anymore.",
+                                            "Enable Hidden Apps in the app. The feature was added but removed due to API changes by" +
+                                                    " Google and is not working properly anymore.",
                                             enableHiddenApps,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 

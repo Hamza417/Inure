@@ -111,9 +111,11 @@ class Music : KeyboardScopedFragment() {
                         val layoutManager = recyclerView.layoutManager
                         val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
 
-                        // Scroll to position if the view for the current position is null
-                        // (not currently part of layout manager children), or it's not completely
-                        // visible.
+                        /**
+                         * Scroll to position if the view for the current position is null
+                         * (not currently part of layout manager children), or it's not completely
+                         * visible.
+                         */
                         if (viewAtPosition == null || layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)) {
                             recyclerView.post {
                                 // Log.d("Music", displayHeight.toString())
@@ -141,7 +143,6 @@ class Music : KeyboardScopedFragment() {
             if (requireArguments().getInt(BundleConstants.position, MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
                 (view.parent as? ViewGroup)?.doOnPreDraw {
                     startPostponedEnterTransition()
-                    // Log.d("Music", "doOnPreDraw_0")
                 }
             }
 
