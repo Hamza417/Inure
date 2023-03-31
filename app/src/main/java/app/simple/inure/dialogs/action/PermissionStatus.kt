@@ -82,6 +82,10 @@ class PermissionStatus : ScopedBottomSheetFragment() {
             permissionStatusViewModel.setPermissionState(permissionInfo)
         }
 
+        close.setOnClickListener {
+            dismiss()
+        }
+
         permissionStatusViewModel.getSuccessStatus().observe(viewLifecycleOwner) {
             when (it) {
                 "Done" -> {
