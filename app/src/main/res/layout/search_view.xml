@@ -71,7 +71,6 @@
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/popup_padding"
-        android:contentDescription="@string/configuration_button"
         android:src="@drawable/ic_settings"
         app:buttonTintType="regular" />
 

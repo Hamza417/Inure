@@ -80,7 +80,6 @@
                         android:layout_width="@dimen/button_size"
                         android:layout_height="@dimen/button_size"
                         android:layout_gravity="center_vertical"
-                        android:contentDescription="@string/configuration_button"
                         android:src="@drawable/ic_settings"
                         app:buttonTintType="regular" />
 
@@ -94,7 +93,6 @@
                         android:layout_width="@dimen/button_size"
                         android:layout_height="@dimen/button_size"
                         android:layout_gravity="center_vertical"
-                        android:contentDescription="@string/search_button"
                         android:src="@drawable/ic_search"
                         android:transitionName="adapter_search_icon"
                         app:buttonTintType="regular" />

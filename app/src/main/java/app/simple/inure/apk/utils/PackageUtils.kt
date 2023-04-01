@@ -10,7 +10,6 @@ import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
 import android.os.RemoteException
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
 import app.simple.inure.models.PackageSizes
@@ -250,12 +249,9 @@ object PackageUtils {
     fun PackageInfo.killThisApp(activity: Activity) {
         val mActivityManager = activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         if (this.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
-            Toast.makeText(activity.baseContext, activity.baseContext.getString(R.string.warning_kill_system_app), Toast.LENGTH_SHORT)
-                .show()
+            // Killed
         } else {
             mActivityManager.killBackgroundProcesses(this.packageName)
-            Toast.makeText(activity.baseContext, activity.baseContext.getString(R.string.alert_app_killed), Toast.LENGTH_SHORT)
-                .show()
         }
     }
 

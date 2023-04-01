@@ -46,7 +46,6 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
-            android:contentDescription="@string/search_button"
             android:src="@drawable/ic_sell_black"
             android:transitionName="adapter_search_icon"
             app:buttonTintType="accent" />
@@ -57,7 +56,6 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
-            android:contentDescription="@string/search_button"
             android:src="@drawable/ic_search"
             android:transitionName="adapter_search_icon"
             app:buttonTintType="regular" />
@@ -68,7 +66,6 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
-            android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_settings"
             android:transitionName="@string/preferences"
             app:buttonTintType="regular" />
@@ -79,7 +76,6 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
-            android:contentDescription="@string/configuration_button"
             android:src="@drawable/ic_more_vert"
             android:visibility="gone"
             app:buttonTintType="regular" />

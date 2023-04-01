@@ -7,7 +7,6 @@
         android:id="@+id/fragment_app_info_icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"
-        android:contentDescription="@string/app_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +49,6 @@
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="10dp"
-        android:contentDescription="@string/configuration_button"
         android:src="@drawable/ic_settings"
         app:buttonTintType="regular"
         app:layout_constraintBottom_toBottomOf="parent"
