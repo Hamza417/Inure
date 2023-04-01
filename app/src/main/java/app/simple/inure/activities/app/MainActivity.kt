@@ -215,7 +215,8 @@ class MainActivity : BaseActivity() {
         super.onConfigurationChanged(newConfig)
         Log.d("MainActivity", "onConfigurationChanged")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU) {
+            if (AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU_DARK ||
+                AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU_LIGHT) {
                 recreate()
             }
         }

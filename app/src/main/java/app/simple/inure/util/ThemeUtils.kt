@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
-import android.os.Build
 import android.view.Window
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -25,6 +24,9 @@ object ThemeUtils {
             }
             ThemeConstants.SOAPSTONE -> {
                 ThemeManager.theme = Theme.SOAPSTONE
+            }
+            ThemeConstants.HIGH_CONTRAST_LIGHT -> {
+                ThemeManager.theme = Theme.HIGH_CONTRAST_LIGHT
             }
             ThemeConstants.DARK_THEME -> {
                 ThemeManager.theme = Theme.DARK
@@ -109,12 +111,11 @@ object ThemeUtils {
                     }
                 }
             }
-            ThemeConstants.MATERIAL_YOU -> {
-                if (isNightMode(resources)) {
-                    ThemeManager.theme = Theme.MATERIAL_YOU_DARK
-                } else {
-                    ThemeManager.theme = Theme.MATERIAL_YOU_LIGHT
-                }
+            ThemeConstants.MATERIAL_YOU_LIGHT -> {
+                ThemeManager.theme = Theme.MATERIAL_YOU_LIGHT
+            }
+            ThemeConstants.MATERIAL_YOU_DARK -> {
+                ThemeManager.theme = Theme.MATERIAL_YOU_DARK
             }
         }
     }
@@ -122,17 +123,19 @@ object ThemeUtils {
     fun setBarColors(resources: Resources, window: Window) {
         when (AppearancePreferences.getTheme()) {
             ThemeConstants.LIGHT_THEME,
-            ThemeConstants.SOAPSTONE -> {
+            ThemeConstants.SOAPSTONE,
+            ThemeConstants.MATERIAL_YOU_LIGHT,
+            ThemeConstants.HIGH_CONTRAST_LIGHT -> {
                 lightBars(window)
             }
             ThemeConstants.DARK_THEME,
             ThemeConstants.AMOLED,
             ThemeConstants.HIGH_CONTRAST,
             ThemeConstants.SLATE,
-            ThemeConstants.OIL -> {
+            ThemeConstants.OIL,
+            ThemeConstants.MATERIAL_YOU_DARK -> {
                 darkBars(window)
             }
-            ThemeConstants.MATERIAL_YOU,
             ThemeConstants.FOLLOW_SYSTEM -> {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
@@ -184,17 +187,19 @@ object ThemeUtils {
     fun isNightMode(resources: Resources): Boolean {
         when (AppearancePreferences.getTheme()) {
             ThemeConstants.LIGHT_THEME,
-            ThemeConstants.SOAPSTONE -> {
+            ThemeConstants.SOAPSTONE,
+            ThemeConstants.MATERIAL_YOU_LIGHT,
+            ThemeConstants.HIGH_CONTRAST_LIGHT -> {
                 return false
             }
             ThemeConstants.DARK_THEME,
             ThemeConstants.AMOLED,
             ThemeConstants.HIGH_CONTRAST,
             ThemeConstants.SLATE,
-            ThemeConstants.OIL -> {
+            ThemeConstants.OIL,
+            ThemeConstants.MATERIAL_YOU_DARK -> {
                 return true
             }
-            ThemeConstants.MATERIAL_YOU,
             ThemeConstants.FOLLOW_SYSTEM -> {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
@@ -222,11 +227,7 @@ object ThemeUtils {
     }
 
     fun isFollowSystem(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            AppearancePreferences.getTheme() == ThemeConstants.FOLLOW_SYSTEM || AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU
-        } else {
-            AppearancePreferences.getTheme() == ThemeConstants.FOLLOW_SYSTEM
-        }
+        return AppearancePreferences.getTheme() == ThemeConstants.FOLLOW_SYSTEM
     }
 
     fun updateNavAndStatusColors(resources: Resources, window: Window) {

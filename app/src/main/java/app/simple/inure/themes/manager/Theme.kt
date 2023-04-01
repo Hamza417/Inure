@@ -32,6 +32,30 @@ enum class Theme(val textViewTheme: TextViewTheme,
             )
     ),
 
+    HIGH_CONTRAST_LIGHT(
+            textViewTheme = TextViewTheme(
+                    headingTextColor = Color.parseColor("#000000"),
+                    primaryTextColor = Color.parseColor("#000000"),
+                    secondaryTextColor = Color.parseColor("#000000"),
+                    tertiaryTextColor = Color.parseColor("#000000"),
+                    quaternaryTextColor = Color.parseColor("#000000"),
+            ),
+            viewGroupTheme = ViewGroupTheme(
+                    background = Color.parseColor("#ffffff"),
+                    viewerBackground = Color.parseColor("#ffffff"),
+                    highlightBackground = Color.parseColor("#EEEEEE"),
+                    selectedBackground = Color.parseColor("#EEEEEE"),
+                    dividerBackground = Color.parseColor("#000000")
+            ),
+            switchViewTheme = SwitchViewTheme(
+                    switchOffColor = Color.parseColor("#000000")
+            ),
+            iconTheme = IconTheme(
+                    regularIconColor = Color.parseColor("#000000"),
+                    secondaryIconColor = Color.parseColor("#000000")
+            )
+    ),
+
     SOAPSTONE(
             textViewTheme = TextViewTheme(
                     headingTextColor = Color.parseColor("#161813"),
