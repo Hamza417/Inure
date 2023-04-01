@@ -662,4 +662,6 @@
     <string name="desc_app_path">更改应用程序的默认数据储存目录。</string>
     <string name="APKs">拆分安装包</string>
     <string name="scanning">扫描中</string>
+    <string name="material_you_light">Material You (浅色)</string>
+    <string name="material_you_dark">Material You (深色)</string>
 </resources>
