@@ -45,7 +45,7 @@
     <string name="desc_application_theme">更改应用程序对使用暗色或亮色模式的使用</string>
     <string name="application_theme">应用主题</string>
     <string name="follow_system">跟随系统</string>
-    <string name="dark">暗色</string>
+    <string name="dark">深色</string>
     <string name="light">浅色</string>
     <string name="storage">存储</string>
     <string name="apk_base_package">APK (基础包)</string>
