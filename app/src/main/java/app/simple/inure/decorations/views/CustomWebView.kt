@@ -9,8 +9,8 @@ import android.webkit.WebViewClient
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ColorUtils.toHexColor
-import app.simple.inure.util.ThemeUtils
 
 @SuppressLint("SetJavaScriptEnabled")
 open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView(context, attributeSet) {

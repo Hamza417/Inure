@@ -18,11 +18,11 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.TextViewUtils.setDrawableTint
-import app.simple.inure.util.ThemeUtils
 import app.simple.inure.util.TypeFace
 import top.defaults.drawabletoolbox.DrawableBuilder
 import java.lang.reflect.Field

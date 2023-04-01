@@ -42,10 +42,10 @@ import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.themes.manager.ThemeUtils
+import app.simple.inure.themes.manager.ThemeUtils.setTheme
 import app.simple.inure.util.ContextUtils
 import app.simple.inure.util.LocaleHelper
-import app.simple.inure.util.ThemeUtils
-import app.simple.inure.util.ThemeUtils.setTheme
 import com.google.android.material.transition.platform.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

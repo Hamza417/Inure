@@ -23,6 +23,7 @@ import app.simple.inure.preferences.*
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*
@@ -33,7 +34,6 @@ import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.NullSafety.isNull
-import app.simple.inure.util.ThemeUtils
 import java.time.ZonedDateTime
 import java.util.*
 

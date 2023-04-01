@@ -14,7 +14,7 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
-import app.simple.inure.util.ThemeUtils
+import app.simple.inure.themes.manager.ThemeUtils
 
 class AppearanceAppTheme : ScopedFragment(), ThemeChangedListener {
 

@@ -9,10 +9,10 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.themes.manager.Theme
+import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.ui.viewers.AudioPlayer
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
-import app.simple.inure.util.ThemeUtils
 
 class AudioPlayerActivity : BaseActivity() {
 

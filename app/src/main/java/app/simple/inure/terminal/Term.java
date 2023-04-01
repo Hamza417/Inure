@@ -88,8 +88,8 @@ import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.themes.manager.ThemeUtils;
 import app.simple.inure.util.NullSafety;
-import app.simple.inure.util.ThemeUtils;
 
 /**
  * A terminal emulator activity.

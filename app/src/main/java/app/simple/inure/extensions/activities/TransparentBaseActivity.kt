@@ -24,9 +24,9 @@ import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.themes.manager.ThemeUtils
+import app.simple.inure.themes.manager.ThemeUtils.setTransparentTheme
 import app.simple.inure.util.ContextUtils
-import app.simple.inure.util.ThemeUtils
-import app.simple.inure.util.ThemeUtils.setTransparentTheme
 
 @SuppressLint("Registered")
 open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {

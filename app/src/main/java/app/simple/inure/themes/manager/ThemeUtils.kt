@@ -1,4 +1,4 @@
-package app.simple.inure.util
+package app.simple.inure.themes.manager
 
 import android.app.Activity
 import android.content.res.Configuration
@@ -12,8 +12,6 @@ import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.data.MaterialYou
-import app.simple.inure.themes.manager.Theme
-import app.simple.inure.themes.manager.ThemeManager
 import java.util.*
 
 object ThemeUtils {
@@ -63,6 +61,9 @@ object ThemeUtils {
                             ThemeConstants.OIL -> {
                                 ThemeManager.theme = Theme.OIL
                             }
+                            ThemeConstants.MATERIAL_YOU_DARK -> {
+                                ThemeManager.theme = Theme.MATERIAL_YOU_DARK
+                            }
                         }
                     }
                     Configuration.UI_MODE_NIGHT_NO -> {
@@ -72,6 +73,12 @@ object ThemeUtils {
                             }
                             ThemeConstants.SOAPSTONE -> {
                                 ThemeManager.theme = Theme.SOAPSTONE
+                            }
+                            ThemeConstants.HIGH_CONTRAST_LIGHT -> {
+                                ThemeManager.theme = Theme.HIGH_CONTRAST_LIGHT
+                            }
+                            ThemeConstants.MATERIAL_YOU_LIGHT -> {
+                                ThemeManager.theme = Theme.MATERIAL_YOU_LIGHT
                             }
                         }
                     }
@@ -96,6 +103,9 @@ object ThemeUtils {
                         ThemeConstants.HIGH_CONTRAST -> {
                             ThemeManager.theme = Theme.HIGH_CONTRAST
                         }
+                        ThemeConstants.MATERIAL_YOU_DARK -> {
+                            ThemeManager.theme = Theme.MATERIAL_YOU_DARK
+                        }
                         ThemeConstants.OIL -> {
                             ThemeManager.theme = Theme.OIL
                         }
@@ -107,6 +117,12 @@ object ThemeUtils {
                         }
                         ThemeConstants.SOAPSTONE -> {
                             ThemeManager.theme = Theme.SOAPSTONE
+                        }
+                        ThemeConstants.HIGH_CONTRAST_LIGHT -> {
+                            ThemeManager.theme = Theme.HIGH_CONTRAST_LIGHT
+                        }
+                        ThemeConstants.MATERIAL_YOU_LIGHT -> {
+                            ThemeManager.theme = Theme.MATERIAL_YOU_LIGHT
                         }
                     }
                 }
