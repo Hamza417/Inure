@@ -77,30 +77,35 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             return@getOrElse
         }
 
-        information.postValue(arrayListOf(
-                getPackageName(),
-                getVersion(),
-                getVersionCode(),
-                getInstallLocation(),
-                getDataDir(),
-                getApkPath(),
-                getGlesVersion(),
-                getArchitecture(),
-                getNativeLibraries(),
-                getNativeLibsDir(),
-                getUID(),
-                getInstallDate(),
-                getUpdateDate(),
-                getMinSDK(),
-                getTargetSDK(),
-                getMethodCount(),
-                getApex(),
-                getApplicationType(),
-                getInstaller(),
-                getRequestedPermissions(),
-                getFeatures(),
-                getSplitNames()
-        ))
+        kotlin.runCatching {
+            information.postValue(arrayListOf(
+                    getPackageName(),
+                    getVersion(),
+                    getVersionCode(),
+                    getInstallLocation(),
+                    getDataDir(),
+                    getApkPath(),
+                    getGlesVersion(),
+                    getArchitecture(),
+                    getNativeLibraries(),
+                    getNativeLibsDir(),
+                    getUID(),
+                    getInstallDate(),
+                    getUpdateDate(),
+                    getMinSDK(),
+                    getTargetSDK(),
+                    getMethodCount(),
+                    getApex(),
+                    getApplicationType(),
+                    getInstaller(),
+                    getRequestedPermissions(),
+                    getFeatures(),
+                    getSplitNames()
+            ))
+        }.onFailure {
+            it.printStackTrace()
+            postError(it)
+        }
     }
 
     private fun getPackageName(): Pair<Int, Spannable> {
