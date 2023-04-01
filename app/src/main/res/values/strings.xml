@@ -663,4 +663,6 @@
     <string name="scanning">Scanning</string>
     <string name="material_you_light">Material You (Light)</string>
     <string name="material_you_dark">Material You (Dark)</string>
+    <string name="load_split_apk_icon">Load Split APK Icons</string>
+    <string name="load_split_apk_icon_desc">Enable loading icons of split APK files, will increase system (I/O) load.</string>
 </resources>

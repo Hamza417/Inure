@@ -148,4 +148,12 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
             .substring(paths[position]
                            .lastIndexOf("/") + 1)[0].toString().uppercase(Locale.getDefault())
     }
+
+    fun loadSplitIcon() {
+        for (i in 0 until paths.size) {
+            if (paths[i].endsWith(".apkm") || paths[i].endsWith(".apks") || paths[i].endsWith(".zip")) {
+                notifyItemChanged(i + 1)
+            }
+        }
+    }
 }

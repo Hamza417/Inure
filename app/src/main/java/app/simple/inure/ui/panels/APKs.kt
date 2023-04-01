@@ -2,6 +2,7 @@ package app.simple.inure.ui.panels
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -22,11 +23,13 @@ import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.apks.ApkScanner
 import app.simple.inure.dialogs.apks.ApkScanner.Companion.showApkScanner
+import app.simple.inure.dialogs.apks.ApksMenu.Companion.showApksMenu
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.apks.PopupApkBrowser
+import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
@@ -160,6 +163,9 @@ class APKs : ScopedFragment() {
                         apkScanner = childFragmentManager.showApkScanner()
                         apkBrowserViewModel.refresh()
                     }
+                    R.drawable.ic_settings -> {
+                        childFragmentManager.showApksMenu()
+                    }
                     R.drawable.ic_search -> {
                         openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
                     }
@@ -174,6 +180,15 @@ class APKs : ScopedFragment() {
             bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenuSelection)
         } else {
             bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenu)
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            ApkBrowserPreferences.loadSplitIcon -> {
+                adapterApks.loadSplitIcon()
+            }
         }
     }
 

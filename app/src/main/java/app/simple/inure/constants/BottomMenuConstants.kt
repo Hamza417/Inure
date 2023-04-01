@@ -136,6 +136,7 @@ object BottomMenuConstants {
         arrayListOf(
                 Pair(R.drawable.ic_refresh, R.string.refresh),
                 divider,
+                Pair(R.drawable.ic_settings, R.string.preferences),
                 Pair(R.drawable.ic_search, R.string.search),
         )
     }
