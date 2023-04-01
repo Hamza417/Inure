@@ -4,9 +4,6 @@
     <string name="not_available">N/A</string>
     <string name="app_information">应用信息</string>
     <string name="launch">启动</string>
-    <string name="kill">查杀</string>
-    <string name="warning_kill_system_app">无法查杀系统应用</string>
-    <string name="alert_app_killed">应用已被查杀</string>
     <string name="uninstall">卸载</string>
     <string name="search">搜索</string>
     <string name="name">名称</string>
@@ -25,13 +22,10 @@
     <string name="total_sensors">%1$s 个传感器</string>
     <string name="total_notes">%1$s 个笔记</string>
     <string name="apps">应用程序</string>
-    <string name="configuration_button">配置按钮</string>
-    <string name="search_button">搜索按钮</string>
     <string name="sorting_style">排序方式</string>
     <string name="open_application_settings">打开应用程序设置…</string>
     <string name="preferences">首选项</string>
     <string name="about">关于</string>
-    <string name="app_icon">App 图标</string>
     <string name="corner_radius_desc">应用程序中各个元素的圆角半径.</string>
     <string name="corner_radius">圆角半径</string>
     <string name="layouts">布局</string>
@@ -96,7 +90,7 @@
     <string name="save">保存</string>
     <string name="copy">复制</string>
     <string name="saved_successfully">保存成功</string>
-    <string name="failed">失败！</string>
+    <string name="failed">失败</string>
     <string name="app_info">应用信息</string>
     <string name="uses_feature">使用特性</string>
     <string name="gles_version">GLES 版本</string>
@@ -122,7 +116,6 @@
     <string name="terminal">终端</string>
     <string name="usage_statistics">使用情况统计</string>
     <string name="close">关闭</string>
-    <string name="kill_terminal">结束终端</string>
     <string name="analytics">统计</string>
     <string name="device">设备</string>
     <string name="android_version">Android 版本</string>
@@ -136,16 +129,12 @@
     <string name="total_system_apps">系统应用程序总数</string>
     <string name="graphics">图像</string>
     <string name="send">发送</string>
-    <string name="xml_viewer">XML 查看器</string>
     <string name="text_viewer">文本查看器</string>
     <string name="extras">附加组件</string>
     <string name="refresh">刷新</string>
     <string name="sensors">传感器</string>
     <string name="exported">已导出</string>
     <string name="not_exported">未导出</string>
-    <string name="host">Host</string>
-    <string name="intent_actions">意图</string>
-    <string name="intent_categories">意图类别</string>
     <string name="n_enabled">%d 已启用</string>
     <string name="n_disabled">%d 已停用</string>
     <string name="enabled">已启用</string>
@@ -156,7 +145,6 @@
     <string name="permission_info_not_available">权限信息不可用.</string>
     <string name="loading">加载中</string>
     <string name="total">总计：%d</string>
-    <string name="cache_dir">创建缓存目录</string>
     <string name="split_apk_detected">检测到拆分 APK</string>
     <string name="creating_split_package">正在创建拆分应用ZIP包</string>
     <string name="preparing_apk_file">正在准备 APK 文件</string>
