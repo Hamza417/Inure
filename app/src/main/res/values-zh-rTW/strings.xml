@@ -4,9 +4,6 @@
     <string name="not_available">不適用</string>
     <string name="app_information">應用程式資訊</string>
     <string name="launch">啟動</string>
-    <string name="kill">终止</string>
-    <string name="warning_kill_system_app">無法終止系統應用</string>
-    <string name="alert_app_killed">應用程式已被終止</string>
     <string name="uninstall">解除安裝</string>
     <string name="search">搜尋</string>
     <string name="name">名稱</string>
@@ -25,13 +22,10 @@
     <string name="total_sensors">%1$s 個感應器</string>
     <string name="total_notes">%1$s 則附註</string>
     <string name="apps">應用程式</string>
-    <string name="configuration_button">組態按鈕</string>
-    <string name="search_button">搜尋按鈕</string>
     <string name="sorting_style">排序樣式</string>
     <string name="open_application_settings">開啟應用程式設定…</string>
     <string name="preferences">偏好設定</string>
     <string name="about">關於</string>
-    <string name="app_icon">應用程式圖示</string>
     <string name="corner_radius_desc">應用程式各種元素的圓角半徑。</string>
     <string name="corner_radius">圓角半徑</string>
     <string name="layouts">版面配置</string>
@@ -96,7 +90,7 @@
     <string name="save">儲存</string>
     <string name="copy">複製</string>
     <string name="saved_successfully">儲存成功</string>
-    <string name="failed">失敗！</string>
+    <string name="failed">失敗</string>
     <string name="app_info">應用程式資訊</string>
     <string name="uses_feature">使用功能</string>
     <string name="gles_version">GLES 版本</string>
@@ -122,7 +116,6 @@
     <string name="terminal">終端機</string>
     <string name="usage_statistics">使用統計資料</string>
     <string name="close">關閉</string>
-    <string name="kill_terminal">終止終端機</string>
     <string name="analytics">分析</string>
     <string name="device">裝置</string>
     <string name="android_version">Android 版本</string>
@@ -136,16 +129,12 @@
     <string name="total_system_apps">系統應用總計</string>
     <string name="graphics">圖形</string>
     <string name="send">傳送</string>
-    <string name="xml_viewer">XML 檢視器</string>
     <string name="text_viewer">文字檢視器</string>
     <string name="extras">額外</string>
     <string name="refresh">重新整理</string>
     <string name="sensors">感應器</string>
     <string name="exported">已匯出</string>
     <string name="not_exported">未匯出</string>
-    <string name="host">主機</string>
-    <string name="intent_actions">意圖動作</string>
-    <string name="intent_categories">意圖類別</string>
     <string name="n_enabled">%d 已啟用</string>
     <string name="n_disabled">%d 已停用</string>
     <string name="enabled">已啟用</string>
@@ -156,7 +145,6 @@
     <string name="permission_info_not_available">權限資訊無法使用。</string>
     <string name="loading">載入</string>
     <string name="total">總計 %d</string>
-    <string name="cache_dir">正在建立快取目錄</string>
     <string name="split_apk_detected">偵測到分割 APK</string>
     <string name="creating_split_package">正在建立分割 ZIP 套件</string>
     <string name="preparing_apk_file">正在準備 APK 檔案</string>
