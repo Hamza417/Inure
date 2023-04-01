@@ -29,6 +29,7 @@ import app.simple.inure.popups.music.PopupMusicSort
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioServicePager
 import app.simple.inure.ui.viewers.AudioPlayerPager
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
@@ -106,7 +107,7 @@ class Music : KeyboardScopedFragment() {
 
             recyclerView.addOnLayoutChangeListener(object : OnLayoutChangeListener {
                 override fun onLayoutChange(view: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                    if (savedInstanceState != null) {
+                    if (requireArguments().getBoolean(BundleConstants.firstLaunch, true).invert()) { // Make sure first launch doesn't jump to position
                         recyclerView.removeOnLayoutChangeListener(this)
                         val layoutManager = recyclerView.layoutManager
                         val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
@@ -134,6 +135,9 @@ class Music : KeyboardScopedFragment() {
                         (view.parent as? ViewGroup)?.doOnPreDraw {
                             startPostponedEnterTransition()
                         }
+
+                        recyclerView.removeOnLayoutChangeListener(this)
+                        requireArguments().putBoolean(BundleConstants.firstLaunch, false)
                     }
                 }
             })
