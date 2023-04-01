@@ -4,9 +4,9 @@
     <string name="not_available">N/A</string>
     <string name="app_information">应用信息</string>
     <string name="launch">启动</string>
-    <string name="kill">Kill</string>
-    <string name="warning_kill_system_app">无法杀死系统应用</string>
-    <string name="alert_app_killed">应用已被杀死</string>
+    <string name="kill">查杀</string>
+    <string name="warning_kill_system_app">无法查杀系统应用</string>
+    <string name="alert_app_killed">应用已被查杀</string>
     <string name="uninstall">卸载</string>
     <string name="search">搜索</string>
     <string name="name">名称</string>
