@@ -662,4 +662,6 @@
     <string name="desc_app_path">變更應用程式的預設儲存空間目錄。</string>
     <string name="APKs">APKs</string>
     <string name="scanning">正在掃描</string>
+    <string name="material_you_light">Material You (淺色)</string>
+    <string name="material_you_dark">Material You (深色)</string>
 </resources>
