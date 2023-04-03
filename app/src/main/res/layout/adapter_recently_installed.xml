@@ -5,8 +5,7 @@
     android:id="@+id/adapter_recently_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:padding="5dp">
+    android:layout_margin="10dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/adapter_recently_app_icon"
