@@ -249,12 +249,12 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: ImageView = itemView.findViewById(R.id.adapter_batch_app_icon)
-        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_batch_app_name)
-        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_batch_app_package_id)
-        val date: TypeFaceTextView = itemView.findViewById(R.id.adapter_batch_date)
+        val icon: ImageView = itemView.findViewById(R.id.app_icon)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.name)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_id)
+        val date: TypeFaceTextView = itemView.findViewById(R.id.date)
         val checkBox: InureCheckBox = itemView.findViewById(R.id.checkBox)
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_batch_app_container)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
