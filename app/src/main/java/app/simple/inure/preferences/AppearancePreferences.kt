@@ -2,7 +2,6 @@ package app.simple.inure.preferences
 
 import android.os.Build
 import androidx.annotation.ColorInt
-import androidx.annotation.IntRange
 import androidx.annotation.RequiresApi
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
@@ -25,8 +24,8 @@ object AppearancePreferences {
     const val accentOnNav = "accent_color_on_nav_bar"
     const val iconSize = "app_icon_size"
 
-    const val minIconSize = 75
-    const val maxIconSize = 350
+    var minIconSize = 100
+    var maxIconSize = 350
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -143,7 +142,7 @@ object AppearancePreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setIconSize(@IntRange(from = minIconSize.toLong(), to = maxIconSize.toLong()) size: Int) {
+    fun setIconSize(size: Int) {
         getSharedPreferences().edit().putInt(iconSize, size).apply()
     }
 

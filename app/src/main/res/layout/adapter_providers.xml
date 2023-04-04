@@ -5,13 +5,13 @@
     android:id="@+id/adapter_providers_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/popup_padding"
-    android:orientation="vertical">
+    android:layout_margin="10dp">
 
-    <app.simple.inure.decorations.views.AppIconImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/adapter_providers_icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,61 +21,67 @@
         android:id="@+id/adapter_providers_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="5dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:textColorStyle="primary"
-        android:textSize="16sp"
+        android:textSize="@dimen/app_name_text_size"
         app:appFontStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/adapter_providers_status"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_providers_status"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adapter_providers_icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/adapter_providers_icon"
+        app:layout_constraintTop_toTopOf="@+id/adapter_providers_icon"
+        app:layout_constraintVertical_bias="0.0" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_providers_status"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="5dp"
-        app:textColorStyle="accent"
-        android:textSize="14sp"
+        android:layout_marginHorizontal="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
-        app:layout_constraintBottom_toTopOf="@id/adapter_providers_authority"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_providers_authority"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/adapter_providers_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_providers_name" />
+        app:layout_constraintTop_toBottomOf="@id/adapter_providers_name"
+        app:textColorStyle="accent" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_providers_authority"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="5dp"
-        app:textColorStyle="tertiary"
-        android:textSize="14sp"
+        android:layout_marginHorizontal="10dp"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
-        app:layout_constraintBottom_toTopOf="@id/adapter_providers_package"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/adapter_providers_package"
         app:layout_constraintStart_toEndOf="@+id/adapter_providers_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_providers_status" />
+        app:layout_constraintTop_toBottomOf="@id/adapter_providers_status"
+        app:textColorStyle="secondary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_providers_package"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="8dp"
-        app:textColorStyle="tertiary"
-        android:textSize="14sp"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/adapter_providers_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/adapter_providers_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_providers_authority" />
+        app:layout_constraintTop_toBottomOf="@+id/adapter_providers_authority"
+        app:textColorStyle="secondary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
