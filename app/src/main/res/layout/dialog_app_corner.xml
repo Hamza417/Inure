@@ -11,32 +11,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dialog_padding"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:elevation="@dimen/dialog_elevation"
         android:orientation="vertical"
-        android:clipToPadding="false"
-        android:clipChildren="false"
         android:padding="@dimen/dialog_padding">
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/app_corner_radius_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="@string/px"
-            android:textSize="36sp"
-            app:appFontStyle="bold"
-            app:textColorStyle="primary" />
-
-        <app.simple.inure.decorations.theme.ThemeSeekBar
-            android:id="@+id/app_corner_radius_seekbar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginVertical="20dp"
-            android:maxHeight="@dimen/seekbar_max_height"
-            android:splitTrack="false" />
+            android:layout_marginBottom="@dimen/dialog_padding"
+            android:clipChildren="false"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/app_corner_radius_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:minWidth="100dp"
+                android:text="@string/px"
+                android:textSize="@dimen/audio_title_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.theme.ThemeSeekBar
+                android:id="@+id/app_corner_radius_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/popup_padding"
+                android:maxHeight="@dimen/seekbar_max_height"
+                android:splitTrack="false" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
