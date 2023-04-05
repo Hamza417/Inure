@@ -642,7 +642,7 @@
     <string name="run">執行</string>
     <string name="edit">編輯</string>
     <string name="select_all">全部選取</string>
-    <string name="dangerous_permission_info">僅能變更危險權限的狀態。</string>
+    <string name="dangerous_permission_info">由於 Android 的限制，僅能變更危險權限的狀態。</string>
     <string name="dont_show_again">不再顯示</string>
     <string name="date">日期</string>
     <string name="trial_info">試用資訊</string>
@@ -664,4 +664,6 @@
     <string name="scanning">正在掃描</string>
     <string name="material_you_light">Material You (淺色)</string>
     <string name="material_you_dark">Material You (深色)</string>
+    <string name="load_split_apk_icon">載入分割 APK 圖示</string>
+    <string name="load_split_apk_icon_desc">啟用分割 APK 檔案載入圖示，將會增加系統 I/O 負載。</string>
 </resources>
