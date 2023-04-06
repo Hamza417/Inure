@@ -4,9 +4,6 @@
     <string name="not_available">N/D</string>
     <string name="app_information">Informazioni App</string>
     <string name="launch">Avvia</string>
-    <string name="kill">Termina</string>
-    <string name="warning_kill_system_app">Impossibile terminare un\'app di sistema</string>
-    <string name="alert_app_killed">L\'app è stata terminata</string>
     <string name="uninstall">Disinstalla</string>
     <string name="search">Cerca</string>
     <string name="name">Nome</string>
@@ -25,13 +22,10 @@
     <string name="total_sensors">%1$s sensori</string>
     <string name="total_notes">%1$s note</string>
     <string name="apps">App</string>
-    <string name="configuration_button">Pulsante di configurazione</string>
-    <string name="search_button">Pulsante ricerca</string>
     <string name="sorting_style">Stile ordinamento</string>
     <string name="open_application_settings">Apri impostazioni principali</string>
     <string name="preferences">Preferenze</string>
     <string name="about">Informazioni</string>
-    <string name="app_icon">Icona dell\'app</string>
     <string name="corner_radius_desc">Raggio d\'angolo arrotondato dei vari elementi dell\'app.</string>
     <string name="corner_radius">Raggio angolo</string>
     <string name="layouts">Layout</string>
@@ -122,7 +116,6 @@
     <string name="terminal">Terminale</string>
     <string name="usage_statistics">Statistiche di utilizzo</string>
     <string name="close">Chiudi</string>
-    <string name="kill_terminal">Ferma terminale</string>
     <string name="analytics">Analitica</string>
     <string name="device">Dispositivo</string>
     <string name="android_version">Versione Android</string>
@@ -136,16 +129,12 @@
     <string name="total_system_apps">Totale app di sistema</string>
     <string name="graphics">Grafica</string>
     <string name="send">Invia</string>
-    <string name="xml_viewer">Visualizzatore XML</string>
     <string name="text_viewer">Visualizzatore testo</string>
     <string name="extras">Extra</string>
     <string name="refresh">Aggiorna</string>
     <string name="sensors">Sensori</string>
     <string name="exported">Esportato</string>
     <string name="not_exported">Non esportato</string>
-    <string name="host">Host</string>
-    <string name="intent_actions">Azioni intent</string>
-    <string name="intent_categories">Categorie intent</string>
     <string name="n_enabled">%d attivato</string>
     <string name="n_disabled">%d disattivato</string>
     <string name="enabled">Attivato</string>
@@ -156,7 +145,6 @@
     <string name="permission_info_not_available">Informazioni sull\'autorizzazione non disponibili.</string>
     <string name="loading">Caricamento</string>
     <string name="total">Totale %d</string>
-    <string name="cache_dir">Creazione cartella cache</string>
     <string name="split_apk_detected">Split APK rilevato</string>
     <string name="creating_split_package">Creazione del pacchetto split</string>
     <string name="preparing_apk_file">Preparazione file APK</string>
@@ -622,7 +610,7 @@
     <string name="unlocker_not_installed">Rilevamento del pacchetto Unlocker non riuscito.</string>
     <string name="full_version_deactivated">Versione completa disattivata</string>
     <string name="sort">Ordina</string>
-    <string name="filter">﻿Filtra</string>
+    <string name="filter">Filtra</string>
     <string name="shuffle">Casuale</string>
     <string name="play">Riproduci</string>
     <string name="checklist">Elenco di controllo</string>
