@@ -642,7 +642,7 @@
     <string name="run">运行</string>
     <string name="edit">编辑</string>
     <string name="select_all">全部选择</string>
-    <string name="dangerous_permission_info">只能更改危险权限的状态.</string>
+    <string name="dangerous_permission_info">由于Android 的限制，只能更改危险权限的状态</string>
     <string name="dont_show_again">不再显示</string>
     <string name="date">日期</string>
     <string name="trial_info">试用信息</string>
