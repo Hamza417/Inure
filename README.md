@@ -81,8 +81,9 @@ its [Telegram Group](https://t.me/inure_app_manager) for development related upd
 - [x] ImageViewer scalable zoom support.
 - [ ] APK data extraction.
 
-*This list will be updated as the development progresses and a concised to-do task list
-is [here](https://github.com/Hamza417/Inure/issues/63).*
+## Feature Requests
+I've added everything I've planned for Inure, if there's anything that's left or you feel like should be in the app, create an issue explaining
+your requirements/ideas and we'll see it's progress. Meanwhile, I'll be working on [this project](https://github.com/Hamza417/Felicity) now.
 
 ## Screenshots
 
