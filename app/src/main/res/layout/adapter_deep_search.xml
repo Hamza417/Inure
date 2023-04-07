@@ -5,10 +5,9 @@
     android:id="@+id/adapter_all_app_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/popup_padding"
-    android:padding="5dp">
+    android:layout_margin="@dimen/popup_padding">
 
-    <app.simple.inure.decorations.views.AppIconImageView
+    <ImageView
         android:id="@+id/adapter_all_app_icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"

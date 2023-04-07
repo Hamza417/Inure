@@ -32,13 +32,12 @@
                     android:layout_height="match_parent"
                     android:clipChildren="false"
                     android:clipToPadding="false"
-                    android:paddingBottom="@dimen/panel_item_padding"
+                    android:paddingVertical="@dimen/panel_item_padding"
                     app:layout_behavior="@string/over_scroll_behavior">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/panel_item_padding"
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:orientation="vertical"

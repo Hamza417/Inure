@@ -67,10 +67,10 @@ class AdapterSearch(private var apps: ArrayList<PackageInfo>, private var search
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: ImageView = itemView.findViewById(R.id.adapter_all_app_icon)
-        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_all_app_name)
-        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
-        val info: TypeFaceTextView = itemView.findViewById(R.id.adapter_all_app_info)
-        val container: ConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
+        val icon: ImageView = itemView.findViewById(R.id.app_icon)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.name)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_id)
+        val info: TypeFaceTextView = itemView.findViewById(R.id.details)
+        val container: ConstraintLayout = itemView.findViewById(R.id.container)
     }
 }
