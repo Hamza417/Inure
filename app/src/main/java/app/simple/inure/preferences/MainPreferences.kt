@@ -114,7 +114,7 @@ object MainPreferences {
     }
 
     private fun getChangeLogReminder(): Int {
-        return getSharedPreferences().getInt(changeLogReminder, BuildConfig.VERSION_CODE)
+        return getSharedPreferences().getInt(changeLogReminder, 67)
     }
 
     fun shouldShowChangeLogReminder(): Boolean {
