@@ -192,26 +192,6 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("Installer", "Shizuku install")
 
-            // Copy files to /data/local/tmp
-            val tmpDir = File("${PackageData.getPackageDir(context)}/inure")
-            Log.d("Installer", "Tmp dir: ${tmpDir.absolutePath}))")
-            if (!tmpDir.exists()) {
-                tmpDir.mkdirs()
-            }
-            for (file in files.value!!) {
-                if (file.exists() && file.name.endsWith(".apk")) {
-                    val tmpFile = File(tmpDir, file.name)
-                    if (tmpFile.exists()) {
-                        tmpFile.delete()
-                    }
-
-                    file.copyTo(tmpFile, true)
-                }
-            }
-
-            // Update files list
-            files.postValue(tmpDir.listFiles()!!.toList() as ArrayList<File>)
-
             kotlin.runCatching {
                 val totalSizeOfAllApks = files.value!!.getLength()
                 Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
@@ -236,10 +216,19 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                         // create uri from file
                         val uri = FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", file)
 
-                        context.contentResolver.openInputStream(uri).use { inputStream ->
-                            ShizukuUtils.execInternal(Command("pm install-write -S $size $sessionId $idx $path"), inputStream).let {
-                                Log.d("Installer", "Output: ${it.out}")
-                                Log.d("Installer", "Error: ${it.err}")
+                        if (file.absolutePath.endsWith("base.apk")) {
+                            context.contentResolver.openInputStream(uri).use { inputStream ->
+                                ShizukuUtils.execInternal(Command("pm install-write -S $size $sessionId base-"), inputStream).let {
+                                    Log.d("Installer", "Output: ${it.out}")
+                                    Log.d("Installer", "Error: ${it.err}")
+                                }
+                            }
+                        } else {
+                            context.contentResolver.openInputStream(uri).use { inputStream ->
+                                ShizukuUtils.execInternal(Command("pm install-write -S $size $sessionId $splitName-"), inputStream).let {
+                                    Log.d("Installer", "Output: ${it.out}")
+                                    Log.d("Installer", "Error: ${it.err}")
+                                }
                             }
                         }
                     }
@@ -276,8 +265,8 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
     }
 
     override fun onShizukuCreated() {
-        // shizukuInstall()
-        packageManagerInstall()
+        shizukuInstall()
+        // packageManagerInstall()
     }
 
     private fun installCommand(): String {
