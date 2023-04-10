@@ -15,18 +15,20 @@ import app.simple.inure.apk.installer.InstallerUtils
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.findFile
 import app.simple.inure.util.FileUtils.getLength
 import com.anggrayudi.storage.file.baseName
+import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
 import net.lingala.zip4j.ZipFile
 import java.io.File
 
-class InstallerViewModel(application: Application, private val uri: Uri) : WrappedViewModel(application) {
+class InstallerViewModel(application: Application, private val uri: Uri) : RootShizukuViewModel(application) {
 
     private var listOfFiles: ArrayList<File>? = null
 
@@ -42,12 +44,20 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
         MutableLiveData<ArrayList<File>>()
     }
 
+    private val success: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
+    }
+
     fun getPackageInfo(): LiveData<PackageInfo> {
         return packageInfo
     }
 
     fun getFile(): LiveData<ArrayList<File>> {
         return files
+    }
+
+    fun getSuccess(): LiveData<Int> {
+        return success
     }
 
     private fun prepareInstallation() {
@@ -116,7 +126,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
         packageInfo.postValue(info)
     }
 
-    fun install() {
+    private fun packageManagerInstall() {
         viewModelScope.launch(Dispatchers.Default) {
             val sessionParams = InstallerUtils.makeInstallParams(files.value!!.getLength())
             val sessionCode = InstallerUtils.createSession(sessionParams, applicationContext())
@@ -129,6 +139,89 @@ class InstallerViewModel(application: Application, private val uri: Uri) : Wrapp
 
             InstallerUtils.commitSession(sessionCode, applicationContext())
         }
+    }
+
+    private fun rootInstall() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val totalSizeOfAllApks = files.value!!.getLength()
+                Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
+                val sessionId = with(Shell.cmd("pm install-create -S $totalSizeOfAllApks").exec()) {
+                    Log.d("Installer", "Output: $out")
+                    with(out[0]) {
+                        substringAfter("[").substringBefore("]").toInt()
+                    }
+                }
+                Log.d("Installer", "Session id: $sessionId")
+                for (file in files.value!!) {
+                    if (file.exists() && file.name.endsWith(".apk")) {
+                        val size = file.length()
+                        Log.d("Installer", "Size of ${file.name}: $size")
+                        val splitName = file.name.substringBeforeLast(".")
+                        Log.d("Installer", "Split name: $splitName")
+                        val idx = files.value?.indexOf(file)
+                        Log.d("Installer", "Index: $idx")
+                        val path = file.absolutePath.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
+                        Log.d("Installer", "Path: $path")
+
+                        Shell.cmd("pm install-write -S $size $sessionId $idx $path").exec().let {
+                            Log.d("Installer", "Output: ${it.out}")
+                            Log.d("Installer", "Error: ${it.err}")
+                        }
+                    }
+                }
+                Shell.cmd("pm install-commit $sessionId").exec()
+            }.onSuccess { it ->
+                success.postValue((1..50).random())
+                it.out.forEach { Log.d("Installer", it) }
+            }.onFailure {
+                it.printStackTrace()
+                postWarning(it.message.toString())
+            }.getOrElse {
+                it.printStackTrace()
+                postWarning(it.message.toString())
+            }
+        }
+    }
+
+    private fun shizukuInstall() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val totalSizeOfAllApks = files.value!!.getLength()
+            Log.d(javaClass.name, "Total size of all apks: $totalSizeOfAllApks")
+            val sessionId = Shell.cmd("pm install-create -S $totalSizeOfAllApks").exec().out[0].split(":")[1].trim()
+            Log.d(javaClass.name, "Session id: $sessionId")
+            for (file in files.value!!) {
+                if (file.exists() && file.name.endsWith(".apk")) {
+                    val size = file.length()
+                    Log.d(javaClass.name, "Size of ${file.name}: $size")
+                    val splitName = file.name.substringBeforeLast(".")
+                    Log.d(javaClass.name, "Split name: $splitName")
+                    val token = Shell.cmd("pm install-write -S $size $sessionId $splitName $file").exec().out[0].split(":")[1].trim()
+                    Log.d(javaClass.name, "Token: $token")
+                }
+            }
+            Shell.cmd("pm install-commit $sessionId").exec()
+        }
+    }
+
+    fun install() {
+        if (ConfigurationPreferences.isUsingShizuku() || ConfigurationPreferences.isUsingRoot()) {
+            initializeCoreFramework()
+        } else {
+            packageManagerInstall()
+        }
+    }
+
+    override fun onShellCreated(shell: Shell?) {
+        rootInstall()
+    }
+
+    override fun onShellDenied() {
+        packageManagerInstall()
+    }
+
+    override fun onShizukuCreated() {
+        shizukuInstall()
     }
 
     @Suppress("RedundantOverride")

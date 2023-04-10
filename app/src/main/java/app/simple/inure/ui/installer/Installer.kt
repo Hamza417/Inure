@@ -33,6 +33,7 @@ import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.FileUtils.findFile
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -118,12 +119,7 @@ class Installer : ScopedFragment() {
                         }
                     }
                     PackageInstaller.STATUS_SUCCESS -> {
-                        update.gone()
-                        install.gone()
-                        loader.gone()
-                        checkLaunchStatus()
-                        uninstall.visible(false)
-                        cancel.setText(R.string.close)
+                        success()
                     }
                     PackageInstaller.STATUS_FAILURE_ABORTED -> {
                         showWarning(intent.extras!!.getString(PackageInstaller.EXTRA_STATUS_MESSAGE)!!)
@@ -228,6 +224,12 @@ class Installer : ScopedFragment() {
             showWarning(it)
         }
 
+        installerViewModel.getSuccess().observe(viewLifecycleOwner) {
+            if (it.isNotZero()) {
+                success()
+            }
+        }
+
         cancel.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
@@ -241,6 +243,15 @@ class Installer : ScopedFragment() {
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver)
+    }
+
+    private fun success() {
+        update.gone()
+        install.gone()
+        loader.gone()
+        checkLaunchStatus()
+        uninstall.visible(false)
+        cancel.setText(R.string.close)
     }
 
     private fun checkLaunchStatus() {

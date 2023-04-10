@@ -7,6 +7,9 @@ import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -104,5 +107,9 @@ public class InstallerUtils {
         } else {
             throw new NullPointerException("Create a package installer session first");
         }
+    }
+    
+    public static void rootInstall(@NotNull File file, @Nullable Context applicationContext) {
+    
     }
 }

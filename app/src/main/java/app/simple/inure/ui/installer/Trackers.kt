@@ -1,7 +1,6 @@
 package app.simple.inure.ui.installer
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,8 +37,6 @@ class Trackers : ScopedFragment() {
         startPostponedEnterTransition()
 
         trackersViewModel.getMessage().observe(viewLifecycleOwner) {
-            Log.d("Trackers", "onViewCreated 1: ${it.first}")
-            Log.d("Trackers", "onViewCreated 2: ${it.second}")
             message.text = it.first
             message.append("\n")
             message.append(it.second)
