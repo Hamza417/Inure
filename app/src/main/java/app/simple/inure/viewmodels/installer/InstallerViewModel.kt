@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
+import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,8 @@ import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.shizuku.Shell.Command
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.findFile
 import app.simple.inure.util.FileUtils.getLength
@@ -62,6 +65,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
 
     private fun prepareInstallation() {
         kotlin.runCatching {
+            clearInstallerCache()
             PackageData.makePackageFolder(applicationContext())
 
             uri.let { it ->
@@ -146,7 +150,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
             kotlin.runCatching {
                 val totalSizeOfAllApks = files.value!!.getLength()
                 Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
-                val sessionId = with(Shell.cmd("pm install-create -S $totalSizeOfAllApks").exec()) {
+                val sessionId = with(Shell.cmd("${installCommand()} $totalSizeOfAllApks").exec()) {
                     Log.d("Installer", "Output: $out")
                     with(out[0]) {
                         substringAfter("[").substringBefore("]").toInt()
@@ -186,21 +190,72 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
 
     private fun shizukuInstall() {
         viewModelScope.launch(Dispatchers.IO) {
-            val totalSizeOfAllApks = files.value!!.getLength()
-            Log.d(javaClass.name, "Total size of all apks: $totalSizeOfAllApks")
-            val sessionId = Shell.cmd("pm install-create -S $totalSizeOfAllApks").exec().out[0].split(":")[1].trim()
-            Log.d(javaClass.name, "Session id: $sessionId")
+            Log.d("Installer", "Shizuku install")
+
+            // Copy files to /data/local/tmp
+            val tmpDir = File("${PackageData.getPackageDir(context)}/inure")
+            Log.d("Installer", "Tmp dir: ${tmpDir.absolutePath}))")
+            if (!tmpDir.exists()) {
+                tmpDir.mkdirs()
+            }
             for (file in files.value!!) {
                 if (file.exists() && file.name.endsWith(".apk")) {
-                    val size = file.length()
-                    Log.d(javaClass.name, "Size of ${file.name}: $size")
-                    val splitName = file.name.substringBeforeLast(".")
-                    Log.d(javaClass.name, "Split name: $splitName")
-                    val token = Shell.cmd("pm install-write -S $size $sessionId $splitName $file").exec().out[0].split(":")[1].trim()
-                    Log.d(javaClass.name, "Token: $token")
+                    val tmpFile = File(tmpDir, file.name)
+                    if (tmpFile.exists()) {
+                        tmpFile.delete()
+                    }
+
+                    file.copyTo(tmpFile, true)
                 }
             }
-            Shell.cmd("pm install-commit $sessionId").exec()
+
+            // Update files list
+            files.postValue(tmpDir.listFiles()!!.toList() as ArrayList<File>)
+
+            kotlin.runCatching {
+                val totalSizeOfAllApks = files.value!!.getLength()
+                Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
+                val sessionId = with(ShizukuUtils.execInternal(Command("pm install-create -S $totalSizeOfAllApks"), null)) {
+                    Log.d("Installer", "Output: $out")
+                    with(out) {
+                        substringAfter("[").substringBefore("]").toInt()
+                    }
+                }
+                Log.d("Installer", "Session id: $sessionId")
+                for (file in files.value!!) {
+                    if (file.exists() && file.name.endsWith(".apk")) {
+                        val size = file.length()
+                        Log.d("Installer", "Size of ${file.name}: $size")
+                        val splitName = file.name.substringBeforeLast(".")
+                        Log.d("Installer", "Split name: $splitName")
+                        val idx = files.value?.indexOf(file)
+                        Log.d("Installer", "Index: $idx")
+                        val path = file.absolutePath.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
+                        Log.d("Installer", "Path: $path")
+
+                        // create uri from file
+                        val uri = FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", file)
+
+                        context.contentResolver.openInputStream(uri).use { inputStream ->
+                            ShizukuUtils.execInternal(Command("pm install-write -S $size $sessionId $idx $path"), inputStream).let {
+                                Log.d("Installer", "Output: ${it.out}")
+                                Log.d("Installer", "Error: ${it.err}")
+                            }
+                        }
+                    }
+                }
+
+                ShizukuUtils.execInternal(Command("pm install-commit $sessionId"), null)
+            }.onSuccess { it ->
+                success.postValue((1..50).random())
+                Log.d("Installer", "Output: ${it.out}")
+            }.onFailure {
+                it.printStackTrace()
+                postWarning(it.message.toString())
+            }.getOrElse {
+                it.printStackTrace()
+                postWarning(it.message.toString())
+            }
         }
     }
 
@@ -221,15 +276,28 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
     }
 
     override fun onShizukuCreated() {
-        shizukuInstall()
+        // shizukuInstall()
+        packageManagerInstall()
+    }
+
+    private fun installCommand(): String {
+        // Check if greater than nougat
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            "pm install-create --user current -S"
+        } else {
+            "pm install-create -i -S"
+        }
+    }
+
+    private fun clearInstallerCache() {
+        if (File(applicationContext().cacheDir.path + "/installer_cache/").deleteRecursively()) {
+            Log.d(javaClass.name, "Installer cache cleared")
+        }
     }
 
     @Suppress("RedundantOverride")
     override fun onCleared() {
-        if (File(applicationContext().cacheDir.path + "/installer_cache/").deleteRecursively()) {
-            Log.d(javaClass.name, "Installer cache cleared")
-        }
-        // TODO - think about it
+        clearInstallerCache()
         super.onCleared()
     }
 }
