@@ -71,6 +71,10 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 if (isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
 
+                    if (packageInfo.isUserApp()) {
+                        list.add(Pair(R.drawable.ic_restart_alt, R.string.reinstall))
+                    }
+
                     if (packageInfo.isSystemApp()) {
                         if (packageInfo.isUpdateInstalled()) {
                             list.add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
@@ -106,6 +110,10 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
                 if (isNotThisApp()) {
                     list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
+
+                    if (packageInfo.isUserApp()) {
+                        list.add(Pair(R.drawable.ic_restart_alt, R.string.reinstall))
+                    }
 
                     if (packageInfo.isSystemApp()) {
                         if (packageInfo.isUpdateInstalled()) {

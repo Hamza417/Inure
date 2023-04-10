@@ -28,6 +28,7 @@ import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
 import app.simple.inure.dialogs.action.Hide.Companion.showHide
+import app.simple.inure.dialogs.action.Reinstaller.Companion.showReinstaller
 import app.simple.inure.dialogs.action.SplitApkSelector.Companion.showSplitApkSelector
 import app.simple.inure.dialogs.action.State.Companion.showState
 import app.simple.inure.dialogs.app.Sure
@@ -245,6 +246,13 @@ class AppInfo : ScopedFragment() {
                                     }
 
                                     updatesUninstaller.show(childFragmentManager, "uninstaller")
+                                }
+                            })
+                        }
+                        R.string.reinstall -> {
+                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                override fun onSure() {
+                                    childFragmentManager.showReinstaller(packageInfo)
                                 }
                             })
                         }
