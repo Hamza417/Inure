@@ -99,9 +99,10 @@ class APKs : ScopedFragment() {
                     PopupApkBrowser(view).setPopupApkBrowserCallbacks(object : PopupApkBrowser.Companion.PopupApkBrowserCallbacks {
                         override fun onInstallClicked() {
                             val uri = FileProvider.getUriForFile(
-                                    /* context = */ requireContext(),
+                                    /* context = */ requireActivity().applicationContext,
                                     /* authority = */ "${requireContext().packageName}.provider",
                                     /* file = */ File(adapterApks.paths[position]))
+
                             val intent = Intent(Intent.ACTION_VIEW)
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
