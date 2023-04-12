@@ -2,8 +2,10 @@ package app.simple.inure.decorations.views
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.util.AttributeSet
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.webkit.WebSettingsCompat
@@ -49,6 +51,17 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
         webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
                 view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
+            }
+
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                val url = request.url.toString()
+                if (url.contains("assets/")) {
+                    view.loadUrl(url)
+                } else {
+                    val intent = Intent(Intent.ACTION_VIEW, request.url)
+                    context.startActivity(intent)
+                }
+                return true
             }
         }
     }
