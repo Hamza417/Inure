@@ -666,4 +666,6 @@
     <string name="material_you_dark">Material You (深色)</string>
     <string name="load_split_apk_icon">加载拆分式 APK 图标</string>
     <string name="load_split_apk_icon_desc">启用加载拆分式 APK 文件的图标，将会增加系统 (I/O) 负载</string>
+    <string name="reinstall">重新安装</string>
+    <string name="reinstalling">正在重新安装</string>
 </resources>
