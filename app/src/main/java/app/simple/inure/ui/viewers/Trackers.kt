@@ -15,14 +15,10 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.trackers.TrackersMenu
-import app.simple.inure.dialogs.trackers.TrackersMessage
-import app.simple.inure.dialogs.trackers.TrackersMessage.Companion.showTrackersMessage
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
-import app.simple.inure.models.TrackersMessageModel
+import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.preferences.TrackersPreferences
-import app.simple.inure.ui.subviewers.TrackerSourceViewer
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.TrackersViewModel
@@ -31,13 +27,10 @@ class Trackers : SearchBarScopedFragment() {
 
     private lateinit var options: DynamicRippleImageButton
     private lateinit var progress: CustomProgressBar
-    private lateinit var analytics: DynamicRippleImageButton
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
     private lateinit var trackersViewModel: TrackersViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
-
-    private var message: TrackersMessageModel? = null
 
     private var isFull: Boolean = false
 
@@ -46,7 +39,6 @@ class Trackers : SearchBarScopedFragment() {
 
         options = view.findViewById(R.id.trackers_option_btn)
         search = view.findViewById(R.id.trackers_search_btn)
-        analytics = view.findViewById(R.id.trackers_analytics_btn)
         searchBox = view.findViewById(R.id.trackers_search)
         title = view.findViewById(R.id.trackers_title)
         progress = view.findViewById(R.id.trackers_data_progress)
@@ -65,46 +57,27 @@ class Trackers : SearchBarScopedFragment() {
         searchBoxState(animate = false, TrackersPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
-        trackersViewModel.getClassesList().observe(viewLifecycleOwner) {
+        trackersViewModel.getTrackers().observe(viewLifecycleOwner) { it ->
             progress.gone(true)
-            val adapterTrackers = AdapterTrackers(it, trackersViewModel.keyword ?: "")
+            val adapterTrackers = AdapterTrackers(it, trackersViewModel.keyword)
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
-                override fun onTrackersClicked(className: String) {
-                    openFragmentSlide(TrackerSourceViewer.newInstance(className, packageInfo), "tracker_source_viewer")
-                }
+                override fun onTrackersClicked(activityInfoModel: ActivityInfoModel, enabled: Boolean, position: Int) {
+                    trackersViewModel.getActivityInfo().observe(viewLifecycleOwner) {
+                        if (it.isNotNull()) {
+                            adapterTrackers.updateActivityInfo(it)
+                        }
+                    }
 
-                override fun onTrackersLongClicked(className: String) {
-                    /* no-op */
+                    trackersViewModel.updateTrackersStatus(activityInfoModel, enabled, position)
                 }
             })
 
             recyclerView.adapter = adapterTrackers
 
-            analytics.setOnClickListener {
-                if (message.isNotNull()) {
-                    TrackersMessage.newInstance(message)
-                        .show(childFragmentManager, "tracker_message")
-                }
-            }
-
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
                     trackersViewModel.keyword = text.toString().trim()
-                }
-            }
-        }
-
-        trackersViewModel.getMessage().observe(viewLifecycleOwner) {
-            message = it
-
-            if (isFull) {
-                childFragmentManager.showTrackersMessage(message).setWarningCallbacks {
-                    if (it.isNoTrackers) {
-                        if (TrackersPreferences.isFullClassesList().invert()) {
-                            requireActivity().onBackPressedDispatcher.onBackPressed()
-                        }
-                    }
                 }
             }
         }
@@ -133,7 +106,7 @@ class Trackers : SearchBarScopedFragment() {
                 searchBoxState(animate = true, TrackersPreferences.isSearchVisible())
             }
             TrackersPreferences.isTrackersFullList -> {
-                trackersViewModel.organizeData()
+                // trackersViewModel.organizeData()
             }
         }
     }

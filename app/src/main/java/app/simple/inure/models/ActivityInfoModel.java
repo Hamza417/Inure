@@ -4,11 +4,14 @@ import android.content.pm.ActivityInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 public class ActivityInfoModel implements Parcelable {
     private ActivityInfo activityInfo;
     private String status;
     private String name;
     private String permission;
+    private String trackerId;
     private Boolean exported;
     private String target;
     private boolean enabled;
@@ -16,11 +19,12 @@ public class ActivityInfoModel implements Parcelable {
     public ActivityInfoModel() {
     }
     
-    public ActivityInfoModel(ActivityInfo activityInfo, String status, String name, String permission, Boolean exported, String target, boolean enabled) {
+    public ActivityInfoModel(ActivityInfo activityInfo, String status, String name, String permission, String trackerId, Boolean exported, String target, boolean enabled) {
         this.activityInfo = activityInfo;
         this.status = status;
         this.name = name;
         this.permission = permission;
+        this.trackerId = trackerId;
         this.exported = exported;
         this.target = target;
         this.enabled = enabled;
@@ -31,26 +35,11 @@ public class ActivityInfoModel implements Parcelable {
         status = in.readString();
         name = in.readString();
         permission = in.readString();
+        trackerId = in.readString();
         byte tmpExported = in.readByte();
         exported = tmpExported == 0 ? null : tmpExported == 1;
         target = in.readString();
         enabled = in.readByte() != 0;
-    }
-    
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(activityInfo, flags);
-        dest.writeString(status);
-        dest.writeString(name);
-        dest.writeString(permission);
-        dest.writeByte((byte) (exported == null ? 0 : exported ? 1 : 2));
-        dest.writeString(target);
-        dest.writeByte((byte) (enabled ? 1 : 0));
-    }
-    
-    @Override
-    public int describeContents() {
-        return 0;
     }
     
     public static final Creator <ActivityInfoModel> CREATOR = new Creator <ActivityInfoModel>() {
@@ -97,6 +86,14 @@ public class ActivityInfoModel implements Parcelable {
         this.permission = permission;
     }
     
+    public String getTrackerId() {
+        return trackerId;
+    }
+    
+    public void setTrackerId(String trackerId) {
+        this.trackerId = trackerId;
+    }
+    
     public Boolean getExported() {
         return exported;
     }
@@ -119,5 +116,23 @@ public class ActivityInfoModel implements Parcelable {
     
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        
+        dest.writeParcelable(activityInfo, flags);
+        dest.writeString(status);
+        dest.writeString(name);
+        dest.writeString(permission);
+        dest.writeString(trackerId);
+        dest.writeByte((byte) (exported == null ? 0 : exported ? 1 : 2));
+        dest.writeString(target);
+        dest.writeByte((byte) (enabled ? 1 : 0));
     }
 }
