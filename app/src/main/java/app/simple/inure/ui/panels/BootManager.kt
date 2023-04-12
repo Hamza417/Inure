@@ -66,8 +66,7 @@ class BootManager : ScopedFragment() {
                         }
 
                         override fun onOpenClicked() {
-                            openFragmentArc(AppInfo.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageInfo.packageName)!!,
-                                                                icon.transitionName), icon, "app_info")
+                            openFragmentArc(AppInfo.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageInfo.packageName)!!), icon, "app_info")
                         }
                     })
                 }

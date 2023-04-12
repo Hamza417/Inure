@@ -377,7 +377,7 @@ class AppInfo : ScopedFragment() {
             showError(it)
         }
 
-        icon.transitionName = requireArguments().getString("transition_name")
+        icon.transitionName = packageInfo.packageName
         icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
 
         name.text = packageInfo.applicationInfo.name
@@ -476,10 +476,9 @@ class AppInfo : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, transitionName: String): AppInfo {
+        fun newInstance(packageInfo: PackageInfo): AppInfo {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.transitionName, transitionName)
             val fragment = AppInfo()
             fragment.arguments = args
             return fragment

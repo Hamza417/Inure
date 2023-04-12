@@ -53,11 +53,11 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
             holder.info.text = paths[position].toSize() + " | " + paths[position].substring(paths[position].lastIndexOf(".") + 1).uppercase(Locale.getDefault())
 
             holder.container.setOnClickListener {
-                adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1))
+                adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                adapterCallbacks.onApkLongClicked(it, holder.bindingAdapterPosition.minus(1))
+                adapterCallbacks.onApkLongClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)
                 true
             }
 

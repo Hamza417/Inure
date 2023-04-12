@@ -82,11 +82,11 @@ public interface AdapterCallbacks {
     
     }
     
-    default void onApkClicked(@NonNull View view, int position) {
+    default void onApkClicked(@NonNull View view, int position, @NotNull ImageView icon) {
     
     }
     
-    default void onApkLongClicked(@NonNull View view, int position) {
+    default void onApkLongClicked(@NonNull View view, int position, @NotNull ImageView icon) {
     
     }
 }

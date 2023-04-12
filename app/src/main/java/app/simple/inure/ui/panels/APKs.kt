@@ -11,14 +11,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.FileProvider
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.*
 import app.simple.inure.R
+import app.simple.inure.activities.association.ApkInstallerActivity
 import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.adapters.ui.AdapterApks
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.apks.ApkScanner
@@ -72,7 +76,7 @@ class APKs : ScopedFragment() {
             adapterApks.notifyDataSetChanged()
 
             adapterApks.setOnItemClickListener(object : AdapterCallbacks {
-                override fun onApkClicked(view: View, position: Int) {
+                override fun onApkClicked(view: View, position: Int, icon: ImageView) {
                     kotlin.runCatching {
                         if (adapterApks.paths[position].endsWith(".apk")) {
                             packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -89,13 +93,20 @@ class APKs : ScopedFragment() {
                             packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
                         }
 
-                        openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
+                        if (packageInfo.isInstalled()) {
+                            packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
+                            icon.transitionName = packageInfo.packageName
+                            packageInfo.applicationInfo.name = it[position].substringAfterLast("/")
+                            openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
+                        } else {
+                            openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
+                        }
                     }.onFailure {
-                        showWarning("Failed to open apk : ${adapterApks.paths[position].substringAfterLast("/")}}", false)
+                        showWarning("Failed to open apk : ${adapterApks.paths[position].substringAfterLast("/")}", false)
                     }
                 }
 
-                override fun onApkLongClicked(view: View, position: Int) {
+                override fun onApkLongClicked(view: View, position: Int, icon: ImageView) {
                     PopupApkBrowser(view).setPopupApkBrowserCallbacks(object : PopupApkBrowser.Companion.PopupApkBrowserCallbacks {
                         override fun onInstallClicked() {
                             val uri = FileProvider.getUriForFile(
@@ -103,7 +114,7 @@ class APKs : ScopedFragment() {
                                     /* authority = */ "${requireContext().packageName}.provider",
                                     /* file = */ File(adapterApks.paths[position]))
 
-                            val intent = Intent(Intent.ACTION_VIEW)
+                            val intent = Intent(requireContext(), ApkInstallerActivity::class.java)
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -146,7 +157,7 @@ class APKs : ScopedFragment() {
                         }
 
                         override fun onInfoClicked() {
-                            onApkClicked(view, position)
+                            onApkClicked(view, position, icon)
                         }
                     })
                 }

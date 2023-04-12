@@ -194,6 +194,13 @@ object PackageUtils {
     }
 
     /**
+     * Check if the app is installed
+     */
+    fun PackageInfo.isInstalled(): Boolean {
+        return applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+    }
+
+    /**
      * Fetches the app's install date from the package id of the application
      * @param context of the given environment
      * @return app's install date as [String]
