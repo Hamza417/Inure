@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.os.Build
 import app.simple.inure.R
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.BitmapHelper.toBitmap
@@ -27,16 +28,34 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                 }
             }.onFailure {
                 // Loading proper icon failed, try loading default icon
-                if (appIcon.enabled) {
-                    callback.onDataReady(
-                            appIcon.context.packageManager
-                                .getApplicationIcon(appIcon.packageName)
-                                .toBitmap())
-                } else {
-                    callback.onDataReady(
-                            appIcon.context.packageManager
-                                .getApplicationIcon(appIcon.packageName)
-                                .toBitmap()?.toGrayscale())
+                kotlin.runCatching {
+                    if (appIcon.enabled) {
+                        callback.onDataReady(
+                                appIcon.context.packageManager
+                                    .getApplicationIcon(appIcon.packageName)
+                                    .toBitmap())
+                    } else {
+                        callback.onDataReady(
+                                appIcon.context.packageManager
+                                    .getApplicationIcon(appIcon.packageName)
+                                    .toBitmap()?.toGrayscale())
+                    }
+                }.onFailure {
+                    // Loading default icon failed, load icon from APK
+                    val p0 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        appIcon.context.packageManager
+                            .getPackageArchiveInfo(appIcon.file?.absolutePath!!,
+                                                   PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+                    } else {
+                        @Suppress("DEPRECATION")
+                        appIcon.context.packageManager
+                            .getPackageArchiveInfo(appIcon.file?.absolutePath!!,
+                                                   PackageManager.GET_META_DATA)
+                    }
+                    p0!!.applicationInfo.sourceDir = appIcon.file.absolutePath
+                    p0.applicationInfo.publicSourceDir = appIcon.file.absolutePath
+                    val b = appIcon.context.packageManager.getApplicationIcon(p0.applicationInfo)
+                    callback.onDataReady(b.toBitmap())
                 }
             }
         } catch (e: PackageManager.NameNotFoundException) {

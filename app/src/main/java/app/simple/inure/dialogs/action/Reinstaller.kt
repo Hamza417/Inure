@@ -14,6 +14,7 @@ import app.simple.inure.viewmodels.dialogs.ReinstallerViewModel
 class Reinstaller : ScopedActionDialogBottomFragment() {
 
     private lateinit var reinstallerViewModel: ReinstallerViewModel
+    private var reinstallerCallbacks: ReinstallerCallbacks? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,6 +32,8 @@ class Reinstaller : ScopedActionDialogBottomFragment() {
                 "Done" -> {
                     loader.loaded()
                     status.setText(R.string.done)
+
+                    reinstallerCallbacks?.onReinstallSuccess()
                 }
                 "Failed" -> {
                     loader.loaded()
@@ -38,6 +41,10 @@ class Reinstaller : ScopedActionDialogBottomFragment() {
                 }
             }
         }
+    }
+
+    fun setReinstallerCallbacks(reinstallerCallbacks: ReinstallerCallbacks) {
+        this.reinstallerCallbacks = reinstallerCallbacks
     }
 
     companion object {
@@ -53,6 +60,10 @@ class Reinstaller : ScopedActionDialogBottomFragment() {
             val reinstaller = newInstance(packageInfo)
             reinstaller.show(this, reinstaller.tag)
             return reinstaller
+        }
+
+        interface ReinstallerCallbacks {
+            fun onReinstallSuccess()
         }
     }
 }

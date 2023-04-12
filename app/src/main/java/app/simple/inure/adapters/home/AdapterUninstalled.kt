@@ -18,6 +18,7 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterUninstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
@@ -47,7 +48,7 @@ class AdapterUninstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
 
         if (holder is Holder) {
             holder.icon.transitionName = apps[position].packageName
-            holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled)
+            holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled, apps[position].applicationInfo.sourceDir.toFile())
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
 

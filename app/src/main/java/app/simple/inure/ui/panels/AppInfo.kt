@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.menus.AdapterMenu
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.PackageUtils.isSplitApk
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.constants.BundleConstants
@@ -45,6 +46,7 @@ import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.viewers.*
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
@@ -115,7 +117,7 @@ class AppInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        componentsViewModel.getMenuItems().observe(viewLifecycleOwner) {
+        componentsViewModel.getComponentsOptions().observe(viewLifecycleOwner) {
             if (AppInformationPreferences.isMetaMenuFolded()) {
                 startPostponedEnterTransition()
                 return@observe
@@ -200,7 +202,7 @@ class AppInfo : ScopedFragment() {
             })
         }
 
-        componentsViewModel.getMenuOptions().observe(viewLifecycleOwner) {
+        componentsViewModel.getActionsOptions().observe(viewLifecycleOwner) {
             if (AppInformationPreferences.isActionMenuFolded()) return@observe
 
             actionsAdapter = AdapterMenu(it)
@@ -250,9 +252,18 @@ class AppInfo : ScopedFragment() {
                             })
                         }
                         R.string.reinstall -> {
+                            val wasAppInstalled = requirePackageManager().isPackageInstalledAndEnabled(packageInfo.packageName)
+
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    childFragmentManager.showReinstaller(packageInfo)
+                                    childFragmentManager.showReinstaller(packageInfo).setReinstallerCallbacks(object : Reinstaller.Companion.ReinstallerCallbacks {
+                                        override fun onReinstallSuccess() {
+                                            if (wasAppInstalled.invert()) {
+                                                icon.loadAppIcon(packageInfo.packageName, enabled = true)
+                                                componentsViewModel.loadActionOptions()
+                                            }
+                                        }
+                                    })
                                 }
                             })
                         }
