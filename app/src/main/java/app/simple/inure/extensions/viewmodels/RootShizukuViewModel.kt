@@ -96,11 +96,11 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
         }
     }
 
-    protected fun initShizuku() {
+    private fun initShizuku() {
         if (Shizuku.pingBinder()) {
             onShizukuCreated()
         } else {
-            warning.postValue(Warnings.getShizukuFailedWarning())
+            onShizukuDenied()
         }
     }
 
@@ -121,4 +121,7 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
     abstract fun onShellCreated(shell: Shell?)
     abstract fun onShellDenied()
     abstract fun onShizukuCreated()
+    open fun onShizukuDenied() {
+        warning.postValue(Warnings.getShizukuFailedWarning())
+    }
 }

@@ -266,7 +266,11 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
 
     override fun onShizukuCreated() {
         shizukuInstall()
-        // packageManagerInstall()
+    }
+
+    override fun onShizukuDenied() {
+        super.onShizukuDenied()
+        packageManagerInstall()
     }
 
     private fun installCommand(): String {
