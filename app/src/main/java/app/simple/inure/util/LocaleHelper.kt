@@ -62,6 +62,8 @@ object LocaleHelper {
             Locales("Русский (Russian)", "ru-RU"),
             // Italian
             Locales("Italiano (Italian)", "it-IT"),
+            // Portuguese (Brazil)
+            Locales("Português (Brazil)", "pt-BR"),
     )
 
     fun getAppLocale(): Locale {
