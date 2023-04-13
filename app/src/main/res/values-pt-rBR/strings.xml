@@ -504,8 +504,6 @@
     <string name="web_page">Página da Web</string>
     <string name="trackers">Rastreadores</string>
     <string name="scan">Escanear</string>
-    <string name="show_all_classes">Visualizar todas as classes</string>
-    <string name="show_all_classes_desc">Mantenha as classes na lista que podem ou não estar relacionadas ao acompanhamento.</string>
     <string name="unpack">Extrair</string>
     <string name="menu_layout">Esquema do Menu</string>
     <string name="horizontal">Horizontal</string>
