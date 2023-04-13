@@ -18,7 +18,7 @@
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            android:src="@drawable/ic_adb"
+            android:src="@drawable/ic_data_object"
             android:transitionName="@string/development"
             app:tintType="accent"
             tools:ignore="ContentDescription" />

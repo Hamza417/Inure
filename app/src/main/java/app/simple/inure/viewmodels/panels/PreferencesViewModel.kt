@@ -52,7 +52,7 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
                     Pair(R.drawable.ic_home, R.string.home),
                     // Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
                     Pair(0, 0), // Divider
-                    Pair(R.drawable.ic_adb, R.string.development),
+                    Pair(R.drawable.ic_data_object, R.string.development),
                     Pair(R.drawable.ic_audio_placeholder, R.string.about)
             )
 

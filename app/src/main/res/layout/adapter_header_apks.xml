@@ -24,7 +24,7 @@
             android:layout_gravity="center_vertical"
             android:focusable="false"
             android:transitionName="@string/APKs"
-            app:srcCompat="@drawable/ic_android"
+            app:srcCompat="@drawable/ic_adb"
             app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
