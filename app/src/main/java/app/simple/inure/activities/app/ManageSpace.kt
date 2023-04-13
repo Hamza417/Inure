@@ -26,14 +26,11 @@ import java.io.File
 class ManageSpace : BaseActivity() {
 
     private lateinit var clearData: DynamicRippleTextView
-    private lateinit var clearTrackersData: DynamicRippleTextView
     private lateinit var clearImagesData: DynamicRippleTextView
 
-    private lateinit var trackersSize: TypeFaceTextView
     private lateinit var imagesSize: TypeFaceTextView
 
     private lateinit var clearAppDataLoader: CustomProgressBar
-    private lateinit var trackersLoader: CustomProgressBar
     private lateinit var imagesLoader: CustomProgressBar
 
     private lateinit var manageSpaceViewModel: ManageSpaceViewModel
@@ -45,39 +42,15 @@ class ManageSpace : BaseActivity() {
 
         clearData = findViewById(R.id.clear_app_data)
         clearAppDataLoader = findViewById(R.id.clear_app_data_loader)
-        clearTrackersData = findViewById(R.id.clear_tracker_data)
-        trackersSize = findViewById(R.id.trackers_cache_size)
-        trackersLoader = findViewById(R.id.trackers_cache_loader)
         clearImagesData = findViewById(R.id.clear_image_data)
         imagesSize = findViewById(R.id.image_cache_size)
         imagesLoader = findViewById(R.id.image_cache_loader)
 
-        clearTrackersData.gone(animate = false)
-        trackersSize.gone(animate = false)
         clearImagesData.gone(animate = false)
         imagesSize.gone(animate = false)
 
         clearData.setOnClickListener {
             clearAppData()
-        }
-
-        manageSpaceViewModel.trackersCacheSize.observe(this) {
-            trackersSize.visible(animate = true)
-            trackersSize.text = it
-            trackersLoader.gone(animate = true)
-            clearTrackersData.visible(animate = true)
-
-            clearTrackersData.setOnClickListener {
-                val p = Sure.newInstance()
-                p.setOnSureCallbackListener(object : SureCallbacks {
-                    override fun onSure() {
-                        trackersLoader.visible(animate = true)
-                        manageSpaceViewModel.clearTrackersData()
-                    }
-                })
-
-                p.show(supportFragmentManager, "sure")
-            }
         }
 
         manageSpaceViewModel.imagesCacheSize.observe(this) {

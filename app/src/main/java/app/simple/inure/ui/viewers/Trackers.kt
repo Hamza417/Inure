@@ -32,8 +32,6 @@ class Trackers : SearchBarScopedFragment() {
     private lateinit var trackersViewModel: TrackersViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
-    private var isFull: Boolean = false
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_trackers, container, false)
 
@@ -53,7 +51,7 @@ class Trackers : SearchBarScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        isFull = fullVersionCheck()
+        fullVersionCheck()
         searchBoxState(animate = false, TrackersPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
@@ -86,6 +84,10 @@ class Trackers : SearchBarScopedFragment() {
             showError(it)
         }
 
+        trackersViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
+        }
+
         options.setOnClickListener {
             TrackersMenu.newInstance()
                 .show(childFragmentManager, "trackers_menu")
@@ -104,9 +106,6 @@ class Trackers : SearchBarScopedFragment() {
         when (key) {
             TrackersPreferences.trackersSearch -> {
                 searchBoxState(animate = true, TrackersPreferences.isSearchVisible())
-            }
-            TrackersPreferences.isTrackersFullList -> {
-                // trackersViewModel.organizeData()
             }
         }
     }

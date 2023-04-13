@@ -19,10 +19,14 @@ import kotlinx.coroutines.launch
 class TrackersViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     var keyword: String = ""
+        set(value) {
+            field = value
+            scanTrackers(value)
+        }
 
     private val trackers: MutableLiveData<ArrayList<ActivityInfoModel>> by lazy {
         MutableLiveData<ArrayList<ActivityInfoModel>>().also {
-            scanTrackers()
+            scanTrackers(keyword)
         }
     }
 
@@ -38,7 +42,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         return activityInfo
     }
 
-    private fun scanTrackers() {
+    private fun scanTrackers(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val trackerSignatures = getTrackerSignatures()
             val activities = packageManager.getPackageInfo(packageInfo.packageName)!!.activities
@@ -48,21 +52,23 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
             if (activities != null) {
                 for (activity in activities) {
-                    Log.d("TrackersViewModel", "scanTrackers: ${activity.name}")
-                    for (signature in trackerSignatures) {
-                        if (activity.name.contains(signature)) {
-                            Log.d("TrackersViewModel", "scanTrackers: ${activity.name}")
-                            val activityInfoModel = ActivityInfoModel()
+                    if (activity.name.lowercase().contains(keyword.lowercase(), true)) {
+                        Log.d("TrackersViewModel", "scanTrackers: ${activity.name}")
+                        for (signature in trackerSignatures) {
+                            if (activity.name.contains(signature)) {
+                                Log.d("TrackersViewModel", "scanTrackers: ${activity.name}")
+                                val activityInfoModel = ActivityInfoModel()
 
-                            activityInfoModel.activityInfo = activity
-                            activityInfoModel.name = activity.name
-                            activityInfoModel.target = activity.targetActivity ?: getString(R.string.not_available)
-                            activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, activity.name)
-                            activityInfoModel.trackerId = signature
+                                activityInfoModel.activityInfo = activity
+                                activityInfoModel.name = activity.name
+                                activityInfoModel.target = activity.targetActivity ?: getString(R.string.not_available)
+                                activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, activity.name)
+                                activityInfoModel.trackerId = signature
 
-                            trackersList.add(activityInfoModel)
+                                trackersList.add(activityInfoModel)
 
-                            break
+                                break
+                            }
                         }
                     }
                 }
