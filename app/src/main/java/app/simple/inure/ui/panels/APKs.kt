@@ -68,7 +68,7 @@ class APKs : ScopedFragment() {
             }
         }
 
-        apkBrowserViewModel.getApkPaths().observe(viewLifecycleOwner) { it ->
+        apkBrowserViewModel.getApkPaths().observe(viewLifecycleOwner) {
             apkScanner?.dismiss()
 
             adapterApks = AdapterApks()

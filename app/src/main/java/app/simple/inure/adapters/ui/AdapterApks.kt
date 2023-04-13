@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -21,7 +20,7 @@ import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.Sort
 import java.util.*
 
-class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
+class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     var paths = arrayListOf<String>()
     private lateinit var adapterCallbacks: AdapterCallbacks
@@ -141,12 +140,6 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
         val sorting: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
         val category: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_category)
         val loader: View = itemView.findViewById(R.id.loader)
-    }
-
-    override fun getPopupText(position: Int): String {
-        return paths[position]
-            .substring(paths[position]
-                           .lastIndexOf("/") + 1)[0].toString().uppercase(Locale.getDefault())
     }
 
     fun loadSplitIcon() {
