@@ -1,0 +1,5 @@
+- Added option to block trackers
+- Added silent installer
+- Various improvements and bug fixes
+
+More info in the changelogs of the app.

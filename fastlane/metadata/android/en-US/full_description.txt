@@ -16,7 +16,7 @@ Inure is a powerful open source applications manager and analyzer with a good-lo
 - Grant or Deny permissions for any app
 - Root and Shizuku API support
 - Manage per-app battery optimization and boot processes
-
+- Block trackers in any app
 
 <b>Extra Capabilities</b>
 

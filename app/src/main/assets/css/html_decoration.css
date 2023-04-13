@@ -78,6 +78,10 @@ code {
     width: auto;
 }
 
+tt {
+    color: red;
+}
+
 /* Collapsible */
 
 input[type='checkbox'] {

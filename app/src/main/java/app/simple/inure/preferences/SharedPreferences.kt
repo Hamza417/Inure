@@ -14,6 +14,8 @@ object SharedPreferences {
     private var sharedPreferences: SharedPreferences? = null
     private var encryptedSharedPreferences: SharedPreferences? = null
 
+    private var isInitialized = false
+
     fun init(context: Context) {
         if (sharedPreferences.isNull()) {
             sharedPreferences = context.getSharedPreferences(preferences, Context.MODE_PRIVATE)
@@ -35,9 +37,16 @@ object SharedPreferences {
                         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
             }
         }.onFailure {
-            // Delete the encrypted shared preferences if it fails to initialize
-            File(getEncryptedSharedPreferencesPath(context)).delete()
-            init(context)
+            /**
+             * Retry with a fail safe for recursion
+             */
+            if (isInitialized.not()) {
+                // Delete the encrypted shared preferences if it fails to initialize
+                File(getEncryptedSharedPreferencesPath(context)).delete()
+
+                init(context)
+                isInitialized = true
+            }
         }
     }
 
