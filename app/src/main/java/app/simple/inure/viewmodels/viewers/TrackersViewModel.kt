@@ -11,6 +11,7 @@ import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.util.ActivityUtils
+import app.simple.inure.util.ConditionUtils.isZero
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,6 +70,10 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
             trackersList.sortBy {
                 it.name.substring(it.name.lastIndexOf(".") + 1)
+            }
+
+            if (trackersList.size.isZero()) {
+                postWarning(getString(R.string.no_trackers_found))
             }
 
             trackers.postValue(trackersList)

@@ -119,10 +119,6 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_home, R.string.title_home_path_preference, R.string.summary_home_path_preference, popup, editor, shell),
     )
 
-    private val trackersData = arrayListOf(
-            PreferenceModel(R.drawable.ic_code, R.string.show_all_classes, R.string.show_all_classes_desc, toggleable, dexClasses, trackers),
-    )
-
     private val developmentData = arrayListOf(
             PreferenceModel(R.drawable.ic_main_app_icon_regular, R.string.setup, R.string.desc_not_available, none, none, development),
             PreferenceModel(R.drawable.ic_app_icon_preferences, R.string.preferences, R.string.desc_not_available, none, none, development),
@@ -152,7 +148,6 @@ object PreferencesSearchConstants {
                 accessibilityData +
                 terminalData +
                 shellData +
-                trackersData +
                 // developmentData +
                 aboutData
 
