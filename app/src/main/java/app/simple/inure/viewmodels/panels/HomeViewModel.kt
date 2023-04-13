@@ -283,6 +283,10 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 list.add(Pair(R.drawable.ic_memory, R.string.device_info))
             }
 
+            if (HomePreferences.isPanelVisible(HomePreferences.isSavedCommandsVisible)) {
+                list.add(Pair(R.drawable.ic_terminal_saved, R.string.saved_commands))
+            }
+
             list.add(Pair(0, 0)) // Divider
             list.add(Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed))
             list.add(Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated))
@@ -318,10 +322,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 if (HomePreferences.isPanelVisible(HomePreferences.isBootManagerVisible)) {
                     list.add(Pair(R.drawable.ic_power_off, R.string.boot_manager))
                 }
-            }
-
-            if (HomePreferences.isPanelVisible(HomePreferences.isSavedCommandsVisible)) {
-                list.add(Pair(R.drawable.ic_terminal_saved, R.string.saved_commands))
             }
 
             if (HomePreferences.isPanelVisible(HomePreferences.isAPKsVisible)) {
@@ -401,6 +401,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             DevelopmentPreferences.enableDeviceInfo,
             ConfigurationPreferences.isUsingRoot,
             ConfigurationPreferences.isUsingShizuku,
+            DevelopmentPreferences.enableHiddenApps,
             HomePreferences.isTerminalVisible,
             HomePreferences.isUsageStatisticsVisible,
             HomePreferences.isAnalyticsVisible,
