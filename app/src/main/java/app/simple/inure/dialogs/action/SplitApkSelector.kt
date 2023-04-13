@@ -37,12 +37,13 @@ class SplitApkSelector : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val paths = mutableSetOf<String>()
+        val paths = mutableListOf<Pair<String, Boolean>>()
         val selectedPaths = mutableSetOf<String>()
 
-        paths.add(packageInfo.applicationInfo.publicSourceDir)
-        paths.addAll(packageInfo.applicationInfo.splitSourceDirs)
-        selectedPaths.addAll(paths)
+        paths.add(Pair(packageInfo.applicationInfo.publicSourceDir, true)) // base apk
+        paths.addAll(packageInfo.applicationInfo.splitSourceDirs.map { Pair(it, true) }) // split apks
+
+        selectedPaths.addAll(paths.map { it.first })
 
         val adapterSplitApkSelector = AdapterSplitApkSelector(paths)
 
@@ -61,7 +62,7 @@ class SplitApkSelector : ScopedBottomSheetFragment() {
 
         selectAll.setOnClickListener {
             selectedPaths.clear()
-            selectedPaths.addAll(paths)
+            selectedPaths.addAll(paths.map { it.first })
             adapterSplitApkSelector.selectAll()
         }
 

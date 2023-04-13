@@ -12,7 +12,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.ConditionUtils.invert
 
-class AdapterSplitApkSelector(private val paths: Set<String>) : RecyclerView.Adapter<AdapterSplitApkSelector.Holder>() {
+class AdapterSplitApkSelector(private val paths: MutableList<Pair<String, Boolean>>) : RecyclerView.Adapter<AdapterSplitApkSelector.Holder>() {
 
     private var onSplitApkSelectorListener: OnSplitApkSelectorListener? = null
 
@@ -21,11 +21,15 @@ class AdapterSplitApkSelector(private val paths: Set<String>) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.path.text = paths.elementAt(position).subSequence(paths.elementAt(position).lastIndexOf("/") + 1, paths.elementAt(position).length)
+        holder.path.text = paths.elementAt(position).first.subSequence(paths.elementAt(position).first.lastIndexOf("/") + 1, paths.elementAt(position).first.length)
 
-        if (paths.elementAt(position).endsWith("base.apk").invert()) {
+        holder.checkBox.setChecked(paths.elementAt(position).second)
+
+        if (paths.elementAt(position).first.endsWith("base.apk").invert()) {
             holder.checkBox.setOnCheckedChangeListener { isChecked ->
-                onSplitApkSelectorListener?.onSplitApkSelected(paths.elementAt(position), isChecked)
+                val newPair = Pair(paths.elementAt(position).first, isChecked)
+                paths[position] = newPair
+                onSplitApkSelectorListener?.onSplitApkSelected(paths.elementAt(position).first, isChecked)
             }
 
             holder.container.setOnClickListener {
@@ -36,8 +40,6 @@ class AdapterSplitApkSelector(private val paths: Set<String>) : RecyclerView.Ada
             holder.checkBox.isEnabled = false
             holder.container.alpha = 0.5f
         }
-
-        holder.checkBox.setChecked(true) // Default select everything
     }
 
     override fun getItemCount(): Int {
