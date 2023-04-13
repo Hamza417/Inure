@@ -623,7 +623,7 @@
     <string name="clear">清除</string>
     <string name="uninstall_updates">卸载更新</string>
     <string name="trackers_message">在 %2$d 个类上测试了 %1$d 个签名</string>
-    <string name="trackers_title">%1$d 个追踪器 = %1$d 个类</string>
+    <string name="trackers_title">%1$d 个跟踪器 = %1$d 个类</string>
     <string name="inure_has_been_updated">Inure 已更新，您想查看更新日志吗？</string>
     <string name="refetching_data">重新获取数据中</string>
     <string name="changes_are_not_saved_continue">更改未保存，是否继续？</string>
@@ -663,4 +663,5 @@
     <string name="load_split_apk_icon_desc">启用加载拆分式 APK 文件的图标，将会增加系统 (I/O) 负载</string>
     <string name="reinstall">重新安装</string>
     <string name="reinstalling">正在重新安装</string>
+    <string name="no_trackers_found">未找到跟踪器</string>
 </resources>
