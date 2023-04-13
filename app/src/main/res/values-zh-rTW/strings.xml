@@ -504,8 +504,6 @@
     <string name="web_page">網頁</string>
     <string name="trackers">追蹤器</string>
     <string name="scan">掃描</string>
-    <string name="show_all_classes">顯示所有類別</string>
-    <string name="show_all_classes_desc">在清單中保留可能與追蹤有關或無關的類別。</string>
     <string name="unpack">解除封裝</string>
     <string name="menu_layout">選單版面配置</string>
     <string name="horizontal">水平</string>
