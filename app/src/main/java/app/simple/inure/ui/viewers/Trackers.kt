@@ -18,6 +18,7 @@ import app.simple.inure.dialogs.trackers.TrackersMenu
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.ActivityInfoModel
+import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
@@ -60,14 +61,28 @@ class Trackers : SearchBarScopedFragment() {
             val adapterTrackers = AdapterTrackers(it, trackersViewModel.keyword)
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
-                override fun onTrackersClicked(activityInfoModel: ActivityInfoModel, enabled: Boolean, position: Int) {
+                override fun onTrackersClicked(any: Any, enabled: Boolean, position: Int) {
                     trackersViewModel.getActivityInfo().observe(viewLifecycleOwner) {
                         if (it.isNotNull()) {
                             adapterTrackers.updateActivityInfo(it)
                         }
                     }
 
-                    trackersViewModel.updateTrackersStatus(activityInfoModel, enabled, position)
+                    trackersViewModel.getServiceInfo().observe(viewLifecycleOwner) {
+                        if (it.isNotNull()) {
+                            adapterTrackers.updateServiceInfo(it)
+                        }
+                    }
+
+                    runCatching {
+                        trackersViewModel.updateTrackersStatus(any as ActivityInfoModel, enabled, position)
+                    }.onFailure {
+                        kotlin.runCatching {
+                            trackersViewModel.updateTrackersStatus(any as ServiceInfoModel, enabled, position)
+                        }.onFailure {
+                            it.printStackTrace()
+                        }
+                    }
                 }
             })
 

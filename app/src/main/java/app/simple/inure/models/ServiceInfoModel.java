@@ -14,11 +14,9 @@ public class ServiceInfoModel implements Parcelable {
     private String permissions;
     private String name;
     private String status;
+    public String trackerId;
     
-    public ServiceInfoModel() {
-    }
-    
-    public ServiceInfoModel(ServiceInfo serviceInfo, int flags, int foregroundType, boolean enabled, boolean exported, String permissions, String name, String status) {
+    public ServiceInfoModel(ServiceInfo serviceInfo, int flags, int foregroundType, boolean enabled, boolean exported, String permissions, String name, String status, String trackerId) {
         this.serviceInfo = serviceInfo;
         this.flags = flags;
         this.foregroundType = foregroundType;
@@ -27,6 +25,10 @@ public class ServiceInfoModel implements Parcelable {
         this.permissions = permissions;
         this.name = name;
         this.status = status;
+        this.trackerId = trackerId;
+    }
+    
+    public ServiceInfoModel() {
     }
     
     protected ServiceInfoModel(Parcel in) {
@@ -38,6 +40,7 @@ public class ServiceInfoModel implements Parcelable {
         permissions = in.readString();
         name = in.readString();
         status = in.readString();
+        trackerId = in.readString();
     }
     
     @Override
@@ -50,6 +53,7 @@ public class ServiceInfoModel implements Parcelable {
         dest.writeString(permissions);
         dest.writeString(name);
         dest.writeString(status);
+        dest.writeString(trackerId);
     }
     
     @Override
@@ -131,5 +135,13 @@ public class ServiceInfoModel implements Parcelable {
     
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public String getTrackerId() {
+        return trackerId;
+    }
+    
+    public void setTrackerId(String trackerId) {
+        this.trackerId = trackerId;
     }
 }

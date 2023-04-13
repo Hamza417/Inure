@@ -11,31 +11,51 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
+import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.ActivityInfoModel
+import app.simple.inure.models.ServiceInfoModel
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 
-class AdapterTrackers(private val list: ArrayList<ActivityInfoModel>, private val keyword: String) : RecyclerView.Adapter<AdapterTrackers.Holder>() {
+class AdapterTrackers(private val list: ArrayList<Any>, private val keyword: String) : RecyclerView.Adapter<AdapterTrackers.Holder>() {
 
     private var trackersCallbacks: TrackersCallbacks? = null
+    private var isRoot = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_trackers, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.packageId.text = list[position].name
-        holder.trackerId.text = list[position].trackerId
-        holder.name.text = list[position].name.substring(list[position].name.lastIndexOf(".") + 1)
-        holder.icon.loadIconFromActivityInfo(list[position].activityInfo)
-        holder.switch.setChecked(list[position].isEnabled)
-
-        holder.switch.setOnSwitchCheckedChangeListener {
-            trackersCallbacks?.onTrackersClicked(list[position], it, position)
+        if (list[position] is ActivityInfoModel) {
+            holder.icon.loadIconFromActivityInfo((list[position] as ActivityInfoModel).activityInfo)
+            holder.name.text = (list[position] as ActivityInfoModel).name.substring((list[position] as ActivityInfoModel).name.lastIndexOf(".") + 1)
+            holder.packageId.text = (list[position] as ActivityInfoModel).name
+            holder.trackerId.text = (list[position] as ActivityInfoModel).trackerId
+            holder.switch.staticChecked((list[position] as ActivityInfoModel).isEnabled)
+        } else {
+            holder.icon.loadIconFromServiceInfo((list[position] as ServiceInfoModel).serviceInfo)
+            holder.name.text = (list[position] as ServiceInfoModel).name.substring((list[position] as ServiceInfoModel).name.lastIndexOf(".") + 1)
+            holder.packageId.text = (list[position] as ServiceInfoModel).name
+            holder.trackerId.text = (list[position] as ServiceInfoModel).trackerId
+            holder.switch.staticChecked((list[position] as ServiceInfoModel).isEnabled)
         }
 
-        holder.container.setOnClickListener {
-            trackersCallbacks?.onTrackersClicked(list[position], holder.switch.isChecked().invert(), position)
+        if (isRoot) {
+            holder.switch.setOnSwitchCheckedChangeListener {
+                trackersCallbacks?.onTrackersClicked(list[position], it, position)
+            }
+
+            holder.container.setOnClickListener {
+                trackersCallbacks?.onTrackersClicked(list[position], holder.switch.isChecked().invert(), position)
+            }
+
+            holder.switch.visible(animate = false)
+        } else {
+            holder.switch.gone()
         }
 
         if (keyword.isNotBlank()) AdapterUtils.searchHighlighter(holder.packageId, keyword)
@@ -53,8 +73,19 @@ class AdapterTrackers(private val list: ArrayList<ActivityInfoModel>, private va
 
     fun updateActivityInfo(it: Pair<ActivityInfoModel, Int>?) {
         it?.let {
-            list[it.second].isEnabled = it.first.isEnabled
-            notifyItemChanged(it.second)
+            kotlin.runCatching {
+                (list[it.second] as ActivityInfoModel).isEnabled = it.first.isEnabled
+                notifyItemChanged(it.second)
+            }
+        }
+    }
+
+    fun updateServiceInfo(it: Pair<ServiceInfoModel, Int>?) {
+        it?.let {
+            kotlin.runCatching {
+                (list[it.second] as ServiceInfoModel).isEnabled = it.first.isEnabled
+                notifyItemChanged(it.second)
+            }
         }
     }
 
@@ -68,6 +99,6 @@ class AdapterTrackers(private val list: ArrayList<ActivityInfoModel>, private va
     }
 
     interface TrackersCallbacks {
-        fun onTrackersClicked(activityInfoModel: ActivityInfoModel, enabled: Boolean, position: Int)
+        fun onTrackersClicked(activityInfoModel: Any, enabled: Boolean, position: Int)
     }
 }

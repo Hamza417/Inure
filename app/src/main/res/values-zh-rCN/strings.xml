@@ -537,11 +537,8 @@
     <string name="news">新闻</string>
     <string name="maps">地图</string>
     <string name="productivity">Productivity</string>
-    <string name="clear_trackers_data_title">清除所有应用的跟踪器缓存数据。</string>
-    <string name="clear_trackers_cache">清除跟踪器缓存</string>
     <string name="clear_images_data_title">清除所有图像缓存数据。</string>
     <string name="clear_images_cache">清除图像缓存</string>
-    <string name="clear_trackers_data_desc">该应用程序从应用程序中提取 dex 类以扫描其中的跟踪器。 此选项将清除跟踪器存储的所有剩余物。</string>
     <string name="clear_images_data_desc">清除应用程序图像加载器创建的应用程序图标和其他图形的所有缓存数据。</string>
     <string name="language">语言</string>
     <string name="language_desc">更改应用程序的语言.</string>

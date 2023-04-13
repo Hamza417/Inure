@@ -504,8 +504,6 @@
     <string name="web_page">Pagina web</string>
     <string name="trackers">Tracker</string>
     <string name="scan">Analizza</string>
-    <string name="show_all_classes">Mostra tutte le classes</string>
-    <string name="show_all_classes_desc">Mantieni le classi nella lista che potrebbe o non potrebbe essere legata al tracciamento.</string>
     <string name="unpack">Decomprimi</string>
     <string name="menu_layout">Layout menù</string>
     <string name="horizontal">Orizzontale</string>
@@ -539,11 +537,8 @@
     <string name="news">Notizie</string>
     <string name="maps">Mappe</string>
     <string name="productivity">Produttività</string>
-    <string name="clear_trackers_data_title">Cancella tutti i dati cache dei tracker.</string>
-    <string name="clear_trackers_cache">Cancella cache dei tracker</string>
     <string name="clear_images_data_title">Cancella tutti i dati della cache delle immagini.</string>
     <string name="clear_images_cache">Svuota cache immagini</string>
-    <string name="clear_trackers_data_desc">L\'app estrae le classi dex dell\'applicazione per scansionare il tracker. Questa opzione cancellerà tutti i dati memorizzati dei tracker.</string>
     <string name="clear_images_data_desc">Cancella tutti i dati della cache delle icone delle app e di altre grafiche create dal caricatore di immagini dell\'app.</string>
     <string name="language">Lingua</string>
     <string name="language_desc">Cambia la lingua dell\'app.</string>

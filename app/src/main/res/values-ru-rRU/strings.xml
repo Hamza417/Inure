@@ -507,8 +507,6 @@
     <string name="web_page">Веб-страница</string>
     <string name="trackers">Трекеры</string>
     <string name="scan">Сканирование</string>
-    <string name="show_all_classes">Показать все классы</string>
-    <string name="show_all_classes_desc">Сохранять классы в списке, которые могут или не связаны с отслеживанием.</string>
     <string name="unpack">Распаковать</string>
     <string name="menu_layout">Разметка меню</string>
     <string name="horizontal">Горизонтально</string>
@@ -542,11 +540,8 @@
     <string name="news">Новости</string>
     <string name="maps">Карты</string>
     <string name="productivity">Продуктивность</string>
-    <string name="clear_trackers_data_title">Очистка всего кеша данных трекеров приложений.</string>
-    <string name="clear_trackers_cache">Очистить кэш трекеров</string>
     <string name="clear_images_data_title">Очистка всего кеша данных изображений.</string>
     <string name="clear_images_cache">Очистить кеш изображений</string>
-    <string name="clear_trackers_data_desc">Приложение извлекает классы dex из приложения, чтобы сканировать в них трекер. Эта опция удалит все остатки, сохраненные трекерами.</string>
     <string name="clear_images_data_desc">Очистить все данные из кэша иконок приложений и другие графики, созданные загрузчиком изображений.</string>
     <string name="language">Язык</string>
     <string name="language_desc">Изменить язык приложения.</string>

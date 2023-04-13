@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import app.simple.inure.util.NullSafety.isNull
+import java.io.File
 
 object SharedPreferences {
 
@@ -20,17 +21,23 @@ object SharedPreferences {
     }
 
     fun initEncrypted(context: Context) {
-        if (encryptedSharedPreferences.isNull()) {
-            val masterKeyAlias = MasterKey.Builder(context)
-                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                .build()
+        kotlin.runCatching {
+            if (encryptedSharedPreferences.isNull()) {
+                val masterKeyAlias = MasterKey.Builder(context)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build()
 
-            encryptedSharedPreferences = EncryptedSharedPreferences.create(
-                    context,
-                    preferencesEncrypted,
-                    masterKeyAlias,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+                encryptedSharedPreferences = EncryptedSharedPreferences.create(
+                        context,
+                        preferencesEncrypted,
+                        masterKeyAlias,
+                        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+            }
+        }.onFailure {
+            // Delete the encrypted shared preferences if it fails to initialize
+            File(getEncryptedSharedPreferencesPath(context)).delete()
+            init(context)
         }
     }
 
@@ -91,5 +98,9 @@ object SharedPreferences {
 
     fun getSharedPreferencesPath(context: Context): String {
         return context.applicationInfo.dataDir + "/shared_prefs/" + preferences + ".xml"
+    }
+
+    fun getEncryptedSharedPreferencesPath(context: Context): String {
+        return context.applicationInfo.dataDir + "/shared_prefs/" + preferencesEncrypted + ".xml"
     }
 }
