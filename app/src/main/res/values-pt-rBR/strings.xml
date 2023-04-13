@@ -663,4 +663,5 @@
     <string name="load_split_apk_icon_desc">Habilitar o carregamento de ícones de arquivos APK divididos, aumentará o carregamento do sistema (I/O).</string>
     <string name="reinstall">Reinstalar</string>
     <string name="reinstalling">Reinstalando</string>
+    <string name="no_trackers_found">Nenhum rastreador encontrado</string>
 </resources>

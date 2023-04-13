@@ -663,4 +663,5 @@
     <string name="load_split_apk_icon_desc">啟用分割 APK 檔案載入圖示，將會增加系統 I/O 負載。</string>
     <string name="reinstall">重新安裝</string>
     <string name="reinstalling">正在重新安裝</string>
+    <string name="no_trackers_found">找不到追蹤器</string>
 </resources>
