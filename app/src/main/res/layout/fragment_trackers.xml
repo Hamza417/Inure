@@ -52,12 +52,13 @@
             android:padding="10dp" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/trackers_option_btn"
+            android:id="@+id/trackers_checklist"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_more_vert"
+            android:src="@drawable/ic_checklist"
+            android:visibility="gone"
             app:buttonTintType="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton

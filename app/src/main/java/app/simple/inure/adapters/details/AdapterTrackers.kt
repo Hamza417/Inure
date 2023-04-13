@@ -89,6 +89,20 @@ class AdapterTrackers(private val list: ArrayList<Any>, private val keyword: Str
         }
     }
 
+    fun getTrackers(): Set<String> {
+        val trackers = mutableSetOf<String>()
+
+        list.forEach {
+            if (it is ActivityInfoModel) {
+                trackers.add(it.name)
+            } else {
+                trackers.add((it as ServiceInfoModel).name)
+            }
+        }
+
+        return trackers
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
@@ -99,6 +113,6 @@ class AdapterTrackers(private val list: ArrayList<Any>, private val keyword: Str
     }
 
     interface TrackersCallbacks {
-        fun onTrackersClicked(activityInfoModel: Any, enabled: Boolean, position: Int)
+        fun onTrackersClicked(any: Any, enabled: Boolean, position: Int)
     }
 }

@@ -22,12 +22,12 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
     var keyword: String = ""
         set(value) {
             field = value
-            scanTrackers(value)
+            scanTrackers()
         }
 
     private val trackers: MutableLiveData<ArrayList<Any>> by lazy {
         MutableLiveData<ArrayList<Any>>().also {
-            scanTrackers(keyword)
+            scanTrackers()
         }
     }
 
@@ -51,7 +51,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         return serviceInfo
     }
 
-    private fun scanTrackers(keyword: String) {
+    private fun scanTrackers() {
         viewModelScope.launch(Dispatchers.IO) {
             val trackerSignatures = getTrackerSignatures()
             val trackersList = arrayListOf<Any>()
@@ -86,19 +86,21 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         if (activities != null) {
             for (activity in activities) {
                 for (signature in trackerSignatures) {
-                    if (activity.name.contains(signature)) {
-                        val activityInfoModel = ActivityInfoModel()
+                    if (activity.name.lowercase().contains(keyword.lowercase()) || signature.lowercase().contains(keyword.lowercase())) {
+                        if (activity.name.contains(signature)) {
+                            val activityInfoModel = ActivityInfoModel()
 
-                        activityInfoModel.activityInfo = activity
-                        activityInfoModel.name = activity.name
-                        activityInfoModel.target = activity.targetActivity ?: getString(R.string.not_available)
-                        activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, activity.name)
-                        activityInfoModel.trackerId = signature
-                        activityInfoModel.isActivity = true
+                            activityInfoModel.activityInfo = activity
+                            activityInfoModel.name = activity.name
+                            activityInfoModel.target = activity.targetActivity ?: getString(R.string.not_available)
+                            activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, activity.name)
+                            activityInfoModel.trackerId = signature
+                            activityInfoModel.isActivity = true
 
-                        trackersList.add(activityInfoModel)
+                            trackersList.add(activityInfoModel)
 
-                        break
+                            break
+                        }
                     }
                 }
             }
@@ -115,17 +117,19 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         if (services != null) {
             for (service in services) {
                 for (signature in trackerSignatures) {
-                    if (service.name.contains(signature)) {
-                        val activityInfoModel = ServiceInfoModel()
+                    if (service.name.lowercase().contains(keyword.lowercase()) || signature.lowercase().contains(keyword.lowercase())) {
+                        if (service.name.contains(signature)) {
+                            val activityInfoModel = ServiceInfoModel()
 
-                        activityInfoModel.serviceInfo = service
-                        activityInfoModel.name = service.name
-                        activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, service.name)
-                        activityInfoModel.trackerId = signature
+                            activityInfoModel.serviceInfo = service
+                            activityInfoModel.name = service.name
+                            activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, service.name)
+                            activityInfoModel.trackerId = signature
 
-                        trackersList.add(activityInfoModel)
+                            trackersList.add(activityInfoModel)
 
-                        break
+                            break
+                        }
                     }
                 }
             }
@@ -142,18 +146,20 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         if (receivers != null) {
             for (receiver in receivers) {
                 for (signature in trackerSignatures) {
-                    if (receiver.name.contains(signature)) {
-                        val activityInfoModel = ActivityInfoModel()
+                    if (receiver.name.lowercase().contains(keyword.lowercase()) || signature.lowercase().contains(keyword.lowercase())) {
+                        if (receiver.name.contains(signature)) {
+                            val activityInfoModel = ActivityInfoModel()
 
-                        activityInfoModel.activityInfo = receiver
-                        activityInfoModel.name = receiver.name
-                        activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, receiver.name)
-                        activityInfoModel.trackerId = signature
-                        activityInfoModel.isReceiver = true
+                            activityInfoModel.activityInfo = receiver
+                            activityInfoModel.name = receiver.name
+                            activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, receiver.name)
+                            activityInfoModel.trackerId = signature
+                            activityInfoModel.isReceiver = true
 
-                        trackersList.add(activityInfoModel)
+                            trackersList.add(activityInfoModel)
 
-                        break
+                            break
+                        }
                     }
                 }
             }
@@ -188,8 +194,48 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
-    fun clearActivityInfo() {
+    fun clear() {
         activityInfo.postValue(null)
         serviceInfo.postValue(null)
+    }
+
+    fun enableTrackers(paths: Set<String>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val stringBuilder = StringBuilder()
+
+            for (path in paths) {
+                stringBuilder.append("pm enable ${packageInfo.packageName}/$path && ")
+            }
+
+            stringBuilder.append("exit")
+
+            Shell.cmd(stringBuilder.toString()).exec().let {
+                if (it.isSuccess) {
+                    scanTrackers()
+                } else {
+                    postWarning(getString(R.string.failed))
+                }
+            }
+        }
+    }
+
+    fun disableTrackers(paths: Set<String>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val stringBuilder = StringBuilder()
+
+            for (path in paths) {
+                stringBuilder.append("pm disable ${packageInfo.packageName}/$path && ")
+            }
+
+            stringBuilder.append("exit")
+
+            Shell.cmd(stringBuilder.toString()).exec().let {
+                if (it.isSuccess) {
+                    scanTrackers()
+                } else {
+                    postWarning(getString(R.string.failed))
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val trackers = "trackers"
     const val result = "result"
     const val batchBatteryOptimization = "batch_battery_optimization"
     const val total = "total"

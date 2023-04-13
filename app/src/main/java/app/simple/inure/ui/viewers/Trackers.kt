@@ -14,7 +14,8 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.trackers.TrackersMenu
+import app.simple.inure.dialogs.trackers.TrackerSelector
+import app.simple.inure.dialogs.trackers.TrackerSelector.Companion.showTrackerSelector
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.ActivityInfoModel
@@ -22,11 +23,12 @@ import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.TrackersViewModel
 
 class Trackers : SearchBarScopedFragment() {
 
-    private lateinit var options: DynamicRippleImageButton
+    private lateinit var checklist: DynamicRippleImageButton
     private lateinit var progress: CustomProgressBar
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
@@ -36,7 +38,7 @@ class Trackers : SearchBarScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_trackers, container, false)
 
-        options = view.findViewById(R.id.trackers_option_btn)
+        checklist = view.findViewById(R.id.trackers_checklist)
         search = view.findViewById(R.id.trackers_search_btn)
         searchBox = view.findViewById(R.id.trackers_search)
         title = view.findViewById(R.id.trackers_title)
@@ -65,12 +67,14 @@ class Trackers : SearchBarScopedFragment() {
                     trackersViewModel.getActivityInfo().observe(viewLifecycleOwner) {
                         if (it.isNotNull()) {
                             adapterTrackers.updateActivityInfo(it)
+                            trackersViewModel.clear()
                         }
                     }
 
                     trackersViewModel.getServiceInfo().observe(viewLifecycleOwner) {
                         if (it.isNotNull()) {
                             adapterTrackers.updateServiceInfo(it)
+                            trackersViewModel.clear()
                         }
                     }
 
@@ -88,6 +92,24 @@ class Trackers : SearchBarScopedFragment() {
 
             recyclerView.adapter = adapterTrackers
 
+            checklist.setOnClickListener {
+                childFragmentManager.showTrackerSelector(adapterTrackers.getTrackers(), object : TrackerSelector.Companion.TrackerSelectorCallbacks {
+                    override fun onEnableSelected(paths: Set<String>) {
+                        progress.visible(animate = true)
+                        trackersViewModel.enableTrackers(paths)
+                    }
+
+                    override fun onDisableSelected(paths: Set<String>) {
+                        progress.visible(animate = true)
+                        trackersViewModel.disableTrackers(paths)
+                    }
+                })
+            }
+
+            if (it.size > 0) {
+                checklist.visible(animate = true)
+            }
+
             searchBox.doOnTextChanged { text, _, _, _ ->
                 if (searchBox.isFocused) {
                     trackersViewModel.keyword = text.toString().trim()
@@ -101,11 +123,6 @@ class Trackers : SearchBarScopedFragment() {
 
         trackersViewModel.getWarning().observe(viewLifecycleOwner) {
             showWarning(it)
-        }
-
-        options.setOnClickListener {
-            TrackersMenu.newInstance()
-                .show(childFragmentManager, "trackers_menu")
         }
 
         search.setOnClickListener {
