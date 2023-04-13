@@ -537,11 +537,8 @@
     <string name="news">新聞</string>
     <string name="maps">地圖</string>
     <string name="productivity">效率</string>
-    <string name="clear_trackers_data_title">清除所有應用程式追蹤器快取資料。</string>
-    <string name="clear_trackers_cache">清除追蹤器快取</string>
     <string name="clear_images_data_title">清除所有圖片快取資料。</string>
     <string name="clear_images_cache">清除圖片快取</string>
-    <string name="clear_trackers_data_desc">這個應用程式從應用程式中擷取 Dex 類別以掃描其中的追蹤器。此選項將清除追蹤器儲存的所有遺留項目。</string>
     <string name="clear_images_data_desc">清除應用程式圖示的所有快取資料和由應用程式的圖像載入程式建立的其他圖形。</string>
     <string name="language">語言</string>
     <string name="language_desc">變更應用程式語言。</string>
@@ -666,4 +663,5 @@
     <string name="load_split_apk_icon_desc">啟用分割 APK 檔案載入圖示，將會增加系統 I/O 負載。</string>
     <string name="reinstall">重新安裝</string>
     <string name="reinstalling">正在重新安裝</string>
+    <string name="no_trackers_found">找不到追蹤器</string>
 </resources>
