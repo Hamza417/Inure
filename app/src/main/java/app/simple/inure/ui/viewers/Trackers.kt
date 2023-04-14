@@ -21,6 +21,7 @@ import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
@@ -108,7 +109,7 @@ class Trackers : SearchBarScopedFragment() {
             }
 
             if (it.size > 0) {
-                if (ConfigurationPreferences.isUsingRoot()) {
+                if (ConfigurationPreferences.isUsingRoot() || (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker))) {
                     checklist.visible(animate = true)
                 }
             }
@@ -125,7 +126,12 @@ class Trackers : SearchBarScopedFragment() {
         }
 
         trackersViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it)
+            showWarning(it, getString(R.string.failed) != it)
+
+            if (getString(R.string.failed) == it) {
+                progress.gone(true)
+
+            }
         }
 
         search.setOnClickListener {

@@ -186,7 +186,7 @@ public class ShizukuUtils {
             Log.w(TAG, "Unable execute command: ");
             Log.w(TAG, e);
             return new Shell.Result(command, -1, stdOutSb.toString().trim(), stdErrSb
-                    + "\n\n<!> SAI ShizukuShell Java exception: " + Utils.throwableToString(e));
+                    + "\n\n<!>ShizukuShell Java exception: " + Utils.throwableToString(e));
         }
     }
 }

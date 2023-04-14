@@ -8,22 +8,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.models.ServiceInfoModel
+import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.shizuku.Shell.Command
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.isZero
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TrackersViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class TrackersViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
 
     var keyword: String = ""
         set(value) {
             field = value
             scanTrackers()
         }
+
+    private var command: String = ""
 
     private val trackers: MutableLiveData<ArrayList<Any>> by lazy {
         MutableLiveData<ArrayList<Any>>().also {
@@ -174,10 +180,31 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     fun updateTrackersStatus(activityInfoModel: ActivityInfoModel, enabled: Boolean, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            Shell.cmd("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${activityInfoModel.name}").exec().let {
-                if (it.isSuccess) {
-                    activityInfoModel.isEnabled = enabled
-                    activityInfo.postValue(Pair(activityInfoModel, position))
+            if (ConfigurationPreferences.isUsingRoot()) {
+                Shell.cmd("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${activityInfoModel.name}").exec().let {
+                    if (it.isSuccess) {
+                        activityInfoModel.isEnabled = enabled
+                        activityInfo.postValue(Pair(activityInfoModel, position))
+                    } else {
+                        postWarning(getString(R.string.failed))
+                        // Dont change the status
+                        activityInfo.postValue(Pair(activityInfoModel, position))
+                    }
+                }
+            } else {
+                if (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker)) {
+                    kotlin.runCatching {
+                        ShizukuUtils.execInternal(Command("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${activityInfoModel.name}"), null).let {
+                            if (it.isSuccessful) {
+                                activityInfoModel.isEnabled = enabled
+                                activityInfo.postValue(Pair(activityInfoModel, position))
+                            } else {
+                                postWarning(getString(R.string.failed))
+                                // Dont change the status
+                                activityInfo.postValue(Pair(activityInfoModel, position))
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -185,13 +212,46 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     fun updateTrackersStatus(serviceInfoModel: ServiceInfoModel, enabled: Boolean, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            Shell.cmd("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${serviceInfoModel.name}").exec().let {
-                if (it.isSuccess) {
-                    serviceInfoModel.isEnabled = enabled
-                    serviceInfo.postValue(Pair(serviceInfoModel, position))
+            if (ConfigurationPreferences.isUsingRoot()) {
+                Shell.cmd("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${serviceInfoModel.name}").exec().let {
+                    if (it.isSuccess) {
+                        serviceInfoModel.isEnabled = enabled
+                        serviceInfo.postValue(Pair(serviceInfoModel, position))
+                    } else {
+                        postWarning(getString(R.string.failed))
+                        // Dont change the status
+                        serviceInfo.postValue(Pair(serviceInfoModel, position))
+                    }
+                }
+            } else {
+                if (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker)) {
+                    kotlin.runCatching {
+                        ShizukuUtils.execInternal(Command("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${serviceInfoModel.name}"), null).let {
+                            if (it.isSuccessful) {
+                                serviceInfoModel.isEnabled = enabled
+                                serviceInfo.postValue(Pair(serviceInfoModel, position))
+                            } else {
+                                postWarning(getString(R.string.failed))
+                                // Dont change the status
+                                serviceInfo.postValue(Pair(serviceInfoModel, position))
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+
+    override fun onShellCreated(shell: Shell?) {
+
+    }
+
+    override fun onShellDenied() {
+
+    }
+
+    override fun onShizukuCreated() {
+
     }
 
     fun clear() {
@@ -209,11 +269,26 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
             stringBuilder.append("exit")
 
-            Shell.cmd(stringBuilder.toString()).exec().let {
-                if (it.isSuccess) {
-                    scanTrackers()
-                } else {
-                    postWarning(getString(R.string.failed))
+            if (ConfigurationPreferences.isUsingRoot()) {
+                Shell.cmd(stringBuilder.toString()).exec().let {
+                    if (it.isSuccess) {
+                        scanTrackers()
+                    } else {
+                        postWarning(getString(R.string.failed))
+                    }
+                }
+            } else {
+                if (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker)) {
+                    kotlin.runCatching {
+                        ShizukuUtils.execInternal(Command(stringBuilder.toString()), null).let {
+                            Log.d("Shizuku", it.out)
+                            Log.d("Shizuku", it.err)
+
+                            scanTrackers()
+                        }
+                    }.onFailure {
+                        postWarning(getString(R.string.failed))
+                    }
                 }
             }
         }
@@ -229,11 +304,26 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
             stringBuilder.append("exit")
 
-            Shell.cmd(stringBuilder.toString()).exec().let {
-                if (it.isSuccess) {
-                    scanTrackers()
-                } else {
-                    postWarning(getString(R.string.failed))
+            if (ConfigurationPreferences.isUsingRoot()) {
+                Shell.cmd(stringBuilder.toString()).exec().let {
+                    if (it.isSuccess) {
+                        scanTrackers()
+                    } else {
+                        postWarning(getString(R.string.failed))
+                    }
+                }
+            } else {
+                if (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker)) {
+                    kotlin.runCatching {
+                        ShizukuUtils.execInternal(Command(stringBuilder.toString()), null).let {
+                            Log.d("Shizuku", it.out)
+                            Log.d("Shizuku", it.err)
+
+                            scanTrackers()
+                        }
+                    }.onFailure {
+                        postWarning(getString(R.string.failed))
+                    }
                 }
             }
         }

@@ -15,6 +15,7 @@ import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
@@ -23,7 +24,7 @@ import app.simple.inure.util.ViewUtils.visible
 class AdapterTrackers(private val list: ArrayList<Any>, private val keyword: String) : RecyclerView.Adapter<AdapterTrackers.Holder>() {
 
     private var trackersCallbacks: TrackersCallbacks? = null
-    private var isRoot = ConfigurationPreferences.isUsingRoot()
+    private var isRoot = ConfigurationPreferences.isUsingRoot() || (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_trackers, parent, false))

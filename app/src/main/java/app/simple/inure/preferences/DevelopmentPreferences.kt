@@ -9,7 +9,7 @@ object DevelopmentPreferences {
     const val crashHandler = "is_using_native_crash_handler"
     const val music = "is_music_enabled"
     const val imageCaching = "is_image_caching_enabled"
-    const val debugMessages = "is_debug_messages_enabled"
+    const val debugMode = "is_debug_messages_enabled"
     const val hoverAnimation = "is_hover_animation_enabled"
     const val centerBottomMenu = "is_center_bottom_menu_enabled"
     const val alternativeBatteryOptimizationSwitch = "is_alternative_battery_optimization_switch_enabled"
@@ -19,6 +19,7 @@ object DevelopmentPreferences {
     const val addBitmapToMetadata = "is_bitmap_added_to_metadata"
     const val enableHiddenApps = "is_hidden_apps_enabled"
     const val transparentStatus = "is_transparent_status_disabled_removed"
+    const val shizukuTrackerBlocker = "is_shizuku_tracker_blocker_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -48,9 +49,9 @@ object DevelopmentPreferences {
                                             imageCaching,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-                DevelopmentPreferencesModel("Enable Debug Messages",
+                DevelopmentPreferencesModel("Enable Debug Mode",
                                             "Enable debug messages in the app to help with debugging and finding bugs.",
-                                            debugMessages,
+                                            debugMode,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Hover Animation",
@@ -99,6 +100,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Disable Transparent Status",
                                             "Disable transparent status bar in the app. This will make the status bar opaque.",
                                             transparentStatus,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Enable Shizuku Tracker Blocker",
+                                            "This will enable Shizuku mode in Trackers Manager, however it may not work on ADB or any non root modes    .",
+                                            shizukuTrackerBlocker,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

@@ -43,7 +43,7 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
                     //                    }
 
                     withTimeout(1) {
-                        Shell.enableVerboseLogging = DevelopmentPreferences.get(DevelopmentPreferences.debugMessages)
+                        Shell.enableVerboseLogging = DevelopmentPreferences.get(DevelopmentPreferences.debugMode)
 
                         kotlin.runCatching {
                             Shell.setDefaultBuilder(
