@@ -55,7 +55,7 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                     p0!!.applicationInfo.sourceDir = appIcon.file.absolutePath
                     p0.applicationInfo.publicSourceDir = appIcon.file.absolutePath
                     val b = appIcon.context.packageManager.getApplicationIcon(p0.applicationInfo)
-                    callback.onDataReady(b.toBitmap())
+                    callback.onDataReady(b.toBitmap()?.toGrayscale())
                 }
             }
         } catch (e: PackageManager.NameNotFoundException) {

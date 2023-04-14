@@ -150,7 +150,8 @@ You can take participation in app's translation on [Crowdin](https://crowdin.com
 and watch Inure work in your language and make the app more user friendly to
 everyone speaking your tongue... 😎😎
 
-Atlernatively, you can also edit/upload your locale's strings from `app/src/main/res/values-locale-code` directory.
+Alternatively, you can also edit/upload your locale's strings
+from `app/src/main/res/values-locale-code` directory.
 
 #### Want to show you were here?
 

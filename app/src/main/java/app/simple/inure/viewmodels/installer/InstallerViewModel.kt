@@ -231,8 +231,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                                 }
                             }
                         }
-                    } else {
-                        // Not a split apk
+                    } else { // Not a split apk
                         val size = file.length()
                         Log.d("Installer", "Size of ${file.name}: $size")
                         val path = file.absolutePath.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
@@ -304,7 +303,6 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
         }
     }
 
-    @Suppress("RedundantOverride")
     override fun onCleared() {
         clearInstallerCache()
         super.onCleared()
