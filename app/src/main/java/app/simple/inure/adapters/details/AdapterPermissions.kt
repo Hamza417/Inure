@@ -39,7 +39,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             holder.desc.setDescriptionText(holder.itemView.context, permissions[position])
             holder.status.setStatusText(position, holder.itemView.context, permissions[position])
 
-            /* ----------------------------------------------------------------- */
+            /* -------------------------------------------------------------------------------------------------------- */
 
             holder.status.setTextColor(AppearancePreferences.getAccentColor())
             holder.desc.visible(false)

@@ -19,7 +19,10 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.PermissionStatusFactory
 import app.simple.inure.models.PermissionInfo
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.PermissionPreferences
+import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.gone
@@ -71,9 +74,25 @@ class PermissionStatus : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         loader.invisible(animate = false)
-        status.setStatusText(permissionInfo)
-        name.setPermissionName(permissionInfo)
-        description.setDescriptionText(permissionInfo)
+        //        name.setPermissionName(permissionInfo)
+        //        status.setStatusText(permissionInfo)
+        //        description.setDescriptionText(permissionInfo)
+
+        if (permissionInfo.permissionInfo.isNotNull()) {
+            name.setPermissionName(permissionInfo)
+            description.setDescriptionText(permissionInfo)
+            status.setStatusText(permissionInfo)
+
+            /* -------------------------------------------------------------------------------------------------------- */
+
+            status.setTextColor(AppearancePreferences.getAccentColor())
+            description.visible(false)
+        } else {
+            name.text = permissionInfo.name.optimizeToColoredString(".")
+            status.text = getString(R.string.permission_info_not_available)
+            status.setTextColor(ThemeManager.theme.textViewTheme.secondaryTextColor)
+            description.gone()
+        }
 
         setStateText(animate = false)
 
@@ -162,26 +181,32 @@ class PermissionStatus : ScopedBottomSheetFragment() {
     }
 
     private fun setStateText(animate: Boolean = true) {
-        if (isDangerous(permissionInfo)) {
-            state.visible(animate = true)
+        try {
+            if (isDangerous(permissionInfo)) {
+                state.visible(animate = true)
 
-            if (animate) {
-                state.setTextWithSlideAnimation(if (permissionInfo.isGranted == 1) {
-                    getString(R.string.revoke)
+                if (animate) {
+                    state.setTextWithSlideAnimation(if (permissionInfo.isGranted == 1) {
+                        getString(R.string.revoke)
+                    } else {
+                        getString(R.string.grant)
+                    })
                 } else {
-                    getString(R.string.grant)
-                })
-            } else {
-                state.text = if (permissionInfo.isGranted == 1) {
-                    getString(R.string.revoke)
-                } else {
-                    getString(R.string.grant)
+                    state.text = if (permissionInfo.isGranted == 1) {
+                        getString(R.string.revoke)
+                    } else {
+                        getString(R.string.grant)
+                    }
                 }
-            }
 
-            warning.gone()
-            divider.gone()
-        } else {
+                warning.gone()
+                divider.gone()
+            } else {
+                state.gone(animate = false)
+                warning.visible(animate = false)
+                divider.visible(animate = false)
+            }
+        } catch (e: java.lang.NullPointerException) {
             state.gone(animate = false)
             warning.visible(animate = false)
             divider.visible(animate = false)
