@@ -1,5 +1,6 @@
 package app.simple.inure.activities.association
 
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -14,6 +15,7 @@ import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.ParcelUtils.parcelable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,11 +30,17 @@ class AppDetailsActivity : BaseActivity() {
 
                 lifecycleScope.launch(Dispatchers.IO) {
                     kotlin.runCatching {
-                        val name = DocumentFile.fromSingleUri(applicationContext, intent.data!!)!!.name
+                        val uri = if (intent.action == Intent.ACTION_SEND) {
+                            intent.parcelable(Intent.EXTRA_STREAM)!!
+                        } else {
+                            intent.data!!
+                        }
+
+                        val name = DocumentFile.fromSingleUri(applicationContext, uri)!!.name
                         val sourceFile = applicationContext.getInstallerDir(name!!)
                         val packageInfo: PackageInfo
 
-                        contentResolver.openInputStream(intent.data!!)!!.use {
+                        contentResolver.openInputStream(uri)!!.use {
                             FileUtils.copyStreamToFile(it, sourceFile)
                         }
 
@@ -62,7 +70,9 @@ class AppDetailsActivity : BaseActivity() {
                     }.getOrElse {
                         withContext(Dispatchers.Main) {
                             hideLoader()
-                            showWarning(it.localizedMessage ?: it.message ?: ("cannot parse file : " + DocumentFile.fromSingleUri(applicationContext, intent.data!!)!!.name))
+                            showWarning(it.localizedMessage ?: it.message ?: ("cannot parse file :" +
+                                    " " + DocumentFile.fromSingleUri(applicationContext,
+                                                                     intent.data ?: intent?.parcelable(Intent.EXTRA_STREAM)!!)!!.name))
                         }
                     }
                 }

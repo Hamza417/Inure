@@ -1,5 +1,6 @@
 package app.simple.inure.activities.association
 
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -14,6 +15,7 @@ import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.ui.viewers.XMLViewerTextView
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.ParcelUtils.parcelable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,11 +32,17 @@ class ManifestAssociationActivity : BaseActivity() {
 
                 lifecycleScope.launch(Dispatchers.IO) {
                     kotlin.runCatching {
-                        val name = DocumentFile.fromSingleUri(applicationContext, intent.data!!)!!.name
+                        val uri = if (intent.action == Intent.ACTION_SEND) {
+                            intent.parcelable(Intent.EXTRA_STREAM)!!
+                        } else {
+                            intent.data!!
+                        }
+
+                        val name = DocumentFile.fromSingleUri(applicationContext, uri)!!.name
                         val sourceFile = applicationContext.getInstallerDir(name!!)
                         var packageInfo = PackageInfo()
 
-                        contentResolver.openInputStream(intent.data!!)!!.use {
+                        contentResolver.openInputStream(uri)!!.use {
                             FileUtils.copyStreamToFile(it, sourceFile)
                         }
 
