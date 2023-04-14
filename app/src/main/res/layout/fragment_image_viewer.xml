@@ -34,7 +34,6 @@
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/header_padding"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back"
             app:buttonTintType="accent"
@@ -45,6 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/header_padding"
             android:layout_weight="1"
             android:textSize="@dimen/header_name_text_size"
             app:appFontStyle="bold"
@@ -56,7 +56,7 @@
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_more_vert"
-            app:tint="?attr/colorAppAccent"
+            app:buttonTintType="regular"
             tools:ignore="ContentDescription" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

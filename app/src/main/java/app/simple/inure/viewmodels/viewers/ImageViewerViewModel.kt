@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.glide.graphics.AppGraphicsModel
@@ -18,6 +19,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import net.lingala.zip4j.ZipFile
+import java.io.File
+import java.io.FileNotFoundException
 
 class ImageViewerViewModel(application: Application, private val pathToImage: String, private val pathToApk: String) : WrappedViewModel(application) {
 
@@ -31,6 +37,10 @@ class ImageViewerViewModel(application: Application, private val pathToImage: St
 
     private val gif: MutableLiveData<GifDrawable> by lazy {
         MutableLiveData<GifDrawable>()
+    }
+
+    val path: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
     }
 
     fun getBitmap(): LiveData<Bitmap> {
@@ -93,6 +103,23 @@ class ImageViewerViewModel(application: Application, private val pathToImage: St
                     }
                 })
                 .preload()
+        }
+    }
+
+    fun exportImage() {
+        viewModelScope.launch(Dispatchers.IO) {
+            ZipFile(pathToApk).extractFile(pathToImage, context.getExternalFilesDir(null)?.absolutePath)
+            path.postValue(context.getExternalFilesDir(null)?.absolutePath + "/" + pathToImage)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        // Clearing the cache
+        try {
+            File(context.getExternalFilesDir(null)?.absolutePath + "/" + pathToImage).delete()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
         }
     }
 }

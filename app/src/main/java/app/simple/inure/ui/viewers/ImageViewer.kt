@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.PointF
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +26,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.ImageViewerViewModelFactory
+import app.simple.inure.popups.viewers.PopupImageViewer
 import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.NullSafety.isNotNull
@@ -31,6 +35,8 @@ import app.simple.inure.viewmodels.viewers.ImageViewerViewModel
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.google.android.material.animation.ArgbEvaluatorCompat
+import java.io.File
+import java.io.IOException
 
 class ImageViewer : ScopedFragment() {
 
@@ -47,7 +53,26 @@ class ImageViewer : ScopedFragment() {
         ViewModelProvider(this, p0)[ImageViewerViewModel::class.java]
     }
 
+    private val exportImage = registerForActivityResult(ActivityResultContracts.CreateDocument("*/*")) { uri: Uri? ->
+        if (uri == null) {
+            // Back button pressed.
+            return@registerForActivityResult
+        }
+        try {
+            requireContext().contentResolver.openOutputStream(uri).use { outputStream ->
+                if (outputStream == null) throw IOException()
+                outputStream.write(filePath?.let { File(it).readBytes() })
+                outputStream.flush()
+                Toast.makeText(requireContext(), R.string.saved_successfully, Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), R.string.failed, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private var isFullScreen = true
+    private var filePath: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_image_viewer, container, false)
@@ -114,8 +139,26 @@ class ImageViewer : ScopedFragment() {
             image.callOnClick()
         }
 
-        options.setOnClickListener {
+        options.setOnClickListener { it ->
+            PopupImageViewer(it).setOnPopupClickedListener(object : PopupImageViewer.PopupImageCallbacks {
+                override fun onPopupItemClicked(source: String) {
+                    when (source) {
+                        getString(R.string.export) -> {
+                            showLoader(manualOverride = true)
+                            imageViewerViewModel.exportImage()
 
+                            imageViewerViewModel.path.observe(viewLifecycleOwner) {
+                                hideLoader()
+                                if (it.isNotNull()) {
+                                    filePath = it
+                                    exportImage.launch(it.substringAfterLast("/"))
+                                    imageViewerViewModel.path.removeObservers(viewLifecycleOwner)
+                                }
+                            }
+                        }
+                    }
+                }
+            })
         }
     }
 
