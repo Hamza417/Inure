@@ -203,7 +203,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                 }
                 Log.d("Installer", "Session id: $sessionId")
                 for (file in files.value!!) {
-                    if (file.exists() && file.name.endsWith(".apk")) {
+                    if (file.exists() && file.name.endsWith(".apk") && files.value!!.size > 1) {
                         val size = file.length()
                         Log.d("Installer", "Size of ${file.name}: $size")
                         val splitName = file.name.substringBeforeLast(".")
@@ -229,6 +229,22 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                                     Log.d("Installer", "Output: ${it.out}")
                                     Log.d("Installer", "Error: ${it.err}")
                                 }
+                            }
+                        }
+                    } else {
+                        // Not a split apk
+                        val size = file.length()
+                        Log.d("Installer", "Size of ${file.name}: $size")
+                        val path = file.absolutePath.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
+                        Log.d("Installer", "Path: $path")
+
+                        // create uri from file
+                        val uri = FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", file)
+
+                        context.contentResolver.openInputStream(uri).use { inputStream ->
+                            ShizukuUtils.execInternal(Command("pm install-write -S $size $sessionId base-"), inputStream).let {
+                                Log.d("Installer", "Output: ${it.out}")
+                                Log.d("Installer", "Error: ${it.err}")
                             }
                         }
                     }
