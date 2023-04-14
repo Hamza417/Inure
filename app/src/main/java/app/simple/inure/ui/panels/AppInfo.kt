@@ -47,6 +47,7 @@ import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
@@ -389,7 +390,7 @@ class AppInfo : ScopedFragment() {
         }
 
         icon.transitionName = packageInfo.packageName
-        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
+        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled, packageInfo.applicationInfo.sourceDir.toFile())
 
         name.text = packageInfo.applicationInfo.name
         packageId.text = PackageUtils.getApplicationVersion(requireContext(), packageInfo)
