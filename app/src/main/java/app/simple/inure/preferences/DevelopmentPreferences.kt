@@ -20,6 +20,7 @@ object DevelopmentPreferences {
     const val enableHiddenApps = "is_hidden_apps_enabled"
     const val transparentStatus = "is_transparent_status_disabled_removed"
     const val shizukuTrackerBlocker = "is_shizuku_tracker_blocker_enabled"
+    const val loadAllInstallerPages = "is_all_installer_pages_loaded"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -103,8 +104,13 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Shizuku Tracker Blocker",
-                                            "This will enable Shizuku mode in Trackers Manager, however it may not work on ADB or any non root modes    .",
+                                            "This will enable Shizuku mode in Trackers Manager, however it may not work on ADB or any non root modes.",
                                             shizukuTrackerBlocker,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Load All Installer Pages",
+                                            "Load all installer pages at once, reduces initial performance but improves scrolling performance.",
+                                            loadAllInstallerPages,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

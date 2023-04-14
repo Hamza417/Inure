@@ -32,6 +32,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.FileUtils.findFile
@@ -83,7 +84,11 @@ class Installer : ScopedFragment() {
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
 
         intentFilter.addAction(ServiceConstants.actionSessionStatus)
-        viewPager.offscreenPageLimit = 5
+        viewPager.offscreenPageLimit = if (DevelopmentPreferences.get(DevelopmentPreferences.loadAllInstallerPages)) {
+            5
+        } else {
+            ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
+        }
 
         tabLayout.apply {
             setDefaultTabTextColor(ColorStateList.valueOf(ThemeManager.theme.textViewTheme.secondaryTextColor))
