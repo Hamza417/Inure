@@ -20,6 +20,7 @@ import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.models.ServiceInfoModel
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
@@ -107,7 +108,9 @@ class Trackers : SearchBarScopedFragment() {
             }
 
             if (it.size > 0) {
-                checklist.visible(animate = true)
+                if (ConfigurationPreferences.isUsingRoot()) {
+                    checklist.visible(animate = true)
+                }
             }
 
             searchBox.doOnTextChanged { text, _, _, _ ->
