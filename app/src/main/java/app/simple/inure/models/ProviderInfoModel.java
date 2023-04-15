@@ -14,45 +14,6 @@ public class ProviderInfoModel implements Parcelable {
     private boolean exported;
     private boolean enabled;
     
-    public ProviderInfoModel() {
-    }
-    
-    public ProviderInfoModel(ProviderInfo providerInfo, String authority, String permissions, String name, String status, boolean exported, boolean enabled) {
-        this.providerInfo = providerInfo;
-        this.authority = authority;
-        this.permissions = permissions;
-        this.name = name;
-        this.status = status;
-        this.exported = exported;
-        this.enabled = enabled;
-    }
-    
-    protected ProviderInfoModel(Parcel in) {
-        providerInfo = in.readParcelable(ProviderInfo.class.getClassLoader());
-        authority = in.readString();
-        permissions = in.readString();
-        name = in.readString();
-        status = in.readString();
-        exported = in.readByte() != 0;
-        enabled = in.readByte() != 0;
-    }
-    
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(providerInfo, flags);
-        dest.writeString(authority);
-        dest.writeString(permissions);
-        dest.writeString(name);
-        dest.writeString(status);
-        dest.writeByte((byte) (exported ? 1 : 0));
-        dest.writeByte((byte) (enabled ? 1 : 0));
-    }
-    
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-    
     public static final Creator <ProviderInfoModel> CREATOR = new Creator <ProviderInfoModel>() {
         @Override
         public ProviderInfoModel createFromParcel(Parcel in) {
@@ -64,6 +25,50 @@ public class ProviderInfoModel implements Parcelable {
             return new ProviderInfoModel[size];
         }
     };
+    
+    public ProviderInfoModel() {
+    }
+    
+    private String trackingId;
+    
+    public ProviderInfoModel(ProviderInfo providerInfo, String authority, String permissions, String name, String status, boolean exported, boolean enabled, String trackingId) {
+        this.providerInfo = providerInfo;
+        this.authority = authority;
+        this.permissions = permissions;
+        this.name = name;
+        this.status = status;
+        this.exported = exported;
+        this.enabled = enabled;
+        this.trackingId = trackingId;
+    }
+    
+    protected ProviderInfoModel(Parcel in) {
+        providerInfo = in.readParcelable(ProviderInfo.class.getClassLoader());
+        authority = in.readString();
+        permissions = in.readString();
+        name = in.readString();
+        status = in.readString();
+        exported = in.readByte() != 0;
+        enabled = in.readByte() != 0;
+        trackingId = in.readString();
+    }
+    
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(providerInfo, flags);
+        dest.writeString(authority);
+        dest.writeString(permissions);
+        dest.writeString(name);
+        dest.writeString(status);
+        dest.writeByte((byte) (exported ? 1 : 0));
+        dest.writeByte((byte) (enabled ? 1 : 0));
+        dest.writeString(trackingId);
+    }
+    
+    @Override
+    public int describeContents() {
+        return 0;
+    }
     
     public ProviderInfo getProviderInfo() {
         return providerInfo;
@@ -89,6 +94,22 @@ public class ProviderInfoModel implements Parcelable {
         this.permissions = permissions;
     }
     
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
     public boolean isExported() {
         return exported;
     }
@@ -105,19 +126,11 @@ public class ProviderInfoModel implements Parcelable {
         this.enabled = enabled;
     }
     
-    public String getName() {
-        return name;
+    public String getTrackingId() {
+        return trackingId;
     }
     
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getStatus() {
-        return status;
-    }
-    
-    public void setStatus(String status) {
-        this.status = status;
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
     }
 }

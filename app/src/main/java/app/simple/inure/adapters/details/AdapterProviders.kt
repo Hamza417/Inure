@@ -26,7 +26,6 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.loadIconFromProviderInfo(providers[position].providerInfo)
-
         holder.name.text = providers[position].name.substring(providers[position].name.lastIndexOf(".") + 1)
         holder.packageId.text = providers[position].name
 
@@ -46,8 +45,8 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
             })
 
         holder.status.append(providers[position].status)
-
         holder.authority.text = providers[position].authority
+        holder.name.setTrackingIcon(providers[position].trackingId.isNullOrEmpty().not())
 
         holder.container.setOnLongClickListener {
             providersCallbacks
