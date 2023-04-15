@@ -31,9 +31,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = activities[holder.absoluteAdapterPosition].name.substring(activities[holder.absoluteAdapterPosition].name.lastIndexOf(".") + 1)
         holder.activityPackageID.text = activities[position].name
-
         holder.icon.loadIconFromActivityInfo(activities[position].activityInfo)
-
         holder.status.text = holder.itemView.context.getString(
                 R.string.activity_status,
 
@@ -52,8 +50,8 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
                 }.onFailure {
                     holder.itemView.context.getString(R.string.unknown)
                 })
-
         holder.status.append(activities[position].status)
+        holder.name.setTrackingIcon(activities[position].trackerId.isNullOrEmpty().not())
 
         holder.launch.setOnClickListener {
             activitiesCallbacks.onLaunchClicked(packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)

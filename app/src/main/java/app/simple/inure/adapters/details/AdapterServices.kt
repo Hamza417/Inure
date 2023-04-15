@@ -28,9 +28,9 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.loadIconFromServiceInfo(services[position].serviceInfo)
-
         holder.name.text = services[position].name.substring(services[position].name.lastIndexOf(".") + 1)
         holder.packageId.text = services[position].name
+        holder.name.setTrackingIcon(services[position].trackerId.isNullOrEmpty().not())
 
         holder.status.text = kotlin.runCatching {
             holder.itemView.context.getString(

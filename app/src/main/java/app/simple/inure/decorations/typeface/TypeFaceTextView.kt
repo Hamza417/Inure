@@ -187,6 +187,17 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
     }
 
+    fun setTrackingIcon(isTracker: Boolean) {
+        if (isTracker) {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_radiation_nuclear_12dp, 0)
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+
+        drawableTintMode = 0
+        setDrawableTint(false)
+    }
+
     fun setTextWithAnimation(text: String, duration: Long = 250, completion: (() -> Unit)? = null) {
         fadeOutAnimation(duration) {
             this.text = text

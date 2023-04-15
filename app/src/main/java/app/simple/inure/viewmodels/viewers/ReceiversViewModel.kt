@@ -29,6 +29,7 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val list = arrayListOf<ActivityInfoModel>()
+                val signatures: Array<String> = context.resources.getStringArray(R.array.trackers)
 
                 for (ai in application.packageManager.getPackageInfo(packageInfo.packageName)!!.receivers) {
                     val activityInfoModel = ActivityInfoModel()
@@ -38,6 +39,13 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
                     activityInfoModel.target = ai.targetActivity ?: application.getString(R.string.not_available)
                     activityInfoModel.exported = ai.exported
                     activityInfoModel.permission = ai.permission ?: application.getString(R.string.no_permissions_required)
+
+                    for (signature in signatures) {
+                        if (ai.name!!.contains(signature)) {
+                            activityInfoModel.trackerId = signature
+                            break
+                        }
+                    }
 
                     with(StringBuilder()) {
                         append(" | ")

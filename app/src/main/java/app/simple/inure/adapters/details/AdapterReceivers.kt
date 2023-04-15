@@ -26,10 +26,8 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.loadIconFromActivityInfo(receivers[position].activityInfo)
-
         holder.name.text = receivers[position].name.substring(receivers[position].name.lastIndexOf(".") + 1)
         holder.packageId.text = receivers[position].name
-
         holder.status.text = holder.itemView.context.getString(
             R.string.activity_status,
 
@@ -44,8 +42,8 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
             } else {
                 holder.itemView.context.getString(R.string.disabled)
             })
-
         holder.status.append(receivers[position].status)
+        holder.name.setTrackingIcon(receivers[position].trackerId.isNullOrEmpty().not())
 
         holder.container.setOnLongClickListener {
             receiversCallbacks

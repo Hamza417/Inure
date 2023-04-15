@@ -30,6 +30,7 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val list = arrayListOf<ServiceInfoModel>()
+                val signatures: Array<String> = context.resources.getStringArray(R.array.trackers)
 
                 for (info in application.packageManager.getPackageInfo(packageInfo.packageName)!!.services) {
                     val serviceInfoModel = ServiceInfoModel()
@@ -40,6 +41,13 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                     serviceInfoModel.flags = info.flags
                     serviceInfoModel.foregroundType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) info.foregroundServiceType else -3
                     serviceInfoModel.permissions = info.permission ?: application.getString(R.string.no_permissions_required)
+
+                    for (signature in signatures) {
+                        if (serviceInfoModel.serviceInfo.name!!.contains(signature)) {
+                            serviceInfoModel.trackerId = signature
+                            break
+                        }
+                    }
 
                     with(StringBuilder()) {
                         append(" | ")

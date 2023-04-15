@@ -30,6 +30,7 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val list = arrayListOf<ActivityInfoModel>()
+                val signatures: Array<String> = context.resources.getStringArray(R.array.trackers)
 
                 for (ai in packageManager.getPackageInfo(packageInfo.packageName)!!.activities) {
                     val activityInfoModel = ActivityInfoModel()
@@ -40,6 +41,13 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
                     activityInfoModel.exported = ai.exported
                     activityInfoModel.permission = ai.permission ?: getString(R.string.no_permissions_required)
                     activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, ai.name)
+
+                    for (signature in signatures) {
+                        if (ai.name!!.contains(signature)) {
+                            activityInfoModel.trackerId = signature
+                            break
+                        }
+                    }
 
                     with(StringBuilder()) {
                         append(" | ")
