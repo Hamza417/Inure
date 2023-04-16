@@ -35,6 +35,7 @@ class AdapterInstallerPermissions(private val permissions: MutableList<String>) 
             holder.name.setPermissionName(permissionInfo)
             holder.desc.setDescriptionText(holder.itemView.context, permissionInfo)
             holder.status.setStatusText(permissionInfo)
+            holder.name.setDangerousPermissionIcon(PermissionUtils.isDangerous(permissionInfo))
 
             /* ----------------------------------------------------------------- */
 
@@ -45,6 +46,7 @@ class AdapterInstallerPermissions(private val permissions: MutableList<String>) 
             holder.status.text = holder.itemView.context.getString(R.string.permission_info_not_available)
             holder.status.setTextColor(ThemeManager.theme.textViewTheme.secondaryTextColor)
             holder.desc.gone()
+            holder.name.setDangerousPermissionIcon(false)
         }
     }
 

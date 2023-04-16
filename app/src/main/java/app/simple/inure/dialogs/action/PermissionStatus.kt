@@ -182,7 +182,7 @@ class PermissionStatus : ScopedBottomSheetFragment() {
 
     private fun setStateText(animate: Boolean = true) {
         try {
-            if (isDangerous(permissionInfo)) {
+            if (PermissionUtils.isDangerous(permissionInfo.permissionInfo!!)) {
                 state.visible(animate = true)
 
                 if (animate) {
@@ -207,31 +207,13 @@ class PermissionStatus : ScopedBottomSheetFragment() {
                 divider.visible(animate = false)
             }
         } catch (e: java.lang.NullPointerException) {
+            e.printStackTrace()
             state.gone(animate = false)
             warning.visible(animate = false)
             divider.visible(animate = false)
         }
 
         btnContainer.requestLayout()
-    }
-
-    @Suppress("DEPRECATION")
-    private fun isDangerous(permissionInfo: PermissionInfo): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            when (permissionInfo.permissionInfo!!.protection) {
-                android.content.pm.PermissionInfo.PROTECTION_DANGEROUS -> true
-                android.content.pm.PermissionInfo.PROTECTION_SIGNATURE -> true
-                android.content.pm.PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> true
-                else -> false
-            }
-        } else {
-            when (permissionInfo.permissionInfo!!.protectionLevel and android.content.pm.PermissionInfo.PROTECTION_MASK_BASE) {
-                android.content.pm.PermissionInfo.PROTECTION_DANGEROUS -> true
-                android.content.pm.PermissionInfo.PROTECTION_SIGNATURE -> true
-                android.content.pm.PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> true
-                else -> false
-            }
-        }
     }
 
     fun setOnPermissionStatusCallbackListener(permissionStatusCallbacks: PermissionStatusCallbacks) {

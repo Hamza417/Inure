@@ -3,6 +3,7 @@ package app.simple.inure.apk.utils
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.PermissionInfo
+import android.os.Build
 import app.simple.inure.R
 
 object PermissionUtils {
@@ -24,6 +25,25 @@ object PermissionUtils {
             e.printStackTrace()
         }
         return null
+    }
+
+    @Suppress("DEPRECATION")
+    fun isDangerous(permissionInfo: PermissionInfo): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            when (permissionInfo.protection) {
+                PermissionInfo.PROTECTION_DANGEROUS -> true
+                PermissionInfo.PROTECTION_SIGNATURE -> false
+                PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> false
+                else -> false
+            }
+        } else {
+            when (permissionInfo.protectionLevel and PermissionInfo.PROTECTION_MASK_BASE) {
+                PermissionInfo.PROTECTION_DANGEROUS -> true
+                PermissionInfo.PROTECTION_SIGNATURE -> false
+                PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> false
+                else -> false
+            }
+        }
     }
 
     @Suppress("deprecation")

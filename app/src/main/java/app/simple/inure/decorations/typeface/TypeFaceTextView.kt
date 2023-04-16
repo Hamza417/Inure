@@ -198,6 +198,17 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         setDrawableTint(false)
     }
 
+    fun setDangerousPermissionIcon(isDangerous: Boolean) {
+        if (isDangerous) {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_skull_12dp, 0)
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+
+        drawableTintMode = 0
+        setDrawableTint(false)
+    }
+
     fun setTextWithAnimation(text: String, duration: Long = 250, completion: (() -> Unit)? = null) {
         fadeOutAnimation(duration) {
             this.text = text

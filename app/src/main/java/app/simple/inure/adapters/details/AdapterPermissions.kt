@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PermissionUtils
 import app.simple.inure.apk.utils.PermissionUtils.protectionToString
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
@@ -38,6 +39,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             holder.name.setPermissionName(position, permissions[position])
             holder.desc.setDescriptionText(holder.itemView.context, permissions[position])
             holder.status.setStatusText(position, holder.itemView.context, permissions[position])
+            holder.name.setDangerousPermissionIcon(PermissionUtils.isDangerous(permissions[position].permissionInfo!!))
 
             /* -------------------------------------------------------------------------------------------------------- */
 
@@ -48,6 +50,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             holder.status.text = holder.itemView.context.getString(R.string.permission_info_not_available)
             holder.status.setTextColor(ThemeManager.theme.textViewTheme.secondaryTextColor)
             holder.desc.gone()
+            holder.name.setDangerousPermissionIcon(false)
         }
 
         if (isRootShizukuMode) {
