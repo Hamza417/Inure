@@ -11,23 +11,22 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 
-class AdapterTrackerSelector(private val paths: MutableList<Pair<String, Boolean>>) : RecyclerView.Adapter<AdapterTrackerSelector.Holder>() {
+class AdapterBootSelector(private val components: MutableList<Pair<String, Boolean>>) : RecyclerView.Adapter<AdapterBootSelector.Holder>() {
 
-    private var trackerSelectorCallbacks: TrackerSelectorCallbacks? = null
+    private var bootSelectorCallbacks: BootSelectorCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_selector_split_apk, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.path.text = paths.elementAt(position).first.subSequence(paths.elementAt(position).first.lastIndexOf("/") + 1, paths.elementAt(position).first.length)
-
-        holder.checkBox.setChecked(paths.elementAt(position).second)
+        holder.path.text = components.elementAt(position).first.subSequence(components.elementAt(position).first.lastIndexOf("/") + 1, components.elementAt(position).first.length)
+        holder.checkBox.setChecked(components.elementAt(position).second)
 
         holder.checkBox.setOnCheckedChangeListener { isChecked ->
-            val newPair = Pair(paths.elementAt(position).first, isChecked)
-            paths[position] = newPair
-            paths.elementAt(position).first.let { trackerSelectorCallbacks?.onTrackerSelected(it, isChecked) }
+            val newPair = Pair(components.elementAt(position).first, isChecked)
+            components[position] = newPair
+            components.elementAt(position).first.let { bootSelectorCallbacks?.onBootSelected(it, isChecked) }
         }
 
         holder.container.setOnClickListener {
@@ -36,7 +35,7 @@ class AdapterTrackerSelector(private val paths: MutableList<Pair<String, Boolean
     }
 
     override fun getItemCount(): Int {
-        return paths.size
+        return components.size
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
@@ -45,8 +44,8 @@ class AdapterTrackerSelector(private val paths: MutableList<Pair<String, Boolean
         val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.container)
     }
 
-    fun setTrackerSelectorCallbacks(trackerSelectorCallbacks: TrackerSelectorCallbacks) {
-        this.trackerSelectorCallbacks = trackerSelectorCallbacks
+    fun setBootSelectorCallbacks(bootSelectorCallbacks: BootSelectorCallbacks) {
+        this.bootSelectorCallbacks = bootSelectorCallbacks
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -55,8 +54,8 @@ class AdapterTrackerSelector(private val paths: MutableList<Pair<String, Boolean
     }
 
     companion object {
-        interface TrackerSelectorCallbacks {
-            fun onTrackerSelected(path: String, isChecked: Boolean)
+        interface BootSelectorCallbacks {
+            fun onBootSelected(path: String, isChecked: Boolean)
         }
     }
 }

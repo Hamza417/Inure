@@ -13,7 +13,8 @@ import app.simple.inure.adapters.ui.AdapterBootManager
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.bootmanager.BootComponentSelector
+import app.simple.inure.dialogs.bootmanager.BootComponentSelector.Companion.showBootComponentSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BootManagerModel
@@ -22,21 +23,20 @@ import app.simple.inure.popups.bootmanager.PopupBootManagerAppsCategory
 import app.simple.inure.popups.bootmanager.PopupBootManagerSortingStyle
 import app.simple.inure.preferences.BootManagerPreferences
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.viewmodels.panels.BootManagerShizukuViewModel
+import app.simple.inure.viewmodels.panels.BootManagerViewModel
 
 class BootManager : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
     private var adapterBootManager: AdapterBootManager? = null
-    private var bootManagerViewModel: BootManagerShizukuViewModel? = null
+    private var bootManagerViewModel: BootManagerViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_boot_manager, container, false)
 
         recyclerView = view.findViewById(R.id.boot_manager_recycler_view)
-
-        bootManagerViewModel = ViewModelProvider(requireActivity())[BootManagerShizukuViewModel::class.java]
+        bootManagerViewModel = ViewModelProvider(requireActivity())[BootManagerViewModel::class.java]
 
         return view
     }
@@ -52,6 +52,20 @@ class BootManager : ScopedFragment() {
 
             adapterBootManager?.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onBootComponentClicked(view: View, bootManagerModel: BootManagerModel, position: Int, icon: ImageView) {
+                    childFragmentManager.showBootComponentSelector(bootManagerModel).setBootComponentSelectorCallbacks(object : BootComponentSelector.Companion.BootComponentSelectorCallbacks {
+                        override fun onBootSelected(selectedSet: Set<String>, enable: Boolean) {
+                            showLoader(manualOverride = true).also {
+                                if (enable) {
+                                    bootManagerViewModel?.enableComponents(selectedSet, bootManagerModel.copy(), position)
+                                } else {
+                                    bootManagerViewModel?.disableComponents(selectedSet, bootManagerModel.copy(), position)
+                                }
+                            }
+                        }
+                    })
+                }
+
+                override fun onBootComponentLongClicked(view: View, bootManagerModel: BootManagerModel, position: Int, icon: ImageView) {
                     PopupBootManager(view).setOnPopupBootManagerCallbacks(object : PopupBootManager.Companion.PopupBootManagerCallbacks {
                         override fun onEnableAllClicked() {
                             showLoader(manualOverride = true).also {
@@ -69,11 +83,6 @@ class BootManager : ScopedFragment() {
                             openFragmentArc(AppInfo.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageInfo.packageName)!!), icon, "app_info")
                         }
                     })
-                }
-
-                override fun onBootComponentLongClicked(view: View, bootManagerModel: BootManagerModel, position: Int, icon: ImageView) {
-                    AppsMenu.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageInfo.packageName)!!)
-                        .show(childFragmentManager, "apps_menu")
                 }
             })
 

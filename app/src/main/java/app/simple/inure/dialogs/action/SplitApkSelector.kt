@@ -24,7 +24,7 @@ class SplitApkSelector : ScopedBottomSheetFragment() {
     private lateinit var extract: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.dialog_split_apk_selector, container, false)
+        val view = inflater.inflate(R.layout.dialog_selector_split_apk, container, false)
 
         recyclerView = view.findViewById(R.id.split_apk_selector_rv)
         selectAll = view.findViewById(R.id.select_all)

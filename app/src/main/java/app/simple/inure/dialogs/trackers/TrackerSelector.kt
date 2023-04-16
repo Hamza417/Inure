@@ -23,7 +23,7 @@ class TrackerSelector : ScopedBottomSheetFragment() {
     private var trackerSelectorCallbacks: TrackerSelectorCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.dialog_tracker_selector, container, false)
+        val view = inflater.inflate(R.layout.dialog_selector_tracker, container, false)
 
         recyclerView = view.findViewById(R.id.recycler_view)
         close = view.findViewById(R.id.close)

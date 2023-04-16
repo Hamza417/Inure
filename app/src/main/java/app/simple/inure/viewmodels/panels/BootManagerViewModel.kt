@@ -23,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class BootManagerShizukuViewModel(application: Application) : RootShizukuViewModel(application) {
+class BootManagerViewModel(application: Application) : RootShizukuViewModel(application) {
 
     private val command = "pm query-receivers --components -a android.intent.action.BOOT_COMPLETED"
     private val bootCompletedIntent = "android.intent.action.BOOT_COMPLETED"
@@ -219,6 +219,42 @@ class BootManagerShizukuViewModel(application: Application) : RootShizukuViewMod
                 } else {
                     bootManagerModel.addDisabledComponent(component)
                     bootManagerModel.enabledComponents.remove(component)
+                }
+            }
+
+            bootManagerModelData.postValue(Pair(bootManagerModel, position))
+        }
+    }
+
+    fun enableComponents(set: Set<String>, bootManagerModel: BootManagerModel, position: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            set.forEach { component ->
+                Shell.cmd("pm enable ${bootManagerModel.packageInfo.packageName}/$component").exec().let { result ->
+                    if (result.isSuccess) {
+                        Log.d("BootManagerViewModel", "enableComponents: $component")
+                        bootManagerModel.addEnabledComponent(component)
+                        bootManagerModel.disabledComponents.remove(component)
+                    } else {
+                        Log.e("BootManagerViewModel", "enableComponents: ${result.err}")
+                    }
+                }
+            }
+
+            bootManagerModelData.postValue(Pair(bootManagerModel, position))
+        }
+    }
+
+    fun disableComponents(list: Set<String>, bootManagerModel: BootManagerModel, position: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            list.forEach { component ->
+                Shell.cmd("pm disable ${bootManagerModel.packageInfo.packageName}/$component").exec().let { result ->
+                    if (result.isSuccess) {
+                        Log.d("BootManagerViewModel", "disableComponents: $component")
+                        bootManagerModel.addDisabledComponent(component)
+                        bootManagerModel.enabledComponents.remove(component)
+                    } else {
+                        Log.e("BootManagerViewModel", "disableComponents: ${result.err}")
+                    }
                 }
             }
 

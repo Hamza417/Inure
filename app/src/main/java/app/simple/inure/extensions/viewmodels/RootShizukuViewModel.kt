@@ -118,9 +118,18 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
         return shell != null
     }
 
-    abstract fun onShellCreated(shell: Shell?)
-    abstract fun onShellDenied()
-    abstract fun onShizukuCreated()
+    open fun onShellCreated(shell: Shell?) {
+
+    }
+
+    open fun onShellDenied() {
+
+    }
+
+    open fun onShizukuCreated() {
+
+    }
+
     open fun onShizukuDenied() {
         warning.postValue(Warnings.getShizukuFailedWarning())
     }

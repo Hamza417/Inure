@@ -1,11 +1,14 @@
 package app.simple.inure.models;
 
 import android.content.pm.PackageInfo;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.ArraySet;
 
+import androidx.annotation.NonNull;
 import app.simple.inure.interfaces.utils.Copyable;
 
-public class BootManagerModel implements Copyable <BootManagerModel> {
+public class BootManagerModel implements Copyable <BootManagerModel>, Parcelable {
     
     private PackageInfo packageInfo;
     private ArraySet <String> disabledComponents = new ArraySet <>();
@@ -20,6 +23,23 @@ public class BootManagerModel implements Copyable <BootManagerModel> {
     }
     
     public BootManagerModel() {
+    }
+    
+    public static final Creator <BootManagerModel> CREATOR = new Creator <BootManagerModel>() {
+        @Override
+        public BootManagerModel createFromParcel(Parcel in) {
+            return new BootManagerModel(in);
+        }
+        
+        @Override
+        public BootManagerModel[] newArray(int size) {
+            return new BootManagerModel[size];
+        }
+    };
+    
+    protected BootManagerModel(Parcel in) {
+        packageInfo = in.readParcelable(PackageInfo.class.getClassLoader());
+        enabled = in.readByte() != 0;
     }
     
     public PackageInfo getPackageInfo() {
@@ -98,5 +118,17 @@ public class BootManagerModel implements Copyable <BootManagerModel> {
         dest.setDisabledComponents(disabledComponents);
         dest.setEnabledComponents(enabledComponents);
         dest.setEnabled(enabled);
+    }
+    
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        
+        dest.writeParcelable(packageInfo, flags);
+        dest.writeByte((byte) (enabled ? 1 : 0));
     }
 }

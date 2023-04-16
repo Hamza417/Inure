@@ -155,7 +155,7 @@ class Uninstaller : ScopedActionDialogBottomFragment() {
         }
 
         val bootManagerViewModel = if (ConfigurationPreferences.isUsingRoot()) {
-            ViewModelProvider(requireActivity())[BootManagerShizukuViewModel::class.java]
+            ViewModelProvider(requireActivity())[BootManagerViewModel::class.java]
         } else {
             isBootManagerLoaded = true
             null

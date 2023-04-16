@@ -17,7 +17,7 @@ class AdapterSplitApkSelector(private val paths: MutableList<Pair<String, Boolea
     private var onSplitApkSelectorListener: OnSplitApkSelectorListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_split_apk_selector, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_selector_split_apk, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
