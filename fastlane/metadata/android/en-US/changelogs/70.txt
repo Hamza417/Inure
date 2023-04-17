@@ -1,0 +1,2 @@
+- Fixed various issues
+- Improved interface and some implementations
