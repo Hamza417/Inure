@@ -174,15 +174,18 @@ class Home : ScopedFragment() {
                             openFragmentArc(StackTraces.newInstance(), icon, "stacktraces")
                         }
                         R.string.battery_optimization -> {
-                            if (ConfigurationPreferences.isUsingShizuku()) {
-                                if (Shizuku.pingBinder()) {
-                                    openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
-                                } else {
-                                    showWarning(Warnings.getShizukuFailedWarning(), goBack = false)
-                                }
-                            } else {
+                            if (ConfigurationPreferences.isUsingRoot()) {
                                 openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
-                            }
+                            } else
+                                if (ConfigurationPreferences.isUsingShizuku()) {
+                                    if (Shizuku.pingBinder()) {
+                                        openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
+                                    } else {
+                                        showWarning(Warnings.getShizukuFailedWarning(), goBack = false)
+                                    }
+                                } else {
+                                    openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
+                                }
                         }
                         R.string.boot_manager -> {
                             openFragmentArc(BootManager.newInstance(), icon, "boot_manager")
