@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val maxProgress = "max_progress"
     const val bootManagerModel = "boot_manager_model"
     const val trackers = "trackers"
     const val result = "result"

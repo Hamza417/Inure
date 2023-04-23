@@ -20,6 +20,8 @@ public class PopupLinearLayout extends DynamicCornerLinearLayout {
     }
     
     private void init() {
+        setClipToPadding(false);
+        setClipChildren(false);
         int p = getResources().getDimensionPixelOffset(R.dimen.popup_padding);
         setPadding(p, p, p, p);
         setOrientation(LinearLayout.VERTICAL);

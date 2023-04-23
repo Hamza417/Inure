@@ -58,6 +58,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyProgress)
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyFinished)
         batchExtractIntentFilter.addAction(ServiceConstants.actionExtractDone)
+        batchExtractIntentFilter.addAction(ServiceConstants.actionCopyProgressMax)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             appList = requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps, BatchPackageInfo::class.java)!!
@@ -107,7 +108,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                     }
                     ServiceConstants.actionCopyProgress -> {
                         progress.animateProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
-                        percentage.text = getString(R.string.progress, intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
+                        percentage.text = getString(R.string.progress, progress.progress / progress.max * 100)
                     }
                     ServiceConstants.actionBatchApkType -> {
                         progressStatus.text = when (intent.extras?.getInt(BatchExtractService.APK_TYPE_EXTRA)) {
@@ -137,6 +138,9 @@ class BatchExtract : ScopedBottomSheetFragment() {
                             }
                             dismiss()
                         }
+                    }
+                    ServiceConstants.actionCopyProgressMax -> {
+                        progress.max = intent.extras?.getInt(IntentHelper.INT_EXTRA)!!
                     }
                 }
             }

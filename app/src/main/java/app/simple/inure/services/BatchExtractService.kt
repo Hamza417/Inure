@@ -1,11 +1,15 @@
 package app.simple.inure.services
 
+import android.Manifest
 import android.app.*
 import android.content.Intent
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -206,21 +210,29 @@ class BatchExtractService : Service() {
         if (!File(applicationContext.getBundlePathAndFileName(packageInfo)).exists()) {
             launchOnUiThread {
                 notificationBuilder.setContentText(packageInfo.applicationInfo.name)
+                if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    return@launchOnUiThread
+                }
                 notificationManager.notify(notificationId, notification)
             }
 
             val zipFile = ZipFile(applicationContext.getBundlePathAndFileName(packageInfo))
             val progressMonitor = zipFile.progressMonitor
-            val length = packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+            val length = packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength() + File(packageInfo.applicationInfo.sourceDir).length()
+            var oldProgress = 0L
 
             zipFile.isRunInThread = true
             zipFile.addFiles(createSplitApkFiles(packageInfo))
 
+
             while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
-                progress += length * (progressMonitor.percentDone / 100)
+                progress += progress - (length * (progressMonitor.percentDone / 100))
                 notificationBuilder.setProgress(maxSize.toInt(), progress.toInt(), false)
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    return
+                }
                 notificationManager.notify(notificationId, notification)
-                sendProgressBroadcast(progressMonitor.percentDone)
+                sendProgressBroadcast(progress.toInt())
                 Thread.sleep(100)
             }
 
@@ -262,10 +274,17 @@ class BatchExtractService : Service() {
     private fun measureTotalSize() {
         for (app in appsList) {
             maxSize += File(app.packageInfo.applicationInfo.sourceDir).length()
+            Log.d("Extract", File(app.packageInfo.applicationInfo.sourceDir).length().toString())
+
             if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
                 maxSize += app.packageInfo.applicationInfo.splitSourceDirs.getDirectorySize()
+                Log.d("Extract", app.packageInfo.applicationInfo.splitSourceDirs.getDirectorySize().toString())
             }
+
+            Log.d("Extract", "Total: $maxSize")
         }
+
+        sendMaxProgress(maxSize.toInt())
     }
 
     /* ----------------------------------------------------------------------------------------------------- */
@@ -313,6 +332,9 @@ class BatchExtractService : Service() {
             .setProgress(maxProgress.toInt(), 0, false)
 
         notification = notificationBuilder.build()
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
         notificationManager.notify(notificationId, notification)
         startForeground(notificationId, notification)
     }

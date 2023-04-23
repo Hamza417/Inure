@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.ProgressBar
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
@@ -31,6 +32,7 @@ class CustomProgressBar @JvmOverloads constructor(context: Context, attrs: Attri
      * @param animate animate the progress change
      */
     fun animateProgress(progress: Int, animate: Boolean = true) {
+        Log.d("CustomProgressBar", "animateProgress: $progress")
         if (animate) {
             valueAnimator = ValueAnimator.ofInt(this.progress, progress)
             valueAnimator?.interpolator = LinearOutSlowInInterpolator()
