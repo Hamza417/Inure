@@ -2,6 +2,7 @@ package app.simple.inure.dialogs.batch
 
 import android.content.*
 import android.os.*
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
 
     private var serviceBound = false
     private var disableRepeat = -1
+    private var maxLength = 0L
     private val vibratePattern = longArrayOf(500, 500)
 
     private lateinit var count: TypeFaceTextView
@@ -51,6 +53,8 @@ class BatchExtract : ScopedBottomSheetFragment() {
         progress = view.findViewById(R.id.progress)
         percentage = view.findViewById(R.id.progress_percentage)
         cancel = view.findViewById(R.id.cancel)
+
+        progress.max = 100
 
         batchExtractIntentFilter.addAction(ServiceConstants.actionBatchCopyStart)
         batchExtractIntentFilter.addAction(ServiceConstants.actionBatchApkType)
@@ -107,8 +111,13 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         }
                     }
                     ServiceConstants.actionCopyProgress -> {
-                        progress.animateProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
-                        percentage.text = getString(R.string.progress, progress.progress / progress.max * 100)
+                        val percent = intent.extras?.getLong(IntentHelper.INT_EXTRA)!! / maxLength.toDouble() * 100.0
+
+                        Log.d("BatchExtract", "Progress: ${intent.extras?.getLong(IntentHelper.INT_EXTRA)!!} / $maxLength")
+                        Log.d("BatchExtract", "Progress: ${percent.toInt()}")
+
+                        progress.animateProgress(percent.toInt())
+                        percentage.text = getString(R.string.progress, percent.toInt())
                     }
                     ServiceConstants.actionBatchApkType -> {
                         progressStatus.text = when (intent.extras?.getInt(BatchExtractService.APK_TYPE_EXTRA)) {
@@ -140,7 +149,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         }
                     }
                     ServiceConstants.actionCopyProgressMax -> {
-                        progress.max = intent.extras?.getInt(IntentHelper.INT_EXTRA)!!
+                        maxLength = intent.extras?.getLong(IntentHelper.INT_EXTRA)!!
                     }
                 }
             }
@@ -184,14 +193,16 @@ class BatchExtract : ScopedBottomSheetFragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         unbindService()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(extractBroadcastReceiver!!)
+        super.onDestroy()
     }
 
     private fun unbindService() {
         kotlin.runCatching {
-            requireActivity().unbindService(serviceConnection!!)
+            if (serviceBound) {
+                requireContext().unbindService(serviceConnection!!)
+            }
         }.getOrElse {
             it.printStackTrace()
         }

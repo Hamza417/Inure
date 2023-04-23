@@ -79,6 +79,8 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         ThemeUtils.setAppTheme(baseContext.resources)
         TrialPreferences.migrateLegacy()
 
+        // File(Environment.getExternalStorageDirectory().absolutePath + "/" + ConfigurationPreferences.getAppPath()).deleteRecursively()
+
         with(window) {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))

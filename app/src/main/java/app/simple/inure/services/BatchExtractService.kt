@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -203,6 +202,9 @@ class BatchExtractService : Service() {
 
             inputStream!!.close()
             outputStream!!.close()
+        } else {
+            progress += File(packageInfo.applicationInfo.sourceDir).length()
+            sendProgressBroadcast(progress)
         }
     }
 
@@ -218,21 +220,21 @@ class BatchExtractService : Service() {
 
             val zipFile = ZipFile(applicationContext.getBundlePathAndFileName(packageInfo))
             val progressMonitor = zipFile.progressMonitor
-            val length = packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength() + File(packageInfo.applicationInfo.sourceDir).length()
+            val length = packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
             var oldProgress = 0L
 
             zipFile.isRunInThread = true
             zipFile.addFiles(createSplitApkFiles(packageInfo))
 
-
             while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
-                progress += progress - (length * (progressMonitor.percentDone / 100))
+                progress += (length * (progressMonitor.percentDone / 100.0)).toLong() - oldProgress
                 notificationBuilder.setProgress(maxSize.toInt(), progress.toInt(), false)
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                     return
                 }
                 notificationManager.notify(notificationId, notification)
-                sendProgressBroadcast(progress.toInt())
+                sendProgressBroadcast(progress)
+                oldProgress = (length * (progressMonitor.percentDone / 100.0)).toLong()
                 Thread.sleep(100)
             }
 
@@ -243,6 +245,9 @@ class BatchExtractService : Service() {
                 println("Cancelled")
                 // status.postValue(getString(R.string.cancelled))
             }
+        } else {
+            progress += packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+            sendProgressBroadcast(progress)
         }
     }
 
@@ -261,30 +266,25 @@ class BatchExtractService : Service() {
     @Throws(IOException::class)
     fun copyStream(from: InputStream, to: OutputStream, length: Long) {
         val buf = ByteArray(1024 * 1024)
-        var len: Int
-        var total = 0L
+        var len: Long
 
-        while (from.read(buf).also { len = it } > 0) {
-            to.write(buf, 0, len)
-            total += len
-            sendProgressBroadcast((total * 100 / length).toInt())
+        while (from.read(buf).also { len = it.toLong() } > 0) {
+            to.write(buf, 0, len.toInt())
+            progress += len
+            sendProgressBroadcast(progress)
         }
     }
 
     private fun measureTotalSize() {
         for (app in appsList) {
             maxSize += File(app.packageInfo.applicationInfo.sourceDir).length()
-            Log.d("Extract", File(app.packageInfo.applicationInfo.sourceDir).length().toString())
 
             if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
                 maxSize += app.packageInfo.applicationInfo.splitSourceDirs.getDirectorySize()
-                Log.d("Extract", app.packageInfo.applicationInfo.splitSourceDirs.getDirectorySize().toString())
             }
-
-            Log.d("Extract", "Total: $maxSize")
         }
 
-        sendMaxProgress(maxSize.toInt())
+        sendMaxProgress(maxSize)
     }
 
     /* ----------------------------------------------------------------------------------------------------- */
@@ -297,11 +297,11 @@ class BatchExtractService : Service() {
         }
     }
 
-    private fun sendProgressBroadcast(progress: Int) {
+    private fun sendProgressBroadcast(progress: Long) {
         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyProgress, applicationContext, progress)
     }
 
-    private fun sendMaxProgress(max: Int) {
+    private fun sendMaxProgress(max: Long) {
         Intent().also { intent ->
             intent.action = ServiceConstants.actionCopyProgressMax
             intent.putExtra(IntentHelper.INT_EXTRA, max)

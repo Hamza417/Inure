@@ -25,7 +25,7 @@ object FileSizeHelper {
         var total = 0L
 
         for (i in this.indices) {
-            total = File(this[i]).length()
+            total += File(this[i]).length()
         }
 
         return total
