@@ -10,17 +10,22 @@ public class ServiceInfoModel implements Parcelable {
     private int flags;
     private int foregroundType;
     private boolean enabled;
+    private boolean blocked;
     private boolean exported;
     private String permissions;
     private String name;
     private String status;
     public String trackerId;
     
-    public ServiceInfoModel(ServiceInfo serviceInfo, int flags, int foregroundType, boolean enabled, boolean exported, String permissions, String name, String status, String trackerId) {
+    public ServiceInfoModel() {
+    }
+    
+    public ServiceInfoModel(ServiceInfo serviceInfo, int flags, int foregroundType, boolean enabled, boolean blocked, boolean exported, String permissions, String name, String status, String trackerId) {
         this.serviceInfo = serviceInfo;
         this.flags = flags;
         this.foregroundType = foregroundType;
         this.enabled = enabled;
+        this.blocked = blocked;
         this.exported = exported;
         this.permissions = permissions;
         this.name = name;
@@ -28,14 +33,12 @@ public class ServiceInfoModel implements Parcelable {
         this.trackerId = trackerId;
     }
     
-    public ServiceInfoModel() {
-    }
-    
     protected ServiceInfoModel(Parcel in) {
         serviceInfo = in.readParcelable(ServiceInfo.class.getClassLoader());
         flags = in.readInt();
         foregroundType = in.readInt();
         enabled = in.readByte() != 0;
+        blocked = in.readByte() != 0;
         exported = in.readByte() != 0;
         permissions = in.readString();
         name = in.readString();
@@ -49,6 +52,7 @@ public class ServiceInfoModel implements Parcelable {
         dest.writeInt(flags);
         dest.writeInt(foregroundType);
         dest.writeByte((byte) (enabled ? 1 : 0));
+        dest.writeByte((byte) (blocked ? 1 : 0));
         dest.writeByte((byte) (exported ? 1 : 0));
         dest.writeString(permissions);
         dest.writeString(name);
@@ -103,6 +107,14 @@ public class ServiceInfoModel implements Parcelable {
     
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+    public boolean isBlocked() {
+        return blocked;
+    }
+    
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
     
     public boolean isExported() {

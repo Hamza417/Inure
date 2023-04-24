@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
-import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -18,10 +18,16 @@ import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.isZero
 import com.topjohnwu.superuser.Shell
+import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserFactory
+import java.io.StringReader
+import java.nio.ByteBuffer
+import java.nio.charset.Charset
 
-class TrackersViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
+class TrackersViewModel(application: Application, val packageInfo: PackageInfo) : RootServiceViewModel(application) {
 
     var keyword: String = ""
         set(value) {
@@ -29,12 +35,8 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
             scanTrackers()
         }
 
-    private var command: String = ""
-
     private val trackers: MutableLiveData<ArrayList<Any>> by lazy {
-        MutableLiveData<ArrayList<Any>>().also {
-            scanTrackers()
-        }
+        MutableLiveData<ArrayList<Any>>()
     }
 
     private val activityInfo: MutableLiveData<Pair<ActivityInfoModel, Int>> by lazy {
@@ -79,6 +81,8 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
             if (trackersList.size.isZero()) {
                 postWarning(getString(R.string.no_trackers_found))
             }
+
+            readIntentFirewallXml(getFileSystemManager(), trackersList)
 
             trackers.postValue(trackersList)
         }
@@ -125,14 +129,14 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
                 for (signature in trackerSignatures) {
                     if (service.name.lowercase().contains(keyword.lowercase()) || signature.lowercase().contains(keyword.lowercase())) {
                         if (service.name.contains(signature)) {
-                            val activityInfoModel = ServiceInfoModel()
+                            val serviceInfoModel = ServiceInfoModel()
 
-                            activityInfoModel.serviceInfo = service
-                            activityInfoModel.name = service.name
-                            activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, service.name)
-                            activityInfoModel.trackerId = signature
+                            serviceInfoModel.serviceInfo = service
+                            serviceInfoModel.name = service.name
+                            serviceInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, service.name)
+                            serviceInfoModel.trackerId = signature
 
-                            trackersList.add(activityInfoModel)
+                            trackersList.add(serviceInfoModel)
 
                             break
                         }
@@ -242,16 +246,8 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
-    override fun onShellCreated(shell: Shell?) {
-
-    }
-
-    override fun onShellDenied() {
-
-    }
-
-    override fun onShizukuCreated() {
-
+    override fun runRootProcess(fileSystemManager: FileSystemManager?) {
+        scanTrackers()
     }
 
     fun clear() {
@@ -259,73 +255,129 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         serviceInfo.postValue(null)
     }
 
-    fun enableTrackers(paths: Set<String>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val stringBuilder = StringBuilder()
+    private fun readIntentFirewallXml(fileSystemManager: FileSystemManager?, trackersList: ArrayList<Any>) {
+        val path = "/data/system/ifw/" + "${packageInfo.packageName}.xml"
+        val channel = fileSystemManager?.openChannel(path, FileSystemManager.MODE_READ_WRITE)
+        val capacity = channel?.size()?.toInt() ?: 0
+        val buffer = ByteBuffer.allocate(capacity)
+        channel?.read(buffer)
+        buffer.flip()
 
-            for (path in paths) {
-                stringBuilder.append("pm enable ${packageInfo.packageName}/$path && ")
-            }
+        val xml = String(buffer.array(), Charset.defaultCharset())
 
-            stringBuilder.append("exit")
+        val xmlParser = XmlPullParserFactory.newInstance().newPullParser()
 
-            if (ConfigurationPreferences.isUsingRoot()) {
-                Shell.cmd(stringBuilder.toString()).exec().let {
-                    if (it.isSuccess) {
-                        scanTrackers()
-                    } else {
-                        postWarning(getString(R.string.failed))
-                    }
-                }
-            } else {
-                if (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker)) {
-                    kotlin.runCatching {
-                        ShizukuUtils.execInternal(Command(stringBuilder.toString()), null).let {
-                            Log.d("Shizuku", it.out)
-                            Log.d("Shizuku", it.err)
-
-                            scanTrackers()
-                        }
-                    }.onFailure {
-                        postWarning(getString(R.string.failed))
-                    }
-                }
-            }
+        xmlParser.apply {
+            setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
+            setFeature(XmlPullParser.FEATURE_PROCESS_DOCDECL, false)
+            setInput(StringReader(xml))
         }
-    }
 
-    fun disableTrackers(paths: Set<String>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val stringBuilder = StringBuilder()
+        /**
+         * <rules>
+         *      <activity block="true" log="false">
+         *          <component-filter name="package_name/component_name" />
+         *      </activity>
+         *      <service block="true" log="false">
+         *          <component-filter name="package_name/component_name" />
+         *      </service>
+         * </rules>
+         *
+         * Parse the file following the above structure
+         */
 
-            for (path in paths) {
-                stringBuilder.append("pm disable ${packageInfo.packageName}/$path && ")
-            }
+        var eventType = xmlParser.eventType
 
-            stringBuilder.append("exit")
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG) {
+                Log.d("TrackerBlocker", "Tag name: ${xmlParser.name}")
 
-            if (ConfigurationPreferences.isUsingRoot()) {
-                Shell.cmd(stringBuilder.toString()).exec().let {
-                    if (it.isSuccess) {
-                        scanTrackers()
-                    } else {
-                        postWarning(getString(R.string.failed))
-                    }
-                }
-            } else {
-                if (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker)) {
-                    kotlin.runCatching {
-                        ShizukuUtils.execInternal(Command(stringBuilder.toString()), null).let {
-                            Log.d("Shizuku", it.out)
-                            Log.d("Shizuku", it.err)
+                when (xmlParser.name) {
+                    "activity" -> {
+                        val block = xmlParser.getAttributeValue(null, "block")
+                        Log.d("TrackerBlocker", "Block: $block")
 
-                            scanTrackers()
+                        // Get the next tag
+                        eventType = xmlParser.next()
+
+                        while (eventType != XmlPullParser.END_TAG) {
+                            if (eventType == XmlPullParser.START_TAG) {
+                                if (xmlParser.name == "component-filter") {
+                                    val componentName = xmlParser.getAttributeValue(null, "name")
+                                    Log.d("TrackerBlocker", "Component name: $componentName")
+
+                                    if (componentName != null) {
+                                        for (tracker in trackersList.filterIsInstance<ActivityInfoModel>()) {
+                                            if (tracker.name == componentName.split("/")[1]) {
+                                                tracker.isBlocked = block == "true"
+                                                Log.d("TrackerBlocker", "Tracker: ${tracker.name} - ${tracker.isBlocked}")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            eventType = xmlParser.next()
                         }
-                    }.onFailure {
-                        postWarning(getString(R.string.failed))
+                    }
+                    "service" -> {
+                        val block = xmlParser.getAttributeValue(null, "block")
+                        Log.d("TrackerBlocker", "Block: $block")
+
+                        // Get the next tag
+                        eventType = xmlParser.next()
+
+                        while (eventType != XmlPullParser.END_TAG) {
+                            if (eventType == XmlPullParser.START_TAG) {
+                                if (xmlParser.name == "component-filter") {
+                                    val componentName = xmlParser.getAttributeValue(null, "name")
+                                    Log.d("TrackerBlocker", "Component name: $componentName")
+
+                                    if (componentName != null) {
+                                        for (tracker in trackersList.filterIsInstance<ServiceInfoModel>()) {
+                                            if (tracker.name == componentName.split("/")[1]) {
+                                                tracker.isBlocked = block == "true"
+                                                Log.d("TrackerBlocker", "Tracker: ${tracker.name} - ${tracker.isBlocked}")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            eventType = xmlParser.next()
+                        }
+                    }
+                    "broadcast" -> {
+                        val block = xmlParser.getAttributeValue(null, "block")
+                        Log.d("TrackerBlocker", "Block: $block")
+
+                        // Get the next tag
+                        eventType = xmlParser.next()
+
+                        while (eventType != XmlPullParser.END_TAG) {
+                            if (eventType == XmlPullParser.START_TAG) {
+                                if (xmlParser.name == "component-filter") {
+                                    val componentName = xmlParser.getAttributeValue(null, "name")
+                                    Log.d("TrackerBlocker", "Component name: $componentName")
+
+                                    if (componentName != null) {
+                                        for (tracker in trackersList.filterIsInstance<ActivityInfoModel>()) {
+                                            if (tracker.name == componentName.split("/")[1]) {
+                                                tracker.isBlocked = block == "true"
+                                                Log.d("TrackerBlocker", "Tracker: ${tracker.name} - ${tracker.isBlocked}")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            eventType = xmlParser.next()
+                        }
                     }
                 }
             }
+
+            eventType = xmlParser.next()
         }
     }
 }

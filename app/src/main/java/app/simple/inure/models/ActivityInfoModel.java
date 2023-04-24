@@ -13,13 +13,14 @@ public class ActivityInfoModel implements Parcelable {
     private Boolean exported;
     private String target;
     private boolean enabled;
+    private boolean isBlocked = false;
     private boolean isReceiver = false;
     private boolean isActivity = false;
     
     public ActivityInfoModel() {
     }
     
-    public ActivityInfoModel(ActivityInfo activityInfo, String status, String name, String permission, String trackerId, Boolean exported, String target, boolean enabled, boolean isReceiver, boolean isActivity) {
+    public ActivityInfoModel(ActivityInfo activityInfo, String status, String name, String permission, String trackerId, Boolean exported, String target, boolean enabled, boolean isBlocked, boolean isReceiver, boolean isActivity) {
         this.activityInfo = activityInfo;
         this.status = status;
         this.name = name;
@@ -28,6 +29,7 @@ public class ActivityInfoModel implements Parcelable {
         this.exported = exported;
         this.target = target;
         this.enabled = enabled;
+        this.isBlocked = isBlocked;
         this.isReceiver = isReceiver;
         this.isActivity = isActivity;
     }
@@ -42,6 +44,7 @@ public class ActivityInfoModel implements Parcelable {
         exported = tmpExported == 0 ? null : tmpExported == 1;
         target = in.readString();
         enabled = in.readByte() != 0;
+        isBlocked = in.readByte() != 0;
         isReceiver = in.readByte() != 0;
         isActivity = in.readByte() != 0;
     }
@@ -56,6 +59,7 @@ public class ActivityInfoModel implements Parcelable {
         dest.writeByte((byte) (exported == null ? 0 : exported ? 1 : 2));
         dest.writeString(target);
         dest.writeByte((byte) (enabled ? 1 : 0));
+        dest.writeByte((byte) (isBlocked ? 1 : 0));
         dest.writeByte((byte) (isReceiver ? 1 : 0));
         dest.writeByte((byte) (isActivity ? 1 : 0));
     }
@@ -139,6 +143,14 @@ public class ActivityInfoModel implements Parcelable {
     
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+    
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
     }
     
     public boolean isReceiver() {
