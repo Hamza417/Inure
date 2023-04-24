@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:text="@string/trackers"
             android:textSize="@dimen/header_font_size"
@@ -59,6 +60,15 @@
             android:layout_marginHorizontal="5dp"
             android:src="@drawable/ic_checklist"
             android:visibility="gone"
+            app:buttonTintType="accent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/trackers_ifw_btn"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_code"
             app:buttonTintType="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton

@@ -2,12 +2,9 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.text.Html
-import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,11 +13,11 @@ import app.simple.inure.apk.parsers.ApkManifestFetcher
 import app.simple.inure.apk.xml.XML
 import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.StringUtils.readTextSafely
 import app.simple.inure.util.XMLUtils.formatXML
+import app.simple.inure.util.XMLUtils.getPrettyXML
 import com.jaredrummler.apkparser.ApkParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -28,8 +25,6 @@ import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
 import java.io.File
 import java.io.FileInputStream
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 class XMLViewerViewModel(val packageInfo: PackageInfo,
                          private val isManifest: Boolean,
@@ -38,25 +33,6 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
                          application: Application)
 
     : WrappedViewModel(application) {
-
-    private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
-
-    @Suppress("RegExpDuplicateAlternationBranch")
-    private val tags = Pattern.compile("" /*Only for indentation */ +
-                                               "<\\w+\\.+\\S+" + // <xml.yml.zml>
-                                               "|<\\w+\\.+\\S+" + // <xml.yml.zml...nthml
-                                               "|</\\w+.+>" + // </xml.yml.zml>
-                                               "|</\\w+-+\\S+>" + // </xml-yml>
-                                               "|<\\w+-+\\S+" + // <xml-yml-zml...nthml
-                                               "|</\\w+>" + // </xml>
-                                               "|</\\w+" + // </xml
-                                               "|<\\w+/>" + // <xml/>
-                                               "|<\\w+>" +  // <xml>
-                                               "|<\\w+" +  // <xml
-                                               "|<.\\w+" + // <?xml
-                                               "|\\?>" + // ?>
-                                               "|/>", // />
-                                       Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
 
     private val spanned: MutableLiveData<Spanned> by lazy {
         MutableLiveData<Spanned>().also {
@@ -83,7 +59,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
             kotlin.runCatching {
                 val formattedContent: SpannableString
 
-                var code: String = if (raw) {
+                val code: String = if (raw) {
                     FileInputStream(File(pathToXml)).use {
                         it.readTextSafely()
                     }
@@ -120,23 +96,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
                     throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
                 }
 
-                code = code.formatXML()
-
-                formattedContent = SpannableString(code)
-                val matcher: Matcher = tags.matcher(code)
-                while (matcher.find()) {
-                    formattedContent.setSpan(ForegroundColorSpan(Color.parseColor("#2980B9")), matcher.start(),
-                                             matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
-
-                matcher.usePattern(quotations)
-                while (matcher.find()) {
-                    formattedContent.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()),
-                                             matcher.start(), matcher.end(),
-                                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
-
-                spanned.postValue(formattedContent)
+                spanned.postValue(code.formatXML().getPrettyXML())
             }.getOrElse {
                 postError(it)
             }

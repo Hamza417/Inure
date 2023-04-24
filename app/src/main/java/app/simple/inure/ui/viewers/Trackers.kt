@@ -18,12 +18,8 @@ import app.simple.inure.dialogs.trackers.TrackerSelector
 import app.simple.inure.dialogs.trackers.TrackerSelector.Companion.showTrackerSelector
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
-import app.simple.inure.models.ActivityInfoModel
-import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.TrackersPreferences
-import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.TrackersViewModel
@@ -32,6 +28,7 @@ class Trackers : SearchBarScopedFragment() {
 
     private lateinit var checklist: DynamicRippleImageButton
     private lateinit var progress: CustomProgressBar
+    private lateinit var ifwButton: DynamicRippleImageButton
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
     private lateinit var trackersViewModel: TrackersViewModel
@@ -45,6 +42,7 @@ class Trackers : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.trackers_search)
         title = view.findViewById(R.id.trackers_title)
         progress = view.findViewById(R.id.trackers_data_progress)
+        ifwButton = view.findViewById(R.id.trackers_ifw_btn)
         recyclerView = view.findViewById(R.id.trackers_recycler_view)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
@@ -60,35 +58,21 @@ class Trackers : SearchBarScopedFragment() {
         searchBoxState(animate = false, TrackersPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
+        if (ConfigurationPreferences.isUsingRoot()) {
+            ifwButton.setOnClickListener {
+                openFragmentSlide(IFWViewer.newInstance(packageInfo), "ifw_viewer")
+            }
+        } else {
+            ifwButton.gone(true)
+        }
+
         trackersViewModel.getTrackers().observe(viewLifecycleOwner) { it ->
             progress.gone(true)
             val adapterTrackers = AdapterTrackers(it, trackersViewModel.keyword)
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
                 override fun onTrackersClicked(any: Any, enabled: Boolean, position: Int) {
-                    trackersViewModel.getActivityInfo().observe(viewLifecycleOwner) {
-                        if (it.isNotNull()) {
-                            adapterTrackers.updateActivityInfo(it)
-                            trackersViewModel.clear()
-                        }
-                    }
 
-                    trackersViewModel.getServiceInfo().observe(viewLifecycleOwner) {
-                        if (it.isNotNull()) {
-                            adapterTrackers.updateServiceInfo(it)
-                            trackersViewModel.clear()
-                        }
-                    }
-
-                    runCatching {
-                        trackersViewModel.updateTrackersStatus(any as ActivityInfoModel, enabled, position)
-                    }.onFailure {
-                        kotlin.runCatching {
-                            trackersViewModel.updateTrackersStatus(any as ServiceInfoModel, enabled, position)
-                        }.onFailure {
-                            it.printStackTrace()
-                        }
-                    }
                 }
             })
 
@@ -109,7 +93,7 @@ class Trackers : SearchBarScopedFragment() {
             }
 
             if (it.size > 0) {
-                if (ConfigurationPreferences.isUsingRoot() || (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker))) {
+                if (ConfigurationPreferences.isUsingRoot()) {
                     checklist.visible(animate = true)
                 }
             }
