@@ -20,7 +20,7 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
     private var daemonConnection: AIDLConnection? = null
     private var fileSystemManager: FileSystemManager? = null
 
-    init {
+    protected fun initRootProc() {
         val intent = Intent(applicationContext(), RootService::class.java)
         bind(intent, AIDLConnection(isDaemon = false))
     }

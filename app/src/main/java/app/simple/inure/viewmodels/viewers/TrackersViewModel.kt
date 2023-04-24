@@ -12,12 +12,8 @@ import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.shizuku.Shell.Command
-import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.isZero
-import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +32,13 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
 
     private val trackers: MutableLiveData<ArrayList<Any>> by lazy {
-        MutableLiveData<ArrayList<Any>>()
+        MutableLiveData<ArrayList<Any>>().also {
+            if (ConfigurationPreferences.isUsingRoot()) {
+                initRootProc()
+            } else {
+                scanTrackers()
+            }
+        }
     }
 
     private val activityInfo: MutableLiveData<Pair<ActivityInfoModel, Int>> by lazy {
@@ -82,7 +84,9 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
                 postWarning(getString(R.string.no_trackers_found))
             }
 
-            readIntentFirewallXml(getFileSystemManager(), trackersList)
+            if (ConfigurationPreferences.isUsingRoot()) {
+                readIntentFirewallXml(getFileSystemManager(), trackersList)
+            }
 
             trackers.postValue(trackersList)
         }
@@ -180,70 +184,6 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     private fun getTrackerSignatures(): Array<out String> {
         return applicationContext().resources.getStringArray(R.array.trackers)
-    }
-
-    fun updateTrackersStatus(activityInfoModel: ActivityInfoModel, enabled: Boolean, position: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (ConfigurationPreferences.isUsingRoot()) {
-                Shell.cmd("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${activityInfoModel.name}").exec().let {
-                    if (it.isSuccess) {
-                        activityInfoModel.isEnabled = enabled
-                        activityInfo.postValue(Pair(activityInfoModel, position))
-                    } else {
-                        postWarning(getString(R.string.failed))
-                        // Dont change the status
-                        activityInfo.postValue(Pair(activityInfoModel, position))
-                    }
-                }
-            } else {
-                if (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker)) {
-                    kotlin.runCatching {
-                        ShizukuUtils.execInternal(Command("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${activityInfoModel.name}"), null).let {
-                            if (it.isSuccessful) {
-                                activityInfoModel.isEnabled = enabled
-                                activityInfo.postValue(Pair(activityInfoModel, position))
-                            } else {
-                                postWarning(getString(R.string.failed))
-                                // Dont change the status
-                                activityInfo.postValue(Pair(activityInfoModel, position))
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun updateTrackersStatus(serviceInfoModel: ServiceInfoModel, enabled: Boolean, position: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (ConfigurationPreferences.isUsingRoot()) {
-                Shell.cmd("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${serviceInfoModel.name}").exec().let {
-                    if (it.isSuccess) {
-                        serviceInfoModel.isEnabled = enabled
-                        serviceInfo.postValue(Pair(serviceInfoModel, position))
-                    } else {
-                        postWarning(getString(R.string.failed))
-                        // Dont change the status
-                        serviceInfo.postValue(Pair(serviceInfoModel, position))
-                    }
-                }
-            } else {
-                if (ConfigurationPreferences.isUsingShizuku() && DevelopmentPreferences.get(DevelopmentPreferences.shizukuTrackerBlocker)) {
-                    kotlin.runCatching {
-                        ShizukuUtils.execInternal(Command("pm ${if (enabled) "enable" else "disable"} ${packageInfo.packageName}/${serviceInfoModel.name}"), null).let {
-                            if (it.isSuccessful) {
-                                serviceInfoModel.isEnabled = enabled
-                                serviceInfo.postValue(Pair(serviceInfoModel, position))
-                            } else {
-                                postWarning(getString(R.string.failed))
-                                // Dont change the status
-                                serviceInfo.postValue(Pair(serviceInfoModel, position))
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {

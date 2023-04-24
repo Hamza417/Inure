@@ -25,6 +25,10 @@ import java.util.regex.Pattern
 
 class SharedPreferencesViewerViewModel(private val pathToXml: String, private val packageInfo: PackageInfo, application: Application) : RootServiceViewModel(application) {
 
+    init {
+        initRootProc()
+    }
+
     private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
 
     @Suppress("RegExpDuplicateAlternationBranch")

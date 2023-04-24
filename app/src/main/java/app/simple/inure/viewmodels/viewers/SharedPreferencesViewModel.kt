@@ -15,6 +15,10 @@ import kotlinx.coroutines.withTimeout
 
 class SharedPreferencesViewModel(private val packageInfo: PackageInfo, application: Application) : RootServiceViewModel(application) {
 
+    init {
+        initRootProc()
+    }
+
     private val path = packageInfo.applicationInfo.dataDir + "/shared_prefs/"
 
     private val sharedPrefsFiles: MutableLiveData<ArrayList<String>> by lazy {
