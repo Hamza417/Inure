@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dialog_padding"
@@ -26,37 +27,41 @@
             app:isTopFadingEdgeOnly="false"
             app:statusBarPaddingRequired="false" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/dialog_padding"
             android:animateLayoutChanges="true"
             android:orientation="horizontal">
 
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/select_all"
+                android:layout_width="@dimen/button_size"
+                android:layout_height="@dimen/button_size"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_select_all"
+                app:buttonTintType="regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="8dp"
                 android:gravity="center"
                 android:padding="@dimen/button_padding"
                 android:text="@string/cancel"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
-                app:textColorStyle="accent" />
-
-            <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/select_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="5dp"
-                android:gravity="center"
-                android:padding="@dimen/button_padding"
-                android:text="@string/select_all"
-                android:textSize="@dimen/info_text_small"
-                app:appFontStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/extract"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/select_all"
+                app:layout_constraintTop_toTopOf="parent"
                 app:textColorStyle="accent" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -64,15 +69,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="5dp"
                 android:gravity="center"
                 android:padding="@dimen/button_padding"
                 android:text="@string/extract"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:textColorStyle="accent" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 </FrameLayout>
