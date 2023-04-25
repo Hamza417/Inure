@@ -49,7 +49,7 @@ class Notes : ScopedFragment() {
 
             adapterNotes?.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onNoteClicked(notesPackageInfo: NotesPackageInfo) {
-                    openFragmentSlide(NotesEditor.newInstance(notesPackageInfo.packageInfo), "notes_editor")
+                    openFragmentSlide(NotesEditor.newInstance(notesPackageInfo.packageInfo), "notes_viewer")
                 }
 
                 override fun onNoteLongClicked(notesPackageInfo: NotesPackageInfo, position: Int, view: View) {
@@ -57,7 +57,6 @@ class Notes : ScopedFragment() {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    println(position)
                                     notesViewModel.deleteNoteData(notesPackageInfo, position)
                                 }
                             })

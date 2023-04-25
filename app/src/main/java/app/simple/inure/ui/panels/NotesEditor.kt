@@ -3,7 +3,6 @@ package app.simple.inure.ui.panels
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
-import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.LayoutInflater
@@ -120,6 +119,7 @@ class NotesEditor : KeyboardScopedFragment() {
                 noteEditText.setText(it.note, TextView.BufferType.SPANNABLE)
             }
             textViewUndoRedo?.clearHistory()
+            isSaved = true // We are setting it to true because we are loading the data from the database
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
 
@@ -128,8 +128,10 @@ class NotesEditor : KeyboardScopedFragment() {
          */
         bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getNotesFunctionMenu(),
                                                               null /* We don't do that here*/) { id, view1 ->
-            val start = noteEditText.selectionStart
-            val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+
+            //            val start = noteEditText.selectionStart
+            //            val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+
             when (id) {
                 R.drawable.ic_format_bold -> {
                     noteEditText.toBold()
@@ -177,9 +179,9 @@ class NotesEditor : KeyboardScopedFragment() {
                 }
             }
 
-            val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
-            textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
-            undoRedoButtonState()
+            //            val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+            //            textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
+            //            undoRedoButtonState()
         }
 
         notesEditorViewModel.getSavedState().observe(viewLifecycleOwner) {
@@ -259,7 +261,6 @@ class NotesEditor : KeyboardScopedFragment() {
         redo.isEnabled = textViewUndoRedo?.canRedo ?: false
 
         if (save) {
-            Log.d(javaClass.simpleName, "Saving note")
             notesEditorViewModel.updateNoteData(notesPackageInfo!!)
             notesViewModel.refreshNotes()
         }
