@@ -570,7 +570,6 @@
     <string name="times">%1$d 次</string>
     <string name="usage_data_does_not_exist_for_this_app">這個應用程式內不存在使用量資料。</string>
     <string name="shared_prefs">已共用的偏好設定</string>
-    <string name="stacktraces">堆疊追蹤</string>
     <string name="crash_report">當機報告</string>
     <string name="count_done">%1$d 項工作完成</string>
     <string name="count_failed">%1$d 項工作失敗</string>
@@ -655,7 +654,7 @@
     <string name="home_visibility_customization_desc">變更主面板部分選項的可見性。</string>
     <string name="saved_to">已儲存至 %1$s</string>
     <string name="desc_app_path">變更應用程式的預設儲存空間目錄。</string>
-    <string name="APKs">APKs</string>
+    <string name="APKs">APK</string>
     <string name="scanning">正在掃描</string>
     <string name="material_you_light">Material You (淺色)</string>
     <string name="material_you_dark">Material You (深色)</string>
