@@ -570,7 +570,6 @@
     <string name="times">%1$d 次</string>
     <string name="usage_data_does_not_exist_for_this_app">此应用不存在使用情况数据.</string>
     <string name="shared_prefs">Shared Preferences</string>
-    <string name="stacktraces">堆栈跟踪</string>
     <string name="crash_report">崩溃报告</string>
     <string name="count_done">已完成 %1$d</string>
     <string name="count_failed">%1$d 个失败</string>

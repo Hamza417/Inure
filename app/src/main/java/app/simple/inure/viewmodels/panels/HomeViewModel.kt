@@ -308,9 +308,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             }
 
             list.add(Pair(0, 0)) // Divider
-            if (HomePreferences.isPanelVisible(HomePreferences.isStackTracesVisible)) {
-                list.add(Pair(R.drawable.ic_stacktrace, R.string.stacktraces))
-            }
 
             if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
                 if (HomePreferences.isPanelVisible(HomePreferences.isBatteryOptimizationVisible)) {
@@ -334,6 +331,10 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 }
             }
 
+            if (HomePreferences.isPanelVisible(HomePreferences.isStackTracesVisible) && DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
+                list.add(Pair(R.drawable.ic_stacktrace, R.string.crash_report))
+            }
+
             // Add a last divider
             list.add(Pair(0, 0))
 
@@ -351,7 +352,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(HomeCustomizationModel(R.string.most_used, R.drawable.ic_apps_category_most_used, HomePreferences.isMostUsedVisible))
             list.add(HomeCustomizationModel(R.string.uninstalled, R.drawable.ic_apps_category_deleted_apps, HomePreferences.isUninstalledVisible))
             list.add(HomeCustomizationModel(R.string.disabled, R.drawable.ic_disable, HomePreferences.isDisabledVisible))
-            list.add(HomeCustomizationModel(R.string.stacktraces, R.drawable.ic_stacktrace, HomePreferences.isStackTracesVisible))
+            list.add(HomeCustomizationModel(R.string.crash_report, R.drawable.ic_stacktrace, HomePreferences.isStackTracesVisible))
             list.add(HomeCustomizationModel(R.string.saved_commands, R.drawable.ic_terminal_saved, HomePreferences.isSavedCommandsVisible))
             list.add(HomeCustomizationModel(R.string.battery_optimization, R.drawable.ic_settings_power, HomePreferences.isBatteryOptimizationVisible))
             list.add(HomeCustomizationModel(R.string.boot_manager, R.drawable.ic_power_off, HomePreferences.isBootManagerVisible))

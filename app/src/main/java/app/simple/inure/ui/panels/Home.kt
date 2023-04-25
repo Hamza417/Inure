@@ -170,7 +170,7 @@ class Home : ScopedFragment() {
                         R.string.hidden -> {
                             openFragmentArc(Hidden.newInstance(), icon, "hidden")
                         }
-                        R.string.stacktraces -> {
+                        R.string.crash_report -> {
                             openFragmentArc(StackTraces.newInstance(), icon, "stacktraces")
                         }
                         R.string.battery_optimization -> {

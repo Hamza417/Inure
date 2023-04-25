@@ -569,7 +569,6 @@
     <string name="times">%1$d times</string>
     <string name="usage_data_does_not_exist_for_this_app">Usage data does not exist for this app.</string>
     <string name="shared_prefs">Shared Preferences</string>
-    <string name="stacktraces">Stacktraces</string>
     <string name="crash_report">Crash Report</string>
     <string name="count_done">%1$d Done</string>
     <string name="count_failed">%1$d Failed</string>
