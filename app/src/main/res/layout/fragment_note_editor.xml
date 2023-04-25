@@ -111,13 +111,17 @@
         app:appFontStyle="regular"
         app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.views.BottomMenuRecyclerView
-        android:id="@+id/bottom_menu"
+    <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="wrap_content"
+        android:layout_height="1px" />
+
+    <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
+        android:id="@+id/strip"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/popup_padding"
         android:clipToPadding="false"
+        android:padding="5dp"
+        app:statusBarPaddingRequired="false"
         app:isEdgeColorRequired="false" />
 
 </app.simple.inure.decorations.ime.InsetsAnimationLinearLayout>

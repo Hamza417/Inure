@@ -109,11 +109,12 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
                     R.drawable.ic_format_superscript,
                     R.drawable.ic_format_subscript,
                     R.drawable.ic_format_paint,
-                    // R.drawable.ic_format_quote,
+                    R.drawable.ic_format_quote,
                     // R.drawable.ic_blur_on
                     // R.drawable.ic_format_align_left,
                     // R.drawable.ic_format_align_center,
                     // R.drawable.ic_format_align_right
+                    R.drawable.ic_watch_later,
             )
 
             formattingButtons.postValue(list)

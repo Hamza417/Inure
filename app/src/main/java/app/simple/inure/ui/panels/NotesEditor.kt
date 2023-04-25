@@ -3,6 +3,7 @@ package app.simple.inure.ui.panels
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,8 +14,9 @@ import androidx.activity.addCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.constants.BottomMenuConstants
+import app.simple.inure.adapters.menus.AdapterFormattingStrip
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -56,6 +58,7 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var redo: DynamicRippleImageButton
     private lateinit var save: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
+    private lateinit var strip: CustomHorizontalRecyclerView
 
     private lateinit var notesViewModel: NotesViewModel
     private lateinit var notesEditorViewModel: NotesEditorViewModel
@@ -81,6 +84,7 @@ class NotesEditor : KeyboardScopedFragment() {
         redo = view.findViewById(R.id.redo)
         save = view.findViewById(R.id.save)
         settings = view.findViewById(R.id.settings)
+        strip = view.findViewById(R.id.strip)
 
         val factory = NotesViewModelFactory(packageInfo)
         notesEditorViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
@@ -123,66 +127,80 @@ class NotesEditor : KeyboardScopedFragment() {
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
 
-        /**
-         * It could be null, I mean why not :P
-         */
-        bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getNotesFunctionMenu(),
-                                                              null /* We don't do that here*/) { id, view1 ->
+        notesEditorViewModel.getFormattingStrip().observe(viewLifecycleOwner) {
+            val adapter = AdapterFormattingStrip(it)
 
-            //            val start = noteEditText.selectionStart
-            //            val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+            adapter.setOnFormattingStripClickedListener(object : AdapterFormattingStrip.Companion.FormattingStripCallbacks {
+                override fun onFormattingStripClicked(id: Int, view: View) {
+                    val start = noteEditText.selectionStart
+                    val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
 
-            when (id) {
-                R.drawable.ic_format_bold -> {
-                    noteEditText.toBold()
-                }
-                R.drawable.ic_format_italic -> {
-                    noteEditText.toItalics()
-                }
-                R.drawable.ic_format_underlined -> {
-                    noteEditText.toUnderline()
-                }
-                R.drawable.ic_format_strikethrough -> {
-                    noteEditText.toStrikethrough()
-                }
-                R.drawable.ic_format_superscript -> {
-                    noteEditText.toSuperscript()
-                }
-                R.drawable.ic_format_subscript -> {
-                    noteEditText.toSubscript()
-                }
-                R.drawable.ic_format_quote -> {
-                    noteEditText.toQuote()
-                }
-                R.drawable.ic_format_paint -> {
-                    PopupBackgroundSpan(view1).setOnPopupBackgroundCallbackListener(
-                            object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
-                                override fun onColorClicked(color: Int) {
-                                    noteEditText.highlightText(color)
-                                }
-                            })
-                }
-                R.drawable.ic_watch_later -> {
-                    // Append today's date
-                    //                    if (noteEditText.toString().endsWith("\n\n")) {
-                    //                        noteEditText.append(DateUtils.getTodayDate())
-                    //                    } else {
-                    //                        // Check if only one newline is present and not two
-                    //                        if (noteEditText.toString().endsWith("\n") && !noteEditText.toString().endsWith("\n\n")) {
-                    //                            noteEditText.append("\n${DateUtils.getTodayDate()}")
-                    //                        } else {
-                    //                            noteEditText.append("\n\n${DateUtils.getTodayDate()}")
-                    //                        }
-                    //                    }
+                    when (id) {
+                        R.drawable.ic_format_bold -> {
+                            noteEditText.toBold()
+                        }
+                        R.drawable.ic_format_italic -> {
+                            noteEditText.toItalics()
+                        }
+                        R.drawable.ic_format_underlined -> {
+                            noteEditText.toUnderline()
+                        }
+                        R.drawable.ic_format_strikethrough -> {
+                            noteEditText.toStrikethrough()
+                        }
+                        R.drawable.ic_format_superscript -> {
+                            noteEditText.toSuperscript()
+                        }
+                        R.drawable.ic_format_subscript -> {
+                            noteEditText.toSubscript()
+                        }
+                        R.drawable.ic_format_quote -> {
+                            noteEditText.toQuote()
+                        }
+                        R.drawable.ic_format_paint -> {
+                            PopupBackgroundSpan(view).setOnPopupBackgroundCallbackListener(
+                                    object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
+                                        override fun onColorClicked(color: Int) {
+                                            noteEditText.highlightText(color)
+                                        }
+                                    })
+                        }
+                        R.drawable.ic_watch_later -> {
+                            // Append today's date
+                            //                    if (noteEditText.toString().endsWith("\n\n")) {
+                            //                        noteEditText.append(DateUtils.getTodayDate())
+                            //                    } else {
+                            //                        // Check if only one newline is present and not two
+                            //                        if (noteEditText.toString().endsWith("\n") && !noteEditText.toString().endsWith("\n\n")) {
+                            //                            noteEditText.append("\n${DateUtils.getTodayDate()}")
+                            //                        } else {
+                            //                            noteEditText.append("\n\n${DateUtils.getTodayDate()}")
+                            //                        }
+                            //                    }
 
-                    noteEditText.append(DateUtils.getTodayDate())
-                }
-            }
+                            noteEditText.append(DateUtils.getTodayDate())
+                        }
+                    }
 
-            //            val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
-            //            textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
-            //            undoRedoButtonState()
+                    val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+                    textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
+                    undoRedoButtonState()
+                }
+            })
+
+            strip.adapter = adapter
+            strip.requestLayout()
         }
+
+        // TODO - There was a unique bug where the bottom menu was not showing up when the user was in the notes editor fragment
+
+        //        /**
+        //         * It could be null, I mean why not :P
+        //         */
+        //        bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getNotesFunctionMenu(),
+        //                                                              null /* We don't do that here*/) { id, view1 ->
+        //
+        //        }
 
         notesEditorViewModel.getSavedState().observe(viewLifecycleOwner) {
             if (it >= 0) {

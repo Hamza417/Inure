@@ -164,4 +164,8 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
             }
         }
     }
+    
+    public void clear() {
+        setAdapter(null);
+    }
 }
