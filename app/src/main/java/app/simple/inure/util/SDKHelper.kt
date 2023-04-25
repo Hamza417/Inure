@@ -51,6 +51,7 @@ object SDKHelper {
             31 -> "Android 12"
             32 -> "Android 12L"
             33 -> "Android 13"
+            34 -> "Android 14"
             else -> ""
         }
     }
@@ -96,6 +97,7 @@ object SDKHelper {
             31 -> "12"
             32 -> "12L"
             33 -> "13"
+            34 -> "14"
             else -> ""
         }
     }
@@ -141,6 +143,7 @@ object SDKHelper {
             "31" -> "Android 12"
             "32" -> "Android 12L"
             "33" -> "Android 13"
+            "34" -> "Android 14"
             else -> ""
         }
     }
