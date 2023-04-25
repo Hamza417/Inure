@@ -13,6 +13,7 @@ import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
@@ -197,10 +198,15 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     private fun readIntentFirewallXml(fileSystemManager: FileSystemManager?, trackersList: ArrayList<Any>) {
         val path = "/data/system/ifw/" + "${packageInfo.packageName}.xml"
-        val channel = fileSystemManager?.openChannel(path, FileSystemManager.MODE_READ_WRITE)
-        val capacity = channel?.size()?.toInt() ?: 0
+
+        if (fileSystemManager?.getFile(path)?.exists()?.invert()!!) {
+            return
+        }
+
+        val channel = fileSystemManager.openChannel(path, FileSystemManager.MODE_READ_WRITE)
+        val capacity = channel.size().toInt()
         val buffer = ByteBuffer.allocate(capacity)
-        channel?.read(buffer)
+        channel.read(buffer)
         buffer.flip()
 
         val xml = String(buffer.array(), Charset.defaultCharset())
