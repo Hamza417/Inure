@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +18,16 @@ import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AnalyticsPreferences
+import app.simple.inure.ui.subpanels.AnalyticsSDK
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 
 class Analytics : ScopedFragment() {
@@ -67,8 +73,20 @@ class Analytics : ScopedFragment() {
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
 
-                if (!AccessibilityPreferences.isAnimationReduced())
+                if (!AccessibilityPreferences.isAnimationReduced()) {
                     minimumOsPie.startAnimation()
+                }
+
+                minimumOsPie.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                    override fun onNothingSelected() {
+                        /* no-op */
+                    }
+
+                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                        Log.d("Analytics", "onValueSelected: ${(e as PieEntry).label}")
+                        openFragmentSlide(AnalyticsSDK.newInstance(e), "sdk")
+                    }
+                })
             }
 
             /**
