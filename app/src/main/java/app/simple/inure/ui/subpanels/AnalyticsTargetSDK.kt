@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.analytics.AnalyticsSDKAdapter
@@ -26,7 +27,7 @@ import app.simple.inure.viewmodels.subviewers.AnalyticsSDKViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
 
-class AnalyticsSDK : ScopedFragment() {
+class AnalyticsTargetSDK : ScopedFragment() {
 
     private lateinit var back: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
@@ -49,7 +50,6 @@ class AnalyticsSDK : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startPostponedEnterTransition()
 
         title.text = if (AnalyticsPreferences.getSDKValue()) {
             SDKHelper.getSdkTitle(SDKHelper.convertAndroidVersionToSDKCode(requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label))
@@ -61,7 +61,7 @@ class AnalyticsSDK : ScopedFragment() {
             popBackStack()
         }
 
-        analyticsSDKViewModel.getPackageData().observe(viewLifecycleOwner) {
+        analyticsSDKViewModel.getTargetSDKApps().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             val adapterAnalyticsSDK = AnalyticsSDKAdapter(it)
 
@@ -77,14 +77,18 @@ class AnalyticsSDK : ScopedFragment() {
             })
 
             recyclerView.adapter = adapterAnalyticsSDK
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
         }
     }
 
     companion object {
-        fun newInstance(e: Entry?): AnalyticsSDK {
+        fun newInstance(e: Entry?): AnalyticsTargetSDK {
             val args = Bundle()
             args.putParcelable(BundleConstants.entry, e)
-            val fragment = AnalyticsSDK()
+            val fragment = AnalyticsTargetSDK()
             fragment.arguments = args
             return fragment
         }

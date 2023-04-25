@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class AnalyticsSDKViewModel(application: Application, private val entry: Entry) : PackageUtilsViewModel(application) {
 
-    private val data: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+    private val data1: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>().also {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 loadSDKFilteredAppsList()
@@ -25,8 +25,18 @@ class AnalyticsSDKViewModel(application: Application, private val entry: Entry) 
         }
     }
 
-    fun getPackageData(): MutableLiveData<ArrayList<PackageInfo>> {
-        return data
+    private val data2: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>().also {
+            loadTargetSDKFilteredAppsList()
+        }
+    }
+
+    fun getMinimumSDKApps(): MutableLiveData<ArrayList<PackageInfo>> {
+        return data1
+    }
+
+    fun getTargetSDKApps(): MutableLiveData<ArrayList<PackageInfo>> {
+        return data2
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -55,7 +65,36 @@ class AnalyticsSDKViewModel(application: Application, private val entry: Entry) 
                 it.applicationInfo.name
             }
 
-            data.postValue(sdkFilteredApps)
+            data1.postValue(sdkFilteredApps)
+        }
+    }
+
+    private fun loadTargetSDKFilteredAppsList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val apps = getInstalledApps()
+            val sdkFilteredApps = arrayListOf<PackageInfo>()
+
+            for (app in apps) {
+                if (AnalyticsPreferences.getSDKValue()) {
+                    if (SDKHelper.getSdkCode(app.applicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
+                        sdkFilteredApps.add(app)
+                    }
+                } else {
+                    if (SDKHelper.getSdkTitle(app.applicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
+                        sdkFilteredApps.add(app)
+                    }
+                }
+            }
+
+            for (app in sdkFilteredApps) {
+                app.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageName)
+            }
+
+            sdkFilteredApps.sortBy {
+                it.applicationInfo.name
+            }
+
+            data2.postValue(sdkFilteredApps)
         }
     }
 }
