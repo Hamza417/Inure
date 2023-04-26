@@ -649,4 +649,21 @@
     <string name="shizuku_alert">Если root-доступ предоставлен и в приложении включен режим root, то режим root будет предпочтительнее, чем Shizuku.</string>
     <string name="disclaimer">Отказ от ответственности</string>
     <string name="agree">Принять</string>
+    <string name="package_manager">Менеджер пакетов</string>
+    <string name="vertical">По вертикали</string>
+    <string name="home">Главная</string>
+    <string name="menu_layout_desc">Изменение расположения элементов на главной панели.</string>
+    <string name="visibility_customization">Настройки отображения</string>
+    <string name="home_visibility_customization_desc">Изменение видимости некоторых параметров на главной панели.</string>
+    <string name="saved_to">Сохранено в %1$s</string>
+    <string name="desc_app_path">Изменить папку хранения данных по умолчанию.</string>
+    <string name="APKs">APK-файлы</string>
+    <string name="scanning">Сканирование</string>
+    <string name="material_you_light">Material You (Светлая)</string>
+    <string name="material_you_dark">Material You (Темная)</string>
+    <string name="load_split_apk_icon">Загрузить иконки split APK</string>
+    <string name="load_split_apk_icon_desc">Включение загрузки иконок split APK-файлов. Это увеличит нагрузку на систему (ввод-вывод).</string>
+    <string name="reinstall">Переустановить</string>
+    <string name="reinstalling">Переустановка</string>
+    <string name="no_trackers_found">Трекеры не найдены</string>
 </resources>
