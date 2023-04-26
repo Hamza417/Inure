@@ -12,6 +12,10 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
+import app.simple.inure.models.Tracker
+import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.ParcelUtils.parcelableArrayList
+import app.simple.inure.util.ParcelUtils.serializable
 
 class TrackerSelector : ScopedBottomSheetFragment() {
 
@@ -21,6 +25,9 @@ class TrackerSelector : ScopedBottomSheetFragment() {
     private lateinit var close: DynamicRippleTextView
 
     private var trackerSelectorCallbacks: TrackerSelectorCallbacks? = null
+
+    private var paths: ArrayList<Tracker> = arrayListOf()
+    private var selectedPaths: ArrayList<Tracker> = arrayListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.dialog_selector_tracker, container, false)
@@ -36,25 +43,22 @@ class TrackerSelector : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val selectedPaths = mutableSetOf<String>()
-        val paths = requireArguments().getStringArrayList(BundleConstants.trackers)!!.let {
-            val mutableList = mutableListOf<Pair<String, Boolean>>()
-            it.forEach { path ->
-                mutableList.add(Pair(path, true))
-            }
-            mutableList
+        paths = requireArguments().parcelableArrayList<Tracker>(BundleConstants.trackers)!!
+
+        if (savedInstanceState.isNotNull()) {
+            selectedPaths = savedInstanceState?.serializable(BundleConstants.selectedTrackers)!!
+        } else {
+            selectedPaths.addAll(paths)
         }
 
-        selectedPaths.addAll(paths.map { it.first })
-
-        val adapterSplitApkSelector = AdapterTrackerSelector(paths)
+        val adapterSplitApkSelector = AdapterTrackerSelector(paths, selectedPaths)
 
         adapterSplitApkSelector.setTrackerSelectorCallbacks(object : AdapterTrackerSelector.Companion.TrackerSelectorCallbacks {
-            override fun onTrackerSelected(path: String, isChecked: Boolean) {
+            override fun onTrackerSelected(tracker: Tracker, isChecked: Boolean) {
                 if (isChecked) {
-                    selectedPaths.add(path)
+                    selectedPaths.add(tracker)
                 } else {
-                    selectedPaths.remove(path)
+                    selectedPaths.remove(tracker)
                 }
 
                 if (selectedPaths.isEmpty()) {
@@ -93,24 +97,29 @@ class TrackerSelector : ScopedBottomSheetFragment() {
         this.trackerSelectorCallbacks = trackerSelectorCallbacks
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable(BundleConstants.selectedTrackers, selectedPaths)
+        super.onSaveInstanceState(outState)
+    }
+
     companion object {
-        fun newInstance(set: Set<String>): TrackerSelector {
+        fun newInstance(trackers: ArrayList<Tracker>): TrackerSelector {
             val args = Bundle()
-            args.putStringArrayList(BundleConstants.trackers, ArrayList(set))
+            args.putParcelableArrayList(BundleConstants.trackers, trackers)
             val fragment = TrackerSelector()
             fragment.arguments = args
             return fragment
         }
 
-        fun FragmentManager.showTrackerSelector(set: Set<String>, trackerSelectorCallbacks: TrackerSelectorCallbacks) {
-            val trackerSelector = newInstance(set)
+        fun FragmentManager.showTrackerSelector(trackers: ArrayList<Tracker>, trackerSelectorCallbacks: TrackerSelectorCallbacks) {
+            val trackerSelector = newInstance(trackers)
             trackerSelector.setTrackerSelectorCallbacks(trackerSelectorCallbacks)
             trackerSelector.show(this, trackerSelector.tag)
         }
 
         interface TrackerSelectorCallbacks {
-            fun onEnableSelected(paths: Set<String>)
-            fun onDisableSelected(paths: Set<String>)
+            fun onEnableSelected(paths: ArrayList<Tracker>)
+            fun onDisableSelected(paths: ArrayList<Tracker>)
         }
     }
 }

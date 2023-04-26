@@ -10,8 +10,9 @@ import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.models.Tracker
 
-class AdapterTrackerSelector(private val paths: MutableList<Pair<String, Boolean>>) : RecyclerView.Adapter<AdapterTrackerSelector.Holder>() {
+class AdapterTrackerSelector(private val trackers: ArrayList<Tracker>, private val selectedPaths: ArrayList<Tracker>) : RecyclerView.Adapter<AdapterTrackerSelector.Holder>() {
 
     private var trackerSelectorCallbacks: TrackerSelectorCallbacks? = null
 
@@ -20,14 +21,11 @@ class AdapterTrackerSelector(private val paths: MutableList<Pair<String, Boolean
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.path.text = paths.elementAt(position).first.subSequence(paths.elementAt(position).first.lastIndexOf("/") + 1, paths.elementAt(position).first.length)
-
-        holder.checkBox.setChecked(paths.elementAt(position).second)
+        holder.path.text = trackers[position].name
+        holder.checkBox.setChecked(selectedPaths.contains(trackers[position]))
 
         holder.checkBox.setOnCheckedChangeListener { isChecked ->
-            val newPair = Pair(paths.elementAt(position).first, isChecked)
-            paths[position] = newPair
-            paths.elementAt(position).first.let { trackerSelectorCallbacks?.onTrackerSelected(it, isChecked) }
+            trackerSelectorCallbacks?.onTrackerSelected(trackers[position], isChecked)
         }
 
         holder.container.setOnClickListener {
@@ -36,7 +34,7 @@ class AdapterTrackerSelector(private val paths: MutableList<Pair<String, Boolean
     }
 
     override fun getItemCount(): Int {
-        return paths.size
+        return trackers.size
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
@@ -56,7 +54,7 @@ class AdapterTrackerSelector(private val paths: MutableList<Pair<String, Boolean
 
     companion object {
         interface TrackerSelectorCallbacks {
-            fun onTrackerSelected(path: String, isChecked: Boolean)
+            fun onTrackerSelected(tracker: Tracker, isChecked: Boolean)
         }
     }
 }

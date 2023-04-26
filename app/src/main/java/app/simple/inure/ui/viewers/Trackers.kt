@@ -18,6 +18,7 @@ import app.simple.inure.dialogs.trackers.TrackerSelector
 import app.simple.inure.dialogs.trackers.TrackerSelector.Companion.showTrackerSelector
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.TrackersPreferences
 import app.simple.inure.util.ViewUtils.gone
@@ -66,9 +67,9 @@ class Trackers : SearchBarScopedFragment() {
             ifwButton.gone(true)
         }
 
-        trackersViewModel.getTrackers().observe(viewLifecycleOwner) { it ->
+        trackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
             progress.gone(true)
-            val adapterTrackers = AdapterTrackers(it, trackersViewModel.keyword)
+            val adapterTrackers = AdapterTrackers(trackers, trackersViewModel.keyword)
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
                 override fun onTrackersClicked(any: Any, enabled: Boolean, position: Int) {
@@ -79,20 +80,20 @@ class Trackers : SearchBarScopedFragment() {
             recyclerView.adapter = adapterTrackers
 
             checklist.setOnClickListener {
-                childFragmentManager.showTrackerSelector(adapterTrackers.getTrackers(), object : TrackerSelector.Companion.TrackerSelectorCallbacks {
-                    override fun onEnableSelected(paths: Set<String>) {
+                childFragmentManager.showTrackerSelector(trackers, object : TrackerSelector.Companion.TrackerSelectorCallbacks {
+                    override fun onEnableSelected(paths: ArrayList<Tracker>) {
                         progress.visible(animate = true)
                         // trackersViewModel.enableTrackers(paths)
                     }
 
-                    override fun onDisableSelected(paths: Set<String>) {
+                    override fun onDisableSelected(paths: ArrayList<Tracker>) {
                         progress.visible(animate = true)
                         // trackersViewModel.disableTrackers(paths)
                     }
                 })
             }
 
-            if (it.size > 0) {
+            if (trackers.size > 0) {
                 if (ConfigurationPreferences.isUsingRoot()) {
                     checklist.visible(animate = true)
                 }
