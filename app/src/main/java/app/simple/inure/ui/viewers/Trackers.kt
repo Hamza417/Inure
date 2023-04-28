@@ -83,12 +83,12 @@ class Trackers : SearchBarScopedFragment() {
                 childFragmentManager.showTrackerSelector(trackers, object : TrackerSelector.Companion.TrackerSelectorCallbacks {
                     override fun onEnableSelected(paths: ArrayList<Tracker>) {
                         progress.visible(animate = true)
-                        // trackersViewModel.enableTrackers(paths)
+                        trackersViewModel.enableTrackers(paths)
                     }
 
                     override fun onDisableSelected(paths: ArrayList<Tracker>) {
                         progress.visible(animate = true)
-                        // trackersViewModel.disableTrackers(paths)
+                        trackersViewModel.blockTrackers(paths)
                     }
                 })
             }

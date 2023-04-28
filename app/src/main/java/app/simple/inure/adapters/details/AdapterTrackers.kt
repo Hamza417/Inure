@@ -35,13 +35,13 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
             holder.name.text = list[position].name.substring((list[position]).name.lastIndexOf(".") + 1)
             holder.packageId.text = list[position].name
             holder.trackerId.text = list[position].trackerId
-            holder.switch.staticChecked(list[position].isBlocked)
+            holder.switch.staticChecked(list[position].isBlocked.invert())
         } else if (list[position].isService) {
             holder.icon.loadIconFromServiceInfo(list[position].serviceInfo)
             holder.name.text = list[position].name.substring((list[position]).name.lastIndexOf(".") + 1)
             holder.packageId.text = list[position].name
             holder.trackerId.text = list[position].trackerId
-            holder.switch.staticChecked(list[position].isBlocked)
+            holder.switch.staticChecked(list[position].isBlocked.invert())
         }
 
         if (isRoot) {
