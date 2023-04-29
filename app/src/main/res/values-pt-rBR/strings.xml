@@ -663,4 +663,5 @@
     <string name="reinstall">Reinstalar</string>
     <string name="reinstalling">Reinstalando</string>
     <string name="no_trackers_found">Nenhum rastreador encontrado</string>
+    <string name="no_rules_file_found">Nenhum arquivo de regras encontrado</string>
 </resources>
