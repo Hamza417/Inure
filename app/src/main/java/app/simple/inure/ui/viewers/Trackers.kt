@@ -3,7 +3,6 @@ package app.simple.inure.ui.viewers
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,14 +59,6 @@ class Trackers : SearchBarScopedFragment() {
         searchBoxState(animate = false, TrackersPreferences.isSearchVisible())
         startPostponedEnterTransition()
 
-        if (ConfigurationPreferences.isUsingRoot()) {
-            ifwButton.setOnClickListener {
-                openFragmentSlide(IFWViewer.newInstance(packageInfo), "ifw_viewer")
-            }
-        } else {
-            ifwButton.gone(true)
-        }
-
         trackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
             progress.gone(true)
             val adapterTrackers = AdapterTrackers(trackers, trackersViewModel.keyword)
@@ -82,7 +73,6 @@ class Trackers : SearchBarScopedFragment() {
 
                     trackersViewModel.getTracker().observe(viewLifecycleOwner) {
                         if (it != null) {
-                            Log.d("Trackers", "onTrackersClicked: ${it.second}")
                             adapterTrackers.updateTracker(it)
                             trackersViewModel.clear()
                         }
@@ -104,6 +94,16 @@ class Trackers : SearchBarScopedFragment() {
                         trackersViewModel.blockTrackers(paths)
                     }
                 })
+            }
+
+            if (ConfigurationPreferences.isUsingRoot()) {
+                ifwButton.setOnClickListener {
+                    openFragmentSlide(IFWViewer.newInstance(packageInfo), "ifw_viewer")
+                }
+
+                ifwButton.visible(animate = true)
+            } else {
+                ifwButton.gone(true)
             }
 
             if (trackers.size > 0) {

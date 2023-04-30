@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.details
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,8 +73,6 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
     fun updateTracker(it: Pair<Tracker, Int>) {
         it.let {
             kotlin.runCatching {
-                Log.d("AdapterTrackers", "updateTracker: ${it.second}")
-                Log.d("AdapterTrackers", "updateTracker: ${list.size}")
                 list[it.second].isBlocked = it.first.isBlocked
                 notifyItemChanged(it.second)
             }

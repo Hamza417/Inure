@@ -13,6 +13,7 @@ import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.FileNotFoundException
 import java.nio.ByteBuffer
 import java.nio.charset.Charset
 
@@ -36,12 +37,21 @@ class IFWViewerViewModel(application: Application, packageInfo: PackageInfo) : R
                 val code = fileSystemManager?.getXML()!!
                 xml.postValue(code.formatXML().getPrettyXML())
             }.getOrElse {
-                postWarning(it.message.toString())
+                if (it is FileNotFoundException) {
+                    postWarning(getString(R.string.no_rules_file_found))
+                } else {
+                    it.printStackTrace()
+                    postWarning(it.message)
+                }
             }
         }
     }
 
     private fun FileSystemManager.getXML(): String {
+        if (getFileSystemManager()?.getFile(pathToXml)?.exists()?.not() == true) {
+            throw FileNotFoundException("File not found")
+        }
+
         val channel = openChannel(pathToXml, FileSystemManager.MODE_READ_WRITE)
         val capacity = channel.size()
         val byteBuffer = ByteBuffer.allocate(capacity.toInt())

@@ -101,13 +101,13 @@ class IFWViewer : KeyboardScopedFragment() {
 
         ifwViewerViewModel.getXML().observe(viewLifecycleOwner) {
             text.setText(it)
-            progress.gone()
+            progress.gone(animate = true)
             options.visible(true)
             settings.visible(true)
         }
 
         ifwViewerViewModel.getError().observe(viewLifecycleOwner) {
-            progress.gone()
+            progress.gone(animate = true)
             showError(it)
         }
 
@@ -141,7 +141,8 @@ class IFWViewer : KeyboardScopedFragment() {
         }
 
         ifwViewerViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it, goBack = false)
+            progress.gone(animate = true)
+            showWarning(it, goBack = it == getString(R.string.no_rules_file_found))
         }
 
         settings.setOnClickListener {
