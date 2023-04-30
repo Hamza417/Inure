@@ -1,219 +1,567 @@
 package app.simple.inure.viewmodels.installer
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.trackers.utils.PackageUtils
-import app.simple.inure.trackers.utils.UriUtils
-import app.simple.inure.util.IOUtils
-import dalvik.system.DexFile
+import app.simple.inure.extensions.viewmodels.RootServiceViewModel
+import app.simple.inure.models.Tracker
+import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.ActivityUtils
+import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.ConditionUtils.isZero
+import com.topjohnwu.superuser.nio.ExtendedFile
+import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import org.w3c.dom.Document
+import org.w3c.dom.Element
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
+import org.xml.sax.InputSource
 import java.io.File
-import java.io.IOException
-import java.security.MessageDigest
+import java.io.StringReader
+import java.nio.ByteBuffer
+import java.nio.charset.Charset
+import javax.xml.parsers.DocumentBuilder
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.transform.Transformer
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
 
-class InstallerTrackersViewModel(application: Application, private val apkFile: File) : WrappedViewModel(application) {
+class InstallerTrackersViewModel(application: Application, private val apkFile: File) : RootServiceViewModel(application) {
 
-    private var sha256 = ""
-    private var msg = "THIS IS LongPress:\n\n==>COMPLETE CLASS LIST"
-
+    private val path = ""
     private var packageInfo: PackageInfo? = null
 
-    private var signs = 0
-    private var totals = 0
-    private var classTotals = 0
-    private var totalTT = 0
+    private val flags = PackageManager.GET_ACTIVITIES or PackageManager.GET_SERVICES or PackageManager.GET_RECEIVERS or PackageManager.GET_PROVIDERS
 
-    private val classesList = ArrayList<String>()
-    private val classesListAll = ArrayList<String>()
-    private var sign: Array<String>? = null
-    private var names: Array<String>? = null
-    private var signStat: IntArray? = null
-    private var signB: BooleanArray? = null
-
-    private val message: MutableLiveData<Pair<String, String>> by lazy {
-        MutableLiveData<Pair<String, String>>().also {
-            fetchClassesList()
+    private val trackers: MutableLiveData<ArrayList<Tracker>> by lazy {
+        MutableLiveData<ArrayList<Tracker>>().also {
+            if (ConfigurationPreferences.isUsingRoot()) {
+                initRootProc()
+            } else {
+                scanTrackers()
+            }
         }
     }
 
-    fun getMessage(): LiveData<Pair<String, String>> {
-        return message
+    private val tracker: MutableLiveData<Pair<Tracker, Int>> by lazy {
+        MutableLiveData<Pair<Tracker, Int>>()
     }
 
-    private fun fetchClassesList() {
+    fun getTrackers(): LiveData<ArrayList<Tracker>> {
+        return trackers
+    }
+
+    fun getTracker(): LiveData<Pair<Tracker, Int>> {
+        return tracker
+    }
+
+    private fun scanTrackers() {
         viewModelScope.launch(Dispatchers.IO) {
-            organizeData()
-        }
-    }
-
-    private fun organizeData() {
-        kotlin.runCatching {
-            loadClasses()
-            subStats()
-        }.getOrElse {
-            postError(it)
-            message.postValue(Pair(getString(R.string.error), it.stackTraceToString()))
-        }
-    }
-
-    @Suppress("BlockingMethodInNonBlockingContext")
-    @SuppressLint("PackageManagerGetSignatures")
-    private fun loadClasses() {
-        runBlocking {
-            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.PackageInfoFlags.of((PackageManager.GET_META_DATA or PackageManager.GET_SIGNING_CERTIFICATES).toLong()))
-                } else {
-                    @Suppress("DEPRECATION")
-                    packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.GET_META_DATA or PackageManager.GET_SIGNING_CERTIFICATES)
-                }
+            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                applicationContext().packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.PackageInfoFlags.of(flags.toLong()))!!
             } else {
                 @Suppress("DEPRECATION")
-                packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.GET_META_DATA or PackageManager.GET_SIGNATURES)
+                applicationContext().packageManager.getPackageArchiveInfo(apkFile.absolutePath, flags)!!
             }
 
-            val uriStream = UriUtils.getStreamFromUri(context, Uri.fromFile(apkFile))
+            if (packageInfo == null) {
+                postWarning("Failed to get package info")
+                return@launch
+            }
 
-            try {
-                val incomeFile = File.createTempFile("classes" + Thread.currentThread().id, ".dex", createTrackersCacheDirectory())
-                val bytes = IOUtils.toByteArray(uriStream)
-                IOUtils.bytesToFile(bytes, incomeFile)
-                val optimizedFile = File.createTempFile("opt" + Thread.currentThread().id, ".dex", createTrackersCacheDirectory())
+            val trackersList = arrayListOf<Tracker>()
 
-                val dexFile = DexFile.loadDex(incomeFile.path, optimizedFile.path, 0)
+            trackersList.addAll(getActivityTrackers())
+            trackersList.addAll(getServicesTrackers())
+            trackersList.addAll(getReceiversTrackers())
 
-                msg = ""
-                sign = context.resources.getStringArray(R.array.trackers)
-                signStat = IntArray(sign!!.size)
-                signB = BooleanArray(sign!!.size) //Arrays.fill(SignB,false);
-                names = context.resources.getStringArray(R.array.tname)
+            trackersList.sortBy {
+                it.name
+            }
 
-                val classNames = dexFile.entries()
+            if (trackersList.size.isZero()) {
+                postWarning(getString(R.string.no_trackers_found))
+            }
 
-                while (classNames.hasMoreElements()) {
-                    val className = classNames.nextElement()
-                    classesListAll.add(className)
-                    classTotals++
-                    if (className.length > 8) {
-                        if (className.contains(".")) {
-                            signs = 0
-                            while (signs < sign!!.size) {
-                                totalTT++ //TESTING only
-                                if (className.contains(sign!![signs])) {
-                                    classesList.add(className)
-                                    signStat!![signs]++
-                                    signB!![signs] = true
-                                    if (msg.contains(names!![signs])) {
-                                        break
-                                    } else {
-                                        msg += names!![signs] + "\n"
-                                    }
-                                    totals++
-                                    break
-                                }
-                                signs++
+            if (ConfigurationPreferences.isUsingRoot()) {
+                readIntentFirewallXml(getFileSystemManager(), trackersList)
+            }
+
+            trackers.postValue(trackersList)
+        }
+    }
+
+    private fun getActivityTrackers(): ArrayList<Tracker> {
+        val trackerSignatures = getTrackerSignatures()
+        val activities = packageInfo?.activities
+        val trackersList = arrayListOf<Tracker>()
+
+        if (activities != null) {
+            for (activity in activities) {
+                for (signature in trackerSignatures) {
+                    if (activity.name.contains(signature)) {
+                        val tracker = Tracker()
+
+                        tracker.activityInfo = activity
+                        tracker.name = activity.name
+
+                        kotlin.runCatching {
+                            tracker.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo?.packageName!!, activity.name)
+                        }
+
+                        tracker.trackerId = signature
+                        tracker.isReceiver = false
+                        tracker.isService = false
+                        tracker.isActivity = true
+
+                        trackersList.add(tracker)
+
+                        break
+                    }
+                }
+            }
+        }
+
+        return trackersList
+    }
+
+    private fun getServicesTrackers(): ArrayList<Tracker> {
+        val trackerSignatures = getTrackerSignatures()
+        val services = packageInfo?.services
+        val trackersList = arrayListOf<Tracker>()
+
+        if (services != null) {
+            for (service in services) {
+                for (signature in trackerSignatures) {
+                    if (service.name.contains(signature)) {
+                        val tracker = Tracker()
+
+                        tracker.serviceInfo = service
+                        tracker.name = service.name
+
+                        kotlin.runCatching {
+                            tracker.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo?.packageName!!, service.name)
+                        }
+
+                        tracker.trackerId = signature
+                        tracker.isReceiver = false
+                        tracker.isService = true
+                        tracker.isActivity = false
+
+                        trackersList.add(tracker)
+
+                        break
+                    }
+                }
+            }
+        }
+
+        return trackersList
+    }
+
+    private fun getReceiversTrackers(): ArrayList<Tracker> {
+        val trackerSignatures = getTrackerSignatures()
+        val receivers = packageInfo?.receivers
+        val trackersList = arrayListOf<Tracker>()
+
+        if (receivers != null) {
+            for (receiver in receivers) {
+                for (signature in trackerSignatures) {
+                    if (receiver.name.contains(signature)) {
+                        val tracker = Tracker()
+
+                        tracker.activityInfo = receiver
+                        tracker.name = receiver.name
+
+                        kotlin.runCatching {
+                            tracker.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo?.packageName!!, receiver.name)
+                        }
+
+                        tracker.trackerId = signature
+                        tracker.isReceiver = true
+                        tracker.isService = false
+                        tracker.isActivity = false
+
+                        trackersList.add(tracker)
+
+                        break
+                    }
+                }
+            }
+        }
+
+        return trackersList
+    }
+
+    private fun getTrackerSignatures(): Array<out String> {
+        return applicationContext().resources.getStringArray(R.array.trackers)
+    }
+
+    override fun runRootProcess(fileSystemManager: FileSystemManager?) {
+        scanTrackers()
+    }
+
+    fun clear() {
+        tracker.value = null
+    }
+
+    /**
+     * <rules>
+     *      <activity block="true" log="false">
+     *          <component-filter name="package_name/component_name" />
+     *      </activity>
+     *      <service block="true" log="false">
+     *          <component-filter name="package_name/component_name" />
+     *      </service>
+     * </rules>
+     *
+     * Parse the file following the above structure
+     */
+    private fun readIntentFirewallXml(fileSystemManager: FileSystemManager?, trackersList: ArrayList<Tracker>) {
+        if (fileSystemManager?.getFile(path)?.exists()?.invert()!!) {
+            return
+        }
+
+        val channel = fileSystemManager.openChannel(path, FileSystemManager.MODE_READ_WRITE)
+        val capacity = channel.size().toInt()
+        val buffer = ByteBuffer.allocate(capacity)
+        channel.read(buffer)
+        buffer.flip()
+
+        val xml = String(buffer.array(), Charset.defaultCharset())
+        val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(xml)))
+
+        val activityNodes = document.getElementsByTagName("activity")
+        val serviceNodes = document.getElementsByTagName("service")
+        val broadcastNodes = document.getElementsByTagName("broadcast")
+
+        for (i in 0 until activityNodes.length) {
+            val activityNode: Node = activityNodes.item(i)
+            if (activityNode.nodeType == Node.ELEMENT_NODE) {
+                val activityElement = activityNode as Element
+                val isBlocked = activityElement.getAttribute("block").toBoolean()
+                val componentFilters: NodeList = activityElement.getElementsByTagName("component-filter")
+                for (j in 0 until componentFilters.length) {
+                    val componentFilterNode: Node = componentFilters.item(j)
+                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
+                        val componentFilterElement = componentFilterNode as Element
+                        val componentName = componentFilterElement.getAttribute("name")
+
+                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                            it.isBlocked = isBlocked
+                        }
+                    }
+                }
+            }
+        }
+
+        for (i in 0 until serviceNodes.length) {
+            val serviceNode: Node = serviceNodes.item(i)
+            if (serviceNode.nodeType == Node.ELEMENT_NODE) {
+                val serviceElement = serviceNode as Element
+                val isBlocked = serviceElement.getAttribute("block").toBoolean()
+                val componentFilters: NodeList = serviceElement.getElementsByTagName("component-filter")
+                for (j in 0 until componentFilters.length) {
+                    val componentFilterNode: Node = componentFilters.item(j)
+                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
+                        val componentFilterElement = componentFilterNode as Element
+                        val componentName = componentFilterElement.getAttribute("name")
+
+                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                            it.isBlocked = isBlocked
+                        }
+                    }
+                }
+            }
+        }
+
+        for (i in 0 until broadcastNodes.length) {
+            val broadcastNode: Node = broadcastNodes.item(i)
+            if (broadcastNode.nodeType == Node.ELEMENT_NODE) {
+                val broadcastElement = broadcastNode as Element
+                val isBlocked = broadcastElement.getAttribute("block").toBoolean()
+                val componentFilters: NodeList = broadcastElement.getElementsByTagName("component-filter")
+                for (j in 0 until componentFilters.length) {
+                    val componentFilterNode: Node = componentFilters.item(j)
+                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
+                        val componentFilterElement = componentFilterNode as Element
+                        val componentName = componentFilterElement.getAttribute("name")
+
+                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                            it.isBlocked = isBlocked
+                        }
+                    }
+                }
+            }
+        }
+
+        channel.close()
+    }
+
+    /**
+     * <rules>
+     *      <activity block="true" log="false">
+     *          <component-filter name="package_name/component_name" />
+     *          ...
+     *      </activity>
+     *      <service block="true" log="false">
+     *          <component-filter name="package_name/component_name" />
+     *          ...
+     *      </service>
+     *      <broadcast block="true" log="false">
+     *          <component-filter name="package_name/component_name" />
+     *          ...
+     *      </broadcast>
+     * </rules>
+     *
+     * Parse the file following the above structure and append the components
+     * into subsequent tags (activity, service, broadcast), if the tags don't
+     * exist, create them.
+     *
+     * @param trackers The list of trackers to be added to the file
+     */
+    fun blockTrackers(trackers: ArrayList<Tracker>, position: Int = -1) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val file: ExtendedFile = getFileSystemManager()!!.getFile(path)
+
+                if (!file.exists()) {
+                    file.newOutputStream().use {
+                        it.write("<rules>\n</rules>".toByteArray())
+                    }
+                }
+
+                val channel = getFileSystemManager()!!.openChannel(path, FileSystemManager.MODE_READ_WRITE)
+                val capacity = channel.size().toInt()
+                val buffer = ByteBuffer.allocate(capacity)
+                channel.read(buffer)
+                buffer.flip()
+
+                val xml = String(buffer.array(), Charset.defaultCharset())
+
+                val docFactory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
+                val docBuilder: DocumentBuilder = docFactory.newDocumentBuilder()
+                val doc: Document = docBuilder.parse(InputSource(StringReader(xml)))
+
+                // Modify the XML document
+                val rules = doc.getElementsByTagName("rules").item(0)
+
+                for (tracker in trackers) {
+                    val components = doc.getElementsByTagName("component-filter")
+
+                    /**
+                     * Remove the component if it already exists
+                     * This is to prevent duplicate entries
+                     */
+                    for (i in 0 until components.length) {
+                        val component = components.item(i)
+                        val name = component.attributes.getNamedItem("name").nodeValue
+
+                        if (name == "${packageInfo?.packageName}/${tracker.name}") {
+                            component.parentNode.removeChild(component)
+                        }
+                    }
+
+                    val componentFilter = doc.createElement("component-filter")
+                    componentFilter.setAttribute("name", "${packageInfo?.packageName}/${tracker.name}")
+
+                    if (tracker.isActivity) {
+                        // Check if the activity tag exists
+                        val activity = doc.getElementsByTagName("activity").item(0)
+
+                        if (activity == null) {
+                            val activity1 = doc.createElement("activity")
+                            activity1.setAttribute("block", "true")
+                            activity1.setAttribute("log", "false")
+                            activity1.appendChild(componentFilter)
+
+                            rules.appendChild(activity1)
+                        } else {
+                            /**
+                             * Check if block already exists and is true, if false
+                             * create another activity tag with block and log attributes
+                             * set to true
+                             */
+                            if (activity.attributes.getNamedItem("block") != null && activity.attributes.getNamedItem("block").nodeValue == "false") {
+                                val activity1 = doc.createElement("activity")
+                                activity1.setAttribute("block", "true")
+                                activity1.setAttribute("log", "false")
+                                activity1.appendChild(componentFilter)
+
+                                rules.appendChild(activity1)
+                            } else {
+                                activity.appendChild(componentFilter)
+                            }
+                        }
+                    }
+
+                    if (tracker.isService) {
+                        // Check if the service tag exists
+                        val service = doc.getElementsByTagName("service").item(0)
+
+                        if (service == null) {
+                            val service1 = doc.createElement("service")
+                            service1.setAttribute("block", "true")
+                            service1.setAttribute("log", "false")
+                            service1.appendChild(componentFilter)
+
+                            rules.appendChild(service1)
+                        } else {
+                            /**
+                             * Check if block already exists and is true, if false
+                             * create another service tag with block and log attributes
+                             * set to true
+                             */
+                            if (service.attributes.getNamedItem("block") != null && service.attributes.getNamedItem("block").nodeValue == "false") {
+                                val service1 = doc.createElement("service")
+                                service1.setAttribute("block", "true")
+                                service1.setAttribute("log", "false")
+                                service1.appendChild(componentFilter)
+
+                                rules.appendChild(service1)
+                            } else {
+                                service.appendChild(componentFilter)
+                            }
+                        }
+                    }
+
+                    if (tracker.isReceiver) {
+                        // Check if the broadcast tag exists
+                        val broadcast = doc.getElementsByTagName("broadcast").item(0)
+
+                        if (broadcast == null) {
+                            val broadcast1 = doc.createElement("broadcast")
+                            broadcast1.setAttribute("block", "true")
+                            broadcast1.setAttribute("log", "false")
+                            broadcast1.appendChild(componentFilter)
+
+                            rules.appendChild(broadcast1)
+                        } else {
+                            /**
+                             * Check if block already exists and is true, if false
+                             * create another broadcast tag with block and log attributes
+                             * set to true
+                             */
+                            if (broadcast.attributes.getNamedItem("block") != null && broadcast.attributes.getNamedItem("block").nodeValue == "false") {
+                                val broadcast1 = doc.createElement("broadcast")
+                                broadcast1.setAttribute("block", "true")
+                                broadcast1.setAttribute("log", "false")
+                                broadcast1.appendChild(componentFilter)
+
+                                rules.appendChild(broadcast1)
+                            } else {
+                                broadcast.appendChild(componentFilter)
                             }
                         }
                     }
                 }
 
-                sha(bytes)
-                context.deleteFile("*")
-                incomeFile.delete()
-                optimizedFile.delete()
-            } catch (e: Exception) {
-                // ODEX, need to see how to handle
-                e.printStackTrace()
-            } finally {
-                withContext(Dispatchers.IO) {
-                    uriStream.close()
+                // Write the XML document back to the file
+                val transformerFactory: TransformerFactory = TransformerFactory.newInstance()
+                val transformer: Transformer = transformerFactory.newTransformer()
+                val source = DOMSource(doc)
+
+                channel.truncate(0)
+
+                val outputStream = file.newOutputStream()
+                val result = StreamResult(outputStream)
+                transformer.transform(source, result)
+
+                channel.close()
+
+                // Update the trackers list
+                if (trackers.size == 1 && position != -1) {
+                    trackers[0].isBlocked = true
+                    tracker.postValue(Pair(trackers[0], position))
+                } else {
+                    scanTrackers()
                 }
+            }.getOrElse {
+                Log.e("TrackerBlocker", "Error: ${it.message}")
+                postWarning("Error: ${it.message}")
             }
         }
     }
 
-    private fun sha(bytes: ByteArray) {
-        sha256 += "\nMD5sum: " + PackageUtils.convertS(MessageDigest.getInstance("md5").digest(bytes))
-            .toString() + "\nSHA1sum: " + PackageUtils.convertS(MessageDigest.getInstance("sha1").digest(bytes))
-            .toString() + "\nSHA256sum: " + PackageUtils.convertS(MessageDigest.getInstance("sha256").digest(bytes))
+    fun unblockTrackers(trackers: ArrayList<Tracker>, position: Int = -1) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val file: ExtendedFile = getFileSystemManager()!!.getFile(path)
 
-        if (Build.VERSION.SDK_INT >= 29) sha256 += PackageUtils.apkIsolatedZygote(packageInfo, getString(R.string.app_zygote).trimIndent())
-        sha256 += PackageUtils.apkCert(packageInfo)
-    }
+                if (!file.exists()) {
+                    postWarning(getString(R.string.no_rules_file_found))
 
-    private fun subStats() {
-        var statsMsg = ""
-        var i = 0
-        val message = StringBuilder()
-        val title: String?
+                    /**
+                     * Cancel the process
+                     */
+                    return@launch
+                }
 
-        if (signs >= 0) {
-            i = 0
-            while (i < sign!!.size) {
-                if (signB!![i]) {
-                    if (!statsMsg.contains(names!![i])) {
-                        statsMsg += "\n*${names!![i]}"
+                val channel = getFileSystemManager()!!.openChannel(path, FileSystemManager.MODE_READ_WRITE)
+                val capacity = channel.size().toInt()
+                val buffer = ByteBuffer.allocate(capacity)
+                channel.read(buffer)
+                buffer.flip()
+
+                val xml = String(buffer.array(), Charset.defaultCharset())
+
+                val docFactory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
+                val docBuilder: DocumentBuilder = docFactory.newDocumentBuilder()
+                val doc: Document = docBuilder.parse(InputSource(StringReader(xml)))
+
+                // Modify the XML document
+                // val rules = doc.getElementsByTagName("rules").item(0)
+
+                for (tracker in trackers) {
+                    val components = doc.getElementsByTagName("component-filter")
+
+                    /**
+                     * Remove the component if it already exists
+                     * This is to prevent duplicate entries
+                     */
+                    for (i in 0 until components.length) {
+                        val component = components.item(i)
+                        val name = component.attributes.getNamedItem("name").nodeValue
+
+                        if (name == "${packageInfo?.packageName}/${tracker.name}") {
+                            component.parentNode.removeChild(component)
+                        }
                     }
-
-                    statsMsg += "${signStat!![i]}${sign!![i]}".trimIndent()
                 }
-                i++
+
+                // Write the XML document back to the file
+                val transformerFactory: TransformerFactory = TransformerFactory.newInstance()
+                val transformer: Transformer = transformerFactory.newTransformer()
+                val source = DOMSource(doc)
+
+                channel.truncate(0)
+
+                val outputStream = file.newOutputStream()
+                val result = StreamResult(outputStream)
+                transformer.transform(source, result)
+
+                channel.close()
+
+                // Update the trackers list
+                if (trackers.size == 1 && position != -1) {
+                    trackers[0].isBlocked = false
+                    tracker.postValue(Pair(trackers[0], position))
+                } else {
+                    scanTrackers()
+                }
+            }.getOrElse {
+                Log.e("TrackerBlocker", "Error: ${it.message}")
+                postWarning("Error: ${it.message}")
             }
         }
-
-        message.append(applicationContext().getString(R.string.trackers_message, i, classTotals))
-        message.append("\n")
-        message.append(applicationContext().getString(R.string.total, totalTT))
-        message.append("\n\n")
-        message.append(msg)
-        message.append("\n")
-        message.append(statsMsg)
-        message.append("\n")
-        message.append(sha256)
-
-        title = totals.toString() + " Trackers = " + classesList.size + " Classes"
-
-        this.message.postValue(Pair(title, message.toString()))
-    }
-
-    private fun createTrackersCacheDirectory(): File {
-        val file = File("${context.cacheDir}/trackers_cache/")
-        if (!file.exists()) {
-            file.mkdir()
-            if (file.isDirectory) {
-                return file
-            } else {
-                // Technically we should be able to create a dir in
-                // app directory without raising any flags
-                // so it will never reach this block
-                throw IOException("Cannot create directory")
-            }
-        }
-
-        return file
-    }
-
-    private fun clearTrackersCacheDirectory() {
-        val file = File("${context.cacheDir}/trackers_cache/")
-        if (file.exists()) {
-            file.deleteRecursively()
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        clearTrackersCacheDirectory()
     }
 }

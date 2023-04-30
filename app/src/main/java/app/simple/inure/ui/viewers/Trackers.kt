@@ -124,12 +124,7 @@ class Trackers : SearchBarScopedFragment() {
         }
 
         trackersViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it, getString(R.string.failed) != it)
-
-            if (getString(R.string.failed) == it) {
-                progress.gone(true)
-
-            }
+            showWarning(it)
         }
 
         search.setOnClickListener {

@@ -6,28 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.adapters.details.AdapterTrackers
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
+import app.simple.inure.models.Tracker
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.viewmodels.installer.InstallerTrackersViewModel
 import java.io.File
 
 class Trackers : ScopedFragment() {
 
-    private lateinit var message: TypeFaceTextView
-    private lateinit var trackersViewModel: InstallerTrackersViewModel
+    private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var installerTrackersViewModel: InstallerTrackersViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.installer_fragment_trackers, container, false)
 
-        message = view.findViewById(R.id.message)
-
+        recyclerView = view.findViewById(R.id.trackers_recycler_view)
         val file: File? = requireArguments().serializable(BundleConstants.file)
 
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
-        trackersViewModel = ViewModelProvider(requireActivity(), installerViewModelFactory)[InstallerTrackersViewModel::class.java]
+        installerTrackersViewModel = ViewModelProvider(this, installerViewModelFactory)[InstallerTrackersViewModel::class.java]
 
         return view
     }
@@ -36,10 +37,31 @@ class Trackers : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        trackersViewModel.getMessage().observe(viewLifecycleOwner) {
-            message.text = it.first
-            message.append("\n")
-            message.append(it.second)
+        installerTrackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
+            val adapterTrackers = AdapterTrackers(trackers, "")
+
+            adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
+                override fun onTrackersClicked(tracker: Tracker, enabled: Boolean, position: Int) {
+                    if (enabled) {
+                        installerTrackersViewModel.unblockTrackers(arrayListOf(tracker), position)
+                    } else {
+                        installerTrackersViewModel.blockTrackers(arrayListOf(tracker), position)
+                    }
+
+                    installerTrackersViewModel.getTracker().observe(viewLifecycleOwner) {
+                        if (it != null) {
+                            adapterTrackers.updateTracker(it)
+                            installerTrackersViewModel.clear()
+                        }
+                    }
+                }
+            })
+
+            recyclerView.adapter = adapterTrackers
+        }
+
+        installerTrackersViewModel.getError().observe(viewLifecycleOwner) {
+            showError(it)
         }
     }
 

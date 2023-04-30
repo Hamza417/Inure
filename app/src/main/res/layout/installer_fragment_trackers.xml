@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.theme.ThemeNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/trackers_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/panel_item_padding"
-        android:textSize="@dimen/info_text_small"
-        app:appFontStyle="regular"
-        app:textColorStyle="secondary" />
-
-</app.simple.inure.decorations.theme.ThemeNestedScrollView>
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fadingEdge="vertical"
+    android:fadingEdgeLength="25dp"
+    android:layoutAnimation="@anim/list_animation_controller"
+    android:paddingTop="5dp"
+    android:requiresFadingEdge="vertical"
+    app:isFastScrollRequired="false"
+    app:statusBarPaddingRequired="false" />

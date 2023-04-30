@@ -78,7 +78,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         list.add(getNativeLibraries())
         list.add(getMethodCount())
         list.add(getFeatures())
-        list.add(getApkPath())
+        //  list.add(getApkPath())
 
         information.postValue(list)
     }

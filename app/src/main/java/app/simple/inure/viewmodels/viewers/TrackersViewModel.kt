@@ -24,7 +24,6 @@ import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import org.xml.sax.InputSource
 import java.io.StringReader
-import java.lang.Boolean
 import java.nio.ByteBuffer
 import java.nio.charset.Charset
 import javax.xml.parsers.DocumentBuilder
@@ -33,15 +32,6 @@ import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
-import kotlin.Array
-import kotlin.Int
-import kotlin.Pair
-import kotlin.String
-import kotlin.also
-import kotlin.getOrElse
-import kotlin.getValue
-import kotlin.lazy
-import kotlin.let
 
 class TrackersViewModel(application: Application, val packageInfo: PackageInfo) : RootServiceViewModel(application) {
 
@@ -77,7 +67,6 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     private fun scanTrackers() {
         viewModelScope.launch(Dispatchers.IO) {
-            val trackerSignatures = getTrackerSignatures()
             val trackersList = arrayListOf<Tracker>()
 
             trackersList.addAll(getActivityTrackers())
@@ -242,7 +231,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
             val activityNode: Node = activityNodes.item(i)
             if (activityNode.nodeType == Node.ELEMENT_NODE) {
                 val activityElement = activityNode as Element
-                val isBlocked = Boolean.parseBoolean(activityElement.getAttribute("block"))
+                val isBlocked = activityElement.getAttribute("block").toBoolean()
                 val componentFilters: NodeList = activityElement.getElementsByTagName("component-filter")
                 for (j in 0 until componentFilters.length) {
                     val componentFilterNode: Node = componentFilters.item(j)
@@ -262,7 +251,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
             val serviceNode: Node = serviceNodes.item(i)
             if (serviceNode.nodeType == Node.ELEMENT_NODE) {
                 val serviceElement = serviceNode as Element
-                val isBlocked = Boolean.parseBoolean(serviceElement.getAttribute("block"))
+                val isBlocked = serviceElement.getAttribute("block").toBoolean()
                 val componentFilters: NodeList = serviceElement.getElementsByTagName("component-filter")
                 for (j in 0 until componentFilters.length) {
                     val componentFilterNode: Node = componentFilters.item(j)
@@ -282,7 +271,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
             val broadcastNode: Node = broadcastNodes.item(i)
             if (broadcastNode.nodeType == Node.ELEMENT_NODE) {
                 val broadcastElement = broadcastNode as Element
-                val isBlocked = Boolean.parseBoolean(broadcastElement.getAttribute("block"))
+                val isBlocked = broadcastElement.getAttribute("block").toBoolean()
                 val componentFilters: NodeList = broadcastElement.getElementsByTagName("component-filter")
                 for (j in 0 until componentFilters.length) {
                     val componentFilterNode: Node = componentFilters.item(j)
