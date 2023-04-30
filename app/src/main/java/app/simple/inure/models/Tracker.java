@@ -7,6 +7,15 @@ import android.os.Parcelable;
 
 public class Tracker implements Parcelable {
     
+    private String name;
+    private String trackerId;
+    private boolean isActivity = false;
+    private boolean isService = false;
+    private boolean isReceiver = false;
+    private boolean isBlocked = false;
+    private boolean isEnabled = true;
+    private ActivityInfo activityInfo = null;
+    private ServiceInfo serviceInfo = null;
     public static final Creator <Tracker> CREATOR = new Creator <Tracker>() {
         @Override
         public Tracker createFromParcel(Parcel in) {
@@ -18,17 +27,12 @@ public class Tracker implements Parcelable {
             return new Tracker[size];
         }
     };
-    private String name;
-    private String trackerId;
-    private boolean isActivity = false;
-    private boolean isService = false;
-    private boolean isReceiver = false;
-    private boolean isBlocked = false;
-    private boolean isEnabled = true;
-    private ActivityInfo activityInfo = null;
-    private ServiceInfo serviceInfo = null;
+    public boolean isLogged = false;
     
-    public Tracker(String name, String trackerId, boolean isActivity, boolean isService, boolean isReceiver, boolean isBlocked, boolean isEnabled, ActivityInfo activityInfo, ServiceInfo serviceInfo) {
+    public Tracker() {
+    }
+    
+    public Tracker(String name, String trackerId, boolean isActivity, boolean isService, boolean isReceiver, boolean isBlocked, boolean isEnabled, ActivityInfo activityInfo, ServiceInfo serviceInfo, boolean isLogged) {
         this.name = name;
         this.trackerId = trackerId;
         this.isActivity = isActivity;
@@ -38,9 +42,7 @@ public class Tracker implements Parcelable {
         this.isEnabled = isEnabled;
         this.activityInfo = activityInfo;
         this.serviceInfo = serviceInfo;
-    }
-    
-    public Tracker() {
+        this.isLogged = isLogged;
     }
     
     protected Tracker(Parcel in) {
@@ -53,6 +55,7 @@ public class Tracker implements Parcelable {
         isEnabled = in.readByte() != 0;
         activityInfo = in.readParcelable(ActivityInfo.class.getClassLoader());
         serviceInfo = in.readParcelable(ServiceInfo.class.getClassLoader());
+        isLogged = in.readByte() != 0;
     }
     
     @Override
@@ -66,6 +69,7 @@ public class Tracker implements Parcelable {
         dest.writeByte((byte) (isEnabled ? 1 : 0));
         dest.writeParcelable(activityInfo, flags);
         dest.writeParcelable(serviceInfo, flags);
+        dest.writeByte((byte) (isLogged ? 1 : 0));
     }
     
     @Override
@@ -143,5 +147,13 @@ public class Tracker implements Parcelable {
     
     public void setServiceInfo(ServiceInfo serviceInfo) {
         this.serviceInfo = serviceInfo;
+    }
+    
+    public boolean isLogged() {
+        return isLogged;
+    }
+    
+    public void setLogged(boolean logged) {
+        isLogged = logged;
     }
 }

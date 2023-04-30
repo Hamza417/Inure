@@ -19,10 +19,12 @@ import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.w3c.dom.Document
+import org.w3c.dom.Element
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
 import org.xml.sax.InputSource
-import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParserFactory
 import java.io.StringReader
+import java.lang.Boolean
 import java.nio.ByteBuffer
 import java.nio.charset.Charset
 import javax.xml.parsers.DocumentBuilder
@@ -31,6 +33,13 @@ import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
+import kotlin.Array
+import kotlin.String
+import kotlin.also
+import kotlin.getOrElse
+import kotlin.getValue
+import kotlin.lazy
+import kotlin.let
 
 class TrackersViewModel(application: Application, val packageInfo: PackageInfo) : RootServiceViewModel(application) {
 
@@ -189,6 +198,18 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     }
 
+    /**
+     * <rules>
+     *      <activity block="true" log="false">
+     *          <component-filter name="package_name/component_name" />
+     *      </activity>
+     *      <service block="true" log="false">
+     *          <component-filter name="package_name/component_name" />
+     *      </service>
+     * </rules>
+     *
+     * Parse the file following the above structure
+     */
     private fun readIntentFirewallXml(fileSystemManager: FileSystemManager?, trackersList: ArrayList<Tracker>) {
         if (fileSystemManager?.getFile(path)?.exists()?.invert()!!) {
             return
@@ -201,121 +222,73 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         buffer.flip()
 
         val xml = String(buffer.array(), Charset.defaultCharset())
+        val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(xml)))
 
-        val xmlParser = XmlPullParserFactory.newInstance().newPullParser()
+        val activityNodes = document.getElementsByTagName("activity")
+        val serviceNodes = document.getElementsByTagName("service")
+        val broadcastNodes = document.getElementsByTagName("broadcast")
 
-        xmlParser.apply {
-            setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
-            setFeature(XmlPullParser.FEATURE_PROCESS_DOCDECL, false)
-            setInput(StringReader(xml))
-        }
+        for (i in 0 until activityNodes.length) {
+            val activityNode: Node = activityNodes.item(i)
+            if (activityNode.nodeType == Node.ELEMENT_NODE) {
+                val activityElement = activityNode as Element
+                val isBlocked = Boolean.parseBoolean(activityElement.getAttribute("block"))
+                val componentFilters: NodeList = activityElement.getElementsByTagName("component-filter")
+                for (j in 0 until componentFilters.length) {
+                    val componentFilterNode: Node = componentFilters.item(j)
+                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
+                        val componentFilterElement = componentFilterNode as Element
+                        val componentName = componentFilterElement.getAttribute("name")
 
-        /**
-         * <rules>
-         *      <activity block="true" log="false">
-         *          <component-filter name="package_name/component_name" />
-         *      </activity>
-         *      <service block="true" log="false">
-         *          <component-filter name="package_name/component_name" />
-         *      </service>
-         * </rules>
-         *
-         * Parse the file following the above structure
-         */
-
-        var eventType = xmlParser.eventType
-
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG) {
-                Log.d("TrackerBlocker", "Tag name: ${xmlParser.name}")
-
-                when (xmlParser.name) {
-                    "activity" -> {
-                        val block = xmlParser.getAttributeValue(null, "block")
-                        Log.d("TrackerBlocker", "Block: $block")
-
-                        // Get the next tag
-                        eventType = xmlParser.next()
-
-                        while (eventType != XmlPullParser.END_TAG) {
-                            if (eventType == XmlPullParser.START_TAG) {
-                                if (xmlParser.name == "component-filter") {
-                                    val componentName = xmlParser.getAttributeValue(null, "name")
-                                    Log.d("TrackerBlocker", "Component name: $componentName")
-
-                                    if (componentName != null) {
-                                        for (tracker in trackersList) {
-                                            if (tracker.name == componentName.split("/")[1]) {
-                                                tracker.isBlocked = block == "true"
-                                                Log.d("TrackerBlocker", "Tracker: ${tracker.name} - ${tracker.isBlocked}")
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            eventType = xmlParser.next()
-                        }
-                    }
-                    "service" -> {
-                        val block = xmlParser.getAttributeValue(null, "block")
-                        Log.d("TrackerBlocker", "Block: $block")
-
-                        // Get the next tag
-                        eventType = xmlParser.next()
-
-                        while (eventType != XmlPullParser.END_TAG) {
-                            if (eventType == XmlPullParser.START_TAG) {
-                                if (xmlParser.name == "component-filter") {
-                                    val componentName = xmlParser.getAttributeValue(null, "name")
-                                    Log.d("TrackerBlocker", "Component name: $componentName")
-
-                                    if (componentName != null) {
-                                        for (tracker in trackersList) {
-                                            if (tracker.name == componentName.split("/")[1]) {
-                                                tracker.isBlocked = block == "true"
-                                                Log.d("TrackerBlocker", "Tracker: ${tracker.name} - ${tracker.isBlocked}")
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            eventType = xmlParser.next()
-                        }
-                    }
-                    "broadcast" -> {
-                        val block = xmlParser.getAttributeValue(null, "block")
-                        Log.d("TrackerBlocker", "Block: $block")
-
-                        // Get the next tag
-                        eventType = xmlParser.next()
-
-                        while (eventType != XmlPullParser.END_TAG) {
-                            if (eventType == XmlPullParser.START_TAG) {
-                                if (xmlParser.name == "component-filter") {
-                                    val componentName = xmlParser.getAttributeValue(null, "name")
-                                    Log.d("TrackerBlocker", "Component name: $componentName")
-
-                                    if (componentName != null) {
-                                        for (tracker in trackersList) {
-                                            if (tracker.name == componentName.split("/")[1]) {
-                                                tracker.isBlocked = block == "true"
-                                                Log.d("TrackerBlocker", "Tracker: ${tracker.name} - ${tracker.isBlocked}")
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            eventType = xmlParser.next()
+                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                            it.isBlocked = isBlocked
                         }
                     }
                 }
             }
-
-            eventType = xmlParser.next()
         }
+
+        for (i in 0 until serviceNodes.length) {
+            val serviceNode: Node = serviceNodes.item(i)
+            if (serviceNode.nodeType == Node.ELEMENT_NODE) {
+                val serviceElement = serviceNode as Element
+                val isBlocked = Boolean.parseBoolean(serviceElement.getAttribute("block"))
+                val componentFilters: NodeList = serviceElement.getElementsByTagName("component-filter")
+                for (j in 0 until componentFilters.length) {
+                    val componentFilterNode: Node = componentFilters.item(j)
+                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
+                        val componentFilterElement = componentFilterNode as Element
+                        val componentName = componentFilterElement.getAttribute("name")
+
+                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                            it.isBlocked = isBlocked
+                        }
+                    }
+                }
+            }
+        }
+
+        for (i in 0 until broadcastNodes.length) {
+            val broadcastNode: Node = broadcastNodes.item(i)
+            if (broadcastNode.nodeType == Node.ELEMENT_NODE) {
+                val broadcastElement = broadcastNode as Element
+                val isBlocked = Boolean.parseBoolean(broadcastElement.getAttribute("block"))
+                val componentFilters: NodeList = broadcastElement.getElementsByTagName("component-filter")
+                for (j in 0 until componentFilters.length) {
+                    val componentFilterNode: Node = componentFilters.item(j)
+                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
+                        val componentFilterElement = componentFilterNode as Element
+                        val componentName = componentFilterElement.getAttribute("name")
+
+                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                            it.isBlocked = isBlocked
+                        }
+                    }
+                }
+            }
+        }
+
+        channel.close()
     }
 
     /**
