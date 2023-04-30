@@ -20,6 +20,7 @@ object DevelopmentPreferences {
     const val enableHiddenApps = "is_hidden_apps_enabled"
     const val transparentStatus = "is_transparent_status_disabled_removed"
     const val loadAllInstallerPages = "is_all_installer_pages_loaded"
+    const val isNotchAreaEnabled = "is_notch_area_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -105,6 +106,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Load All Installer Pages",
                                             "Load all installer pages at once, reduces initial performance but improves scrolling performance.",
                                             loadAllInstallerPages,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Enable Notch Area",
+                                            "Enable notch area in the app. This will make the app render in the notch cutout area (Android Version >= P 9.0).",
+                                            isNotchAreaEnabled,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

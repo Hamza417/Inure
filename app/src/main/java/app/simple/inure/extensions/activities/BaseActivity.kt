@@ -129,6 +129,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         }
 
         fixNavigationBarOverlap()
+        enableNotchArea()
 
         /**
          * Keeps the instance of current locale of the app
@@ -349,6 +350,16 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         ThemeUtils.updateNavAndStatusColors(resources, window)
     }
 
+    private fun enableNotchArea() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled)) {
+                window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            } else {
+                window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
+            }
+        }
+    }
+
     protected fun showError(error: String) {
         try {
             supportFragmentManager.showError(error).setOnErrorCallbackListener {
@@ -414,6 +425,9 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             }
             BehaviourPreferences.transitionType -> {
                 // setTransitions()
+            }
+            DevelopmentPreferences.isNotchAreaEnabled -> {
+                enableNotchArea()
             }
         }
     }
