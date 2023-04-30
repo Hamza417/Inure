@@ -338,8 +338,6 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
      * into subsequent tags (activity, service, broadcast), if the tags don't
      * exist, create them.
      *
-     * I think writing directly to string is the best way to go about this
-     *
      * @param trackers The list of trackers to be added to the file
      */
     fun blockTrackers(trackers: ArrayList<Tracker>) {
