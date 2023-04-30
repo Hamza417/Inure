@@ -71,11 +71,12 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
         this.trackersCallbacks = trackersCallbacks
     }
 
-    fun updateTracker(it: Pair<Tracker, Int>?) {
-        it?.let {
+    fun updateTracker(it: Pair<Tracker, Int>) {
+        it.let {
             kotlin.runCatching {
                 Log.d("AdapterTrackers", "updateTracker: ${it.second}")
-                list[it.second] = it.first
+                Log.d("AdapterTrackers", "updateTracker: ${list.size}")
+                list[it.second].isBlocked = it.first.isBlocked
                 notifyItemChanged(it.second)
             }
         }

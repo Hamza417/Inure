@@ -205,7 +205,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
     }
 
     fun clear() {
-        trackers.value?.clear()
+        tracker.value = null
     }
 
     /**
@@ -474,6 +474,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
                 // Update the trackers list
                 if (trackers.size == 1 && position != -1) {
+                    trackers[0].isBlocked = true
                     tracker.postValue(Pair(trackers[0], position))
                 } else {
                     scanTrackers()
@@ -546,6 +547,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
                 // Update the trackers list
                 if (trackers.size == 1 && position != -1) {
+                    trackers[0].isBlocked = false
                     tracker.postValue(Pair(trackers[0], position))
                 } else {
                     scanTrackers()
