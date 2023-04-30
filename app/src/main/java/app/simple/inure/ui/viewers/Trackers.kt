@@ -3,6 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,8 +73,20 @@ class Trackers : SearchBarScopedFragment() {
             val adapterTrackers = AdapterTrackers(trackers, trackersViewModel.keyword)
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
-                override fun onTrackersClicked(any: Any, enabled: Boolean, position: Int) {
+                override fun onTrackersClicked(tracker: Tracker, enabled: Boolean, position: Int) {
+                    if (enabled) {
+                        trackersViewModel.unblockTrackers(arrayListOf(tracker), position)
+                    } else {
+                        trackersViewModel.blockTrackers(arrayListOf(tracker), position)
+                    }
 
+                    trackersViewModel.getTracker().observe(viewLifecycleOwner) {
+                        if (it != null) {
+                            Log.d("Trackers", "onTrackersClicked: ${it.second}")
+                            adapterTrackers.updateTracker(it)
+                            trackersViewModel.clear()
+                        }
+                    }
                 }
             })
 
@@ -83,7 +96,7 @@ class Trackers : SearchBarScopedFragment() {
                 childFragmentManager.showTrackerSelector(trackers, object : TrackerSelector.Companion.TrackerSelectorCallbacks {
                     override fun onEnableSelected(paths: ArrayList<Tracker>) {
                         progress.visible(animate = true)
-                        trackersViewModel.enableTrackers(paths)
+                        trackersViewModel.unblockTrackers(paths)
                     }
 
                     override fun onDisableSelected(paths: ArrayList<Tracker>) {

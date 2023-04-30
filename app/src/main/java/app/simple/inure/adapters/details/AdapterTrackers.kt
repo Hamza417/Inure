@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.details
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
-import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
@@ -71,10 +71,11 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
         this.trackersCallbacks = trackersCallbacks
     }
 
-    fun updateTracker(it: Pair<ActivityInfoModel, Int>?) {
+    fun updateTracker(it: Pair<Tracker, Int>?) {
         it?.let {
             kotlin.runCatching {
-                (list[it.second]).isEnabled = it.first.isEnabled
+                Log.d("AdapterTrackers", "updateTracker: ${it.second}")
+                list[it.second] = it.first
                 notifyItemChanged(it.second)
             }
         }
@@ -90,6 +91,6 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
     }
 
     interface TrackersCallbacks {
-        fun onTrackersClicked(any: Any, enabled: Boolean, position: Int)
+        fun onTrackersClicked(tracker: Tracker, enabled: Boolean, position: Int)
     }
 }

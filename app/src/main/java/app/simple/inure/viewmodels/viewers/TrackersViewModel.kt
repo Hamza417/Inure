@@ -34,6 +34,8 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 import kotlin.Array
+import kotlin.Int
+import kotlin.Pair
 import kotlin.String
 import kotlin.also
 import kotlin.getOrElse
@@ -61,8 +63,16 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
+    private val tracker: MutableLiveData<Pair<Tracker, Int>> by lazy {
+        MutableLiveData<Pair<Tracker, Int>>()
+    }
+
     fun getTrackers(): LiveData<ArrayList<Tracker>> {
         return trackers
+    }
+
+    fun getTracker(): LiveData<Pair<Tracker, Int>> {
+        return tracker
     }
 
     private fun scanTrackers() {
@@ -195,7 +205,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
     }
 
     fun clear() {
-
+        trackers.value?.clear()
     }
 
     /**
@@ -313,7 +323,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
      *
      * @param trackers The list of trackers to be added to the file
      */
-    fun blockTrackers(trackers: ArrayList<Tracker>) {
+    fun blockTrackers(trackers: ArrayList<Tracker>, position: Int = -1) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val file: ExtendedFile = getFileSystemManager()!!.getFile(path)
@@ -463,7 +473,11 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
                 channel.close()
 
                 // Update the trackers list
-                scanTrackers()
+                if (trackers.size == 1 && position != -1) {
+                    tracker.postValue(Pair(trackers[0], position))
+                } else {
+                    scanTrackers()
+                }
             }.getOrElse {
                 Log.e("TrackerBlocker", "Error: ${it.message}")
                 postWarning("Error: ${it.message}")
@@ -471,7 +485,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
-    fun enableTrackers(trackers: java.util.ArrayList<Tracker>) {
+    fun unblockTrackers(trackers: ArrayList<Tracker>, position: Int = -1) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val file: ExtendedFile = getFileSystemManager()!!.getFile(path)
@@ -531,7 +545,11 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
                 channel.close()
 
                 // Update the trackers list
-                scanTrackers()
+                if (trackers.size == 1 && position != -1) {
+                    tracker.postValue(Pair(trackers[0], position))
+                } else {
+                    scanTrackers()
+                }
             }.getOrElse {
                 Log.e("TrackerBlocker", "Error: ${it.message}")
                 postWarning("Error: ${it.message}")
