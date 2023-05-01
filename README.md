@@ -37,6 +37,7 @@ An elegant Android app manager.
 - [5 Super Useful OPENSOURCE Apps for Android - TechDoc](https://youtu.be/vlf0jEFHR74)
 - [Best Android Apps - February 2023 - HowToMen](https://youtu.be/kOrnfQOz4rg?t=112)
 - [5 Magnificent Open Source Android Apps To Download Right NOW! - Anubhav Roy](https://youtu.be/kvM9hGJJ2wA?t=357)
+- [Top Android Apps! (May 2023) - Sam Beckman](https://youtu.be/g6pMQAFfd3Q?t=220)
 
 ## About
 
