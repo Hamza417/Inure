@@ -8,6 +8,7 @@ import java.io.File
 class AdapterInstallerInfoPanels(fragment: Fragment, file: File, private val titles: Array<String>) : BaseFragmentStateAdapter(fragment) {
 
     private val fragments = arrayListOf(
+            Changes.newInstance(file),
             Information.newInstance(file),
             Permissions.newInstance(file),
             Manifest.newInstance(file),
