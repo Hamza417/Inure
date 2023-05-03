@@ -13,8 +13,8 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
-import app.simple.inure.models.HomeCustomizationModel
 import app.simple.inure.models.PackageStats
+import app.simple.inure.models.VisibilityCustomizationModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.HomePreferences
@@ -81,8 +81,8 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         }
     }
 
-    private val customizableMenuItems: MutableLiveData<ArrayList<HomeCustomizationModel>> by lazy {
-        MutableLiveData<ArrayList<HomeCustomizationModel>>().also {
+    private val customizableMenuItems: MutableLiveData<ArrayList<VisibilityCustomizationModel>> by lazy {
+        MutableLiveData<ArrayList<VisibilityCustomizationModel>>().also {
             loadCustomizableMenu()
         }
     }
@@ -115,7 +115,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         return menuItems
     }
 
-    fun getCustomizableMenuItems(): LiveData<ArrayList<HomeCustomizationModel>> {
+    fun getCustomizableMenuItems(): LiveData<ArrayList<VisibilityCustomizationModel>> {
         return customizableMenuItems
     }
 
@@ -344,19 +344,19 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     private fun loadCustomizableMenu() {
         viewModelScope.launch(Dispatchers.IO) {
-            val list = arrayListOf<HomeCustomizationModel>()
+            val list = arrayListOf<VisibilityCustomizationModel>()
 
-            list.add(HomeCustomizationModel(R.string.terminal, R.drawable.ic_terminal, HomePreferences.isTerminalVisible))
-            list.add(HomeCustomizationModel(R.string.usage_statistics, R.drawable.ic_stats, HomePreferences.isUsageStatisticsVisible))
-            list.add(HomeCustomizationModel(R.string.analytics, R.drawable.ic_analytics, HomePreferences.isAnalyticsVisible))
-            list.add(HomeCustomizationModel(R.string.most_used, R.drawable.ic_apps_category_most_used, HomePreferences.isMostUsedVisible))
-            list.add(HomeCustomizationModel(R.string.uninstalled, R.drawable.ic_apps_category_deleted_apps, HomePreferences.isUninstalledVisible))
-            list.add(HomeCustomizationModel(R.string.disabled, R.drawable.ic_disable, HomePreferences.isDisabledVisible))
-            list.add(HomeCustomizationModel(R.string.crash_report, R.drawable.ic_stacktrace, HomePreferences.isStackTracesVisible))
-            list.add(HomeCustomizationModel(R.string.saved_commands, R.drawable.ic_terminal_saved, HomePreferences.isSavedCommandsVisible))
-            list.add(HomeCustomizationModel(R.string.battery_optimization, R.drawable.ic_settings_power, HomePreferences.isBatteryOptimizationVisible))
-            list.add(HomeCustomizationModel(R.string.boot_manager, R.drawable.ic_power_off, HomePreferences.isBootManagerVisible))
-            list.add(HomeCustomizationModel(R.string.APKs, R.drawable.ic_adb, HomePreferences.isAPKsVisible))
+            list.add(VisibilityCustomizationModel(R.string.terminal, R.drawable.ic_terminal, HomePreferences.isTerminalVisible))
+            list.add(VisibilityCustomizationModel(R.string.usage_statistics, R.drawable.ic_stats, HomePreferences.isUsageStatisticsVisible))
+            list.add(VisibilityCustomizationModel(R.string.analytics, R.drawable.ic_analytics, HomePreferences.isAnalyticsVisible))
+            list.add(VisibilityCustomizationModel(R.string.most_used, R.drawable.ic_apps_category_most_used, HomePreferences.isMostUsedVisible))
+            list.add(VisibilityCustomizationModel(R.string.uninstalled, R.drawable.ic_apps_category_deleted_apps, HomePreferences.isUninstalledVisible))
+            list.add(VisibilityCustomizationModel(R.string.disabled, R.drawable.ic_disable, HomePreferences.isDisabledVisible))
+            list.add(VisibilityCustomizationModel(R.string.crash_report, R.drawable.ic_stacktrace, HomePreferences.isStackTracesVisible))
+            list.add(VisibilityCustomizationModel(R.string.saved_commands, R.drawable.ic_terminal_saved, HomePreferences.isSavedCommandsVisible))
+            list.add(VisibilityCustomizationModel(R.string.battery_optimization, R.drawable.ic_settings_power, HomePreferences.isBatteryOptimizationVisible))
+            list.add(VisibilityCustomizationModel(R.string.boot_manager, R.drawable.ic_power_off, HomePreferences.isBootManagerVisible))
+            list.add(VisibilityCustomizationModel(R.string.APKs, R.drawable.ic_adb, HomePreferences.isAPKsVisible))
 
             customizableMenuItems.postValue(list)
         }

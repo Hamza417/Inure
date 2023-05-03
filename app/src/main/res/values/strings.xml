@@ -651,6 +651,7 @@
     <string name="menu_layout_desc">Change the layout of the items in Home panel.</string>
     <string name="visibility_customization">Visibility Customization</string>
     <string name="home_visibility_customization_desc">Change the visibility of some options from the Home panel.</string>
+    <string name="installer_visibility_customization_desc">Change the visibility of some panels from the Installer panel.</string>
     <string name="saved_to">Saved to %1$s</string>
     <string name="desc_app_path">Change the application\'s default data storage directory.</string>
     <string name="APKs">APKs</string>

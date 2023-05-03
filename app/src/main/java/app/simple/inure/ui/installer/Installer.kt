@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager2.widget.ViewPager2
@@ -24,7 +25,6 @@ import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.tablayout.SmartTabLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.action.Uninstaller
 import app.simple.inure.dialogs.app.Sure
@@ -33,6 +33,7 @@ import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.FileUtils.findFile
@@ -44,7 +45,7 @@ class Installer : ScopedFragment() {
 
     private lateinit var installerViewModel: InstallerViewModel
 
-    private lateinit var icon: AppIconImageView
+    private lateinit var icon: ImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var packageName: TypeFaceTextView
     private lateinit var install: DynamicRippleTextView
@@ -212,9 +213,33 @@ class Installer : ScopedFragment() {
                 val file = if (it.size > 1) it.findFile("base.apk")!! else it[0]
                 icon.loadAppIcon(file)
 
-                val titles = arrayOf(getString(R.string.changes), getString(R.string.information), getString(R.string.permissions), getString(R.string.manifest), getString(R.string.certificate), getString(R.string.trackers))
+                val titles = arrayListOf<String>()
 
-                viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles)
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isChangesVisible)) {
+                    titles.add(getString(R.string.changes))
+                }
+
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isInfoVisible)) {
+                    titles.add(getString(R.string.information))
+                }
+
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isPermissionsVisible)) {
+                    titles.add(getString(R.string.permissions))
+                }
+
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isManifestVisible)) {
+                    titles.add(getString(R.string.manifest))
+                }
+
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isCertificateVisible)) {
+                    titles.add(getString(R.string.certificate))
+                }
+
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isTrackersVisible)) {
+                    titles.add(getString(R.string.trackers))
+                }
+
+                viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toArray(arrayOf<String>()))
                 tabLayout.setViewPager2(viewPager)
             }.onFailure {
                 showError(it)

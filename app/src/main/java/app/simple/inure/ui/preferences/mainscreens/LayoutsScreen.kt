@@ -12,17 +12,20 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.ui.preferences.subscreens.HomeCustomization
+import app.simple.inure.ui.preferences.subscreens.InstallerCustomization
 
-class HomeScreen : ScopedFragment() {
+class LayoutsScreen : ScopedFragment() {
 
-    private lateinit var menuLayout: DynamicRippleTextView
-    private lateinit var layoutCustomization: DynamicRippleRelativeLayout
+    private lateinit var homeMenuLayout: DynamicRippleTextView
+    private lateinit var homeLayoutCustomization: DynamicRippleRelativeLayout
+    private lateinit var installerVisibilityCustomization: DynamicRippleRelativeLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.preferences_home, container, false)
+        val view = inflater.inflate(R.layout.preferences_layouts, container, false)
 
-        menuLayout = view.findViewById(R.id.home_menu_popup)
-        layoutCustomization = view.findViewById(R.id.home_visibility_customization)
+        homeMenuLayout = view.findViewById(R.id.home_menu_popup)
+        homeLayoutCustomization = view.findViewById(R.id.home_visibility_customization)
+        installerVisibilityCustomization = view.findViewById(R.id.installer_visibility_customization)
 
         return view
     }
@@ -32,12 +35,16 @@ class HomeScreen : ScopedFragment() {
         startPostponedEnterTransition()
         updateLayout()
 
-        menuLayout.setOnClickListener {
+        homeMenuLayout.setOnClickListener {
             PopupMenuLayout(it)
         }
 
-        layoutCustomization.setOnClickListener {
+        homeLayoutCustomization.setOnClickListener {
             openFragmentSlide(HomeCustomization.newInstance(), "home_customization")
+        }
+
+        installerVisibilityCustomization.setOnClickListener {
+            openFragmentSlide(InstallerCustomization.newInstance(), "installer_visibility")
         }
     }
 
@@ -51,15 +58,15 @@ class HomeScreen : ScopedFragment() {
 
     private fun updateLayout() {
         when (HomePreferences.getMenuLayout()) {
-            PopupMenuLayout.VERTICAL -> menuLayout.text = getString(R.string.vertical)
-            PopupMenuLayout.GRID -> menuLayout.text = getString(R.string.grid)
+            PopupMenuLayout.VERTICAL -> homeMenuLayout.text = getString(R.string.vertical)
+            PopupMenuLayout.GRID -> homeMenuLayout.text = getString(R.string.grid)
         }
     }
 
     companion object {
-        fun newInstance(): HomeScreen {
+        fun newInstance(): LayoutsScreen {
             val args = Bundle()
-            val fragment = HomeScreen()
+            val fragment = LayoutsScreen()
             fragment.arguments = args
             return fragment
         }

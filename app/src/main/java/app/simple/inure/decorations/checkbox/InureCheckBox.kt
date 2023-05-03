@@ -1,5 +1,7 @@
 package app.simple.inure.decorations.checkbox
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
@@ -95,6 +97,29 @@ class InureCheckBox @JvmOverloads constructor(context: Context, attrs: Attribute
             animateUnchecked()
             boolean
         }
+    }
+
+    fun animateLockedChecked() {
+        isChecked = true
+        thumb.animate()
+            .scaleX(0F)
+            .scaleY(0F)
+            .alpha(0F)
+            .setInterpolator(DecelerateInterpolator())
+            .setDuration(250L)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    thumb.animate()
+                        .scaleX(1F)
+                        .scaleY(1F)
+                        .alpha(1F)
+                        .setInterpolator(OvershootInterpolator(tension))
+                        .setDuration(250L)
+                        .start()
+                }
+            })
+            .start()
     }
 
     fun isChecked(): Boolean {

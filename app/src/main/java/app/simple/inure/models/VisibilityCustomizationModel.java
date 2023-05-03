@@ -3,38 +3,45 @@ package app.simple.inure.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
-public class HomeCustomizationModel implements Parcelable {
+public class VisibilityCustomizationModel implements Parcelable {
     
-    public static final Creator <HomeCustomizationModel> CREATOR = new Creator <HomeCustomizationModel>() {
+    public static final Creator <VisibilityCustomizationModel> CREATOR = new Creator <VisibilityCustomizationModel>() {
         @Override
-        public HomeCustomizationModel createFromParcel(Parcel in) {
-            return new HomeCustomizationModel(in);
+        public VisibilityCustomizationModel createFromParcel(Parcel in) {
+            return new VisibilityCustomizationModel(in);
         }
         
         @Override
-        public HomeCustomizationModel[] newArray(int size) {
-            return new HomeCustomizationModel[size];
+        public VisibilityCustomizationModel[] newArray(int size) {
+            return new VisibilityCustomizationModel[size];
         }
     };
+    
+    @StringRes
     private int title;
+    
+    @DrawableRes
     private int icon;
+    
     private String key;
     
-    public HomeCustomizationModel(int title, int icon, String key) {
+    public VisibilityCustomizationModel(int title, int icon, String key) {
         this.title = title;
         this.icon = icon;
         this.key = key;
     }
     
-    protected HomeCustomizationModel(Parcel in) {
+    protected VisibilityCustomizationModel(Parcel in) {
         title = in.readInt();
         icon = in.readInt();
         key = in.readString();
     }
     
-    public static Creator <HomeCustomizationModel> getCREATOR() {
+    public static Creator <VisibilityCustomizationModel> getCREATOR() {
         return CREATOR;
     }
     
@@ -94,19 +101,19 @@ public class HomeCustomizationModel implements Parcelable {
             this.title = title;
             return this;
         }
-        
+    
         public Builder setIcon(int icon) {
             this.icon = icon;
             return this;
         }
-        
+    
         public Builder setKey(String key) {
             this.key = key;
             return this;
         }
-        
-        public HomeCustomizationModel build() {
-            return new HomeCustomizationModel(title, icon, key);
+    
+        public VisibilityCustomizationModel build() {
+            return new VisibilityCustomizationModel(title, icon, key);
         }
     }
 }

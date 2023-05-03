@@ -11,11 +11,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.VisibilityCustomizationModel
-import app.simple.inure.preferences.HomePreferences
+import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
+import app.simple.inure.util.ViewUtils.gone
 
-class AdapterHomeCustomization(private val list: List<VisibilityCustomizationModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterInstallerCustomization(private val list: List<VisibilityCustomizationModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -35,13 +36,21 @@ class AdapterHomeCustomization(private val list: List<VisibilityCustomizationMod
         val position = position_.minus(1)
 
         if (holder is Holder) {
-            holder.icon.setImageResource(list[position].icon)
+            // holder.icon.setImageResource(list[position].icon)
+            holder.icon.gone()
             holder.name.setText(list[position].title)
-
-            holder.checkBox.setChecked(HomePreferences.isPanelVisible(list[position].key))
+            holder.checkBox.setChecked(InstallerPreferences.getPanelVisibility(list[position].key))
 
             holder.checkBox.setOnCheckedChangeListener {
-                HomePreferences.setPanelVisibility(list[position].key, it)
+                if (it) {
+                    InstallerPreferences.setPanelVisibility(list[position].key, true)
+                } else {
+                    if (isOnlyOnePanelVisible()) {
+                        holder.checkBox.setChecked(true)
+                    } else {
+                        InstallerPreferences.setPanelVisibility(list[position].key, false)
+                    }
+                }
             }
 
             holder.container.setOnClickListener {
@@ -62,6 +71,16 @@ class AdapterHomeCustomization(private val list: List<VisibilityCustomizationMod
         return if (position.isZero()) {
             RecyclerViewUtils.TYPE_HEADER
         } else RecyclerViewUtils.TYPE_ITEM
+    }
+
+    private fun isOnlyOnePanelVisible(): Boolean {
+        var count = 0
+        for (i in list) {
+            if (InstallerPreferences.getPanelVisibility(i.key)) {
+                count++
+            }
+        }
+        return count == 1
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
