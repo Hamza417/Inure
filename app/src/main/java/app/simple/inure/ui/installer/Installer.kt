@@ -19,6 +19,7 @@ import androidx.viewpager2.widget.ViewPager2
 import app.simple.inure.R
 import app.simple.inure.adapters.installer.AdapterInstallerInfoPanels
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
@@ -48,6 +49,7 @@ class Installer : ScopedFragment() {
     private lateinit var icon: ImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var packageName: TypeFaceTextView
+    private lateinit var version: TypeFaceTextView
     private lateinit var install: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
     private lateinit var launch: DynamicRippleTextView
@@ -66,6 +68,7 @@ class Installer : ScopedFragment() {
         icon = view.findViewById(R.id.icon)
         name = view.findViewById(R.id.name)
         packageName = view.findViewById(R.id.package_id)
+        version = view.findViewById(R.id.version)
         install = view.findViewById(R.id.install)
         cancel = view.findViewById(R.id.cancel)
         launch = view.findViewById(R.id.launch)
@@ -151,9 +154,15 @@ class Installer : ScopedFragment() {
                 packageInfo = it
 
                 name.text = packageInfo.applicationInfo.name
-                packageName.text = buildString {
-                    append(packageInfo.packageName)
-                    append(" (${packageInfo.versionName})")
+                packageName.text = packageInfo.packageName
+                version.text = buildString {
+                    if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
+                        append(requirePackageManager().getPackageInfo(packageName.text.toString())?.versionName ?: "")
+                        append(" → ")
+                        append(packageInfo.versionName)
+                    } else {
+                        append(packageInfo.versionName)
+                    }
                 }
 
                 checkLaunchStatus()

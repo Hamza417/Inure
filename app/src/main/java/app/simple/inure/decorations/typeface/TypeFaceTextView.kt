@@ -153,15 +153,17 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
     private fun setDrawableTint(animate: Boolean) {
         if (animate) {
             when (drawableTintMode) {
-                0, 3 -> animateDrawableColorChange(lastDrawableColor, AppearancePreferences.getAccentColor())
+                0, 3, 5 -> animateDrawableColorChange(lastDrawableColor, AppearancePreferences.getAccentColor())
                 1 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.regularIconColor)
                 2 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.secondaryIconColor)
+                4 -> animateDrawableColorChange(lastDrawableColor, Color.RED) // Error
             }
         } else {
             when (drawableTintMode) {
-                0, 3 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(AppearancePreferences.getAccentColor()))
+                0, 3, 5 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(AppearancePreferences.getAccentColor()))
                 1 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.regularIconColor))
                 2 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.secondaryIconColor))
+                4 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(Color.RED)) // Error
             }
         }
 

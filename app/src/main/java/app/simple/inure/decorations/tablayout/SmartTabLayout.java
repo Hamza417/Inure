@@ -57,18 +57,18 @@ public class SmartTabLayout extends HorizontalScrollView {
     private static final boolean TAB_CLICKABLE = true;
     
     protected final SmartTabStrip tabStrip;
-    private int titleOffset;
-    private int tabViewBackgroundResId;
-    private boolean tabViewTextAllCaps;
+    private final int titleOffset;
+    private final int tabViewBackgroundResId;
+    private final boolean tabViewTextAllCaps;
     private ColorStateList tabViewTextColors;
-    private float tabViewTextSize;
-    private int tabViewTextHorizontalPadding;
-    private int tabViewTextMinWidth;
+    private final float tabViewTextSize;
+    private final int tabViewTextHorizontalPadding;
+    private final int tabViewTextMinWidth;
     private ViewPager2 viewPager;
     private ViewPager2.OnPageChangeCallback viewPagerPageChangeListener;
     private OnScrollChangeListener onScrollChangeListener;
     private TabProvider tabProvider;
-    private InternalTabClickListener internalTabClickListener;
+    private final InternalTabClickListener internalTabClickListener;
     private OnTabClickListener onTabClickListener;
     private boolean distributeEvenly;
     
@@ -92,8 +92,7 @@ public class SmartTabLayout extends HorizontalScrollView {
         int tabBackgroundResId = NO_ID;
         boolean textAllCaps = TAB_VIEW_TEXT_ALL_CAPS;
         ColorStateList textColors;
-        float textSize = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP, dm);
+        float textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP, dm);
         int textHorizontalPadding = (int) (TAB_VIEW_PADDING_DIPS * density);
         int textMinWidth = (int) (TAB_VIEW_TEXT_MIN_WIDTH * density);
         boolean distributeEvenly = DEFAULT_DISTRIBUTE_EVENLY;
@@ -141,9 +140,8 @@ public class SmartTabLayout extends HorizontalScrollView {
         
         // Make sure that the Tab Strips fills this View
         setFillViewport(!tabStrip.isIndicatorAlwaysInCenter());
-        
-        addView(tabStrip, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        
+    
+        addView(tabStrip, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
     }
     
     @Override
@@ -538,7 +536,7 @@ public class SmartTabLayout extends HorizontalScrollView {
             }
     
             if (tabViewTextViewId != NO_ID && tabView != null) {
-                tabTitleView = (TypeFaceTextView) tabView.findViewById(tabViewTextViewId);
+                tabTitleView = tabView.findViewById(tabViewTextViewId);
             }
     
             if (tabTitleView == null && tabView instanceof TypeFaceTextView) {

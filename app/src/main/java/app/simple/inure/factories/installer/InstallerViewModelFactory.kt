@@ -34,6 +34,9 @@ class InstallerViewModelFactory(private val uri: Uri? = null, private val file: 
             modelClass.isAssignableFrom(InstallerTrackersViewModel::class.java) -> {
                 InstallerTrackersViewModel(application, file!!) as T
             }
+            modelClass.isAssignableFrom(InstallerChangesViewModel::class.java) -> {
+                InstallerChangesViewModel(application, file!!) as T
+            }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel Class")
             }

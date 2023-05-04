@@ -665,4 +665,6 @@
     <string name="no_trackers_found">No Trackers Found</string>
     <string name="no_rules_file_found">No rules files found</string>
     <string name="changes">Changes</string>
+    <string name="no_new_additions">No new additions</string>
+    <string name="no_new_removals">No new removals</string>
 </resources>

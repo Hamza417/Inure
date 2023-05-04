@@ -60,6 +60,8 @@
             <flag name="regular" value="1" />
             <flag name="secondary" value="2" />
             <flag name="warning" value="3" />
+            <flag name="error" value="4" />
+            <flag name="success" value="5" />
         </attr>
 
         <attr name="isDrawableHidden" format="boolean" />

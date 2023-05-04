@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/popup_padding"
+    android:orientation="vertical"
+    android:padding="@dimen/popup_padding">
+
+    <app.simple.inure.decorations.theme.ThemeIcon
+        android:id="@+id/themeIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_dot_tiny"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:tintType="accent" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/preferences_title_text_size"
+        app:appFontStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/added"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/themeIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:id="@+id/themeDivider2"
+        android:layout_width="1px"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/themeIcon"
+        app:layout_constraintStart_toStartOf="@+id/themeIcon"
+        app:layout_constraintTop_toBottomOf="@+id/themeIcon"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="PxUsage" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/added"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="@dimen/popup_padding"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_check_12dp"
+        app:drawableTintStyle="success"
+        app:layout_constraintBottom_toTopOf="@+id/removed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/removed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="@dimen/popup_padding"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_close_tiny"
+        app:drawableTintStyle="error"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/added"
+        app:textColorStyle="secondary" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
