@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager2.widget.ViewPager2
@@ -26,6 +25,7 @@ import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.tablayout.SmartTabLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.action.Uninstaller
 import app.simple.inure.dialogs.app.Sure
@@ -46,7 +46,7 @@ class Installer : ScopedFragment() {
 
     private lateinit var installerViewModel: InstallerViewModel
 
-    private lateinit var icon: ImageView
+    private lateinit var icon: AppIconImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var packageName: TypeFaceTextView
     private lateinit var version: TypeFaceTextView

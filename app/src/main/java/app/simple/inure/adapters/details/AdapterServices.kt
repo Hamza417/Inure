@@ -4,13 +4,13 @@ import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.ServiceInfoModel
@@ -87,7 +87,7 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: ImageView = itemView.findViewById(R.id.adapter_services_icon)
+        val icon: AppIconImageView = itemView.findViewById(R.id.adapter_services_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_package)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_status)

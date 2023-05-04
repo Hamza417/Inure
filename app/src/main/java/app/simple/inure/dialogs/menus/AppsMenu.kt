@@ -10,7 +10,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -19,6 +18,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.dialogs.action.Send
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -33,7 +33,7 @@ import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 
 class AppsMenu : ScopedDialogFragment() {
 
-    private lateinit var icon: ImageView
+    private lateinit var icon: AppIconImageView
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
     private lateinit var packageName: TypeFaceTextView

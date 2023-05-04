@@ -13,14 +13,11 @@ import com.google.android.material.shape.ShapeAppearanceModel;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
-import app.simple.inure.constants.Misc;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.manager.ThemeManager;
 
 public class AppIconImageView extends AppCompatImageView implements SharedPreferences.OnSharedPreferenceChangeListener {
-    
-    private int size = 0;
     
     public AppIconImageView(@NonNull Context context) {
         super(context);
@@ -38,12 +35,16 @@ public class AppIconImageView extends AppCompatImageView implements SharedPrefer
     }
     
     private void init() {
+        setCropToPadding(false);
+    
+        int size = 0;
         if (isInEditMode()) {
-            size = Misc.appIconsDimension;
+            size = AppearancePreferences.INSTANCE.getMaxIconSize();
         } else {
             size = AppearancePreferences.INSTANCE.getIconSize();
         }
-        // updateLayout(AppearancePreferences.INSTANCE.getIconSize());
+    
+        setPadding(size, size, size, size);
     }
     
     @Override
@@ -63,11 +64,6 @@ public class AppIconImageView extends AppCompatImageView implements SharedPrefer
     }
     
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(size, size);
-    }
-    
-    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(AppearancePreferences.iconSize)) {
             setSize(AppearancePreferences.INSTANCE.getIconSize());
@@ -75,8 +71,7 @@ public class AppIconImageView extends AppCompatImageView implements SharedPrefer
     }
     
     public void setSize(int size) {
-        this.size = size;
-        requestLayout();
+        setPadding(size, size, size, size);
     }
     
     public void enableBorders() {

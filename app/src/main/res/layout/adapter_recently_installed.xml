@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <app.simple.inure.decorations.views.AppIconImageView
         android:id="@+id/adapter_recently_app_icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"

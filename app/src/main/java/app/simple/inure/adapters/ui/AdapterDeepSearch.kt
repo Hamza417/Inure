@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -87,7 +87,7 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<SearchModel>, priv
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: ImageView = itemView.findViewById(R.id.adapter_all_app_icon)
+        val icon: AppIconImageView = itemView.findViewById(R.id.adapter_all_app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_all_app_name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.adapter_all_app_info)

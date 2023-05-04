@@ -8,7 +8,7 @@
     android:layout_margin="@dimen/popup_padding"
     android:padding="5dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <app.simple.inure.decorations.views.AppIconImageView
         android:id="@+id/icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"

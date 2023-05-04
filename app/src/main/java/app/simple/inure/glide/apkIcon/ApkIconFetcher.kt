@@ -8,7 +8,6 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData.getCachedDir
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.preferences.ApkBrowserPreferences
-import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.BitmapHelper.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
@@ -73,7 +72,7 @@ class ApkIconFetcher internal constructor(private val apkIcon: ApkIcon) : DataFe
             }
         }.getOrElse {
             it.printStackTrace()
-            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(apkIcon.context, AppearancePreferences.getIconSize()))
+            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(apkIcon.context))
         }
     }
 

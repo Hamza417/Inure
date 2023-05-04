@@ -3,12 +3,12 @@ package app.simple.inure.adapters.batch
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.BatchPackageInfo
@@ -74,7 +74,7 @@ class AdapterBatchExtract(private val list: ArrayList<BatchPackageInfo>) : Recyc
         val container: DynamicRippleRelativeLayout = itemView.findViewById(R.id.adapter_batch_process_container)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_batch_process_name)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_batch_process_status)
-        val icon: ImageView = itemView.findViewById(R.id.adapter_batch_process_icon)
+        val icon: AppIconImageView = itemView.findViewById(R.id.adapter_batch_process_icon)
         val progress: CustomProgressBar = itemView.findViewById(R.id.adapter_batch_process_progress)
     }
 }

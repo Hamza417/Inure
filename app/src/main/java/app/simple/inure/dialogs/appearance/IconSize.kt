@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.core.graphics.drawable.toDrawable
 import app.simple.inure.BuildConfig
@@ -14,6 +13,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.theme.ThemeSeekBar
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.glide.transformation.BlurShadow
 import app.simple.inure.glide.transformation.Padding
@@ -28,7 +28,7 @@ import com.bumptech.glide.request.target.Target
 
 class IconSize : ScopedBottomSheetFragment() {
 
-    private lateinit var iconPreview: ImageView
+    private lateinit var iconPreview: AppIconImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
     private lateinit var version: TypeFaceTextView
@@ -61,9 +61,7 @@ class IconSize : ScopedBottomSheetFragment() {
         packageId.text = BuildConfig.APPLICATION_ID
         version.text = BuildConfig.VERSION_NAME
 
-        seekbar.progress = AppearancePreferences.getIconSize()
-
-        AppearancePreferences.maxIconSize = resources.getDimensionPixelSize(R.dimen.app_icon_dimension)
+        seekbar.progress = AppearancePreferences.maxIconSize - AppearancePreferences.getIconSize()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             seekbar.min = AppearancePreferences.minIconSize
@@ -73,13 +71,7 @@ class IconSize : ScopedBottomSheetFragment() {
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    if (progress < AppearancePreferences.minIconSize) {
-                        AppearancePreferences.setIconSize(AppearancePreferences.minIconSize)
-                    } else {
-                        AppearancePreferences.setIconSize(progress)
-                    }
-
-                    iconPreview.loadAppIcon(BuildConfig.APPLICATION_ID, true)
+                    iconPreview.setSize(AppearancePreferences.maxIconSize - progress)
                 }
             }
 
@@ -93,7 +85,7 @@ class IconSize : ScopedBottomSheetFragment() {
         })
 
         set.setOnClickListener {
-            AppearancePreferences.setIconSize(if (seekbar.progress < AppearancePreferences.minIconSize) AppearancePreferences.minIconSize else seekbar.progress)
+            AppearancePreferences.setIconSize(AppearancePreferences.maxIconSize - seekbar.progress)
             dismiss()
         }
 

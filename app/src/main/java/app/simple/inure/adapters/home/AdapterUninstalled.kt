@@ -6,7 +6,6 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
@@ -14,6 +13,7 @@ import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -99,7 +99,7 @@ class AdapterUninstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: ImageView = itemView.findViewById(R.id.adapter_recently_app_icon)
+        val icon: AppIconImageView = itemView.findViewById(R.id.adapter_recently_app_icon)
         val name: TextView = itemView.findViewById(R.id.adapter_recently_app_name)
         val packageId: TextView = itemView.findViewById(R.id.adapter_recently_app_package_id)
         val date: TextView = itemView.findViewById(R.id.adapter_recently_date)

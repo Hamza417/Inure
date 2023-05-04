@@ -24,8 +24,8 @@ object AppearancePreferences {
     const val accentOnNav = "accent_color_on_nav_bar"
     const val iconSize = "app_icon_size"
 
-    var minIconSize = 100
-    var maxIconSize = 350
+    var minIconSize = 0
+    var maxIconSize = 75
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -148,7 +148,7 @@ object AppearancePreferences {
 
     @Synchronized
     fun getIconSize(): Int {
-        return getSharedPreferences().getInt(iconSize, 250)
+        return getSharedPreferences().getInt(iconSize, maxIconSize - 25)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

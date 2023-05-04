@@ -10,6 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.HorizontalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 
 class AdapterQuickApps(private val list: ArrayList<PackageInfo>) : RecyclerView.Adapter<AdapterQuickApps.Holder>() {
@@ -42,7 +43,7 @@ class AdapterQuickApps(private val list: ArrayList<PackageInfo>) : RecyclerView.
     }
 
     inner class Holder(itemView: View) : HorizontalListViewHolder(itemView) {
-        val icon: ImageView = itemView.findViewById(R.id.recently_app_icon)
+        val icon: AppIconImageView = itemView.findViewById(R.id.recently_app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.recently_app_name)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.recently_container)
     }

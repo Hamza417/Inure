@@ -3,13 +3,13 @@ package app.simple.inure.adapters.details
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.Tracker
@@ -80,7 +80,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: ImageView = itemView.findViewById(R.id.icon)
+        val icon: AppIconImageView = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val trackerId: TypeFaceTextView = itemView.findViewById(R.id.tracker_id)

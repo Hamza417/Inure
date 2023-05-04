@@ -25,6 +25,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.action.*
 import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
@@ -56,7 +57,7 @@ import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
 
 class AppInfo : ScopedFragment() {
 
-    private lateinit var icon: ImageView
+    private lateinit var icon: AppIconImageView
 
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView

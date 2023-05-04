@@ -3,7 +3,6 @@ package app.simple.inure.glide.uricover
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import app.simple.inure.R
-import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.BitmapHelper.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
@@ -18,7 +17,7 @@ class UriCoverFetcher internal constructor(private val uriCoverModel: UriCoverMo
             }
         } catch (_: IllegalArgumentException) {
         } catch (e: FileNotFoundException) {
-            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(uriCoverModel.context, AppearancePreferences.getIconSize()))
+            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(uriCoverModel.context))
         }
     }
 

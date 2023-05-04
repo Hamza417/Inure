@@ -4,12 +4,12 @@ import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -97,7 +97,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: ImageView = itemView.findViewById(R.id.adapter_activity_icon)
+        val icon: AppIconImageView = itemView.findViewById(R.id.adapter_activity_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_name)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_status)
         val activityPackageID: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_package)
