@@ -1,18 +1,21 @@
-package app.simple.inure.adapters.ui
+package app.simple.inure.adapters.music
 
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
+import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromUri
 import app.simple.inure.models.AudioModel
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -55,7 +58,13 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             holder.album.text = list[position].album
 
             holder.art.transitionName = list[position].fileUri
-            holder.art.loadFromUri(holder.context, Uri.parse(list[position].artUri))
+
+            if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+                holder.art.loadFromFileDescriptor(list[position].fileUri.toUri())
+            } else {
+                holder.art.loadFromUri(Uri.parse(list[position].artUri))
+            }
+
             holder.container.setDefaultBackground(MusicPreferences.getLastMusicId() == list[position].id)
 
             holder.container.setOnClickListener {

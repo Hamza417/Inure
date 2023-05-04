@@ -1,6 +1,5 @@
 package app.simple.inure.glide.util
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
@@ -108,12 +107,12 @@ object AudioCoverUtil {
      *
      * Asynchronously load Album Arts for song files from their URIs
      */
-    fun ImageView.loadFromUri(context: Context, uri: Uri) {
+    fun ImageView.loadFromUri(uri: Uri) {
         GlideApp.with(this)
             .asBitmap()
             .transform(RoundedCorners(AppearancePreferences.getCornerRadius().toInt().times(2)),
                        Padding(BlurShadow.DEFAULT_SHADOW_SIZE.toInt()),
-                       BlurShadow(context)
+                       BlurShadow(this.context)
                            .setElevation(25F)
                            .setBlurRadius(BlurShadow.DEFAULT_SHADOW_SIZE))
             .load(UriCoverModel(this.context, uri))

@@ -16,7 +16,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
-import app.simple.inure.adapters.ui.AdapterMusic
+import app.simple.inure.adapters.music.AdapterMusic
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton

@@ -15,7 +15,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
-import app.simple.inure.adapters.ui.AdapterMusic
+import app.simple.inure.adapters.music.AdapterMusic
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
 import app.simple.inure.glide.modules.GlideApp
+import app.simple.inure.glide.util.AudioCoverUtil.loadFromUri
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
 import com.bumptech.glide.load.DataSource
@@ -31,8 +32,7 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
         if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
             holder.albumArt.loadFromFileDescriptor(list[position].fileUri.toUri())
         } else {
-            holder.albumArt.scaleType = ImageView.ScaleType.CENTER_CROP
-            holder.albumArt.setImageURI(list[position].artUri.toUri())
+            holder.albumArt.loadFromUri(list[position].fileUri.toUri())
         }
     }
 
