@@ -655,6 +655,7 @@
     <string name="menu_layout_desc">Изменение расположения элементов на главной панели.</string>
     <string name="visibility_customization">Настройки отображения</string>
     <string name="home_visibility_customization_desc">Изменение видимости некоторых параметров на главной панели.</string>
+    <string name="installer_visibility_customization_desc">Изменение видимости некоторых панелей на панели установщика.</string>
     <string name="saved_to">Сохранено в %1$s</string>
     <string name="desc_app_path">Изменить папку хранения данных по умолчанию.</string>
     <string name="APKs">APK-файлы</string>
@@ -667,4 +668,7 @@
     <string name="reinstalling">Переустановка</string>
     <string name="no_trackers_found">Трекеры не найдены</string>
     <string name="no_rules_file_found">Файлы правил не найдены</string>
+    <string name="changes">Изменения</string>
+    <string name="no_new_additions">Ничего не добавлено</string>
+    <string name="no_new_removals">Ничего не удалено</string>
 </resources>
