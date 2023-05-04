@@ -10,7 +10,7 @@
     android:clipToPadding="false"
     android:orientation="horizontal">
 
-    <app.simple.inure.decorations.views.AppIconImageView
+    <ImageView
         android:id="@+id/adapter_music_art"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"

@@ -127,7 +127,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
             info?.applicationInfo?.name = it.apkMeta.label
         }
 
-        packageInfo.postValue(info)
+        packageInfo.postValue(info!!)
     }
 
     private fun packageManagerInstall() {
