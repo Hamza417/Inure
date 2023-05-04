@@ -36,8 +36,8 @@ class InstallerCustomization : ScopedFragment() {
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
                 val list = ArrayList<VisibilityCustomizationModel>()
 
-                list.add(VisibilityCustomizationModel(R.string.changes, -1, InstallerPreferences.isChangesVisible))
                 list.add(VisibilityCustomizationModel(R.string.information, -1, InstallerPreferences.isInfoVisible))
+                list.add(VisibilityCustomizationModel(R.string.changes, -1, InstallerPreferences.isChangesVisible))
                 list.add(VisibilityCustomizationModel(R.string.permissions, -1, InstallerPreferences.isPermissionsVisible))
                 list.add(VisibilityCustomizationModel(R.string.certificate, -1, InstallerPreferences.isCertificateVisible))
                 list.add(VisibilityCustomizationModel(R.string.manifest, -1, InstallerPreferences.isManifestVisible))

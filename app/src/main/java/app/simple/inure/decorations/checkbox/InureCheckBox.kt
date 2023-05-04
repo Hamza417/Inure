@@ -49,14 +49,14 @@ class InureCheckBox @JvmOverloads constructor(context: Context, attrs: Attribute
         }
 
         setOnClickListener {
-            isChecked = if (isChecked) {
+            if (isChecked) {
+                isChecked = false
                 animateUnchecked()
                 switchCallbacks?.onCheckedChanged(false)
-                false
             } else {
+                isChecked = true
                 animateChecked()
                 switchCallbacks?.onCheckedChanged(true)
-                true
             }
         }
 
@@ -92,10 +92,10 @@ class InureCheckBox @JvmOverloads constructor(context: Context, attrs: Attribute
     fun setChecked(boolean: Boolean) {
         isChecked = if (boolean) {
             animateChecked()
-            boolean
+            true
         } else {
             animateUnchecked()
-            boolean
+            false
         }
     }
 

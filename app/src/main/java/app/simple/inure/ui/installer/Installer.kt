@@ -224,12 +224,12 @@ class Installer : ScopedFragment() {
 
                 val titles = arrayListOf<String>()
 
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isChangesVisible)) {
-                    titles.add(getString(R.string.changes))
-                }
-
                 if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isInfoVisible)) {
                     titles.add(getString(R.string.information))
+                }
+
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isChangesVisible)) {
+                    titles.add(getString(R.string.changes))
                 }
 
                 if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isPermissionsVisible)) {

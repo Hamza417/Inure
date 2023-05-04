@@ -12,6 +12,7 @@ import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.VisibilityCustomizationModel
 import app.simple.inure.preferences.InstallerPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.ViewUtils.gone
@@ -54,9 +55,14 @@ class AdapterInstallerCustomization(private val list: List<VisibilityCustomizati
             }
 
             holder.container.setOnClickListener {
-                holder.checkBox.callOnClick()
+                if (holder.checkBox.isChecked()) {
+                    if (isOnlyOnePanelVisible().invert()) {
+                        holder.checkBox.callOnClick()
+                    }
+                } else {
+                    holder.checkBox.callOnClick()
+                }
             }
-
         } else if (holder is Header) {
             holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
             holder.title.setText(R.string.visibility_customization)
