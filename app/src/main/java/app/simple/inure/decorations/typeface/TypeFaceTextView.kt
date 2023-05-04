@@ -150,7 +150,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
     }
 
-    private fun setDrawableTint(animate: Boolean) {
+    protected fun setDrawableTint(animate: Boolean) {
         if (animate) {
             when (drawableTintMode) {
                 0, 3, 5 -> animateDrawableColorChange(lastDrawableColor, AppearancePreferences.getAccentColor())
@@ -170,6 +170,16 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         setLastDrawableColor()
     }
 
+    protected fun getDrawableTintColor(): Int {
+        return when (drawableTintMode) {
+            0, 3, 5 -> AppearancePreferences.getAccentColor()
+            1 -> ThemeManager.theme.iconTheme.regularIconColor
+            2 -> ThemeManager.theme.iconTheme.secondaryIconColor
+            4 -> Color.RED // Error
+            else -> ThemeManager.theme.iconTheme.secondaryIconColor
+        }
+    }
+
     private fun setLastDrawableColor() {
         lastDrawableColor = when (drawableTintMode) {
             0 -> context.resolveAttrColor(R.attr.colorAppAccent)
@@ -184,7 +194,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         } else {
-            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tiny, 0)
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_12dp, 0)
             paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
     }

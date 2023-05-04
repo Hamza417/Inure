@@ -43,15 +43,15 @@
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="PxUsage" />
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
+    <app.simple.inure.decorations.views.BulletTextView
         android:id="@+id/added"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:drawablePadding="@dimen/popup_padding"
+        android:gravity="top"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
-        app:drawableStartCompat="@drawable/ic_check_12dp"
         app:drawableTintStyle="success"
         app:layout_constraintBottom_toTopOf="@+id/removed"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,15 +59,15 @@
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:textColorStyle="secondary" />
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
+    <app.simple.inure.decorations.views.BulletTextView
         android:id="@+id/removed"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:drawablePadding="@dimen/popup_padding"
+        android:gravity="top"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
-        app:drawableStartCompat="@drawable/ic_close_tiny"
         app:drawableTintStyle="error"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

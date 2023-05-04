@@ -64,8 +64,7 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             oldPackageInfo = try {
                 applicationContext().packageManager.getPackageInfo(packageInfo!!.packageName)
             } catch (e: Exception) {
-                postWarning("Failed to get package info")
-                return@launch
+                null
             }
 
             val list = arrayListOf<Triple<String, String, String>>()
@@ -75,7 +74,7 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             list.add(getServicesChanges())
             list.add(getReceiversChanges())
             list.add(getProvidersChanges())
-            list.add(getNativeLibrariesChanges())
+            // list.add(getNativeLibrariesChanges())
             list.add(getFeaturesChanges())
 
             changes.postValue(list)
@@ -90,17 +89,19 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
         val permissions = arrayListOf<String>()
         val oldPermissions = arrayListOf<String>()
 
-        packageInfo!!.requestedPermissions?.let {
-            permissions.addAll(it)
+        kotlin.runCatching {
+            packageInfo!!.requestedPermissions?.let {
+                permissions.addAll(it)
+            }
+
+            oldPackageInfo!!.requestedPermissions?.let {
+                oldPermissions.addAll(it)
+            }
         }
 
-        oldPackageInfo!!.requestedPermissions?.let {
-            oldPermissions.addAll(it)
-        }
-
-        for (permission in permissions) {
-            if (!oldPermissions.contains(permission)) {
-                added = buildString {
+        added = buildString {
+            for (permission in permissions) {
+                if (!oldPermissions.contains(permission)) {
                     if (added == getString(R.string.no_new_additions)) {
                         added = ""
                     }
@@ -110,9 +111,9 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             }
         }
 
-        for (permission in oldPermissions) {
-            if (!permissions.contains(permission)) {
-                removed = buildString {
+        removed = buildString {
+            for (permission in oldPermissions) {
+                if (!permissions.contains(permission)) {
                     if (removed == getString(R.string.no_new_removals)) {
                         removed = ""
                     }
@@ -122,7 +123,13 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             }
         }
 
+        if (added.isEmpty()) {
+            added = getString(R.string.no_new_additions)
+        }
 
+        if (removed.isEmpty()) {
+            removed = getString(R.string.no_new_removals)
+        }
 
         return Triple(title, added.trim(), removed.trim())
     }
@@ -135,17 +142,19 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
         val activities = arrayListOf<String>()
         val oldActivities = arrayListOf<String>()
 
-        packageInfo!!.activities?.let {
-            activities.addAll(it.map { activity -> activity.name })
+        kotlin.runCatching {
+            packageInfo!!.activities?.let {
+                activities.addAll(it.map { activity -> activity.name })
+            }
+
+            oldPackageInfo!!.activities?.let {
+                oldActivities.addAll(it.map { activity -> activity.name })
+            }
         }
 
-        oldPackageInfo!!.activities?.let {
-            oldActivities.addAll(it.map { activity -> activity.name })
-        }
-
-        for (activity in activities) {
-            if (!oldActivities.contains(activity)) {
-                added = buildString {
+        added = buildString {
+            for (activity in activities) {
+                if (!oldActivities.contains(activity)) {
                     if (added == getString(R.string.no_new_additions)) {
                         added = ""
                     }
@@ -155,9 +164,9 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             }
         }
 
-        for (activity in oldActivities) {
-            if (!activities.contains(activity)) {
-                removed = buildString {
+        removed = buildString {
+            for (activity in oldActivities) {
+                if (!activities.contains(activity)) {
                     if (removed == getString(R.string.no_new_removals)) {
                         removed = ""
                     }
@@ -165,6 +174,14 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
                     append("$activity\n")
                 }
             }
+        }
+
+        if (added.isEmpty()) {
+            added = getString(R.string.no_new_additions)
+        }
+
+        if (removed.isEmpty()) {
+            removed = getString(R.string.no_new_removals)
         }
 
         return Triple(title, added.trim(), removed.trim())
@@ -178,17 +195,19 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
         val services = arrayListOf<String>()
         val oldServices = arrayListOf<String>()
 
-        packageInfo!!.services?.let {
-            services.addAll(it.map { service -> service.name })
+        kotlin.runCatching {
+            packageInfo!!.services?.let {
+                services.addAll(it.map { service -> service.name })
+            }
+
+            oldPackageInfo!!.services?.let {
+                oldServices.addAll(it.map { service -> service.name })
+            }
         }
 
-        oldPackageInfo!!.services?.let {
-            oldServices.addAll(it.map { service -> service.name })
-        }
-
-        for (service in services) {
-            if (!oldServices.contains(service)) {
-                added = buildString {
+        added = buildString {
+            for (service in services) {
+                if (!oldServices.contains(service)) {
                     if (added == getString(R.string.no_new_additions)) {
                         added = ""
                     }
@@ -198,9 +217,9 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             }
         }
 
-        for (service in oldServices) {
-            if (!services.contains(service)) {
-                removed = buildString {
+        removed = buildString {
+            for (service in oldServices) {
+                if (!services.contains(service)) {
                     if (removed == getString(R.string.no_new_removals)) {
                         removed = ""
                     }
@@ -208,6 +227,14 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
                     append("$service\n")
                 }
             }
+        }
+
+        if (added.isEmpty()) {
+            added = getString(R.string.no_new_additions)
+        }
+
+        if (removed.isEmpty()) {
+            removed = getString(R.string.no_new_removals)
         }
 
         return Triple(title, added.trim(), removed.trim())
@@ -221,17 +248,19 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
         val receivers = arrayListOf<String>()
         val oldReceivers = arrayListOf<String>()
 
-        packageInfo!!.receivers?.let {
-            receivers.addAll(it.map { receiver -> receiver.name })
+        kotlin.runCatching {
+            packageInfo!!.receivers?.let {
+                receivers.addAll(it.map { receiver -> receiver.name })
+            }
+
+            oldPackageInfo!!.receivers?.let {
+                oldReceivers.addAll(it.map { receiver -> receiver.name })
+            }
         }
 
-        oldPackageInfo!!.receivers?.let {
-            oldReceivers.addAll(it.map { receiver -> receiver.name })
-        }
-
-        for (receiver in receivers) {
-            if (!oldReceivers.contains(receiver)) {
-                added = buildString {
+        added = buildString {
+            for (receiver in receivers) {
+                if (!oldReceivers.contains(receiver)) {
                     if (added == getString(R.string.no_new_additions)) {
                         added = ""
                     }
@@ -241,9 +270,9 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             }
         }
 
-        for (receiver in oldReceivers) {
-            if (!receivers.contains(receiver)) {
-                removed = buildString {
+        removed = buildString {
+            for (receiver in oldReceivers) {
+                if (!receivers.contains(receiver)) {
                     if (removed == getString(R.string.no_new_removals)) {
                         removed = ""
                     }
@@ -251,6 +280,14 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
                     append("$receiver\n")
                 }
             }
+        }
+
+        if (added.isEmpty()) {
+            added = getString(R.string.no_new_additions)
+        }
+
+        if (removed.isEmpty()) {
+            removed = getString(R.string.no_new_removals)
         }
 
         return Triple(title, added.trim(), removed.trim())
@@ -264,17 +301,19 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
         val providers = arrayListOf<String>()
         val oldProviders = arrayListOf<String>()
 
-        packageInfo!!.providers?.let {
-            providers.addAll(it.map { provider -> provider.name })
+        kotlin.runCatching {
+            packageInfo!!.providers?.let {
+                providers.addAll(it.map { provider -> provider.name })
+            }
+
+            oldPackageInfo!!.providers?.let {
+                oldProviders.addAll(it.map { provider -> provider.name })
+            }
         }
 
-        oldPackageInfo!!.providers?.let {
-            oldProviders.addAll(it.map { provider -> provider.name })
-        }
-
-        for (provider in providers) {
-            if (!oldProviders.contains(provider)) {
-                added = buildString {
+        added = buildString {
+            for (provider in providers) {
+                if (!oldProviders.contains(provider)) {
                     if (added == getString(R.string.no_new_additions)) {
                         added = ""
                     }
@@ -284,9 +323,9 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             }
         }
 
-        for (provider in oldProviders) {
-            if (!providers.contains(provider)) {
-                removed = buildString {
+        removed = buildString {
+            for (provider in oldProviders) {
+                if (!providers.contains(provider)) {
                     if (removed == getString(R.string.no_new_removals)) {
                         removed = ""
                     }
@@ -294,6 +333,14 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
                     append("$provider\n")
                 }
             }
+        }
+
+        if (added.isEmpty()) {
+            added = getString(R.string.no_new_additions)
+        }
+
+        if (removed.isEmpty()) {
+            removed = getString(R.string.no_new_removals)
         }
 
         return Triple(title, added.trim(), removed.trim())
@@ -307,17 +354,19 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
         val features = arrayListOf<String>()
         val oldFeatures = arrayListOf<String>()
 
-        packageInfo!!.reqFeatures?.let {
-            features.addAll(it.map { feature -> feature.name })
+        kotlin.runCatching {
+            packageInfo!!.reqFeatures?.let {
+                features.addAll(it.map { feature -> feature.name })
+            }
+
+            oldPackageInfo!!.reqFeatures?.let {
+                oldFeatures.addAll(it.map { feature -> feature.name })
+            }
         }
 
-        oldPackageInfo!!.reqFeatures?.let {
-            oldFeatures.addAll(it.map { feature -> feature.name })
-        }
-
-        for (feature in features) {
-            if (!oldFeatures.contains(feature)) {
-                added = buildString {
+        added = buildString {
+            for (feature in features) {
+                if (!oldFeatures.contains(feature)) {
                     if (added == getString(R.string.no_new_additions)) {
                         added = ""
                     }
@@ -327,9 +376,9 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             }
         }
 
-        for (feature in oldFeatures) {
-            if (!features.contains(feature)) {
-                removed = buildString {
+        removed = buildString {
+            for (feature in oldFeatures) {
+                if (!features.contains(feature)) {
                     if (removed == getString(R.string.no_new_removals)) {
                         removed = ""
                     }
@@ -337,6 +386,14 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
                     append("$feature\n")
                 }
             }
+        }
+
+        if (added.isEmpty()) {
+            added = getString(R.string.no_new_additions)
+        }
+
+        if (removed.isEmpty()) {
+            removed = getString(R.string.no_new_removals)
         }
 
         return Triple(title, added.trim(), removed.trim())
@@ -350,17 +407,19 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
         val nativeLibraries = arrayListOf<String>()
         val oldNativeLibraries = arrayListOf<String>()
 
-        packageInfo!!.applicationInfo.nativeLibraryDir?.let {
-            nativeLibraries.addAll(it.toFile().list().orEmpty())
+        kotlin.runCatching {
+            packageInfo!!.applicationInfo.nativeLibraryDir?.let {
+                nativeLibraries.addAll(it.toFile().list().orEmpty())
+            }
+
+            oldPackageInfo!!.applicationInfo.nativeLibraryDir?.let {
+                oldNativeLibraries.addAll(it.toFile().list().orEmpty())
+            }
         }
 
-        oldPackageInfo!!.applicationInfo.nativeLibraryDir?.let {
-            oldNativeLibraries.addAll(it.toFile().list().orEmpty())
-        }
-
-        for (nativeLibrary in nativeLibraries) {
-            if (!oldNativeLibraries.contains(nativeLibrary)) {
-                added = buildString {
+        added = buildString {
+            for (nativeLibrary in nativeLibraries) {
+                if (!oldNativeLibraries.contains(nativeLibrary)) {
                     if (added == getString(R.string.no_new_additions)) {
                         added = ""
                     }
@@ -370,9 +429,9 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
             }
         }
 
-        for (nativeLibrary in oldNativeLibraries) {
-            if (!nativeLibraries.contains(nativeLibrary)) {
-                removed = buildString {
+        removed = buildString {
+            for (nativeLibrary in oldNativeLibraries) {
+                if (!nativeLibraries.contains(nativeLibrary)) {
                     if (removed == getString(R.string.no_new_removals)) {
                         removed = ""
                     }
@@ -380,6 +439,14 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
                     append("$nativeLibrary\n")
                 }
             }
+        }
+
+        if (added.isEmpty()) {
+            added = getString(R.string.no_new_additions)
+        }
+
+        if (removed.isEmpty()) {
+            removed = getString(R.string.no_new_removals)
         }
 
         return Triple(title, added.trim(), removed.trim())
