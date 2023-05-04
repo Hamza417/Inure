@@ -20,6 +20,7 @@ import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
@@ -70,6 +71,8 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
                 packageInfo.applicationInfo.sourceDir = file.absolutePath
                 packageInfo.splitNames = zipFile.fileHeaders.map { it.fileName }.toTypedArray()
+            } else {
+                packageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
             }
         }.getOrElse {
             it.printStackTrace()
@@ -347,9 +350,9 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             }
         } catch (e: NullPointerException) {
             e.printStackTrace()
-            permissions.append(R.string.no_permissions_required)
+            permissions.append(getString(R.string.no_permissions_required))
         } catch (e: PackageManager.NameNotFoundException) {
-            permissions.append(R.string.app_not_installed, packageInfo.packageName)
+            permissions.append(getString(R.string.app_not_installed, packageInfo.packageName))
         }
 
         return Pair(R.string.permissions,
