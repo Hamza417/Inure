@@ -15,6 +15,7 @@ import app.simple.inure.R
 import app.simple.inure.models.PackageSizes
 import app.simple.inure.util.ArrayUtils
 import app.simple.inure.util.DateUtils
+import java.io.File
 import java.lang.reflect.Method
 import java.util.*
 
@@ -47,7 +48,7 @@ object PackageUtils {
                 PackageManager.GET_DISABLED_COMPONENTS).toLong()
     }
 
-    private val PRIVATE_FLAG_HIDDEN = 1 shl 0
+    private const val PRIVATE_FLAG_HIDDEN = 1 shl 0
 
     /**
      * Fetches the app's name from the package id of the same application
@@ -82,6 +83,25 @@ object PackageUtils {
         }
 
         return null
+    }
+
+    fun PackageManager.getPackageArchiveInfo(path: String): PackageInfo? {
+        try {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(flags))
+            } else {
+                @Suppress("DEPRECATION")
+                getPackageArchiveInfo(path, flags.toInt())
+            }
+        } catch (e: RuntimeException) {
+            e.printStackTrace()
+        }
+
+        return null
+    }
+
+    fun PackageManager.getPackageArchiveInfo(file: File): PackageInfo? {
+        return getPackageArchiveInfo(file.absolutePath)
     }
 
     @Suppress("MemberVisibilityCanBePrivate")

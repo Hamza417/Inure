@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.Triple
@@ -27,6 +28,7 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
                 PackageManager.GET_RECEIVERS or
                 PackageManager.GET_PROVIDERS or
                 PackageManager.GET_PERMISSIONS or
+                PackageManager.GET_META_DATA or
                 PackageManager.MATCH_DISABLED_COMPONENTS
     } else {
         PackageManager.GET_ACTIVITIES or
@@ -34,6 +36,7 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
                 PackageManager.GET_RECEIVERS or
                 PackageManager.GET_PROVIDERS or
                 PackageManager.GET_PERMISSIONS or
+                PackageManager.GET_META_DATA or
                 PackageManager.GET_DISABLED_COMPONENTS
     }
 
@@ -49,12 +52,7 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
 
     private fun loadChangesData() {
         viewModelScope.launch(Dispatchers.IO) {
-            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                applicationContext().packageManager.getPackageArchiveInfo(file.absolutePath, PackageManager.PackageInfoFlags.of(flags.toLong()))!!
-            } else {
-                @Suppress("DEPRECATION")
-                applicationContext().packageManager.getPackageArchiveInfo(file.absolutePath, flags)!!
-            }
+            packageInfo = packageManager.getPackageArchiveInfo(file)
 
             if (packageInfo == null) {
                 postWarning("Failed to get package info")
