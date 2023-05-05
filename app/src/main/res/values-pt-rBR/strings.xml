@@ -652,6 +652,7 @@
     <string name="menu_layout_desc">Alterar o layout dos itens no painel de início.</string>
     <string name="visibility_customization">Personalização da visibilidade</string>
     <string name="home_visibility_customization_desc">Muda a visibilidade de algumas opções do painel de início.</string>
+    <string name="installer_visibility_customization_desc">Muda a visibilidade de alguns painéis do painel de instalação.</string>
     <string name="saved_to">Salvo como %1$s</string>
     <string name="desc_app_path">Altere o diretório de armazenamento de dados padrão do aplicativo.</string>
     <string name="APKs">APKs</string>
@@ -664,4 +665,7 @@
     <string name="reinstalling">Reinstalando</string>
     <string name="no_trackers_found">Nenhum rastreador encontrado</string>
     <string name="no_rules_file_found">Nenhum arquivo de regras encontrado</string>
+    <string name="changes">Mudanças</string>
+    <string name="no_new_additions">Nenhuma adição nova</string>
+    <string name="no_new_removals">Sem novas remoções</string>
 </resources>
