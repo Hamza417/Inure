@@ -76,6 +76,8 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             }
         }
 
+        // Disable splash screen
+
         ThemeUtils.setAppTheme(baseContext.resources)
         TrialPreferences.migrateLegacy()
 

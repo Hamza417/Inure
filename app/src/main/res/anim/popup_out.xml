@@ -5,14 +5,14 @@
     android:shareInterpolator="true">
 
     <scale
-        android:fromXScale=".9"
-        android:fromYScale=".8"
+        android:fromXScale="1"
+        android:fromYScale="1"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:toXScale="1"
-        android:toYScale="1" />
+        android:toXScale=".9"
+        android:toYScale=".9" />
 
     <alpha
-        android:fromAlpha="0"
-        android:toAlpha="1" />
+        android:fromAlpha="1"
+        android:toAlpha="0" />
 </set>

@@ -9,6 +9,7 @@
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:colorEdgeEffect">?attr/colorAppAccent</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="Inure.Transparent" parent="Theme.MaterialComponents.DayNight.NoActionBar">

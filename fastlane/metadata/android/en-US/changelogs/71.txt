@@ -1,0 +1,4 @@
+- Added IFW based trackers blocker
+- Added changes in installer
+- Improved analytics
+- Major performance improvements
