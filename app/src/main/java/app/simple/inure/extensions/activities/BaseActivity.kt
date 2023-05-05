@@ -5,12 +5,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.transition.ArcMotion
 import android.transition.Fade
 import android.util.Log
+import android.view.OrientationEventListener
+import android.view.Surface
 import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -58,6 +61,8 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
      * Fragments own loader instance
      */
     private var loader: Loader? = null
+
+    private var cutoutDepth = 0
 
     override fun attachBaseContext(newBaseContext: Context) {
         SharedPreferences.init(newBaseContext)
@@ -155,6 +160,13 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                     StackTraceDatabase.init(applicationContext)
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (orientationListener.canDetectOrientation()) {
+            orientationListener.enable()
         }
     }
 
@@ -359,6 +371,73 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             } else {
                 window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
             }
+
+            /**
+             * If the notch area is enabled, we need to add padding to the left side of the app
+             * to avoid the notch area overlapping the app content and the app content overlapping
+             * the notch area.
+             */
+            if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled)) {
+                val root = findViewById<CoordinatorLayout>(R.id.app_container)
+                ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
+                    val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                    cutoutDepth = insets.top
+                    WindowInsetsCompat.CONSUMED
+                }
+            }
+        }
+    }
+
+    private val orientationListener by lazy {
+        object : OrientationEventListener(applicationContext, SensorManager.SENSOR_DELAY_NORMAL) {
+            override fun onOrientationChanged(orientation: Int) {
+                if (orientation == ORIENTATION_UNKNOWN) {
+                    return
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    when (display?.rotation) {
+                        Surface.ROTATION_0 -> {
+                            // Bottom - reset the padding in portrait
+                            findViewById<CoordinatorLayout>(R.id.app_container).setPadding(0, 0, 0, 0)
+                        }
+                        Surface.ROTATION_90 -> {
+                            // Left
+                            findViewById<CoordinatorLayout>(R.id.app_container).setPadding(cutoutDepth, 0, 0, 0)
+                        }
+                        Surface.ROTATION_180 -> {
+                            // Top - reset the padding if upside down
+                            findViewById<CoordinatorLayout>(R.id.app_container).setPadding(0, 0, 0, 0)
+                        }
+                        Surface.ROTATION_270 -> {
+                            // Right
+                            findViewById<CoordinatorLayout>(R.id.app_container).setPadding(0, 0, cutoutDepth, 0)
+                        }
+                    }
+                } else {
+                    with(findViewById<CoordinatorLayout>(R.id.app_container)) {
+                        @Suppress("DEPRECATION")
+                        when ((getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
+                            Surface.ROTATION_0 -> {
+                                // Bottom - reset the padding in portrait
+                                setPadding(0, 0, 0, 0)
+                            }
+                            Surface.ROTATION_90 -> {
+                                // Left
+                                setPadding(cutoutDepth, 0, 0, 0)
+                            }
+                            Surface.ROTATION_180 -> {
+                                // Top - reset the padding if upside down
+                                setPadding(0, 0, 0, 0)
+                            }
+                            Surface.ROTATION_270 -> {
+                                // Right
+                                setPadding(0, 0, cutoutDepth, 0)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -432,5 +511,10 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                 enableNotchArea()
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        orientationListener.disable()
     }
 }
