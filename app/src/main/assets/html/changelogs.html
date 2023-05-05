@@ -13,68 +13,85 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build71</h2>
+<h2>Build72</h2>
 <small>Released on: 5 May 2023, 1:51 PM UTC</small>
 
 <!-- Write change logs here -->
 
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added <i>Minimum OS</i> panel for <b>Analytics</b> panel.</li>
-    <li>Added <i>Target OS</i> panel for <b>Analytics</b> panel.</li>
-    <li>Renamed <i>Stacktraces</i> to <i>Crash Report</i>.</li>
-    <li>Updated notes editor formatting strip interface.</li>
-    <li>Added option to enable notch area in the app in <i>Development Preferences</i>.</li>
-</ul>
-
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed a bug where <i>Battery Optimization</i> is not opening when both root and Shizuku is
-        on.
-    </li>
-    <li>Fixed missing permission details in <b>Information</b> panel.</li>
-</ul>
-
-<h4>Improvements</h4>
-
-<ul>
-    <li>Improved app icon framework.
-        <br>
-        <small>Icon quality won't be degraded anymore upon resizing.</small>
-    </li>
-    <li>Minor improvements to dialog animations.</li>
-</ul>
-
-<h4>Trackers</h4>
-
-<ul>
-    <li>Added Intent Firewall based tracker framework</li>
-    <li>Removed previous implementation.</li>
-    <li>Removed Shizuku implementation for <i>Trackers</i>.</li>
-</ul>
-
-<h4>Installer</h4>
-
-<ul>
-    <li>Added option to block/unblock trackers from installer panel as well.
-        <br>
-        <small>This will also work with apps that are not yet installed as well.</small>
-    </li>
-    <li>Added option to customize <b>Installer</b> panels' visibility.</li>
-    <li>Added <b>Changes</b> panel in <i>Installer</i>.
-        <br>
-        <small>It will show the changes between the updates during installation.</small>
-    </li>
-    <li>Added <i>Version Name</i> in the <i>Installer</i>.
-        <br>
-        <small>It will also show an arrow icon to the next version if an update is being
-               installed.</small>
-    </li>
+    <li>Fixed trackers not getting blocked in <b>Installer</b> panel.</li>
+    <li>Fixed tracker icons not showing for installed packages.</li>
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input class="toggle" id="build_71" type="checkbox">
+    <label class="lbl-toggle" for="build_71">Build71</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added <i>Minimum OS</i> panel for <b>Analytics</b> panel.</li>
+                <li>Added <i>Target OS</i> panel for <b>Analytics</b> panel.</li>
+                <li>Renamed <i>Stacktraces</i> to <i>Crash Report</i>.</li>
+                <li>Updated notes editor formatting strip interface.</li>
+                <li>Added option to enable notch area in the app in <i>Development Preferences</i>.
+                </li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed a bug where <i>Battery Optimization</i> is not opening when both root and
+                    Shizuku is
+                    on.
+                </li>
+                <li>Fixed missing permission details in <b>Information</b> panel.</li>
+            </ul>
+
+            <h4>Improvements</h4>
+
+            <ul>
+                <li>Improved app icon framework.
+                    <br>
+                    <small>Icon quality won't be degraded anymore upon resizing.</small>
+                </li>
+                <li>Minor improvements to dialog animations.</li>
+            </ul>
+
+            <h4>Trackers</h4>
+
+            <ul>
+                <li>Added Intent Firewall based tracker framework</li>
+                <li>Removed previous implementation.</li>
+                <li>Removed Shizuku implementation for <i>Trackers</i>.</li>
+            </ul>
+
+            <h4>Installer</h4>
+
+            <ul>
+                <li>Added option to block/unblock trackers from installer panel as well.
+                    <br>
+                    <small>This will also work with apps that are not yet installed as well.</small>
+                </li>
+                <li>Added option to customize <b>Installer</b> panels' visibility.</li>
+                <li>Added <b>Changes</b> panel in <i>Installer</i>.
+                    <br>
+                    <small>It will show the changes between the updates during installation.</small>
+                </li>
+                <li>Added <i>Version Name</i> in the <i>Installer</i>.
+                    <br>
+                    <small>It will also show an arrow icon to the next version if an update is being
+                           installed.</small>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input class="toggle" id="build_70" type="checkbox">

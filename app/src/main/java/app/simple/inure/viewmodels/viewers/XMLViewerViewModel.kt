@@ -3,7 +3,6 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.text.Html
-import android.text.SpannableString
 import android.text.Spanned
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -57,8 +56,6 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
     private fun getSpannedXml() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val formattedContent: SpannableString
-
                 val code: String = if (raw) {
                     FileInputStream(File(pathToXml)).use {
                         it.readTextSafely()

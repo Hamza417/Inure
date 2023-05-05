@@ -9,6 +9,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -37,10 +39,13 @@ import javax.xml.transform.stream.StreamResult
 
 class InstallerTrackersViewModel(application: Application, private val apkFile: File) : RootServiceViewModel(application) {
 
-    private val path = ""
+    private var path = ""
     private var packageInfo: PackageInfo? = null
 
-    private val flags = PackageManager.GET_ACTIVITIES or PackageManager.GET_SERVICES or PackageManager.GET_RECEIVERS or PackageManager.GET_PROVIDERS
+    private val flags = PackageManager.GET_ACTIVITIES or
+            PackageManager.GET_SERVICES or
+            PackageManager.GET_RECEIVERS or
+            PackageManager.GET_PROVIDERS
 
     private val trackers: MutableLiveData<ArrayList<Tracker>> by lazy {
         MutableLiveData<ArrayList<Tracker>>().also {
@@ -66,37 +71,47 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
 
     private fun scanTrackers() {
         viewModelScope.launch(Dispatchers.IO) {
-            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                applicationContext().packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.PackageInfoFlags.of(flags.toLong()))!!
-            } else {
-                @Suppress("DEPRECATION")
-                applicationContext().packageManager.getPackageArchiveInfo(apkFile.absolutePath, flags)!!
+            kotlin.runCatching {
+                packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    applicationContext().packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.PackageInfoFlags.of(flags.toLong()))!!
+                } else {
+                    @Suppress("DEPRECATION")
+                    applicationContext().packageManager.getPackageArchiveInfo(apkFile.absolutePath, flags)!!
+                }
+
+                if (packageInfo == null) {
+                    postWarning("Failed to get package info")
+                    return@launch
+                }
+
+                if (packageManager.isPackageInstalled(packageInfo?.packageName!!)) {
+                    packageInfo = packageManager.getPackageInfo(packageInfo?.packageName!!)
+                }
+
+                path = "/data/system/ifw/" + "${packageInfo?.packageName}.xml"
+
+                val trackersList = arrayListOf<Tracker>()
+
+                trackersList.addAll(getActivityTrackers())
+                trackersList.addAll(getServicesTrackers())
+                trackersList.addAll(getReceiversTrackers())
+
+                trackersList.sortBy {
+                    it.name
+                }
+
+                if (trackersList.size.isZero()) {
+                    postWarning(getString(R.string.no_trackers_found))
+                }
+
+                if (ConfigurationPreferences.isUsingRoot()) {
+                    readIntentFirewallXml(getFileSystemManager()!!, trackersList)
+                }
+
+                trackers.postValue(trackersList)
+            }.getOrElse {
+                postError(it)
             }
-
-            if (packageInfo == null) {
-                postWarning("Failed to get package info")
-                return@launch
-            }
-
-            val trackersList = arrayListOf<Tracker>()
-
-            trackersList.addAll(getActivityTrackers())
-            trackersList.addAll(getServicesTrackers())
-            trackersList.addAll(getReceiversTrackers())
-
-            trackersList.sortBy {
-                it.name
-            }
-
-            if (trackersList.size.isZero()) {
-                postWarning(getString(R.string.no_trackers_found))
-            }
-
-            if (ConfigurationPreferences.isUsingRoot()) {
-                readIntentFirewallXml(getFileSystemManager(), trackersList)
-            }
-
-            trackers.postValue(trackersList)
         }
     }
 
@@ -226,9 +241,13 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
      *
      * Parse the file following the above structure
      */
-    private fun readIntentFirewallXml(fileSystemManager: FileSystemManager?, trackersList: ArrayList<Tracker>) {
-        if (fileSystemManager?.getFile(path)?.exists()?.invert()!!) {
-            return
+    private fun readIntentFirewallXml(fileSystemManager: FileSystemManager, trackersList: ArrayList<Tracker>) {
+        with(fileSystemManager.getFile(path)) {
+            if (this.exists().invert()) {
+                this.newOutputStream().use {
+                    it.write("<rules>\n</rules>".toByteArray())
+                }
+            }
         }
 
         val channel = fileSystemManager.openChannel(path, FileSystemManager.MODE_READ_WRITE)
