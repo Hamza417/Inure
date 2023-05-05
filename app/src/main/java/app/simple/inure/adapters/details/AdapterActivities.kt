@@ -47,9 +47,10 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
                     } else {
                         holder.itemView.context.getString(R.string.disabled)
                     }
-                }.onFailure {
+                }.getOrElse {
                     holder.itemView.context.getString(R.string.unknown)
-                })
+                }
+        )
         holder.status.append(activities[position].status)
         holder.name.setTrackingIcon(activities[position].trackerId.isNullOrEmpty().not())
 
