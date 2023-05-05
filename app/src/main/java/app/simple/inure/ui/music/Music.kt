@@ -152,6 +152,9 @@ class Music : KeyboardScopedFragment() {
 
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
                 when (id) {
+                    R.drawable.ic_refresh -> {
+                        musicViewModel.refresh()
+                    }
                     R.drawable.ic_sort -> {
                         PopupMusicSort(view)
                     }

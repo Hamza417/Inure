@@ -163,6 +163,10 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
         deleted.postValue(i)
     }
 
+    fun refresh() {
+        loadData()
+    }
+
     @Suppress("unused")
     companion object {
         @SuppressLint("InlinedApi")
