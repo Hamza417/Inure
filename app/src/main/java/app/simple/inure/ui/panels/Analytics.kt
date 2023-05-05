@@ -15,13 +15,11 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ChartMarkerView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.ui.subpanels.AnalyticsMinimumSDK
 import app.simple.inure.ui.subpanels.AnalyticsTargetSDK
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
-import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
@@ -73,10 +71,6 @@ class Analytics : ScopedFragment() {
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
 
-                if (!AccessibilityPreferences.isAnimationReduced()) {
-                    minimumOsPie.startAnimation()
-                }
-
                 setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
                     override fun onNothingSelected() {
                         /* no-op */
@@ -111,12 +105,6 @@ class Analytics : ScopedFragment() {
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
 
-                /**
-                 * Won't be visible so we can save some rendering strength here
-                 * Let the only above one animate
-                 */
-                animateXY(1000, 500, Easing.EaseOutCubic)
-
                 setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
                     override fun onNothingSelected() {
                         /* no-op */
@@ -143,8 +131,6 @@ class Analytics : ScopedFragment() {
                     valueTextColor = Color.TRANSPARENT
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
-
-                animateXY(1000, 500, Easing.EaseOutCubic)
             }
 
             installLocationPie.setAnimation(false)
