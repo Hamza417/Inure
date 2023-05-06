@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,6 +19,15 @@ class BootViewModel(application: Application, private val packageInfo: PackageIn
         set(value) {
             field = value
             loadBootData(value)
+        }
+
+    private var list: ArrayList<ResolveInfo>? = null
+        get() {
+            if (field == null) {
+                field = getBootDataList()
+            }
+
+            return field
         }
 
     private val command = "pm query-receivers --components -a android.intent.action.BOOT_COMPLETED"
@@ -39,38 +49,94 @@ class BootViewModel(application: Application, private val packageInfo: PackageIn
         }
     }
 
+    private val boot: MutableLiveData<ResolveInfo> by lazy {
+        MutableLiveData<ResolveInfo>()
+    }
+
     fun getBootData(): MutableLiveData<ArrayList<ResolveInfo>> {
         return bootDataList
     }
 
+    fun getBootUpdate(): MutableLiveData<ResolveInfo> {
+        return boot
+    }
+
     private fun loadBootData(keyword: String) {
         viewModelScope.launch(Dispatchers.Default) {
-            val list = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), PackageManager.ResolveInfoFlags.of(resolveInfoFlags.toLong()))
-                } else {
-                    @Suppress("DEPRECATION")
-                    packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
-                }
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
-            }.filter {
-                it.activityInfo.packageName == packageInfo.packageName
-            } as ArrayList<ResolveInfo>
+            val arrayList = arrayListOf<ResolveInfo>()
 
-            if (keyword.isNotEmpty()) {
-                list.filter {
-                    it.activityInfo.name.lowercase().contains(keyword.lowercase()) ||
-                            it.activityInfo.packageName.lowercase().contains(keyword.lowercase())
+            for (resolveInfo in list!!) {
+                if (resolveInfo.activityInfo.name.lowercase().contains(keyword.lowercase()) || resolveInfo.activityInfo.packageName.lowercase().contains(keyword.lowercase())) {
+                    arrayList.add(resolveInfo)
                 }
             }
 
-            bootDataList.postValue(list)
+            bootDataList.postValue(arrayList)
         }
+    }
+
+    private fun getBootDataList(): ArrayList<ResolveInfo> {
+        list = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), PackageManager.ResolveInfoFlags.of(resolveInfoFlags.toLong()))
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
+        }.filter {
+            it.activityInfo.packageName == packageInfo.packageName
+        } as ArrayList<ResolveInfo>
+
+        @Suppress("UNCHECKED_CAST")
+        return (list as ArrayList<ResolveInfo>).clone() as ArrayList<ResolveInfo>
     }
 
     fun filterKeywords(keyword: String) {
         this.keyword = keyword
+    }
+
+    private fun disableComponent(resolveInfo: ResolveInfo) {
+        viewModelScope.launch(Dispatchers.Default) {
+            kotlin.runCatching {
+                Shell.cmd("pm disable ${resolveInfo.activityInfo.packageName}/${resolveInfo.activityInfo.name}").exec().let {
+                    if (it.isSuccess) {
+                        boot.postValue(resolveInfo)
+                    } else {
+                        boot.postValue(null)
+                        postWarning("Failed to disable component")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun enableComponent(resolveInfo: ResolveInfo) {
+        viewModelScope.launch(Dispatchers.Default) {
+            kotlin.runCatching {
+                Shell.cmd("pm enable ${resolveInfo.activityInfo.packageName}/${resolveInfo.activityInfo.name}").exec().let {
+                    if (it.isSuccess) {
+                        boot.postValue(resolveInfo)
+                    } else {
+                        boot.postValue(null)
+                        postWarning("Failed to enable component")
+                    }
+                }
+            }
+        }
+    }
+
+    fun clear() {
+        boot.postValue(null)
+    }
+
+    fun setComponentEnabled(resolveInfo: ResolveInfo, checked: Boolean) {
+        if (checked) {
+            disableComponent(resolveInfo)
+        } else {
+            enableComponent(resolveInfo)
+        }
     }
 }

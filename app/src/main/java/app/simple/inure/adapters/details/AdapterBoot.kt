@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
@@ -20,13 +21,16 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
     private lateinit var bootCallbacks: BootCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_receivers, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_boot, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.loadIconFromActivityInfo(resolveInfoList[position].activityInfo)
         holder.name.text = resolveInfoList[position].activityInfo.name.substring(resolveInfoList[position].activityInfo.name.lastIndexOf(".") + 1)
         holder.packageId.text = resolveInfoList[position].activityInfo.name
+
+        val isEnabled = ReceiversUtils.isEnabled(holder.itemView.context, resolveInfoList[position].activityInfo.packageName, resolveInfoList[position].activityInfo.name)
+
         holder.status.text = holder.itemView.context.getString(
                 R.string.activity_status,
 
@@ -36,12 +40,18 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
                     holder.itemView.context.getString(R.string.not_exported)
                 },
 
-                if (ReceiversUtils.isEnabled(holder.itemView.context, resolveInfoList[position].activityInfo.packageName, resolveInfoList[position].activityInfo.name)) {
+                if (isEnabled) {
                     holder.itemView.context.getString(R.string.enabled)
                 } else {
                     holder.itemView.context.getString(R.string.disabled)
                 }
         )
+
+        holder.switch.setChecked(isEnabled)
+
+        holder.switch.setOnSwitchCheckedChangeListener {
+            bootCallbacks.onBootSwitchChanged(resolveInfoList[position], it)
+        }
 
         // holder.status.append(receivers[position].status)
         // holder.name.setTrackingIcon(receivers[position].trackerId.isNullOrEmpty().not())
@@ -58,7 +68,7 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
 
         holder.container.setOnClickListener {
             bootCallbacks
-                .onBootClicked(resolveInfoList[holder.absoluteAdapterPosition])
+                .onBootClicked(resolveInfoList[holder.absoluteAdapterPosition], holder.switch.isChecked())
         }
 
         if (keyword.isNotBlank()) {
@@ -72,21 +82,28 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: AppIconImageView = itemView.findViewById(R.id.adapter_receiver_icon)
-        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_name)
-        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_process)
-        val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_status)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_receiver_container)
+        val icon: AppIconImageView = itemView.findViewById(R.id.icon)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.name)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.id)
+        val status: TypeFaceTextView = itemView.findViewById(R.id.status)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
+        val switch: SwitchView = itemView.findViewById(R.id.switch_view)
     }
 
     fun setBootCallbacks(bootCallbacks: BootCallbacks) {
         this.bootCallbacks = bootCallbacks
     }
 
+    fun updateBoot(it: ResolveInfo?) {
+        val index = resolveInfoList.indexOf(it)
+        notifyItemChanged(index)
+    }
+
     companion object {
         interface BootCallbacks {
-            fun onBootClicked(activityInfoModel: ResolveInfo)
+            fun onBootClicked(resolveInfo: ResolveInfo, checked: Boolean)
             fun onBootLongPressed(packageId: String, icon: View, isComponentEnabled: Boolean, position: Int)
+            fun onBootSwitchChanged(resolveInfo: ResolveInfo, checked: Boolean)
         }
     }
 }

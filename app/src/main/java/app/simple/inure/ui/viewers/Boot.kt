@@ -16,6 +16,8 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.BootPreferences
+import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.viewers.BootViewModel
 
 class Boot : SearchBarScopedFragment() {
@@ -44,16 +46,20 @@ class Boot : SearchBarScopedFragment() {
         startPostponedEnterTransition()
         searchBoxState(false, BootPreferences.isSearchVisible())
 
-        bootViewModel?.getBootData()?.observe(viewLifecycleOwner) {
+        bootViewModel?.getBootData()?.observe(viewLifecycleOwner) { it ->
             adapterBoot = AdapterBoot(it, keyword = searchBox.text.toString().trim())
 
             adapterBoot!!.setBootCallbacks(object : AdapterBoot.Companion.BootCallbacks {
-                override fun onBootClicked(activityInfoModel: ResolveInfo) {
-
+                override fun onBootClicked(resolveInfo: ResolveInfo, checked: Boolean) {
+                    bootViewModel?.setComponentEnabled(resolveInfo, checked)
                 }
 
                 override fun onBootLongPressed(packageId: String, icon: View, isComponentEnabled: Boolean, position: Int) {
 
+                }
+
+                override fun onBootSwitchChanged(resolveInfo: ResolveInfo, checked: Boolean) {
+                    bootViewModel?.setComponentEnabled(resolveInfo, checked.invert())
                 }
             })
 
@@ -63,6 +69,12 @@ class Boot : SearchBarScopedFragment() {
                 if (searchBox.isFocused) {
                     bootViewModel?.filterKeywords(text.toString().trim())
                 }
+            }
+        }
+
+        bootViewModel?.getBootUpdate()?.observe(viewLifecycleOwner) {
+            if (it.isNotNull()) {
+                adapterBoot!!.updateBoot(it)
             }
         }
 
