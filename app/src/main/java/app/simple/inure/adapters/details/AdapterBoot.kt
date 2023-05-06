@@ -13,24 +13,27 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 
 class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keyword: String)
     : RecyclerView.Adapter<AdapterBoot.Holder>() {
 
     private lateinit var bootCallbacks: BootCallbacks
+    private val isRoot = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_boot, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        val isEnabled = ReceiversUtils.isEnabled(holder.itemView.context, resolveInfoList[position].activityInfo.packageName, resolveInfoList[position].activityInfo.name)
+
         holder.icon.loadIconFromActivityInfo(resolveInfoList[position].activityInfo)
         holder.name.text = resolveInfoList[position].activityInfo.name.substring(resolveInfoList[position].activityInfo.name.lastIndexOf(".") + 1)
         holder.packageId.text = resolveInfoList[position].activityInfo.name
-
-        val isEnabled = ReceiversUtils.isEnabled(holder.itemView.context, resolveInfoList[position].activityInfo.packageName, resolveInfoList[position].activityInfo.name)
-
         holder.status.text = holder.itemView.context.getString(
                 R.string.activity_status,
 
@@ -46,29 +49,33 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
                     holder.itemView.context.getString(R.string.disabled)
                 }
         )
-
         holder.switch.setChecked(isEnabled)
-
-        holder.switch.setOnSwitchCheckedChangeListener {
-            bootCallbacks.onBootSwitchChanged(resolveInfoList[position], it)
-        }
-
         // holder.status.append(receivers[position].status)
         // holder.name.setTrackingIcon(receivers[position].trackerId.isNullOrEmpty().not())
 
-        holder.container.setOnLongClickListener {
-            bootCallbacks
-                .onBootLongPressed(
-                        resolveInfoList[holder.absoluteAdapterPosition].activityInfo.name,
-                        it,
-                        ReceiversUtils.isEnabled(holder.itemView.context, resolveInfoList[position].activityInfo.packageName, resolveInfoList[holder.absoluteAdapterPosition].activityInfo.name),
-                        holder.absoluteAdapterPosition)
-            true
-        }
+        if (isRoot) {
+            holder.switch.visible(false)
 
-        holder.container.setOnClickListener {
-            bootCallbacks
-                .onBootClicked(resolveInfoList[holder.absoluteAdapterPosition], holder.switch.isChecked())
+            holder.switch.setOnSwitchCheckedChangeListener {
+                bootCallbacks.onBootSwitchChanged(resolveInfoList[position], it)
+            }
+
+            holder.container.setOnLongClickListener {
+                bootCallbacks
+                    .onBootLongPressed(
+                            resolveInfoList[holder.absoluteAdapterPosition].activityInfo.name,
+                            it,
+                            ReceiversUtils.isEnabled(holder.itemView.context, resolveInfoList[position].activityInfo.packageName, resolveInfoList[holder.absoluteAdapterPosition].activityInfo.name),
+                            holder.absoluteAdapterPosition)
+                true
+            }
+
+            holder.container.setOnClickListener {
+                bootCallbacks
+                    .onBootClicked(resolveInfoList[holder.absoluteAdapterPosition], holder.switch.isChecked())
+            }
+        } else {
+            holder.switch.gone()
         }
 
         if (keyword.isNotBlank()) {
