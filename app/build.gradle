@@ -159,7 +159,6 @@ dependencies {
     implementation 'net.dongliu:apk-parser:2.6.10'
     implementation 'com.scottyab:rootbeer-lib:0.0.9'
     implementation 'com.caverock:androidsvg-aar:1.4'
-    implementation 'com.bogdwellers:pinchtozoom:0.1'
     implementation "com.anggrayudi:storage:0.13.0"
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

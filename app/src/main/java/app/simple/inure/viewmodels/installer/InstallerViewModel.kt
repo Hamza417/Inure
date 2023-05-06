@@ -2,7 +2,6 @@ package app.simple.inure.viewmodels.installer
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -15,11 +14,12 @@ import app.simple.inure.R
 import app.simple.inure.apk.installer.InstallerUtils
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
-import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.findFile
 import app.simple.inure.util.FileUtils.getLength
@@ -82,9 +82,23 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                     }
                 }
 
-                if (name.name!!.endsWith(".apkm") || name.name!!.endsWith(".apks")) {
+                if (name.name!!.endsWith(".apkm")) {
                     ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
                     listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+                    files.postValue(listOfFiles)
+                } else if (name.name!!.endsWith(".apks")) {
+                    ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
+                    listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+
+                    listOfFiles!!.find {
+                        it.name.startsWith("config.").invert()
+                    }?.let {
+                        // Rename config file to base.apk
+                        it.renameTo(File(it.parentFile, "base.apk"))
+                    }
+
+                    listOfFiles = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+
                     files.postValue(listOfFiles)
                 } else if (name.name!!.endsWith("zip")) {
                     // Verify if zip file has only apk files
@@ -115,13 +129,10 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
     }
 
     private fun postPackageInfo() {
+        // Something didn't work
         val file = if (listOfFiles!!.size > 1) listOfFiles!!.findFile("base.apk")!! else listOfFiles!![0]
-        val info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            packageManager.getPackageArchiveInfo(file.path, PackageManager.PackageInfoFlags.of(0))!!
-        } else {
-            @Suppress("DEPRECATION")
-            packageManager.getPackageArchiveInfo(file.path, PackageUtils.flags.toInt())
-        }
+
+        val info = packageManager.getPackageArchiveInfo(file)
 
         ApkFile(file).use {
             info?.applicationInfo?.name = it.apkMeta.label
@@ -216,7 +227,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                         // create uri from file
                         val uri = FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", file)
 
-                        if (file.absolutePath.endsWith("base.apk")) {
+                        if (file.absolutePath.endsWith("base.apk") || !file.name.startsWith("config.") || !file.name.startsWith("split_config.")) {
                             context.contentResolver.openInputStream(uri).use { inputStream ->
                                 ShizukuUtils.execInternal(Command("pm install-write -S $size $sessionId base-"), inputStream).let {
                                     Log.d("Installer", "Output: ${it.out}")
