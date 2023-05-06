@@ -153,6 +153,7 @@ class Music : KeyboardScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_refresh -> {
+                        requireArguments().putBoolean(BundleConstants.firstLaunch, true) // This will prevent jumping to position
                         musicViewModel.refresh()
                     }
                     R.drawable.ic_sort -> {

@@ -196,6 +196,9 @@ class AppInfo : ScopedFragment() {
                         R.string.operations -> {
                             openFragmentArc(Operations.newInstance(packageInfo), icon, "ops")
                         }
+                        R.string.boot -> {
+                            openFragmentArc(Boot.newInstance(packageInfo), icon, "boot")
+                        }
                         R.string.shared_prefs -> {
                             openFragmentArc(app.simple.inure.ui.viewers.SharedPreferences.newInstance(packageInfo), icon, "shared_prefs")
                         }

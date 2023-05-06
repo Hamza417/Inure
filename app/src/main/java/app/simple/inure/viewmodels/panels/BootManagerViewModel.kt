@@ -25,7 +25,7 @@ import java.util.stream.Collectors
 
 class BootManagerViewModel(application: Application) : RootShizukuViewModel(application) {
 
-    private val command = "pm query-receivers --components -a android.intent.action.BOOT_COMPLETED"
+    // private val command = "pm query-receivers --components -a android.intent.action.BOOT_COMPLETED"
     private val bootCompletedIntent = "android.intent.action.BOOT_COMPLETED"
 
     private val resolveInfoFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

@@ -204,7 +204,8 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                     Pair(R.drawable.ic_extras, R.string.extras),
                     Pair(R.drawable.ic_shared_libs, R.string.shared_libs),
                     Pair(R.drawable.ic_code, R.string.dex_classes),
-                    Pair(R.drawable.ic_radiation_nuclear, R.string.trackers)
+                    Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
+                    Pair(R.drawable.ic_power_off, R.string.boot),
             )
 
             if (ConfigurationPreferences.isUsingRoot()) {

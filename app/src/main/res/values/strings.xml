@@ -667,4 +667,5 @@
     <string name="changes">Changes</string>
     <string name="no_new_additions">No new additions</string>
     <string name="no_new_removals">No new removals</string>
+    <string name="boot">Boot</string>
 </resources>

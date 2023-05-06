@@ -68,6 +68,9 @@ class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvid
             modelClass.isAssignableFrom(IFWViewerViewModel::class.java) -> {
                 return IFWViewerViewModel(application, packageInfo) as T
             }
+            modelClass.isAssignableFrom(BootViewModel::class.java) -> {
+                return BootViewModel(application, packageInfo) as T
+            }
             else -> {
                 throw IllegalArgumentException("Nope!!, Wrong Viewmodel!!")
             }
