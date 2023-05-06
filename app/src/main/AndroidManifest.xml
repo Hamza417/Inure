@@ -123,9 +123,17 @@
             android:name=".activities.launcher.TerminalLauncher"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:exported="true"
+            android:enabled="false"
             android:label="@string/terminal"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <activity
             android:name=".activities.preferences.PreferenceActivity"

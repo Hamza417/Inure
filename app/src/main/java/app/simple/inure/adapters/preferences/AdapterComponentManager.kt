@@ -2,6 +2,7 @@ package app.simple.inure.adapters.preferences
 
 import android.content.ComponentName
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -38,10 +40,16 @@ class AdapterComponentManager(private val list: ArrayList<Triple<Int, Int, Class
             holder.icon.setImageResource(list[position].first)
             holder.name.setText(list[position].second)
 
-            holder.checkBox.setChecked(holder.context.packageManager.getComponentEnabledSetting(
-                    ComponentName(holder.context, list[position].third)) == PackageManager.COMPONENT_ENABLED_STATE_ENABLED ||
-                                               holder.context.packageManager.getComponentEnabledSetting(
-                                                       ComponentName(holder.context, list[position].third)) == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
+            holder.checkBox.setChecked(when (holder.context.packageManager.getComponentEnabledSetting(ComponentName(holder.context, list[position].third))) {
+                                           PackageManager.COMPONENT_ENABLED_STATE_ENABLED -> true
+                                           PackageManager.COMPONENT_ENABLED_STATE_DISABLED -> false
+                                           PackageManager.COMPONENT_ENABLED_STATE_DEFAULT -> {
+                                               Log.d("TAG", "onBindViewHolder: ${holder.context.packageName} ${list[position].third.name}")
+                                               Log.d("TAG", "onBindViewHolder: ${ActivityUtils.isEnabled(holder.context, holder.context.packageName, list[position].third.name)}")
+                                               ActivityUtils.isEnabled(holder.context, holder.context.packageName, list[position].third.name)
+                                           }
+                                           else -> false
+                                       })
 
             holder.checkBox.setOnCheckedChangeListener {
                 if (it) {
