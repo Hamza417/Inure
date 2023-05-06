@@ -34,7 +34,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(StyleSpan(Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(StyleSpan(Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -50,7 +50,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(StyleSpan(Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(StyleSpan(Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -64,7 +64,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(UnderlineSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(UnderlineSpan(), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -78,7 +78,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(StrikethroughSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(StrikethroughSpan(), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -114,7 +114,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(SuperscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(SuperscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -128,7 +128,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(SubscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(SubscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -172,7 +172,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(BackgroundColorSpan(color), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(BackgroundColorSpan(color), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -189,11 +189,11 @@ object EditTextHelper {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 text.setSpan(QuoteSpan(context.resolveAttrColor(R.attr.colorAppAccent), stripWidth, bulletGap),
                              selectionStart, selectionEnd,
-                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                             Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             } else {
                 text.setSpan(QuoteSpan(context.resolveAttrColor(R.attr.colorAppAccent)),
                              selectionStart, selectionEnd,
-                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                             Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             }
         }
     }
@@ -209,7 +209,7 @@ object EditTextHelper {
 
         if (!exists) {
             val blurMaskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.SOLID)
-            text.setSpan(MaskFilterSpan(blurMaskFilter), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(MaskFilterSpan(blurMaskFilter), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -223,7 +223,7 @@ object EditTextHelper {
         }
 
         if (!exists) {
-            text.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), selectionStart, selectionEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
@@ -235,7 +235,7 @@ object EditTextHelper {
 
         for (span in spans) {
             text.removeSpan(span)
-            spannableStringBuilder.setSpan(span, 0, sequence.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannableStringBuilder.setSpan(span, 0, sequence.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
 
         return spannableStringBuilder

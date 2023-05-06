@@ -22,6 +22,7 @@ import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.util.ColorUtils;
 import app.simple.inure.util.ViewUtils;
 
 public class DynamicRippleImageButton extends ThemeButton {
@@ -131,6 +132,27 @@ public class DynamicRippleImageButton extends ThemeButton {
             ImageLoader.INSTANCE.loadImage(resId, this, 0);
         } else {
             setImageResource(resId);
+        }
+    }
+    
+    /**
+     * Use this method to track selection in {@link androidx.recyclerview.widget.RecyclerView}.
+     * This will change the background according to the accent color and will also keep
+     * save the ripple effect.
+     *
+     * @param selected true for selected item
+     */
+    public void setDefaultBackground(boolean selected) {
+        if (selected) {
+            setBackgroundTintList(null);
+            setBackgroundTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.changeAlpha(
+                    ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent),
+                    25)));
+            
+            LayoutBackground.setBackground(getContext(), this, null);
+        } else {
+            setBackground(null);
+            setBackground(Utils.getRippleDrawable(getBackground()));
         }
     }
     

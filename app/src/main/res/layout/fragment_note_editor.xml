@@ -115,13 +115,74 @@
         android:layout_width="wrap_content"
         android:layout_height="1px" />
 
-    <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
-        android:id="@+id/strip"
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:padding="5dp"
-        app:statusBarPaddingRequired="false"
-        app:isEdgeColorRequired="false" />
+        android:overScrollMode="never"
+        android:scrollbarSize="0dp"
+        android:scrollbars="none">
 
+        <app.simple.inure.decorations.theme.ThemeLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/bold"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_format_bold" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/italic"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_format_italic" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/underline"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_format_underlined" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/strike_thru"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_format_strikethrough" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/super_script"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_format_superscript" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/sub_script"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_format_subscript" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/paint"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_format_paint" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/quote"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_format_quote" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/date"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_watch_later" />
+
+        </app.simple.inure.decorations.theme.ThemeLinearLayout>
+
+    </HorizontalScrollView>
 </app.simple.inure.decorations.ime.InsetsAnimationLinearLayout>

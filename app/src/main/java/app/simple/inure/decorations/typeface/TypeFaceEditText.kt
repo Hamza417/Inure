@@ -33,6 +33,8 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     private var colorMode: Int = 1
     private var valueAnimator: ValueAnimator? = null
 
+    private val listeners: MutableSet<OnSelectionChangedListener> = HashSet()
+
     constructor(context: Context) : super(context) {
         typedArray = context.theme.obtainStyledAttributes(null, R.styleable.TypeFaceTextView, 0, 0)
         init()
@@ -58,6 +60,17 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
             setDrawableTint(ThemeManager.theme.iconTheme.secondaryIconColor)
             setCursorDrawable()
             typedArray.recycle()
+        }
+    }
+
+    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+        super.onSelectionChanged(selStart, selEnd)
+        try {
+            for (listener in listeners) {
+                listener.onSelectionChanged(selStart, selEnd)
+            }
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
         }
     }
 
@@ -108,7 +121,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         }
     }
 
-    @SuppressLint("DiscouragedPrivateApi")
+    @SuppressLint("DiscouragedPrivateApi", "PrivateApi")
     private fun setCursorDrawable() {
         val drawable = DrawableBuilder()
             .rectangle()
@@ -169,6 +182,24 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
             INVISIBLE, GONE -> {
                 hideInput()
             }
+        }
+    }
+
+    fun addOnSelectionChangedListener(listener: OnSelectionChangedListener) {
+        listeners.add(listener)
+    }
+
+    fun removeOnSelectionChangedListener(listener: OnSelectionChangedListener) {
+        listeners.remove(listener)
+    }
+
+    fun triggerSelectionChanged() {
+        onSelectionChanged(selectionStart, selectionEnd)
+    }
+
+    companion object {
+        interface OnSelectionChangedListener {
+            fun onSelectionChanged(selectionStart: Int, selectionEnd: Int)
         }
     }
 }

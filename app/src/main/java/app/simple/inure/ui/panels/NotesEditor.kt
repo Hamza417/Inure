@@ -2,9 +2,11 @@ package app.simple.inure.ui.panels
 
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
+import android.text.style.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.menus.AdapterFormattingStrip
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -58,12 +59,22 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var redo: DynamicRippleImageButton
     private lateinit var save: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
-    private lateinit var strip: CustomHorizontalRecyclerView
+
+    private lateinit var bold: DynamicRippleImageButton
+    private lateinit var italic: DynamicRippleImageButton
+    private lateinit var underline: DynamicRippleImageButton
+    private lateinit var strikethrough: DynamicRippleImageButton
+    private lateinit var superScript: DynamicRippleImageButton
+    private lateinit var subScript: DynamicRippleImageButton
+    private lateinit var paint: DynamicRippleImageButton
+    private lateinit var quote: DynamicRippleImageButton
+    private lateinit var date: DynamicRippleImageButton
 
     private lateinit var notesViewModel: NotesViewModel
     private lateinit var notesEditorViewModel: NotesEditorViewModel
     private var notesPackageInfo: NotesPackageInfo? = null
     private var textViewUndoRedo: TextViewUndoRedo? = null
+    private var adapterFormattingStrip: AdapterFormattingStrip? = null
 
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
@@ -84,7 +95,16 @@ class NotesEditor : KeyboardScopedFragment() {
         redo = view.findViewById(R.id.redo)
         save = view.findViewById(R.id.save)
         settings = view.findViewById(R.id.settings)
-        strip = view.findViewById(R.id.strip)
+
+        bold = view.findViewById(R.id.bold)
+        italic = view.findViewById(R.id.italic)
+        underline = view.findViewById(R.id.underline)
+        strikethrough = view.findViewById(R.id.strike_thru)
+        superScript = view.findViewById(R.id.super_script)
+        subScript = view.findViewById(R.id.sub_script)
+        paint = view.findViewById(R.id.paint)
+        quote = view.findViewById(R.id.quote)
+        date = view.findViewById(R.id.date)
 
         val factory = NotesViewModelFactory(packageInfo)
         notesEditorViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
@@ -115,6 +135,55 @@ class NotesEditor : KeyboardScopedFragment() {
                     }, 1000)
         }
 
+        noteEditText.addOnSelectionChangedListener(object : TypeFaceEditText.Companion.OnSelectionChangedListener {
+            override fun onSelectionChanged(selectionStart: Int, selectionEnd: Int) {
+                Log.d("NotesEditor", "Selection changed, start: $selectionStart, end: $selectionEnd")
+                val boldSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, StyleSpan::class.java)
+                val italicSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, StyleSpan::class.java)
+                val underlineSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, UnderlineSpan::class.java)
+                val strikethroughSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, StrikethroughSpan::class.java)
+                val superScriptSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, SuperscriptSpan::class.java)
+                val subScriptSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, SubscriptSpan::class.java)
+                val quoteSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, QuoteSpan::class.java)
+                val foregroundColorSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, ForegroundColorSpan::class.java)
+
+                if (boldSpan.isNotEmpty()) {
+                    for (span in boldSpan) {
+                        Log.d("NotesEditor", "Bold span: ${span.style}")
+                        if (span.style == Typeface.BOLD) {
+                            bold.setDefaultBackground(true)
+                            break
+                        } else {
+                            bold.setDefaultBackground(false)
+                        }
+                    }
+                } else {
+                    bold.setDefaultBackground(false)
+                }
+
+                if (italicSpan.isNotEmpty()) {
+                    for (span in italicSpan) {
+                        Log.d("NotesEditor", "Italic span: ${span.style}")
+                        if (span.style == Typeface.ITALIC) {
+                            italic.setDefaultBackground(true)
+                            break
+                        } else {
+                            italic.setDefaultBackground(false)
+                        }
+                    }
+                } else {
+                    italic.setDefaultBackground(false)
+                }
+
+                underline.setDefaultBackground(underlineSpan.isNotEmpty())
+                strikethrough.setDefaultBackground(strikethroughSpan.isNotEmpty())
+                superScript.setDefaultBackground(superScriptSpan.isNotEmpty())
+                subScript.setDefaultBackground(subScriptSpan.isNotEmpty())
+                quote.setDefaultBackground(quoteSpan.isNotEmpty())
+                paint.setDefaultBackground(foregroundColorSpan.isNotEmpty())
+            }
+        })
+
         notesEditorViewModel.getNoteData().observe(viewLifecycleOwner) {
             notesPackageInfo = it
             if (NotesPreferences.areJSONSpans()) {
@@ -127,69 +196,49 @@ class NotesEditor : KeyboardScopedFragment() {
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
 
-        notesEditorViewModel.getFormattingStrip().observe(viewLifecycleOwner) {
-            val adapter = AdapterFormattingStrip(it)
+        bold.setOnClickListener {
+            handleFormattingChange { noteEditText.toBold() }
+        }
 
-            adapter.setOnFormattingStripClickedListener(object : AdapterFormattingStrip.Companion.FormattingStripCallbacks {
-                override fun onFormattingStripClicked(id: Int, view: View) {
-                    val start = noteEditText.selectionStart
-                    val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+        italic.setOnClickListener {
+            handleFormattingChange { noteEditText.toItalics() }
+        }
 
-                    when (id) {
-                        R.drawable.ic_format_bold -> {
-                            noteEditText.toBold()
-                        }
-                        R.drawable.ic_format_italic -> {
-                            noteEditText.toItalics()
-                        }
-                        R.drawable.ic_format_underlined -> {
-                            noteEditText.toUnderline()
-                        }
-                        R.drawable.ic_format_strikethrough -> {
-                            noteEditText.toStrikethrough()
-                        }
-                        R.drawable.ic_format_superscript -> {
-                            noteEditText.toSuperscript()
-                        }
-                        R.drawable.ic_format_subscript -> {
-                            noteEditText.toSubscript()
-                        }
-                        R.drawable.ic_format_quote -> {
-                            noteEditText.toQuote()
-                        }
-                        R.drawable.ic_format_paint -> {
-                            PopupBackgroundSpan(view).setOnPopupBackgroundCallbackListener(
-                                    object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
-                                        override fun onColorClicked(color: Int) {
-                                            noteEditText.highlightText(color)
-                                        }
-                                    })
-                        }
-                        R.drawable.ic_watch_later -> {
-                            // Append today's date
-                            //                    if (noteEditText.toString().endsWith("\n\n")) {
-                            //                        noteEditText.append(DateUtils.getTodayDate())
-                            //                    } else {
-                            //                        // Check if only one newline is present and not two
-                            //                        if (noteEditText.toString().endsWith("\n") && !noteEditText.toString().endsWith("\n\n")) {
-                            //                            noteEditText.append("\n${DateUtils.getTodayDate()}")
-                            //                        } else {
-                            //                            noteEditText.append("\n\n${DateUtils.getTodayDate()}")
-                            //                        }
-                            //                    }
+        underline.setOnClickListener {
+            handleFormattingChange { noteEditText.toUnderline() }
+        }
 
-                            noteEditText.append(DateUtils.getTodayDate())
+        strikethrough.setOnClickListener {
+            handleFormattingChange { noteEditText.toStrikethrough() }
+        }
+
+        superScript.setOnClickListener {
+            handleFormattingChange { noteEditText.toSuperscript() }
+        }
+
+        subScript.setOnClickListener {
+            handleFormattingChange { noteEditText.toSubscript() }
+        }
+
+        paint.setOnClickListener {
+            PopupBackgroundSpan(view).setOnPopupBackgroundCallbackListener(
+                    object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
+                        override fun onColorClicked(color: Int) {
+                            handleFormattingChange { noteEditText.highlightText(color) }
                         }
-                    }
+                    })
+        }
 
-                    val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
-                    textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
-                    undoRedoButtonState()
-                }
-            })
+        quote.setOnClickListener {
+            handleFormattingChange { noteEditText.toQuote() }
+        }
 
-            strip.adapter = adapter
-            strip.requestLayout()
+        date.setOnClickListener {
+            // Insert today's date
+            val selectionStart = noteEditText.selectionStart.coerceAtLeast(0)
+            val selectionEnd = noteEditText.selectionEnd.coerceAtLeast(0)
+            noteEditText.text?.replace(selectionStart.coerceAtMost(selectionEnd), selectionStart.coerceAtLeast(selectionEnd),
+                                       DateUtils.getTodayDate(), 0, DateUtils.getTodayDate().length)
         }
 
         // TODO - There was a unique bug where the bottom menu was not showing up when the user was in the notes editor fragment
@@ -251,6 +300,16 @@ class NotesEditor : KeyboardScopedFragment() {
                 })
             }
         }
+    }
+
+    private fun handleFormattingChange(function: () -> Unit) {
+        val start = noteEditText.selectionStart
+        val beforeChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+        function()
+        noteEditText.triggerSelectionChanged()
+        val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
+        textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
+        undoRedoButtonState()
     }
 
     private fun handleTextChange(save: Boolean) {

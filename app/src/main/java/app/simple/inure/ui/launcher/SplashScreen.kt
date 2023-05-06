@@ -52,6 +52,7 @@ class SplashScreen : ScopedFragment() {
     private var isUsageDataLoaded = false
     private var areSensorsLoaded = false
     private var isSearchLoaded = false
+    private var isNotesLoaded = false
     private var isUninstalledPackagesLoaded = false
     private var isDisabledPackagesLoaded = false
     private var isRecentlyInstalledLoaded = false
@@ -123,6 +124,7 @@ class SplashScreen : ScopedFragment() {
         val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
         val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         val batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
+        val notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
 
         val batteryOptimizationViewModel = if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
             ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
@@ -212,6 +214,12 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
+        notesViewModel.getNotesData().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Notes data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
+            isNotesLoaded = true
+            openApp()
+        }
+
         /**
          * One shell warning is enough, I guess!!
          * Skip the boot manager ones if the user has already seen the warning
@@ -259,7 +267,8 @@ class SplashScreen : ScopedFragment() {
                 isRecentlyInstalledLoaded &&
                 isBatteryOptimizationLoaded &&
                 isBatchLoaded &&
-                isBootManagerLoaded
+                isBootManagerLoaded &&
+                isNotesLoaded
     }
 
     private fun checkForPermission(): Boolean {
