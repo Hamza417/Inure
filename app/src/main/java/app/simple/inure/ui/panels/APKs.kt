@@ -77,33 +77,16 @@ class APKs : ScopedFragment() {
 
             adapterApks.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int, icon: ImageView) {
-                    kotlin.runCatching {
-                        if (adapterApks.paths[position].endsWith(".apk")) {
-                            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
-                            } else {
-                                @Suppress("DEPRECATION")
-                                requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageUtils.flags.toInt())!!
-                            }
+                    val uri = FileProvider.getUriForFile(
+                            /* context = */ requireActivity().applicationContext,
+                            /* authority = */ "${requireContext().packageName}.provider",
+                            /* file = */ File(adapterApks.paths[position]))
 
-                            packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
-                        } else {
-                            packageInfo = PackageInfo() // empty package info
-                            packageInfo.applicationInfo = ApplicationInfo() // empty application info
-                            packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
-                        }
-
-                        if (packageInfo.isInstalled()) {
-                            packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
-                            icon.transitionName = packageInfo.packageName
-                            packageInfo.applicationInfo.name = it[position].substringAfterLast("/")
-                            openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
-                        } else {
-                            openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
-                        }
-                    }.onFailure {
-                        showWarning("Failed to open apk : ${adapterApks.paths[position].substringAfterLast("/")}", false)
-                    }
+                    val intent = Intent(requireContext(), ApkInstallerActivity::class.java)
+                    intent.setDataAndType(uri, "application/vnd.android.package-archive")
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    startActivity(intent)
                 }
 
                 override fun onApkLongClicked(view: View, position: Int, icon: ImageView) {
@@ -157,7 +140,33 @@ class APKs : ScopedFragment() {
                         }
 
                         override fun onInfoClicked() {
-                            onApkClicked(view, position, icon)
+                            kotlin.runCatching {
+                                if (adapterApks.paths[position].endsWith(".apk")) {
+                                    packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                        requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                                    } else {
+                                        @Suppress("DEPRECATION")
+                                        requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position], PackageUtils.flags.toInt())!!
+                                    }
+
+                                    packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
+                                } else {
+                                    packageInfo = PackageInfo() // empty package info
+                                    packageInfo.applicationInfo = ApplicationInfo() // empty application info
+                                    packageInfo.applicationInfo.sourceDir = adapterApks.paths[position]
+                                }
+
+                                if (packageInfo.isInstalled()) {
+                                    packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
+                                    icon.transitionName = packageInfo.packageName
+                                    packageInfo.applicationInfo.name = it[position].substringAfterLast("/")
+                                    openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
+                                } else {
+                                    openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
+                                }
+                            }.onFailure {
+                                showWarning("Failed to open apk : ${adapterApks.paths[position].substringAfterLast("/")}", false)
+                            }
                         }
                     })
                 }
