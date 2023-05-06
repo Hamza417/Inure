@@ -31,18 +31,22 @@ class PopupBackgroundSpan(anchor: View) : BasePopupWindow() {
 
         red.setOnClickListener {
             popupBackgroundSpanCallback?.onColorClicked(Color.parseColor("#f1948a"))
+            dismiss()
         }
 
         purple.setOnClickListener {
             popupBackgroundSpanCallback?.onColorClicked(Color.parseColor("#d2b4de"))
+            dismiss()
         }
 
         blue.setOnClickListener {
             popupBackgroundSpanCallback?.onColorClicked(Color.parseColor("#aed6f1"))
+            dismiss()
         }
 
         green.setOnClickListener {
             popupBackgroundSpanCallback?.onColorClicked(Color.parseColor("#a2d9ce"))
+            dismiss()
         }
 
         setContentView(contentView)

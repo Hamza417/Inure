@@ -18,7 +18,6 @@ import androidx.activity.addCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.menus.AdapterFormattingStrip
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeLinearLayout
@@ -79,7 +78,6 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var notesEditorViewModel: NotesEditorViewModel
     private var notesPackageInfo: NotesPackageInfo? = null
     private var textViewUndoRedo: TextViewUndoRedo? = null
-    private var adapterFormattingStrip: AdapterFormattingStrip? = null
 
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
@@ -157,7 +155,7 @@ class NotesEditor : KeyboardScopedFragment() {
                 val superScriptSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, SuperscriptSpan::class.java)
                 val subScriptSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, SubscriptSpan::class.java)
                 val quoteSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, QuoteSpan::class.java)
-                val foregroundColorSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, ForegroundColorSpan::class.java)
+                val backgroundColorSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, BackgroundColorSpan::class.java)
 
                 if (boldSpan.isNotEmpty()) {
                     for (span in boldSpan) {
@@ -192,7 +190,7 @@ class NotesEditor : KeyboardScopedFragment() {
                 superScript.setDefaultBackground(superScriptSpan.isNotEmpty())
                 subScript.setDefaultBackground(subScriptSpan.isNotEmpty())
                 quote.setDefaultBackground(quoteSpan.isNotEmpty())
-                paint.setDefaultBackground(foregroundColorSpan.isNotEmpty())
+                paint.setDefaultBackground(backgroundColorSpan.isNotEmpty())
             }
         })
 
