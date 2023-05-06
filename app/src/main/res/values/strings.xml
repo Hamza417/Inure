@@ -202,7 +202,6 @@
     <string name="arc_animations">Arc Animations</string>
     <string name="desc_arc_animations">Enables or Disables circular path animations for the icons.\n\nThis option does not override if animations are disabled by the System itself.</string>
     <string name="valid_to">Valid until</string>
-    <string name="pdf_viewer">PDF Viewer</string>
     <string name="ttf_viewer">TTF Viewer</string>
     <string name="popups">Popups</string>
     <string name="animations">Animations</string>
@@ -668,4 +667,6 @@
     <string name="no_new_additions">No new additions</string>
     <string name="no_new_removals">No new removals</string>
     <string name="boot">Boot</string>
+    <string name="components">Components</string>
+    <string name="component_manager_desc">Enable/disable app\'s various components.</string>
 </resources>

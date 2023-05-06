@@ -180,6 +180,52 @@
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                    android:id="@+id/configuration_component_manager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/component_manager_icon"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_extension"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/component_manager_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_toEndOf="@id/component_manager_icon"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/components"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                        app:drawableTintStyle="accent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/component_manager_tag"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="60dp"
+                        android:layout_toEndOf="@id/component_manager_icon"
+                        android:text="@string/component_manager_desc"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:textColorStyle="tertiary" />
+
+                </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
+
+                <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                     android:id="@+id/configuration_language"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

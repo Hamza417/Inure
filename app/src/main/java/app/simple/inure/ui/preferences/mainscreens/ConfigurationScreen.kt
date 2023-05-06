@@ -23,6 +23,7 @@ import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showSt
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.ui.preferences.subscreens.ComponentManager
 import app.simple.inure.ui.preferences.subscreens.Language
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
@@ -37,6 +38,7 @@ class ConfigurationScreen : ScopedFragment() {
 
     private lateinit var keepScreenOnSwitchView: SwitchView
     private lateinit var shortcuts: DynamicRippleRelativeLayout
+    private lateinit var componets: DynamicRippleRelativeLayout
     private lateinit var language: DynamicRippleRelativeLayout
     private lateinit var path: DynamicRippleConstraintLayout
     private lateinit var rootSwitchView: SwitchView
@@ -50,6 +52,7 @@ class ConfigurationScreen : ScopedFragment() {
 
         keepScreenOnSwitchView = view.findViewById(R.id.configuration_switch_keep_screen_on)
         shortcuts = view.findViewById(R.id.configuration_shortcuts)
+        componets = view.findViewById(R.id.configuration_component_manager)
         language = view.findViewById(R.id.configuration_language)
         path = view.findViewById(R.id.configuration_path)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
@@ -97,6 +100,10 @@ class ConfigurationScreen : ScopedFragment() {
 
         shortcuts.setOnClickListener {
             openFragmentSlide(Shortcuts.newInstance(), "shortcuts")
+        }
+
+        componets.setOnClickListener {
+            openFragmentSlide(ComponentManager.newInstance(), "components")
         }
 
         language.setOnClickListener {
