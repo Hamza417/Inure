@@ -150,7 +150,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
     }
 
-    protected fun setDrawableTint(animate: Boolean) {
+    private fun setDrawableTint(animate: Boolean) {
         if (animate) {
             when (drawableTintMode) {
                 0, 3, 5 -> animateDrawableColorChange(lastDrawableColor, AppearancePreferences.getAccentColor())

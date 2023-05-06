@@ -8,9 +8,11 @@ import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.style.*
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.core.widget.doAfterTextChanged
@@ -19,6 +21,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.menus.AdapterFormattingStrip
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.theme.ThemeLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.notes.NotesEditorMenu
@@ -41,6 +44,7 @@ import app.simple.inure.text.SpannableSerializer
 import app.simple.inure.text.TextViewUndoRedo
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
@@ -59,6 +63,7 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var redo: DynamicRippleImageButton
     private lateinit var save: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
+    private lateinit var formattingStrip: ThemeLinearLayout
 
     private lateinit var bold: DynamicRippleImageButton
     private lateinit var italic: DynamicRippleImageButton
@@ -95,6 +100,7 @@ class NotesEditor : KeyboardScopedFragment() {
         redo = view.findViewById(R.id.redo)
         save = view.findViewById(R.id.save)
         settings = view.findViewById(R.id.settings)
+        formattingStrip = view.findViewById(R.id.formatting_strip)
 
         bold = view.findViewById(R.id.bold)
         italic = view.findViewById(R.id.italic)
@@ -123,6 +129,12 @@ class NotesEditor : KeyboardScopedFragment() {
         packageId.text = packageInfo.packageName
         noteEditText.setWindowInsetsAnimationCallback()
         handleFormattingState()
+
+        if (StatusBarHeight.isLandscape(requireContext())) {
+            val params: FrameLayout.LayoutParams = formattingStrip.layoutParams as FrameLayout.LayoutParams
+            params.gravity = Gravity.CENTER_HORIZONTAL
+            formattingStrip.layoutParams = params
+        }
 
         noteEditText.doAfterTextChanged {
             handler.removeCallbacksAndMessages(null)
@@ -221,7 +233,7 @@ class NotesEditor : KeyboardScopedFragment() {
         }
 
         paint.setOnClickListener {
-            PopupBackgroundSpan(view).setOnPopupBackgroundCallbackListener(
+            PopupBackgroundSpan(it).setOnPopupBackgroundCallbackListener(
                     object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
                         override fun onColorClicked(color: Int) {
                             handleFormattingChange { noteEditText.highlightText(color) }

@@ -53,25 +53,20 @@ open class KeyboardScopedFragment : ScopedFragment() {
          * Note about [TranslateDeferringInsetsAnimationCallback], it relies on the behavior of
          * [RootViewDeferringInsetsCallback] on the layout's root view.
          */
-        ViewCompat.setWindowInsetsAnimationCallback(
-                this,
-                HeightDeferringInsetsAnimationCallback(
-                        view = this,
-                        persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
-                        deferredInsetTypes = WindowInsetsCompat.Type.ime(),
-                        // We explicitly allow dispatch to continue down to binding.messageHolder's
-                        // child views, so that step 2.5 below receives the call
-                        dispatchMode = WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
-                )
-        )
-        ViewCompat.setWindowInsetsAnimationCallback(
-                this,
-                HeightDeferringInsetsAnimationCallback(
-                        view = this,
-                        persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
-                        deferredInsetTypes = WindowInsetsCompat.Type.ime()
-                )
-        )
+        ViewCompat.setWindowInsetsAnimationCallback(this, HeightDeferringInsetsAnimationCallback(
+                view = this,
+                persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
+                deferredInsetTypes = WindowInsetsCompat.Type.ime(),
+                // We explicitly allow dispatch to continue down to binding.messageHolder's
+                // child views, so that step 2.5 below receives the call
+                dispatchMode = WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
+        ))
+
+        ViewCompat.setWindowInsetsAnimationCallback(this, HeightDeferringInsetsAnimationCallback(
+                view = this,
+                persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
+                deferredInsetTypes = WindowInsetsCompat.Type.ime()
+        ))
     }
 
     /**

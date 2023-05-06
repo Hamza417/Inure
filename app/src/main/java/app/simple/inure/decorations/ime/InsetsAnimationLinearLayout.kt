@@ -16,7 +16,7 @@ import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
  * A [LinearLayout] which acts as a [nested scroll parent][NestedScrollingParent3] to automatically
  * control the IME inset and visibility when running on devices with API level 30+.
  *
- * This class tracks scrolling, overscrolling, and flinging gestures on child scrolling views,
+ * This class tracks scrolling, over scrolling, and flinging gestures on child scrolling views,
  * such as a [androidx.recyclerview.widget.RecyclerView].
  *
  * This class triggers a request to control the IME insets via
