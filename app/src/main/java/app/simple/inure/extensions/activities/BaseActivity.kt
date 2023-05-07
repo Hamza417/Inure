@@ -12,10 +12,7 @@ import android.os.StrictMode
 import android.transition.ArcMotion
 import android.transition.Fade
 import android.util.Log
-import android.view.OrientationEventListener
-import android.view.Surface
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -378,8 +375,9 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
              * the notch area.
              */
             if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled)) {
-                val root = findViewById<CoordinatorLayout>(R.id.app_container)
-                ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
+                val root = findViewById<ViewGroup>(R.id.app_container)
+
+                ViewCompat.setOnApplyWindowInsetsListener(root) { _, windowInsets ->
                     val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
                     cutoutDepth = insets.top
                     WindowInsetsCompat.CONSUMED
