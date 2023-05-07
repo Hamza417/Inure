@@ -203,7 +203,6 @@
     <string name="arc_animations">Animações de Arco</string>
     <string name="desc_arc_animations">Ativa ou desativa animações de caminhos circulares para os ícones.\n\nEsta opção não substitui se as animações são desabilitadas pelo próprio sistema.</string>
     <string name="valid_to">Válido até</string>
-    <string name="pdf_viewer">Visualizador de PDF</string>
     <string name="ttf_viewer">Visualizador de TTF</string>
     <string name="popups">Balões</string>
     <string name="animations">Animações</string>
@@ -668,4 +667,7 @@
     <string name="changes">Mudanças</string>
     <string name="no_new_additions">Nenhuma adição nova</string>
     <string name="no_new_removals">Sem novas remoções</string>
+    <string name="boot">Inicialização</string>
+    <string name="components">Componentes</string>
+    <string name="component_manager_desc">Ativar/desativar vários componentes do aplicativo.</string>
 </resources>

@@ -203,7 +203,6 @@
     <string name="arc_animations">弧形動畫</string>
     <string name="desc_arc_animations">啟用或停用圖示的圓形路徑動畫。\n\n若系統本身停用了動畫，此選項將不會覆寫。</string>
     <string name="valid_to">有效期至</string>
-    <string name="pdf_viewer">PDF 檢視器</string>
     <string name="ttf_viewer">TTF 檢視器</string>
     <string name="popups">彈出式視窗</string>
     <string name="animations">動畫</string>
@@ -668,4 +667,7 @@
     <string name="changes">變更</string>
     <string name="no_new_additions">沒有新增項目</string>
     <string name="no_new_removals">沒有移除項目</string>
+    <string name="boot">開機</string>
+    <string name="components">元件</string>
+    <string name="component_manager_desc">啟用/停用應用程式的各種元件。</string>
 </resources>
