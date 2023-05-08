@@ -203,7 +203,6 @@
     <string name="arc_animations">Анимация дуги</string>
     <string name="desc_arc_animations">Включает или отключает анимацию круговой траектории для значков.\n\nЭтот параметр не имеет значения, если анимация отключена в ОС.</string>
     <string name="valid_to">Действителен до</string>
-    <string name="pdf_viewer">Просмотрщик PDF</string>
     <string name="ttf_viewer">Просмотрщик TTF</string>
     <string name="popups">Всплывающие окна</string>
     <string name="animations">Анимации</string>
@@ -671,4 +670,7 @@
     <string name="changes">Изменения</string>
     <string name="no_new_additions">Ничего не добавлено</string>
     <string name="no_new_removals">Ничего не удалено</string>
+    <string name="boot">Загрузка</string>
+    <string name="components">Компоненты</string>
+    <string name="component_manager_desc">Включение/отключение различных компонентов приложений.</string>
 </resources>
