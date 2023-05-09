@@ -85,6 +85,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                 isPackageInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
             } else {
                 packageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
+                isPackageInstalled = true
             }
         }.getOrElse {
             it.printStackTrace()
@@ -156,7 +157,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             }
         } else {
             buildString {
-                append(getString(R.string.app_not_installed))
+                append(getString(R.string.app_not_installed, packageInfo.packageName))
             }
         }
 
@@ -305,14 +306,14 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun getMethodCount(): Pair<Int, Spannable> {
         val method = kotlin.runCatching {
-            val p0 = packageInfo.applicationInfo.sourceDir.toFile().getDexData()!!
+            val dexClasses = packageInfo.applicationInfo.sourceDir.toFile().getDexData()!!
             var count = 0
 
-            for (i in p0) {
-                count += i.javaClass.classes.size
+            for (clazz in dexClasses) {
+                count += clazz.javaClass.methods.size
             }
 
-            if (p0.size > 1) {
+            if (dexClasses.size > 1) {
                 String.format(getString(R.string.multi_dex), NumberFormat.getNumberInstance().format(count))
             } else {
                 String.format(getString(R.string.single_dex), NumberFormat.getNumberInstance().format(count))
@@ -321,8 +322,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             it.message!!
         }
 
-        return Pair(R.string.method_count,
-                    method.applySecondaryTextColor())
+        return Pair(R.string.method_count, method.applySecondaryTextColor())
     }
 
     private fun getApex(): Pair<Int, Spannable> {
