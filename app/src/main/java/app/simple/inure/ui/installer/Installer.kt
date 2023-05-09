@@ -37,7 +37,6 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.isNotZero
-import app.simple.inure.util.FileUtils.findFile
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.installer.InstallerViewModel
@@ -217,9 +216,8 @@ class Installer : ScopedFragment() {
             }
         }
 
-        installerViewModel.getFile().observe(viewLifecycleOwner) {
+        installerViewModel.getFile().observe(viewLifecycleOwner) { file ->
             kotlin.runCatching {
-                val file = if (it.size > 1) it.findFile("base.apk")!! else it[0]
                 icon.loadAppIcon(file)
 
                 val titles = arrayListOf<String>()
