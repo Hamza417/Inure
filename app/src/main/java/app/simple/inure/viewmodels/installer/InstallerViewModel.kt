@@ -69,6 +69,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                 extractFiles()
                 createPackageInfoAndFilterFiles()
             }.getOrElse {
+                it.printStackTrace()
                 postWarning(it.message ?: "Unknown error")
             }
         }
@@ -129,9 +130,15 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
             packageInfo.applicationInfo.publicSourceDir = file.absolutePath
             packageInfo.applicationInfo.name = packageManager.getApplicationLabel(packageInfo.applicationInfo).toString()
             this.packageInfo.postValue(packageInfo)
-            splitApkFiles!!.remove(file)
             baseApkLiveData.postValue(file)
             baseApk = file
+
+            try {
+                splitApkFiles!!.remove(file)
+            } catch (e: NullPointerException) {
+                e.printStackTrace()
+            }
+
             break
         }
 
@@ -311,8 +318,10 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
     }
 
     private fun clearInstallerCache() {
-        if (File(applicationContext().cacheDir.path + "/installer_cache/").deleteRecursively()) {
-            Log.d(javaClass.name, "Installer cache cleared")
+        kotlin.runCatching {
+            if (File(applicationContext().cacheDir.path + "/installer_cache/").deleteRecursively()) {
+                Log.d(javaClass.name, "Installer cache cleared")
+            }
         }
     }
 
