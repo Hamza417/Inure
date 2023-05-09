@@ -13,53 +13,22 @@
 <br>
 
 <sub>(Current Version)</sub>
-<h2>Build72</h2>
+<h2>Build73</h2>
 <small>Released on: 9 May 2023, 12:47 PM UTC</small>
 
 <!-- Write change logs here -->
 
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added padding for notch cutout to prevent notch overlapping.</li>
-    <li>Added per app native boot manager.</li>
-    <li>Added app components manager to enable/disable various features of the app.</li>
-</ul>
-
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed trackers not getting blocked in <b>Installer</b> panel.</li>
-    <li>Fixed tracker icons not showing for installed packages.</li>
-    <li>Fixed missing changes meta data in <b>Installer</b> panel.</li>
-    <li>Fixed activity state wrapped inside a <i>'Success'</i> string.</li>
-    <li>Fixed delay while opening notes panel.</li>
-    <li>Fixed various formats such as APKS and XAPK crashing the installer.</li>
-</ul>
-
-<h4>Changes</h4>
-
-<ul>
-    <li>Changed click behavior of <b>APKs</b> panel.
-        <br>
-        <small>Clicking an apk will now open <b>Installer</b> panel.</small>
-    </li>
+    <li>Fixed unknown error issue in <b>Installer</b> panel.</li>
+    <li>Fixed method count showing wrong numbers.</li>
 </ul>
 
 <h4>Improved</h4>
 
 <ul>
-    <li>Improved <b>Notes Editor</b> panel formatting strip framework.
-        <ul>
-            <li>Removed unnecessary animations for better UX.</li>
-            <li>Added span highlight, moving cursor will simultaneously highlight the applied span
-                icon as well.
-            </li>
-            <li>All spans are now inclusive, meaning can be toggled instead of applying as it was
-                before.
-            </li>
-        </ul>
-    </li>
+    <li>Improved <b>Information</b> framework for efficient data parsing.</li>
 </ul>
 
 <h4>Removed</h4>
@@ -69,6 +38,71 @@
 </ul>
 
 <br>
+<br>
+<div class="wrap-collapsible">
+    <input class="toggle" id="build_72" type="checkbox">
+    <label class="lbl-toggle" for="build_72">Build72</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <small>Released on: 9 May 2023, 12:47 PM UTC</small>
+
+            <br>
+
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added padding for notch cutout to prevent notch overlapping.</li>
+                <li>Added per app native boot manager.</li>
+                <li>Added app components manager to enable/disable various features of the app.</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed trackers not getting blocked in <b>Installer</b> panel.</li>
+                <li>Fixed tracker icons not showing for installed packages.</li>
+                <li>Fixed missing changes meta data in <b>Installer</b> panel.</li>
+                <li>Fixed activity state wrapped inside a <i>'Success'</i> string.</li>
+                <li>Fixed delay while opening notes panel.</li>
+                <li>Fixed various formats such as APKS and XAPK crashing the installer.</li>
+            </ul>
+
+            <h4>Changes</h4>
+
+            <ul>
+                <li>Changed click behavior of <b>APKs</b> panel.
+                    <br>
+                    <small>Clicking an apk will now open <b>Installer</b> panel.</small>
+                </li>
+            </ul>
+
+            <h4>Improved</h4>
+
+            <ul>
+                <li>Improved <b>Notes Editor</b> panel formatting strip framework.
+                    <ul>
+                        <li>Removed unnecessary animations for better UX.</li>
+                        <li>Added span highlight, moving cursor will simultaneously highlight the
+                            applied span
+                            icon as well.
+                        </li>
+                        <li>All spans are now inclusive, meaning can be toggled instead of applying
+                            as it was
+                            before.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>Removed</h4>
+
+            <ul>
+                <li>Removed unnecessary animations that were overloading the <b>Analytics</b> panel.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <div class="wrap-collapsible">
     <input class="toggle" id="build_71" type="checkbox">

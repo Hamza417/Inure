@@ -40,6 +40,7 @@ import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.appinfo.PopupMenuLayout
@@ -394,7 +395,11 @@ class AppInfo : ScopedFragment() {
         }
 
         icon.transitionName = packageInfo.packageName
-        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled, packageInfo.applicationInfo.sourceDir.toFile())
+        try {
+            icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled, packageInfo.applicationInfo.sourceDir.toFile())
+        } catch (e: NullPointerException) {
+            icon.loadAPKIcon(packageInfo.applicationInfo.sourceDir)
+        }
 
         name.text = packageInfo.applicationInfo.name
         packageId.text = PackageUtils.getApplicationVersion(requireContext(), packageInfo)

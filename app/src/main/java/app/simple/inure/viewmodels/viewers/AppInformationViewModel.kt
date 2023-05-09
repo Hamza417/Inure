@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.text.Spannable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -20,6 +21,7 @@ import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
+import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -28,6 +30,7 @@ import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
+import app.simple.inure.util.StringUtils.endsWithAny
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
@@ -37,6 +40,8 @@ import java.io.File
 import java.text.NumberFormat
 
 class AppInformationViewModel(application: Application, private var packageInfo: PackageInfo) : WrappedViewModel(application) {
+
+    private var isPackageInstalled = false
 
     private val information: MutableLiveData<ArrayList<Pair<Int, Spannable>>> by lazy {
         MutableLiveData<ArrayList<Pair<Int, Spannable>>>().also {
@@ -52,25 +57,32 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun loadInformation() {
         kotlin.runCatching {
-            if (packageInfo.applicationInfo.sourceDir.endsWith(".apkm")
-                || packageInfo.applicationInfo.sourceDir.endsWith(".apks")
-                || packageInfo.applicationInfo.sourceDir.endsWith(".zip")) {
+            if (packageInfo.applicationInfo.sourceDir.endsWithAny(".zip", ".xapk", ".apks", ".apkm")) {
 
                 val zipFile = ZipFile(packageInfo.applicationInfo.sourceDir)
                 val file = applicationContext().getInstallerDir("temp")
 
-                file.delete()
-                zipFile.extractFile("base.apk", file.absolutePath)
+                Log.d("AppInformationViewModel", "loadInformation: ${file.absolutePath}")
 
-                packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    packageManager.getPackageArchiveInfo(file.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
-                } else {
-                    @Suppress("DEPRECATION")
-                    packageManager.getPackageArchiveInfo(file.absolutePath, PackageUtils.flags.toInt())!!
+                file.deleteRecursively()
+                file.mkdirs()
+                zipFile.extractAll(file.path)
+
+                for (apkFile in file.listFiles()!!) {
+                    if (apkFile.absolutePath.endsWith(".apk", ignoreCase = true)) {
+                        Log.d("AppInformationViewModel", "loadInformation: ${apkFile.absolutePath}")
+                        packageInfo = packageManager.getPackageArchiveInfo(apkFile.absolutePath)!!
+                        packageInfo.applicationInfo.sourceDir = apkFile.absolutePath
+                        packageInfo.applicationInfo.publicSourceDir = apkFile.absolutePath
+                        packageInfo.splitNames = zipFile.fileHeaders.map { it.fileName }.toTypedArray()
+                        break
+                    }
                 }
 
                 packageInfo.applicationInfo.sourceDir = file.absolutePath
                 packageInfo.splitNames = zipFile.fileHeaders.map { it.fileName }.toTypedArray()
+
+                isPackageInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
             } else {
                 packageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
             }
@@ -86,6 +98,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                     getVersion(),
                     getVersionCode(),
                     getInstallLocation(),
+                    getState(),
                     getDataDir(),
                     getApkPath(),
                     getGlesVersion(),
@@ -107,7 +120,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             ))
         }.onFailure {
             it.printStackTrace()
-            postError(it)
+            postWarning(it.toString())
         }
     }
 
@@ -118,7 +131,11 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun getApkPath(): Pair<Int, Spannable> {
         val apkPath = kotlin.runCatching {
-            packageInfo.applicationInfo.sourceDir
+            if (isPackageInstalled) {
+                packageInfo.applicationInfo.sourceDir
+            } else {
+                null
+            }
         }.getOrElse {
             null
         }
@@ -126,10 +143,29 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         return Pair(R.string.apk_base_package, apkPath?.applySecondaryTextColor() ?: getString(R.string.not_available).applySecondaryTextColor())
     }
 
+    private fun getState(): Pair<Int, Spannable> {
+        val string = if (isPackageInstalled) {
+            buildString {
+                append(getString(R.string.installed))
+                append(" | ")
+                if (packageInfo.applicationInfo.enabled) {
+                    append(getString(R.string.enabled))
+                } else {
+                    append(getString(R.string.disabled))
+                }
+            }
+        } else {
+            buildString {
+                append(getString(R.string.app_not_installed))
+            }
+        }
+
+        return Pair(R.string.state, string.applyAccentColor())
+    }
+
     private fun getDataDir(): Pair<Int, Spannable> {
         kotlin.runCatching {
-            return Pair(R.string.data,
-                        packageInfo.applicationInfo.dataDir.applySecondaryTextColor())
+            return Pair(R.string.data, packageInfo.applicationInfo.dataDir.applySecondaryTextColor())
         }.getOrElse {
             return Pair(R.string.data, getString(R.string.not_available).applySecondaryTextColor())
         }
@@ -273,7 +309,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             var count = 0
 
             for (i in p0) {
-                count = i.javaClass.methods.size
+                count += i.javaClass.classes.size
             }
 
             if (p0.size > 1) {

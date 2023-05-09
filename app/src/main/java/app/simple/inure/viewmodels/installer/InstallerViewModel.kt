@@ -18,7 +18,6 @@ import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.getLength
 import app.simple.inure.util.NullSafety.isNull
@@ -95,15 +94,6 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
 
             if (documentFile.name!!.endsWith(".zip") || documentFile.name!!.endsWith(".apkm") || documentFile.name!!.endsWith(".apks") || documentFile.name!!.endsWith(".xapk")) {
                 ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
-                files = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
-
-                files!!.find {
-                    it.name.startsWith("config.").invert()
-                }?.let {
-                    // Rename config file to base.apk
-                    it.renameTo(File(it.parentFile, "base.apk"))
-                }
-
                 files = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
             } else if (documentFile.name!!.endsWith(".apk")) {
                 files = arrayListOf(sourceFile)

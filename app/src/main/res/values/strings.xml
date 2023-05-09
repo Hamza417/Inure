@@ -669,4 +669,6 @@
     <string name="boot">Boot</string>
     <string name="components">Components</string>
     <string name="component_manager_desc">Enable/disable app\'s various components.</string>
+    <string name="state">State</string>
+    <string name="installed">Installed</string>
 </resources>
