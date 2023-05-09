@@ -172,12 +172,6 @@
                 android:src="@drawable/ic_format_paint" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                android:id="@+id/quote"
-                android:layout_width="60dp"
-                android:layout_height="@dimen/button_size"
-                android:src="@drawable/ic_format_quote" />
-
-            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/date"
                 android:layout_width="60dp"
                 android:layout_height="@dimen/button_size"

@@ -215,7 +215,6 @@ object EditTextHelper {
     }
 
     fun EditText.toQuote() {
-        wrapTheSentenceInQuotes()
         selectTheCurrentSentence()
 
         val spans: Array<QuoteSpan> = text.getSpans(selectionStart, selectionEnd, QuoteSpan::class.java)
@@ -223,10 +222,13 @@ object EditTextHelper {
 
         for (span in spans) {
             text.removeSpan(span)
+            // removeTheQuotes()
             exists = true
         }
 
         if (!exists) {
+            // wrapTheSentenceInQuotes()
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 text.setSpan(QuoteSpan(AppearancePreferences.getAccentColor(), stripWidth, bulletGap),
                              selectionStart, selectionEnd,
@@ -236,6 +238,13 @@ object EditTextHelper {
                              selectionStart, selectionEnd,
                              Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
+
+            //            // Insert a newline at the right position
+            //            if (rightSpace != text.length) {
+            //                if (text[rightSpace + 1] != '\n') {
+            //                    text.insert(rightSpace, "\n\n")
+            //                }
+            //            }
         }
 
         // Remove the selection
@@ -288,6 +297,8 @@ object EditTextHelper {
     fun EditText.selectTheCurrentWord() {
         cursorPosition = selectionStart
 
+        if (selectionStart != selectionEnd) return
+
         /**
          * Select the current word and check for the existence of a space, period and any special characters
          * including newline characters. If any of these characters exist then the selection stops before
@@ -315,6 +326,8 @@ object EditTextHelper {
     fun EditText.selectTheCurrentSentence() {
         cursorPosition = selectionStart
 
+        if (selectionStart != selectionEnd) return
+
         /**
          * Find the first space on the left side of the cursor
          */
@@ -326,12 +339,10 @@ object EditTextHelper {
          * then find the first period on the left side of the cursor
          * and set the left space to the character after the period.
          */
-        if (if (leftSpace > 0) text[leftSpace - 1] != '.' else false) {
-            while (leftSpace > 0 && text[leftSpace - 1] != '.') {
+        if (leftSpace > 0) {
+            while (leftSpace > 0 && (text[leftSpace - 1].isLetterOrDigit() || text[leftSpace - 1] == ' ' || text[leftSpace - 1] == '"')) {
                 leftSpace--
             }
-
-            leftSpace++
         }
 
         /**
@@ -345,12 +356,14 @@ object EditTextHelper {
          * then find the first period on the right side of the cursor
          * and set the right space to the character before the period.
          */
-        if (if (rightSpace < text.length) text[rightSpace] != '.' else false) {
-            while (rightSpace < text.length && text[rightSpace] != '.') {
+        if (rightSpace < text.length) {
+            while (rightSpace < text.length && (text[rightSpace].isLetterOrDigit() || text[rightSpace] == ' ' || text[rightSpace] == '"')) {
                 rightSpace++
             }
+        }
 
-            rightSpace--
+        if (rightSpace != text.length) {
+            rightSpace++
         }
 
         // Select the sentence
@@ -358,97 +371,66 @@ object EditTextHelper {
     }
 
     fun EditText.wrapTheSentenceInQuotes() {
-        cursorPosition = selectionStart
-
         /**
-         * Find the first space on the left side of the cursor
+         * Add quote mark on the left and right side of the sentence
          */
-        leftSpace = selectionStart
 
-        /**
-         * If the cursor is not at the beginning of the text
-         * and the character on the left side of the cursor is not a period
-         * then find the first period on the left side of the cursor
-         * and set the left space to the character after the period.
-         *
-         * Also check if it's not a quote, if it is then set the left
-         * space to the character after the quote.
-         */
-        if (if (leftSpace > 0) text[leftSpace - 1] != '.' else false) {
-            while (leftSpace > 0 && text[leftSpace - 1] != '.' && text[leftSpace - 1] != '"') {
+        if (leftSpace == 0) {
+            if (text[0] != '"') {
+                text.insert(0, "\"")
                 leftSpace--
             }
+        } else {
+            if (text[leftSpace - 1] != '"') {
+                text.insert(leftSpace, "\"")
+                leftSpace--
+            }
+        }
 
-            try {
-                if (text[leftSpace - 1] == '"') {
-                    leftSpace++
-                } else {
-                    leftSpace++
-                }
-            } catch (e: java.lang.IndexOutOfBoundsException) {
+        if (rightSpace == text.length) {
+            if (text[text.length - 1] != '"') {
+                text.insert(text.length, "\"")
+                rightSpace++
+            }
+        } else {
+            if (text[rightSpace] != '"') {
+                text.insert(rightSpace + 2, "\"")
+                rightSpace += 3
+            }
+        }
+
+        setSelection(leftSpace, rightSpace)
+    }
+
+    fun EditText.removeTheQuotes() {
+        /**
+         * Remove the quote marks on the left and right side of the sentence
+         */
+
+        if (leftSpace == 0) {
+            if (text[0] == '"') {
+                text.delete(0, 1)
+                leftSpace++
+            }
+        } else {
+            if (text[leftSpace - 1] == '"') {
+                text.delete(leftSpace, leftSpace + 1)
                 leftSpace++
             }
         }
 
-        /**
-         * Find the first space on the right side of the cursor
-         */
-        rightSpace = selectionEnd
-
-        /**
-         * If the cursor is not at the end of the text
-         * and the character on the right side of the cursor is not a period
-         * then find the first period on the right side of the cursor
-         * and set the right space to the character before the period.
-         *
-         * Also check if it's not a quote, if it is then set the right
-         * space to the character before the quote.
-         */
-        if (if (rightSpace < text.length) text[rightSpace] != '.' else false) {
-            while (rightSpace < text.length && text[rightSpace] != '.' && text[rightSpace] != '"') {
-                rightSpace++
+        if (rightSpace == text.length) {
+            if (text[text.length - 1] == '"') {
+                text.delete(text.length - 1, text.length)
+                rightSpace -= 3
             }
-
-            try {
-                if (text[rightSpace] == '"') {
-                    rightSpace--
-                } else {
-                    rightSpace--
-                }
-            } catch (e: java.lang.IndexOutOfBoundsException) {
-                rightSpace--
+        } else {
+            if (text[rightSpace] == '"') {
+                text.delete(rightSpace - 1, rightSpace)
+                rightSpace -= 3
             }
         }
 
-        // Remove the quotes if the sentence is already wrapped in quotes
-        try {
-            if (text[leftSpace - 1] == '"' && text[rightSpace + 1] == '"') {
-                text.delete(leftSpace - 1, leftSpace)
-                text.delete(rightSpace, rightSpace + 1)
-
-                // Remove the selection
-                setSelection(rightSpace - 1, rightSpace - 1)
-
-                // Move the cursor to the last position
-                setSelection(cursorPosition - 1, cursorPosition - 1)
-
-                return
-            }
-        } catch (e: java.lang.IndexOutOfBoundsException) {
-            return
-        }
-
-        // Select the sentence
         setSelection(leftSpace, rightSpace)
-
-        // Wrap the sentence in quotes
-        text.insert(leftSpace - 1, "\"")
-        text.insert(rightSpace + 1, "\"")
-
-        // Remove the selection
-        setSelection(rightSpace + 2, rightSpace + 2)
-
-        // Move the cursor to the last position
-        setSelection(cursorPosition + 2, cursorPosition + 2)
     }
 }

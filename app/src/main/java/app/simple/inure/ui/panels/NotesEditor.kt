@@ -34,7 +34,6 @@ import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.text.EditTextHelper.highlightText
 import app.simple.inure.text.EditTextHelper.toBold
 import app.simple.inure.text.EditTextHelper.toItalics
-import app.simple.inure.text.EditTextHelper.toQuote
 import app.simple.inure.text.EditTextHelper.toStrikethrough
 import app.simple.inure.text.EditTextHelper.toSubscript
 import app.simple.inure.text.EditTextHelper.toSuperscript
@@ -71,7 +70,6 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var superScript: DynamicRippleImageButton
     private lateinit var subScript: DynamicRippleImageButton
     private lateinit var paint: DynamicRippleImageButton
-    private lateinit var quote: DynamicRippleImageButton
     private lateinit var date: DynamicRippleImageButton
 
     private lateinit var notesViewModel: NotesViewModel
@@ -107,7 +105,6 @@ class NotesEditor : KeyboardScopedFragment() {
         superScript = view.findViewById(R.id.super_script)
         subScript = view.findViewById(R.id.sub_script)
         paint = view.findViewById(R.id.paint)
-        quote = view.findViewById(R.id.quote)
         date = view.findViewById(R.id.date)
 
         val factory = NotesViewModelFactory(packageInfo)
@@ -154,7 +151,6 @@ class NotesEditor : KeyboardScopedFragment() {
                 val strikethroughSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, StrikethroughSpan::class.java)
                 val superScriptSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, SuperscriptSpan::class.java)
                 val subScriptSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, SubscriptSpan::class.java)
-                val quoteSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, QuoteSpan::class.java)
                 val backgroundColorSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, BackgroundColorSpan::class.java)
 
                 if (boldSpan.isNotEmpty()) {
@@ -189,7 +185,6 @@ class NotesEditor : KeyboardScopedFragment() {
                 strikethrough.setDefaultBackground(strikethroughSpan.isNotEmpty())
                 superScript.setDefaultBackground(superScriptSpan.isNotEmpty())
                 subScript.setDefaultBackground(subScriptSpan.isNotEmpty())
-                quote.setDefaultBackground(quoteSpan.isNotEmpty())
                 paint.setDefaultBackground(backgroundColorSpan.isNotEmpty())
             }
         })
@@ -237,10 +232,6 @@ class NotesEditor : KeyboardScopedFragment() {
                             handleFormattingChange { noteEditText.highlightText(color) }
                         }
                     })
-        }
-
-        quote.setOnClickListener {
-            handleFormattingChange { noteEditText.toQuote() }
         }
 
         date.setOnClickListener {
