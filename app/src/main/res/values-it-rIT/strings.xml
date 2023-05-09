@@ -203,7 +203,6 @@
     <string name="arc_animations">Animazioni arco</string>
     <string name="desc_arc_animations">Abilita o disabilita le animazioni del tracciato circolare per le icone.\n\nQuesta opzione non si sostituisce se le animazioni sono disabilitate dal sistema stesso.</string>
     <string name="valid_to">Scade tra</string>
-    <string name="pdf_viewer">Visualizzatore PDF</string>
     <string name="ttf_viewer">Visualizzatore TTF</string>
     <string name="popups">Popup</string>
     <string name="animations">Animazioni</string>

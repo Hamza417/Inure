@@ -203,7 +203,6 @@
     <string name="arc_animations">弧动画</string>
     <string name="desc_arc_animations">启用或禁用图标的圆形路径动画.\n\n如果系统本身禁用动画，此选项不会被覆盖.</string>
     <string name="valid_to">有效期至</string>
-    <string name="pdf_viewer">PDF 查看器</string>
     <string name="ttf_viewer">TTF 查看器</string>
     <string name="popups">弹出窗口</string>
     <string name="animations">动画</string>
